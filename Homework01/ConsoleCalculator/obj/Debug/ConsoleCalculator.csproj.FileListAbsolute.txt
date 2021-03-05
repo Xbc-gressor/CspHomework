@@ -5,3 +5,10 @@ D:\Fighting\Lan\C#\Homework\CspHomework\Homework01\ConsoleCalculator\ConsoleApp1
 D:\Fighting\Lan\C#\Homework\CspHomework\Homework01\ConsoleCalculator\ConsoleApp1\obj\Debug\ConsoleCalculator.csproj.CoreCompileInputs.cache
 D:\Fighting\Lan\C#\Homework\CspHomework\Homework01\ConsoleCalculator\ConsoleApp1\obj\Debug\ConsoleApp1.exe
 D:\Fighting\Lan\C#\Homework\CspHomework\Homework01\ConsoleCalculator\ConsoleApp1\obj\Debug\ConsoleApp1.pdb
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework01\ConsoleCalculator\bin\Debug\ConsoleApp1.exe.config
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework01\ConsoleCalculator\bin\Debug\ConsoleApp1.exe
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework01\ConsoleCalculator\bin\Debug\ConsoleApp1.pdb
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework01\ConsoleCalculator\obj\Debug\ConsoleCalculator.csprojAssemblyReference.cache
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework01\ConsoleCalculator\obj\Debug\ConsoleCalculator.csproj.CoreCompileInputs.cache
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework01\ConsoleCalculator\obj\Debug\ConsoleApp1.exe
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework01\ConsoleCalculator\obj\Debug\ConsoleApp1.pdb

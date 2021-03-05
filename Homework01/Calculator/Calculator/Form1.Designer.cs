@@ -38,7 +38,7 @@
             // btn
             // 
             this.btn.Font = new System.Drawing.Font("MS Reference Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn.Location = new System.Drawing.Point(103, 224);
+            this.btn.Location = new System.Drawing.Point(74, 224);
             this.btn.Name = "btn";
             this.btn.Size = new System.Drawing.Size(126, 58);
             this.btn.TabIndex = 0;
@@ -51,7 +51,7 @@
             this.operatorBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.operatorBox.Font = new System.Drawing.Font("宋体", 15F);
             this.operatorBox.FormattingEnabled = true;
-            this.operatorBox.Location = new System.Drawing.Point(300, 224);
+            this.operatorBox.Location = new System.Drawing.Point(272, 224);
             this.operatorBox.Name = "operatorBox";
             this.operatorBox.Size = new System.Drawing.Size(127, 38);
             this.operatorBox.TabIndex = 1;
@@ -61,7 +61,7 @@
             // 
             this.answerText.Enabled = false;
             this.answerText.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Bold);
-            this.answerText.Location = new System.Drawing.Point(93, 53);
+            this.answerText.Location = new System.Drawing.Point(65, 48);
             this.answerText.Name = "answerText";
             this.answerText.Size = new System.Drawing.Size(344, 42);
             this.answerText.TabIndex = 2;
@@ -71,7 +71,7 @@
             // 
             this.o1Text.Font = new System.Drawing.Font("宋体", 15F);
             this.o1Text.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.o1Text.Location = new System.Drawing.Point(93, 139);
+            this.o1Text.Location = new System.Drawing.Point(65, 139);
             this.o1Text.Name = "o1Text";
             this.o1Text.Size = new System.Drawing.Size(146, 42);
             this.o1Text.TabIndex = 3;
@@ -80,7 +80,7 @@
             // o2Text
             // 
             this.o2Text.Font = new System.Drawing.Font("宋体", 15F);
-            this.o2Text.Location = new System.Drawing.Point(291, 139);
+            this.o2Text.Location = new System.Drawing.Point(263, 139);
             this.o2Text.Name = "o2Text";
             this.o2Text.Size = new System.Drawing.Size(146, 42);
             this.o2Text.TabIndex = 4;
@@ -91,7 +91,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(513, 395);
+            this.ClientSize = new System.Drawing.Size(466, 395);
             this.Controls.Add(this.o2Text);
             this.Controls.Add(this.o1Text);
             this.Controls.Add(this.answerText);

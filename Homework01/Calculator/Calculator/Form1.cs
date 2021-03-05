@@ -42,21 +42,30 @@ namespace Calculator
 
         private void btn_Click(object sender, EventArgs e)
         {
-            double o1 = double.Parse(o1Text.Text);
-            double o2 = double.Parse(o2Text.Text);
-
-            string operator_ = operatorBox.Text.Trim();
-            double answer = 0;
-            switch(operator_)
+            try
             {
-                case "+": answer = o1 + o2; break;
-                case "-": answer = o1 - o2; break;
-                case "*": answer = o1 * o2; break;
-                case "/": answer = o1 / o2; break;
-                case "^": answer = Math.Pow(o1, o2); break;
+                double o1 = double.Parse(o1Text.Text);
+                double o2 = double.Parse(o2Text.Text);
+
+                string operator_ = operatorBox.Text.Trim();
+                string answer = "";
+                switch (operator_)
+                {
+                    case "+": answer = (o1 + o2).ToString(); break;
+                    case "-": answer = (o1 - o2).ToString(); break;
+                    case "*": answer = (o1 * o2).ToString(); break;
+                    case "/": answer = (o1 / o2).ToString(); break;
+                    case "^": answer = (Math.Pow(o1, o2)).ToString(); break;
+                    default : answer = "请选择运算符"; break;
+                }
+
+                answerText.Text = answer;
+            }catch(Exception ex)
+            {
+                answerText.Text = "Error";
+
             }
 
-            answerText.Text = answer.ToString();
 
         }
     }

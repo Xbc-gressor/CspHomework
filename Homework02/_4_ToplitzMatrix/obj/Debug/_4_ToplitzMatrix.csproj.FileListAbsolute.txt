@@ -1,0 +1,7 @@
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework02\_4_ToplitzMatrix\bin\Debug\_4_ToplitzMatrix.exe.config
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework02\_4_ToplitzMatrix\bin\Debug\_4_ToplitzMatrix.exe
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework02\_4_ToplitzMatrix\bin\Debug\_4_ToplitzMatrix.pdb
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework02\_4_ToplitzMatrix\obj\Debug\_4_ToplitzMatrix.csproj.CoreCompileInputs.cache
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework02\_4_ToplitzMatrix\obj\Debug\_4_ToplitzMatrix.exe
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework02\_4_ToplitzMatrix\obj\Debug\_4_ToplitzMatrix.pdb
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework02\_4_ToplitzMatrix\obj\Debug\_4_ToplitzMatrix.csprojAssemblyReference.cache

@@ -1,0 +1,7 @@
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework02\PrimeFactor\bin\Debug\PrimeFactor.exe.config
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework02\PrimeFactor\bin\Debug\PrimeFactor.exe
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework02\PrimeFactor\bin\Debug\PrimeFactor.pdb
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework02\PrimeFactor\obj\Debug\_1_PrimeFactor.csproj.CoreCompileInputs.cache
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework02\PrimeFactor\obj\Debug\PrimeFactor.exe
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework02\PrimeFactor\obj\Debug\PrimeFactor.pdb
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework02\PrimeFactor\obj\Debug\_1_PrimeFactor.csprojAssemblyReference.cache

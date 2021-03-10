@@ -1,0 +1,7 @@
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework02\Array\bin\Debug\Array.exe.config
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework02\Array\bin\Debug\Array.exe
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework02\Array\bin\Debug\Array.pdb
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework02\Array\obj\Debug\ArrayPro.csproj.CoreCompileInputs.cache
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework02\Array\obj\Debug\Array.exe
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework02\Array\obj\Debug\Array.pdb
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework02\Array\obj\Debug\ArrayPro.csprojAssemblyReference.cache

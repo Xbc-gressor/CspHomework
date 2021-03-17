@@ -21,7 +21,7 @@ namespace _3_EPrimeFactor
                 {
                     prime[++prime[0]] = i;//记录素数和个数
                     for (int j = 2 * i; j <= n; j += i)
-                        visit[j] = 1;//剔除倍数
+                        visit[j] = 1;     //剔除该素数的所有倍数
                 }
             
             int num = 0;

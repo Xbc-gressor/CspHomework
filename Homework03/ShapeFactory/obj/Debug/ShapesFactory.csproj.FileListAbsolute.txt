@@ -1,0 +1,6 @@
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework03\ShapeFactory\bin\Debug\ShapeFactory.exe.config
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework03\ShapeFactory\bin\Debug\ShapeFactory.exe
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework03\ShapeFactory\bin\Debug\ShapeFactory.pdb
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework03\ShapeFactory\obj\Debug\ShapesFactory.csproj.CoreCompileInputs.cache
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework03\ShapeFactory\obj\Debug\ShapeFactory.exe
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework03\ShapeFactory\obj\Debug\ShapeFactory.pdb

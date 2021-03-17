@@ -1,0 +1,7 @@
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework03\Homework03\bin\Debug\Homework03.exe.config
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework03\Homework03\bin\Debug\Homework03.exe
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework03\Homework03\bin\Debug\Homework03.pdb
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework03\Homework03\obj\Debug\Shapes.csproj.CoreCompileInputs.cache
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework03\Homework03\obj\Debug\Homework03.exe
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework03\Homework03\obj\Debug\Homework03.pdb
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework03\Homework03\obj\Debug\Shapes.csprojAssemblyReference.cache

@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A99AA3C6-46A2-473E-A8B8-5DE6616DF3B9}</ProjectGuid>
+    <ProjectGuid>{379B8D42-369A-47A3-8486-F4A91F875B0C}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>ShapesFactory</RootNamespace>
-    <AssemblyName>ShapesFactory</AssemblyName>
+    <RootNamespace>MyList</RootNamespace>
+    <AssemblyName>MyList</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -43,10 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MyFactory.cs" />
+    <Compile Include="GenericList.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Shape.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

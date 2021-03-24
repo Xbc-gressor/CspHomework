@@ -4,13 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ShapesFactory
+namespace Shape
 {
-    public abstract class Shape
+    internal interface Shape
     {
-        public abstract double Area { get; }
-        public abstract bool IsLegal { get; }
-        public abstract void Show();
+        double Area { get; }
+        bool IsLegal();
     }
 
     internal class Rectangle : Shape
@@ -22,11 +21,11 @@ namespace ShapesFactory
             this.Length = length;
             this.Width = width;
         }
-        public override double Area
+        public double Area
         {
             get
             {
-                if (!IsLegal)
+                if (!IsLegal())
                     return 0;
                 return Length * Width;
 
@@ -34,11 +33,9 @@ namespace ShapesFactory
 
         }
 
-        public override bool IsLegal => Length > 0 && Width > 0;
-
-        public override void Show()
+        public bool IsLegal()
         {
-            Console.WriteLine("This is a rectangle. Its area: {0}. It's legal? {1}", this.Area.ToString("0.000"), this.IsLegal);
+            return Length > 0 && Width > 0;
         }
     }
 
@@ -49,14 +46,7 @@ namespace ShapesFactory
         {
         }
 
-        public override void Show()
-        {
-
-            Console.WriteLine("This is a square. Its area: {0}. It's legal? {1}", this.Area.ToString("0.000"), this.IsLegal);
-
-        }
     }
-
 
     internal class Triangle : Shape
     {
@@ -70,29 +60,24 @@ namespace ShapesFactory
         }
 
         // 当形状不合法时，面积返回0
-        public override double Area
+        public double Area
         {
             get
             {
-                if (!IsLegal)
+                if (!IsLegal())
                     return 0;
                 double p = (side_1 + side_2 + side_3) / 2;
                 return Math.Sqrt(p * (p - side_1) * (p - side_2) * (p - side_3));
             }
 
         }
-        public override bool IsLegal => side_1 > 0 && side_2 > 0 && side_3 > 0 && 
+        public bool IsLegal()
+        {
+            return side_1 > 0 && side_2 > 0 && side_3 > 0 && 
                 side_1 + side_2 > side_3 &&
                 side_2 + side_3 > side_1 &&
                 side_3 + side_1 > side_2;
 
-        public override void Show()
-        {
-
-            Console.WriteLine("This is a triangle. Its area: {0}. It's legal? {1}", this.Area.ToString("0.000"), this.IsLegal);
-
         }
-
-
     }
 }

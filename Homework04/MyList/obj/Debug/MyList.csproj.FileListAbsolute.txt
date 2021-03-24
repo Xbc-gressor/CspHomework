@@ -1,0 +1,7 @@
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework04\MyList\obj\Debug\MyList.csprojAssemblyReference.cache
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework04\MyList\obj\Debug\MyList.csproj.CoreCompileInputs.cache
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework04\MyList\bin\Debug\MyList.exe.config
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework04\MyList\bin\Debug\MyList.exe
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework04\MyList\bin\Debug\MyList.pdb
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework04\MyList\obj\Debug\MyList.exe
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework04\MyList\obj\Debug\MyList.pdb

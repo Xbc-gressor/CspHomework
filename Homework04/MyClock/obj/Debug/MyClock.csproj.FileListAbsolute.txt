@@ -1,0 +1,7 @@
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework04\MyClock\bin\Debug\MyClock.exe.config
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework04\MyClock\bin\Debug\MyClock.exe
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework04\MyClock\bin\Debug\MyClock.pdb
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework04\MyClock\obj\Debug\MyClock.csprojAssemblyReference.cache
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework04\MyClock\obj\Debug\MyClock.csproj.CoreCompileInputs.cache
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework04\MyClock\obj\Debug\MyClock.exe
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework04\MyClock\obj\Debug\MyClock.pdb

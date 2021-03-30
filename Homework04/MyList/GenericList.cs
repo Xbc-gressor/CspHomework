@@ -18,19 +18,16 @@ namespace MyList
     }
     class GenericList<T>
     {
-        private Node<T> head;
-        private Node<T> tail;
-        public Node<T> Head
-        {
-            get => head;
-        }
+
+        public Node<T> Head { get; private set; }
+        public Node<T> Tail { get; private set; }
         public GenericList()
         {
-            tail = head = null;
+            Tail = Head = null;
         }
         public GenericList(T[] tList)
         {
-            tail = head = null;
+            Tail = Head = null;
             foreach(T val in tList)
             {
                 Add(val);
@@ -40,21 +37,24 @@ namespace MyList
         public void Add(T t)
         {
             Node<T> newNode = new Node<T>(t);
-            if (tail == null)
+            if (Tail == null)
             {
-                head = tail = newNode;
+                Head = Tail = newNode;
             }
             else
             {
-                tail.Next = newNode;
-                tail = newNode;
+                Tail.Next = newNode;
+                Tail = newNode;
             }
         }
 
         public void Foreach(Action<T> action)
         {
-            
-            Node<T> nowNode = head;
+            if (action == null)
+            {
+                throw new ArgumentException("代理为空");
+            }
+            Node<T> nowNode = Head;
             while( nowNode != null )
             {
                 action(nowNode.Data);

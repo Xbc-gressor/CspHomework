@@ -14,13 +14,15 @@ namespace MyList
             GenericList<double> genericList = new GenericList<double>(tList);
             double max = double.NegativeInfinity, min = double.PositiveInfinity, sum = 0;
 
-            Action<double> action = n => { if (n > max) max = n; };
+            Action<double> action = n => Console.Write(n + " ");
+            action += n => { if (n > max) max = n; };
             action += n => { if (n < min) min = n; };
             action += n => { sum += n; };
 
+
             genericList.Foreach(action);
 
-            Console.WriteLine($"max value: {max}\nmin value: {min}\nsum      : {sum}\n");
+            Console.WriteLine($"\nmax value: {max}\nmin value: {min}\nsum      : {sum}\n");
 
         }
     }

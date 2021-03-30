@@ -10,7 +10,7 @@ namespace MyClock
     public delegate void ClockHandler(object sender, TickEventArgs args);
     public class TickEventArgs
     {
-        public String Target { get; set; }
+        public int[] Target { get; set; }
     }
     public class Clock
     {
@@ -19,33 +19,43 @@ namespace MyClock
         public event ClockHandler Alarm;
 
         // 设定的闹钟
-        private String TargetTime { get; set; }
+        private int[] alarmTime;
+        private int[] currentTime = new int[3];
 
-        public Clock(String target)
+        public Clock(int[] alarmTime)
         {
-            this.TargetTime = target;
+            this.alarmTime = alarmTime;
             this.Tick = TickEv;
             this.Alarm = AlarmEv;
         }
         public void StartTick()
         {
             Console.WriteLine("闹钟开启:");
-            TickEventArgs args = new TickEventArgs() {Target = this.TargetTime };
+            TickEventArgs args = new TickEventArgs() {Target = this.alarmTime };
             Tick(this, args);
         }
 
 
         void TickEv(object sender, TickEventArgs args)
         {
-            String nowTime = DateTime.Now.ToString();
-            if (nowTime == args.Target)
+            this.currentTime[0] = DateTime.Now.Hour;
+            this.currentTime[1] = DateTime.Now.Minute;
+            this.currentTime[2] = DateTime.Now.Second;
+            if (currentTime[0] == args.Target[0] && currentTime[1] == args.Target[1] && currentTime[2] == args.Target[2])
             {
                 this.Alarm(this, args);
             }
             else
             {
-                Console.WriteLine(nowTime);
+                Console.WriteLine($"{DateTime.Now.ToLongDateString().ToString()} " +
+                    $"{currentTime[0].ToString().PadLeft(2, '0')}:" +
+                    $"{currentTime[1].ToString().PadLeft(2, '0')}:" +
+                    $"{currentTime[2].ToString().PadLeft(2,'0')}");
             }
+
+            currentTime[2] = (currentTime[2] + 1) % 60;
+            currentTime[1] = (currentTime[1] + currentTime[2] == 0 ? 1 : 0) % 60;
+            currentTime[0] = (currentTime[0] + (currentTime[1] + currentTime[2]) == 0 ? 1 : 0) % 24;
             Thread.Sleep(1000);
 
             this.Tick(this, args);

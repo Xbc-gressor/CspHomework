@@ -21,6 +21,9 @@ namespace MyClock
                     var timeList = Array.ConvertAll(time, int.Parse);
                     if (timeList.Length != 3)
                         throw new ArgumentException("时间格式错误!");
+                    if (timeList[0] < 0 || timeList[0] > 23 || timeList[1] < 0 || timeList[1] > 59 || timeList[2] < 0 || timeList[2] > 59)
+                        throw new ArgumentException("无效的时间!");
+                       
                     alarmTime = timeList;
                     break;
                 }

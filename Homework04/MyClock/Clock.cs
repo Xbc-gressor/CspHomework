@@ -19,8 +19,8 @@ namespace MyClock
         public event ClockHandler Alarm;
 
         // 设定的闹钟
-        private int[] alarmTime;
-        private int[] currentTime = new int[3];
+        public int[] alarmTime { get; set; }
+        public int[] currentTime { get; } = new int[3];
 
         public Clock(int[] alarmTime)
         {

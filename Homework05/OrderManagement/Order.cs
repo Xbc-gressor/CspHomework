@@ -39,7 +39,7 @@ namespace OrderManagement
                 }
 
             }
-            this.totolPrice = this.orderDetails.Sum(s => s.good.price * s.num);
+            this.totolPrice = this.orderDetails.Sum(s => s.GTotalPrice);
         }
 
         // 订单编号唯一确定订单
@@ -48,7 +48,14 @@ namespace OrderManagement
             return obj is Order order &&
                    this.orderNumber == order.orderNumber;
         }
-
+        public static bool operator ==(Order left, Order right)
+        {
+            return Equals(left, right);
+        }
+        public static bool operator !=(Order left, Order right)
+        {
+            return !Equals(left, right);
+        }
         public override int GetHashCode()
         {
             return HashCode.Combine(orderNumber);

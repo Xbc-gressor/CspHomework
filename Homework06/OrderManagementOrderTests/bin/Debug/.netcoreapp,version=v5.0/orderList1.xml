@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<ArrayOfOrder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Order>
+    <orderDetails>
+      <OrderDetail>
+        <index>1</index>
+        <good>
+          <goodName>book</goodName>
+          <price>12</price>
+        </good>
+        <num>3</num>
+      </OrderDetail>
+      <OrderDetail>
+        <index>2</index>
+        <good>
+          <goodName>Costa</goodName>
+          <price>17</price>
+        </good>
+        <num>5</num>
+      </OrderDetail>
+    </orderDetails>
+    <orderNumber>1</orderNumber>
+    <address>WHU</address>
+    <time>2021-03-21T12:12:06</time>
+    <client>XBC</client>

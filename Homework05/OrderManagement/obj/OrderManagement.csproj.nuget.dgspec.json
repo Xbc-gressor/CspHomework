@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Fighting\\Lan\\C#\\CspHomework\\Homework05\\OrderManagement\\OrderManagement.csproj": {}
+    "D:\\Fighting\\Lan\\C#\\Homework\\CspHomework\\Homework05\\OrderManagement\\OrderManagement.csproj": {}
   },
   "projects": {
-    "D:\\Fighting\\Lan\\C#\\CspHomework\\Homework05\\OrderManagement\\OrderManagement.csproj": {
+    "D:\\Fighting\\Lan\\C#\\Homework\\CspHomework\\Homework05\\OrderManagement\\OrderManagement.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Fighting\\Lan\\C#\\CspHomework\\Homework05\\OrderManagement\\OrderManagement.csproj",
+        "projectUniqueName": "D:\\Fighting\\Lan\\C#\\Homework\\CspHomework\\Homework05\\OrderManagement\\OrderManagement.csproj",
         "projectName": "OrderManagement",
-        "projectPath": "D:\\Fighting\\Lan\\C#\\CspHomework\\Homework05\\OrderManagement\\OrderManagement.csproj",
+        "projectPath": "D:\\Fighting\\Lan\\C#\\Homework\\CspHomework\\Homework05\\OrderManagement\\OrderManagement.csproj",
         "packagesPath": "C:\\Users\\27650\\.nuget\\packages\\",
-        "outputPath": "D:\\Fighting\\Lan\\C#\\CspHomework\\Homework05\\OrderManagement\\obj\\",
+        "outputPath": "D:\\Fighting\\Lan\\C#\\Homework\\CspHomework\\Homework05\\OrderManagement\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "D:\\Visual Studio\\Shared SDK\\NuGetPackages",

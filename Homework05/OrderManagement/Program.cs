@@ -71,13 +71,14 @@ namespace OrderManagement
             List<Order> orderByClient = service.SearchByClient("XBC");
             foreach (Order order in orderByClient)
                 Console.WriteLine(order);
+            Console.WriteLine("-----------------");
             List<Order> orderByGood = service.SearchByGood("mat");
             foreach (Order order in orderByGood)
                 Console.WriteLine(order);
             Console.WriteLine("========================================");
             // 排序
-            Console.WriteLine("按订单号排序：");
-            service.Sort();
+            Console.WriteLine("按订单号降序排序：");
+            service.Sort(OrderService.SortMethod.Descending);
             service.Display();
             Console.WriteLine("按总金额排序：");
             service.Sort((order1, order2) => { double temp = order1.totolPrice - order2.totolPrice; return temp<0? -1: temp>0?1:0; });

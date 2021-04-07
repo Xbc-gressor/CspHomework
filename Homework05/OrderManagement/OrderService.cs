@@ -8,29 +8,41 @@ namespace OrderManagement
 {
     class OrderService
     {
-        public List<Order> orderList = new List<Order>();
-        
+        private List<Order> orderList = new List<Order>();
+        public enum SortMethod
+        {
+            Ascending,
+            Descending
+        }
+
         public void Display()
         {
             foreach (Order order in orderList)
                 Console.WriteLine(order);
         }
-        public bool Add(Order order)
+        public void Add(Order order)
         {
             if (order == null)
                 throw new ArgumentException("未提供有效的订单！");
             if(! orderList.Contains(order) )
             {
                 orderList.Add(order);
-                return true;
             }
-
-            return false;
+            else
+            {
+                throw new ArgumentException("订单已存在！");
+            }
         }
 
-        public void Sort()
+        public void Sort(SortMethod met)
         {
-            orderList.Sort();
+            switch(met)
+            {
+                case SortMethod.Ascending: orderList.Sort(); break;
+                case SortMethod.Descending: orderList.Sort(((x, y) => -x.CompareTo(y))); break;
+
+            }
+            
         }
         public void Sort(Func<Order, Order, int> lambda)
         {

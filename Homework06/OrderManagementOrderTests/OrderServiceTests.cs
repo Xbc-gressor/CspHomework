@@ -78,7 +78,7 @@ namespace OrderManagement.OrderTests
         public void AddTest()
         {
 
-            Assert.AreEqual(5, orderService.orderList.Count);
+            CollectionAssert.AreEqual(new List<Order>(new Order[]{ order1, order2, order3, order4, order5}), orderService.orderList);
 
             Order order6 = new Order(3);
             bool res6 = orderService.Add(order6);

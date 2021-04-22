@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace OrderManagement
 {
-    class OrderService
+    public class OrderService
     {
-        private List<Order> orderList = new List<Order>();
+        public List<Order> orderList = new List<Order>();
         public enum SortMethod
         {
             Ascending,
@@ -61,7 +61,7 @@ namespace OrderManagement
         {
             var orders = from odr in orderList
                          where odr.address == address
-                         orderby odr.totolPrice
+                         orderby odr.totalPrice
                          select odr;
             return orders.ToList();
         }
@@ -70,7 +70,7 @@ namespace OrderManagement
         {
             var orders = from odr in orderList
                          where odr.time.ToString("yyyy-MM-dd") == date.ToString("yyyy-MM-dd")
-                         orderby odr.totolPrice
+                         orderby odr.totalPrice
                          select odr;
             return orders.ToList();
         }
@@ -78,7 +78,7 @@ namespace OrderManagement
         {
             var orders = from odr in orderList
                          where odr.client == client
-                         orderby odr.totolPrice
+                         orderby odr.totalPrice
                          select odr;
             return orders.ToList();
         }
@@ -86,7 +86,7 @@ namespace OrderManagement
         {
             var orders = from odr in orderList
                          where odr.seller == seller
-                         orderby odr.totolPrice
+                         orderby odr.totalPrice
                          select odr;
             return orders.ToList();
         }

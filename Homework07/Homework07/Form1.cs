@@ -54,7 +54,7 @@ namespace Homework07
         // 根据画笔颜色调整画布背景色
         private void setBackgroundColorAndClear()
         {
-            if (myPen.Color.GetBrightness() > 0.3)
+            if (myPen.Color.GetBrightness() > 0.5)
             {
                 graphics.Clear(Color.Black);
             }
@@ -82,7 +82,7 @@ namespace Homework07
             setBackgroundColorAndClear();
 
             isDraw = true;
-            drawCayleyTree(n, x0, y0, length, -Math.PI / 2);
+            Task.Run(()=>drawCayleyTree(n, x0, y0, length, -Math.PI / 2));
 
         }
 

@@ -1,22 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace OrderManagement
 {
     [Serializable]
-    public class Order: IComparable
+    public class Order : IComparable
     {
         public List<OrderDetail> orderDetails = new List<OrderDetail>();
-        public int orderNumber;
-        public string address = "somewhere";
-        public DateTime time;
-        public string client = "someone";
-        public string seller = "another one";
-        public double totolPrice = 0;
-
+        public int orderNumber { get; set; } = 0;
+        public string address { get; set; } = "somewhere";
+        public DateTime time { get; set; }
+        public string client { get; set; } = "someone";
+        public string seller { get; set; } = "another one";
+        public double totolPrice => this.orderDetails.Sum(s => s.good.price * s.num);
+        public static T DeepCopyByXml<T>(T obj)
+        {
+            object retval;
+            using (MemoryStream ms = new MemoryStream())
+            {
+                XmlSerializer xml = new XmlSerializer(typeof(T));
+                xml.Serialize(ms, obj);
+                ms.Seek(0, SeekOrigin.Begin);
+                retval = xml.Deserialize(ms);
+                ms.Close();
+            }
+            return (T)retval;
+        }
 
         public Order()
         {
@@ -55,7 +71,7 @@ namespace OrderManagement
                 }
 
             }
-            this.totolPrice = this.orderDetails.Sum(s => s.good.price * s.num);
+            
         }
 
         // 订单编号唯一确定订单

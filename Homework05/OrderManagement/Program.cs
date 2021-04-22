@@ -81,7 +81,7 @@ namespace OrderManagement
             service.Sort(OrderService.SortMethod.Descending);
             service.Display();
             Console.WriteLine("按总金额排序：");
-            service.Sort((order1, order2) => { double temp = order1.totolPrice - order2.totolPrice; return temp<0? -1: temp>0?1:0; });
+            service.Sort((order1, order2) => { double temp = order1.totalPrice - order2.totalPrice; return temp<0? -1: temp>0?1:0; });
             service.Display();
 
         }

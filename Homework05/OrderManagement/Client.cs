@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OrderManagement
 {
-    class Client
+    public class Client
     {
         private string name;
 

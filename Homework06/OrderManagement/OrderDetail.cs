@@ -9,10 +9,32 @@ namespace OrderManagement
     [Serializable]
     public class OrderDetail
     {
-        public int index; // 序号
-        public Good good; // 商品
-        public int num = 0;   // 数量
-
+        public int index = 0; // 序号
+        public Good good = new Good(); // 商品
+        public String goodName
+        {
+            get
+            {
+                return good.goodName;
+            }
+            set
+            {
+                good.goodName = value;
+            }
+        }
+        public double price
+        {
+            get
+            {
+                return good.price;
+            }
+            set
+            {
+                good.price = value;
+            }
+        }
+        public int num { get; set; } = 0;   // 数量
+        public double totalPrice => good.price * num;
         public OrderDetail()
         {
 

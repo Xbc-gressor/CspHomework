@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OrderManagement
 {
-    class Good
+    public class Good
     {
 
         public string goodName;// 货物名字，唯一标定货物

@@ -52,9 +52,9 @@ namespace OrderManagement
 
             service.Export("OrderList.xml");
 
-            List<Order> orderList = service.Import("orderList.xml");
+            //List<Order> orderList = service.Import("orderList.xml");
 
-            foreach (Order order in orderList)
+            foreach (Order order in service.orderList)
                 Console.WriteLine(order);
             File.Delete("OrderList.xml");
         }

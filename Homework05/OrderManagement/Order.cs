@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace OrderManagement
 {
-    class Order: IComparable
+    public class Order: IComparable
     {
         public List<OrderDetail> orderDetails = new List<OrderDetail>();
-        public int orderNumber;
-        public string address;
-        public DateTime time;
-        public string client;
-        public string seller;
-        public double totolPrice;
+        public int orderNumber { get; set; }
+        public string address { get; set; }
+        public DateTime time { get; set; }
+        public string client { get; set; }
+        public string seller { get; set; }
+        public double totalPrice { get; set; }
 
 
 
@@ -39,7 +39,7 @@ namespace OrderManagement
                 }
 
             }
-            this.totolPrice = this.orderDetails.Sum(s => s.GTotalPrice);
+            this.totalPrice = this.orderDetails.Sum(s => s.GTotalPrice);
         }
 
         // 订单编号唯一确定订单
@@ -79,7 +79,7 @@ namespace OrderManagement
                 ans += "\n\t" + od;
             }
 
-            ans += "\n" + $"Total price: {totolPrice}\n";
+            ans += "\n" + $"Total price: {totalPrice}\n";
             return ans;
 
         }

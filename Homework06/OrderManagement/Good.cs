@@ -10,8 +10,8 @@ namespace OrderManagement
     public class Good
     {
 
-        public string goodName;// 货物名字，唯一标定货物
-        public double price;
+        public string goodName = "";// 货物名字，唯一标定货物
+        public double price = 0;
 
         public Good()
         {

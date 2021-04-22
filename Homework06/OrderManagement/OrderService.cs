@@ -151,8 +151,8 @@ namespace OrderManagement
         public void Export(string filePath)
         {
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<Order>));
-            if (File.Exists(filePath))
-                throw new ArgumentException("文件已存在!");
+            //if (File.Exists(filePath))
+            //    throw new ArgumentException("文件已存在!");
 
             using (FileStream fs = new FileStream(filePath, FileMode.Create))
             {
@@ -163,7 +163,7 @@ namespace OrderManagement
         }
 
 
-        public List<Order> Import(string filePath)
+        public void Import(string filePath)
         {
             if (!File.Exists(filePath))
                 throw new FileNotFoundException("文件不存在!");
@@ -173,8 +173,8 @@ namespace OrderManagement
             try
             {
                 fs = new FileStream(filePath, FileMode.Open);
-                return (List<Order>)xmlSerializer.Deserialize(fs);
-            } catch(Exception e)
+                this.orderList = (List<Order>)xmlSerializer.Deserialize(fs);
+            } catch(Exception)
             {
                 throw new XmlException("文件格式错误");
             } finally

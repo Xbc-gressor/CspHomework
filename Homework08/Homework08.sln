@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31112.23
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderForm", "OrderForm\OrderForm.csproj", "{8CD8CB78-D919-478C-8ECD-F93AE5397AD1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderManagement", "..\Homework06\OrderManagement\OrderManagement.csproj", "{D15B46A7-3749-471B-B706-9BCA47F85A8D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8CD8CB78-D919-478C-8ECD-F93AE5397AD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CD8CB78-D919-478C-8ECD-F93AE5397AD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CD8CB78-D919-478C-8ECD-F93AE5397AD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CD8CB78-D919-478C-8ECD-F93AE5397AD1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D15B46A7-3749-471B-B706-9BCA47F85A8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D15B46A7-3749-471B-B706-9BCA47F85A8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D15B46A7-3749-471B-B706-9BCA47F85A8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D15B46A7-3749-471B-B706-9BCA47F85A8D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FB0D3002-F340-4F08-BEDA-3EABAA3C1636}
+	EndGlobalSection
+EndGlobal

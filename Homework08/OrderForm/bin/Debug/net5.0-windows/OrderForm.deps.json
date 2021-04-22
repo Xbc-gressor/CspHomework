@@ -1,0 +1,36 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v5.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v5.0": {
+      "OrderForm/1.0.0": {
+        "dependencies": {
+          "OrderManagement": "1.0.0"
+        },
+        "runtime": {
+          "OrderForm.dll": {}
+        }
+      },
+      "OrderManagement/1.0.0": {
+        "runtime": {
+          "OrderManagement.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "OrderForm/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "OrderManagement/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

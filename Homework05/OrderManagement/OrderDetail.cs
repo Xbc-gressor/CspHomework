@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace OrderManagement
 {
-    class OrderDetail
+    public class OrderDetail
     {
-        public int index; // 序号
-        public Good good; // 商品
-        public int num;   // 数量
+        public int index { get; set; }// 序号
+        public Good good { get; set; }// 商品
+        public int num { get; set; }  // 数量
         public double GTotalPrice => this.good.price * this.num;
 
         public OrderDetail(Good good, int num, int index = 0)

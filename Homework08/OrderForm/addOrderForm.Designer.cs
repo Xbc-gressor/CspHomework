@@ -138,8 +138,8 @@ namespace OrderForm
             // tableLayoutPanel7
             // 
             this.tableLayoutPanel7.ColumnCount = 2;
-            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 36.16071F));
-            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 63.83929F));
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 29.43925F));
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70.56075F));
             this.tableLayoutPanel7.Controls.Add(this.buyerTextBox, 1, 0);
             this.tableLayoutPanel7.Controls.Add(this.label4, 0, 0);
             this.tableLayoutPanel7.Location = new System.Drawing.Point(3, 96);
@@ -152,7 +152,7 @@ namespace OrderForm
             // buyerTextBox
             // 
             this.buyerTextBox.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.buyerTextBox.Location = new System.Drawing.Point(83, 11);
+            this.buyerTextBox.Location = new System.Drawing.Point(76, 11);
             this.buyerTextBox.Name = "buyerTextBox";
             this.buyerTextBox.Size = new System.Drawing.Size(125, 27);
             this.buyerTextBox.TabIndex = 2;
@@ -161,7 +161,7 @@ namespace OrderForm
             // 
             this.label4.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(19, 14);
+            this.label4.Location = new System.Drawing.Point(12, 14);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(39, 20);
             this.label4.TabIndex = 1;
@@ -202,8 +202,8 @@ namespace OrderForm
             // tableLayoutPanel5
             // 
             this.tableLayoutPanel5.ColumnCount = 2;
-            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35.71429F));
-            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 64.28571F));
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 28.97196F));
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 71.02804F));
             this.tableLayoutPanel5.Controls.Add(this.timeTextBox, 0, 0);
             this.tableLayoutPanel5.Controls.Add(this.label3, 0, 0);
             this.tableLayoutPanel5.Location = new System.Drawing.Point(3, 50);
@@ -216,16 +216,16 @@ namespace OrderForm
             // timeTextBox
             // 
             this.timeTextBox.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.timeTextBox.Location = new System.Drawing.Point(82, 6);
+            this.timeTextBox.Location = new System.Drawing.Point(68, 6);
             this.timeTextBox.Name = "timeTextBox";
-            this.timeTextBox.Size = new System.Drawing.Size(125, 27);
+            this.timeTextBox.Size = new System.Drawing.Size(139, 27);
             this.timeTextBox.TabIndex = 2;
             // 
             // label3
             // 
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(18, 10);
+            this.label3.Location = new System.Drawing.Point(11, 10);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(39, 20);
             this.label3.TabIndex = 1;
@@ -290,7 +290,7 @@ namespace OrderForm
             this.tableLayoutPanel9.ColumnCount = 3;
             this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 67.61364F));
             this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 32.38636F));
-            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 118F));
+            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 119F));
             this.tableLayoutPanel9.Controls.Add(this.okButton, 1, 0);
             this.tableLayoutPanel9.Controls.Add(this.cancelButton, 1, 0);
             this.tableLayoutPanel9.Controls.Add(this.resLabel, 0, 0);
@@ -304,7 +304,7 @@ namespace OrderForm
             // okButton
             // 
             this.okButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.okButton.Location = new System.Drawing.Point(223, 8);
+            this.okButton.Location = new System.Drawing.Point(222, 8);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(94, 29);
             this.okButton.TabIndex = 1;

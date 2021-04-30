@@ -1,0 +1,1688 @@
+﻿<html>
+<head>
+<meta charset="UTF-8">
+<title>电影详情页</title>
+ <meta name="keywords" content="娱乐互动资料库,新浪娱乐,新浪网" />
+<meta name="description" content="新浪娱乐互动资料库包含电影库,电视剧库,明星库,影视剧/明星搜索人气排行榜,影讯查询&点评打分&在线购票&电影院订座,音乐分享乐库,娱乐演出票务查询&在线订票。" />
+<link href="//n3.sinaimg.cn/ent/ku/css/base.css" rel="stylesheet" type="text/css">
+<link href="//n1.sinaimg.cn/ent/ku/css/common.css?v=20190215" rel="stylesheet" type="text/css">
+<link href="//n1.sinaimg.cn/ent/ku/css/index.css" rel="stylesheet" type="text/css">
+<link rel="Shortcut Icon" href="//ent.sina.com.cn/favicon.ico" type="image/x-icon">
+<!--登陆的样式 start-->
+<link rel="stylesheet" href="//n1.sinaimg.cn/ent/ku/css/login.css?v=20190814" type="text/css"/>
+<!--登陆的样式 end-->
+<script type="text/javascript" src="//n.sinaimg.cn/ent/ku/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="//n.sinaimg.cn/ent/ku/js/jquery.soChange.js"></script>
+<script type="text/javascript" src="//n.sinaimg.cn/ent/ku/js/slides.jquery.js"></script>
+<script type="text/javascript" src="//n.sinaimg.cn/ent/ku/js/d-marquee.js"></script>
+<script type="text/javascript" src="//n.sinaimg.cn/ent/ku/js/sly/sly.min.js"></script>
+<script type="text/javascript" src="//n.sinaimg.cn/ent/ku/common2.js?v=20191450"></script>
+<script type="text/javascript" src="//n.sinaimg.cn/ent/ku/js/seajs/dist/sea.js" ></script>
+<script type="text/javascript" src="//n.sinaimg.cn/ent/ku/js/weibo_length_min.js"></script>
+
+<!--登陆的js start-->
+<script type="text/javascript" charset='utf-8' src='//i.sso.sina.com.cn/js/ssologin.js'></script>
+<script type="text/javascript"  charset='utf-8' src='//i.sso.sina.com.cn/js/outlogin_layer.js'></script>
+<script type="text/javascript" src="//n.sinaimg.cn/ent/ku/js/sso_login.js?v=201908141725"></script>
+<!--登陆的js end-->
+	
+
+<!--[if IE 6]>
+<script src="http://n.sinaimg.cn/ent/ku/js/DD_belatedPNG_0.0.8a-min.js"></script>
+<script>
+  DD_belatedPNG.fix('*');
+</script>
+<![endif]-->
+<script>
+seajs.config({
+    //初始化插件
+	alias: {
+        'jquery': '//n.sinaimg.cn/ent/ku/js/jquery',
+        'jcarousellite':'//n.sinaimg.cn/ent/ku/js/jcarousellite.min',
+        'tabso':'//n.sinaimg.cn/ent/ku/js/jquery.tabso_yeso',
+        'carouFredSel':'//n.sinaimg.cn/ent/ku/js/jquery.carouFredSel-6.2.1-packed',
+        'slides':'//n.sinaimg.cn/ent/ku/js/slides.jquery.js',
+        'Marquee':'//n.sinaimg.cn/ent/ku/js/d-marquee.js'
+    },
+    //模块路径
+    base: "//n.sinaimg.cn/ent/ku/js/module/",
+    //提前加载
+    preload: 'jquery',
+    // 调试模式
+    debug: false
+});
+
+window.siteUrl = '//ent.sina.com.cn/ku/';
+window.AnUrl   = function(url){
+    if (url == undefined) {
+       
+		//方便调试更换域名，上线后个别更换回来
+		url = "http://ent.sina.com.cn/ku/";
+    }
+    
+    
+	//方便调试更换域名，上线后个别更换回来
+	 var pre = "http://ent.sina.com.cn/ku/";
+     url = pre.indexOf('?') == -1 ? url : url.replace('?', '&');
+     return pre+url;
+};
+window.userId = sinaSSOController.getSinaCookie('uid')?sinaSSOController.getSinaCookie('uid').uid : '';
+window.subCommentBtn = false;
+
+window.loginCallback = "";
+window.show_login_box = function(){
+    if (window.userId != 0) {
+        return window.userId;
+    } else {
+        var loginLayer = window.SINA_OUTLOGIN_LAYER;
+        loginLayer.set('plugin',{
+            parentNode: document.body,
+            position: 'custom'
+        });
+        loginLayer.set('styles',{
+            'top':'250px',
+            'left':'500px',
+            'z-index': '99999',
+            'margin': 0
+        });
+        loginLayer.show();
+    }
+}
+
+/**
+ * 顶部登陆成功后，调用这个方法. 此部分是打分部分的用户信息
+ */
+function show_score_user_info()
+{
+//	window.location.reload();
+	if ($(".loginInfoScore .unLoginScore").length == 1) {
+		$.get(window.siteUrl+'/user/ajax/get_user_info', [], function(json){
+			var loginInfo = 
+                            '<a href="'+window.siteUrl+'/profile/'+json.id+'" target="_blank">'+
+                            '<img src="'+json.avatar+'" width="50" height="50" alt="">'+
+                            '</a>'+
+					        '<p><a href="'+window.siteUrl+'/profile/'+json.id+'" target="_blank">'+json.user_name+'</a></p>';
+			$(".loginInfoScore .unLoginScore").removeClass('unLoginScore').html(loginInfo);
+		}, 'json');
+
+		//提交
+		if (window.subCommentBtn) {
+			
+			window.subCommentFun();
+		}
+	} else {
+		return;
+	}
+}
+
+$(function(){
+    $('#loginBox').live('click',function(){
+        if (window.userId == 0 || window.userId == '') {
+            show_login_box();
+        } else {
+            window.location.reload();
+        }
+    })
+})
+
+
+</script>
+	<script type="text/javascript">
+		var browser={  
+			versions:function(){   
+				var u = navigator.userAgent, app = navigator.appVersion;   
+				   return {//移动终端浏览器版本信息   
+						trident: u.indexOf('Trident') > -1, //IE内核  
+						presto: u.indexOf('Presto') > -1, //opera内核  
+						webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核  
+						gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核  
+						mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端  
+						ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端  
+						android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器  
+						iPhone: u.indexOf('iPhone') > -1 , //是否为iPhone或者QQHD浏览器  
+						iPad: u.indexOf('iPad') > -1, //是否iPad    
+						webApp: u.indexOf('Safari') == -1 //是否web应该程序，没有头部与底部  
+					};  
+			}(),  
+			language:(navigator.browserLanguage || navigator.language).toLowerCase()  
+		}   
+
+		if(browser.versions.mobile || browser.versions.ios || browser.versions.android ||   
+			browser.versions.iPhone || browser.versions.iPad){        
+			window.location = "http://ku.ent.sina.cn/movie/mv?id=hytcerm1181416&vt=4";//移动端对应的地址
+		}
+		</script>
+<meta name="sudameta" content="dataid:wpcomos:141499" /><meta name="sudameta" content="dataid:wpcomos:32435" /></head>
+<script type="text/javascript" charset="utf-8" src="//www.sinaimg.cn/unipro/pub/suda_m_v634.js"></script>
+	
+<body>
+<!-- body code begin -->
+
+<!-- SUDA_CODE_START --> 
+<script type="text/javascript"> 
+//<!--
+(function(){var an="V=2.1.15";var ah=window,F=document,s=navigator,W=s.userAgent,ao=ah.screen,j=ah.location.href;var aD="https:"==ah.location.protocol?"https://s":"http://",ay="beacon.sina.com.cn";var N=aD+ay+"/a.gif?",z=aD+ay+"/g.gif?",R=aD+ay+"/f.gif?",ag=aD+ay+"/e.gif?",aB=aD+"beacon.sinauda.com/i.gif?";var aA=F.referrer.toLowerCase();var aa="SINAGLOBAL",Y="FSINAGLOBAL",H="Apache",P="ULV",l="SUP",aE="UOR",E="_s_acc",X="_s_tentry",n=false,az=false,B=(document.domain=="sina.com.cn")?true:false;var o=0;var aG=false,A=false;var al="";var m=16777215,Z=0,C,K=0;var r="",b="",a="";var M=[],S=[],I=[];var u=0;var v=0;var p="";var am=false;var w=false;function O(){var e=document.createElement("iframe");e.src=aD+ay+"/data.html?"+new Date().getTime();e.id="sudaDataFrame";e.style.height="0px";e.style.width="1px";e.style.overflow="hidden";e.frameborder="0";e.scrolling="no";document.getElementsByTagName("head")[0].appendChild(e)}function k(){var e=document.createElement("iframe");e.src=aD+ay+"/ckctl.html";e.id="ckctlFrame";e.style.height="0px";e.style.width="1px";e.style.overflow="hidden";e.frameborder="0";e.scrolling="no";document.getElementsByTagName("head")[0].appendChild(e)}function q(){var e=document.createElement("script");e.src=aD+ay+"/h.js";document.getElementsByTagName("head")[0].appendChild(e)}function h(aH,i){var D=F.getElementsByName(aH);var e=(i>0)?i:0;return(D.length>e)?D[e].content:""}function aF(){var aJ=F.getElementsByName("sudameta");var aR=[];for(var aO=0;aO<aJ.length;aO++){var aK=aJ[aO].content;if(aK){if(aK.indexOf(";")!=-1){var D=aK.split(";");for(var aH=0;aH<D.length;aH++){var aP=aw(D[aH]);if(!aP){continue}aR.push(aP)}}else{aR.push(aK)}}}var aM=F.getElementsByTagName("meta");for(var aO=0,aI=aM.length;aO<aI;aO++){var aN=aM[aO];if(aN.name=="tags"){aR.push("content_tags:"+encodeURI(aN.content))}}var aL=t("vjuids");aR.push("vjuids:"+aL);var e="";var aQ=j.indexOf("#");if(aQ!=-1){e=escape(j.substr(aQ+1))}aR.push("hashtag:"+e);return aR}function V(aK,D,aI,aH){if(aK==""){return""}aH=(aH=="")?"=":aH;D+=aH;var aJ=aK.indexOf(D);if(aJ<0){return""}aJ+=D.length;var i=aK.indexOf(aI,aJ);if(i<aJ){i=aK.length}return aK.substring(aJ,i)}function t(e){if(undefined==e||""==e){return""}return V(F.cookie,e,";","")}function at(aI,e,i,aH){if(e!=null){if((undefined==aH)||(null==aH)){aH="sina.com.cn"}if((undefined==i)||(null==i)||(""==i)){F.cookie=aI+"="+e+";domain="+aH+";path=/"}else{var D=new Date();var aJ=D.getTime();aJ=aJ+86400000*i;D.setTime(aJ);aJ=D.getTime();F.cookie=aI+"="+e+";domain="+aH+";expires="+D.toUTCString()+";path=/"}}}function f(D){try{var i=document.getElementById("sudaDataFrame").contentWindow.storage;return i.get(D)}catch(aH){return false}}function ar(D,aH){try{var i=document.getElementById("sudaDataFrame").contentWindow.storage;i.set(D,aH);return true}catch(aI){return false}}function L(){var aJ=15;var D=window.SUDA.etag;if(!B){return"-"}if(u==0){O();q()}if(D&&D!=undefined){w=true}ls_gid=f(aa);if(ls_gid===false||w==false){return false}else{am=true}if(ls_gid&&ls_gid.length>aJ){at(aa,ls_gid,3650);n=true;return ls_gid}else{if(D&&D.length>aJ){at(aa,D,3650);az=true}var i=0,aI=500;var aH=setInterval((function(){var e=t(aa);if(w){e=D}i+=1;if(i>3){clearInterval(aH)}if(e.length>aJ){clearInterval(aH);ar(aa,e)}}),aI);return w?D:t(aa)}}function U(e,aH,D){var i=e;if(i==null){return false}aH=aH||"click";if((typeof D).toLowerCase()!="function"){return}if(i.attachEvent){i.attachEvent("on"+aH,D)}else{if(i.addEventListener){i.addEventListener(aH,D,false)}else{i["on"+aH]=D}}return true}function af(){if(window.event!=null){return window.event}else{if(window.event){return window.event}var D=arguments.callee.caller;var i;var aH=0;while(D!=null&&aH<40){i=D.arguments[0];if(i&&(i.constructor==Event||i.constructor==MouseEvent||i.constructor==KeyboardEvent)){return i}aH++;D=D.caller}return i}}function g(i){i=i||af();if(!i.target){i.target=i.srcElement;i.pageX=i.x;i.pageY=i.y}if(typeof i.layerX=="undefined"){i.layerX=i.offsetX}if(typeof i.layerY=="undefined"){i.layerY=i.offsetY}return i}function aw(aH){if(typeof aH!=="string"){throw"trim need a string as parameter"}var e=aH.length;var D=0;var i=/(\u3000|\s|\t|\u00A0)/;while(D<e){if(!i.test(aH.charAt(D))){break}D+=1}while(e>D){if(!i.test(aH.charAt(e-1))){break}e-=1}return aH.slice(D,e)}function c(e){return Object.prototype.toString.call(e)==="[object Array]"}function J(aH,aL){var aN=aw(aH).split("&");var aM={};var D=function(i){if(aL){try{return decodeURIComponent(i)}catch(aP){return i}}else{return i}};for(var aJ=0,aK=aN.length;aJ<aK;aJ++){if(aN[aJ]){var aI=aN[aJ].split("=");var e=aI[0];var aO=aI[1];if(aI.length<2){aO=e;e="$nullName"}if(!aM[e]){aM[e]=D(aO)}else{if(c(aM[e])!=true){aM[e]=[aM[e]]}aM[e].push(D(aO))}}}return aM}function ac(D,aI){for(var aH=0,e=D.length;aH<e;aH++){aI(D[aH],aH)}}function ak(i){var e=new RegExp("^http(?:s)?://([^/]+)","im");if(i.match(e)){return i.match(e)[1].toString()}else{return""}}function aj(aO){try{var aL="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";var D="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_=";var aQ=function(e){var aR="",aS=0;for(;aS<e.length;aS++){aR+="%"+aH(e[aS])}return decodeURIComponent(aR)};var aH=function(e){var i="0"+e.toString(16);return i.length<=2?i:i.substr(1)};var aP=function(aY,aV,aR){if(typeof(aY)=="string"){aY=aY.split("")}var aX=function(a7,a9){for(var a8=0;a8<a7.length;a8++){if(a7[a8]==a9){return a8}}return -1};var aS=[];var a6,a4,a1="";var a5,a3,a0,aZ="";if(aY.length%4!=0){}var e=/[^A-Za-z0-9\+\/\=]/g;var a2=aL.split("");if(aV=="urlsafe"){e=/[^A-Za-z0-9\-_\=]/g;a2=D.split("")}var aU=0;if(aV=="binnary"){a2=[];for(aU=0;aU<=64;aU++){a2[aU]=aU+128}}if(aV!="binnary"&&e.exec(aY.join(""))){return aR=="array"?[]:""}aU=0;do{a5=aX(a2,aY[aU++]);a3=aX(a2,aY[aU++]);a0=aX(a2,aY[aU++]);aZ=aX(a2,aY[aU++]);a6=(a5<<2)|(a3>>4);a4=((a3&15)<<4)|(a0>>2);a1=((a0&3)<<6)|aZ;aS.push(a6);if(a0!=64&&a0!=-1){aS.push(a4)}if(aZ!=64&&aZ!=-1){aS.push(a1)}a6=a4=a1="";a5=a3=a0=aZ=""}while(aU<aY.length);if(aR=="array"){return aS}var aW="",aT=0;for(;aT<aS.lenth;aT++){aW+=String.fromCharCode(aS[aT])}return aW};var aI=[];var aN=aO.substr(0,3);var aK=aO.substr(3);switch(aN){case"v01":for(var aJ=0;aJ<aK.length;aJ+=2){aI.push(parseInt(aK.substr(aJ,2),16))}return decodeURIComponent(aQ(aP(aI,"binnary","array")));break;case"v02":aI=aP(aK,"urlsafe","array");return aQ(aP(aI,"binnary","array"));break;default:return decodeURIComponent(aO)}}catch(aM){return""}}var ap={screenSize:function(){return(m&8388608==8388608)?ao.width+"x"+ao.height:""},colorDepth:function(){return(m&4194304==4194304)?ao.colorDepth:""},appCode:function(){return(m&2097152==2097152)?s.appCodeName:""},appName:function(){return(m&1048576==1048576)?((s.appName.indexOf("Microsoft Internet Explorer")>-1)?"MSIE":s.appName):""},cpu:function(){return(m&524288==524288)?(s.cpuClass||s.oscpu):""},platform:function(){return(m&262144==262144)?(s.platform):""},jsVer:function(){if(m&131072!=131072){return""}var aI,e,aK,D=1,aH=0,i=(s.appName.indexOf("Microsoft Internet Explorer")>-1)?"MSIE":s.appName,aJ=s.appVersion;if("MSIE"==i){e="MSIE";aI=aJ.indexOf(e);if(aI>=0){aK=window.parseInt(aJ.substring(aI+5));if(3<=aK){D=1.1;if(4<=aK){D=1.3}}}}else{if(("Netscape"==i)||("Opera"==i)||("Mozilla"==i)){D=1.3;e="Netscape6";aI=aJ.indexOf(e);if(aI>=0){D=1.5}}}return D},network:function(){if(m&65536!=65536){return""}var i="";i=(s.connection&&s.connection.type)?s.connection.type:i;try{F.body.addBehavior("#default#clientCaps");i=F.body.connectionType}catch(D){i="unkown"}return i},language:function(){return(m&32768==32768)?(s.systemLanguage||s.language):""},timezone:function(){return(m&16384==16384)?(new Date().getTimezoneOffset()/60):""},flashVer:function(){if(m&8192!=8192){return""}var aK=s.plugins,aH,aL,aN;if(aK&&aK.length){for(var aJ in aK){aL=aK[aJ];if(aL.description==null){continue}if(aH!=null){break}aN=aL.description.toLowerCase();if(aN.indexOf("flash")!=-1){aH=aL.version?parseInt(aL.version):aN.match(/\d+/);continue}}}else{if(window.ActiveXObject){for(var aI=10;aI>=2;aI--){try{var D=new ActiveXObject("ShockwaveFlash.ShockwaveFlash."+aI);if(D){aH=aI;break}}catch(aM){}}}else{if(W.indexOf("webtv/2.5")!=-1){aH=3}else{if(W.indexOf("webtv")!=-1){aH=2}}}}return aH},javaEnabled:function(){if(m&4096!=4096){return""}var D=s.plugins,i=s.javaEnabled(),aH,aI;if(i==true){return 1}if(D&&D.length){for(var e in D){aH=D[e];if(aH.description==null){continue}if(i!=null){break}aI=aH.description.toLowerCase();if(aI.indexOf("java plug-in")!=-1){i=parseInt(aH.version);continue}}}else{if(window.ActiveXObject){i=(new ActiveXObject("JavaWebStart.IsInstalled")!=null)}}return i?1:0}};var ad={pageId:function(i){var D=i||r,aK="-9999-0-0-1";if((undefined==D)||(""==D)){try{var aH=h("publishid");if(""!=aH){var aJ=aH.split(",");if(aJ.length>0){if(aJ.length>=3){aK="-9999-0-"+aJ[1]+"-"+aJ[2]}D=aJ[0]}}else{D="0"}}catch(aI){D="0"}D=D+aK}return D},sessionCount:function(){var e=t("_s_upa");if(e==""){e=0}return e},excuteCount:function(){return SUDA.sudaCount},referrer:function(){if(m&2048!=2048){return""}var e=/^[^\?&#]*.swf([\?#])?/;if((aA=="")||(aA.match(e))){var i=V(j,"ref","&","");if(i!=""){return escape(i)}}return escape(aA)},isHomepage:function(){if(m&1024!=1024){return""}var D="";try{F.body.addBehavior("#default#homePage");D=F.body.isHomePage(j)?"Y":"N"}catch(i){D="unkown"}return D},PGLS:function(){return(m&512==512)?h("stencil"):""},ZT:function(){if(m&256!=256){return""}var e=h("subjectid");e.replace(",",".");e.replace(";",",");return escape(e)},mediaType:function(){return(m&128==128)?h("mediaid"):""},domCount:function(){return(m&64==64)?F.getElementsByTagName("*").length:""},iframeCount:function(){return(m&32==32)?F.getElementsByTagName("iframe").length:""}};var av={visitorId:function(){var i=15;var e=t(aa);if(e.length>i&&u==0){return e}else{return}},fvisitorId:function(e){if(!e){var e=t(Y);return e}else{at(Y,e,3650)}},sessionId:function(){var e=t(H);if(""==e){var i=new Date();e=Math.random()*10000000000000+"."+i.getTime()}return e},flashCookie:function(e){if(e){}else{return p}},lastVisit:function(){var D=t(H);var aI=t(P);var aH=aI.split(":");var aJ="",i;if(aH.length>=6){if(D!=aH[4]){i=new Date();var e=new Date(window.parseInt(aH[0]));aH[1]=window.parseInt(aH[1])+1;if(i.getMonth()!=e.getMonth()){aH[2]=1}else{aH[2]=window.parseInt(aH[2])+1}if(((i.getTime()-e.getTime())/86400000)>=7){aH[3]=1}else{if(i.getDay()<e.getDay()){aH[3]=1}else{aH[3]=window.parseInt(aH[3])+1}}aJ=aH[0]+":"+aH[1]+":"+aH[2]+":"+aH[3];aH[5]=aH[0];aH[0]=i.getTime();at(P,aH[0]+":"+aH[1]+":"+aH[2]+":"+aH[3]+":"+D+":"+aH[5],360)}else{aJ=aH[5]+":"+aH[1]+":"+aH[2]+":"+aH[3]}}else{i=new Date();aJ=":1:1:1";at(P,i.getTime()+aJ+":"+D+":",360)}return aJ},userNick:function(){if(al!=""){return al}var D=unescape(t(l));if(D!=""){var i=V(D,"ag","&","");var e=V(D,"user","&","");var aH=V(D,"uid","&","");var aJ=V(D,"sex","&","");var aI=V(D,"dob","&","");al=i+":"+e+":"+aH+":"+aJ+":"+aI;return al}else{return""}},userOrigin:function(){if(m&4!=4){return""}var e=t(aE);var i=e.split(":");if(i.length>=2){return i[0]}else{return""}},advCount:function(){return(m&2==2)?t(E):""},setUOR:function(){var aL=t(aE),aP="",i="",aO="",aI="",aM=j.toLowerCase(),D=F.referrer.toLowerCase();var aQ=/[&|?]c=spr(_[A-Za-z0-9]{1,}){3,}/;var aK=new Date();if(aM.match(aQ)){aO=aM.match(aQ)[0]}else{if(D.match(aQ)){aO=D.match(aQ)[0]}}if(aO!=""){aO=aO.substr(3)+":"+aK.getTime()}if(aL==""){if(t(P)==""){aP=ak(D);i=ak(aM)}at(aE,aP+","+i+","+aO,365)}else{var aJ=0,aN=aL.split(",");if(aN.length>=1){aP=aN[0]}if(aN.length>=2){i=aN[1]}if(aN.length>=3){aI=aN[2]}if(aO!=""){aJ=1}else{var aH=aI.split(":");if(aH.length>=2){var e=new Date(window.parseInt(aH[1]));if(e.getTime()<(aK.getTime()-86400000*30)){aJ=1}}}if(aJ){at(aE,aP+","+i+","+aO,365)}}},setAEC:function(e){if(""==e){return}var i=t(E);if(i.indexOf(e+",")<0){i=i+e+","}at(E,i,7)},ssoInfo:function(){var D=unescape(aj(t("sso_info")));if(D!=""){if(D.indexOf("uid=")!=-1){var i=V(D,"uid","&","");return escape("uid:"+i)}else{var e=V(D,"u","&","");return escape("u:"+unescape(e))}}else{return""}},subp:function(){return t("SUBP")}};var ai={CI:function(){var e=["sz:"+ap.screenSize(),"dp:"+ap.colorDepth(),"ac:"+ap.appCode(),"an:"+ap.appName(),"cpu:"+ap.cpu(),"pf:"+ap.platform(),"jv:"+ap.jsVer(),"ct:"+ap.network(),"lg:"+ap.language(),"tz:"+ap.timezone(),"fv:"+ap.flashVer(),"ja:"+ap.javaEnabled()];return"CI="+e.join("|")},PI:function(e){var i=["pid:"+ad.pageId(e),"st:"+ad.sessionCount(),"et:"+ad.excuteCount(),"ref:"+ad.referrer(),"hp:"+ad.isHomepage(),"PGLS:"+ad.PGLS(),"ZT:"+ad.ZT(),"MT:"+ad.mediaType(),"keys:","dom:"+ad.domCount(),"ifr:"+ad.iframeCount()];return"PI="+i.join("|")},UI:function(){var e=["vid:"+av.visitorId(),"sid:"+av.sessionId(),"lv:"+av.lastVisit(),"un:"+av.userNick(),"uo:"+av.userOrigin(),"ae:"+av.advCount(),"lu:"+av.fvisitorId(),"si:"+av.ssoInfo(),"rs:"+(n?1:0),"dm:"+(B?1:0),"su:"+av.subp()];return"UI="+e.join("|")},EX:function(i,e){if(m&1!=1){return""}i=(null!=i)?i||"":b;e=(null!=e)?e||"":a;return"EX=ex1:"+i+"|ex2:"+e},MT:function(){return"MT="+aF().join("|")},V:function(){return an},R:function(){return"gUid_"+new Date().getTime()}};function ax(){var aK="-",aH=F.referrer.toLowerCase(),D=j.toLowerCase();if(""==t(X)){if(""!=aH){aK=ak(aH)}at(X,aK,"","weibo.com")}var aI=/weibo.com\/reg.php/;if(D.match(aI)){var aJ=V(unescape(D),"sharehost","&","");var i=V(unescape(D),"appkey","&","");if(""!=aJ){at(X,aJ,"","weibo.com")}at("appkey",i,"","weibo.com")}}function d(e,i){G(e,i)}function G(i,D){D=D||{};var e=new Image(),aH;if(D&&D.callback&&typeof D.callback=="function"){e.onload=function(){clearTimeout(aH);aH=null;D.callback(true)}}SUDA.img=e;e.src=i;aH=setTimeout(function(){if(D&&D.callback&&typeof D.callback=="function"){D.callback(false);e.onload=null}},D.timeout||2000)}function x(e,aH,D){SUDA.sudaCount++;if(!av.visitorId()&&!L()){if(u<3){u++;setTimeout(x,500);return}}var i=N+[ai.V(),ai.CI(),ai.PI(e),ai.UI(),ai.MT(),ai.EX(aH,D),ai.R()].join("&");G(i);}function y(e,D,i){if(aG||A){return}if(SUDA.sudaCount!=0){return}x(e,D,i)}function ab(e,aH){if((""==e)||(undefined==e)){return}av.setAEC(e);if(0==aH){return}var D="AcTrack||"+t(aa)+"||"+t(H)+"||"+av.userNick()+"||"+e+"||";var i=ag+D+"&gUid_"+new Date().getTime();d(i)}function aq(aI,e,i,aJ){aJ=aJ||{};if(!i){i=""}else{i=escape(i)}var aH="UATrack||"+t(aa)+"||"+t(H)+"||"+av.userNick()+"||"+aI+"||"+e+"||"+ad.referrer()+"||"+i+"||"+(aJ.realUrl||"")+"||"+(aJ.ext||"");var D=ag+aH+"&gUid_"+new Date().getTime();d(D,aJ)}function aC(aK){var i=g(aK);var aI=i.target;var aH="",aL="",D="";var aJ;if(aI!=null&&aI.getAttribute&&(!aI.getAttribute("suda-uatrack")&&!aI.getAttribute("suda-actrack")&&!aI.getAttribute("suda-data"))){while(aI!=null&&aI.getAttribute&&(!!aI.getAttribute("suda-uatrack")||!!aI.getAttribute("suda-actrack")||!!aI.getAttribute("suda-data"))==false){if(aI==F.body){return}aI=aI.parentNode}}if(aI==null||aI.getAttribute==null){return}aH=aI.getAttribute("suda-actrack")||"";aL=aI.getAttribute("suda-uatrack")||aI.getAttribute("suda-data")||"";sudaUrls=aI.getAttribute("suda-urls")||"";if(aL){aJ=J(aL);if(aI.tagName.toLowerCase()=="a"){D=aI.href}opts={};opts.ext=(aJ.ext||"");aJ.key&&SUDA.uaTrack&&SUDA.uaTrack(aJ.key,aJ.value||aJ.key,D,opts)}if(aH){aJ=J(aH);aJ.key&&SUDA.acTrack&&SUDA.acTrack(aJ.key,aJ.value||aJ.key)}}if(window.SUDA&&Object.prototype.toString.call(window.SUDA)==="[object Array]"){for(var Q=0,ae=SUDA.length;Q<ae;Q++){switch(SUDA[Q][0]){case"setGatherType":m=SUDA[Q][1];break;case"setGatherInfo":r=SUDA[Q][1]||r;b=SUDA[Q][2]||b;a=SUDA[Q][3]||a;break;case"setPerformance":Z=SUDA[Q][1];break;case"setPerformanceFilter":C=SUDA[Q][1];break;case"setPerformanceInterval":K=SUDA[Q][1]*1||0;K=isNaN(K)?0:K;break;case"setGatherMore":M.push(SUDA[Q].slice(1));break;case"acTrack":S.push(SUDA[Q].slice(1));break;case"uaTrack":I.push(SUDA[Q].slice(1));break}}}aG=(function(D,i){if(ah.top==ah){return false}else{try{if(F.body.clientHeight==0){return false}return((F.body.clientHeight>=D)&&(F.body.clientWidth>=i))?false:true}catch(aH){return true}}})(320,240);A=(function(){return false})();av.setUOR();var au=av.sessionId();window.SUDA=window.SUDA||[];SUDA.sudaCount=SUDA.sudaCount||0;SUDA.log=function(){x.apply(null,arguments)};SUDA.acTrack=function(){ab.apply(null,arguments)};SUDA.uaTrack=function(){aq.apply(null,arguments)};U(F.body,"click",aC);window.GB_SUDA=SUDA;GB_SUDA._S_pSt=function(){};GB_SUDA._S_acTrack=function(){ab.apply(null,arguments)};GB_SUDA._S_uaTrack=function(){aq.apply(null,arguments)};window._S_pSt=function(){};window._S_acTrack=function(){ab.apply(null,arguments)};window._S_uaTrack=function(){aq.apply(null,arguments)};window._S_PID_="";y();try{k()}catch(T){}})();
+//-->
+</script> 
+<noScript> 
+<div style='position:absolute;top:0;left:0;width:0;height:0;visibility:hidden'><img width=0 height=0 src='http://beacon.sina.com.cn/a.gif?noScript' border='0' alt='' /></div> 
+</noScript> 
+<!-- SUDA_CODE_END -->
+
+<!-- SSO_GETCOOKIE_START -->
+<script type="text/javascript">var sinaSSOManager=sinaSSOManager||{};sinaSSOManager.getSinaCookie=function(){function dc(u){if(u==undefined){return""}var decoded=decodeURIComponent(u);return decoded=="null"?"":decoded}function ps(str){var arr=str.split("&");var arrtmp;var arrResult={};for(var i=0;i<arr.length;i++){arrtmp=arr[i].split("=");arrResult[arrtmp[0]]=dc(arrtmp[1])}return arrResult}function gC(name){var Res=eval("/"+name+"=([^;]+)/").exec(document.cookie);return Res==null?null:Res[1]}var sup=dc(gC("SUP"));if(!sup){sup=dc(gC("SUR"))}if(!sup){return null}return ps(sup)};</script>
+<!-- SSO_GETCOOKIE_END -->
+
+<script type="text/javascript">new function(r,s,t){this.a=function(n,t,e){if(window.addEventListener){n.addEventListener(t,e,false);}else if(window.attachEvent){n.attachEvent("on"+t,e);}};this.b=function(f){var t=this;return function(){return f.apply(t,arguments);};};this.c=function(){var f=document.getElementsByTagName("form");for(var i=0;i<f.length;i++){var o=f[i].action;if(this.r.test(o)){f[i].action=o.replace(this.r,this.s);}}};this.r=r;this.s=s;this.d=setInterval(this.b(this.c),t);this.a(window,"load",this.b(function(){this.c();clearInterval(this.d);}));}(/http:\/\/www\.google\.c(om|n)\/search/, "http://keyword.sina.com.cn/searchword.php", 250);</script>
+<!-- body code end -->
+<div class="conatiner">
+  <!--start:header-->
+<div class="top-bg">
+    <div class="top clearfix">
+      <h1 class="logo left" data-sudaclick="ku_ent_topnav">
+      <a href="http://ent.sina.com.cn/" target="_blank">
+      <img src="//n.sinaimg.cn/ent/ku/images/logo.jpg" alt="新浪娱乐">
+      </a>
+      </h1>
+      <div class="top-nav right" data-sudaclick="topnav_right">
+        <a href="http://ent.sina.com.cn/" target="_blank">新浪娱乐</a>|<a href="http://www.sina.com.cn/" target="_blank">新浪首页</a>|<a href="http://news.sina.com.cn/guide/" target="_blank">新浪导航</a></div>
+	  <!--       <div class="top-login right">
+        <a href="http://weibo.com/signup/signup.php" target='_blank'>立即注册</a>
+        |<a href="javascript:void(0);" id="loginBox">登录</a>
+      </div>
+	  --> 
+	  
+<!--login start-->  
+   <div class="secondaryHeader">
+        <div class="sHBorder">
+            <div class="nav_weibo" data-sudaclick="nav_weibo" style="width:100px;">
+                <!-- 未登录 begin -->
+                <div class="wt_unlogin" id="J_Unlogin_A" style="display:;">
+                  <a href="https://login.sina.com.cn/signup/signup.php" target="_blank">注册</a> | <span id="J_Login_Btn_A"></span>
+                </div>
+                <!-- 未登录 end -->
+                <!-- 已登录 begin -->
+                <div class="wt_logined" id="J_Logined_A" style="display:none;">
+                    <span class="wt_user" id="J_Logined_Name_A"></span>
+                    <div class="wt_user_drop_list" id="J_Logined_List_A" style="display:none;"></div>
+                </div>
+                <!-- 已登录 end -->
+            </div>
+        </div>
+    </div>	
+<!--login end-->  
+	<script>
+		$(function(){
+			$('#J_Unlogin_A').on('hide', function(){
+				alert('登陆加载中')
+			});
+		});</script>
+    </div>
+  </div>
+<div class="banner-bg" data-sudaclick="banner_search">
+    <form action="https://ent.sina.com.cn/ku/search_index.d.html" method="GET" autocomplete="off">
+    <!-- <input type="hidden" name="anu" value="search" /> -->
+    <div class="banner clearfix">
+      <a href="https://ent.sina.com.cn/ku/index.shtml"><h2 class="banner-logo left">互动资料库</h2></a>
+      <div class="banner-search left">
+        <!-- <div class="banner-select left" id="MenuArea">
+          <span class="searchMenu" id="category">
+          全部
+                    </span>
+          <em class="searchMenu"></em>
+          <input type="hidden" name="categoryKey" id="categoryKey" value="all" />
+          <ul class="hidden" id="searchUl">
+            <li><a href="javascript:void(0);">电影</a></li>
+            <li><a href="javascript:void(0);">电视</a></li>
+            <li><a href="javascript:void(0);">明星</a></li>
+          </ul>
+        </div> -->
+        <input type="text" name="keywords" value="明星、电影、电视剧" class="banner-s-ipt left search_keywords" style="height:auto;">
+        <button type="submit" id="searchAction" class="banner-s-btn left"><em>搜索</em></button>
+        <a href="javascript:void(0);" class="banner-s-advanced left" id="SearchBoxMore">高级搜索</a>
+      </div>
+    </div>
+   </form>
+  </div>
+<script>
+	seajs.use(['//n.sinaimg.cn/ent/ku/search.js?v=1.0.1']);
+	
+</script>
+
+<div class="nav-bg" data-sudaclick="ku_ent_nav">
+<ul class="nav clearfix">
+	<li >
+        <a  href="http://ent.sina.com.cn/ku/">首页</a>
+    </li>
+	<li class="curr">
+        <a  href="http://ent.sina.com.cn/ku/movie_search_index.d.html">电影</a>
+    </li>
+	<li  class="">
+        <a  href="http://ent.sina.com.cn/ku/tv_search_index.d.html">电视</a>
+    </li>
+	<li  class="">
+        <a  href="http://ent.sina.com.cn/ku/star_search_index.d.html">明星</a>
+    </li>
+	<li style='display:none;'>
+        <a  href="javascript:;">排行榜</a>
+    </li>
+	<li>
+        <a  href="http://music.sina.com.cn/index.html" target='_blank'>乐库</a>
+    </li>
+	<li>
+        <a  href="http://data.ent.sina.com.cn/show/damai/index.php?&dpc=1" target='_blank'>演出订票</a>
+    </li>	
+</ul>
+</div>
+
+<!--end:header-->
+		<link rel="stylesheet" href="//n2.sinaimg.cn/ent/ku/stars.css" type="text/css" />
+<link rel="stylesheet" href="//n2.sinaimg.cn/ent/ku/css/movie.css" type="text/css" /><script type="text/javascript" src="//n.sinaimg.cn/ent/ku/js/slides.jquery.js"></script>
+<script type="text/javascript" src="//n.sinaimg.cn/ent/ku/js/d-marquee.js"></script>
+	<script>
+seajs.use(['//n.sinaimg.cn/ent/ku/star_profile_common.js?v=20190827']);
+</script>
+	
+	
+<div class="content stars-content">
+     <script>
+	window.news_id = 'comos-hytcerm1181416';
+			window.resTitle = '唐人街探案3';
+			window.channel = 'yl';
+			window.type = 'movie';
+			window.docId = 'hytcerm1181416';
+	$(function(){
+		$("head title").text('唐人街探案3资料页_娱乐资料库_新浪娱乐_新浪网');
+			
+	});
+</script>
+<script type="text/javascript" src="//n.sinaimg.cn/contentPage/index/js/pages/SinaPage.js"></script>
+<script src="//n.sinaimg.cn/finance/page/ent/js/article-widgets.v0921.js"></script>
+<!-- 全局参数begin -->
+<script type="text/javascript">
+SinaPage.config.triggerDistance = 500;
+var SINA_TEXT_PAGE_INFO = {
+        entry: 'account',
+        channel: 'yl',
+        // 微博分享后面的@用户uid
+        uid: '1642591402'
+    };
+</script>
+<!-- 全局参数end -->
+		<script type="text/javascript">
+		SinaPage.loadWidget({
+		require: [{
+			url: "//finance.sina.com.cn/other/src/pageTools.final.js"
+		},
+		{
+			url: "//n.sinaimg.cn/finance/fe/share.min.js?v=20180321"
+		}],
+		onAfterLoad: function() {
+			new PageTool.FontAdjustor,
+			new PageTool.AddFavorite({
+				docid: SINA_TEXT_PAGE_INFO.docID
+			});
+			var e = '//n.sinaimg.cn/ent/transform/487/w210h277/20201016/d7f5-kaqzmiv7367034.jpg',
+			t = '唐人街探案3 - 【@  推荐 《唐人街探案3》】：  ',
+			n = '',
+			r = new FnShare("#top_bar", {
+				url: n,
+				wxurl: n,
+				img: e,
+				title: t
+			});
+		}
+		})
+		</script>
+<div class="bor-box">
+<div class="bor-box2 clearfix">
+       <div class="stars-is left">
+           <!--start 明星图片轮播-->
+           <div id="slides" class="banner-srcoll"> 
+               <div class="bannerImg">
+                   <div class="slides_container">
+                      <div>
+                        <a href="//ent.sina.com.cn/ku/movie_detail_index.d.html?type=poster&id=hytcerm1181416" target="_blank">
+                          <img rel="01" alt="唐人街探案3" src="//n.sinaimg.cn/ent/transform/487/w210h277/20201016/d7f5-kaqzmiv7367034.jpg" width="210" height="277">
+                        </a> 
+                     </div>
+                   </div>
+               </div>
+           </div>
+           <!--end 明星图片轮播-->
+           <div class="shareBox bshare-custom share-it" id="top_bar">
+			  <p>分享到：</p>
+			  <a ani-hover='bounceFromTop' node-type='share-wb' href="javascript:;" data-share='weibo' title="分享到微博" data-sudaclick="content_weiboshare_i" style="cursor:pointer;float:left;margin:2px 2px;height:16px;width:16px;background:url(//static.bshare.cn/frame/images//slogos_sprite8.png) no-repeat 0 -1728px;"></a>
+
+              <a ani-hover='bounceFromTop' node-type='share-wx' href="javascript:;" data-share='weixin' title="分享到微信" data-sudaclick="content_wechatshare_i" style="cursor:pointer;float:left;margin:2px 2px;height:16px;width:16px;background:url(//static.bshare.cn/frame/images/logos/s4/weixin.png);"></a>
+
+              <a href="javascript:;" data-share='qzone' title="分享到QQ空间" data-sudaclick="content_qzoneshare_i" style="cursor:pointer;float:left;margin:2px 2px;height:16px;width:16px;background:url(//static.bshare.cn/frame/images/logos/s4/sprite/top_logos_sprite.png) no-repeat 0 -234px;"></a>
+		  </div>
+       </div>
+       <div class="stars-det right">
+           <div class="stars-d1 clearfix">
+               <div class="stars-name left" stye="width:460px;">
+                   <p class="pname">
+                      唐人街探案3					   					   					   					                                    (2020)
+					                             <span>
+                                                          </span>
+                   </p>
+                   <p class="pinfo">
+                       <!-- 时长 -->
+					   					   	<span>136分钟</span>
+					   &nbsp;&nbsp;|&nbsp;&nbsp;
+					                           <!-- 等级 -->
+					                           <!-- 分类 -->       
+					   <!--集数-->
+					   					   					   					<span>
+                     <a href="//ent.sina.com.cn/ku/movie_search_index.d.html?category=2" target='_blank' style='color:#0f3573;'>喜剧</a>
+                </span>						<span>
+                     <a href="//ent.sina.com.cn/ku/movie_search_index.d.html?category=11" target='_blank' style='color:#0f3573;'>悬疑</a>
+                </span>							                     </p>
+               </div>
+               <div class="stars-sport right" style="margin-top:-10px;padding-right:18px;">
+   					<iframe width="190px" height="67" class="share_self"  frameborder="0" scrolling="no" src="" data-uid="100120184430" data-type="movie"></iframe>
+				</div>
+           </div>
+           <!--start part-box-->
+           <div class="part-box clearfix">
+               <!--基本信息-->
+			                  <div class="part-left left">
+                 <div class="part-left-intro">
+                            
+					 <p><span class="text">又名:</span>                         
+                       唐探3 / Detective Chinatown 3                     </p>
+					      
+					 					 <p>
+					 	<span class="text">导演:</span>
+                        				<a href="//ent.sina.com.cn/ku/star_info_index.d.html?type=star&id=fyhryex6242983" target="_blank" title="陈思诚" style="color:#0f3573;">陈思诚</a>        					  <a href="http://weibo.com/u/1257866011" target="_blank">
+                            	<em class="icon-weibo"></em>
+                           </a>					 </p>
+					 					 					 <p>
+                       <span class="text">编剧:</span>
+                           				<a href="//ent.sina.com.cn/ku/star_info_index.d.html?type=star&id=fyhryex6242983" target="_blank" title="陈思诚" style="color:#0f3573;">陈思诚</a>        					  <a href="http://weibo.com/u/1257866011" target="_blank">
+                            	<em class="icon-weibo"></em>
+                           </a>	
+					 </p>
+					 					 					 <p><span class="text" style="display:block;float:left;">主演:</span>
+						 <span style="display: block; width: 228px; overflow: hidden; text-overflow: ellipsis;white-space: nowrap;float:left;">
+                         					<a href="//ent.sina.com.cn/ku/star_info_index.d.html?type=star&id=fyhryex6242991" target="_blank" title="王宝强" style="color:#0f3573;">王宝强</a>        					  <a href="http://weibo.com/u/1254123322" target="_blank">
+                            	<em class="icon-weibo"></em>
+                           </a>/				<a href="//ent.sina.com.cn/ku/star_info_index.d.html?type=star&id=fyhvyie0224885" target="_blank" title="刘昊然" style="color:#0f3573;">刘昊然</a>        					  <a href="http://weibo.com/u/2870450862" target="_blank">
+                            	<em class="icon-weibo"></em>
+                           </a>/				<a href="//ent.sina.com.cn/ku/star_info_index.d.html?type=star&id=fyhryex6247635" target="_blank" title="妻夫木聪" style="color:#0f3573;">妻夫木聪</a>        						 </span>
+						 <a href="//ent.sina.com.cn/ku/movie_detail_index.d.html?type=star&id=hytcerm1181416" style="color:#0f3573;padding-left:10px;">更多&gt;</a>				                     </p>
+					 					 <div style="clear:both;"></div>
+					 					                       <p>
+                         <span class="text">国家/地区:</span>																<a href="//ent.sina.com.cn/ku/movie_search_index.d.html?nationality=1" style="color:#0f3573;">&nbsp;中国内地</a>				                 </p>
+					 					                     <p>
+                  		 <span class="text">语言:</span>
+                           汉语普通话                    </p>
+					 					                      <p>
+						 <span class="text">上映日期:</span>2021年02月12日						 						 	中国						                        	 <a href="//ent.sina.com.cn/ku/movie_detail_index.d.html?type=star&id=hytcerm1181416" style='color:#0f3573;'>更多&gt;</a>
+                   </p>
+					 					                    <p>
+                       <span class="text">剧情:</span>
+                       继曼谷、纽约之后，东京再出大案。唐人街神探唐仁（王宝强饰）、秦风（刘昊然饰）受侦探野田昊（妻夫木聪饰）的邀请前往破案。“CRIMASTER世界侦探排行榜…                       <a href="//ent.sina.com.cn/ku/movie_detail_index.d.html?type=plot&id=hytcerm1181416" style='color:#0f3573;'>更多&gt;</a>
+                   </p>
+					                  </div>
+                 <p>&nbsp;</p>
+                 
+               </div>
+               <!--基本信息-->
+			                  <div id="scoreDetail" class="">
+                <!--start 评分-->
+				   <div class="part-right right" id="scoreMap" style="height: 308px;">
+					   <div class="scroce">
+						   <p class="left">
+							   <span class="score_wu" style="font-size: 22px; color: #817b7e;">暂无</span>
+							   <span class="red resAutoScore"></span>分
+						   </p>
+						   <div class="stars-num left">
+							   <span class="star-s">
+								   <em class="resAutoScoreNum" style="width:148.32px"></em>
+							   </span>
+							   <p><span class="red2"></span>参与评分</p>
+						   </div>
+					   </div>
+					   <!--start discuse-->
+					   <div class="discuse clearfix loginInfoScore">
+						   <div class="dis-head left unLoginScore">
+							   <a href="javascript:void();"><img src="//n.sinaimg.cn/ent/ku/default_avatar_male_50.gif" width="50" height="50" alt=""></a>
+							   <p><a href="javascript:void();">用户名</a></p></div>
+
+						   <div class="contain left">
+							   <div class="star-on clearfix">
+								  <p class="left"> <span class="star-s" id="js_totalScore"><em style="width: 0px;"></em></span></p>
+								   <input type="hidden" id="js_totalScore-input" name="b" value="0" size="2">
+								   <span class="span-score red" id="js_totalScore-scoreTips">0.0</span> <span class="result" id="js_totalScore-tips">未打分</span>
+							   </div>
+							   <input type="hidden" class="js_newsId" value="comos-hytcerm1181416">
+							   <input type="hidden" class="js_resId" value="hytcerm1181416">
+							   <input type="hidden" class="js_resName" value="movie">
+							   <div class="comment-before js_commentBefore">
+								   <div class="in-area">
+									   <textarea id="js_commentContent"></textarea>
+									   <div class="post-status post-worn" id="textareaTip" style="display:none"><em></em><span>请输入评论内容</span></div>
+								   </div>
+								   <p  style="width:60px;float:right;margin-top:10px;">
+									   <button class="inputbtn" id="subComment">提交</button>
+								   </p>
+							   </div>
+							   <div class="comment-after js_commentAfter hidden"></div>
+						   </div>
+					   </div>
+					   <style>
+						   .sina-comment-tip {
+							   position: absolute;
+							   left: 50%;
+							   background: #fff;
+							   z-index: 1000;
+							   padding: 18px 24px;
+							   box-shadow: 0 1px 7px 4px rgba(224, 224, 224, 0.50);
+							   border-radius: 8px;
+							   max-width: 302px;
+						   }
+
+						   .sina-comment-tip .inner {
+							   overflow: hidden;
+							   line-height: 24px;
+							   font-family: "\5FAE\8F6F\96C5\9ED1", "\9ED1\4F53";
+							   font-size: 14px;
+							   color: #888;
+							   position: relative;
+						   }
+
+						   .sina-comment-form .hd .tip, .sina-comment-share-sina, .sina-comment-share-qq, .sina-comment-form .ft .trigger, .sina-comment-form .ft .trigger-active, .sina-comment-list .item .reply:hover, .sina-comment-list .title .reflash, .sina-comment-list .list .btns a, .sina-comment-tip .succ i, .sina-comment-tip .error i, .sina-comment-layer .a-l-close, .sina-comment-form .ft .user .ico, .sina-comment-vote-tip, .sina-comment-chkbox i, .sina-comment-form .bd .arrow, .sina-comment-list-layer .close, .sina-comment-list .list .dialog-list-ft .fold em {
+							   background: url(//n.sinaimg.cn/default/7919a7ba/20170830/bg.png) no-repeat 0 0;
+						   }
+
+						   .sina-comment-tip i {
+							   width: 40px;
+							   height: 32px;
+							   overflow: hidden;
+							   position: absolute;
+							   left: 0;
+							   top: 0;
+						   }
+
+						   .sina-comment-tip .txt {
+							   margin-left: 35px;
+							   font-size: 14px;
+						   }
+
+						   .sina-comment-tip .bd, .sina-comment-tip .ft {
+							   text-align: center;
+						   }
+
+						   .sina-comment-tip .txt a:link, .sina-comment-tip .txt a:visited {
+							   color: #ff8500;
+							   text-decoration: none;
+						   }
+
+						   .sina-comment-tip .ft {
+							   margin-top: 10px;
+						   }
+
+						   .sina-comment-tip .btn {
+							   display: inline-block;
+							   width: 108px;
+							   padding: 8px 0;
+							   font-size: 14px;
+						   }
+
+						   .sina-comment-tip .btn-gray {
+							   color: #333;
+							   background: #E2E2E2;
+						   }
+
+						   .btn:hover {
+							   background: #E2E2E2;
+						   }
+
+						   .sina-comment-tip .error i {
+							   background-position: 0 -280px;
+						   }
+					   </style>
+					   <div id="sina-comment-tip" class="sina-comment-tip" style="display:none;visibility: visible; position: absolute; left: 0px; opacity: 1; top: 102px;">
+						   <div class="inner error error-1121541842"><i></i>
+							   <div class="txt">
+								   <div class="bd">根据<a href="http://www.cac.gov.cn/2017-08/25/c_1121541842.htm" target="_blank">《互联网跟帖评论服务管理规定》</a>发布评论前请绑定手机号，谢谢！
+								   </div>
+								   <div class="ft"><a class="btn btn-red" href="https://security.weibo.com/mobile/index?entry=sina_shiming" target="_blank" action-type="close" action-data="time=500">绑定手机号</a> <a id="close" class="btn" href="javascript:;" action-type="close" action-data="time=500">关闭</a>
+								   </div>
+							   </div>
+						   </div>
+					   </div>
+
+				   </div>
+			   </div>
+			   
+		              </div>
+           <!--end part-box-->
+       </div>
+	</div>
+ 
+
+</div>
+<!--start other-info--> 
+ <style>
+	#movieScroll01 ul,#movieScroll02 ul{
+		/*width:3042px!important;*/
+	}
+	</style>
+<div class="other-info">
+<div class="clearfix">
+<div class="con-l left">
+<div class="about-part modeling">
+   
+</div>
+<div class="about-part poster">
+    
+</div>
+<div class="about-part">
+  <h3 class="tit1"><span><i class="redline"></i>相关视频</span> 
+	  <div class="mores" style="float: right; margin-top: -26px;margin-right: 15px;">
+          <a href="//ent.sina.com.cn/ku/movie_detail_index.d.html?type=video&id=hytcerm1181416" target='_blank'>更多</a>
+     </div>
+</h3>
+   <ul class="videos-list clearfix" style="padding:0px;">
+     
+    </ul>
+
+</div>
+	<!--幕后花絮-->
+	<div class="about-part highlights">
+          
+     </div>
+     <div class="about-part access">
+          
+     </div>
+      <div class="about-part award">  
+           
+     </div>  
+         <div class="about-part">
+  <h3 class="tit1">
+	  <span><i class="redline"></i>新闻资讯</span>
+	  <div class="mores" style="float: right; margin-top: -26px;margin-right: 15px;">
+			<a href="//ent.sina.com.cn/ku/movie_detail_index.d.html?type=news&id=hytcerm1181416">更多</a>
+	  </div>
+   </h3>
+  <ul class="news-list news-list2">
+      
+      </ul>
+</div>
+<div class="about-part plot">
+ 
+</div>
+<div id="dataList">
+<div class="works">
+	
+</div>
+
+<!--start 网友评论--> 
+<div class="about-part" id="dataListInner">
+  <h3 class="tit1"><span><i class="redline"></i>网友评论</span></h3>
+  <div class="about-ping">
+    <div class="dicause-box">
+		<ul id="itab" class="left">
+           <li id="itab0" class="checkCommentType curr">
+			  <a  href="javascript:void(0)">全部点评(0)</a>
+          </li>
+          <li id="itab1" class="checkCommentType  checkCommentReviewUser">
+			  <a href="javascript:void(0)">微博热议</a>
+		  </li>
+       </ul>
+        <div class="write-it right hidden writeCommentBtn"><a href="#scoreMap" class="toScore"><i></i>写点评</a></div>
+    </div>
+    <!--start 全部点评-->
+    <div id="itabCon0">
+      <!--start dic-list -->
+      <ul class="dic-list">
+           
+      </ul>
+      <!--/dic-list-->
+<!--       <div class="pages-box">
+		  <ul class="pages">
+
+		  </ul>
+		  <div class="to-page">
+			  <span>共<em class="total_page"></em>页  到第<input type="text" class="page-num pageNum" value="">页</span>
+			  <span><button class="page-sure pageSure">确定</button></span>
+		  </div>
+		</div> -->
+    </div>
+	   <div id="itabCon1">
+
+		</div>
+    <!--end:全部点评-->
+  </div>
+</div>
+<!--end 网友评论-->
+         </div>
+      </div>
+    <!--start 右侧部分-->
+<link rel="stylesheet" href="//n2.sinaimg.cn/ent/ku/css/raxxer.css?v=201907" type="text/css" />
+<script type="text/javascript" src="//news.sina.com.cn/js/87/20140115/gn2014/underscore.min.js"></script>
+        <!--end 官方微博-->
+        
+        <!--start 电影相关-->
+<div class="right-box">
+    <div class="tit1-tab1 clearfix">
+      <i class="redline"></i>
+      <ul id="ftab" class="clearfix">
+        <li id="ftab0" onmouseover="nTabs('ftab', this);" class="curr">正在上映</li>
+        <li id="ftab1" onmouseover="nTabs('ftab', this);">即将上映</li>
+      </ul>
+    </div>
+    <!--start:正在热播-->
+    <div id="ftabCon0" class="tit1-tab1-box">
+		<ul class="star-list star-list1 clearfix">
+			<li class="left">
+	    <a href="//ent.sina.com.cn/ku/movie_info_index.d.html?type=movie&id=iznezxt0105742" class="pics" title="你的婚礼"><img src="http://n.sinaimg.cn/ent/487/w210h277/20210409/ece6-knqqqmu0730468.jpg" width="115" height="161" title="你的婚礼"></a>
+		<p><a href="//ent.sina.com.cn/ku/movie_info_index.d.html?type=movie&id=iznezxt0105742" title="你的婚礼">你的婚礼</a></p><p>2021年04月30日上映</p></li>	<li class="left">
+	    <a href="//ent.sina.com.cn/ku/movie_info_index.d.html?type=movie&id=icezuev1589768" class="pics" title="悬崖之上"><img src="http://n.sinaimg.cn/ent/crawl/675/w270h405/20210409/3966-knqqqmu1123913.jpg" width="115" height="161" title="悬崖之上"></a>
+		<p><a href="//ent.sina.com.cn/ku/movie_info_index.d.html?type=movie&id=icezuev1589768" title="悬崖之上">悬崖之上</a></p><p>2021年04月30日上映</p></li>	<li class="left">
+	    <a href="//ent.sina.com.cn/ku/movie_info_index.d.html?type=movie&id=fyhmtrw4014290" class="pics" title="指环王2：双塔奇兵"><img src="http://n.sinaimg.cn/ent/487/w210h277/20210414/69c6-knqqqmv6474675.jpg" width="115" height="161" title="指环王2：双塔奇兵"></a>
+		<p><a href="//ent.sina.com.cn/ku/movie_info_index.d.html?type=movie&id=fyhmtrw4014290" title="指环王2：双塔奇兵">指环王2：双塔奇兵</a></p><p>2021年04月23日上映</p></li>	<li class="left">
+	    <a href="//ent.sina.com.cn/ku/movie_info_index.d.html?type=movie&id=ihnzhha2638975" class="pics" title="名侦探柯南：绯色的子弹"><img src="http://n.sinaimg.cn/ent/transform/487/w210h277/20210412/7bf1-knqqqmu8003356.jpg" width="115" height="161" title="名侦探柯南：绯色的子弹"></a>
+		<p><a href="//ent.sina.com.cn/ku/movie_info_index.d.html?type=movie&id=ihnzhha2638975" title="名侦探柯南：绯色的子弹">名侦探柯南：绯色的子弹</a></p><p>2021年04月17日上映</p></li>	<li class="left">
+	    <a href="//ent.sina.com.cn/ku/movie_info_index.d.html?type=movie&id=fyhmtrw4014342" class="pics" title="指环王：护戒使者"><img src="http://n.sinaimg.cn/ent/487/w210h277/20210414/46a9-knqqqmv6338530.jpg" width="115" height="161" title="指环王：护戒使者"></a>
+		<p><a href="//ent.sina.com.cn/ku/movie_info_index.d.html?type=movie&id=fyhmtrw4014342" title="指环王：护戒使者">指环王：护戒使者</a></p><p>2021年04月16日上映</p></li>	<li class="left">
+	    <a href="//ent.sina.com.cn/ku/movie_info_index.d.html?type=movie&id=hvhiewr8451582" class="pics" title="六人：泰坦尼克号上的中国幸存者"><img src="http://n.sinaimg.cn/ent/487/w210h277/20210409/d536-knqqqmu0924183.jpg" width="115" height="161" title="六人：泰坦尼克号上的中国幸存者"></a>
+		<p><a href="//ent.sina.com.cn/ku/movie_info_index.d.html?type=movie&id=hvhiewr8451582" title="六人：泰坦尼克号上的中国幸存者">六人：泰坦尼克号上的中国幸存者</a></p><p>2021年04月16日上映</p></li>		</ul><div class="mores"><a href="//ent.sina.com.cn/ku/movie_list_index.d.html?type=hot"  target="_blank">更多</a></div>
+     </div>
+    <!--end:正在热播-->
+    <!--start:内地新剧-->
+    <div id="ftabCon1" class="tit1-tab1-box" style="display:none;">
+     <div id="ftabCon0" class="tit1-tab1-box">
+		<ul class="star-list clearfix">
+         	<li class="left">
+	    <a href="//ent.sina.com.cn/ku/movie_info_index.d.html?type=movie&id=kmyaawa8749690" class="pics" title="追虎擒龙"><img src="http://n.sinaimg.cn/ent/487/w210h277/20210424/6b8c-kpamyii7354711.jpg" width="115" height="161" title="追虎擒龙"></a>
+		<p><a href="//ent.sina.com.cn/ku/movie_info_index.d.html?type=movie&id=kmyaawa8749690" title="追虎擒龙">追虎擒龙</a></p><p>2021-05-01</p></li>	<li class="left">
+	    <a href="//ent.sina.com.cn/ku/movie_info_index.d.html?type=movie&id=hrfqzkc4094825" class="pics" title="秘密访客"><img src="http://n.sinaimg.cn/ent/487/w210h277/20210423/0bee-kpamyii5314492.jpg" width="115" height="161" title="秘密访客"></a>
+		<p><a href="//ent.sina.com.cn/ku/movie_info_index.d.html?type=movie&id=hrfqzkc4094825" title="秘密访客">秘密访客</a></p><p>2021-05-01</p></li>	<li class="left">
+	    <a href="//ent.sina.com.cn/ku/movie_info_index.d.html?type=movie&id=fyskeuc4124221" class="pics" title="真·三国无双"><img src="http://n.sinaimg.cn/ent/487/w210h277/20210423/4d42-kpamyii5322340.jpg" width="115" height="161" title="真·三国无双"></a>
+		<p><a href="//ent.sina.com.cn/ku/movie_info_index.d.html?type=movie&id=fyskeuc4124221" title="真·三国无双">真·三国无双</a></p><p>2021-05-01</p></li>	<li class="left">
+	    <a href="//ent.sina.com.cn/ku/movie_info_index.d.html?type=movie&id=fymesii5399934" class="pics" title="阳光劫匪"><img src="http://n.sinaimg.cn/ent/487/w210h277/20210418/3868-knvsnuh2075460.jpg" width="115" height="161" title="阳光劫匪"></a>
+		<p><a href="//ent.sina.com.cn/ku/movie_info_index.d.html?type=movie&id=fymesii5399934" title="阳光劫匪">阳光劫匪</a></p><p>2021-05-01</p></li>	<li class="left">
+	    <a href="//ent.sina.com.cn/ku/movie_info_index.d.html?type=movie&id=iznctke7603663" class="pics" title="扫黑·决战"><img src="http://n.sinaimg.cn/ent/487/w210h277/20210422/ac6c-kpamyii2546040.jpg" width="115" height="161" title="扫黑·决战"></a>
+		<p><a href="//ent.sina.com.cn/ku/movie_info_index.d.html?type=movie&id=iznctke7603663" title="扫黑·决战">扫黑·决战</a></p><p>2021-05-01</p></li>	<li class="left">
+	    <a href="//ent.sina.com.cn/ku/movie_info_index.d.html?type=movie&id=hvhiews9380864" class="pics" title="感动她77次"><img src="http://n.sinaimg.cn/ent/transform/487/w210h277/20210409/4a0d-knqqqmu1160210.jpg" width="115" height="161" title="感动她77次"></a>
+		<p><a href="//ent.sina.com.cn/ku/movie_info_index.d.html?type=movie&id=hvhiews9380864" title="感动她77次">感动她77次</a></p><p>2021-05-1</p></li>		</ul><div class="mores"><a href="//ent.sina.com.cn/ku/movie_list_index.d.html?type=new"  target="_blank">更多</a></div>
+      
+    </div>
+    <!--end:内地新剧-->
+</div>
+
+<!--end 电影相关-->
+
+<script>
+    var nation_mv =[];
+    nation_mv['1']="中国内地",
+            nation_mv['2']="中国台湾",
+            nation_mv['3']="中国香港",
+            nation_mv['4']="日本",
+            nation_mv['5']="韩国",
+            nation_mv['6']="美国",
+            nation_mv['7']="英国",
+            nation_mv['8']="德国",
+            nation_mv['9']="法国",
+            nation_mv['10']="印度",
+            nation_mv['11']="瑞典",
+            nation_mv['12']="挪威",
+            nation_mv['13']="朝鲜",
+            nation_mv['14']="越南",
+            nation_mv['15']="伊朗",
+            nation_mv['16']="古巴",
+            nation_mv['17']="希腊",
+            nation_mv['18']="巴西",
+            nation_mv['19']="捷克",
+            nation_mv['20']="泰国",
+            nation_mv['21']="波兰",
+            nation_mv['22']="荷兰",
+            nation_mv['23']="南非",
+            nation_mv['24']="意大利",
+            nation_mv['25']="奥地利",
+            nation_mv['26']="新西兰",
+            nation_mv['27']="墨西哥",
+            nation_mv['28']="俄罗斯",
+            nation_mv['29']="西班牙",
+            nation_mv['30']="新加坡",
+            nation_mv['31']="牙买加",
+            nation_mv['32']="马来西亚",
+            nation_mv['33']="澳大利亚",
+            nation_mv['34']="哥伦比亚",
+            nation_mv['35']="罗马尼亚",
+            nation_mv['40']="加拿大",
+            nation_mv['41']="塞尔维亚",
+            nation_mv['42']="格鲁吉亚",
+            nation_mv['43']="老挝",
+            nation_mv['44']="不丹",
+            nation_mv['45']="孟加拉",
+            nation_mv['46']="乌克兰",
+            nation_mv['47']="丹麦",
+            nation_mv['48']="缅甸",
+            nation_mv['49']="土耳其",
+            nation_mv['50']="比利时",
+            nation_mv['51']="瑞士",
+            nation_mv['52']="阿根廷",
+            nation_mv['53']="斯里兰卡",
+            nation_mv['54']="阿拉伯",
+            nation_mv['55']="匈牙利",
+            nation_mv['56']="智利",
+            nation_mv['57']="印度尼西亚",
+            nation_mv['58']="爱尔兰",
+            nation_mv['59']="菲律宾",
+            nation_mv['60']="尼日利亚",
+            nation_mv['61']="波多黎各",
+            nation_mv['62']="多米尼加共和国",
+            nation_mv['63']="尼泊尔",
+            nation_mv['64']="叙利亚",
+            nation_mv['65']="埃塞俄比亚",
+            nation_mv['66']="巴基斯坦",
+            nation_mv['68']="委内瑞拉",
+            nation_mv['69']="保加利亚",
+            nation_mv['70']="阿塞拜疆",
+            nation_mv['71']="以色列",
+            nation_mv['72']="贝宁",
+            nation_mv['73']="巴巴多斯",
+            nation_mv['74']="阿尔及利亚",
+            nation_mv['75']="芬兰",
+            nation_mv['76']="秘鲁",
+            nation_mv['77']="葡萄牙",
+            nation_mv['78']="立陶宛",
+            nation_mv['79']="埃及",
+            nation_mv['80']="蒙古",
+            nation_mv['81']="爱沙尼亚",
+            nation_mv['82']="波黑",
+            nation_mv['83']="斯洛伐克";
+    var type_mv =[];
+    type_mv["剧情"]=1,
+            type_mv["传记"]=17,
+            type_mv["历史"]=18,
+            type_mv["古装"]=19,
+            type_mv["运动"]=20,
+            type_mv["医疗"]=21,
+            type_mv["纪录片"]=73,
+            type_mv["奇幻"]=74,
+            type_mv["科幻"]=75,
+            type_mv["武侠"]=78,
+            type_mv["黑色电影"]=80,
+            type_mv["儿童"]=81,
+            type_mv["戏曲"]=87,
+            type_mv["西部"]=16,
+            type_mv["音乐"]=15,
+            type_mv["歌舞"]=14,
+            type_mv["喜剧"]=2,
+            type_mv["爱情"]=3,
+            type_mv["动作"]=4,
+            type_mv["惊悚"]=5,
+            type_mv["犯罪"]=6,
+            type_mv["恐怖"]=7,
+            type_mv["冒险"]=8,
+            type_mv["家庭"]=9,
+            type_mv["动画"]=10,
+            type_mv["悬疑"]=11,
+            type_mv["短片"]=12,
+            type_mv["战争"]=13,
+            type_mv["灾难"]=89;
+    var type_tv =[];
+    type_tv["网络剧"] = 88,
+            type_tv["谍战"] = 82,
+            type_tv["年代剧"] = 83,
+            type_tv["纪录片"] = 84,
+            type_tv["历史"] = 86,
+            type_tv["剧情类"] = 60,
+            type_tv["都市题材"] = 53,
+            type_tv["婚恋伦理"] = 42,
+            type_tv["农村题材"] = 54,
+            type_tv["栏目剧"] = 52,
+            type_tv["科幻奇幻"] = 56,
+            type_tv["青春偶像"] = 44,
+            type_tv["情景喜剧"] = 59,
+            type_tv["神话戏说"] = 55,
+            type_tv["战争"] = 47,
+            type_tv["红色经典"] = 57,
+            type_tv["家庭"] = 65,
+            type_tv["古典文学"] = 58,
+            type_tv["传奇"] = 70,
+            type_tv["真人秀"] = 61,
+            type_tv["动画"] = 62,
+            type_tv["喜剧"] = 66,
+            type_tv["爱情"] = 43,
+            type_tv["动作"] = 63,
+            type_tv["冒险"] = 64,
+            type_tv["武侠"] = 45,
+            type_tv["古装"] = 46,
+            type_tv["悬疑"] = 50,
+            type_tv["刑侦"] = 51,
+            type_tv["惊悚"] = 67,
+            type_tv["恐怖"] = 68,
+            type_tv["医疗"] = 69,
+            type_tv["犯罪"] = 71;
+    $.ajax({
+        dataType:'jsonp',
+        type:'get',
+        url:'//interface.sina.cn/ent/ku/detail.d.json?type=movie&id=hytcerm1181416&fl=_id,title,poster,rolePic,modeling_img,highlights,news_id,online,award,assess',
+        success:function(result){
+            result = result.data;
+            var url_pre = '//ent.sina.com.cn/ku/';
+            if(result['news_id']&&result['news_id']!=''){
+                var news_id = result['news_id'];
+                var channel = 'movie';
+            }else{
+                var news_id = 'comos-'+result['_id'];
+                var channel = 'yl';
+            }
+            var keywords = result['title'];
+            var type = 'movie';
+
+            //海报剧照
+            if(type == 'star'){
+                var poster = result['realPhoto'];
+            }else{
+                var poster = result['poster'];
+            }
+            var poster_html = '';
+            if(poster && poster.length > 0){
+                var s = 0;
+                for(var k=poster.length-1;k>=0;k--){
+					s = k+1
+                    var val = poster[k];
+					var img = val['imgurl'].replace('http:','');
+                    poster_html += '<li><a href="'+url_pre+'photo_showpics_index.d.html?res_name=movie&id=hytcerm1181416&pic_res=poster&pic_id='+s+'"><img src="'+img+'" height="130"></a></li>';
+                }
+            }
+            var rollPic = result['rolePic'];
+			poster
+            if(rollPic){
+                for(var k=0;k<rollPic.length;k++){
+                    var s= k+1;
+                    var val = rollPic[k];
+					var img = val['imgurl'].replace('http:','');
+                    poster_html += '<li><a href="'+url_pre+'photo_showpics_index.d.html?res_name=movie&id=hytcerm1181416&pic_res=poster&pic_id='+s+'"><img src="'+img+'" height="130"></a></li>';
+                }
+            }
+            if(poster_html != ''){
+                if(type == 'star'){
+                    var poster_name = '相关写真';
+                }else{
+                    var poster_name = '海报剧照';
+                }
+
+                poster_html = '<h2 class="tit1"><span><i class="redline"></i>'+poster_name+'</span><div class="mores" style="float: right; margin-top: -26px;margin-right: 15px;"><a href="'+url_pre+type+'_detail_index.d.html?type=poster&id=hytcerm1181416">更多</a></div></h2><div class="about-pic"><div id="movieScroll02"><ul class="clearfix">'+poster_html+'</ul></div></div>';
+                $('.poster').append(poster_html);
+            }
+            //定妆照
+            var modeling = result['modeling_img'] ? result['modeling_img'] : '';
+            var modeling_html = '';
+            if(modeling && modeling!=''){
+                for(var k=0;k < modeling.length;k++){
+                    var s= k+1;
+                    var val = modeling[k];
+					var img = val['imgurl'].replace('http:','');
+                    modeling_html += '<li><a href="'+url_pre+'photo_showpics_index.d.html?res_name=movie&id=hytcerm1181416&pic_res=modeling&pic_id='+s+'"><img src="'+img+'" height="130"></a></li>';
+                }
+				 modeling_html = '<h2 class="tit1"><span><i class="redline"></i>主角定妆照</span><div class="mores" style="float: right; margin-top: -26px;margin-right: 15px;"><a href="'+url_pre+type+'_detail_index.d.html?type=modeling&id=hytcerm1181416">更多</a></div></h2><div class="about-pic"><div id="movieScroll02"><ul class="clearfix">'+modeling_html+'</ul></div></div>';
+				console.log(modeling_html)
+				 $('.modeling').append(modeling_html);
+            }
+            //幕后花絮
+            var highlights = result['highlights'];
+            if(highlights){
+                highlights = highlights.replace(/\r\n|\r|\n/g,'<br>');
+                if(highlights.length > 200){
+                    highlights = highlights.slice(0,198) + '...';
+                }else{
+                    highlights = highlights;
+                }
+            }
+            var highlights_html = '';
+            if(highlights&&highlights!=''){
+                highlights_html += '<p>'+highlights+'</p>';
+            }
+            if(highlights_html&&highlights_html !=''){
+                highlights_html = '<h3 class="tit1"><span><i class="redline"></i>幕后花絮</span><div class="mores" style="float: right; margin-top: -26px;margin-right: 15px;"><a href="'+url_pre+type+'_detail_index.d.html?type=highlights&id=hytcerm1181416">更多</a></div></h3><div class="synopsis-box ">'+highlights_html+'</div>';
+                $('.highlights').append(highlights_html);
+            }
+            //简评
+            var access = result['assess'] ? result['assess'] : '';
+            access = access.replace(/\r\n|\r|\n/g,'<br>');
+            if(access){
+                if(access.length > 200){
+                    access = access.slice(0,198) + '...';
+                }else{
+                    var access = access;
+                }
+            }
+            var access_html = '';
+            if(access!=''){
+                access_html += '<p style="text-indent:0px;">'+access+'</p>';
+            }
+            if(access_html != ''){
+                access_html = '<h3 class="tit1"><span><i class="redline"></i>简评</span><div class="mores" style="float: right; margin-top: -26px;margin-right: 15px;"><a href="'+url_pre+type+'_detail_index.d.html?type=short_comment&id=hytcerm1181416">更多</a></div></h3><div class="synopsis-box ">'+access_html+'</div>';
+                $('.access').append(access_html);
+            }
+            //活动奖项
+            var award = '';
+            if(type == 'tv'){
+                award = result['get_awards'];
+            }else if(type == 'movie'){
+                award = result['award'];
+            }else{
+                award = result['achievement'];
+            }
+            //解析$award
+            award = award.replace(/\r\n|\r|\n/g,'<br>');
+            if(award){
+                if(award.length > 200){
+                    award = award.slice(0,198) + '...';
+                }else{
+                    award = award;
+                }
+            }
+            var award_html = '';
+            award_html += award;
+            if(award_html != ''){
+                award_html = '<h3 class="tit1"><span><i class="redline"></i>获得奖项</span><div class="mores" style="float: right; margin-top: -26px;margin-right: 15px;"><a href="'+url_pre+type+'_detail_index.d.html?type=reward&id=hytcerm1181416">更多</a></div></h3><div class="synopsis-box "><p>'+award_html+'</p></div>';
+                $('.award').append(award_html);
+            }
+            //分集介绍
+            var tv_plot = result['tv_plot'] ? result['tv_plot'] : '';
+            //按照第几集去解析
+            var matches = tv_plot.split(/第\d+集/g);
+            //共多少集
+            var len = matches.length;
+            var total_plot_html = ''
+            var plot_html = '';
+            if(len > 0){
+                for(k=0;k<len-1;k++){
+                    var tab = k + 1;
+                    var className = '';
+                    if(k == 0){className = 'curr_plot curr';}
+                    total_plot_html += '<li id="'+k+'" class="'+className+'">第'+tab+'集</li>';
+                }
+                for(var key = 0; key <matches.length;key++){
+                    var match = matches[key];
+                    var content = match.replace(/\r\n|\r|\n/g,'<br>');
+                    if(key == 0) {continue;}
+                    k = key -1 ;
+                    var style = 'display: none;';
+                    if(key == 1){style = 'display: block;';}
+                    plot_html += '<div id="jtabCon'+k+'" class="intro-tab-con intro-tab-con1" style="'+style+'"><p>'+content+'</p></div>';
+                }
+            }
+            if(plot_html != ''){
+                plot_html = ' <h3 class="tit1 plot"><span><i class="redline"></i>分集剧情</span><div class="mores" style="float: right; margin-top: -26px;margin-right: 15px;"><a href="'+url_pre+type+'_detail_index.d.html?type=point_plot&id=hytcerm1181416">更多</a></div></h3><ul id="jtab" class="intro-tab1 clearfix">'+total_plot_html+'</ul>'+plot_html;
+                $('.plot').append(plot_html);
+                //分集剧情
+                $('#jtab li').on('click',function(e){
+                    e.preventDefault();
+                    id='jtabCon'+e.srcElement.id;
+                    var num = $('.curr_plot')[0].id;
+                    var none_id = 'jtabCon'+num;
+                    $('.curr_plot')[0].setAttribute('class','');
+                    $('#'+e.srcElement.id)[0].setAttribute('class','curr_plot curr');
+                    $('#'+none_id).css('display','none');
+                    $('#'+id).css('display','block');
+
+                    //console.log(e.srcElement.id);
+                });
+            }
+            if(type == 'star'){
+                //电影作品年表
+                var year_movie = '';
+                var year_tv = '';
+                var html_temp = '';
+                $.ajax({
+                    dataType:'jsonp',
+                    type:'get',
+                    url:'//interface.sina.cn/ent/ku/works.d.json?keywords='+keywords+'&type=tv',
+                    success:function(movieResult) {
+                        var movieTemp = movieResult['result']['data'];
+                        var html_temp = '';
+                        if (movieTemp) {
+                            for (var j = 0; j < movieTemp.length; j++) {
+                                var data_json = movieTemp[j];
+                                //var id = data_json['_id'];
+                                var title = data_json['title'];
+                                var url = data_json['url'];
+                                var imgold = data_json['pic'];
+								var img = imgold.replace('http:','');
+                                var oTitle = data_json['oTitle'];
+                                var director = data_json['director'];
+                                var star = data_json['star'];
+                                var type = data_json['type'];
+                                var nation = data_json['nationnality'];
+                                var time = data_json['time'];
+                                var alias = '';
+                                var types = '';
+                                var area = '';
+                                var directors = '';
+                                if (data_json['num'] && data_json['num'] != '' && data_json['num'] != 0) {
+                                    var total_len = data_json['num'] + '分钟';
+                                } else {
+                                    var total_len = '';
+                                }
+                                //别名，片长，类型，地区，导演为空
+                                if (oTitle && oTitle.length > 0) {
+                                    for (var key = 0; key < oTitle.length; key++) {
+                                        var otitle = oTitle[key];
+                                        var len = oTitle.length;
+                                        alias += otitle;
+                                        if (key != len - 1) {
+                                            alias += '/';
+                                        }
+                                        //截字处理
+                                        if (alias.length > 8) {
+                                            alias = alias.slice(0, 7) + '...';
+                                        }
+                                    }
+                                } else {
+                                    alias = '暂无';
+                                }
+                                //片名长度限制
+                                if (title) {
+                                    if (title.length > 8) {
+                                        var title1 = title.slice(0, 7) + '...';
+                                    } else {
+                                        var title1 = title;
+                                    }
+                                }
+                                //导演名字长度限制
+                                if (director) {
+                                    if (director.length > 8) {
+                                        director = director.slice(0, 7) + '...';
+                                    }
+                                }
+                                //主演
+                                var star_arr = star.split(/[\r\n]+/g);
+                                var stars = [];
+                                for (var k = 0; k < star_arr.length; k++) {
+                                    star_arr[k] = star_arr[k].split(/[|]/g);
+                                }
+                                var stars = '';
+                                for (var k = 0; k < star_arr.length; k++) {
+                                    star = star_arr[k];
+                                    //截字处理
+                                    $strnum = 3;
+                                    //注意词之间有空格间隔
+                                    var name = star[0];
+                                    if (name.length > 3) {
+                                        name = name.slice(0, 2) + '...';
+                                    }
+                                    stars += name;
+                                    if (k != 1 && k != star_arr.length) {
+                                        stars += '&nbsp;/&nbsp;';
+                                    }
+                                    if (k == 1) {
+                                        break;
+                                    }
+                                }
+
+                                //剧情
+                                if (type != '' && type.length > 0) {
+                                    var types_html = "";
+                                    var len = type.length;
+                                    for (var k = 0; k < type.length; k++) {
+                                        var types = type[k];
+                                        if (k > 2) {
+                                            break;
+                                        }
+                                        types = types.replace(/(^\s*)|(\s*$)/g, "");
+                                        types_html += '<a href="' + url_pre + 'movie_search_index.d.html?category=' + type_tv[types] + '" style="color:#0f3573;" target="_blank">' + types + '</a>';
+                                        if (k !== len - 1 && k !== 2) {
+                                            types_html += '<span style="">/&nbsp;</span>';
+                                        }
+                                    }
+                                }
+                                //国家/地区
+                                if (nation != '' && nation.length > 0) {
+                                    var nations_html = "";
+                                    var len = nation.length;
+                                    for (var k = 0; k < len; k++) {
+                                        var nations = nation[k];
+                                        if (k > 1) {
+                                            break;
+                                        }
+                                        nations_html += '<a href="' + url_pre + 'tv_search_index.d.html?nationality=' + nations + '" style="color:#0f3573;" target="_blank">' + nation_mv[nations] + '</a>';
+                                        if (k !== len - 1 && k !== 1) {
+                                            nations_html += '<span style="">/&nbsp;</span>';
+                                        }
+                                    }
+                                }
+
+                                var types = type != '' ? type : '暂无';
+                                var area = nation != '' ? nation : '暂无';
+                                var directors = director != '' ? director : '暂无';
+                                var alias = alias != '' ? alias : '暂无';
+                                var img = img != '' ? img : '//n.sinaimg.cn/ent/ku/general.gif';
+                                html_temp += '<li><a href="' + url + '" class="item-img left" title="' + title + '" target="_blank"><img src="' + img + '" width="140" height="200" title="' + title + '" alt="' + title + '"><p>' + total_len + '</p></a><div class="item-intro left"><div class="item-title clearfix"><h4 class="left"><a href="' + url + '" title="' + title + '" target="_blank">' + title1 + '</a></h4><!--<span class="red"></span>--></div><p><span class="txt">别名:</span>' + alias + '</p><p><span class="txt" title="' + directors + '">导演:</span>' + directors + '</p><p><span class="txt">主演:</span>' + stars + '</p><p><span class="txt">类型:</span>' + types_html + '</p><p class="special"><span class="txt">国家地区:</span>' + nations_html + '</p><p class="special"><span class="txt">首播时间:</span>' + time + '</p></div></li>'
+                            }
+                        }
+                        if (html_temp != '') {
+                            year_tv = '<div class="about-part"><h2 class="tit1"><span><i class="redline"></i>作品年表-电视</span></h2><ul class="tv-list clearfix">' + html_temp + '</ul><div class="mores"><a href="' + url_pre + 'star_detail_index.d.html?type=tv&id=hytcerm1181416" target="_blank">更多</a></div></div>';
+                            $('.works').append(year_tv);
+                        }
+                    }
+                    
+                    });
+                $.ajax({
+                    dataType:'jsonp',
+                    type:'get',
+                    url:'//interface.sina.cn/ent/ku/works.d.json?keywords='+keywords+'&type=movie',
+                    success:function(movieResult) {
+                        var movieTemp = movieResult['result']['data'];
+                        if (movieTemp) {
+                        }
+                        for (var j = 0; j < movieTemp.length; j++) {
+                            var data_json = movieTemp[j];
+                            //var id = data_json['_id'];
+                            var title = data_json['title'];
+                            var url = data_json['url'];
+                            var img = data_json['pic'].replace('http:','');
+                            var oTitle = data_json['oTitle'];
+                            var director = data_json['director'];
+                            var star = data_json['star'];
+                            var type = data_json['type'];
+                            var nation = data_json['nationnality'];
+                            var time = data_json['time'];
+                            var alias = '';
+                            var types = '';
+                            var area = '';
+                            var directors = '';
+                            if (data_json['videoLength'] && data_json['videoLength'] != '' && data_json['videoLength'] != 0) {
+                                var total_len = data_json['videoLength'] + '分钟';
+                            } else {
+                                var total_len = '暂无片长';
+                            }
+                            //别名，片长，类型，地区，导演为空
+                            if (oTitle && oTitle.length > 0) {
+                                for (var key = 0; key < oTitle.length; key++) {
+                                    var otitle = oTitle[key];
+                                    var len = oTitle.length;
+                                    alias += otitle;
+                                    if (key != len - 1) {
+                                        alias += '/';
+                                    }
+                                    //截字处理
+                                    if (alias.length > 8) {
+                                        alias = alias.slice(0, 7) + '...';
+                                    }
+                                }
+                            } else {
+                                alias = '暂无';
+                            }
+                            //片名长度限制
+                            if (title) {
+                                if (title.length > 8) {
+                                    var title1 = title.slice(0, 7) + '...';
+                                } else {
+                                    var title1 = title;
+                                }
+                            }
+                            //导演名字长度限制
+                            if (director) {
+                                if (director.length > 8) {
+                                    director = director.slice(0, 7) + '...';
+                                }
+                            }
+                            //主演
+                            var star_arr = star.split(/[\r\n]+/g);
+                            var stars = [];
+                            for (var k = 0; k < star_arr.length; k++) {
+                                star_arr[k] = star_arr[k].split(/[|]/g);
+                            }
+                            var stars = '';
+                            for (var k = 0; k < star_arr.length; k++) {
+                                star = star_arr[k];
+                                //截字处理
+                                var name = star[0];
+                                if (name.length > 3) {
+                                    name = name.slice(0, 2) + '...';
+                                }
+                                stars += name;
+                                if (k != 1 && k != star_arr.length) {
+                                    stars += '&nbsp;/&nbsp;';
+                                }
+                                if (k == 1) {
+                                    break;
+                                }
+                            }
+
+                            //剧情
+                            if (type != '' && type.length > 0) {
+                                var types_html = "";
+                                var len = type.length;
+                                for (var k = 0; k < type.length; k++) {
+                                    var types = type[k];
+                                    if (k > 2) {
+                                        break;
+                                    }
+                                    types_html += '<a href="' + url_pre + 'movie_search_index.d.html?category=' + type_mv[types] + '" style="color:#0f3573;" target="_blank">' + types + '</a>';
+                                    if (k !== len - 1 && k !== 2) {
+                                        types_html += '<span style="">/&nbsp;</span>';
+                                    }
+                                }
+                            }
+                            //国家/地区
+                            if (nation != '' && nation.length > 0) {
+                                var nations_html = "";
+                                var len = nation.length;
+                                for (var k = 0; k < len; k++) {
+                                    var nations = nation[k];
+                                    if (k > 1) {
+                                        break;
+                                    }
+                                    nations_html += '<a href="' + url_pre + 'movie_search_index.d.html?nationality=' + nations + '" style="color:#0f3573;" target="_blank">' + nation_mv[nations] + '</a>';
+                                    if (k !== len - 1 && k !== 1) {
+                                        nations_html += '<span style="">/&nbsp;</span>';
+                                    }
+                                }
+                            }
+
+                            var types = type != '' ? type : '暂无';
+                            var area = nation != '' ? nation : '暂无';
+                            var directors = director != '' ? director : '暂无';
+                            var alias = alias != '' ? alias : '暂无';
+                            var img = img != '' ? img : '//n.sinaimg.cn/ent/ku/general.gif';
+                            html_temp += '<li><a href="' + url + '" class="item-img left" title="' + title + '" target="_blank"><img src="' + img + '" width="140" height="200" title="' + title + '" alt="' + title + '"><p>' + total_len + '</p></a><div class="item-intro left"><div class="item-title clearfix"><h4 class="left"><a href="' + url + '" title="' + title + '" target="_blank">' + title1 + '</a></h4><!--<span class="red"></span>--></div><p><span class="txt">别名:</span>' + alias + '</p><p><span class="txt" title="' + directors + '">导演:</span>' + directors + '</p><p><span class="txt">主演:</span>' + stars + '</p><p><span class="txt">类型:</span>' + types_html + '</p><p class="special"><span class="txt">国家/地区:</span>' + nations_html + '</p><p class="special"><span class="txt">上映时间:</span>' + time + '</p></div></li>'
+                        }
+
+                            if (html_temp != '') {
+                                year_movie = '<div class="about-part"><h2 class="tit1"><span><i class="redline"></i>作品年表-电影</span></h2><ul class="tv-list clearfix">' + html_temp + '</ul><div class="mores"><a href="' + url_pre + 'star_detail_index.d.html?type=tv&id=hytcerm1181416" target="_blank">更多</a></div></div>';
+                                $('.works').append(year_movie);
+                            }
+                        }
+                    
+                });
+            }
+
+        }
+    });
+</script>
+<script>
+
+    $(function(){
+		$('#movieScroll01 ul').width = $('#movieScroll01 ul').width() + 50 +'px';
+        var resName = "movie";
+        var resTitle = window.resTitle;
+        var newsid = $(".js_newsId").val();
+        var channel = "movie";
+        //判断是否点评更改按钮
+        function isShowWriterComment() {
+            if (window.isCommented !== true) {
+                $(".writeCommentBtn").find("a").html("<i></i>写点评</a>");
+                $(".writeCommentBtn").removeClass("hidden");
+            }
+        }
+        if(resName == 'star'){
+            var title = encodeURIComponent(resTitle);
+            var inHtml = '<iframe width="675" height="700"  frameborder="0" scrolling="no" src="//widget.weibo.com/topics/topic_vote_base.php?tag='+title+'&isshowright=&color=333333,ffffff,0078b6,cccccc,333333,ffffff,0078b6,cccccc,cccccc,e9f4fb&height=700&width=675&appkey=1290309533"></iframe>';
+            $("#itabCon1").html(inHtml);
+            $("#itabCon1").css('display','block');
+            $("#itabCon0").css('display','none');
+            $("#itab1").addClass("curr").siblings().removeClass("curr");
+        }else{
+            $("#itab1").css('display','none');
+        }
+        $(".checkCommentType").live("click", function(e){
+            e.preventDefault();
+
+            if($(e)[0].currentTarget.id == 'itab0'){
+                $("#itabCon1").css('display','none');
+                $("#itabCon0").css('display','block');
+                $(this).addClass("curr").siblings().removeClass("curr");
+            }else{
+                var title = encodeURIComponent(resTitle);
+                var inHtml = '<iframe width="675" height="700"  frameborder="0" scrolling="no" src="//widget.weibo.com/topics/topic_vote_base.php?tag='+title+'&isshowright=&color=333333,ffffff,0078b6,cccccc,333333,ffffff,0078b6,cccccc,cccccc,e9f4fb&height=700&width=675&appkey=1290309533"></iframe>';
+                $("#itabCon1").html(inHtml);
+                $("#itabCon1").css('display','block');
+                $("#itabCon0").css('display','none');
+                $(this).addClass("curr").siblings().removeClass("curr");
+            }
+        });
+    });
+</script>
+	
+<script src="//n.sinaimg.cn/ent/js/191211_1_score.js"></script>
+</div>
+<!--end:content-->
+  </div>
+<div class="footer">
+    <p><a href="http://comment5.news.sina.com.cn/comment/skin/feedback.html" target='_blank'>新浪娱乐意见反馈留言板</a>
+        电话：400-052-0066 欢迎批评指正</p>
+    <p>
+        <a href="http://corp.sina.com.cn/chn/" target="_blank">新浪简介</a>|
+        <a href="http://corp.sina.com.cn/eng/" target="_blank">About Sina</a>|
+        <a href="http://emarketing.sina.com.cn/" target="_blank">广告服务</a>|
+        <a href="http://www.sina.com.cn/contactus.html" target="_blank">联系我们</a>|
+        <a href="http://career.sina.com.cn/" target="_blank">招聘信息</a>|
+        <a href="http://www.sina.com.cn/intro/lawfirm.shtml" target="_blank">网站律师</a>|
+        <a href="http://english.sina.com" target="_blank">SINA English</a>|
+        <a href="https://login.sina.com.cn/signup/signup.php" target="_blank">通行证注册</a>|
+        <a href="http://help.sina.com.cn/" target="_blank">产品答疑</a>
+    </p>
+    <p>Copyright © 1996-2013 SINA Corporation, All Rights Reserved</p>
+    <p>新浪公司 版权所有</p>
+</div>
+
+<!--end:footer-->
+<!-- 遮罩 -->
+<div class="mayer-pop mayerPop" style="display:none;"></div>
+
+<!-- 授权弹层 -->
+<div class="need-auth" id="authbox" style="position:absolute; z-index:100011; top: 50%; left:50%; margin:-200px 0 0 -300px; height:400px; width:600px; background:none;display:none;">
+    <iframe  id="auth" src="" id="authFloat"  scrolling="no" style="position: absolute;  height: 410px; width: 600px; border: 0; z-index: 10000;"></iframe>
+</div>
+
+<!--end 名片-->
+
+<!--start:高级搜索弹层-->
+<form action = "//ent.sina.com.cn/ku/search_index.d.html">
+    <!-- <input type="hidden" name="anu" value="search"/> -->
+    <input type="hidden" name="type" value="senior"/>
+    <div class="float hidden" id ="bestSearchBox">
+        <div class="float-con">
+            <div class="float-top clearfix">
+                <h3 class="left">高级搜索</h3>
+                <a href="javascript:void(0);" class="btn-close bestSearchBoxClose right">关闭</a>
+            </div>
+            <div class="float-middle">
+                <div class="float-search">
+                    <table cellpadding="0" cellspacing="0">
+                        <tr>
+                            <th><label for="">栏目：</label></th>
+                            <td>
+                                <label for="" class="float-search-chk"><input name="categoryKey" checked  value="movie" type="radio">电影</label>
+                                <label for="" class="float-search-chk"><input name="categoryKey"   value="tv"  type="radio">电视</label>
+                                <label for="" class="float-search-chk"><input name="categoryKey" value="star"  type="radio">明星</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><label for="">关键字：</label></th>
+                            <td><input type="text" placeholder="请输入关键字"  class="float-search-key search_keywords_all" name="keywords" ><span class="float-s-key-star">*</span></td>
+                        </tr>
+                        <tr>
+                            <th><label for="">国家：</label></th>
+                            <td>
+                                <select class="float-search-county" name="nationality">
+                                    <option value="">请选择</option>
+                                    <option value="1">中国</option>
+                                    <option value="2">中国台湾</option>
+                                    <option value="3">中国香港</option>
+                                    <option value="4">日本</option>
+                                    <option value="5">韩国</option>
+                                    <option value="6">美国</option>
+                                    <option value="7">英国</option>
+                                    <option value="8">德国</option>
+                                    <option value="9">法国</option>
+                                    <option value="10">印度</option>
+                                    <option value="11">瑞典</option>
+                                    <option value="12">挪威</option>
+                                    <option value="13">朝鲜</option>
+                                    <option value="14">越南</option>
+                                    <option value="15">伊朗</option>
+                                    <option value="16">古巴</option>
+                                    <option value="17">希腊</option>
+                                    <option value="18">巴西</option>
+                                    <option value="19">捷克</option>
+                                    <option value="20">泰国</option>
+                                    <option value="21">波兰</option>
+                                    <option value="22">荷兰</option>
+                                    <option value="23">南非</option>
+                                    <option value="24">意大利</option>
+                                    <option value="25">奥地利</option>
+                                    <option value="26">新西兰</option>
+                                    <option value="27">墨西哥</option>
+                                    <option value="28">俄罗斯</option>
+                                    <option value="29">西班牙</option>
+                                    <option value="30">新加坡</option>
+                                    <option value="31">牙买加</option>
+                                    <option value="32">马来西亚</option>
+                                    <option value="33">澳大利亚</option>
+                                    <option value="34">哥伦比亚</option>
+                                    <option value="35">罗马尼亚</option>
+                                    <option value="40">加拿大</option>
+                                    <option value="41">塞尔维亚</option>
+                                    <option value="42">格鲁吉亚</option>
+                                    <option value="43">老挝</option>
+                                    <option value="44">不丹</option>
+                                    <option value="45">孟加拉</option>
+                                    <option value="46">乌克兰</option>
+                                    <option value="47">丹麦</option>
+                                    <option value="48">缅甸</option>
+                                    <option value="49">土耳其</option>
+                                    <option value="50">比利时</option>
+                                    <option value="51">瑞士</option>
+                                    <option value="52"> 阿根廷</option>
+                                    <option value="53">斯里兰卡</option>
+                                    <option value="54">阿拉伯</option>
+                                    <option value="55">匈牙利</option>
+                                    <option value="56"> 智利</option>
+                                    <option value="57">印度尼西亚</option>
+                                    <option value="58">爱尔兰</option>
+                                    <option value="59">菲律宾</option>
+                                    <option value="60">尼日利亚</option>
+                                    <option value="61">波多黎各</option>
+                                    <option value="62">多米尼加共和国</option>
+                                    <option value="63">尼泊尔</option>
+                                    <option value="64">叙利亚</option>
+                                    <option value="65">埃塞俄比亚</option>
+                                    <option value="66">巴基斯坦</option>
+                                    <option value="68">委内瑞拉</option>
+                                    <option value="69">保加利亚</option>
+                                    <option value="70">阿塞拜疆</option>
+                                    <option value="71">以色列</option>
+                                    <option value="72">贝宁</option>
+                                    <option value="73">巴巴多斯</option>
+                                    <option value="74">阿尔及利亚</option>
+                                    <option value="75">芬兰</option>
+                                    <option value="76">秘鲁</option>
+                                    <option value="77">葡萄牙</option>
+                                    <option value="78">立陶宛</option>
+                                    <option value="79">埃及</option>
+                                    <option value="80">蒙古</option>
+                                    <option value="81">爱沙尼亚</option>
+                                    <option value="82">波黑</option>
+                                    <option value="83">斯洛伐克</option>
+
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><label for="">年代：</label></th>
+                            <td>
+                                <select class="float-search-year" name="year">
+                                    <option value="">请选择</option>
+									<option value="2018">2018</option>
+                                    <option value="2017">2017</option>
+                                    <option value="2016">2016</option>
+                                    <option value="2015">2015</option>
+                                    <option value="2014">2014</option>
+                                    <option value="2013">2013</option>
+                                    <option value="2012">2012</option>
+                                    <option value="2011">2011</option>
+                                    <option value="2010">2010</option>
+                                    <option value="2009">2009</option>
+                                    <option value="2008">2008</option>
+                                    <option value="2007">2007</option>
+                                    <option value="2006">2006</option>
+                                    <option value="2005">2005</option>
+                                    <option value="2004">2004</option>
+                                    <option value="2003">2003</option>
+                                    <option value="2002">2002</option>
+                                    <option value="2001">2001</option>
+                                    <option value="2000">2000</option>
+                                    <option value="1999">1999</option>
+                                    <option value="1998">1998</option>
+                                    <option value="1997">1997</option>
+                                    <option value="1996">1996</option>
+                                    <option value="1995">1995</option>
+                                    <option value="1994">1994</option>
+                                    <option value="1993">1993</option>
+                                    <option value="1992">1992</option>
+                                    <option value="1991">1991</option>
+                                    <option value="1990">1990</option>
+                                    <option value="1989">1989</option>
+                                    <option value="1988">1988</option>
+                                    <option value="1987">1987</option>
+                                    <option value="1986">1986</option>
+                                    <option value="1985">1985</option>
+                                    <option value="1984">1984</option>
+                                    <option value="1983">1983</option>
+                                    <option value="1982">1982</option>
+                                    <option value="1981">1981</option>
+                                    <option value="1980">1980</option>
+                                    <option value="1979">1979</option>
+                                    <option value="1978">1978</option>
+                                    <option value="1977">1977</option>
+                                    <option value="1976">1976</option>
+                                    <option value="1975">1975</option>
+                                    <option value="1974">1974</option>
+                                    <option value="1973">1973</option>
+                                    <option value="1972">1972</option>
+                                    <option value="1971">1971</option>
+                                    <option value="1970">1970</option>
+                                    <option value="1969">1969</option>
+                                    <option value="1968">1968</option>
+                                    <option value="1967">1967</option>
+                                    <option value="1966">1966</option>
+                                    <option value="1965">1965</option>
+                                    <option value="1964">1964</option>
+                                    <option value="1963">1963</option>
+                                    <option value="1962">1962</option>
+                                    <option value="1961">1961</option>
+                                    <option value="1960">1960</option>
+                                    <option value="1959">1959</option>
+                                    <option value="1958">1958</option>
+                                    <option value="1957">1957</option>
+                                    <option value="1956">1956</option>
+                                    <option value="1955">1955</option>
+                                    <option value="1954">1954</option>
+                                    <option value="1953">1953</option>
+                                    <option value="1952">1952</option>
+                                    <option value="1951">1951</option>
+                                    <option value="1950">1950</option>
+                                    <option value="1949">1949</option>
+                                    <option value="1948">1948</option>
+                                    <option value="1947">1947</option>
+                                    <option value="1946">1946</option>
+                                    <option value="1945">1945</option>
+                                    <option value="1944">1944</option>
+                                    <option value="1943">1943</option>
+                                    <option value="1942">1942</option>
+                                    <option value="1941">1941</option>
+                                    <option value="1940">1940</option>
+                                    <option value="1939">1939</option>
+                                    <option value="1938">1938</option>
+                                    <option value="1937">1937</option>
+                                    <option value="1936">1936</option>
+                                    <option value="1935">1935</option>
+                                    <option value="1934">1934</option>
+                                    <option value="1933">1933</option>
+                                    <option value="1932">1932</option>
+                                    <option value="1931">1931</option>
+                                    <option value="1930">1930</option>
+                                    <option value="1929">1929</option>
+                                    <option value="1928">1928</option>
+                                    <option value="1927">1927</option>
+                                    <option value="1926">1926</option>
+                                    <option value="1925">1925</option>
+                                    <option value="1924">1924</option>
+                                    <option value="1923">1923</option>
+                                    <option value="1922">1922</option>
+                                    <option value="1921">1921</option>
+                                    <option value="1920">1920</option>
+                                    <option value="1919">1919</option>
+                                    <option value="1918">1918</option>
+                                    <option value="1917">1917</option>
+                                    <option value="1916">1916</option>
+                                    <option value="1915">1915</option>
+                                    <option value="1914">1914</option>
+                                    <option value="1913">1913</option>
+                                    <option value="1912">1912</option>
+                                    <option value="1911">1911</option>
+                                    <option value="1910">1910</option>
+                                    <option value="1909">1909</option>
+                                    <option value="1908">1908</option>
+                                    <option value="1907">1907</option>
+                                    <option value="1906">1906</option>
+                                    <option value="1905">1905</option>
+                                    <option value="1904">1904</option>
+                                    <option value="1903">1903</option>
+                                    <option value="1902">1902</option>
+                                    <option value="1901">1901</option>
+                                    <option value="1900">1900</option>
+
+                                </select>年
+              
+                            </td>
+                        </tr>
+                       
+                        <tr>
+                            <th></th>
+                            <td><button type="submit" id="btnSearchSubmit" class="float-search-btn">搜索</button></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end:高级搜索弹层-->
+</form>
+
+</div>
+
+<!--回到顶部-->
+<a href="#top" id="scrollUp"></a>
+<script type="text/javascript" src="//n.sinaimg.cn/ent/ku/js/jquery.scrollUp.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $.scrollUp({
+            scrollName: 'scrollUp', // Element ID
+            topDistance: '30', // Distance from top before showing element (px)
+            topSpeed: 300, // Speed back to top (ms)
+            animation: 'fade', // Fade, slide, none
+            animationInSpeed: 200, // Animation in speed (ms)
+            animationOutSpeed: 200, // Animation out speed (ms)
+            scrollText: '', // Text for element
+            activeOverlay: false  // Set CSS color to display scrollUp active point, e.g '#00FFFF'
+        });
+    });
+</script><!--end 回到顶部-->
+<!-- DMP_CODE_START DAGGER -->
+<script type="text/javascript">
+    (function(d, s, id) {
+        var n = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        s = d.createElement(s);
+        s.id = id;
+        s.setAttribute('charset', 'utf-8');
+        s.src = '//d' + Math.floor(0 + Math.random() * (8 - 0 + 1)) + '.sina.com.cn/litong/zhitou/sinaads/src/spec/sinaads_ck.js';
+        n.parentNode.insertBefore(s, n);
+    })(document, 'script', 'sinaads-ck-script');
+</script>
+<!-- DMP_CODE_END DAGGER -->
+<script type="text/javascript" src="//www.sinaimg.cn/unipro/pub/suda_m_v634.js"></script>
+<script type="text/javascript">suds_init(3659,100.0000,1015,2);</script>
+<!-- body code begin -->
+<script type="text/javascript">
+(function(){
+    if(window.top !== window.self || window._thereIsNoRealTimeMessage){return};
+    var script = document.createElement('script');
+    script.setAttribute('charset', 'gb2312');
+    script.src = 'http://news.sina.com.cn/js/694/2012/0830/realtime.js?ver=1.5.1';
+    document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+
+<!-- SSO_UPDATECOOKIE_START -->
+<script type="text/javascript">var sinaSSOManager=sinaSSOManager||{};sinaSSOManager.q=function(b){if(typeof b!="object"){return""}var a=new Array();for(key in b){a.push(key+"="+encodeURIComponent(b[key]))}return a.join("&")};sinaSSOManager.es=function(f,d,e){var c=document.getElementsByTagName("head")[0];var a=document.getElementById(f);if(a){c.removeChild(a)}var b=document.createElement("script");if(e){b.charset=e}else{b.charset="gb2312"}b.id=f;b.type="text/javascript";d+=(/\?/.test(d)?"&":"?")+"_="+(new Date()).getTime();b.src=d;c.appendChild(b)};sinaSSOManager.doCrossDomainCallBack=function(a){sinaSSOManager.crossDomainCounter++;document.getElementsByTagName("head")[0].removeChild(document.getElementById(a.scriptId))};sinaSSOManager.crossDomainCallBack=function(a){if(!a||a.retcode!=0){return false}var d=a.arrURL;var b,f;var e={callback:"sinaSSOManager.doCrossDomainCallBack"};sinaSSOManager.crossDomainCounter=0;if(d.length==0){return true}for(var c=0;c<d.length;c++){b=d[c];f="ssoscript"+c;e.scriptId=f;b=b+(/\?/.test(b)?"&":"?")+sinaSSOManager.q(e);sinaSSOManager.es(f,b)}};sinaSSOManager.updateCookieCallBack=function(c){var d="ssoCrossDomainScriptId";var a="http://login.sina.com.cn/sso/crossdomain.php";if(c.retcode==0){var e={scriptId:d,callback:"sinaSSOManager.crossDomainCallBack",action:"login",domain:"sina.com.cn"};var b=a+"?"+sinaSSOManager.q(e);sinaSSOManager.es(d,b)}else{}};sinaSSOManager.updateCookie=function(){var g=1800;var p=7200;var b="ssoLoginScript";var h=3600*24;var i="sina.com.cn";var m=1800;var l="http://login.sina.com.cn/sso/updatetgt.php";var n=null;var f=function(e){var r=null;var q=null;switch(e){case"sina.com.cn":q=sinaSSOManager.getSinaCookie();if(q){r=q.et}break;case"sina.cn":q=sinaSSOManager.getSinaCookie();if(q){r=q.et}break;case"51uc.com":q=sinaSSOManager.getSinaCookie();if(q){r=q.et}break}return r};var j=function(){try{return f(i)}catch(e){return null}};try{if(g>5){if(n!=null){clearTimeout(n)}n=setTimeout("sinaSSOManager.updateCookie()",g*1000)}var d=j();var c=(new Date()).getTime()/1000;var o={};if(d==null){o={retcode:6102}}else{if(d<c){o={retcode:6203}}else{if(d-h+m>c){o={retcode:6110}}else{if(d-c>p){o={retcode:6111}}}}}if(o.retcode!==undefined){return false}var a=l+"?callback=sinaSSOManager.updateCookieCallBack";sinaSSOManager.es(b,a)}catch(k){}return true};sinaSSOManager.updateCookie();</script>
+<!-- SSO_UPDATECOOKIE_END -->
+<!-- body code end -->
+<script src="https://pluto.sina.cn/gk/match?id=1"></script><script src="https://pluto.sina.cn/gk/match?id=1"></script></body>
+</html>
+
+

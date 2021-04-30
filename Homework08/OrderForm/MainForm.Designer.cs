@@ -92,7 +92,7 @@ namespace OrderForm
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 47.69231F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 94F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 94F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 97F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.tableLayoutPanel2.Controls.Add(this.exportOrder, 4, 0);
             this.tableLayoutPanel2.Controls.Add(this.importOrder, 3, 0);
             this.tableLayoutPanel2.Controls.Add(this.deleteOrder, 2, 0);
@@ -109,9 +109,9 @@ namespace OrderForm
             // exportOrder
             // 
             this.exportOrder.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.exportOrder.Location = new System.Drawing.Point(386, 3);
+            this.exportOrder.Location = new System.Drawing.Point(382, 3);
             this.exportOrder.Name = "exportOrder";
-            this.exportOrder.Size = new System.Drawing.Size(91, 50);
+            this.exportOrder.Size = new System.Drawing.Size(95, 50);
             this.exportOrder.TabIndex = 4;
             this.exportOrder.Text = "导出";
             this.exportOrder.UseVisualStyleBackColor = true;
@@ -120,7 +120,7 @@ namespace OrderForm
             // importOrder
             // 
             this.importOrder.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.importOrder.Location = new System.Drawing.Point(292, 3);
+            this.importOrder.Location = new System.Drawing.Point(288, 3);
             this.importOrder.Name = "importOrder";
             this.importOrder.Size = new System.Drawing.Size(88, 50);
             this.importOrder.TabIndex = 3;
@@ -131,7 +131,7 @@ namespace OrderForm
             // deleteOrder
             // 
             this.deleteOrder.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.deleteOrder.Location = new System.Drawing.Point(198, 3);
+            this.deleteOrder.Location = new System.Drawing.Point(194, 3);
             this.deleteOrder.Name = "deleteOrder";
             this.deleteOrder.Size = new System.Drawing.Size(88, 50);
             this.deleteOrder.TabIndex = 2;
@@ -142,9 +142,9 @@ namespace OrderForm
             // editOrder
             // 
             this.editOrder.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.editOrder.Location = new System.Drawing.Point(105, 3);
+            this.editOrder.Location = new System.Drawing.Point(103, 3);
             this.editOrder.Name = "editOrder";
-            this.editOrder.Size = new System.Drawing.Size(87, 50);
+            this.editOrder.Size = new System.Drawing.Size(85, 50);
             this.editOrder.TabIndex = 1;
             this.editOrder.Text = "修改";
             this.editOrder.UseVisualStyleBackColor = true;
@@ -155,7 +155,7 @@ namespace OrderForm
             this.addOrder.Dock = System.Windows.Forms.DockStyle.Fill;
             this.addOrder.Location = new System.Drawing.Point(3, 3);
             this.addOrder.Name = "addOrder";
-            this.addOrder.Size = new System.Drawing.Size(96, 50);
+            this.addOrder.Size = new System.Drawing.Size(94, 50);
             this.addOrder.TabIndex = 0;
             this.addOrder.Text = "添加";
             this.addOrder.UseVisualStyleBackColor = true;
@@ -175,6 +175,7 @@ namespace OrderForm
             // 
             // orderListGrid
             // 
+            this.orderListGrid.AllowUserToAddRows = false;
             this.orderListGrid.AllowUserToOrderColumns = true;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
@@ -215,6 +216,7 @@ namespace OrderForm
             // 
             // detailListGrid
             // 
+            this.detailListGrid.AllowUserToAddRows = false;
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
@@ -232,12 +234,12 @@ namespace OrderForm
             dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.detailListGrid.DefaultCellStyle = dataGridViewCellStyle4;
-            this.detailListGrid.Location = new System.Drawing.Point(6, 26);
+            this.detailListGrid.Location = new System.Drawing.Point(15, 26);
             this.detailListGrid.Name = "detailListGrid";
             this.detailListGrid.ReadOnly = true;
             this.detailListGrid.RowHeadersWidth = 51;
             this.detailListGrid.RowTemplate.Height = 29;
-            this.detailListGrid.Size = new System.Drawing.Size(468, 335);
+            this.detailListGrid.Size = new System.Drawing.Size(459, 335);
             this.detailListGrid.TabIndex = 0;
             // 
             // tableLayoutPanel3

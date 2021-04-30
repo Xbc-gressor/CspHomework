@@ -1,0 +1,2039 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>《天医凤九》</title>
+	<link rel="stylesheet" href="https://vipbookedge.sina.cn/static/static/paidRead/assets/css/transfer-page.css?v=0.2020032505"/>
+</head>
+<script>
+    
+    var _cfg = {
+        
+        static: "https://vipbookedge.sina.cn/static/static"
+        
+    }
+    
+    var book_id = '5431442';
+</script>
+<script type="text/javascript">
+
+var VAR_GLOBAL = {};
+var _cfg = {};
+
+	VAR_GLOBAL['site_static'] = 'https://vipbookedge.sina.cn/static/static/';
+	_cfg['static'] =  'https://vipbookedge.sina.cn/static/static/';
+	_cfg['uid'] = "0"; 
+	_cfg['i_statbookclieck'] = '/weibobook/ajax/read_count.php';
+    _cfg['i_weibouserinfo'] = '/newcms/i/weibo_userinfo.php';//用户信息
+    _cfg['i_bookshelf'] = '/weibobook/ajax/bookshelf.php';//书架
+ 
+    _cfg['i_checklikes'] = '/ajax/user/checklikes';//关注-点赞数
+    _cfg['i_likesupdate'] = '/ajax/user/likesupdate';//点赞取消赞
+    _cfg['i_action_stat'] = '/weibobook/ajax/stat.php';
+//    _cfg['userSendMsgUrl'] = '/newcms/i/ajax/send_message.php';//发私信
+    _cfg['checkUserSendMsgUrl'] = '/newcms/i/ajax/get_user_log.php';//检测是否发私信
+    _cfg['rechargeChooseUrl'] = '/weibobook/ajax/recharge_choose.php';//获取充值金额
+    _cfg['feedbackUrl'] = '/weibobook/feedback.php';//反馈页
+    _cfg['rechargeUrl'] = '/weibobook/ajax/recharge.php';//充值接口
+</script>
+
+<div class="sr-weibo-top" style="display:none">
+    <div id="weibo_top_public"></div>
+    <script src="https://js.t.sinajs.cn/t6/home/js/pl/top/topInit.js?version=0.0091355821117"></script>
+
+</div>
+
+
+<div class="WDS_global_nav" id="WDS_TopNav"></div>
+
+<script src="https://vipbookedge.sina.cn/static/static/package/WDSTop.js?version=0.2020032505"></script>
+	 
+<script type="text/javascript">
+
+
+    var $CONFIG = {
+		
+        name: '',
+        uid: '0',
+        any: '&wvr=4',
+        islogin: 0,
+        icon: '',
+        lang: "zh-cn",
+        verified: "",
+        backurl: "http://weibo.com/login.php?entry=book&url=http://book.weibo.com/",
+        topUserInfo: "/weibobook/ajax/top_user_info.php",
+		topCssPath: "https://vipbookedge.sina.cn/static/static/write-center/render/assets/css/nav.css?version=0.2020032505",
+        verify: "220",
+        entry: "book",
+        top: 1,
+        _wv: '5'
+     
+		
+    };
+    
+    WDSTopGlobal && WDSTopGlobal.init($CONFIG); 
+	
+</script>
+<!--/.WDS_global_nav--><body>
+<div class="transfer-warp">
+	<!-- header -->
+	<div class="header">
+		<p>
+			<img src="https://vipbookedge.sina.cn/static/static/paidRead/assets/images/sina.png">
+			<span class="text">
+					<a href="http://book.sina.com.cn">新浪读书></a>
+					<em>原创</em>
+				</span>
+		</p>
+		<h1>她是天命凤主，一朝风云骤起，一袭红衣惊天下！</h1>
+		<div class="read-btn"><a href="/weibobook/personal/readHistory.php" target="_blank">我读过</a></div>
+	</div>
+	<!-- content -->
+	<div class="content">
+		<!-- content-left -->
+		<div class="content-left">
+			<div class="left-pic">
+				<img src="http://vipbook.sinaedge.com/bookcover/pics/146/cover_97fe5122c7b5d13deda6ea1ce4285264.jpg?1603702870">
+				<!-- <p class="book-name">《道医天下》</p> -->
+			</div>
+			<div class="tips">
+				<div class="space-20"></div>
+				<div class="say">小编说：</div>
+				<div class="box">推荐我的新文《药门仙医》
+她，现代隐门门主，集各家所长的变态鬼才，精医毒，擅暗杀，世人眼中的变态妖物，一次意外身亡，却重生在一个被毁容的少女身上。
+  什么？容颜被毁，身份被取代？回归家族遥遥无期？
+  身份可以不要，家族可以不回，但那害了前身之人，她若不整得他们鸡飞狗叫惨不忍睹如何对得起她妖物之名？
+  一朝风云骤起，群雄争霸！且看她如何一袭红衣走天下，剑挑群雄震苍穹！名扬四海惊天地！
+天医凤九出版实体书名为《至尊女医》天猫有售签名版</div>
+			</div>
+			<div class="content-box">
+				<div class="say"></div>
+				<p class="text"></p>
+			</div>
+			<div class="content-edit">
+				<a href="javascript:;" class="add-book"><em>+</em>加入书架</a>
+                			</div>
+            				<div class="other-book">
+					<div class="title">
+						<h3>喜欢这本书的用户还在读</h3>
+					</div>
+					<div class="other-book-item">
+                        							<div class="item">
+								<a href="/weibobook/book/5610189.html">
+									<img src="http://vipbook.sinaedge.com/bookcover/pics/205/cover_dfe8b1a5384b0d5bf2f390c41748db06.jpg?1609659460">
+									<h3>嫁偶天成</h3>
+								</a>
+							</div>
+                        							<div class="item">
+								<a href="/weibobook/book/5499901.html">
+									<img src="http://vipbook.sinaedge.com/bookcover/pics/253/cover_965af04dcce635a503e65cff8217bf2b.jpg?1605031360">
+									<h3>农女王妃有空间</h3>
+								</a>
+							</div>
+                        							<div class="item">
+								<a href="/weibobook/book/5544352.html">
+									<img src="http://vipbook.sinaedge.com/bookcover/pics/160/cover_bf3b97ad32ad6f2aa1a64bd37ac2c517.jpg?1606625145">
+									<h3>修仙之女配悠然</h3>
+								</a>
+							</div>
+                        							<div class="item">
+								<a href="/weibobook/book/5433238.html">
+									<img src="http://vipbook.sinaedge.com/bookcover/pics/150/cover_3ae99f98184c719560c491abb6e1a1f2.jpg?1604019546">
+									<h3>惊世神凰</h3>
+								</a>
+							</div>
+                        							<div class="item">
+								<a href="/weibobook/book/5420691.html">
+									<img src="http://sinastorage.com/vipbook.sinaedge.com/image/server/2019/03/05/1551767805054.jpg">
+									<h3>嫡女有毒，纨绔皇叔莫要缠</h3>
+								</a>
+							</div>
+                        					</div>
+				</div>
+            			<div class="go-book">
+				<a href="/weibobook" target="_blank">
+					<img src="https://vipbookedge.sina.cn/static/static/paidRead/assets/images/W_go.png">去书城逛逛>>
+				</a>
+			</div>
+		</div><!-- content-left-end -->
+		<!-- content-right -->
+		<div class="content-right">
+			<!-- 书信息 -->
+			<div class="book-mes">
+				<div class="book-mes-wrapper">
+					<p class="book-name">书名：天医凤九</p>
+					<p class="book-author">作者：凤炅</p>
+					<p class="status">状态：已完结</p>
+					<p class="moods">
+						人气：9.9万					</p>
+					<p class="type">分类：<a href="/weibobook/cate.php?cate_id=1006005" target="_blank">穿越重生</a></p>
+									</div>
+			</div>
+
+			<!-- 作者其他书籍 -->
+						<!-- 分类-news -->
+			<div class="s-book-type">
+				<div class="title">
+					<h3>分类</h3>
+					<a href="/weibobook/cate.php" target="_blank">更多></a>
+				</div>
+				<div class="s-book-type-wrapper">
+					<a href="/weibobook/cate.php?cate_id=1036" target="_blank" class="copy">都市校园</a>
+					<a href="/weibobook/cate.php?cate_id=1003" target="_blank" class="copy">玄幻奇幻</a>
+					<a href="/weibobook/cate.php?cate_id=1035" target="_blank" class="copy">悬疑灵异</a>
+					<a href="/weibobook/cate.php?cate_id=1009" target="_blank" class="copy">历史军事</a>
+					<a href="/weibobook/cate.php?cate_id=1006006" target="_blank" class="boy">都市情缘</a>
+					<a href="/weibobook/cate.php?cate_id=1001" target="_blank" class="boy">武侠仙侠</a>
+					<a href="/weibobook/cate.php?cate_id=1006004" target="_blank" class="boy">总裁豪门</a>
+					<a href="/weibobook/cate.php?cate_id=1006005" target="_blank" class="boy">穿越重生</a>
+					<a href="/weibobook/cate.php?cate_id=1006007" target="_blank" class="girl">幻想言情</a>
+					<a href="/weibobook/cate.php?cate_id=4" target="_blank" class="girl">文学艺术</a>
+					<a href="/weibobook/cate.php?cate_id=50" target="_blank" class="girl">流行小说</a>
+					<a href="/weibobook/cate.php?cate_id=3" target="_blank" class="girl">经管励志</a>
+				</div>
+			</div>
+			<!-- pic -->
+													<!-- tab -->
+							<div class="tab-item">
+                    						<div class="tabNav" data-tab="tabs">
+							<!--畅销榜-收藏榜-->
+							<div class="tabBox" data-tab="tle">
+                                									<a href="javascript:;" class="tab active" data-index="0">
+                                        男生畅销榜<span></span>
+									</a>
+                                									<a href="javascript:;" class="tab " data-index="1">
+                                        男生收藏榜<span></span>
+									</a>
+                                								<div class="clearfix"></div>
+							</div>
+							<!--月榜-总榜-->
+							<div class="item-list" data-tab="list">
+								<a href="javascript:;" class="tabs active" data-type="month">月榜</a>
+								<span>|</span>
+								<a href="javascript:;" class="tabs" data-type="all">总榜</a>
+								<div class="clearfix"></div>
+							</div>
+							<div class="conBox indexConList1" data-tab="cnt">
+                                                                    										<ul class="hover-list">
+                                            												<li class="current">
+													<span class="wm-list-index">1</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5547759.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/239/cover_58f48b97eea95218489e8be24a7d0365.jpg?1606781215" alt="一个销售员的自白书">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5547759.html" target="_blank">一个销售员的自白书</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>陈少维</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=3">成功励志</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">一个销售员的自白书</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">2</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5432567.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/247/cover_5a630c6ba2b986c6b1f23716fbfedc4d.jpg?1603998836" alt="庆余年">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5432567.html" target="_blank">庆余年</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>猫腻</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1009">历史军事</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">庆余年</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">3</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5431517.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/221/cover_3295083f0bc1fd231b2f903aee7cfec0.jpg?1603838579" alt="乾坤剑神">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5431517.html" target="_blank">乾坤剑神</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>尘山</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1003">玄幻奇幻</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">乾坤剑神</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">4</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5432265.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/201/cover_6c5d320342872ab7ae37edaca58ab66b.jpg?1603954029" alt="谍影风云">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5432265.html" target="_blank">谍影风云</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>寻青藤</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1009">历史军事</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">谍影风云</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">5</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5431488.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/192/cover_96688abe291f8b7f2f7ace703307f340.jpg?1603824551" alt="神道丹尊">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5431488.html" target="_blank">神道丹尊</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>孤单地飞</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1003">玄幻奇幻</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">神道丹尊</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">6</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5432142.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/78/cover_d3bc69f959657639bb6e37f94704a266.jpg?1603951109" alt="明朝败家子">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5432142.html" target="_blank">明朝败家子</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>上山打老虎额</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1009">历史军事</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">明朝败家子</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">7</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5431448.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/152/cover_4112b9db9a953ca6358ecafb8498f7ba.jpg?1603708585" alt="万道剑尊">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5431448.html" target="_blank">万道剑尊</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>打死都要钱</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1003">玄幻奇幻</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">万道剑尊</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">8</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5431602.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/50/cover_9cb38e96dc0f0542c3b8cad0eb8dc6cc.jpg?1603937904" alt="妖龙古帝">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5431602.html" target="_blank">妖龙古帝</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>遥望南山</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1003">玄幻奇幻</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">妖龙古帝</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">9</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5431837.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/29/cover_95ec135f7a6309352bd66a6aa337e714.jpg?1603943654" alt="弑天刃">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5431837.html" target="_blank">弑天刃</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>小刀锋利</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1003">玄幻奇幻</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">弑天刃</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">10</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5431515.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/219/cover_62aca03226b25d5a070e94dc336cc517.jpg?1603837446" alt="隐身侍卫">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5431515.html" target="_blank">隐身侍卫</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>桃子卖没了</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1036">都市校园</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">隐身侍卫</div>
+													</div>
+												</li>
+                                            											<li class="border_none"><a href="/weibobook/ranklist.php?channel=boy&type=vip&date=month" class="wm-oriange a_type1">查看更多&gt;</a></li>
+										</ul>
+                                    										<ul class="hover-list"style="display: none" >
+                                            												<li class="current">
+													<span class="wm-list-index">1</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5525293.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/45/cover_bd16228bfebb698595973a6aa5a4d8d7.jpg?1606343934" alt="我的谍战生涯">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5525293.html" target="_blank">我的谍战生涯</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>电芯来也</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1009">历史军事</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">我的谍战生涯</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">2</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5547759.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/239/cover_58f48b97eea95218489e8be24a7d0365.jpg?1606781215" alt="一个销售员的自白书">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5547759.html" target="_blank">一个销售员的自白书</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>陈少维</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=3">成功励志</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">一个销售员的自白书</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">3</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5431534.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/238/cover_96c814924bd2a23a18a5ee2ae9ebc689.jpg?1603846802" alt="绝代神主">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5431534.html" target="_blank">绝代神主</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>百里龙虾</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1003">玄幻奇幻</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">绝代神主</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">4</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5432265.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/201/cover_6c5d320342872ab7ae37edaca58ab66b.jpg?1603954029" alt="谍影风云">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5432265.html" target="_blank">谍影风云</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>寻青藤</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1009">历史军事</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">谍影风云</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">5</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5435263.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/127/cover_eb2d3892a00ef11bde2fffcac36ba3ed.jpg?1604175429" alt="帝武丹尊">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5435263.html" target="_blank">帝武丹尊</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>翼鱼</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1003">玄幻奇幻</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">帝武丹尊</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">6</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5431602.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/50/cover_9cb38e96dc0f0542c3b8cad0eb8dc6cc.jpg?1603937904" alt="妖龙古帝">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5431602.html" target="_blank">妖龙古帝</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>遥望南山</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1003">玄幻奇幻</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">妖龙古帝</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">7</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5419763.html" target="_blank">
+																<img src="http://sinastorage.com/vipbook.sinaedge.com/image/server/2019/01/21/15480169477734.jpg" alt="上海，抱紧我">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5419763.html" target="_blank">上海，抱紧我</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>童鼎鼎</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1036">都市校园</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">上海，抱紧我</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">8</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5396655.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/175/cover_95af382678b7b258706c769fd4875afb.jpg?1511415969" alt="绝世高手">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5396655.html" target="_blank">绝世高手</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>风起天阑</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1036">都市校园</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">绝世高手</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">9</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5434689.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/65/cover_328642a87672c59c5552d4a9264b9e8e.jpg?1604117611" alt="继承两万亿">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5434689.html" target="_blank">继承两万亿</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>侠想</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1036">都市校园</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">继承两万亿</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">10</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/214331.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/59/cover_13273447dbd004e1a8713b49dcb8fb4c.jpg" alt="单女上司男助理">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/214331.html" target="_blank">单女上司男助理</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>某九</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1036">都市校园</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">单女上司男助理</div>
+													</div>
+												</li>
+                                            											<li class="border_none"><a href="/weibobook/ranklist.php?channel=boy&type=collect&date=month" class="wm-oriange a_type1">查看更多&gt;</a></li>
+										</ul>
+                                                                                                        										<ul class="hover-list"style="display: none" >
+                                            												<li class="current">
+													<span class="wm-list-index">1</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5431414.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/118/cover_d6f4ae54b0f1874b0b465cace6a2f6bb.jpg?1603359651" alt="最强兵王">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5431414.html" target="_blank">最强兵王</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>丛林狼</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1009">历史军事</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">最强兵王</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">2</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5432265.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/201/cover_6c5d320342872ab7ae37edaca58ab66b.jpg?1603954029" alt="谍影风云">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5432265.html" target="_blank">谍影风云</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>寻青藤</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1009">历史军事</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">谍影风云</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">3</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5431525.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/229/cover_593aa2f7904fc54fd74da2261c95c1a1.jpg?1603842435" alt="永恒圣帝">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5431525.html" target="_blank">永恒圣帝</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>千寻月</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1003">玄幻奇幻</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">永恒圣帝</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">4</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5431577.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/25/cover_77c53512845696370f91aa676206fd09.jpg?1603937330" alt="最强医神">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5431577.html" target="_blank">最强医神</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>蛋清派</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1036">都市校园</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">最强医神</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">5</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5431602.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/50/cover_9cb38e96dc0f0542c3b8cad0eb8dc6cc.jpg?1603937904" alt="妖龙古帝">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5431602.html" target="_blank">妖龙古帝</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>遥望南山</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1003">玄幻奇幻</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">妖龙古帝</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">6</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5431496.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/200/cover_9ce2231360b257bdbce29c363b58dbcf.jpg?1603827493" alt="他身上有条龙">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5431496.html" target="_blank">他身上有条龙</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>黑夜与孤城</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1036">都市校园</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">他身上有条龙</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">7</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5432142.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/78/cover_d3bc69f959657639bb6e37f94704a266.jpg?1603951109" alt="明朝败家子">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5432142.html" target="_blank">明朝败家子</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>上山打老虎额</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1009">历史军事</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">明朝败家子</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">8</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5431558.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/6/cover_42f7ea43482af845017dcc7df3db6380.jpg?1603866612" alt="焚天之怒">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5431558.html" target="_blank">焚天之怒</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>妖夜</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1003">玄幻奇幻</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">焚天之怒</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">9</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5431681.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/129/cover_4f64d168f3c30ff9612ee4d288751dc2.jpg?1603939838" alt="神藏">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5431681.html" target="_blank">神藏</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>打眼</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1036">都市校园</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">神藏</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">10</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5431922.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/114/cover_7c03133bdc04e5f957a6142a4893204c.jpg?1603945761" alt="都市极品医神">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5431922.html" target="_blank">都市极品医神</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>风会笑</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1036">都市校园</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">都市极品医神</div>
+													</div>
+												</li>
+                                            											<li class="border_none"><a href="/weibobook/ranklist.php?channel=boy&type=vip&date=all" class="wm-oriange a_type1">查看更多&gt;</a></li>
+										</ul>
+                                    										<ul class="hover-list"style="display: none" >
+                                            												<li class="current">
+													<span class="wm-list-index">1</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5547759.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/239/cover_58f48b97eea95218489e8be24a7d0365.jpg?1606781215" alt="一个销售员的自白书">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5547759.html" target="_blank">一个销售员的自白书</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>陈少维</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=3">成功励志</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">一个销售员的自白书</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">2</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5525293.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/45/cover_bd16228bfebb698595973a6aa5a4d8d7.jpg?1606343934" alt="我的谍战生涯">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5525293.html" target="_blank">我的谍战生涯</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>电芯来也</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1009">历史军事</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">我的谍战生涯</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">3</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5419763.html" target="_blank">
+																<img src="http://sinastorage.com/vipbook.sinaedge.com/image/server/2019/01/21/15480169477734.jpg" alt="上海，抱紧我">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5419763.html" target="_blank">上海，抱紧我</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>童鼎鼎</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1036">都市校园</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">上海，抱紧我</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">4</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5431517.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/221/cover_3295083f0bc1fd231b2f903aee7cfec0.jpg?1603838579" alt="乾坤剑神">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5431517.html" target="_blank">乾坤剑神</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>尘山</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1003">玄幻奇幻</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">乾坤剑神</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">5</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5396655.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/175/cover_95af382678b7b258706c769fd4875afb.jpg?1511415969" alt="绝世高手">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5396655.html" target="_blank">绝世高手</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>风起天阑</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1036">都市校园</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">绝世高手</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">6</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5432265.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/201/cover_6c5d320342872ab7ae37edaca58ab66b.jpg?1603954029" alt="谍影风云">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5432265.html" target="_blank">谍影风云</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>寻青藤</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1009">历史军事</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">谍影风云</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">7</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5431469.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/173/cover_f87ca91fecb857ad0438c0c95c493858.jpg?1603818056" alt="我的绝色美女房客">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5431469.html" target="_blank">我的绝色美女房客</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>炒酸奶</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1036">都市校园</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">我的绝色美女房客</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">8</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5435263.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/127/cover_eb2d3892a00ef11bde2fffcac36ba3ed.jpg?1604175429" alt="帝武丹尊">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5435263.html" target="_blank">帝武丹尊</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>翼鱼</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1003">玄幻奇幻</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">帝武丹尊</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">9</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5431414.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/118/cover_d6f4ae54b0f1874b0b465cace6a2f6bb.jpg?1603359651" alt="最强兵王">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5431414.html" target="_blank">最强兵王</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>丛林狼</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1009">历史军事</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">最强兵王</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">10</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5431922.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/114/cover_7c03133bdc04e5f957a6142a4893204c.jpg?1603945761" alt="都市极品医神">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5431922.html" target="_blank">都市极品医神</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>风会笑</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1036">都市校园</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">都市极品医神</div>
+													</div>
+												</li>
+                                            											<li class="border_none"><a href="/weibobook/ranklist.php?channel=boy&type=collect&date=all" class="wm-oriange a_type1">查看更多&gt;</a></li>
+										</ul>
+                                                                    							</div>
+						</div>
+                    						<div class="tabNav" data-tab="tabs">
+							<!--畅销榜-收藏榜-->
+							<div class="tabBox" data-tab="tle">
+                                									<a href="javascript:;" class="tab active" data-index="0">
+                                        女生畅销榜<span></span>
+									</a>
+                                									<a href="javascript:;" class="tab " data-index="1">
+                                        女生收藏榜<span></span>
+									</a>
+                                								<div class="clearfix"></div>
+							</div>
+							<!--月榜-总榜-->
+							<div class="item-list" data-tab="list">
+								<a href="javascript:;" class="tabs active" data-type="month">月榜</a>
+								<span>|</span>
+								<a href="javascript:;" class="tabs" data-type="all">总榜</a>
+								<div class="clearfix"></div>
+							</div>
+							<div class="conBox indexConList1" data-tab="cnt">
+                                                                    										<ul class="hover-list">
+                                            												<li class="current">
+													<span class="wm-list-index">1</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5433306.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/218/cover_c2747363b358e5e42adb3a51fc28b3b8.jpg?1604021463" alt="逆天鬼医：傻王戏邪妃">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5433306.html" target="_blank">逆天鬼医：傻王戏邪妃</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>且看今朝</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1006005">穿越重生</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">逆天鬼医：傻王戏邪妃</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">2</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5433361.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/17/cover_e6303dbf064145788590e421ae18406f.jpg?1604023072" alt="凤门嫡女">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5433361.html" target="_blank">凤门嫡女</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>意千重</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1006003">古风古韵</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">凤门嫡女</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">3</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5431641.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/89/cover_ee4313112d997a3acca4e2ed47b6bbd3.jpg?1603938876" alt="药妃在上">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5431641.html" target="_blank">药妃在上</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>穆丹枫</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1006005">穿越重生</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">药妃在上</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">4</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5496681.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/105/cover_7ea98107ea437e968da0e8ff9e7d17e5.jpg?1604968901" alt="邪医弃妃">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5496681.html" target="_blank">邪医弃妃</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>水墨烟雨</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1006003">古风古韵</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">邪医弃妃</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">5</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5454398.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/62/cover_8bd13922507400d6705524cfbe29e829.jpg?1604878214" alt="秀才娘子忙种田">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5454398.html" target="_blank">秀才娘子忙种田</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>雁丘</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1006005">穿越重生</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">秀才娘子忙种田</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">6</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5431618.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/66/cover_b8380c455ee5d00dad3aedf0eb9b8964.jpg?1603938298" alt="云家小九超皮哒">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5431618.html" target="_blank">云家小九超皮哒</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>水清竹</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1006007">幻想言情</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">云家小九超皮哒</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">7</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5432954.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/122/cover_2ffa3c39bea423dbcb2ec0fbe94e8a68.jpg?1604010773" alt="九阙凤华">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5432954.html" target="_blank">九阙凤华</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>意千重</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1006005">穿越重生</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">九阙凤华</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">8</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5431822.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/14/cover_fbee577f8a79572889ad94f7bcd3f007.jpg?1603943282" alt="恰逢星光璀璨时">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5431822.html" target="_blank">恰逢星光璀璨时</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>北川云上锦</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1006004">总裁豪门</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">恰逢星光璀璨时</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">9</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5502923.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/203/cover_c51c14952c652cca38ba1ec03e3c3eb9.jpg?1605043227" alt="盛华">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5502923.html" target="_blank">盛华</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>闲听落花</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1006003">古风古韵</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">盛华</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">10</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5469357.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/173/cover_2b1bcb59fb200fea42d835d3ce1efce1.jpg?1604901717" alt="我喜欢的你都有">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5469357.html" target="_blank">我喜欢的你都有</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>葉雪</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1006004">总裁豪门</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">我喜欢的你都有</div>
+													</div>
+												</li>
+                                            											<li class="border_none"><a href="/weibobook/ranklist.php?channel=girl&type=vip&date=month" class="wm-oriange a_type1">查看更多&gt;</a></li>
+										</ul>
+                                    										<ul class="hover-list"style="display: none" >
+                                            												<li class="current">
+													<span class="wm-list-index">1</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5432273.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/209/cover_e8bc052f3f3f1c3d81fda3f006a80634.jpg?1603954242" alt="死对头向我求婚了">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5432273.html" target="_blank">死对头向我求婚了</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>妖妖仙儿</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1006004">总裁豪门</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">死对头向我求婚了</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">2</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5433403.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/59/cover_062fe155322f32ea63f9959319a9a491.jpg?1604024208" alt="花繁春正茗">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5433403.html" target="_blank">花繁春正茗</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>意千重</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1006003">古风古韵</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">花繁春正茗</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">3</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/225662.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/126/cover_845af5aa32a9999bcebd955a4c5f997e.jpg" alt="一天爱人">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/225662.html" target="_blank">一天爱人</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>雨竹月影</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1006004">总裁豪门</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">一天爱人</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">4</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5517374.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/62/cover_05628c643a3e0dfe6e22edecad05e299.jpg?1605574366" alt="我爹很凶但有钱">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5517374.html" target="_blank">我爹很凶但有钱</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>竹木松</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1006004">总裁豪门</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">我爹很凶但有钱</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">5</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5431641.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/89/cover_ee4313112d997a3acca4e2ed47b6bbd3.jpg?1603938876" alt="药妃在上">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5431641.html" target="_blank">药妃在上</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>穆丹枫</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1006005">穿越重生</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">药妃在上</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">6</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5433461.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/117/cover_290570c1390ef0e53a283072bc01dd45.jpg?1604025852" alt="琅琊榜">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5433461.html" target="_blank">琅琊榜</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>海宴</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1006005">穿越重生</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">琅琊榜</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">7</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/241231.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/79/cover_64be4956bf8fffc2c917c13608594a4d.jpg" alt="拒绝暧昧">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/241231.html" target="_blank">拒绝暧昧</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>凉茶</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1006006">都市情缘</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">拒绝暧昧</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">8</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5431642.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/90/cover_65cb89667a5263d4eae53d17d610f56c.jpg?1603938896" alt="请允许我爱你余生">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5431642.html" target="_blank">请允许我爱你余生</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>十月初</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1006004">总裁豪门</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">请允许我爱你余生</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">9</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5430306.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/34/cover_cf5082152ad5edfe2d7ecfcd3aff2aa0.jpg?1586841834" alt="摄政王，你家医妃又作妖了">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5430306.html" target="_blank">摄政王，你家医妃又作妖了</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>天火流星</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1006005">穿越重生</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">摄政王，你家医妃又作妖了</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">10</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5434733.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/109/cover_81551eea629147bd34bf3e83f92d4bc6.jpg?1604121252" alt="厉少你老婆又跑了">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5434733.html" target="_blank">厉少你老婆又跑了</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>辛呓呓</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1006004">总裁豪门</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">厉少你老婆又跑了</div>
+													</div>
+												</li>
+                                            											<li class="border_none"><a href="/weibobook/ranklist.php?channel=girl&type=collect&date=month" class="wm-oriange a_type1">查看更多&gt;</a></li>
+										</ul>
+                                                                                                        										<ul class="hover-list"style="display: none" >
+                                            												<li class="current">
+													<span class="wm-list-index">1</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5431641.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/89/cover_ee4313112d997a3acca4e2ed47b6bbd3.jpg?1603938876" alt="药妃在上">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5431641.html" target="_blank">药妃在上</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>穆丹枫</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1006005">穿越重生</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">药妃在上</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">2</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5517374.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/62/cover_05628c643a3e0dfe6e22edecad05e299.jpg?1605574366" alt="我爹很凶但有钱">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5517374.html" target="_blank">我爹很凶但有钱</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>竹木松</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1006004">总裁豪门</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">我爹很凶但有钱</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">3</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5433361.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/17/cover_e6303dbf064145788590e421ae18406f.jpg?1604023072" alt="凤门嫡女">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5433361.html" target="_blank">凤门嫡女</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>意千重</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1006003">古风古韵</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">凤门嫡女</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">4</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5454398.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/62/cover_8bd13922507400d6705524cfbe29e829.jpg?1604878214" alt="秀才娘子忙种田">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5454398.html" target="_blank">秀才娘子忙种田</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>雁丘</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1006005">穿越重生</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">秀才娘子忙种田</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">5</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5431489.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/193/cover_be188a446c2a388b0c7cccea6d3420ae.jpg?1603825517" alt="绝世神医：腹黑大小姐">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5431489.html" target="_blank">绝世神医：腹黑大小姐</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>夜北</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1006005">穿越重生</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">绝世神医：腹黑大小姐</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">6</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5434362.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/250/cover_a15fa3f8d219301c501c59e2456ca441.jpg?1604085892" alt="我在大佬身边尽情撒野">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5434362.html" target="_blank">我在大佬身边尽情撒野</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>潋紫沫</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1006004">总裁豪门</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">我在大佬身边尽情撒野</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">7</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5433468.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/124/cover_cfbdda791d3e5a209a4072476df4d1ce.jpg?1604026082" alt="盛世医妃">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5433468.html" target="_blank">盛世医妃</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>凤轻</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1006005">穿越重生</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">盛世医妃</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">8</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5431445.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/149/cover_edeca0922904685a3bc675171f772749.jpg?1603704685" alt="神医弃女">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5431445.html" target="_blank">神医弃女</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>MS芙子</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1003">玄幻奇幻</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">神医弃女</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">9</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5431453.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/157/cover_fec3b452a015d1d322667db37b1dfa9e.jpg?1603793053" alt="致我最爱的你">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5431453.html" target="_blank">致我最爱的你</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>叶非夜</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1006004">总裁豪门</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">致我最爱的你</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">10</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5431852.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/44/cover_71e178269004f25c89bbf70c16ce1ed1.jpg?1603944043" alt="神医萌宠">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5431852.html" target="_blank">神医萌宠</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>MS芙子</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1006007">幻想言情</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">神医萌宠</div>
+													</div>
+												</li>
+                                            											<li class="border_none"><a href="/weibobook/ranklist.php?channel=girl&type=vip&date=all" class="wm-oriange a_type1">查看更多&gt;</a></li>
+										</ul>
+                                    										<ul class="hover-list"style="display: none" >
+                                            												<li class="current">
+													<span class="wm-list-index">1</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5433461.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/117/cover_290570c1390ef0e53a283072bc01dd45.jpg?1604025852" alt="琅琊榜">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5433461.html" target="_blank">琅琊榜</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>海宴</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1006005">穿越重生</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">琅琊榜</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">2</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5433403.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/59/cover_062fe155322f32ea63f9959319a9a491.jpg?1604024208" alt="花繁春正茗">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5433403.html" target="_blank">花繁春正茗</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>意千重</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1006003">古风古韵</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">花繁春正茗</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">3</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/225662.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/126/cover_845af5aa32a9999bcebd955a4c5f997e.jpg" alt="一天爱人">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/225662.html" target="_blank">一天爱人</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>雨竹月影</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1006004">总裁豪门</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">一天爱人</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">4</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5433468.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/124/cover_cfbdda791d3e5a209a4072476df4d1ce.jpg?1604026082" alt="盛世医妃">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5433468.html" target="_blank">盛世医妃</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>凤轻</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1006005">穿越重生</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">盛世医妃</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">5</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5517374.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/62/cover_05628c643a3e0dfe6e22edecad05e299.jpg?1605574366" alt="我爹很凶但有钱">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5517374.html" target="_blank">我爹很凶但有钱</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>竹木松</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1006004">总裁豪门</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">我爹很凶但有钱</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">6</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5431641.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/89/cover_ee4313112d997a3acca4e2ed47b6bbd3.jpg?1603938876" alt="药妃在上">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5431641.html" target="_blank">药妃在上</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>穆丹枫</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1006005">穿越重生</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">药妃在上</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">7</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5431642.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/90/cover_65cb89667a5263d4eae53d17d610f56c.jpg?1603938896" alt="请允许我爱你余生">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5431642.html" target="_blank">请允许我爱你余生</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>十月初</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1006004">总裁豪门</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">请允许我爱你余生</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">8</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5432273.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/209/cover_e8bc052f3f3f1c3d81fda3f006a80634.jpg?1603954242" alt="死对头向我求婚了">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5432273.html" target="_blank">死对头向我求婚了</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>妖妖仙儿</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1006004">总裁豪门</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">死对头向我求婚了</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">9</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5433361.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/17/cover_e6303dbf064145788590e421ae18406f.jpg?1604023072" alt="凤门嫡女">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5433361.html" target="_blank">凤门嫡女</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>意千重</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1006003">古风古韵</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">凤门嫡女</div>
+													</div>
+												</li>
+                                            												<li >
+													<span class="wm-list-index">10</span>
+													<div class="wm-list-content">
+														<div class="content-ditail">
+															<a href="/weibobook/book/5434733.html" target="_blank">
+																<img src="http://vipbook.sinaedge.com/bookcover/pics/109/cover_81551eea629147bd34bf3e83f92d4bc6.jpg?1604121252" alt="厉少你老婆又跑了">
+															</a>
+															<div class="content-detail-txt">
+																<h3><a href="/weibobook/book/5434733.html" target="_blank">厉少你老婆又跑了</a></h3>
+																<p>
+																	<span>作者：</span>
+																	<em>辛呓呓</em>
+																</p>
+																<p>
+																	<span>分类：</span>
+																	<a class="a_type2 classly" href="/weibobook/cate.php?cate_id=1006004">总裁豪门</a>
+																</p>
+															</div>
+														</div>
+														<div class="content-text">厉少你老婆又跑了</div>
+													</div>
+												</li>
+                                            											<li class="border_none"><a href="/weibobook/ranklist.php?channel=girl&type=collect&date=all" class="wm-oriange a_type1">查看更多&gt;</a></li>
+										</ul>
+                                                                    							</div>
+						</div>
+                    				</div>
+					</div><!-- content-right-end -->
+	</div><!-- content-end -->
+	<!-- footer -->
+	<div class="footer">
+		<p><a href="http://corp.sina.com.cn/chn/" target="_blank">新浪简介</a><span class="spliter">┊</span><a href="http://corp.sina.com.cn/eng/" target="_blank">About Sina</a><span class="spliter">┊</span><a href="http://emarketing.sina.com.cn/" target="_blank">广告服务</a><span class="spliter">┊</span><a href="http://www.sina.com.cn/contactus.html" target="_blank">联系我们</a><span class="spliter">┊</span><a href="http://corp.sina.com.cn/chn/sina_job.html" target="_blank">招聘信息</a><span class="spliter">┊</span><a href="http://www.sina.com.cn/intro/lawfirm.shtml" target="_blank">网站律师</a><span class="spliter">┊</span><a href="http://english.sina.com/" target="_blank">SINA English</a><span class="spliter">┊</span><a href="https://login.sina.com.cn/signup/signup.php" target="_blank">通行证注册</a><span class="spliter">┊</span><a href="http://help.sina.com.cn/" target="_blank">产品答疑</a></p>
+		<p>Copyright <span style="font-family:arial;">©</span>1996-2017 SINA Corporation, All Rights Reserved</p>
+		<p>新浪公司 <a href="http://www.sina.com.cn/intro/copyright.shtml" target="_blank">版权所有</a></p>
+	</div><!-- footer-end -->
+</div><!-- transfer-warp-end -->
+
+<script src="https://vipbookedge.sina.cn/static/static/paidRead/assets/js/config.js?v=0.2020032505"></script>
+<script src="https://vipbookedge.sina.cn/static/static/paidRead/assets/js/require/require.js?v=0.2020032505" data-main="transferPage-main.js"></script>
+</body>
+</html>

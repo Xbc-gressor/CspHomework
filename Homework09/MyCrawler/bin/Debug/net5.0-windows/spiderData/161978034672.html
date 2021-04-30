@@ -1,0 +1,323 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="never" />
+    <meta name="description" content="接着广告模型初探（二），这篇咱们主要聊聊广告预估模型集大成者DNN派系。 0.DNN模型 DNN网络结构 模型结构较为简单，不再赘述。重点关注一下Embedding部分，和NLP里面的Embeddin" />
+    <meta property="og:description" content="接着广告模型初探（二），这篇咱们主要聊聊广告预估模型集大成者DNN派系。 0.DNN模型 DNN网络结构 模型结构较为简单，不再赘述。重点关注一下Embedding部分，和NLP里面的Embeddin" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>广告预估模型（三） - GeorgePig - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/simplememory/bundle-simplememory.min.css?v=uknaX_hejnSu-njQgx4Hj1R0JiPLwUhFPUlwWNmWyB4" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/SimpleMemory/bundle-SimpleMemory-mobile.min.css" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/GeorgePigX/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/GeorgePigX/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/GeorgePigX/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 670888;
+        var currentBlogApp = 'GeorgePigX';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'SimpleMemory';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-03-14 11:40';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=CJtNAb53Ex2fBes_h70ZUTUv5aZTxcvvM7mCnA44svE"></script>
+    
+    
+    
+</head>
+<body class="has-navbar has-bannerbar">
+    <a name="top"></a>
+        <a target="_blank" href="https://www.aliyun.com/minisite/goods?userCode=swh7dvlt" onclick="ga('send', 'event', 'Link', 'click', 'aliyun-cps-blog-bannerbar-pc')">
+            <div class="bannerbar aliyun forpc" style="background-size: contain;background-image: url(https://img2020.cnblogs.com/blog/35695/202104/35695-20210428221933214-737067094.jpg)">
+            </div>
+        </a>
+        <div id="bannerbar" class="bannerbar-mobile formobile">
+            <a href="https://www.aliyun.com/minisite/goods?userCode=swh7dvlt" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'aliyun-cps-blog-bannerbar-mobile')">
+                <img src="https://img2020.cnblogs.com/blog/35695/202104/35695-20210428213541700-642740375.jpg" alt="" />
+            </a>
+        </div>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/GeorgePigX/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/GeorgePigX/">GeorgePig</a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/GeorgePigX/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/GeorgePig">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/GeorgePigX/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/GeorgePigX/p/14531913.html">
+    <span>广告预估模型（三）</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<p><span data-offset-key="ejl72-0-0">接着广告模型初探（二），这篇咱们主要聊聊广告预估模型集大成者DNN派系。</span></p>
+<p><span data-offset-key="9gaah-0-0">0.DNN模型</span></p>
+<p><img src="https://img2020.cnblogs.com/blog/2324504/202103/2324504-20210314113836128-168762613.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>DNN网络结构</p>
+<p>&nbsp;</p>
+<p><span data-offset-key="71cs7-0-0">&nbsp; &nbsp; 模型结构较为简单，不再赘述。重点关注一下Embedding部分，和NLP里面的Embedding层类似，在广告模型中Embedding层会对不同类型的特征进行如下变换：</span></p>
+<ul class="list-paddingleft-2">
+<li>
+<p><span data-offset-key="71cs7-0-0">单值离散特征：直接Embedding</span></p>
+</li>
+<li>
+<p><span data-offset-key="71cs7-0-0">多值离散特征：在Embedding 之后接上Sum Pooling 从而将多值映射为单个Embedding（Average Pooling也未尝不可）</span></p>
+</li>
+<li>
+<p><span data-offset-key="71cs7-0-0">数值型特征：一般先进行离散化（如特征分桶之类）转化为类似单值离散特征来处理</span></p>
+</li>
+</ul>
+<p>&nbsp;</p>
+<p><span data-offset-key="cfh9t-0-0">1.DeepFM模型</span></p>
+<p><img src="https://img2020.cnblogs.com/blog/2324504/202103/2324504-20210314113846557-443054948.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>DeepFM网络结构</p>
+<p>&nbsp;</p>
+<p><span data-offset-key="e4n8g-0-0">&nbsp; &nbsp; DeepFM模型可以分为两个部分，一部分是上篇中提到的FM模型，另一部分就是本篇中提到的DNN模型。最终输出结果通过下面公式计算得到：</span><span data-offset-key="e4n8g-0-0">&nbsp;</span></p>
+<p><img src="https://img2020.cnblogs.com/blog/2324504/202103/2324504-20210314113908818-524683092.png" alt="" loading="lazy"></p>
+<p><span data-offset-key="9hm4c-0-0">从上面网络结构图中可以看到，最底层是输入的稀疏的原始特征，接着进入了Embedding层，将特征限定到有限的向量空间中，接着分别进入FM和DNN层。FM部分主要考虑的是低阶特征（主要是二阶特征）而DNN部分主要获取的是高阶特征，FM和DNN层共享Embedding。</span></p>
+<p><span data-offset-key="dts6-0-0">2.SDNN模型</span></p>
+<p><img src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" alt="图片" class="img_loading" data-ratio="0.46944444444444444" data-src="https://mmbiz.qpic.cn/mmbiz_png/LhUib0zXicQjpXbnicd1W9AddFtD0T2oqMk335VWqlp9ROjQM1tM3tY3UqQYSuCW44qHJkOlnCuIt9MYHI3CQFttA/640?wx_fmt=png" data-type="png" data-w="720"></p>
+<p>&nbsp;<img src="https://img2020.cnblogs.com/blog/2324504/202103/2324504-20210314113937257-538305300.png" alt="" loading="lazy"></p>
+<p>SDNN网络结构</p>
+<p>&nbsp;</p>
+<p><span data-offset-key="529gt-0-0">&nbsp; &nbsp; 相比于前面两个模型，SDNN模型的结构更为复杂，当然相应的效果也是更优的。从图中可以看出，SDNN模型分为两个阶段，一个阶段是Join阶段、一个阶段是Update阶段。图中的slot1，slot2指的是不同的特征，fea1，fea2表示的不同特征的不同取值，举个例子:slot1表示用户的兴趣爱好，fea1表示足球，fea2表示篮球。不同的fea1和fea2我们会统计show和click的值，最终累加在一起，得到对应的slot1的特征的show和click值。当然show和click对应的值最终也是通过embedding化之后加入模型中训练的。</span></p>
+<p><span data-offset-key="529gt-0-0">&nbsp; &nbsp; 与之前不同的是，这里的embedding是一种动态的embedding，刚开始默认的维度可以设置为1，当show&amp;click达到一定的阈值之后，会扩展为fix+dynamic的形式。需要注意的是在Join阶段主要更新的是NN参数，从图中也可以看出梯度只回传到normalization就停止了，而在Update阶段主要更新的是Embedding参数。</span></p>
+<p><span data-offset-key="899of-0-0">&nbsp; &nbsp; 之所以采用两阶段的训练方式，主要是为了：</span></p>
+<ul class="list-paddingleft-2">
+<li>
+<p><span data-offset-key="899of-0-0">保持线上线下预估的一致性</span></p>
+</li>
+<li>
+<p><span data-offset-key="899of-0-0">线上预估embedding是pass内固定的，而Update NN学习的是动态变化的embedding的NN</span></p>
+</li>
+</ul>
+<p><span data-offset-key="90u9p-0-0">至此，广告模型初探系列完结，下一篇和大家聊聊广告算法工程师的日常。后会有期！</span></p>
+<p>欢迎关注微信公众号：计算广告那些事儿</p>
+<p><span class="cke_widget_wrapper cke_widget_inline cke_widget_image cke_image_nocaption cke_widget_selected" data-cke-widget-wrapper="1" data-cke-filter="off" data-cke-display-name="图像" data-cke-widget-id="0"><img src="https://img-blog.csdnimg.cn/20210308110709553.png" alt="" width="517" height="140" class="cke_widget_element" data-cke-saved-src="https://img-blog.csdnimg.cn/20210308110709553.png" data-cke-widget-data="{&amp;quot;hasCaption&amp;quot;:false,&amp;quot;src&amp;quot;:&amp;quot;https://img-blog.csdnimg.cn/20210308110709553.png&amp;quot;,&amp;quot;alt&amp;quot;:&amp;quot;&amp;quot;,&amp;quot;width&amp;quot;:&amp;quot;517&amp;quot;,&amp;quot;height&amp;quot;:&amp;quot;140&amp;quot;,&amp;quot;lock&amp;quot;:true,&amp;quot;align&amp;quot;:&amp;quot;none&amp;quot;,&amp;quot;classes&amp;quot;:[]}" data-cke-widget-upcasted="1" data-cke-widget-keep-attr="0" data-widget="image"><span class="cke_reset cke_widget_drag_handler_container"><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" width="15" height="15" class="cke_reset cke_widget_drag_handler" title="点击并拖拽以移动" data-cke-widget-drag-handler="1"><span class="cke_image_resizer" title="点击并拖拽以改变尺寸">​</span></span></span></p>
+<p>&nbsp;</p>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2021-03-14 11:40</span>&nbsp;
+<a href="https://www.cnblogs.com/GeorgePigX/">GeorgePig</a>&nbsp;
+阅读(<span id="post_view_count">70</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14531913" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14531913);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 670888, cb_blogApp = 'GeorgePigX', cb_blogUserGuid = '4bea0f3b-3ebe-4fd9-7884-08d8d71b3f30';
+    var cb_entryId = 14531913, cb_entryCreatedDate = '2021-03-14 11:40', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 GeorgePig
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjvak4_GKF_UFCGKRhpHQ0qF2CYztDHHJbOrmo24poBcOlt4c3-qtLjWuws3uOLYKq5Ql5mkIuMwr9_-bEsMPjjkqKl8myJjYeBOlf0HnOUW-edd_IMJ0PlP12jKREphpwk" />
+</body>
+</html>

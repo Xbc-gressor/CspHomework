@@ -1,0 +1,510 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <!-- meta charset="gb2312" -->
+    <!-- <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1'> -->
+    <title>����-��������ͼ������_����ͼ��_������</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+	<meta name="keywords" content="����,,����ͼ��,����ͼ��,����,ͼ��������" />
+	<meta name="description" content="����,,����ͼ��,����ͼ��,����,ͼ��������" />
+	<meta name="google-site-verification" content="S6cNmi1mtJdz4fqnXA_LPTAPd43FSuzuere2R9hcxLI" />    <link rel="stylesheet" type="text/css" href="//slide.news.sina.com.cn/css/v1/default/category.css?t=202104301051">
+    
+    <style>
+    .gif{position:absolute;right:0;top:0;z-index:2}/*0409 zyc */
+    </style>
+    
+    <!--[if IE 6]>
+
+    <script src="//slide.news.sina.com.cn/js/v1/default/DD_belatedPNG_0.0.8a.js"></script>
+    <script>
+      DD_belatedPNG.fix('.nav-inner .logo,.nwi-lnk,.side-btns-top-btn,.mod-a .bg,.mod-a .comment:hover i');
+    </script>
+    <![endif]-->
+	
+</head>
+<!-- <body ontouchmove="event.preventDefault()"> -->
+<!--0514 zyc start-->
+<script type="text/javascript" src="//i0.sinaimg.cn/dy/js/jquery/jquery-1.7.2.min.js"></script>
+<body>
+            <div class="nav-wrap">
+        <div class="nav-inner">
+            <h1 class="logo"><a href="http://photo.sina.com.cn/" title="����ͼƬ">����ͼƬ</a></h1>
+            <div class="nav-extra">
+									<a href="http://news.sina.com.cn/" class="nwi-lnk" data-sudaclick="blk_logo_top_btn1" hidefocus>��������</a>
+				                
+                <a href="http://www.sina.com.cn/" class="nwi-lnk" data-sudaclick="blk_logo_top_btn3" hidefocus>������ҳ</a>
+				
+				<a href="http://news.sina.com.cn/guide/" class="nwi-lnk" data-sudaclick="blk_logo_top_btn3" hidefocus>���˵���</a>
+                <div class="top-search">
+                    <div class="top-search-bg">
+                    </div>
+                    <form name="topSearchForm" method="get" action="http://search.sina.com.cn/" target="_blank">
+                        <input type="text" name="q" class="input gray" value="����ͼƬ">
+                        <input type="hidden" name="from" value="slide">
+                        <input type="hidden" name="c" value="img">
+                        <input type="hidden" name="slide" value="1">
+                        <input type="hidden" name="size" value="l">
+                        <input type="submit" class="btn" value="">
+                    </form>
+					
+                    <script type="text/javascript">
+                    (function() {var form = document.topSearchForm; var input = form.q; var txt = input.value; input.onfocus = function() {if (this.value == txt) {this.value = ''; this.className = 'input'} }; input.onblur = function() {if (this.value == '') {this.value = txt; this.className = 'input gray'; } }; form.onsubmit = function() {var kw = input.value; if (!kw || kw == txt) {input.focus(); return false; } } })();
+                    </script>
+					
+                </div>
+            </div>
+        </div>
+    </div>
+	
+            <h2 class="current-category"><i></i><a href="http://slide.photo.sina.com.cn/">ͼ������</a> - <span>��������ͼ������</span></h2>
+    
+        
+	<div class="main-nav-wrap" id="SI_Nav">
+<div class="inner" style="position:relative;">
+			<ul class="clearfix">
+			<li ><a class="item" href="http://slide.news.sina.com.cn/?choice=1">��ѡ</a></li>
+			<li ><a class="item" href="http://slide.news.sina.com.cn">ȫ��</a></li>
+			<li class="current"><a class="item" href="http://slide.news.sina.com.cn/c/">����</a></li>
+			<li ><a class="item" href="http://slide.news.sina.com.cn/w/">����</a></li>
+			<li ><a class="item" href="http://slide.news.sina.com.cn/s/">���</a></li>
+			<li ><a class="item" href="http://slide.news.sina.com.cn/weather/">����</a></li>
+			<li ><a class="item" href="http://slide.news.sina.com.cn/z/">����</a></li>
+			<li ><a class="item" href="http://slide.news.sina.com.cn/d/">����</a></li>
+			<li class="last"><a class="item" href="http://slide.news.sina.com.cn/j/">��ʷ</a></li>
+		</ul>
+	</div>
+</div>
+	
+    <div class="wrap" id="SI_Wrap">
+        <div class="mod-a mt-a mod-list" id="SI_Cont">
+            <div class="mod-bd clearfix" node-type="items">
+            </div>
+            <div class="mod-ft pager-b" node-type="pagination" style="display:none;">
+            </div>
+        </div>
+    </div>
+    
+    <!--slide_v1--><div id="eData" style="display:none;">
+            <dl>
+            <h3>̽�����ز����Ļ�չ���� һ��ǧ����������֮��</h3>
+            <dd>148166</dd>
+                        <a href="http://slide.news.sina.com.cn/c/slide_1_86523_505778.html/d/1">̽�����ز����Ļ�չ���� һ��ǧ����������֮��</a>
+            <dd>http://k.sinaimg.cn/n/front/507/w1827h1080/20210130/3869-kiksqxh1492637.jpg/w50hdp.jpg</dd>
+            <dd>http://k.sinaimg.cn/n/front/507/w1827h1080/20210130/3869-kiksqxh1492637.jpg/w160h120hdp.jpg</dd>
+            <dd>http://k.sinaimg.cn/n/front/507/w1827h1080/20210130/3869-kiksqxh1492637.jpg/w500hdp.jpg</dd>
+                        <dd>2021-01-30 21:40:22</dd>
+            <dd>9</dd>
+                                    <dd>���ز����Ļ�չ����λ��������2015�꽨����չ�������ղ���2����������������ʷ��չ�ƾã��ݲ�����Ŀ���׷�ݵ���Ԫ7���͡�</dd>
+                    </dl>
+            <dl>
+            <h3>����ͨ����������������ȡ���� ȫ�̷�����ɱ</h3>
+            <dd>148160</dd>
+                        <a href="http://slide.news.sina.com.cn/c/slide_1_86058_505766.html/d/1">����ͨ����������������ȡ���� ȫ�̷�����ɱ</a>
+            <dd>http://k.sinaimg.cn/n/default/1_ori/upload/3933d981/750/w930h620/20210130/93b1-kiksqxh1368237.jpg/w50hdp.jpg</dd>
+            <dd>http://k.sinaimg.cn/n/default/1_ori/upload/3933d981/750/w930h620/20210130/93b1-kiksqxh1368237.jpg/w160h120hdp.jpg</dd>
+            <dd>http://k.sinaimg.cn/n/default/1_ori/upload/3933d981/750/w930h620/20210130/93b1-kiksqxh1368237.jpg/w500hdp.jpg</dd>
+                        <dd>2021-01-30 20:41:57</dd>
+            <dd>4</dd>
+                                    <dd>1��30�գ�����ʡͨ���У���������������ȡ������</dd>
+                    </dl>
+            <dl>
+            <h3>���ױ�������������</h3>
+            <dd>148162</dd>
+                        <a href="http://slide.news.sina.com.cn/c/slide_1_86058_505762.html/d/1">���ױ�������������</a>
+            <dd>http://k.sinaimg.cn/n/default/1_ori/upload/3933d981/1/w930h671/20210130/8427-kiksqxh1289329.jpg/w50hdp.jpg</dd>
+            <dd>http://k.sinaimg.cn/n/default/1_ori/upload/3933d981/1/w930h671/20210130/8427-kiksqxh1289329.jpg/w160h120hdp.jpg</dd>
+            <dd>http://k.sinaimg.cn/n/default/1_ori/upload/3933d981/1/w930h671/20210130/8427-kiksqxh1289329.jpg/w500hdp.jpg</dd>
+                        <dd>2021-01-30 19:56:32</dd>
+            <dd>4</dd>
+                                    <dd>1��30�գ�һ��ӭũ������������������ɹ����������ױ����г°Ͷ�������¿�������ľ�ٰ죬���ּ�Ԧ�ſ�����������ʮ��ȵ�����ɫ������۳ҡ�</dd>
+                    </dl>
+            <dl>
+            <h3>�������ɸ���������ʮ��캣�����׷���չ��Ļ</h3>
+            <dd>148163</dd>
+                        <a href="http://slide.news.sina.com.cn/c/slide_1_86058_505775.html/d/1">�������ɸ���������ʮ��캣�����׷���չ��Ļ</a>
+            <dd>http://k.sinaimg.cn/n/spider20210130/533/w800h533/20210130/b827-kiksqxh1228682.jpg/w50hdp.jpg</dd>
+            <dd>http://k.sinaimg.cn/n/spider20210130/533/w800h533/20210130/b827-kiksqxh1228682.jpg/w160h120hdp.jpg</dd>
+            <dd>http://k.sinaimg.cn/n/spider20210130/533/w800h533/20210130/b827-kiksqxh1228682.jpg/w500hdp.jpg</dd>
+                        <dd>2021-01-30 19:21:00</dd>
+            <dd>31</dd>
+                                    <dd>1��30�գ��������׷���չ���Ϻ�Ⱥ���Ļ��ݿ�Ļ��</dd>
+                    </dl>
+            <dl>
+            <h3>���ɹż��������µĲ��������ɾ�</h3>
+            <dd>148164</dd>
+                        <a href="http://slide.news.sina.com.cn/c/slide_1_86058_505759.html/d/1">���ɹż��������µĲ��������ɾ�</a>
+            <dd>http://k.sinaimg.cn/n/spider20210130/790/w930h660/20210130/2158-kiksqxh1164537.jpg/w50hdp.jpg</dd>
+            <dd>http://k.sinaimg.cn/n/spider20210130/790/w930h660/20210130/2158-kiksqxh1164537.jpg/w160h120hdp.jpg</dd>
+            <dd>http://k.sinaimg.cn/n/spider20210130/790/w930h660/20210130/2158-kiksqxh1164537.jpg/w500hdp.jpg</dd>
+                        <dd>2021-01-30 19:05:05</dd>
+            <dd>4</dd>
+                                    <dd>���գ������ɹ����������ױ�������ʯ��-40��ļ��������£������������²�ϴ����ˮ������ˮ�����ƣ��ڳ����ĳ���ӳ���£�Ѥ���Իͣ������ɾ�һ�㡣</dd>
+                    </dl>
+            <dl>
+            <h3>̽�ü���ͨ�����տ���ҽԺ</h3>
+            <dd>148161</dd>
+                        <a href="http://slide.news.sina.com.cn/c/slide_1_86058_505757.html/d/1">̽�ü���ͨ�����տ���ҽԺ</a>
+            <dd>http://k.sinaimg.cn/n/default/1_ori/upload/3933d981/674/w899h575/20210130/b066-kiksqxh1091087.jpg/w50hdp.jpg</dd>
+            <dd>http://k.sinaimg.cn/n/default/1_ori/upload/3933d981/674/w899h575/20210130/b066-kiksqxh1091087.jpg/w160h120hdp.jpg</dd>
+            <dd>http://k.sinaimg.cn/n/default/1_ori/upload/3933d981/674/w899h575/20210130/b066-kiksqxh1091087.jpg/w500hdp.jpg</dd>
+                        <dd>2021-01-30 18:34:41</dd>
+            <dd>7</dd>
+                                    <dd>����1��30������ļ���ͨ�����տ���ҽԺ�����˻���Ƭ����</dd>
+                    </dl>
+            <dl>
+            <h3>ɽ���˳��κ��֡����������� ��ϼӳ�ĳ��֡���Ů�ۡ�</h3>
+            <dd>148165</dd>
+                        <a href="http://slide.news.sina.com.cn/c/slide_1_86058_505756.html/d/1">ɽ���˳��κ��֡����������� ��ϼӳ�ĳ��֡���Ů�ۡ�</a>
+            <dd>http://k.sinaimg.cn/n/spider20210130/750/w930h620/20210130/e4b7-kiksqxh1068169.jpg/w50hdp.jpg</dd>
+            <dd>http://k.sinaimg.cn/n/spider20210130/750/w930h620/20210130/e4b7-kiksqxh1068169.jpg/w160h120hdp.jpg</dd>
+            <dd>http://k.sinaimg.cn/n/spider20210130/750/w930h620/20210130/e4b7-kiksqxh1068169.jpg/w500hdp.jpg</dd>
+                        <dd>2021-01-30 18:26:33</dd>
+            <dd>3</dd>
+                                    <dd>1��29�գ�ɽ���˳ǣ����������ĵ���Ӱ�죬ɽ��ʡ�˳����κ����༸ʮ�����ǧ���γء�����������������������Ө��͸��ǧ�˰�̬��</dd>
+                    </dl>
+            <dl>
+            <h3>����֪ʶ����կ</h3>
+            <dd>148168</dd>
+                        <a href="http://slide.news.sina.com.cn/c/slide_1_86058_505745.html/d/1">����֪ʶ����կ</a>
+            <dd>http://k.sinaimg.cn/n/spider20210130/698/w899h599/20210130/a5bf-kiksqxh0800263.jpg/w50hdp.jpg</dd>
+            <dd>http://k.sinaimg.cn/n/spider20210130/698/w899h599/20210130/a5bf-kiksqxh0800263.jpg/w160h120hdp.jpg</dd>
+            <dd>http://k.sinaimg.cn/n/spider20210130/698/w899h599/20210130/a5bf-kiksqxh0800263.jpg/w500hdp.jpg</dd>
+                        <dd>2021-01-30 16:52:52</dd>
+            <dd>4</dd>
+                                    <dd>�ڹ�����ˮ���������ظ˶�����Ӣ��կ�����������Ǻ�ҽԺҽ����ԱΪ������죨1��30���㣩��</dd>
+                    </dl>
+            <dl>
+            <h3>��������µĴ����ÿ��г�</h3>
+            <dd>148150</dd>
+                        <a href="http://slide.news.sina.com.cn/c/slide_1_86058_505679.html/d/1">��������µĴ����ÿ��г�</a>
+            <dd>http://k.sinaimg.cn/n/default/1_ori/upload/3933d981/750/w930h620/20210129/9eac-kiksqxf8423756.jpg/w50hdp.jpg</dd>
+            <dd>http://k.sinaimg.cn/n/default/1_ori/upload/3933d981/750/w930h620/20210129/9eac-kiksqxf8423756.jpg/w160h120hdp.jpg</dd>
+            <dd>http://k.sinaimg.cn/n/default/1_ori/upload/3933d981/750/w930h620/20210129/9eac-kiksqxf8423756.jpg/w500hdp.jpg</dd>
+                        <dd>2021-01-29 20:59:45</dd>
+            <dd>4</dd>
+                                    <dd>1��29�����磬K830�δ����г�;������վ���ϳ��ÿ������࣬�г�������Ա��֯�ÿ�����˳���</dd>
+                    </dl>
+            <dl>
+            <h3>������������չ�ص���Ⱥ�¹�����ڶ�������</h3>
+            <dd>148156</dd>
+                        <a href="http://slide.news.sina.com.cn/c/slide_1_86058_505663.html/d/1">������������չ�ص���Ⱥ�¹�����ڶ�������</a>
+            <dd>http://k.sinaimg.cn/n/default/1_ori/upload/3933d981/778/w930h648/20210129/9373-kiksqxf8088769.jpg/w50hdp.jpg</dd>
+            <dd>http://k.sinaimg.cn/n/default/1_ori/upload/3933d981/778/w930h648/20210129/9373-kiksqxf8088769.jpg/w160h120hdp.jpg</dd>
+            <dd>http://k.sinaimg.cn/n/default/1_ori/upload/3933d981/778/w930h648/20210129/9373-kiksqxf8088769.jpg/w500hdp.jpg</dd>
+                        <dd>2021-01-29 18:52:02</dd>
+            <dd>7</dd>
+                                    <dd>1��29�գ��ڱ����к�����ѧԺ·�ֵ���ʱ���ֵ��ڣ�ҽ����ԱΪ������ע�����硣</dd>
+                    </dl>
+            <dl>
+            <h3>��ũ����š�ѩ�ѡ���������ѩ�硱</h3>
+            <dd>148153</dd>
+                        <a href="http://slide.news.sina.com.cn/c/slide_1_86058_505654.html/d/1">��ũ����š�ѩ�ѡ���������ѩ�硱</a>
+            <dd>http://k.sinaimg.cn/n/spider20210129/749/w930h619/20210129/f7aa-kiksqxf7664089.jpg/w50hdp.jpg</dd>
+            <dd>http://k.sinaimg.cn/n/spider20210129/749/w930h619/20210129/f7aa-kiksqxf7664089.jpg/w160h120hdp.jpg</dd>
+            <dd>http://k.sinaimg.cn/n/spider20210129/749/w930h619/20210129/f7aa-kiksqxf7664089.jpg/w500hdp.jpg</dd>
+                        <dd>2021-01-29 16:50:55</dd>
+            <dd>6</dd>
+                                    <dd>ҹĻ���٣��ڵƹ�ӳ���£���ũ�ܴ�ź�ƺ������Ե�Ψ���������ο��ڴ˾���������ѩ֮�֡�</dd>
+                    </dl>
+            <dl>
+            <h3>ʯ��ׯ�е��������ּ��ܿ� �ͷ������ָ�����������������</h3>
+            <dd>148151</dd>
+                        <a href="http://slide.news.sina.com.cn/c/slide_1_86058_505640.html/d/1">ʯ��ׯ�е��������ּ��ܿ� �ͷ������ָ�����������������</a>
+            <dd>http://k.sinaimg.cn/n/default/1_ori/upload/3933d981/24/w930h694/20210129/b56b-kiksqxf7290801.jpg/w50hdp.jpg</dd>
+            <dd>http://k.sinaimg.cn/n/default/1_ori/upload/3933d981/24/w930h694/20210129/b56b-kiksqxf7290801.jpg/w160h120hdp.jpg</dd>
+            <dd>http://k.sinaimg.cn/n/default/1_ori/upload/3933d981/24/w930h694/20210129/b56b-kiksqxf7290801.jpg/w500hdp.jpg</dd>
+                        <dd>2021-01-29 15:00:19</dd>
+            <dd>8</dd>
+                                    <dd>Ϊͳ����������뾭���������ָ�����2021��1��29����ʯ��ׯ�жԷ����ּ��ܿؽ����˵�����ʯ��ׯ����������¹Ȫ���ȵͷ�������ʵ�г�̬��������أ�ȫ��ָ�..</dd>
+                    </dl>
+            <dl>
+            <h3>����������ǿ����ɱ���ϴ���</h3>
+            <dd>148159</dd>
+                        <a href="http://slide.news.sina.com.cn/c/slide_1_86058_505655.html/d/1">����������ǿ����ɱ���ϴ���</a>
+            <dd>http://k.sinaimg.cn/n/default/1_ori/upload/3933d981/673/w899h574/20210129/50de-kiksqxf7664695.jpg/w50hdp.jpg</dd>
+            <dd>http://k.sinaimg.cn/n/default/1_ori/upload/3933d981/673/w899h574/20210129/50de-kiksqxf7664695.jpg/w160h120hdp.jpg</dd>
+            <dd>http://k.sinaimg.cn/n/default/1_ori/upload/3933d981/673/w899h574/20210129/50de-kiksqxf7664695.jpg/w500hdp.jpg</dd>
+                        <dd>2021-01-29 14:23:37</dd>
+            <dd>4</dd>
+                                    <dd>1��28��ҹ��29���賿��������Ա��������վ���������ɱ��</dd>
+                    </dl>
+            <dl>
+            <h3>���ݶػ����������������1:1���ƶ���</h3>
+            <dd>148157</dd>
+                        <a href="http://slide.news.sina.com.cn/c/slide_1_86058_505633.html/d/1">���ݶػ����������������1:1���ƶ���</a>
+            <dd>http://k.sinaimg.cn/n/default/1_ori/upload/3933d981/750/w930h620/20210129/1bdc-kiksqxf7129284.jpg/w50hdp.jpg</dd>
+            <dd>http://k.sinaimg.cn/n/default/1_ori/upload/3933d981/750/w930h620/20210129/1bdc-kiksqxf7129284.jpg/w160h120hdp.jpg</dd>
+            <dd>http://k.sinaimg.cn/n/default/1_ori/upload/3933d981/750/w930h620/20210129/1bdc-kiksqxf7129284.jpg/w500hdp.jpg</dd>
+                        <dd>2021-01-29 14:14:55</dd>
+            <dd>6</dd>
+                                    <dd>1��29�գ����������ݵĶػ���������1:1���Ƶ�Ī�߿������微�ֲ�ڻ����������������ڲιۡ�</dd>
+                    </dl>
+            <dl>
+            <h3>̽���Ĵ����ء�����С��</h3>
+            <dd>148154</dd>
+                        <a href="http://slide.news.sina.com.cn/c/slide_1_86058_505693.html/d/1">̽���Ĵ����ء�����С��</a>
+            <dd>http://k.sinaimg.cn/n/spider20210129/750/w930h620/20210129/d01f-kiksqxf7064247.jpg/w50hdp.jpg</dd>
+            <dd>http://k.sinaimg.cn/n/spider20210129/750/w930h620/20210129/d01f-kiksqxf7064247.jpg/w160h120hdp.jpg</dd>
+            <dd>http://k.sinaimg.cn/n/spider20210129/750/w930h620/20210129/d01f-kiksqxf7064247.jpg/w500hdp.jpg</dd>
+                        <dd>2021-01-29 13:49:55</dd>
+            <dd>4</dd>
+                                    <dd>���Ĵ�ʡ����˫ʯ��������һȺ��Ծ�����µġ���������š���������ũæʱ�����ͷ��ũ��ũ��ʱ�������𻭱ʴ�������ũ��������Ϣ��������</dd>
+                    </dl>
+            <dl>
+            <h3>������ѧ�����Ʒ��ߡ�����������´�ף��</h3>
+            <dd>148155</dd>
+                        <a href="http://slide.news.sina.com.cn/c/slide_1_86058_505601.html/d/1">������ѧ�����Ʒ��ߡ�����������´�ף��</a>
+            <dd>http://k.sinaimg.cn/n/default/1_ori/upload/3933d981/750/w930h620/20210129/3b97-kiksqxf6282052.jpg/w50hdp.jpg</dd>
+            <dd>http://k.sinaimg.cn/n/default/1_ori/upload/3933d981/750/w930h620/20210129/3b97-kiksqxf6282052.jpg/w160h120hdp.jpg</dd>
+            <dd>http://k.sinaimg.cn/n/default/1_ori/upload/3933d981/750/w930h620/20210129/3b97-kiksqxf6282052.jpg/w500hdp.jpg</dd>
+                        <dd>2021-01-29 10:12:22</dd>
+            <dd>6</dd>
+                                    <dd>���ƾۻᡱ����ͨ�硱����ϴ�֡�����Ϣ���ɲ���ҹ������1��28�գ����ճ��ݽ̿�Ժ������ѧ��ө��桱־Ը����ӵĶ�Ա�ǿ�չ��һ�����������´��͸�־Ը������</dd>
+                    </dl>
+        </div>
+        
+        
+    
+    <div class="footer">
+          <div class="footer-inner">
+              <p><a href="//comment4.news.sina.com.cn/comment/skin/feedback.html" target="_blank">������������������԰�</a></p>
+              <p><a href="//corp.sina.com.cn/chn/">���˼��</a> | <a href="//corp.sina.com.cn/eng/">About Sina</a> | <a href="//emarketing.sina.com.cn/">������</a> | <a href="//www.sina.com.cn/contactus.html">��ϵ����</a> | <a href="//corp.sina.com.cn/chn/sina_job.html">��Ƹ��Ϣ</a> | <a href="//www.sina.com.cn/intro/lawfirm.shtml">��վ��ʦ</a> | <a href="//english.sina.com">SINA English</a> | <a href="//login.sina.com.cn/signup/signup.php">ͨ��֤ע��</a> | <a href="//help.sina.com.cn/">��Ʒ����</a></p>
+              <p>Copyright &copy; 1996-2021 SINA Corporation, All Rights Reserved</p>
+              <p>���˹�˾ <a href="//www.sina.com.cn/intro/copyright.shtml">��Ȩ����</a></p>
+          </div>
+    </div>
+    <!--script type="text/javascript" src="//i0.sinaimg.cn/dy/js/jquery/jquery-1.7.2.min.js"></script-->
+    <script type="text/javascript" src="//slide.news.sina.com.cn/js/v1/default/category.js?20191022"></script>
+    
+    <script type="text/javascript">
+    ;(function() {
+	    var strSplit2 = function (s, n) {
+            var ELLIPSIS = '...';
+            var s2 = s.slice(0, n),
+                i = s2.replace(/[^\x00-\xff]/g, "**").length,
+                j = s.length,
+                k = s2.length;
+            if(i<n){
+                return s2;
+            }else if(i==n){
+                if(n==j||k==j){
+                    return s2;
+                }else{
+                    return s.slice(0,n-2)+ELLIPSIS;
+                }
+            }
+            i -= s2.length;
+            switch (i) {
+                case 0: return s2;
+                case n:
+                    var s4;
+                    if(n==j){
+                        s4 = s.slice(0, (n>>1)-1);
+                        return s4+ELLIPSIS;
+                    }else{
+                        s4 = s.slice(0, n>>1);
+                        return s4;
+                    }
+                default:
+                    var k = n - i,
+                        s3 = s.slice(k, n),
+                        j = s3.replace(/[\x00-\xff]/g, "").length;
+                    return j ? s.slice(0, k) + arguments.callee(s3, j) : s.slice(0, k);
+            }
+        };
+        // ����
+        var nav = $('#SI_Nav');
+        nav.on('mousemove','.list', function() {
+            var item = $(this);
+            var list = item.find('dl');
+            list.width(item.outerWidth());
+            item.addClass('hover');
+        });
+        nav.on('mouseleave','.list', function() {
+            var item = $(this);
+            item.removeClass('hover');
+        });
+
+        // ��Ҫ���ݼ���
+        var handleData = (function(){
+            // ί���¼�ֻ��һ��
+            var app = PhotoBase.app;
+            return function(wrap){
+                app.renderLikeNum(wrap);
+                app.renderCmntNum(wrap);
+                // app.bindLikeNum(wrap,'voted');
+            };
+        })();
+        var render = function(data,self){
+            data = data.data;
+            var items = self.get('dom.items');
+            var html = [];
+            var strLeft = PhotoBase.util.strLeft;
+            var renderItem = function(item,hackClz){
+                var url = item.url;
+                var time = item.createtime.substr(5,11).replace('-','/');
+                var img = '//z0.sinaimg.cn/auto/resize?size=235_156&img='+item.img_url;
+                if(item.cover_ori_3_2 != '') {
+                    img = '//z0.sinaimg.cn/auto/resize?size=235_156&img='+item.cover_ori_3_2;
+                }
+                var albumname = item.name;
+                if(item.short_name != '') {
+                    albumname = item.short_name;
+                }
+                var fileType = item.img_url.substring(item.img_url.length-3);/*0409 zyc */
+                var gifHtml = fileType.toLowerCase()=='gif'?'<div class="gif"><img src="/images/v1/default/GIF.gif"/></div>':'';/*0409 zyc */
+                return '<div class="item '+hackClz+'">'
+                    +'<div class="bg"></div>'
+                    +'<div class="hd">'
+                        +'<a target="_blank" href="'+url+'"><img src="'+img+'" alt="'+item.short_name+'"></a>'
+                    +'</div>'
+                    +'<div class="bd">'
+                        +'<h3><a href="'+url+'" title="'+item.name+'">'+albumname+'</a></h3>'
+                        +'<p>'+strSplit2(item.short_intro,96)+'</p>'
+                    +'</div>'
+                    +'<div class="ft"><span class="time"><i></i>'+time+'</span><a node-type="smallCmnt" action-data="'+item.cmnt_ch+'_slidenews-album-'+item.sid+'-'+item.id+'" title="����"  href="'+url+'#J_Comment_Wrap" class="comment"><i></i>0</a><span node-type="smallLike" action-data="'+item.cmnt_ch+'_slidenews-album-'+item.sid+'-'+item.id+'" title="ϲ��" class="like"><i></i>0</span></div>'
+                    +gifHtml
+                +'</div>';
+            };
+            var len = data.length;
+
+            // û������
+            if(len==0){
+                return;
+            }
+            for (var i = 0; i < len; i++) {
+                var item = data[i];
+                var hackClz = 'item-bottom';
+                if(i+4<len){
+                    hackClz = '';
+                }
+                if(i==len-1||((i+1)%4==0)){
+                    hackClz = hackClz+' '+'item-right';
+                }
+                html.push(renderItem(item,hackClz));
+            }
+            items.hide();
+            items.html(html.join('')).fadeIn('slow');
+            // ���������������������������չ
+            var wrap = self.get('dom.wrap');
+            handleData(wrap);
+        };
+		
+		
+		var BASEURL = 'http://api.slide.news.sina.com.cn/interface/api_album.php?activity_size=198_132&size=img&ch_id=1&sub_ch=c';
+	   
+		
+	   
+        // ȫ��
+        var PageLoader1 = new PhotoBase.PageLoader({
+            api:BASEURL,
+            id:'SI_Cont',
+            page:1,
+            num:16,
+            success:render
+        });
+        // ����
+        // ���hover
+        var body = $('body');
+        var hoverClz = 'hover';
+        var itemClz = '.mod-a .item';
+        body.on('mouseover',itemClz,function(){
+            $(this).addClass(hoverClz);
+        });
+        body.on('mouseout',itemClz,function(){
+            $(this).removeClass(hoverClz);
+        });
+        // �����
+        // $('body').on('click','.activity-tab-item',function(){
+        //     var url = $(this).attr('item-url');
+        //     window.open(url);
+        // });
+    })();
+    </script>
+    <script type="text/javascript">
+    // ���ض���js
+    // (function(aClz,maxSize,co) {
+        //var doc = document, side = (function() {var body = doc.body, firstChild = body.firstChild, wrap = doc.createElement('div'); wrap.className = 'side-btns-wrap'; wrap.innerHTML = '<div class="side-btns-top"><a class="side-btns-top-btn" href="javascript:;" title="���ض���" hidefocus>���ض���</a><a class="side-btns-top-close" href="javascript:;" title="�ر�" hidefocus>�ر�</a></div>'; firstChild ? firstChild.parentNode.insertBefore(wrap, firstChild) : body.appendChild(wrap); return wrap; })(), clz = side.className, nClz = clz + ' ' + aClz, cookieName = co.name || 'TOPDIS', domain = co.domain || 'news.sina.com.cn', path = co.path|| '/', lnks = side.getElementsByTagName('a'), btn = lnks[0], close = lnks[1], addEvent = function(o, s, fn) {if (o.attachEvent) {o.attachEvent('on' + s, fn); } else {o.addEventListener(s, fn, false); } return o; }, toggle = function() {var top = doc.documentElement.scrollTop || doc.body.scrollTop, visible = (top > 0 ? 'visible' : 'hidden'); side.style.visibility = visible; }, sideToggle = function(dis) {side.style.display = dis; }, resize = function() {var body = doc.documentElement || doc.body; if (!body) {return; } var width = body.offsetWidth; if (width < maxSize) {side.className = nClz; } else {side.className = clz; } }, toTop = function() {doc.documentElement.scrollTop = 0; doc.body.scrollTop = 0; }; var cookie = (function() {var co = {}; co.getCookie = function(name) {name = name.replace(/([\.\[\]\$])/g, '\\\$1'); var rep = new RegExp(name + '=([^;]*)?;', 'i'); var co = document.cookie + ';'; var res = co.match(rep); if (res) {return unescape(res[1]) || ""; } else {return ""; } }; co.setCookie = function(name, value, expire, path, domain, secure) {var cstr = []; cstr.push(name + '=' + escape(value)); if (expire) {var dd = new Date(); var expires = dd.getTime() + expire * 3600000; dd.setTime(expires); cstr.push('expires=' + dd.toGMTString()); } if (path) {cstr.push('path=' + path); } if (domain) {cstr.push('domain=' + domain); } if (secure) {cstr.push(secure); } document.cookie = cstr.join(';'); }; co.deleteCookie = function(name) {document.cookie = name + '=;' + 'expires=Fri, 31 Dec 1999 23:59:59 GMT;'; }; return co; })(); var display = cookie.getCookie(cookieName); if(display!=''){sideToggle('none'); return; } sideToggle('block'); resize(); addEvent(window, 'resize', resize); addEvent(close,'click',function(e){sideToggle('none'); cookie.setCookie(cookieName,'1',15*24,path,domain); if(window.event){window.event.returnValue = false; }else{e.preventDefault(); } }); addEvent(window, 'scroll', toggle); addEvent(btn, 'click', toTop); })('side-btns-wrap-resize',1100,{
+        //name:'SLIDE_TOPDIS',    //cookie��
+        //domain:'slide.news.sina.com.cn' //domain ����Ƶ����ͬ
+    //});
+    </script>
+    
+    
+    
+ 
+<script type="text/javascript" > 
+(function(){
+    if (window.top !== window.self) {
+        return;
+    }
+    if (window.seajs) {
+        seajs.use('product.guess.slide'); 
+    } else {
+           (function(cb){
+            ;(function(m, o, d, u, l, a, r) {
+              if(m[d]) {(typeof cb === 'function') && cb(); return}
+              function f(n, t) { return function() { r.push(n, arguments); return t } }
+              m[d] = a = { args: (r = []), config: f(0, a), use: f(1, a) }
+              m.udvDefine = f(2)
+              u = o.createElement('script')
+              u.id = d + 'node'
+              u.src = '//i2.sinaimg.cn/jslib/modules2/seajs/1.3.0/sea.js'
+              l = o.getElementsByTagName('head')[0]
+              a = o.getElementsByTagName('base')[0]
+              a ? l.insertBefore(u, a) : l.appendChild(u)
+            })(window, document, 'seajs');
+
+            //config
+            seajs.use('//n.sinaimg.cn/slide-news/js/config.1.1.x.js', function(){
+                (typeof cb === 'function') && cb();
+            });
+        })(function(){
+            seajs.use('product.guess.slide'); 
+        }); 
+    }
+})();
+(function(d, s) {
+var j = d.createElement('script'),
+h = d.getElementsByTagName('head')[0];
+j.charset = 'utf-8';
+j.async = true;
+j.src = s;
+h.appendChild(j);
+})(document, '//n.sinaimg.cn/slide-news/js/collect.js');
+</script> 
+
+
+<!-- SUDA_CODE_START -->
+<script type="text/javascript" src="//www.sinaimg.cn/unipro/pub/suda_s_v851c.js"></script>
+<script type="text/javascript" > 
+_S_pSt(_S_PID_); 
+</script> 
+<noScript>
+<div style='position:absolute;top:0;left:0;width:0;height:0;visibility:hidden'><img width=0 height=0 src='//beacon.sina.com.cn/a.gif?noScript' border='0' alt='' /></div>
+</noScript>
+<!-- SUDA_CODE_END --> 
+
+
+
+	
+	<script type="text/javascript" src="//www.sinaimg.cn/unipro/pub/suda_m_v629.js"></script>
+	<script type="text/javascript">suds_init(3055,100.0000,1015,2);</script>
+	
+
+
+<script type="text/javascript">
+(function(d, s, id) {
+    var n = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    s = d.createElement(s);
+    s.id = id;
+    s.setAttribute('charset', 'utf-8');
+    s.src = '//d' + Math.floor(0 + Math.random() * (8 - 0 + 1)) + '.sina.com.cn/litong/zhitou/sinaads/src/spec/sinaads_ck.js';
+    n.parentNode.insertBefore(s, n);
+})(document, 'script', 'sinaads-ck-script');
+</script>
+
+</body>
+
+</html>

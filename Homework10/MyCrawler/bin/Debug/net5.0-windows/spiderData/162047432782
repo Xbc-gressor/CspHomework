@@ -1,0 +1,628 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    
+    
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>trumpp - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/lessismoreright/bundle-lessismoreright.min.css?v=00nt3ajQUVX0gvFynxRY-4TOqQaW32yFChuBOrvOqLk" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/lessismoreright/bundle-lessismoreright-mobile.min.css?v=cSBXSFXCBG9KdnF2sdUs-Rwu75GHG2_Gs50OCy_ecGg" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/yqfyyy/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/yqfyyy/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/yqfyyy/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 486100;
+        var currentBlogApp = 'yqfyyy';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'LessIsMoreRight';
+        var visitorUserId = '';
+    </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <div id="home">
+    <div id="header">
+        <div id="blogTitle">
+            <div class="title"><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/yqfyyy/">trumpp</a>
+</div>
+<div class="subtitle"></div>
+
+        </div>
+        <div id="navigator">
+            
+<ul id="navList">
+    <li id="nav_sitehome"><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+    <li id="nav_myhome">
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/yqfyyy/">
+首页</a>
+</li>
+    <li id="nav_newpost">
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+    <li id="nav_contact">
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/trumpp">
+联系</a></li>
+    <li id="nav_rss">
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/yqfyyy/rss/">
+订阅</a></li>
+    <li id="nav_admin">
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+            <div class="blogStats">
+                <div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+            </div>
+        </div>
+    </div>
+    <div id="main">
+        <div id="mainContent">
+            <div class="forFlow">
+                
+
+
+
+
+
+
+    
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/yqfyyy/archive/2021/05/08.html">2021年5月8日</a>
+    </div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/yqfyyy/p/14744231.html">
+    <span>
+        大数据时代，数据恢复技巧你会了吗？
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+            
+
+    <div class="c_b_p_desc">
+摘要：随着网络的普及，我们的各种数据基本上都存储到了电脑、手机、以及各种软件当中，数据的重要性已经不言而喻，如果重要的数据有丢失或者误删，可能会给我们带来很大的损失。因此，拥有一个好的数据恢复工具很重要，在数据有丢失、误删等情况下快速恢复数据，推荐大家用数据恢复软件EasyRecovery，可以轻松恢复各        <a href="https://www.cnblogs.com/yqfyyy/p/14744231.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        </div>
+        <div class="clear"></div>
+        <div class="postDesc">
+            posted @ 2021-05-08 11:26
+trumpp
+<span data-post-id="14744231" class="post-view-count">阅读(0)</span> 
+<span data-post-id="14744231" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14744231" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14744231" rel="nofollow">
+    编辑
+</a>
+
+        </div>
+        <div class="clear"></div>
+</div>
+    
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/yqfyyy/archive/2021/05/07.html">2021年5月7日</a>
+    </div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/yqfyyy/p/14738765.html">
+    <span>
+        如何找回不小心删除的PDF文档？
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+            
+
+    <div class="c_b_p_desc">
+摘要：不论在工作中还是在上学的小伙伴都有彻夜办公的经历，工作量大的时候，迷迷糊糊的状态就很容易犯一些低级错误，比如，误删一些重要的PDF文档。辛辛苦苦做了一夜的Word文档，战战兢兢转成PDF，小手一抖，不见了，欲哭无泪。那此类情况需要怎么挽救呢？ 这里要给大家分享一款高效快捷的数据恢复软件 EasyRe        <a href="https://www.cnblogs.com/yqfyyy/p/14738765.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        </div>
+        <div class="clear"></div>
+        <div class="postDesc">
+            posted @ 2021-05-07 13:26
+trumpp
+<span data-post-id="14738765" class="post-view-count">阅读(3)</span> 
+<span data-post-id="14738765" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14738765" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14738765" rel="nofollow">
+    编辑
+</a>
+
+        </div>
+        <div class="clear"></div>
+</div>
+    
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/yqfyyy/archive/2021/05/06.html">2021年5月6日</a>
+    </div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/yqfyyy/p/14734151.html">
+    <span>
+        将演示文档导出为视频，并用Camtasia剪辑
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+            
+
+    <div class="c_b_p_desc">
+摘要：随着互联网的普及，能够足不出户上网课，节省时间也节省资源，对老师们来说，利用录屏剪辑软件也能轻松进行线上授课、科研讨论等工作。 而Camtasia 2020不光适合录屏剪辑，同样是一款适合初学者的微课制作软件，今天小编将演示如何将演示文档生成视频并使用Camtasia 2020剪辑成一个完整的微课。        <a href="https://www.cnblogs.com/yqfyyy/p/14734151.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        </div>
+        <div class="clear"></div>
+        <div class="postDesc">
+            posted @ 2021-05-06 10:38
+trumpp
+<span data-post-id="14734151" class="post-view-count">阅读(4)</span> 
+<span data-post-id="14734151" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14734151" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14734151" rel="nofollow">
+    编辑
+</a>
+
+        </div>
+        <div class="clear"></div>
+</div>
+    
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/yqfyyy/archive/2021/04/30.html">2021年4月30日</a>
+    </div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/yqfyyy/p/14721246.html">
+    <span>
+        录像编辑软件Camtasia如何导入和删除素材？
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+            
+
+    <div class="c_b_p_desc">
+摘要：Camtasia 2020（Win系统）作为一款视频录制及编辑软件，在微课界广受欢迎，因为大家在制作微课的时候，需要对课程进行录制，这款微课制作软件除了可以录制视频，同时还可以对视频进行编辑，更重要的是，它的功能齐全且强大，能满足微课制作的很多需求。 今天，小编就为大家带来这款微课制作软件的功能教程        <a href="https://www.cnblogs.com/yqfyyy/p/14721246.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        </div>
+        <div class="clear"></div>
+        <div class="postDesc">
+            posted @ 2021-04-30 11:00
+trumpp
+<span data-post-id="14721246" class="post-view-count">阅读(4)</span> 
+<span data-post-id="14721246" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14721246" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14721246" rel="nofollow">
+    编辑
+</a>
+
+        </div>
+        <div class="clear"></div>
+</div>
+    
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/yqfyyy/archive/2021/04/29.html">2021年4月29日</a>
+    </div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/yqfyyy/p/14717278.html">
+    <span>
+        EasyRecovery创建磁盘镜像恢复文件的方法
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+            
+
+    <div class="c_b_p_desc">
+摘要：如果我们的电脑使用时间过长，那么硬盘就会逐渐老化，储存在部分硬盘里面的重要文件就有丢失或者损坏的可能。当硬盘中的文件损坏，却想快速地恢复里面的文件，那该怎么办呢？ “磁盘镜像”能够增强数据整合度，在数据恢复中扮演重要角色。使用EasyRecovery（win系统）创建磁盘镜像就能快速恢复硬盘中的损坏        <a href="https://www.cnblogs.com/yqfyyy/p/14717278.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        </div>
+        <div class="clear"></div>
+        <div class="postDesc">
+            posted @ 2021-04-29 11:25
+trumpp
+<span data-post-id="14717278" class="post-view-count">阅读(7)</span> 
+<span data-post-id="14717278" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14717278" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14717278" rel="nofollow">
+    编辑
+</a>
+
+        </div>
+        <div class="clear"></div>
+</div>
+    
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/yqfyyy/archive/2021/04/28.html">2021年4月28日</a>
+    </div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/yqfyyy/p/14713915.html">
+    <span>
+        Camtasia软件画布的设置
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+            
+
+    <div class="c_b_p_desc">
+摘要：微课制作软件Camtasia可以对画布的规格、背景色等进行设置，具体尺寸及背景色，可根据屏幕大小和个人喜好等来进行确定。以下将结合Camtasia 2020（Win系统）来讲一下。 这里附上软件的下载地址：https://cpv2.mairuan.com/luping.net.cn/full/Cam        <a href="https://www.cnblogs.com/yqfyyy/p/14713915.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        </div>
+        <div class="clear"></div>
+        <div class="postDesc">
+            posted @ 2021-04-28 14:20
+trumpp
+<span data-post-id="14713915" class="post-view-count">阅读(4)</span> 
+<span data-post-id="14713915" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14713915" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14713915" rel="nofollow">
+    编辑
+</a>
+
+        </div>
+        <div class="clear"></div>
+</div>
+    
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/yqfyyy/archive/2021/04/27.html">2021年4月27日</a>
+    </div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/yqfyyy/p/14708116.html">
+    <span>
+        如何使用EasyRecovery巧妙恢复被误删的办公文档？
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+            
+
+    <div class="c_b_p_desc">
+摘要：大家在使用办公软件时，是否常常会出现误删文档或未及时保存导致文件丢失的情况？不用担心，有了EasyRecovery强大的文档恢复功能，大家就能轻松找回丢失的文档！下面就跟随小编看看EasyRecovery（Win系统)具体怎么操作吧~ 附上软件的下载地址：https://cpv2.mairuan.c        <a href="https://www.cnblogs.com/yqfyyy/p/14708116.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        </div>
+        <div class="clear"></div>
+        <div class="postDesc">
+            posted @ 2021-04-27 11:13
+trumpp
+<span data-post-id="14708116" class="post-view-count">阅读(8)</span> 
+<span data-post-id="14708116" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14708116" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14708116" rel="nofollow">
+    编辑
+</a>
+
+        </div>
+        <div class="clear"></div>
+</div>
+    
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/yqfyyy/archive/2021/04/20.html">2021年4月20日</a>
+    </div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/yqfyyy/p/14680064.html">
+    <span>
+        Camtasia实用技巧之视频剪辑
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+            
+
+    <div class="c_b_p_desc">
+摘要：随着人们生活节奏的变快，短视频也应时而生，而制作好短视频的关键，就是要学会基础的视频剪辑。下面我将使用Camtasia 2020(Win版)来为大家进行演示。 附上软件的下载地址：https://cpv2.mairuan.com/luping.net.cn/full/CamtasiaInstalle        <a href="https://www.cnblogs.com/yqfyyy/p/14680064.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        </div>
+        <div class="clear"></div>
+        <div class="postDesc">
+            posted @ 2021-04-20 10:44
+trumpp
+<span data-post-id="14680064" class="post-view-count">阅读(11)</span> 
+<span data-post-id="14680064" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14680064" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14680064" rel="nofollow">
+    编辑
+</a>
+
+        </div>
+        <div class="clear"></div>
+</div>
+    
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/yqfyyy/archive/2021/04/15.html">2021年4月15日</a>
+    </div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/yqfyyy/p/14661821.html">
+    <span>
+        怎么借助Camtasia给电脑游戏录屏
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+            
+
+    <div class="c_b_p_desc">
+摘要：游戏是我们生活中很热门的东西，经常能看见很多游戏主播制作各种各样的游戏视频，视频一般是主播“露头解说”并对角色进行操作的游戏画面。很多人好奇这些视频是怎么制作的。 其实借助Camtasia可以轻松的制作这样的视频。Camtasia Studio 是一款专门录制屏幕动作的工具。 下面一起来学习一下具体        <a href="https://www.cnblogs.com/yqfyyy/p/14661821.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        </div>
+        <div class="clear"></div>
+        <div class="postDesc">
+            posted @ 2021-04-15 11:51
+trumpp
+<span data-post-id="14661821" class="post-view-count">阅读(7)</span> 
+<span data-post-id="14661821" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14661821" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14661821" rel="nofollow">
+    编辑
+</a>
+
+        </div>
+        <div class="clear"></div>
+</div>
+    
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/yqfyyy/archive/2021/04/13.html">2021年4月13日</a>
+    </div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/yqfyyy/p/14653054.html">
+    <span>
+        Camtasia旁白录制教程
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+            
+
+    <div class="c_b_p_desc">
+摘要：Camtasia作为一款集屏幕录制、视频与音频剪辑为一体的软件，编辑步骤清晰简洁，非常适合新手入门。安装完软件之后还会有新手指引视频，能让你在最短的时间内了解软件的大部分功能。对于不想花费太多时间，又想体验视频制作的人，Camtasia是不错的选择。 有人说：一个视频的灵魂来自于其中的故事。旁白的加        <a href="https://www.cnblogs.com/yqfyyy/p/14653054.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        </div>
+        <div class="clear"></div>
+        <div class="postDesc">
+            posted @ 2021-04-13 14:28
+trumpp
+<span data-post-id="14653054" class="post-view-count">阅读(7)</span> 
+<span data-post-id="14653054" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14653054" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14653054" rel="nofollow">
+    编辑
+</a>
+
+        </div>
+        <div class="clear"></div>
+</div>
+
+<div class="topicListFooter">
+    <div id="nav_next_page">
+        
+    <a href="https://www.cnblogs.com/yqfyyy/default.html?page=2">
+        下一页
+    </a>
+
+    </div>    
+</div>
+
+
+
+
+<script>
+    updatePostStats(
+        $(".post-view-count").map(function () { return this.dataset.postId }).get(),
+        function(id, count) { $(".post-view-count[data-post-id=" + id + "]").text("阅读(" + count + ")") },
+        function(id, count) { $(".post-comment-count[data-post-id=" + id + "]").text("评论(" + count + ")") },
+        function(id, count) { $(".post-digg-count[data-post-id=" + id + "]").text("推荐(" + count + ")") });
+</script>
+            </div>
+        </div>
+
+        <div id="sideBar">
+            <div id="sideBarMain">
+                <div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+                <div id="calendar"><div id="blog-calendar" style="display:none"></div></div>                
+                <script>loadBlogDefaultCalendar();</script>
+                <div id="leftcontentcontainer">
+                    <!-- begin:SingleColumn -->
+                    <div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+                    <!-- end:  SingleColumn -->
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+    <div id="footer">
+        <!--done-->
+Copyright &copy; 2021 trumpp
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+    </div>
+</div>
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjv5Kc-NrOObbu3vCRsOJUHepxX905Q-rqcDR6B2aE_0Z6BMY1-uiHFyjTsHaeRm7bhmjL-jipI5WJNG8TttlxEUMZpDeDnlZk1O9Kb6RQW5WFrWmn-gwPs8z3V3Y7bnC0Q" />
+</body>
+</html>

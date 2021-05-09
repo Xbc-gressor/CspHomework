@@ -1,0 +1,429 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="在上一篇文章中，讲到了redis五大基本数据类型的使用场景，除了string，hash，list，set，zset之外，redis还提供了一些其他的数据结构（当然，严格意义上也不算数据结构），一起来看" />
+    <meta property="og:description" content="在上一篇文章中，讲到了redis五大基本数据类型的使用场景，除了string，hash，list，set，zset之外，redis还提供了一些其他的数据结构（当然，严格意义上也不算数据结构），一起来看" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Redis还可以做哪些事？ - Java旅途 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/zhixie/custom.css?v=c&#x2B;vOoE8Dq2Tv2&#x2B;XAfR0MNoJ0i5g=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/codinglife/bundle-codinglife-mobile.min.css?v=DwDRKMd1bmjnJZ4iQqrTCO9QLlYb6OZaUAzHoHIIihg" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/zhixie/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/zhixie/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/zhixie/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 522067;
+        var currentBlogApp = 'zhixie';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'CodingLife';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2020-11-03 10:42';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="no-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="page_begin_html">
+        <link  type="text/css" rel="stylesheet" href="https://files.cnblogs.com/files/hafiz/feedback.css">
+<link  type="text/css" rel="stylesheet" href="https://files.cnblogs.com/files/miangao/maodian.css">
+
+    </div>
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/zhixie/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/zhixie/">Java旅途</a>
+</h1>
+<h2>微信搜索『Java旅途』每天推送优质文章</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/zhixie/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/Java%E6%97%85%E9%80%94">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/zhixie/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/zhixie/p/13918144.html">
+    <span>Redis还可以做哪些事？</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+<p>在<a href="https://mp.weixin.qq.com/s/g6Ff3upBsvc5x6H8k6-8tQ" target="_blank">上一篇</a>文章中，讲到了redis五大基本数据类型的使用场景，除了string，hash，list，set，zset之外，redis还提供了一些其他的数据结构（当然，严格意义上也不算数据结构），一起来看看redis还可以做哪些事？</p>
+<h2 id="一-bitmaps">一 Bitmaps</h2>
+<p>在计算机中，使用二进制做为信息的基础单元，也就是输入的任何信息，最终在计算机底层都会转会为一串二进制的数字。在redis中，提供了Bitmaps来进行位操作。我们可以把Bitmaps想象成一个以位为单位的数组，数组的下标叫做偏移量。使用Bitmaps的优势就是占用空间更少。</p>
+<p>假如我们想记录员工今天是否登录过公司官网，我们可以日期做为key，员工id做为偏移量（这里员工id在数据库中是自增的），如果id是从1000开始，为了节省空间，一般会将员工id减去这个初始值来做为偏移量，偏移量一般从<code>0</code>开始。是否访问官网用<code>0</code>和<code>1</code>来表示。</p>
+<p>这样的话，id为<code>3</code>的员工访问了官网，就将他的值写成<code>1</code></p>
+<pre><code class="language-xml"># id为3的员工访问了官网
+setbit user:2020-11-04 3 1
+# id为18的员工访问了官网
+setbit user:2020-11-04 18 1
+</code></pre>
+<p>查看某个员工是否访问过官网</p>
+<pre><code class="language-xml">getbit user:2020-11-04 1
+</code></pre>
+<p>查询指定范围（字节）内值为1的个数，比如我想查看id从1-30之间有多少员工访问了官网</p>
+<pre><code class="language-xml">bitcount user:2020-11-04 0 3
+</code></pre>
+<h2 id="二-hyperloglog">二 HyperLogLog</h2>
+<p><code>HyperLogLog</code>可以利用极小的内存空间完成数据统计，无法获取单条数据，只能做为统计使用，会有一定的误差率。</p>
+<p>假如我想统计访问官网的IP地址</p>
+<p>添加官网今天访问的ip列表</p>
+<pre><code class="language-xml"># 2020-11-04访问的ip
+pfadd 2020-11-04:ip "ip1" "ip2" "ip3" 
+# 2020-11-05访问的ip
+pfadd 2020-11-05:ip "ip3" "ip4" "ip5" 
+</code></pre>
+<p>计算今天官网访问的ip数</p>
+<pre><code class="language-xml">pfcount 2020-11-04:ip
+</code></pre>
+<p>返回结果为3</p>
+<p>查看2020-11-04和2020-11-05这两天总共有多少个独立ip访问过网站</p>
+<p>先将两天的数据做并集，并复制给某个值</p>
+<pre><code class="language-xml">pfmerge 2020-11:ip 2020-11-04:ip 2020-11-05:ip
+</code></pre>
+<p>然后使用pfcount命令查询，获得的值为5</p>
+<pre><code class="language-xml">pfcount 2020-11:ip
+</code></pre>
+<h2 id="三-geo">三 GEO</h2>
+<p>在<code>Redis3.2</code>版本中增加了GEO（地理位置定位）功能，可以使用此功能来获取附近的人。</p>
+<p>添加命令如下，可批量添加</p>
+<pre><code class="language-xml">geoadd city longitud latitude member
+</code></pre>
+<p>我们添加几个城市的位置信息，来获取某个城市附近的城市</p>
+<pre><code class="language-xml">geoadd city 116.28 39.55 beijing 117.12 39.08 tianjin
+</code></pre>
+<p>获取北京的经纬度命令如下</p>
+<pre><code class="language-xml">geopos city beijing
+</code></pre>
+<p>查看beijing和tianjin两座城市的距离</p>
+<pre><code class="language-xml">geodist city beijing tianjin km
+</code></pre>
+<p>最后面的km表示距离单位是公里，支持的单位有以下几个：</p>
+<ul>
+<li>m，米</li>
+<li>km，千米</li>
+<li>mi，英里</li>
+<li>ft，尺</li>
+</ul>
+<p>获取附近的位置有两个命令，<code>georadius</code>根据经纬度获取，<code>georadiusbymember</code>根据成员获取</p>
+<pre><code class="language-xml">georadius key longitude laitude [单位]
+georadiusbymember key member [单位]
+</code></pre>
+<p>后面还可以跟非必须参数，参数分别如下</p>
+<ul>
+<li>withcoord：返回结果中包含经纬度</li>
+<li>withdist：返回结果中包含距离中心位置的距离</li>
+<li>withhash：返回结果中包含geohash（就是将经纬度转换为hash值）</li>
+<li>COUNT count：指定返回结果的数量</li>
+<li>asc|desc：返回结果按距离中心位置的距离排序</li>
+<li>store key：将返回结果的地理位置信息保存到指定key中</li>
+<li>storedist key：将返回结果距离中心位置的距离保存到指定key中</li>
+</ul>
+<h2 id="四-发布订阅模式消息">四 发布订阅模式消息</h2>
+<p>在<a href="https://mp.weixin.qq.com/s/g6Ff3upBsvc5x6H8k6-8tQ" target="_blank">上一篇</a>文章中讲到了可以使用list和zset来实现消息队列，但是上面实现的消息队列是点对点模式，也就是一条消息只能由一个消费者来消费。除此之外，redis还支持发布订阅模式，即一个消息由所有订阅者消费，比如广播、公告等等，发布一条公告后，所有关注了我的用户都可以收到这条公告。</p>
+<ol>
+<li>发布消息</li>
+</ol>
+<p>发布到信道channel:message一条消息，消息内容为<code>hi</code></p>
+<pre><code class="language-xml">pulish channel:message hi
+</code></pre>
+<ol start="2">
+<li>订阅信道</li>
+</ol>
+<p>订阅者可以订阅一个或多个信道，比如订阅channel:message</p>
+<pre><code class="language-java">subscribe channel:message
+</code></pre>
+<ol start="3">
+<li>取消订阅</li>
+</ol>
+<pre><code class="language-java">unsubscribe channel:message
+</code></pre>
+<ol start="4">
+<li>查看活跃信道</li>
+</ol>
+<pre><code class="language-xml">pubsub channels
+</code></pre>
+<ol start="5">
+<li>查看订阅数</li>
+</ol>
+<p>查看信道channel:message订阅个数</p>
+<pre><code class="language-xml">pubsub numsub channel:message
+</code></pre>
+<p>redis的发布订阅模式和专业的消息中间件相比，略显粗糙，但是实现起来非常简单，学习成本较低。</p>
+<h2 id="五-bloom-filter">五 Bloom Filter</h2>
+<p>布隆过滤器是<code>redis4</code>版本中新增的一个功能。其实现原理和Bitmaps差不多，也是利用一个位数组，将你的值经过<strong>多个</strong>hash函数，得到对应的位数组的位置，将这些值设置为1。布隆过滤器经常别用来防止缓存穿透。</p>
+<p>存在的问题，如果说某个元素不存在，则一定不存在，如果说某个元素存在，则可能不存在。这是因为如果有三个元素<code>a</code>，<code>b</code>，<code>c</code>要放入同一个数组中去，假设<code>a</code>经过三次hash，得到1，5，7三个位置，那么就会将这三个位置修改成<code>1</code>，<code>b</code>经过三次hash，得到2，4，6三个位置，将这三个位置修改成<code>1</code>。<code>c</code>经过三次hash得到2，5，7三个位置，但是经过前两个元素hash后，这三个位置已经修改成<code>1</code>了，那么我们能说<code>c</code>一定存在吗？显然不能！</p>
+<hr>
+<h2 id="点关注、不迷路">点关注、不迷路</h2>
+<p>如果觉得文章不错，欢迎<strong>关注</strong>、<strong>点赞</strong>、<strong>收藏</strong>，你们的支持是我创作的动力，感谢大家。</p>
+<p>如果文章写的有问题，请不要吝惜文笔，欢迎留言指出，我会及时核查修改。</p>
+<p>如果你还想更加深入的了解我，可以微信搜索「<strong>Java旅途</strong>」进行关注。回复「<strong>1024</strong>」即可获得学习视频及精美电子书。每天7:30准时推送技术文章，让你的上班路不在孤独，而且每月还有送书活动，助你提升硬实力！</p>
+
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2020-11-03 10:42</span>&nbsp;
+<a href="https://www.cnblogs.com/zhixie/">Java旅途</a>&nbsp;
+阅读(<span id="post_view_count">490</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=13918144" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(13918144);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 522067, cb_blogApp = 'zhixie', cb_blogUserGuid = '9c1db5da-f861-43f5-e791-08d6f39868f9';
+    var cb_entryId = 13918144, cb_entryCreatedDate = '2020-11-03 10:42', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 Java旅途
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    <div id="page_end_html">
+        <script type="text/javascript">
+$(function(){
+    $('#blogTitle h1').addClass('bounceInLeft animated');
+    $('#blogTitle h2').addClass('bounceInRight animated');
+    // 删除反对按钮
+    $('.buryit').remove();
+    initCommentData();
+});
+function initCommentData() {
+    $('.feedbackItem').each(function() {
+        var text = $(this).find('.feedbackListSubtitle .layer').text();
+        // 将楼层信息放到data里面
+        // $(this).find('.blog_comment_body').attr('data-louceng', text.replace(/^#/g, ''));
+        if($(this).find('.feedbackListSubtitle .louzhu').length>0) $(this).addClass('myself');
+        var avatar = $(this).find('> .feedbackCon > span').html() || 'http://pic.cnitblog.com/face/sample_face.gif';
+        $(this).find('> .feedbackCon > .blog_comment_body').append('<img class="user-avatar" src="'+avatar+'"/>')
+    });
+}
+
+$(document).ajaxComplete(function(event, xhr, settings) {
+  // 监听获取评论ajax事件
+  if(settings.url.indexOf('/mvc/blog/GetComments.aspx') >= 0) {
+    initCommentData();
+  }
+});
+</script>
+
+
+<script src="https://files.cnblogs.com/files/hafiz/jquery-migrate-1.2.1.js"></script>
+<div id="scrollTop" style="display:none;">
+      <div class="level-2"></div>
+      <div class="level-3"></div>
+</div>
+<script src="https://files.cnblogs.com/files/hafiz/scroll2top.js"></script>
+<script type="text/javascript">
+    UI.global_search();
+    var uvOptions = {};
+    // !important
+    (function() {
+        initScrollTop();
+    })();
+</script>
+
+<script src="https://files.cnblogs.com/files/miangao/bootstrap.min.js"></script>
+
+
+    </div>
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjvif51lknZH-4SLW062MC4Ni229C5wURWNvVICNXqlihfFpOW_dji9NMjWcyDfAMR0yi60NQX43UF7MSiBetTEUVDyYzDB6sgqcVTQP_h0tBbExKU-yUxTem2mfzbR6lTw" />
+</body>
+</html>

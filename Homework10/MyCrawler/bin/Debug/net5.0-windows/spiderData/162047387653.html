@@ -1,0 +1,369 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="背景 早期的网络是基于OSI（开放式系统互联网，一般叫OSI参考模型）模型，该模型是由ISO国际标准组织制定的，包含了七层（应用层、表示层、会话层、传输层、网络层、数据链路层、物理层），即复杂又不实用" />
+    <meta property="og:description" content="背景 早期的网络是基于OSI（开放式系统互联网，一般叫OSI参考模型）模型，该模型是由ISO国际标准组织制定的，包含了七层（应用层、表示层、会话层、传输层、网络层、数据链路层、物理层），即复杂又不实用" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>前端不得不了解的TCP协议 - Cynthia-milk - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/codinglife/bundle-codinglife.min.css?v=2uJkpdACLVfstRQ7zeCFK19brTwKuDEaNBLgKz9nm3A" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/codinglife/bundle-codinglife-mobile.min.css?v=DwDRKMd1bmjnJZ4iQqrTCO9QLlYb6OZaUAzHoHIIihg" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/cythia/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/cythia/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/cythia/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 310173;
+        var currentBlogApp = 'cythia';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'CodingLife';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-05-07 11:02';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/cythia/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/cythia/">Cynthia-milk</a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/cythia/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/Cynthia-milk">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/cythia/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/cythia/p/14743096.html">
+    <span>前端不得不了解的TCP协议</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<h2><span style="font-family: &quot;Microsoft YaHei&quot;"><strong>背景</strong></span></h2>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 14px">早期的网络是基于OSI（开放式系统互联网，一般叫OSI参考模型）模型，该模型是由ISO国际标准组织制定的，包含了七层（应用层、表示层、会话层、传输层、网络层、数据链路层、物理层），即复杂又不实用，以至于招到了许多批评，所以，当时就有一批技术人员为了方便开发，提高效率，自己开发了一套新的协议，TCP/IP协议，在简化的计算机网络OSI模型中，她完成了第四层传输层所指定的功能</span></p>
+<h2><span style="font-family: &quot;Microsoft YaHei&quot;">&nbsp;概念</span></h2>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 14px">TCP/IP协议（Transmission Control Protocol），翻译过来是传输控制协议，是一种面向连接的、可靠的、基于字节流的传输层通信协议。包含有四层（应用层、传输层、网际层、网络接口层），不过从实质来讲，TCP/IP协议只有最上面的三层，因为最下面的网络接口层基本上和一般的通信链路的功能上没多大差别</span></p>
+<ul>
+<li>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 14px">应用层：负责处理特定的应用程序细节。包含各种应用程序协议，如：Telnet远程登录、FTP文件传输协议、SMTP简单邮件传送协议、SNMP简单网络管理协议</span></p>
+</li>
+<li>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 14px">传输层：为网络提供了流量控制，错误控制和确认服务。在TCP/IP协议族里面，又包含两个互不相同的传输协议：TCP和UDP，后面会讲解</span></p>
+</li>
+<li>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 14px">网际层：提供独立于硬件的逻辑寻址,实现物理地址与逻辑地址的转换，网际层（也叫网络层）协议包括IP协议、ICMP协议以及OGMP协议（ Internet 组管理协议）</span></p>
+</li>
+<li>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 14px">网络接口层：通常包括操作系统中的设备驱动程序和计算机中对应的网络接口卡，它们一起处理与电缆或其他人护额传输媒介的物理接口细节，对应的设备有，传输介质、网卡、交换机</span></p>
+</li>
+</ul>
+<h2><span style="font-family: &quot;Microsoft YaHei&quot;">TCP与UDP</span></h2>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 14px">TCP和UDP是两种最为著名的传输层协议，二者都使用IP作为网络层协议尽管TCP和UDP都使用相同的网络层（IP），TCP却向应用层提供与UDP完全不同的服务</span></p>
+<h3><span style="font-family: &quot;Microsoft YaHei&quot;">TCP</span></h3>
+<p><span style="font-size: 14px">TCP，传输控制协议，面向连接的协议，可靠的字节流服务。面向连接意味着两个使用TCP的应用（通常是一个客户和一个服务器）在彼此交换数据之前必须建立一个TCP连接</span></p>
+<h4>&nbsp;特点：</h4>
+<ul>
+<li>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 14px">只支持一对一传输（端对端的传输）</span></p>
+</li>
+<li>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 14px">&nbsp;数据大小无限制</span></p>
+</li>
+<li>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 14px">&nbsp;建立连接通道</span></p>
+</li>
+<li>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 14px">&nbsp;速度慢，但是可靠性高</span></p>
+</li>
+</ul>
+<h3><span style="font-family: &quot;Microsoft YaHei&quot;">UDP协议</span></h3>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 14px">用户数据报协议，是OSI参考模型中一种无连接的传输层协议，提供面向事务的简单不可靠信息传送服务，UDP提供了无连接通信，适合于一次传输少量数据，UDP报文没有可靠性保证、顺序保证和流量控制字段等，可靠性较差。但是正因为UDP协议的控制选项较少，在数据传输过程中延迟小、数据传输效率高，适合对可靠性要求不高的应用程序，或者可以保障可靠性的应用程序，如DNS、TFTP、SNMP</span></p>
+<p><strong><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 18px">特点：</span></strong></p>
+<ul>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 14px">可以一对一、一对多、多对一和多对多的交互通信</span></li>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 14px">速度快，但可靠性低</span></li>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 14px">数据有大小限制（64k）</span></li>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 14px">不需要建立连接</span></li>
+</ul>
+<p><strong><span style="font-size: 16px; font-family: &quot;Microsoft YaHei&quot;">应用：</span></strong></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 14px">一般应用于QQ、微信等即时聊天上</span></p>
+<h4><span style="font-size: 16px">TCP和UDP的区别</span></h4>
+<ul>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 14px">TCP面向连接（如打电话要先拨号建立连接），UDP是无连接的，即发送数据之前不需要建立连接</span></li>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 14px">TCP提供可靠的服务，也就是说通过TCP连接传送的数据，无差错，无丢失，不重复，且按序到达；TCP通过校验和重传控制，序号标识，滑动窗口、确认应答实现可靠传输。如丢包时的重发控制，还可以对次序乱掉的分包进行顺序控制，UDP尽最大努力交付，即不保证可靠交付</span></li>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 14px">UDP具有较好的实时性，工作效率比TCP高，适用于对高速传输和实时性有较高的通信或广播通信</span></li>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 14px">每一条TCP连接只能是点对点，UDP支持一对一、一对多、多对一和多对多的交互通信</span></li>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 14px">TCP对系统资源要求较多，UDP对系统资源要求较少</span></li>
+</ul>
+<h2><span style="font-family: &quot;Microsoft YaHei&quot;">三次握手与四次挥手</span></h2>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 14px">这个是前端面试中，最经常考的，所以呢，这个我们得重点掌握才行。</span></p>
+<h3><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 18px">tcp的首部数据</span></h3>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 14px">在了解三次握手和四次挥手之前，我们得先了解tcp头部数据的宏观位置和首部报文格式，方便我们后面理解</span></p>
+<h4><span style="font-family: 黑体">宏观位置</span></h4>
+<p><span style="font-family: 黑体"><img src="https://img2020.cnblogs.com/blog/1034530/202105/1034530-20210507232715376-1172917951.png" alt="" loading="lazy"></span></p>
+<ul>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 14px">数据从应用层-&gt;传输层-&gt;网络层-&gt;链路层，没经过一次都会在保温中增加相应的首部</span></li>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 14px">tcp数据被封装在ip数据报中</span></li>
+</ul>
+<h4>首部报文格式</h4>
+<p><img src="https://img2020.cnblogs.com/blog/1034530/202105/1034530-20210507232701059-536596965.png" alt="" loading="lazy"></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 14px">一行有32个bit即32位，1个字节=8个位，即一行有4个字节</span></p>
+<ul>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 14px">16位源端口和16位目的端口：告知主机该报文段是来自哪里（源端口Source Port）以及传给哪个上层协议或应用程序</span></li>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 14px">32位序号：用于对字节流进行编号</span></li>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 14px">确认号：期望收到的下一个报文段的序号</span></li>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 14px">选项：长度不定</span></li>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 14px">数据：该TCP协议包负载的数据</span></li>
+</ul>
+<h4>标识位说明：</h4>
+<ul>
+<li>URC：紧急标志，为1时，表示紧急指针有效</li>
+<li>ACK：确认标志，连接建立成功，总为1，为1时确认号有效</li>
+<li>PSH：接收方应尽快把这个报文交给应用层</li>
+<li>RST：复位标志,重建连接</li>
+<li>SYN：同步标志，该标志仅在三次握手建立TCP连接时有效，它提示TCP连接的服务端检查序列编号，该序列编号为TCP连接初始端(一般是客户端)的初始序列编号。</li>
+<li>FIN：关闭连接标志</li>
+</ul>
+<h3>三次握手</h3>
+<ul>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 14px">三次握手机制是为了保证建立一个安全可靠的连接</span></li>
+<li><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 14px">tcp连接是全双工的，数据在两个方向上能同时传递</span></li>
+</ul>
+<p><img src="https://img2020.cnblogs.com/blog/1034530/202105/1034530-20210507232641816-856473768.png" alt="" loading="lazy"><br><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 14px"><span style="color: rgba(255, 102, 0, 1)">第一次握手</span>：第一次握手是有客户端发起的，客户端向服务端发送一个报文，在报文里面SYN标志位为1，seq携带一位32位的序列号，当服务端收到这个报文之后，就在知道客户端是想要和我建立一个新的连接</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 14px"><span style="color: rgba(255, 102, 0, 1)">第二次握手</span>：第二次握手是由服务端发起的，服务端在收到客户端在第一次握手时发的报文之后，确定客户端是想和自己建立连接后，，于是服务端就向客户端发送了一个确认消息包，在这个包里面，SYN标志位和ACK标志位都为1，并携带32位的确认序号</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 14px">以上两次握手后，对于客户端而言，已经明确了客户端既能给服务端发小心，也能收到服务端的响应。但是对服务端而言，两次握手是不够的，到目前为止，服务端只知道一件事情，客户端发给我的消息我能收到，但是客户端能不能收到我的消息我是不知道的，所以，还需要进行第三次握手</span></p>
+<p><br><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 14px"><span style="color: rgba(255, 102, 0, 1)">第三次握手</span>：第三次握手就是当客户端收到服务端发送的响应报文之后，还要继续去给服务端进行回应，在报文里面携带一个32位的确认序号。</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 14px">通过以上三次握手之后，不管是客户端还是服务端，都知道，我既能给对方发送消息，也能收到对方的响应，那么这个连接就被安全的创建了</span></p>
+<h3>&nbsp;四次挥手</h3>
+<p><img src="https://img2020.cnblogs.com/blog/1034530/202105/1034530-20210507232622138-1246086517.jpg" alt="" loading="lazy"></p>
+<p><br><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 14px"><span style="color: rgba(255, 102, 0, 1)">第一次挥手</span>：第一次挥手也是由客户端发起的，客户端会发送一个报文，报文里面FIN标志位为1，表示关闭连接，当服务端收到这个报文之后，就知道客户端想要和我断开连接了</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 14px"><span style="color: rgba(255, 102, 0, 1)">第二次挥手</span>：第二次报文是由服务端发起的，当服务端收到客户端的报文之后，服务端辞职可能还有未发送完的报文消息，需要继续发送，所以此时客户端只能告诉客户端，我知道你要和我断开连接啦，但是我还没准备好，需要等我一下等我好了之后我会通知你的（此时的报文消息里面包含32位确认序号ack和确认标志ACK=1）</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 14px"><span style="color: rgba(255, 102, 0, 1)">第三次挥手</span>：此时的服务端已经准备好了，于是就告诉客户端，我可以断开连接啦，在这条消息报文里面FIN=1，并携带32位的ack确认序号</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 14px"><span style="color: rgba(255, 102, 0, 1)">第四次挥手</span>：当客户端收到服务端的断开连接的报文后，客户端同样需要继续发送一个确认包的报文给服务端。</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 14px">通过这四次的相互沟通和连接，不断时客户端还是服务端，都已经做好了断开的准备</span></p>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2021-05-07 23:02</span>&nbsp;
+<a href="https://www.cnblogs.com/cythia/">Cynthia-milk</a>&nbsp;
+阅读(<span id="post_view_count">138</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14743096" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14743096);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 310173, cb_blogApp = 'cythia', cb_blogUserGuid = '4700fca4-3985-e611-845c-ac853d9f53ac';
+    var cb_entryId = 14743096, cb_entryCreatedDate = '2021-05-07 23:02', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 Cynthia-milk
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjtUXGok0ftb3eANKeyi5BfGyw4oyxsyUdnbJLEMaZKpJWZz-bVPMZ7GCo6afModl4XQvyiaRJZE4sNsUM5yN7Uy8tdcIphO7NXxKnsplau0KdUbNoArY1ZcVT_eBWRrh6U" />
+</body>
+</html>

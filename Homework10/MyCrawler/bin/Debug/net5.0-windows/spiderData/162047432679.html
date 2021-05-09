@@ -1,0 +1,275 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="我的Ubuntu版本是14.04 1、在官网下载Linux内核源码 官网地址：https://www.kernel.org/ 2、解压Linux内核源码 3、安装arm-gcc交叉编译工具链:sudo" />
+    <meta property="og:description" content="我的Ubuntu版本是14.04 1、在官网下载Linux内核源码 官网地址：https://www.kernel.org/ 2、解压Linux内核源码 3、安装arm-gcc交叉编译工具链:sudo" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>基于arm的Linux内核编译 - hellodev - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/lessismoreright/bundle-lessismoreright.min.css?v=00nt3ajQUVX0gvFynxRY-4TOqQaW32yFChuBOrvOqLk" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/lessismoreright/bundle-lessismoreright-mobile.min.css?v=cSBXSFXCBG9KdnF2sdUs-Rwu75GHG2_Gs50OCy_ecGg" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/javalinux/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/javalinux/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/javalinux/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 645726;
+        var currentBlogApp = 'javalinux';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'LessIsMoreRight';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-05-06 01:52';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <div id="home">
+    <div id="header">
+        <div id="blogTitle">
+            <div class="title"><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/javalinux/">hellodev</a>
+</div>
+<div class="subtitle"></div>
+
+        </div>
+        <div id="navigator">
+            
+<ul id="navList">
+    <li id="nav_sitehome"><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+    <li id="nav_myhome">
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/javalinux/">
+首页</a>
+</li>
+    <li id="nav_newpost">
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+    <li id="nav_contact">
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/hellodev">
+联系</a></li>
+    <li id="nav_rss">
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/javalinux/rss/">
+订阅</a></li>
+    <li id="nav_admin">
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+            <div class="blogStats">
+                <div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+            </div>
+        </div>
+    </div>
+    <div id="main">
+        <div id="mainContent">
+            <div class="forFlow">
+                <div id="post_detail">
+    <div id="topics">
+        <div class="post">
+            <h1 class="postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/javalinux/p/14734827.html">
+    <span>基于arm的Linux内核编译</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<p>我的Ubuntu版本是14.04</p>
+<p>1、在官网下载Linux内核源码<br>&nbsp;&nbsp; &nbsp;官网地址：https://www.kernel.org/</p>
+<p>2、解压Linux内核源码</p>
+<p>3、安装arm-gcc交叉编译工具链:sudo apt-get install arm-linux-gnueabi</p>
+<p>4、内核版本大于3.0的方法：(2.6的版本好像更直接一点)<br>&nbsp;&nbsp; &nbsp;到Linux内核源码的arch/arm/config找到对应的配置文件，将需要的配置文件拷贝到Linux内核的根目录下，例如：<br>&nbsp;&nbsp; &nbsp;我使用的内核版本是：linux-3.16.57.tar.xz<br>&nbsp;&nbsp; &nbsp;我到 &nbsp;./linux-3.16.57/arch/arm/configs目录下，找到我对应的配置文件。我的硬件型号是NXP的IMX7，所以我将imx_v6_v7_defconfig文件拷贝到./linux-3.16.57目录下</p>
+<p>&nbsp;&nbsp; &nbsp;<br>5、修改Makefile，Makefile在解压的源码的根目录下：<br>&nbsp; &nbsp; 打开Makefile在Makefile中找到</p>
+<p>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;ARCH&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;?= $(SUBARCH)<br>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;CROSS_COMPILE&nbsp;&nbsp; &nbsp;?= $(CONFIG_CROSS_COMPILE:"%"=%)<br>&nbsp;&nbsp; &nbsp;并修改成：<br>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;ARCH&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;?= arm<br>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;CROSS_COMPILE&nbsp;&nbsp; &nbsp;?= arm-linux-gnueabi-<br>&nbsp; &nbsp; &nbsp;保存。<br>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;<br>6、执行命令：make imx_v6_v7_defconfig<br>&nbsp;&nbsp; &nbsp;会生成一个.config的隐藏文件，通过ls -a命令可以显示出来</p>
+<p>7、安装图形界面：sudo apt-get install ncurses-dev</p>
+<p>8、执行make menuconfig打开图形界面，通过对图形界面的选择来配置内核，你想要什么功能，你就选择什么功能。<br>&nbsp;&nbsp; &nbsp;按 y 是选中<br>&nbsp;&nbsp; &nbsp;按 n 是取消<br>&nbsp;&nbsp; &nbsp;按 m 是将改功能编译成模块<br>&nbsp;&nbsp; &nbsp;<br>&nbsp;&nbsp; &nbsp;选择完毕之后，保存，退出。<br>&nbsp;&nbsp; &nbsp;<br>&nbsp;&nbsp; &nbsp;<br>9、执行 make -j2 zImage 开始编译内核<br>&nbsp;&nbsp; &nbsp;-j2 ：&nbsp;&nbsp; &nbsp;开启两个线程进行编译。-j4就是开启4个线程编译<br>&nbsp;&nbsp; &nbsp;zImage&nbsp;&nbsp; &nbsp;是我们要生成的目标镜像</p>
+<p>&nbsp;</p>
+<p>注：在编译的过程中，有可能会出现错误，我就出现了：</p>
+<p>/bin/sh: 1: lzop: not found</p>
+<p>出现错误后，我开始很慌张，后来我把错误进行了百度，网上一般都有解决的办法。</p>
+<p>我这个问题解决的办法是：</p>
+<p>sudo apt-get install lzop</p>
+<p>然后 ：</p>
+<p>&nbsp; &nbsp; &nbsp; make -j2 zImage</p>
+<p>继续编译，编译会从错误处继续。</p>
+<p>目前先将步骤罗列出来，后面等我自己了解的更深了，再详解每一步的含义。<br>过程中肯定有不好的地方，希望大佬能帮忙指正。</p>
+<p><br>————————————————<br>版权声明：本文为CSDN博主「monkey_lqd」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。<br>原文链接：https://blog.csdn.net/a3121772305/article/details/81412415</p>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2021-05-06 13:52</span>&nbsp;
+<a href="https://www.cnblogs.com/javalinux/">hellodev</a>&nbsp;
+阅读(<span id="post_view_count">3</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14734827" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14734827);return false;">收藏</a></div>
+        </div>
+        <script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 645726, cb_blogApp = 'javalinux', cb_blogUserGuid = 'e73e91c6-a4c9-438e-14e5-08d88556d8f6';
+    var cb_entryId = 14734827, cb_entryCreatedDate = '2021-05-06 13:52', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+        <a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+    </div>
+</div>
+            </div>
+        </div>
+
+        <div id="sideBar">
+            <div id="sideBarMain">
+                <div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+                <div id="calendar"><div id="blog-calendar" style="display:none"></div></div>                
+                <script>loadBlogDefaultCalendar();</script>
+                <div id="leftcontentcontainer">
+                    <!-- begin:SingleColumn -->
+                    <div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+                    <!-- end:  SingleColumn -->
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+    <div id="footer">
+        <!--done-->
+Copyright &copy; 2021 hellodev
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+    </div>
+</div>
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjvQNhIvkfRQWgL55Yp4KhG_zwTeIUCQW4ml6V1JclEOENWAyKtHTLdXoMxid20HtNHKtjte4VoNBEksSJUin_ij939UyHF6WeHQH1HFLGxU2Xee2mSM__wXDicE9fsPJdU" />
+</body>
+</html>

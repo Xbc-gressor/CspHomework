@@ -1,0 +1,375 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="环境搭建 系统：Win10（64位虚拟机） 工具：Phpstudy 源码：DedeCMS-V5.7-GBK-SP2-Full 安装phpstudy 路径:https://www.xp.cn/downl" />
+    <meta property="og:description" content="环境搭建 系统：Win10（64位虚拟机） 工具：Phpstudy 源码：DedeCMS-V5.7-GBK-SP2-Full 安装phpstudy 路径:https://www.xp.cn/downl" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>织梦CMS5.7 SP2漏洞复现 - Punished - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/punished/custom.css?v=cansC9ZJJ6jGQM8W4CZ4cif/byI=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/SimpleMemory/bundle-SimpleMemory-mobile.min.css" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/punished/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/punished/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/punished/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 671608;
+        var currentBlogApp = 'punished';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'SimpleMemory';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-05-07 11:44';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="no-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/punished/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/punished/">Punished</a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/punished/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/Punished">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/punished/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/punished/p/14743203.html">
+    <span>织梦CMS5.7 SP2漏洞复现</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<h1>环境搭建</h1>
+<p>系统：Win10（64位虚拟机）</p>
+<p>工具：Phpstudy</p>
+<p>源码：DedeCMS-V5.7-GBK-SP2-Full</p>
+<h1>安装phpstudy</h1>
+<p>路径:<a href="https://www.xp.cn/download.html">https://www.xp.cn/download.html</a></p>
+<p>我是直接下的</p>
+<p><img src="https://img2020.cnblogs.com/blog/2179963/202105/2179963-20210507200456598-2034412898.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;后头有其他版本,可以看自己情况下载</p>
+<p>然后安装完成后把Apache和mysql服务开启就行了</p>
+<p><img src="https://img2020.cnblogs.com/blog/2179963/202105/2179963-20210507200852880-948049166.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;下载织梦5.7,链接:<a href="http://updatenew.dedecms.com/base-v57/package/DedeCMS-V5.7-GBK-SP2-Full.tar.gz">http://updatenew.dedecms.com/base-v57/package/DedeCMS-V5.7-GBK-SP2-Full.tar.gz</a></p>
+<p>下载完后把upload文件夹放在phpstudy中www目录下</p>
+<p><img src="https://img2020.cnblogs.com/blog/2179963/202105/2179963-20210507201145416-436091452.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;然后我顺便改了个文件夹名字</p>
+<p><img src="https://img2020.cnblogs.com/blog/2179963/202105/2179963-20210507201326294-2071642688.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h1>配置</h1>
+<p>1.在浏览器中输入:http://127.0.0.1/dedecms5.7/install/index.php&nbsp;&nbsp;</p>
+<p>点击继续</p>
+<p><img src="https://img2020.cnblogs.com/blog/2179963/202105/2179963-20210507201644663-913768980.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;2、进入环境检测页面后，点击继续。</p>
+<p>&nbsp;</p>
+<p><img src="https://img2020.cnblogs.com/blog/2179963/202105/2179963-20210507202535986-645742539.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;3.这里根据自己需要配置,页面我是点了所有,可以让页面看起来更丰满一些</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><img src="https://img2020.cnblogs.com/blog/2179963/202105/2179963-20210507202810864-141964132.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;4.安装的时候会报一个错</p>
+<p><img src="https://img2020.cnblogs.com/blog/2179963/202105/2179963-20210507202846646-101383321.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;处理方式:</p>
+<p>找到这个php文件:C:\phpstudy_pro\WWW\dedecms5.7\include下的dedemodule.class.php</p>
+<p><img src="https://img2020.cnblogs.com/blog/2179963/202105/2179963-20210507203019879-1242447982.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;将480行的if（！empty（$ filename））&nbsp;改成if（$ AdminBaseDir！= $ filename &amp;&amp;！empty（$ filename））</p>
+<p><img src="https://img2020.cnblogs.com/blog/2179963/202105/2179963-20210507203535203-357711263.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;<img src="https://img2020.cnblogs.com/blog/2179963/202105/2179963-20210507203710327-756146205.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;然后重新等待安装</p>
+<p><img src="https://img2020.cnblogs.com/blog/2179963/202105/2179963-20210507204113059-1683374950.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;<img src="https://img2020.cnblogs.com/blog/2179963/202105/2179963-20210507204413834-546647914.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h1>漏洞利用</h1>
+<p>先开启允许会员注册,没有会员不能上传</p>
+<p><img src="https://img2020.cnblogs.com/blog/2179963/202105/2179963-20210507213228328-858313083.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>用物理机去访问主页</p>
+<p><img src="https://img2020.cnblogs.com/blog/2179963/202105/2179963-20210507211651856-1454920607.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;<img src="https://img2020.cnblogs.com/blog/2179963/202105/2179963-20210507213432772-874581209.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>进去注册一个会员账号</p>
+<p><img src="https://img2020.cnblogs.com/blog/2179963/202105/2179963-20210507213747965-1538031607.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;然后发表一个文章,上传一个1.jpg的图片但是内容只有php一句话</p>
+<p>&nbsp;</p>
+<p><img src="https://img2020.cnblogs.com/blog/2179963/202105/2179963-20210507214042940-1442651794.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;<img src="https://img2020.cnblogs.com/blog/2179963/202105/2179963-20210507215021338-612151671.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;可以看到是不允许的</p>
+<p><img src="https://img2020.cnblogs.com/blog/2179963/202105/2179963-20210507215101060-2141246881.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;上传一个图片马，用bp抓包,改后缀为p*hp</p>
+<p>copy 1.jpg/b+1.php/a 2.jpg</p>
+<p><img src="https://img2020.cnblogs.com/blog/2179963/202105/2179963-20210507231116770-205800251.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+<p><img src="https://img2020.cnblogs.com/blog/2179963/202105/2179963-20210507222134617-1569148949.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;成功后回显路径</p>
+<p><img src="https://img2020.cnblogs.com/blog/2179963/202105/2179963-20210507224959081-1152021191.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2021-05-07 23:44</span>&nbsp;
+<a href="https://www.cnblogs.com/punished/">Punished</a>&nbsp;
+阅读(<span id="post_view_count">8</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14743203" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14743203);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 671608, cb_blogApp = 'punished', cb_blogUserGuid = '65c9a936-f97f-4387-4bc4-08d86cc9f3b9';
+    var cb_entryId = 14743203, cb_entryCreatedDate = '2021-05-07 23:44', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 Punished
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjuEBydtKp4CcO_1VFCVf0VYaQwTG2bYDdfnCRHQWNDP2M23xBwYWmKiVrnxfDNO-IvONd2HwChpJ3a9ObEYb0TQCM68JGZmy7hdZBF3FeoYIj6BW7wmi_2wA_UosnZ0Ze0" />
+</body>
+</html>

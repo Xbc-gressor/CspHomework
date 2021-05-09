@@ -1,0 +1,680 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="Spring 依赖注入 Spring框架的核心功能之一就是通过依赖注入的方式来管理Bean之间的依赖关系。 属性注入 构造注入 内部注入 自动装配 1、属性注入 IService： 1 public " />
+    <meta property="og:description" content="Spring 依赖注入 Spring框架的核心功能之一就是通过依赖注入的方式来管理Bean之间的依赖关系。 属性注入 构造注入 内部注入 自动装配 1、属性注入 IService： 1 public " />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Spring 依赖注入（基本注入和自动适配注入） - 夜、微凉 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/blacksun/bundle-blacksun.min.css?v=4ejSMA0hiaprX0pQtldNC8H9i0SZp6DI04C71RcuptQ" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/blacksun/bundle-blacksun-mobile.min.css?v=fMbZtpTSrGMT1vZFqZUQ-eVksibNTsp6OHq-7KFLVh0" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/wwj1992/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/wwj1992/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/wwj1992/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 226732;
+        var currentBlogApp = 'wwj1992';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'BlackSun';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2019-04-09 09:44';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <div id="top">
+	<div>
+    <table class="HeaderTitles">
+        <tr>
+            <td>
+                <h1 class="HeaderTitle"><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/wwj1992/">夜微凉、的博客</a>
+</h1>
+                <p id="tagline"></p>
+            </td>
+        </tr>
+    </table>
+</div>
+<div>
+    <table id="HeaderBar" class="HeaderBar">
+        <tr>
+            <td class="HeaderBarTab" nowrap>
+                
+&nbsp;
+<a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+&nbsp;::
+
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/wwj1992/">
+首页</a>
+&nbsp;::
+
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+&nbsp;::
+
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E5%A4%9C%E3%80%81%E5%BE%AE%E5%87%89">
+联系</a>&nbsp;::
+
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/wwj1992/rss/">
+订阅</a>
+
+<a id="blog_nav_rss_image" href="https://www.cnblogs.com/wwj1992/rss/">
+    <img src="/skins/blacksun/images/xml.gif" alt="订阅" />
+</a>&nbsp;::
+
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+
+
+
+            </td>
+			
+            <td class="HeaderBarTabBack" nowrap width="100%">
+                <div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+            </td>
+        </tr>
+    </table>
+</div>
+</div>
+<table id="maintable">
+	<tr><td id="leftmenu">
+	
+		<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+		<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+	
+</td><td id="main">
+	<div id="post_detail">
+    <div class="post">
+        <div class="postTitle">
+            
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/wwj1992/p/10680024.html">
+    <span>Spring 依赖注入（基本注入和自动适配注入）</span>
+    
+
+
+
+</a>
+
+        </div>
+	
+        <div class="postText">
+            <div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<h1>Spring 依赖注入</h1>
+<p>Spring框架的核心功能之一就是通过依赖注入的方式来管理Bean之间的依赖关系。</p>
+<ul>
+<li><a href="#shuxing"><span style="font-size: 18pt; color: rgba(0, 0, 255, 1)"><strong>属性注入</strong></span></a></li>
+<li><a href="#gouzao"><span style="font-size: 18pt; color: rgba(0, 0, 255, 1)"><strong>构造注入</strong></span></a></li>
+<li><a href="#neibu"><span style="font-size: 18pt; color: rgba(0, 0, 255, 1)"><strong>内部注入</strong></span></a></li>
+<li><a href="#zidong"><span style="color: rgba(0, 0, 255, 1)"><span style="font-size: 24px"><strong>自动装配</strong></span></span></a></li>
+</ul>
+<p>&nbsp;</p>
+<h2>1、属性注入<a name="shuxing"></a></h2>
+<p><strong>IService：</strong></p>
+<div class="cnblogs_code"><img id="code_img_closed_166484df-12bb-45ae-8293-2d8599768cb7" class="code_img_closed" src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" alt=""><img id="code_img_opened_166484df-12bb-45ae-8293-2d8599768cb7" class="code_img_opened" style="display: none" src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt="">
+<div id="cnblogs_code_open_166484df-12bb-45ae-8293-2d8599768cb7" class="cnblogs_code_hide">
+<pre><span style="color: rgba(0, 128, 128, 1)">1</span> <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">interface</span><span style="color: rgba(0, 0, 0, 1)"> IUserService {
+</span><span style="color: rgba(0, 128, 128, 1)">2</span>     <span style="color: rgba(0, 128, 0, 1)">/*</span>
+<span style="color: rgba(0, 128, 128, 1)">3</span> <span style="color: rgba(0, 128, 0, 1)">     * 说话
+</span><span style="color: rgba(0, 128, 128, 1)">4</span>      <span style="color: rgba(0, 128, 0, 1)">*/</span>
+<span style="color: rgba(0, 128, 128, 1)">5</span>     <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> Say(String msg);
+</span><span style="color: rgba(0, 128, 128, 1)">6</span> }</pre>
+</div>
+<span class="cnblogs_code_collapse">View Code</span></div>
+<p><strong>ServiceImp<strong>：</strong></strong></p>
+<div class="cnblogs_code"><img id="code_img_closed_6a56a9d7-675a-4b45-8ecf-4f30ba391422" class="code_img_closed" src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" alt=""><img id="code_img_opened_6a56a9d7-675a-4b45-8ecf-4f30ba391422" class="code_img_opened" style="display: none" src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt="">
+<div id="cnblogs_code_open_6a56a9d7-675a-4b45-8ecf-4f30ba391422" class="cnblogs_code_hide">
+<pre><span style="color: rgba(0, 128, 128, 1)"> 1</span> <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">class</span> UserServiceImpl <span style="color: rgba(0, 0, 255, 1)">implements</span><span style="color: rgba(0, 0, 0, 1)"> IUserService {
+</span><span style="color: rgba(0, 128, 128, 1)"> 2</span> 
+<span style="color: rgba(0, 128, 128, 1)"> 3</span>     <span style="color: rgba(0, 0, 255, 1)">private</span><span style="color: rgba(0, 0, 0, 1)"> IUserDao iUserDao;
+</span><span style="color: rgba(0, 128, 128, 1)"> 4</span>     
+<span style="color: rgba(0, 128, 128, 1)"> 5</span>     <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> setUserDao(IUserDao dao) {
+</span><span style="color: rgba(0, 128, 128, 1)"> 6</span>         <span style="color: rgba(0, 0, 255, 1)">this</span>.iUserDao=<span style="color: rgba(0, 0, 0, 1)">dao;
+</span><span style="color: rgba(0, 128, 128, 1)"> 7</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)"> 8</span>     
+<span style="color: rgba(0, 128, 128, 1)"> 9</span>     <span style="color: rgba(0, 128, 0, 1)">/*</span>
+<span style="color: rgba(0, 128, 128, 1)">10</span> <span style="color: rgba(0, 128, 0, 1)">     * 说话
+</span><span style="color: rgba(0, 128, 128, 1)">11</span>      <span style="color: rgba(0, 128, 0, 1)">*/</span>
+<span style="color: rgba(0, 128, 128, 1)">12</span>     <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> Say(String msg) {
+</span><span style="color: rgba(0, 128, 128, 1)">13</span>         <span style="color: rgba(0, 0, 255, 1)">this</span><span style="color: rgba(0, 0, 0, 1)">.iUserDao.Say(msg);
+</span><span style="color: rgba(0, 128, 128, 1)">14</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)">15</span> }</pre>
+</div>
+<span class="cnblogs_code_collapse">View Code</span></div>
+<p><strong>IDao<strong>：</strong></strong></p>
+<div class="cnblogs_code"><img id="code_img_closed_05e7c1e1-f506-497b-99e9-5103f1070e9f" class="code_img_closed" src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" alt=""><img id="code_img_opened_05e7c1e1-f506-497b-99e9-5103f1070e9f" class="code_img_opened" style="display: none" src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt="">
+<div id="cnblogs_code_open_05e7c1e1-f506-497b-99e9-5103f1070e9f" class="cnblogs_code_hide">
+<pre><span style="color: rgba(0, 128, 128, 1)">1</span> <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">interface</span><span style="color: rgba(0, 0, 0, 1)"> IUserDao {    
+</span><span style="color: rgba(0, 128, 128, 1)">2</span>      <span style="color: rgba(0, 128, 0, 1)">/*</span>
+<span style="color: rgba(0, 128, 128, 1)">3</span> <span style="color: rgba(0, 128, 0, 1)">      * 说话
+</span><span style="color: rgba(0, 128, 128, 1)">4</span>       <span style="color: rgba(0, 128, 0, 1)">*/</span>
+<span style="color: rgba(0, 128, 128, 1)">5</span>      <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> Say(String msg);    
+</span><span style="color: rgba(0, 128, 128, 1)">6</span>  }</pre>
+</div>
+<span class="cnblogs_code_collapse">View Code</span></div>
+<p><strong>DaoImp<strong>：</strong></strong></p>
+<div class="cnblogs_code"><img id="code_img_closed_43ea2a3c-1b94-4770-a59e-cfa58fd9338e" class="code_img_closed" src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" alt=""><img id="code_img_opened_43ea2a3c-1b94-4770-a59e-cfa58fd9338e" class="code_img_opened" style="display: none" src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt="">
+<div id="cnblogs_code_open_43ea2a3c-1b94-4770-a59e-cfa58fd9338e" class="cnblogs_code_hide">
+<pre><span style="color: rgba(0, 128, 128, 1)">1</span> <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">class</span> UserDaoImpl <span style="color: rgba(0, 0, 255, 1)">implements</span><span style="color: rgba(0, 0, 0, 1)"> IUserDao {
+</span><span style="color: rgba(0, 128, 128, 1)">2</span>     <span style="color: rgba(0, 128, 0, 1)">/*</span>
+<span style="color: rgba(0, 128, 128, 1)">3</span> <span style="color: rgba(0, 128, 0, 1)">     * 说话
+</span><span style="color: rgba(0, 128, 128, 1)">4</span>      <span style="color: rgba(0, 128, 0, 1)">*/</span>
+<span style="color: rgba(0, 128, 128, 1)">5</span>     <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> Say(String msg) {
+</span><span style="color: rgba(0, 128, 128, 1)">6</span> <span style="color: rgba(0, 0, 0, 1)">        System.out.println(msg);
+</span><span style="color: rgba(0, 128, 128, 1)">7</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)">8</span> }</pre>
+</div>
+<span class="cnblogs_code_collapse">View Code</span></div>
+<p><strong><strong>Bean：</strong></strong></p>
+<div class="cnblogs_code"><img id="code_img_closed_352154bb-b584-4480-b996-64e87c4eb410" class="code_img_closed" src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" alt=""><img id="code_img_opened_352154bb-b584-4480-b996-64e87c4eb410" class="code_img_opened" style="display: none" src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt="">
+<div id="cnblogs_code_open_352154bb-b584-4480-b996-64e87c4eb410" class="cnblogs_code_hide">
+<pre><span style="color: rgba(0, 128, 128, 1)"> 1</span> <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">beans </span><span style="color: rgba(255, 0, 0, 1)">xmlns</span><span style="color: rgba(0, 0, 255, 1)">="http://www.springframework.org/schema/beans"</span>
+<span style="color: rgba(0, 128, 128, 1)"> 2</span> <span style="color: rgba(255, 0, 0, 1)">    xmlns:xsi</span><span style="color: rgba(0, 0, 255, 1)">="http://www.w3.org/2001/XMLSchema-instance"</span>
+<span style="color: rgba(0, 128, 128, 1)"> 3</span> <span style="color: rgba(255, 0, 0, 1)">    xsi:schemaLocation</span><span style="color: rgba(0, 0, 255, 1)">="http://www.springframework.org/schema/beans
+</span><span style="color: rgba(0, 128, 128, 1)"> 4</span> <span style="color: rgba(0, 0, 255, 1)">    http://www.springframework.org/schema/beans/spring-beans.xsd"</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>     
+<span style="color: rgba(0, 128, 128, 1)"> 5</span>      
+<span style="color: rgba(0, 128, 128, 1)"> 6</span>      <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">bean </span><span style="color: rgba(255, 0, 0, 1)">id</span><span style="color: rgba(0, 0, 255, 1)">="userServerId"</span><span style="color: rgba(255, 0, 0, 1)"> class</span><span style="color: rgba(0, 0, 255, 1)">="serviceImpl.UserServiceImpl"</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 128, 128, 1)"> 7</span>          <span style="color: rgba(0, 128, 0, 1)">&lt;!--</span><span style="color: rgba(0, 128, 0, 1)"> 此处是set属性注入，name值必须和UserServiceImpl中属性名一致 </span><span style="color: rgba(0, 128, 0, 1)">--&gt;</span>
+<span style="color: rgba(0, 128, 128, 1)"> 8</span>          <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">property </span><span style="color: rgba(255, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">="userDao"</span><span style="color: rgba(255, 0, 0, 1)"> ref</span><span style="color: rgba(0, 0, 255, 1)">="userDaoId"</span><span style="color: rgba(0, 0, 255, 1)">&gt;&lt;/</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 128, 128, 1)"> 9</span>      <span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">bean</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>     
+<span style="color: rgba(0, 128, 128, 1)">10</span> <span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">beans</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span></pre>
+</div>
+<span class="cnblogs_code_collapse">View Code</span></div>
+<p><strong><strong>测试输出：</strong></strong></p>
+<div class="cnblogs_code"><img id="code_img_closed_77ceeaa8-7136-4e77-a748-ae941a02fda8" class="code_img_closed" src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" alt=""><img id="code_img_opened_77ceeaa8-7136-4e77-a748-ae941a02fda8" class="code_img_opened" style="display: none" src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt="">
+<div id="cnblogs_code_open_77ceeaa8-7136-4e77-a748-ae941a02fda8" class="cnblogs_code_hide">
+<pre><span style="color: rgba(0, 128, 128, 1)">1</span> <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">class</span><span style="color: rgba(0, 0, 0, 1)"> MainShow {
+</span><span style="color: rgba(0, 128, 128, 1)">2</span>     <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">static</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> main(String[] args) {
+</span><span style="color: rgba(0, 128, 128, 1)">3</span>         System.out.println("开始执行。。。"<span style="color: rgba(0, 0, 0, 1)">);
+</span><span style="color: rgba(0, 128, 128, 1)">4</span>         
+<span style="color: rgba(0, 128, 128, 1)">5</span>         ApplicationContext context=<span style="color: rgba(0, 0, 255, 1)">new</span> ClassPathXmlApplicationContext("resources/beans.xml"<span style="color: rgba(0, 0, 0, 1)">);
+</span><span style="color: rgba(0, 128, 128, 1)">6</span>         IUserService idog=(IUserService)context.getBean("userServerId"<span style="color: rgba(0, 0, 0, 1)">);
+</span><span style="color: rgba(0, 128, 128, 1)">7</span>         idog.Say("汪汪汪。。。"<span style="color: rgba(0, 0, 0, 1)">);
+</span><span style="color: rgba(0, 128, 128, 1)">8</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)">9</span> }</pre>
+</div>
+<span class="cnblogs_code_collapse">View Code</span></div>
+<h2>2、构造注入<a name="gouzao"></a></h2>
+<p><strong>IService：</strong></p>
+<div class="cnblogs_code"><img id="code_img_closed_191a895c-2d44-422c-8d52-781173788104" class="code_img_closed" src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" alt=""><img id="code_img_opened_191a895c-2d44-422c-8d52-781173788104" class="code_img_opened" style="display: none" src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt="">
+<div id="cnblogs_code_open_191a895c-2d44-422c-8d52-781173788104" class="cnblogs_code_hide">
+<pre><span style="color: rgba(0, 128, 128, 1)">1</span> <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">interface</span><span style="color: rgba(0, 0, 0, 1)"> IDogService {
+</span><span style="color: rgba(0, 128, 128, 1)">2</span>      <span style="color: rgba(0, 128, 0, 1)">/*</span>
+<span style="color: rgba(0, 128, 128, 1)">3</span> <span style="color: rgba(0, 128, 0, 1)">      * 叫
+</span><span style="color: rgba(0, 128, 128, 1)">4</span>       <span style="color: rgba(0, 128, 0, 1)">*/</span>
+<span style="color: rgba(0, 128, 128, 1)">5</span>      <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> Call(String msg);
+</span><span style="color: rgba(0, 128, 128, 1)">6</span>  }</pre>
+</div>
+<span class="cnblogs_code_collapse">View Code</span></div>
+<p><strong>ServiceImp：</strong></p>
+<div class="cnblogs_code"><img id="code_img_closed_f11545b8-4963-4493-872a-b3171ec34263" class="code_img_closed" src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" alt=""><img id="code_img_opened_f11545b8-4963-4493-872a-b3171ec34263" class="code_img_opened" style="display: none" src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt="">
+<div id="cnblogs_code_open_f11545b8-4963-4493-872a-b3171ec34263" class="cnblogs_code_hide">
+<pre><span style="color: rgba(0, 128, 128, 1)"> 1</span> <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">class</span> DogServiceImpl <span style="color: rgba(0, 0, 255, 1)">implements</span><span style="color: rgba(0, 0, 0, 1)"> IDogService {
+</span><span style="color: rgba(0, 128, 128, 1)"> 2</span> 
+<span style="color: rgba(0, 128, 128, 1)"> 3</span>     <span style="color: rgba(0, 0, 255, 1)">private</span><span style="color: rgba(0, 0, 0, 1)"> IDogDao idogdao;
+</span><span style="color: rgba(0, 128, 128, 1)"> 4</span>     
+<span style="color: rgba(0, 128, 128, 1)"> 5</span>     <span style="color: rgba(0, 0, 255, 1)">public</span><span style="color: rgba(0, 0, 0, 1)"> DogServiceImpl(DogDaoImpl dogDao) {
+</span><span style="color: rgba(0, 128, 128, 1)"> 6</span>         System.out.println("开始构造注入....."<span style="color: rgba(0, 0, 0, 1)">);
+</span><span style="color: rgba(0, 128, 128, 1)"> 7</span>         <span style="color: rgba(0, 0, 255, 1)">this</span>.idogdao=<span style="color: rgba(0, 0, 0, 1)">dogDao;
+</span><span style="color: rgba(0, 128, 128, 1)"> 8</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)"> 9</span> 
+<span style="color: rgba(0, 128, 128, 1)">10</span>     <span style="color: rgba(0, 128, 0, 1)">/*</span>
+<span style="color: rgba(0, 128, 128, 1)">11</span> <span style="color: rgba(0, 128, 0, 1)">     * 叫声
+</span><span style="color: rgba(0, 128, 128, 1)">12</span>      <span style="color: rgba(0, 128, 0, 1)">*/</span>
+<span style="color: rgba(0, 128, 128, 1)">13</span>     <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> Call(String msg) {
+</span><span style="color: rgba(0, 128, 128, 1)">14</span> <span style="color: rgba(0, 0, 0, 1)">        idogdao.Call(msg);
+</span><span style="color: rgba(0, 128, 128, 1)">15</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)">16</span> }</pre>
+</div>
+<span class="cnblogs_code_collapse">View Code</span></div>
+<p><strong>IDao：</strong></p>
+<div class="cnblogs_code"><img id="code_img_closed_f2463580-e413-489b-9f68-b77d22527702" class="code_img_closed" src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" alt=""><img id="code_img_opened_f2463580-e413-489b-9f68-b77d22527702" class="code_img_opened" style="display: none" src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt="">
+<div id="cnblogs_code_open_f2463580-e413-489b-9f68-b77d22527702" class="cnblogs_code_hide">
+<pre><span style="color: rgba(0, 128, 128, 1)">1</span> <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">interface</span><span style="color: rgba(0, 0, 0, 1)"> IDogDao {
+</span><span style="color: rgba(0, 128, 128, 1)">2</span>      <span style="color: rgba(0, 128, 0, 1)">/*</span>
+<span style="color: rgba(0, 128, 128, 1)">3</span> <span style="color: rgba(0, 128, 0, 1)">      * 叫
+</span><span style="color: rgba(0, 128, 128, 1)">4</span>       <span style="color: rgba(0, 128, 0, 1)">*/</span>
+<span style="color: rgba(0, 128, 128, 1)">5</span>      <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> Call(String msg);
+</span><span style="color: rgba(0, 128, 128, 1)">6</span>  }</pre>
+</div>
+<span class="cnblogs_code_collapse">View Code</span></div>
+<p><strong>DaoImp：</strong></p>
+<div class="cnblogs_code"><img id="code_img_closed_f73df9b4-b92c-4639-93fc-d26af83c850c" class="code_img_closed" src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" alt=""><img id="code_img_opened_f73df9b4-b92c-4639-93fc-d26af83c850c" class="code_img_opened" style="display: none" src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt="">
+<div id="cnblogs_code_open_f73df9b4-b92c-4639-93fc-d26af83c850c" class="cnblogs_code_hide">
+<pre><span style="color: rgba(0, 128, 128, 1)">1</span> <span style="color: rgba(0, 0, 0, 1)">public class DogDaoImpl implements IDogDao {
+</span><span style="color: rgba(0, 128, 128, 1)">2</span>     
+<span style="color: rgba(0, 128, 128, 1)">3</span> <span style="color: rgba(0, 0, 0, 1)">    public void Call(String msg) {
+</span><span style="color: rgba(0, 128, 128, 1)">4</span> <span style="color: rgba(0, 0, 0, 1)">        System.out.println("汪汪汪："+msg);
+</span><span style="color: rgba(0, 128, 128, 1)">5</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)">6</span> }</pre>
+</div>
+<span class="cnblogs_code_collapse">View Code</span></div>
+<p><strong>Bean：</strong></p>
+<div class="cnblogs_code"><img id="code_img_closed_c192feff-d230-48e0-ae52-d27666156e8a" class="code_img_closed" src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" alt=""><img id="code_img_opened_c192feff-d230-48e0-ae52-d27666156e8a" class="code_img_opened" style="display: none" src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt="">
+<div id="cnblogs_code_open_c192feff-d230-48e0-ae52-d27666156e8a" class="cnblogs_code_hide">
+<pre><span style="color: rgba(0, 128, 128, 1)"> 1</span> <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">beans </span><span style="color: rgba(255, 0, 0, 1)">xmlns</span><span style="color: rgba(0, 0, 255, 1)">="http://www.springframework.org/schema/beans"</span>
+<span style="color: rgba(0, 128, 128, 1)"> 2</span> <span style="color: rgba(255, 0, 0, 1)">    xmlns:xsi</span><span style="color: rgba(0, 0, 255, 1)">="http://www.w3.org/2001/XMLSchema-instance"</span>
+<span style="color: rgba(0, 128, 128, 1)"> 3</span> <span style="color: rgba(255, 0, 0, 1)">    xsi:schemaLocation</span><span style="color: rgba(0, 0, 255, 1)">="http://www.springframework.org/schema/beans
+</span><span style="color: rgba(0, 128, 128, 1)"> 4</span> <span style="color: rgba(0, 0, 255, 1)">    http://www.springframework.org/schema/beans/spring-beans.xsd"</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 128, 128, 1)"> 5</span>          
+<span style="color: rgba(0, 128, 128, 1)"> 6</span>     <span style="color: rgba(0, 128, 0, 1)">&lt;!--</span><span style="color: rgba(0, 128, 0, 1)"> 构造注入 </span><span style="color: rgba(0, 128, 0, 1)">--&gt;</span>
+<span style="color: rgba(0, 128, 128, 1)"> 7</span>     <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">bean </span><span style="color: rgba(255, 0, 0, 1)">id</span><span style="color: rgba(0, 0, 255, 1)">="dogId"</span><span style="color: rgba(255, 0, 0, 1)"> class</span><span style="color: rgba(0, 0, 255, 1)">="serviceImpl.DogServiceImpl"</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 128, 128, 1)"> 8</span>         <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">constructor-arg </span><span style="color: rgba(255, 0, 0, 1)">ref</span><span style="color: rgba(0, 0, 255, 1)">="dogDao"</span><span style="color: rgba(0, 0, 255, 1)">/&gt;</span>
+<span style="color: rgba(0, 128, 128, 1)"> 9</span>     <span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">bean</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 128, 128, 1)">10</span>     
+<span style="color: rgba(0, 128, 128, 1)">11</span>     <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">bean </span><span style="color: rgba(255, 0, 0, 1)">id</span><span style="color: rgba(0, 0, 255, 1)">="dogDao"</span><span style="color: rgba(255, 0, 0, 1)"> class</span><span style="color: rgba(0, 0, 255, 1)">="daoImpl.DogDaoImpl"</span><span style="color: rgba(0, 0, 255, 1)">&gt;&lt;/</span><span style="color: rgba(128, 0, 0, 1)">bean</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>    
+<span style="color: rgba(0, 128, 128, 1)">12</span> <span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">beans</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span></pre>
+</div>
+<span class="cnblogs_code_collapse">View Code</span></div>
+<h2>3、内部注入<a name="neibu"></a></h2>
+<p>&nbsp;</p>
+<p><strong>IService：</strong></p>
+<div class="cnblogs_code"><img id="code_img_closed_567b48b5-94c9-484a-9da0-14bf615a9fd0" class="code_img_closed" src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" alt=""><img id="code_img_opened_567b48b5-94c9-484a-9da0-14bf615a9fd0" class="code_img_opened" style="display: none" src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt="">
+<div id="cnblogs_code_open_567b48b5-94c9-484a-9da0-14bf615a9fd0" class="cnblogs_code_hide">
+<pre><span style="color: rgba(0, 128, 128, 1)">1</span> <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">interface</span><span style="color: rgba(0, 0, 0, 1)"> ICarService {
+</span><span style="color: rgba(0, 128, 128, 1)">2</span>     <span style="color: rgba(0, 128, 0, 1)">/*</span>
+<span style="color: rgba(0, 128, 128, 1)">3</span> <span style="color: rgba(0, 128, 0, 1)">     * 汽车启动
+</span><span style="color: rgba(0, 128, 128, 1)">4</span>      <span style="color: rgba(0, 128, 0, 1)">*/</span>
+<span style="color: rgba(0, 128, 128, 1)">5</span>     <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> Start();
+</span><span style="color: rgba(0, 128, 128, 1)">6</span> }</pre>
+</div>
+<span class="cnblogs_code_collapse">View Code</span></div>
+<p><strong>ServiceImp：</strong>&nbsp;</p>
+<div class="cnblogs_code"><img id="code_img_closed_2946d570-1f3a-4b81-9479-ec2a99dcfb63" class="code_img_closed" src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" alt=""><img id="code_img_opened_2946d570-1f3a-4b81-9479-ec2a99dcfb63" class="code_img_opened" style="display: none" src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt="">
+<div id="cnblogs_code_open_2946d570-1f3a-4b81-9479-ec2a99dcfb63" class="cnblogs_code_hide">
+<pre><span style="color: rgba(0, 128, 128, 1)"> 1</span>     <span style="color: rgba(0, 0, 255, 1)">private</span><span style="color: rgba(0, 0, 0, 1)"> ICarDao idao;
+</span><span style="color: rgba(0, 128, 128, 1)"> 2</span> 
+<span style="color: rgba(0, 128, 128, 1)"> 3</span>     <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> setIdao(CarDaoImpl impl) {
+</span><span style="color: rgba(0, 128, 128, 1)"> 4</span>         <span style="color: rgba(0, 0, 255, 1)">this</span>.idao =<span style="color: rgba(0, 0, 0, 1)"> impl;
+</span><span style="color: rgba(0, 128, 128, 1)"> 5</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)"> 6</span>     
+<span style="color: rgba(0, 128, 128, 1)"> 7</span>     <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> Start() {
+</span><span style="color: rgba(0, 128, 128, 1)"> 8</span> <span style="color: rgba(0, 0, 0, 1)">        idao.Start();
+</span><span style="color: rgba(0, 128, 128, 1)"> 9</span> <span style="color: rgba(0, 0, 0, 1)">    }    
+</span><span style="color: rgba(0, 128, 128, 1)">10</span> }</pre>
+</div>
+<span class="cnblogs_code_collapse">View Code</span></div>
+<p><strong>IDao：</strong></p>
+<div class="cnblogs_code"><img id="code_img_closed_40aa9637-b4ad-49d8-b704-cd15a765322e" class="code_img_closed" src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" alt=""><img id="code_img_opened_40aa9637-b4ad-49d8-b704-cd15a765322e" class="code_img_opened" style="display: none" src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt="">
+<div id="cnblogs_code_open_40aa9637-b4ad-49d8-b704-cd15a765322e" class="cnblogs_code_hide">
+<pre><span style="color: rgba(0, 128, 128, 1)">1</span> <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">interface</span><span style="color: rgba(0, 0, 0, 1)"> ICarDao {
+</span><span style="color: rgba(0, 128, 128, 1)">2</span>     <span style="color: rgba(0, 128, 0, 1)">/*</span>
+<span style="color: rgba(0, 128, 128, 1)">3</span> <span style="color: rgba(0, 128, 0, 1)">     * 汽车启动
+</span><span style="color: rgba(0, 128, 128, 1)">4</span>      <span style="color: rgba(0, 128, 0, 1)">*/</span>
+<span style="color: rgba(0, 128, 128, 1)">5</span>     <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> Start();
+</span><span style="color: rgba(0, 128, 128, 1)">6</span> }</pre>
+</div>
+<span class="cnblogs_code_collapse">View Code</span></div>
+<p><strong>DaoImp：</strong>&nbsp;</p>
+<div class="cnblogs_code"><img id="code_img_closed_c82b0308-424c-4e08-8262-8d44c29b0ed0" class="code_img_closed" src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" alt=""><img id="code_img_opened_c82b0308-424c-4e08-8262-8d44c29b0ed0" class="code_img_opened" style="display: none" src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt="">
+<div id="cnblogs_code_open_c82b0308-424c-4e08-8262-8d44c29b0ed0" class="cnblogs_code_hide">
+<pre><span style="color: rgba(0, 128, 128, 1)">1</span> <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">class</span> CarDaoImpl <span style="color: rgba(0, 0, 255, 1)">implements</span><span style="color: rgba(0, 0, 0, 1)"> ICarDao {    
+</span><span style="color: rgba(0, 128, 128, 1)">2</span>     
+<span style="color: rgba(0, 128, 128, 1)">3</span>     <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> Start() {
+</span><span style="color: rgba(0, 128, 128, 1)">4</span>         System.out.println("汽车开始启动。。。。。。"<span style="color: rgba(0, 0, 0, 1)">);
+</span><span style="color: rgba(0, 128, 128, 1)">5</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)">6</span> }</pre>
+</div>
+<span class="cnblogs_code_collapse">View Code</span></div>
+<p><strong>Bean：</strong></p>
+<div class="cnblogs_code"><img id="code_img_closed_b001d147-dd6b-4611-9737-1abb48b123be" class="code_img_closed" src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" alt=""><img id="code_img_opened_b001d147-dd6b-4611-9737-1abb48b123be" class="code_img_opened" style="display: none" src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt="">
+<div id="cnblogs_code_open_b001d147-dd6b-4611-9737-1abb48b123be" class="cnblogs_code_hide">
+<pre><span style="color: rgba(0, 128, 128, 1)"> 1</span> <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">beans </span><span style="color: rgba(255, 0, 0, 1)">xmlns</span><span style="color: rgba(0, 0, 255, 1)">="http://www.springframework.org/schema/beans"</span>
+<span style="color: rgba(0, 128, 128, 1)"> 2</span> <span style="color: rgba(255, 0, 0, 1)">    xmlns:xsi</span><span style="color: rgba(0, 0, 255, 1)">="http://www.w3.org/2001/XMLSchema-instance"</span>
+<span style="color: rgba(0, 128, 128, 1)"> 3</span> <span style="color: rgba(255, 0, 0, 1)">    xsi:schemaLocation</span><span style="color: rgba(0, 0, 255, 1)">="http://www.springframework.org/schema/beans
+</span><span style="color: rgba(0, 128, 128, 1)"> 4</span> <span style="color: rgba(0, 0, 255, 1)">    http://www.springframework.org/schema/beans/spring-beans.xsd"</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 128, 128, 1)"> 5</span> 
+<span style="color: rgba(0, 128, 128, 1)"> 6</span>     <span style="color: rgba(0, 128, 0, 1)">&lt;!--</span><span style="color: rgba(0, 128, 0, 1)"> 内部注入 </span><span style="color: rgba(0, 128, 0, 1)">--&gt;</span>
+<span style="color: rgba(0, 128, 128, 1)"> 7</span>     <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">bean </span><span style="color: rgba(255, 0, 0, 1)">id</span><span style="color: rgba(0, 0, 255, 1)">="carId"</span><span style="color: rgba(255, 0, 0, 1)"> class</span><span style="color: rgba(0, 0, 255, 1)">="serviceImpl.CarServiceImpl"</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 128, 128, 1)"> 8</span>         <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">property </span><span style="color: rgba(255, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">="idao"</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 128, 128, 1)"> 9</span>             <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">bean </span><span style="color: rgba(255, 0, 0, 1)">class</span><span style="color: rgba(0, 0, 255, 1)">="daoImpl.CarDaoImpl"</span><span style="color: rgba(0, 0, 255, 1)">&gt;&lt;/</span><span style="color: rgba(128, 0, 0, 1)">bean</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 128, 128, 1)">10</span>         <span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 128, 128, 1)">11</span>     <span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">bean</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>    
+<span style="color: rgba(0, 128, 128, 1)">12</span> <span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">beans</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span> </pre>
+</div>
+<span class="cnblogs_code_collapse">View Code</span></div>
+<h2>4、自动装配<a name="zidong"></a></h2>
+<div>
+<div>
+<div>在Spring框架，可以用<em>&nbsp;<strong>auto-wiring&nbsp;</strong></em>功能会自动装配Bean。要启用它，只需要在&nbsp;<em><strong>&lt;bean&gt;</strong>&nbsp;</em>定义“<strong><em>autowire</em></strong>”属性。</div>
+<div><em><strong>&lt;beans/&gt;&nbsp;</strong></em><span lang="zh-CN">标签可以定义&nbsp;<span lang="en-US"><strong><em>default-autowire-candidate="false"&nbsp;</em></strong><span lang="zh-CN">属性让它和它包含的所有&nbsp;<span lang="en-US"><em><strong>bean&nbsp;</strong></em><span lang="zh-CN">都不做为候选<em><strong><span lang="en-US">bean。</span></strong></em></span></span></span></span></span></div>
+</div>
+<div>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 128, 128, 1)">1</span> &lt;bean id="customer" <span style="color: rgba(0, 0, 255, 1)">class</span>="com.yiibai.common.Customer" autowire="byName" /&gt;</pre>
+</div>
+<div>在Spring中，支持&nbsp;5&nbsp;自动装配模式。</div>
+<ul>
+<li><em><strong>no</strong> </em>–&nbsp;缺省情况下，自动配置是通过“ref”属性手动设定</li>
+<li><em><strong>byName</strong> </em>–&nbsp;根据属性名称自动装配。如果一个bean的名称和其他bean属性的名称是一样的，将会自装配它。</li>
+<li><strong><em>byType</em> </strong>–&nbsp;按数据类型自动装配。如果一个bean的数据类型是用其它bean属性的数据类型，兼容并自动装配它。</li>
+<li><strong><em>constructor</em> </strong>–&nbsp;在构造函数参数的byType方式。</li>
+<li><em><strong>autodetect</strong> </em>–&nbsp;如果找到默认的构造函数，使用“自动装配用构造”;&nbsp;否则，使用“按类型自动装配”。</li>
+</ul>
+</div>
+</div>
+<p><strong>ServiceImp：</strong>&nbsp;</p>
+<div class="cnblogs_code"><img id="code_img_closed_69ecb7aa-d7b1-4cbb-b3e1-eda12c79a1b9" class="code_img_closed" src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" alt=""><img id="code_img_opened_69ecb7aa-d7b1-4cbb-b3e1-eda12c79a1b9" class="code_img_opened" style="display: none" src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt="">
+<div id="cnblogs_code_open_69ecb7aa-d7b1-4cbb-b3e1-eda12c79a1b9" class="cnblogs_code_hide">
+<pre><span style="color: rgba(0, 128, 128, 1)"> 1</span> <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">class</span> UserServiceImpl <span style="color: rgba(0, 0, 255, 1)">implements</span><span style="color: rgba(0, 0, 0, 1)"> IUserService {
+</span><span style="color: rgba(0, 128, 128, 1)"> 2</span> 
+<span style="color: rgba(0, 128, 128, 1)"> 3</span>     <span style="color: rgba(0, 0, 255, 1)">private</span><span style="color: rgba(0, 0, 0, 1)"> IUserDao userDao;
+</span><span style="color: rgba(0, 128, 128, 1)"> 4</span>     
+<span style="color: rgba(0, 128, 128, 1)"> 5</span>     <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> setUserDao(UserDaoImpl dao) {
+</span><span style="color: rgba(0, 128, 128, 1)"> 6</span>         <span style="color: rgba(0, 0, 255, 1)">this</span>.userDao=<span style="color: rgba(0, 0, 0, 1)">dao;
+</span><span style="color: rgba(0, 128, 128, 1)"> 7</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)"> 8</span>     
+<span style="color: rgba(0, 128, 128, 1)"> 9</span>     <span style="color: rgba(0, 128, 0, 1)">/*</span>
+<span style="color: rgba(0, 128, 128, 1)">10</span> <span style="color: rgba(0, 128, 0, 1)">     * 说话
+</span><span style="color: rgba(0, 128, 128, 1)">11</span>      <span style="color: rgba(0, 128, 0, 1)">*/</span>
+<span style="color: rgba(0, 128, 128, 1)">12</span>     <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> Say(String msg) {
+</span><span style="color: rgba(0, 128, 128, 1)">13</span>         <span style="color: rgba(0, 0, 255, 1)">this</span><span style="color: rgba(0, 0, 0, 1)">.userDao.Say(msg);
+</span><span style="color: rgba(0, 128, 128, 1)">14</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)">15</span> }</pre>
+</div>
+<span class="cnblogs_code_collapse">View Code</span></div>
+<p><strong>IDao：</strong></p>
+<div class="cnblogs_code"><img id="code_img_closed_9a617975-ffff-44bb-a6c3-fa6e605d69de" class="code_img_closed" src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" alt=""><img id="code_img_opened_9a617975-ffff-44bb-a6c3-fa6e605d69de" class="code_img_opened" style="display: none" src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt="">
+<div id="cnblogs_code_open_9a617975-ffff-44bb-a6c3-fa6e605d69de" class="cnblogs_code_hide">
+<pre><span style="color: rgba(0, 128, 128, 1)">1</span> <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">interface</span><span style="color: rgba(0, 0, 0, 1)"> IUserDao {    
+</span><span style="color: rgba(0, 128, 128, 1)">2</span>     <span style="color: rgba(0, 128, 0, 1)">/*</span>
+<span style="color: rgba(0, 128, 128, 1)">3</span> <span style="color: rgba(0, 128, 0, 1)">     * 说话
+</span><span style="color: rgba(0, 128, 128, 1)">4</span>      <span style="color: rgba(0, 128, 0, 1)">*/</span>
+<span style="color: rgba(0, 128, 128, 1)">5</span>     <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> Say(String msg);    
+</span><span style="color: rgba(0, 128, 128, 1)">6</span> }</pre>
+</div>
+<span class="cnblogs_code_collapse">View Code</span></div>
+<p><strong>DaoImp：</strong>&nbsp;</p>
+<div class="cnblogs_code"><img id="code_img_closed_d2e871d4-ed3a-4dc3-a65e-ee514eb6f796" class="code_img_closed" src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" alt=""><img id="code_img_opened_d2e871d4-ed3a-4dc3-a65e-ee514eb6f796" class="code_img_opened" style="display: none" src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt="">
+<div id="cnblogs_code_open_d2e871d4-ed3a-4dc3-a65e-ee514eb6f796" class="cnblogs_code_hide">
+<pre><span style="color: rgba(0, 128, 128, 1)">1</span> <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">class</span> UserDaoImpl <span style="color: rgba(0, 0, 255, 1)">implements</span><span style="color: rgba(0, 0, 0, 1)"> IUserDao {
+</span><span style="color: rgba(0, 128, 128, 1)">2</span>     <span style="color: rgba(0, 128, 0, 1)">/*</span>
+<span style="color: rgba(0, 128, 128, 1)">3</span> <span style="color: rgba(0, 128, 0, 1)">     * 说话
+</span><span style="color: rgba(0, 128, 128, 1)">4</span>      <span style="color: rgba(0, 128, 0, 1)">*/</span>
+<span style="color: rgba(0, 128, 128, 1)">5</span>     <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> Say(String msg) {
+</span><span style="color: rgba(0, 128, 128, 1)">6</span> <span style="color: rgba(0, 0, 0, 1)">        System.out.println(msg);
+</span><span style="color: rgba(0, 128, 128, 1)">7</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)">8</span> }</pre>
+</div>
+<span class="cnblogs_code_collapse">View Code</span></div>
+<p><strong>通常情况下，进行明确的装配目标 Bean</strong></p>
+<div class="cnblogs_code"><img id="code_img_closed_00320bdd-67b9-428f-8db7-fd34db90d3ea" class="code_img_closed" src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" alt=""><img id="code_img_opened_00320bdd-67b9-428f-8db7-fd34db90d3ea" class="code_img_opened" style="display: none" src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt="">
+<div id="cnblogs_code_open_00320bdd-67b9-428f-8db7-fd34db90d3ea" class="cnblogs_code_hide">
+<pre><span style="color: rgba(0, 128, 128, 1)"> 1</span> <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">beans </span><span style="color: rgba(255, 0, 0, 1)">xmlns</span><span style="color: rgba(0, 0, 255, 1)">="http://www.springframework.org/schema/beans"</span>
+<span style="color: rgba(0, 128, 128, 1)"> 2</span> <span style="color: rgba(255, 0, 0, 1)">    xmlns:xsi</span><span style="color: rgba(0, 0, 255, 1)">="http://www.w3.org/2001/XMLSchema-instance"</span>
+<span style="color: rgba(0, 128, 128, 1)"> 3</span> <span style="color: rgba(255, 0, 0, 1)">    xsi:schemaLocation</span><span style="color: rgba(0, 0, 255, 1)">="http://www.springframework.org/schema/beans
+</span><span style="color: rgba(0, 128, 128, 1)"> 4</span> <span style="color: rgba(0, 0, 255, 1)">    http://www.springframework.org/schema/beans/spring-beans.xsd"</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 128, 128, 1)"> 5</span>      
+<span style="color: rgba(0, 128, 128, 1)"> 6</span>      
+<span style="color: rgba(0, 128, 128, 1)"> 7</span>      <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">bean </span><span style="color: rgba(255, 0, 0, 1)">id</span><span style="color: rgba(0, 0, 255, 1)">="userServerId"</span><span style="color: rgba(255, 0, 0, 1)"> class</span><span style="color: rgba(0, 0, 255, 1)">="serviceImpl.UserServiceImpl"</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 128, 128, 1)"> 8</span>          <span style="color: rgba(0, 128, 0, 1)">&lt;!--</span><span style="color: rgba(0, 128, 0, 1)"> 此处是set属性注入，name值必须和UserServiceImpl中属性名一致 </span><span style="color: rgba(0, 128, 0, 1)">--&gt;</span>
+<span style="color: rgba(0, 128, 128, 1)"> 9</span>          <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">property </span><span style="color: rgba(255, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">="userDao"</span><span style="color: rgba(255, 0, 0, 1)"> ref</span><span style="color: rgba(0, 0, 255, 1)">="userDaoId"</span><span style="color: rgba(0, 0, 255, 1)">&gt;&lt;/</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 128, 128, 1)">10</span>      <span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">bean</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 128, 128, 1)">11</span>      
+<span style="color: rgba(0, 128, 128, 1)">12</span>      <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">bean </span><span style="color: rgba(255, 0, 0, 1)">id</span><span style="color: rgba(0, 0, 255, 1)">="userDaoId"</span><span style="color: rgba(255, 0, 0, 1)"> class</span><span style="color: rgba(0, 0, 255, 1)">="daoImpl.UserDaoImpl"</span><span style="color: rgba(0, 0, 255, 1)">&gt;&lt;/</span><span style="color: rgba(128, 0, 0, 1)">bean</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 128, 128, 1)">13</span> <span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">beans</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span> </pre>
+</div>
+<span class="cnblogs_code_collapse">View Code</span></div>
+<h3><span style="font-size: 14pt"><strong>1、由类型&nbsp;(Type)&nbsp;自动装配：</strong></span></h3>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 128, 128, 1)">1</span> <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">beans </span><span style="color: rgba(255, 0, 0, 1)">xmlns</span><span style="color: rgba(0, 0, 255, 1)">="http://www.springframework.org/schema/beans"</span>
+<span style="color: rgba(0, 128, 128, 1)">2</span> <span style="color: rgba(255, 0, 0, 1)">    xmlns:xsi</span><span style="color: rgba(0, 0, 255, 1)">="http://www.w3.org/2001/XMLSchema-instance"</span>
+<span style="color: rgba(0, 128, 128, 1)">3</span> <span style="color: rgba(255, 0, 0, 1)">    xsi:schemaLocation</span><span style="color: rgba(0, 0, 255, 1)">="http://www.springframework.org/schema/beans
+</span><span style="color: rgba(0, 128, 128, 1)">4</span> <span style="color: rgba(0, 0, 255, 1)">    http://www.springframework.org/schema/beans/spring-beans.xsd"</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 128, 128, 1)">5</span> 
+<span style="color: rgba(0, 128, 128, 1)">6</span>     <span style="color: rgba(0, 128, 0, 1)">&lt;!--</span><span style="color: rgba(0, 128, 0, 1)"> Type自动装配注入 </span><span style="color: rgba(0, 128, 0, 1)">--&gt;</span>
+<span style="color: rgba(0, 128, 128, 1)">7</span>     <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">bean </span><span style="color: rgba(255, 0, 0, 1)">id</span><span style="color: rgba(0, 0, 255, 1)">="userServerId"</span><span style="color: rgba(255, 0, 0, 1)"> class</span><span style="color: rgba(0, 0, 255, 1)">="serviceImpl.UserServiceImpl"</span><span style="color: rgba(255, 0, 0, 1)"> autowire</span><span style="color: rgba(0, 0, 255, 1)">="byType"</span><span style="color: rgba(0, 0, 255, 1)">/&gt;</span>
+<span style="color: rgba(0, 128, 128, 1)">8</span>     <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">bean </span><span style="color: rgba(255, 0, 0, 1)">id</span><span style="color: rgba(0, 0, 255, 1)">="userDaoId"</span><span style="color: rgba(255, 0, 0, 1)"> class</span><span style="color: rgba(0, 0, 255, 1)">="daoImpl.UserDaoImpl"</span><span style="color: rgba(0, 0, 255, 1)">&gt;&lt;/</span><span style="color: rgba(128, 0, 0, 1)">bean</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>     
+<span style="color: rgba(0, 128, 128, 1)">9</span> <span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">beans</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span></pre>
+</div>
+<h3><span style="font-size: 18px"><strong>2、由类型&nbsp;(Name)&nbsp;自动装配：</strong></span></h3>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 128, 128, 1)">1</span> <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">beans </span><span style="color: rgba(255, 0, 0, 1)">xmlns</span><span style="color: rgba(0, 0, 255, 1)">="http://www.springframework.org/schema/beans"</span>
+<span style="color: rgba(0, 128, 128, 1)">2</span> <span style="color: rgba(255, 0, 0, 1)">    xmlns:xsi</span><span style="color: rgba(0, 0, 255, 1)">="http://www.w3.org/2001/XMLSchema-instance"</span>
+<span style="color: rgba(0, 128, 128, 1)">3</span> <span style="color: rgba(255, 0, 0, 1)">    xsi:schemaLocation</span><span style="color: rgba(0, 0, 255, 1)">="http://www.springframework.org/schema/beans
+</span><span style="color: rgba(0, 128, 128, 1)">4</span> <span style="color: rgba(0, 0, 255, 1)">    http://www.springframework.org/schema/beans/spring-beans.xsd"</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 128, 128, 1)">5</span> 
+<span style="color: rgba(0, 128, 128, 1)">6</span>     <span style="color: rgba(0, 128, 0, 1)">&lt;!--</span><span style="color: rgba(0, 128, 0, 1)"> Name 自动装配注入 </span><span style="color: rgba(0, 128, 0, 1)">--&gt;</span>
+<span style="color: rgba(0, 128, 128, 1)">7</span>     <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">bean </span><span style="color: rgba(255, 0, 0, 1)">id</span><span style="color: rgba(0, 0, 255, 1)">="userServerId"</span><span style="color: rgba(255, 0, 0, 1)"> class</span><span style="color: rgba(0, 0, 255, 1)">="serviceImpl.UserServiceImpl"</span><span style="color: rgba(255, 0, 0, 1)"> autowire</span><span style="color: rgba(0, 0, 255, 1)">="byName"</span><span style="color: rgba(0, 0, 255, 1)">/&gt;</span>
+<span style="color: rgba(0, 128, 128, 1)">8</span>     <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">bean </span><span style="color: rgba(255, 0, 0, 1)">id</span><span style="color: rgba(0, 0, 255, 1)">="userDao"</span><span style="color: rgba(255, 0, 0, 1)"> class</span><span style="color: rgba(0, 0, 255, 1)">="daoImpl.UserDaoImpl"</span><span style="color: rgba(0, 0, 255, 1)">&gt;&lt;/</span><span style="color: rgba(128, 0, 0, 1)">bean</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>     
+<span style="color: rgba(0, 128, 128, 1)">9</span> <span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">beans</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span> </pre>
+</div>
+<h3><span style="font-size: 14pt">3、构造函数自动装配：</span></h3>
+<p><strong>ServiceImp：</strong>&nbsp;</p>
+<div class="cnblogs_code"><img id="code_img_closed_f1ade9e7-736d-4040-b488-a8cbd3c2a103" class="code_img_closed" src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" alt=""><img id="code_img_opened_f1ade9e7-736d-4040-b488-a8cbd3c2a103" class="code_img_opened" style="display: none" src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt="">
+<div id="cnblogs_code_open_f1ade9e7-736d-4040-b488-a8cbd3c2a103" class="cnblogs_code_hide">
+<pre><span style="color: rgba(0, 128, 128, 1)"> 1</span> <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">class</span> DogServiceImpl <span style="color: rgba(0, 0, 255, 1)">implements</span><span style="color: rgba(0, 0, 0, 1)"> IDogService {
+</span><span style="color: rgba(0, 128, 128, 1)"> 2</span> 
+<span style="color: rgba(0, 128, 128, 1)"> 3</span>     <span style="color: rgba(0, 0, 255, 1)">private</span><span style="color: rgba(0, 0, 0, 1)"> IDogDao idogdao;
+</span><span style="color: rgba(0, 128, 128, 1)"> 4</span>     
+<span style="color: rgba(0, 128, 128, 1)"> 5</span>     <span style="color: rgba(0, 0, 255, 1)">public</span><span style="color: rgba(0, 0, 0, 1)"> DogServiceImpl(DogDaoImpl dogDao) {
+</span><span style="color: rgba(0, 128, 128, 1)"> 6</span>         System.out.println("开始构造注入....."<span style="color: rgba(0, 0, 0, 1)">);
+</span><span style="color: rgba(0, 128, 128, 1)"> 7</span>         <span style="color: rgba(0, 0, 255, 1)">this</span>.idogdao=<span style="color: rgba(0, 0, 0, 1)">dogDao;
+</span><span style="color: rgba(0, 128, 128, 1)"> 8</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)"> 9</span> 
+<span style="color: rgba(0, 128, 128, 1)">10</span>     <span style="color: rgba(0, 128, 0, 1)">/*</span>
+<span style="color: rgba(0, 128, 128, 1)">11</span> <span style="color: rgba(0, 128, 0, 1)">     * 叫声
+</span><span style="color: rgba(0, 128, 128, 1)">12</span>      <span style="color: rgba(0, 128, 0, 1)">*/</span>
+<span style="color: rgba(0, 128, 128, 1)">13</span>     <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> Call(String msg) {
+</span><span style="color: rgba(0, 128, 128, 1)">14</span> <span style="color: rgba(0, 0, 0, 1)">        idogdao.Call(msg);
+</span><span style="color: rgba(0, 128, 128, 1)">15</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)">16</span> }</pre>
+</div>
+<span class="cnblogs_code_collapse">View Code</span></div>
+<p><strong>IDao：</strong></p>
+<div class="cnblogs_code"><img id="code_img_closed_5f0c04a8-1606-4497-bf9e-9449edba7797" class="code_img_closed" src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" alt=""><img id="code_img_opened_5f0c04a8-1606-4497-bf9e-9449edba7797" class="code_img_opened" style="display: none" src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt="">
+<div id="cnblogs_code_open_5f0c04a8-1606-4497-bf9e-9449edba7797" class="cnblogs_code_hide">
+<pre><span style="color: rgba(0, 128, 128, 1)">1</span> <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">interface</span><span style="color: rgba(0, 0, 0, 1)"> IDogDao {
+</span><span style="color: rgba(0, 128, 128, 1)">2</span>     <span style="color: rgba(0, 128, 0, 1)">/*</span>
+<span style="color: rgba(0, 128, 128, 1)">3</span> <span style="color: rgba(0, 128, 0, 1)">     * 叫
+</span><span style="color: rgba(0, 128, 128, 1)">4</span>      <span style="color: rgba(0, 128, 0, 1)">*/</span>
+<span style="color: rgba(0, 128, 128, 1)">5</span>     <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> Call(String msg);
+</span><span style="color: rgba(0, 128, 128, 1)">6</span> }</pre>
+</div>
+<span class="cnblogs_code_collapse">View Code</span></div>
+<p><strong><strong>DaoImp：</strong>&nbsp;</strong></p>
+<div class="cnblogs_code"><img id="code_img_closed_38e84f2a-b982-4b39-a671-1ea5321c84aa" class="code_img_closed" src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" alt=""><img id="code_img_opened_38e84f2a-b982-4b39-a671-1ea5321c84aa" class="code_img_opened" style="display: none" src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt="">
+<div id="cnblogs_code_open_38e84f2a-b982-4b39-a671-1ea5321c84aa" class="cnblogs_code_hide">
+<pre><span style="color: rgba(0, 128, 128, 1)">1</span> <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">class</span> DogDaoImpl <span style="color: rgba(0, 0, 255, 1)">implements</span><span style="color: rgba(0, 0, 0, 1)"> IDogDao {
+</span><span style="color: rgba(0, 128, 128, 1)">2</span>     
+<span style="color: rgba(0, 128, 128, 1)">3</span>     <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> Call(String msg) {
+</span><span style="color: rgba(0, 128, 128, 1)">4</span>         System.out.println("狗叫:"+<span style="color: rgba(0, 0, 0, 1)">msg);
+</span><span style="color: rgba(0, 128, 128, 1)">5</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)">6</span> }</pre>
+</div>
+<span class="cnblogs_code_collapse">View Code</span></div>
+<p><strong>通常情况下，使用构造注入Bean，配置如下：</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 128, 128, 1)"> 1</span> <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">beans </span><span style="color: rgba(255, 0, 0, 1)">xmlns</span><span style="color: rgba(0, 0, 255, 1)">="http://www.springframework.org/schema/beans"</span>
+<span style="color: rgba(0, 128, 128, 1)"> 2</span> <span style="color: rgba(255, 0, 0, 1)">    xmlns:xsi</span><span style="color: rgba(0, 0, 255, 1)">="http://www.w3.org/2001/XMLSchema-instance"</span>
+<span style="color: rgba(0, 128, 128, 1)"> 3</span> <span style="color: rgba(255, 0, 0, 1)">    xsi:schemaLocation</span><span style="color: rgba(0, 0, 255, 1)">="http://www.springframework.org/schema/beans
+</span><span style="color: rgba(0, 128, 128, 1)"> 4</span> <span style="color: rgba(0, 0, 255, 1)">    http://www.springframework.org/schema/beans/spring-beans.xsd"</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 128, 128, 1)"> 5</span> 
+<span style="color: rgba(0, 128, 128, 1)"> 6</span>     <span style="color: rgba(0, 128, 0, 1)">&lt;!--</span><span style="color: rgba(0, 128, 0, 1)"> 构造注入 </span><span style="color: rgba(0, 128, 0, 1)">--&gt;</span>
+<span style="color: rgba(0, 128, 128, 1)"> 7</span>     <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">bean </span><span style="color: rgba(255, 0, 0, 1)">id</span><span style="color: rgba(0, 0, 255, 1)">="dogId"</span><span style="color: rgba(255, 0, 0, 1)"> class</span><span style="color: rgba(0, 0, 255, 1)">="serviceImpl.DogServiceImpl"</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 128, 128, 1)"> 8</span>         <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">constructor-arg </span><span style="color: rgba(255, 0, 0, 1)">ref</span><span style="color: rgba(0, 0, 255, 1)">="dogDao"</span><span style="color: rgba(0, 0, 255, 1)">/&gt;</span>
+<span style="color: rgba(0, 128, 128, 1)"> 9</span>     <span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">bean</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>    
+<span style="color: rgba(0, 128, 128, 1)">10</span>     <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">bean </span><span style="color: rgba(255, 0, 0, 1)">id</span><span style="color: rgba(0, 0, 255, 1)">="dogDao"</span><span style="color: rgba(255, 0, 0, 1)"> class</span><span style="color: rgba(0, 0, 255, 1)">="daoImpl.DogDaoImpl"</span><span style="color: rgba(0, 0, 255, 1)">&gt;&lt;/</span><span style="color: rgba(128, 0, 0, 1)">bean</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>    
+<span style="color: rgba(0, 128, 128, 1)">11</span> <span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">beans</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span> </pre>
+</div>
+<p><strong>自动装配用构造函数启用后，你可以不设置构造器属性。Spring会找到兼容的数据类型，并自动装配它。</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">beans </span><span style="color: rgba(255, 0, 0, 1)">xmlns</span><span style="color: rgba(0, 0, 255, 1)">="http://www.springframework.org/schema/beans"</span><span style="color: rgba(255, 0, 0, 1)">
+    xmlns:xsi</span><span style="color: rgba(0, 0, 255, 1)">="http://www.w3.org/2001/XMLSchema-instance"</span><span style="color: rgba(255, 0, 0, 1)">
+    xsi:schemaLocation</span><span style="color: rgba(0, 0, 255, 1)">="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd"</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+
+     <span style="color: rgba(0, 128, 0, 1)">&lt;!--</span><span style="color: rgba(0, 128, 0, 1)"> Constructor  构造自动装配 </span><span style="color: rgba(0, 128, 0, 1)">--&gt;</span>
+     <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">bean </span><span style="color: rgba(255, 0, 0, 1)">id</span><span style="color: rgba(0, 0, 255, 1)">="dogId"</span><span style="color: rgba(255, 0, 0, 1)"> class</span><span style="color: rgba(0, 0, 255, 1)">="serviceImpl.DogServiceImpl"</span><span style="color: rgba(255, 0, 0, 1)"> autowire</span><span style="color: rgba(0, 0, 255, 1)">="constructor"</span><span style="color: rgba(0, 0, 255, 1)">/&gt;</span>
+     <span style="color: rgba(0, 128, 0, 1)">&lt;!--</span><span style="color: rgba(0, 128, 0, 1)"> 有无Id都可以 </span><span style="color: rgba(0, 128, 0, 1)">--&gt;</span>    
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">bean </span><span style="color: rgba(255, 0, 0, 1)">id</span><span style="color: rgba(0, 0, 255, 1)">="dogDaos"</span><span style="color: rgba(255, 0, 0, 1)"> class</span><span style="color: rgba(0, 0, 255, 1)">="daoImpl.DogDaoImpl"</span><span style="color: rgba(0, 0, 255, 1)">&gt;&lt;/</span><span style="color: rgba(128, 0, 0, 1)">bean</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>     
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">beans</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span> </pre>
+</div>
+<p>&nbsp;</p>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+        </div>
+	
+        <div class="postfoot">
+            posted on 
+<span id="post-date">2019-04-09 21:44</span>&nbsp;
+<a href="https://www.cnblogs.com/wwj1992/">夜、微凉</a>&nbsp;
+阅读(<span id="post_view_count">1018</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=10680024" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(10680024);return false;">收藏</a>
+        </div>
+    </div>
+</div>
+
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 226732, cb_blogApp = 'wwj1992', cb_blogUserGuid = '822a8cea-54f4-e411-b908-9dcfd8948a71';
+    var cb_entryId = 10680024, cb_entryCreatedDate = '2019-04-09 21:44', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+
+
+</tr>
+</table>
+<p id="footer">
+	Copyright @
+	2021 夜、微凉
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+<BR>
+	Powered by:
+	<a href="http://scottwater.com/blog" target="_blank">.Text</a> and 
+	<a href="http://asp.net" target="_blank">ASP.NET</a>
+	<br>
+	Theme by: <a href="http://www.DotNetMonster.com" target="_blank">.NET Monster</a>
+</p>
+
+
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjuUObxmqwZPFbLIZc_OuPbxUY70RKIZxmtc8b0rhPMWK4LqATCEhyo3Q5WVPumb658klfT0qx6eDcrzZp87bKm872G6peH9Etsvf02MIEWwMq-sD2mOgVE-AnIBNhZZ5TY" />
+</body>
+</html>

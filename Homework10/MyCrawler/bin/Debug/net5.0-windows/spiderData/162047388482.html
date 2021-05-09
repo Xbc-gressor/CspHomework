@@ -1,0 +1,834 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="并发编程使我们可以将程序划分为多个分离的、独立运行的任务。通过多线程机制，这些独立的任务中的每一个都将由执行线程来驱动。单个进程可以拥有多个并发执行任务。 实现并发最直接的方式是在操作系统级别使用进程" />
+    <meta property="og:description" content="并发编程使我们可以将程序划分为多个分离的、独立运行的任务。通过多线程机制，这些独立的任务中的每一个都将由执行线程来驱动。单个进程可以拥有多个并发执行任务。 实现并发最直接的方式是在操作系统级别使用进程" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Java多线程、并发 - 覆手为云p - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/lessismore/bundle-lessismore.min.css?v=Nzi-lWKZybUKyvBBwQfUy5FEw9L1y1vEeeH3HEOAeFI" />
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/aland-1415/custom.css?v=osHEKei5HYDLHpl1CgScSndy&#x2B;I4=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/lessismore/bundle-lessismore-mobile.min.css?v=3XZY-PEnb5glRdnE4ZEKGXsS6s437vES-myQa9K-I8s" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/aland-1415/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/aland-1415/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/aland-1415/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 338974;
+        var currentBlogApp = 'aland-1415';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'LessIsMore';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-04-16 10:14';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="no-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="page_begin_html">
+        <div class="Snow">
+    <canvas id="Snow"></canvas>
+</div>
+    </div>
+    <div id="home">
+    <div id="header">
+        <div id="blogTitle">
+            <div class="title"><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/aland-1415/">覆手为云p</a>
+</div>
+<div class="subtitle"></div>
+
+        </div>
+        <div id="navigator">
+            
+<ul id="navList">
+    <li id="nav_sitehome"><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+    <li id="nav_myhome">
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/aland-1415/">
+首页</a>
+</li>
+    <li id="nav_newpost">
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+    <li id="nav_contact">
+</li>
+    <li id="nav_rss">
+</li>
+    <li id="nav_admin">
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+            <div class="blogStats">
+                <div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+            </div>
+        </div>
+    </div>
+    <div id="main">
+        <div id="mainContent">
+            <div class="forFlow">
+                <div id="post_detail">
+    <div id="topics">
+        <div class="post">
+            <h1 class="postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/aland-1415/p/14449745.html">
+    <span>Java多线程、并发</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<p>&nbsp;</p>
+<p>&nbsp;&nbsp;&nbsp; 并发编程使我们可以将程序划分为多个分离的、独立运行的任务。通过多线程机制，这些独立的任务中的每一个都将由执行线程来驱动。单个进程可以拥有多个并发执行任务。<br>&nbsp;&nbsp;&nbsp; 实现并发最直接的方式是在操作系统级别使用进程。<br>&nbsp;&nbsp;&nbsp; Java的线程机制是抢占式的，调度机制会周期性的中断线程，将上下文切换到另一个线程，从而为每个线程都提供时间片，使得每个线程都会分配到数量合理的赶时间去驱动它的任务。还有一种方式是协作式，这种需要程序主动去释放线程控制权。</p>
+<h3>一、多线程使用</h3>
+<h4>1、继承Runnable接口</h4>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 128, 128, 1)"> 1</span> <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">class</span> MyRunnable <span style="color: rgba(0, 0, 255, 1)">implements</span><span style="color: rgba(0, 0, 0, 1)"> Runnable {
+</span><span style="color: rgba(0, 128, 128, 1)"> 2</span>     <span style="color: rgba(0, 0, 255, 1)">private</span> <span style="color: rgba(0, 0, 255, 1)">int</span><span style="color: rgba(0, 0, 0, 1)"> index;
+</span><span style="color: rgba(0, 128, 128, 1)"> 3</span> <span style="color: rgba(0, 0, 0, 1)">    @Override
+</span><span style="color: rgba(0, 128, 128, 1)"> 4</span>     <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> run() {
+</span><span style="color: rgba(0, 128, 128, 1)"> 5</span>         <span style="color: rgba(0, 0, 255, 1)">while</span> (index ++ &lt; 10<span style="color: rgba(0, 0, 0, 1)">){
+</span><span style="color: rgba(0, 128, 128, 1)"> 6</span>             System.out.print(index + ","<span style="color: rgba(0, 0, 0, 1)">);
+</span><span style="color: rgba(0, 128, 128, 1)"> 7</span>             Thread.yield();<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">可选使用，用来告诉线程调试器，当前任务已执行完，可以切换线程了</span>
+<span style="color: rgba(0, 128, 128, 1)"> 8</span> <span style="color: rgba(0, 0, 0, 1)">        }
+</span><span style="color: rgba(0, 128, 128, 1)"> 9</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)">10</span>     <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">static</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> main(String[] args) {
+</span><span style="color: rgba(0, 128, 128, 1)">11</span>         <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">启用新线程</span>
+<span style="color: rgba(0, 128, 128, 1)">12</span>         <span style="color: rgba(0, 0, 255, 1)">new</span> Thread(<span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> MyRunnable()).start();
+</span><span style="color: rgba(0, 128, 128, 1)">13</span>         <span style="color: rgba(0, 0, 255, 1)">new</span> Thread(<span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> MyRunnable()).start();
+</span><span style="color: rgba(0, 128, 128, 1)">14</span>         System.out.println("main ended"<span style="color: rgba(0, 0, 0, 1)">);
+</span><span style="color: rgba(0, 128, 128, 1)">15</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)">16</span> }</pre>
+</div>
+<p>结果：</p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 0, 1)">main ended
+</span>1,2,1,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,</pre>
+</div>
+<p>相关参数设置：</p>
+<div class="cnblogs_code">
+<pre>    Thread thread1 = <span style="color: rgba(0, 0, 255, 1)">new</span> Thread(<span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> MyRunnable());
+    </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">设置thread1为后台线程，程序会在所有非后台线程运行结束后结束，而不关心后台线程是否已经结束了。</span>
+    thread1.setDaemon(<span style="color: rgba(0, 0, 255, 1)">true</span><span style="color: rgba(0, 0, 0, 1)">);
+    thread1.setName(</span>"threadname");<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">设置线程名称</span>
+<span style="color: rgba(0, 0, 0, 1)">    thread1.start();
+
+    Thread thread2 </span>= <span style="color: rgba(0, 0, 255, 1)">new</span> Thread(<span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> MyRunnable());
+    thread2.start();
+    </span><span style="color: rgba(0, 0, 255, 1)">try</span><span style="color: rgba(0, 0, 0, 1)"> {
+        thread2.join(</span>6000); <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">主线程会在此等待thread2执行完，最多等待6秒，如果不设置超时时间则一直等待</span>
+        thread2.interrupt();<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">取消等待，这个与join在同一个线程执行是没有效果的。</span>
+    } <span style="color: rgba(0, 0, 255, 1)">catch</span><span style="color: rgba(0, 0, 0, 1)"> (InterruptedException e) {
+        e.printStackTrace();
+    }</span></pre>
+</div>
+<p>使用Executors来管理线程：</p>
+<div class="cnblogs_code">
+<pre>    <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">SE5后可以使用Executors来管理线程</span>
+    ExecutorService pool =<span style="color: rgba(0, 0, 0, 1)"> Executors.newCachedThreadPool();
+    </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">相似的还有FixedThreadPool(固定线程)， SingleThreadExecutor单线程（如果有多个任务会排队）
+</span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">  Executors.newFixedThreadPool(10);
+</span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">  Executors.newSingleThreadExecutor();</span>
+    pool.execute(<span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> MyRunnable());
+    pool.shutdown();</span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">shutdown后就不能添加新的线程任务了</span></pre>
+</div>
+<p>使用Executors来执行线程还可以获取到线程内的异常getUncaughtExceptionHandler；&nbsp;&nbsp;&nbsp;</p>
+<h4>2、继承Callable接口</h4>
+<p>可获取线程任务返回值</p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 128, 128, 1)"> 1</span> <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">class</span> MyCallable <span style="color: rgba(0, 0, 255, 1)">implements</span> Callable&lt;String&gt;<span style="color: rgba(0, 0, 0, 1)"> {
+</span><span style="color: rgba(0, 128, 128, 1)"> 2</span>     <span style="color: rgba(0, 0, 255, 1)">private</span> <span style="color: rgba(0, 0, 255, 1)">int</span><span style="color: rgba(0, 0, 0, 1)"> index;
+</span><span style="color: rgba(0, 128, 128, 1)"> 3</span> <span style="color: rgba(0, 0, 0, 1)">    @Override
+</span><span style="color: rgba(0, 128, 128, 1)"> 4</span>     <span style="color: rgba(0, 0, 255, 1)">public</span> String call() <span style="color: rgba(0, 0, 255, 1)">throws</span><span style="color: rgba(0, 0, 0, 1)"> Exception {
+</span><span style="color: rgba(0, 128, 128, 1)"> 5</span>         <span style="color: rgba(0, 0, 255, 1)">while</span> (index ++ &lt; 10<span style="color: rgba(0, 0, 0, 1)">){
+</span><span style="color: rgba(0, 128, 128, 1)"> 6</span>             System.out.print(index + ","<span style="color: rgba(0, 0, 0, 1)">);
+</span><span style="color: rgba(0, 128, 128, 1)"> 7</span> <span style="color: rgba(0, 0, 0, 1)">        }
+</span><span style="color: rgba(0, 128, 128, 1)"> 8</span>         <span style="color: rgba(0, 0, 255, 1)">return</span> "success"<span style="color: rgba(0, 0, 0, 1)">;
+</span><span style="color: rgba(0, 128, 128, 1)"> 9</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)">10</span> 
+<span style="color: rgba(0, 128, 128, 1)">11</span>     <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">static</span> <span style="color: rgba(0, 0, 255, 1)">void</span> main(String[] args) <span style="color: rgba(0, 0, 255, 1)">throws</span><span style="color: rgba(0, 0, 0, 1)"> ExecutionException, InterruptedException {
+</span><span style="color: rgba(0, 128, 128, 1)">12</span>         ExecutorService pool =<span style="color: rgba(0, 0, 0, 1)"> Executors.newCachedThreadPool();
+</span><span style="color: rgba(0, 128, 128, 1)">13</span>         Future&lt;String&gt; result = pool.submit(<span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> MyCallable());
+</span><span style="color: rgba(0, 128, 128, 1)">14</span>         result.isDone();  <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">返回当前任务是否已经完成，未完成时调用get()会一直阻塞，直到完成返回结果为止</span>
+<span style="color: rgba(0, 128, 128, 1)">15</span>         System.out.println(result.get()); <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">success</span>
+<span style="color: rgba(0, 128, 128, 1)">16</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)">17</span> }</pre>
+</div>
+<p>&nbsp;</p>
+<h3>二、共享资源加锁</h3>
+<h4>1、synchronized关键字</h4>
+<p>可使用synchronized关键字来修饰方法，防止资源冲突。<br>如：synchronized void f(){}<br>&nbsp;&nbsp;&nbsp; synchronized void g(){}<br>当在对象上调用其任意synchronized方法时，此对象都会被加锁，此时该对象上的其他synchronized方法只有等前一个方法调用完毕释放锁之后才能被调用。<br>以上如某个任务对对象调用了f(),对于同一个对象而言，就只能等f()调用结束并释放锁之后其他任务才能调用f()和g()。所以对于某个特定对象来说synchronized共享同一个锁。<br>但同一个任务可多次获得对象锁，如果f()调用了g()，也是可以的，这时锁的计数就是2，只有当锁的计数变为0时，锁才会被释放。<br>注意在使用并发时，将被共享资源的域设置为private是非常重要的，否则synchronized关键字就不能防止其他任务直接访问域。<br>示例：</p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 128, 128, 1)"> 1</span> <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">多线程计数</span>
+<span style="color: rgba(0, 128, 128, 1)"> 2</span> <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">class</span><span style="color: rgba(0, 0, 0, 1)"> SynchObject {
+</span><span style="color: rgba(0, 128, 128, 1)"> 3</span>     <span style="color: rgba(0, 0, 255, 1)">private</span> Integer index = 0<span style="color: rgba(0, 0, 0, 1)"> ;
+</span><span style="color: rgba(0, 128, 128, 1)"> 4</span>     <span style="color: rgba(0, 0, 255, 1)">synchronized</span> <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> counting(){
+</span><span style="color: rgba(0, 128, 128, 1)"> 5</span>         <span style="color: rgba(0, 0, 255, 1)">while</span> (index ++ &lt; 10<span style="color: rgba(0, 0, 0, 1)">){
+</span><span style="color: rgba(0, 128, 128, 1)"> 6</span>             System.out.printf(index + ","<span style="color: rgba(0, 0, 0, 1)">);
+</span><span style="color: rgba(0, 128, 128, 1)"> 7</span>             <span style="color: rgba(0, 0, 255, 1)">try</span><span style="color: rgba(0, 0, 0, 1)"> {
+</span><span style="color: rgba(0, 128, 128, 1)"> 8</span>                 Thread.sleep(100L<span style="color: rgba(0, 0, 0, 1)">);
+</span><span style="color: rgba(0, 128, 128, 1)"> 9</span>             } <span style="color: rgba(0, 0, 255, 1)">catch</span><span style="color: rgba(0, 0, 0, 1)"> (InterruptedException e) {
+</span><span style="color: rgba(0, 128, 128, 1)">10</span> <span style="color: rgba(0, 0, 0, 1)">                e.printStackTrace();
+</span><span style="color: rgba(0, 128, 128, 1)">11</span> <span style="color: rgba(0, 0, 0, 1)">            }
+</span><span style="color: rgba(0, 128, 128, 1)">12</span> <span style="color: rgba(0, 0, 0, 1)">        }
+</span><span style="color: rgba(0, 128, 128, 1)">13</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)">14</span> <span style="color: rgba(0, 0, 0, 1)">}
+</span><span style="color: rgba(0, 128, 128, 1)">15</span> <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">class</span> SyncTesthRunnable <span style="color: rgba(0, 0, 255, 1)">implements</span><span style="color: rgba(0, 0, 0, 1)"> Runnable {
+</span><span style="color: rgba(0, 128, 128, 1)">16</span> <span style="color: rgba(0, 0, 0, 1)">    SynchObject synchObject;
+</span><span style="color: rgba(0, 128, 128, 1)">17</span> <span style="color: rgba(0, 0, 0, 1)">    SyncTesthRunnable(SynchObject synchObject){
+</span><span style="color: rgba(0, 128, 128, 1)">18</span>         <span style="color: rgba(0, 0, 255, 1)">this</span>.synchObject =<span style="color: rgba(0, 0, 0, 1)"> synchObject;
+</span><span style="color: rgba(0, 128, 128, 1)">19</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)">20</span> <span style="color: rgba(0, 0, 0, 1)">    @Override
+</span><span style="color: rgba(0, 128, 128, 1)">21</span>     <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> run() {
+</span><span style="color: rgba(0, 128, 128, 1)">22</span>     
+<span style="color: rgba(0, 128, 128, 1)">23</span>     
+<span style="color: rgba(0, 128, 128, 1)">24</span>         <span style="color: rgba(0, 0, 255, 1)">this</span><span style="color: rgba(0, 0, 0, 1)">.synchObject.counting();
+</span><span style="color: rgba(0, 128, 128, 1)">25</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)">26</span>     <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">static</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> main(String[] args){
+</span><span style="color: rgba(0, 128, 128, 1)">27</span>         SynchObject synchObject = <span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> SynchObject();
+</span><span style="color: rgba(0, 128, 128, 1)">28</span>         <span style="color: rgba(0, 0, 255, 1)">new</span> Thread(<span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> SyncTesthRunnable(synchObject)).start();
+</span><span style="color: rgba(0, 128, 128, 1)">29</span>         <span style="color: rgba(0, 0, 255, 1)">new</span> Thread(<span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> SyncTesthRunnable(synchObject)).start();
+</span><span style="color: rgba(0, 128, 128, 1)">30</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)">31</span> }</pre>
+</div>
+<p>如果counting方法不加synchronized关键字，计数的结果就不会是顺序的；<br>不加synchronized时的运行结果：2,2,3,3,4,5,7,7,8,9,10,<br>加synchronized时的运行结果：1,2,3,4,5,6,7,8,9,10,</p>
+<h4>2、显示的使用锁Lock对象来加锁</h4>
+<p>使用如下：</p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 128, 128, 1)"> 1</span> <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">class</span><span style="color: rgba(0, 0, 0, 1)"> SynchObject {
+</span><span style="color: rgba(0, 128, 128, 1)"> 2</span>     <span style="color: rgba(0, 0, 255, 1)">private</span> Integer index = 0<span style="color: rgba(0, 0, 0, 1)"> ;
+</span><span style="color: rgba(0, 128, 128, 1)"> 3</span>     <span style="color: rgba(0, 0, 255, 1)">private</span> Lock lock = <span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> ReentrantLock();
+</span><span style="color: rgba(0, 128, 128, 1)"> 4</span> 
+<span style="color: rgba(0, 128, 128, 1)"> 5</span>     <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> counting(){
+</span><span style="color: rgba(0, 128, 128, 1)"> 6</span> <span style="color: rgba(0, 0, 0, 1)">        lock.lock();
+</span><span style="color: rgba(0, 128, 128, 1)"> 7</span>         <span style="color: rgba(0, 0, 255, 1)">while</span> (index ++ &lt; 10<span style="color: rgba(0, 0, 0, 1)">){
+</span><span style="color: rgba(0, 128, 128, 1)"> 8</span>             System.out.printf(index + ","<span style="color: rgba(0, 0, 0, 1)">);
+</span><span style="color: rgba(0, 128, 128, 1)"> 9</span>             <span style="color: rgba(0, 0, 255, 1)">try</span><span style="color: rgba(0, 0, 0, 1)"> {
+</span><span style="color: rgba(0, 128, 128, 1)">10</span>                 Thread.sleep(100L<span style="color: rgba(0, 0, 0, 1)">);
+</span><span style="color: rgba(0, 128, 128, 1)">11</span>             } <span style="color: rgba(0, 0, 255, 1)">catch</span><span style="color: rgba(0, 0, 0, 1)"> (InterruptedException e) {
+</span><span style="color: rgba(0, 128, 128, 1)">12</span> <span style="color: rgba(0, 0, 0, 1)">                e.printStackTrace();
+</span><span style="color: rgba(0, 128, 128, 1)">13</span> <span style="color: rgba(0, 0, 0, 1)">            }
+</span><span style="color: rgba(0, 128, 128, 1)">14</span> <span style="color: rgba(0, 0, 0, 1)">        }
+</span><span style="color: rgba(0, 128, 128, 1)">15</span>         lock.unlock();<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">注意锁一定要主动释放，不然其他任务就永远获取不到锁。最好能放在finally里，以防异常发生无法释放锁。</span>
+<span style="color: rgba(0, 128, 128, 1)">16</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)">17</span> }</pre>
+</div>
+<p>如果在synchronized里事务失败了则会抛出异常，我们没有机会去做一些清理工作。使用Lock锁则可以做更多的动作。通常使用synchronized就足够了，只有在解决特殊问题时才显示使用Lock对象。<br>*在类中只有一个可变域，且对域只进行原子操作时，可使用volatile关键字来限定域，确保同步。但最好不要用，很可能因为理解不到位出现同步问题，一般都推荐直接使用synchronized。<br>*什么是原子操作？对域中(除long,double外的基本类型)的值做赋值和返回值操作通常都是原子性的。如果域有递增递减操作的肯定不是原子操作。</p>
+<h4>3、临界区</h4>
+<p>只对方法内的部分代码加锁</p>
+<div class="cnblogs_code">
+<pre>    <span style="color: rgba(0, 0, 255, 1)">synchronized</span><span style="color: rgba(0, 0, 0, 1)">(synchObject){
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">这个代码块里的代码只能同时被一个线程访问，也称为同步控制块</span>
+    }</pre>
+</div>
+<p>&nbsp;</p>
+<h3>三、中断线程</h3>
+<div class="cnblogs_code">
+<pre>ExecutorService exec =<span style="color: rgba(0, 0, 0, 1)"> Executors.newCachedThreadPool();
+Future</span>&lt;String&gt; future = exec.submit(<span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> MyCallable());
+future.cancel(</span><span style="color: rgba(0, 0, 255, 1)">true</span>);<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">方式一</span>
+exec.shutdownNow();<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">方式二</span>
+Thread.interrupted();<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> 检查当前线程是否中断</span></pre>
+</div>
+<p>&nbsp;</p>
+<h3>四、线程间协作</h3>
+<h4>1、wait(),notifyAll()/notify()</h4>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 128, 128, 1)"> 1</span> <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">class</span><span style="color: rgba(0, 0, 0, 1)"> SynchObject {
+</span><span style="color: rgba(0, 128, 128, 1)"> 2</span>     <span style="color: rgba(0, 0, 255, 1)">private</span> <span style="color: rgba(0, 0, 255, 1)">boolean</span> waked = <span style="color: rgba(0, 0, 255, 1)">false</span><span style="color: rgba(0, 0, 0, 1)">;
+</span><span style="color: rgba(0, 128, 128, 1)"> 3</span> 
+<span style="color: rgba(0, 128, 128, 1)"> 4</span>     <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">synchronized</span> <span style="color: rgba(0, 0, 255, 1)">void</span> wakeup() <span style="color: rgba(0, 0, 255, 1)">throws</span><span style="color: rgba(0, 0, 0, 1)"> InterruptedException {
+</span><span style="color: rgba(0, 128, 128, 1)"> 5</span>         Thread.sleep(1000L);<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">sleep()和yield()方法不会释放锁, wait()会释放锁</span>
+<span style="color: rgba(0, 128, 128, 1)"> 6</span>         waked = <span style="color: rgba(0, 0, 255, 1)">true</span><span style="color: rgba(0, 0, 0, 1)">;
+</span><span style="color: rgba(0, 128, 128, 1)"> 7</span>         System.out.println("wake up"<span style="color: rgba(0, 0, 0, 1)">);
+</span><span style="color: rgba(0, 128, 128, 1)"> 8</span>         notifyAll(); <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">notifyAll()唤醒所有的等待，notify()只唤醒一个。如果确定只有一个可以使用notify来进行优化，其他情况建议使用notifyAll</span>
+<span style="color: rgba(0, 128, 128, 1)"> 9</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)">10</span>     <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">synchronized</span> <span style="color: rgba(0, 0, 255, 1)">void</span> getup() <span style="color: rgba(0, 0, 255, 1)">throws</span><span style="color: rgba(0, 0, 0, 1)"> InterruptedException {
+</span><span style="color: rgba(0, 128, 128, 1)">11</span>         <span style="color: rgba(0, 0, 255, 1)">while</span> (!waked){<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">wait一般注意要加判断条件，因为不能确定哪个线程先执行，不判断可能造成选notify了再wait，那么就可能一直等不到通知，造成线程一直挂起</span>
+<span style="color: rgba(0, 128, 128, 1)">12</span>             System.out.println("waiting"<span style="color: rgba(0, 0, 0, 1)">);
+</span><span style="color: rgba(0, 128, 128, 1)">13</span>             wait(); <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">wait和notify方法都需要使用synchronized锁定对象线程，否则会报IllegalMonitorStateException异常</span>
+<span style="color: rgba(0, 128, 128, 1)">14</span> <span style="color: rgba(0, 0, 0, 1)">        }
+</span><span style="color: rgba(0, 128, 128, 1)">15</span>         System.out.println("get up"<span style="color: rgba(0, 0, 0, 1)">);
+</span><span style="color: rgba(0, 128, 128, 1)">16</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)">17</span> 
+<span style="color: rgba(0, 128, 128, 1)">18</span>     <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">class</span> WakeupTask <span style="color: rgba(0, 0, 255, 1)">implements</span><span style="color: rgba(0, 0, 0, 1)"> Runnable{
+</span><span style="color: rgba(0, 128, 128, 1)">19</span>         <span style="color: rgba(0, 0, 255, 1)">private</span><span style="color: rgba(0, 0, 0, 1)"> SynchObject object;
+</span><span style="color: rgba(0, 128, 128, 1)">20</span>         WakeupTask(SynchObject object){<span style="color: rgba(0, 0, 255, 1)">this</span>.object =<span style="color: rgba(0, 0, 0, 1)"> object;}
+</span><span style="color: rgba(0, 128, 128, 1)">21</span>         <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> run() {
+</span><span style="color: rgba(0, 128, 128, 1)">22</span>             <span style="color: rgba(0, 0, 255, 1)">try</span><span style="color: rgba(0, 0, 0, 1)"> {
+</span><span style="color: rgba(0, 128, 128, 1)">23</span>                 <span style="color: rgba(0, 0, 255, 1)">this</span><span style="color: rgba(0, 0, 0, 1)">.object.wakeup();
+</span><span style="color: rgba(0, 128, 128, 1)">24</span>             } <span style="color: rgba(0, 0, 255, 1)">catch</span><span style="color: rgba(0, 0, 0, 1)"> (InterruptedException e) {
+</span><span style="color: rgba(0, 128, 128, 1)">25</span> <span style="color: rgba(0, 0, 0, 1)">                e.printStackTrace();
+</span><span style="color: rgba(0, 128, 128, 1)">26</span> <span style="color: rgba(0, 0, 0, 1)">            }
+</span><span style="color: rgba(0, 128, 128, 1)">27</span> <span style="color: rgba(0, 0, 0, 1)">        }
+</span><span style="color: rgba(0, 128, 128, 1)">28</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)">29</span>     <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">class</span> GetupTask <span style="color: rgba(0, 0, 255, 1)">implements</span><span style="color: rgba(0, 0, 0, 1)"> Runnable{
+</span><span style="color: rgba(0, 128, 128, 1)">30</span>         <span style="color: rgba(0, 0, 255, 1)">private</span><span style="color: rgba(0, 0, 0, 1)"> SynchObject object;
+</span><span style="color: rgba(0, 128, 128, 1)">31</span>         GetupTask(SynchObject object){<span style="color: rgba(0, 0, 255, 1)">this</span>.object =<span style="color: rgba(0, 0, 0, 1)"> object;}
+</span><span style="color: rgba(0, 128, 128, 1)">32</span>         <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> run() {
+</span><span style="color: rgba(0, 128, 128, 1)">33</span>             <span style="color: rgba(0, 0, 255, 1)">try</span><span style="color: rgba(0, 0, 0, 1)"> {
+</span><span style="color: rgba(0, 128, 128, 1)">34</span>                 <span style="color: rgba(0, 0, 255, 1)">this</span><span style="color: rgba(0, 0, 0, 1)">.object.getup();
+</span><span style="color: rgba(0, 128, 128, 1)">35</span>             } <span style="color: rgba(0, 0, 255, 1)">catch</span><span style="color: rgba(0, 0, 0, 1)"> (InterruptedException e) {
+</span><span style="color: rgba(0, 128, 128, 1)">36</span> <span style="color: rgba(0, 0, 0, 1)">                e.printStackTrace();
+</span><span style="color: rgba(0, 128, 128, 1)">37</span> <span style="color: rgba(0, 0, 0, 1)">            }
+</span><span style="color: rgba(0, 128, 128, 1)">38</span> <span style="color: rgba(0, 0, 0, 1)">        }
+</span><span style="color: rgba(0, 128, 128, 1)">39</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)">40</span> 
+<span style="color: rgba(0, 128, 128, 1)">41</span>     <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> test() {
+</span><span style="color: rgba(0, 128, 128, 1)">42</span>         SynchObject object = <span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> SynchObject();
+</span><span style="color: rgba(0, 128, 128, 1)">43</span>         WakeupTask wakeupTask = <span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> WakeupTask(object);
+</span><span style="color: rgba(0, 128, 128, 1)">44</span>         GetupTask getupTask = <span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> GetupTask(object);
+</span><span style="color: rgba(0, 128, 128, 1)">45</span>         <span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> Thread(getupTask).start();
+</span><span style="color: rgba(0, 128, 128, 1)">46</span>         <span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> Thread(wakeupTask).start();
+</span><span style="color: rgba(0, 128, 128, 1)">47</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)">48</span> }</pre>
+</div>
+<div class="cnblogs_code">
+<pre>-------<span style="color: rgba(0, 0, 0, 1)">
+test()运行结果：
+waiting
+wake up
+get up</span></pre>
+</div>
+<h4>2、生产-消费者与队列</h4>
+<p>更高效的协作</p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 128, 128, 1)"> 1</span> <span style="color: rgba(0, 0, 255, 1)">class</span><span style="color: rgba(0, 0, 0, 1)"> Person{
+</span><span style="color: rgba(0, 128, 128, 1)"> 2</span>     <span style="color: rgba(0, 0, 255, 1)">private</span><span style="color: rgba(0, 0, 0, 1)"> String name;
+</span><span style="color: rgba(0, 128, 128, 1)"> 3</span>     Person(String name){<span style="color: rgba(0, 0, 255, 1)">this</span>.name =<span style="color: rgba(0, 0, 0, 1)"> name; }
+</span><span style="color: rgba(0, 128, 128, 1)"> 4</span>     <span style="color: rgba(0, 0, 255, 1)">void</span> wakeup(){System.out.println(name + " wake up"<span style="color: rgba(0, 0, 0, 1)">);}
+</span><span style="color: rgba(0, 128, 128, 1)"> 5</span>     <span style="color: rgba(0, 0, 255, 1)">void</span> getup() <span style="color: rgba(0, 0, 255, 1)">throws</span><span style="color: rgba(0, 0, 0, 1)"> InterruptedException {
+</span><span style="color: rgba(0, 128, 128, 1)"> 6</span>         Thread.sleep((<span style="color: rgba(0, 0, 255, 1)">long</span>) (1000L *<span style="color: rgba(0, 0, 0, 1)"> Math.random()));
+</span><span style="color: rgba(0, 128, 128, 1)"> 7</span>         System.out.println(name + "get up"<span style="color: rgba(0, 0, 0, 1)">);
+</span><span style="color: rgba(0, 128, 128, 1)"> 8</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)"> 9</span>     <span style="color: rgba(0, 0, 255, 1)">void</span> working(){System.out.println(name + " working"<span style="color: rgba(0, 0, 0, 1)">);}
+</span><span style="color: rgba(0, 128, 128, 1)">10</span> <span style="color: rgba(0, 0, 0, 1)">}
+</span><span style="color: rgba(0, 128, 128, 1)">11</span> <span style="color: rgba(0, 0, 255, 1)">class</span> PersonQueue <span style="color: rgba(0, 0, 255, 1)">extends</span> LinkedBlockingQueue&lt;Person&gt;<span style="color: rgba(0, 0, 0, 1)">{}
+</span><span style="color: rgba(0, 128, 128, 1)">12</span> 
+<span style="color: rgba(0, 128, 128, 1)">13</span> <span style="color: rgba(0, 0, 255, 1)">class</span> WakedPerson <span style="color: rgba(0, 0, 255, 1)">implements</span><span style="color: rgba(0, 0, 0, 1)"> Runnable{
+</span><span style="color: rgba(0, 128, 128, 1)">14</span>     <span style="color: rgba(0, 0, 255, 1)">private</span><span style="color: rgba(0, 0, 0, 1)"> PersonQueue personQueue;
+</span><span style="color: rgba(0, 128, 128, 1)">15</span>     <span style="color: rgba(0, 0, 255, 1)">public</span> WakedPerson(PersonQueue personQueue){<span style="color: rgba(0, 0, 255, 1)">this</span>.personQueue =<span style="color: rgba(0, 0, 0, 1)"> personQueue;}
+</span><span style="color: rgba(0, 128, 128, 1)">16</span> 
+<span style="color: rgba(0, 128, 128, 1)">17</span>     <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> run() {
+</span><span style="color: rgba(0, 128, 128, 1)">18</span>         <span style="color: rgba(0, 0, 255, 1)">for</span> (Integer i = 0; i&lt; 5; i++<span style="color: rgba(0, 0, 0, 1)">){
+</span><span style="color: rgba(0, 128, 128, 1)">19</span>             Person p = <span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> Person(i.toString());
+</span><span style="color: rgba(0, 128, 128, 1)">20</span> <span style="color: rgba(0, 0, 0, 1)">            p.wakeup();
+</span><span style="color: rgba(0, 128, 128, 1)">21</span>             personQueue.add(p);<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">也可用put()</span>
+<span style="color: rgba(0, 128, 128, 1)">22</span> <span style="color: rgba(0, 0, 0, 1)">        }
+</span><span style="color: rgba(0, 128, 128, 1)">23</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)">24</span> <span style="color: rgba(0, 0, 0, 1)">}
+</span><span style="color: rgba(0, 128, 128, 1)">25</span> <span style="color: rgba(0, 0, 255, 1)">class</span> GetupPerson <span style="color: rgba(0, 0, 255, 1)">implements</span><span style="color: rgba(0, 0, 0, 1)"> Runnable{
+</span><span style="color: rgba(0, 128, 128, 1)">26</span>     <span style="color: rgba(0, 0, 255, 1)">private</span><span style="color: rgba(0, 0, 0, 1)"> PersonQueue wakedQueue;
+</span><span style="color: rgba(0, 128, 128, 1)">27</span>     <span style="color: rgba(0, 0, 255, 1)">private</span><span style="color: rgba(0, 0, 0, 1)"> PersonQueue gotupQueue;
+</span><span style="color: rgba(0, 128, 128, 1)">28</span> <span style="color: rgba(0, 0, 0, 1)">    GetupPerson (PersonQueue personQueue, PersonQueue gotupQueue){
+</span><span style="color: rgba(0, 128, 128, 1)">29</span>         <span style="color: rgba(0, 0, 255, 1)">this</span>.wakedQueue =<span style="color: rgba(0, 0, 0, 1)"> personQueue;
+</span><span style="color: rgba(0, 128, 128, 1)">30</span>         <span style="color: rgba(0, 0, 255, 1)">this</span>.gotupQueue =<span style="color: rgba(0, 0, 0, 1)"> gotupQueue;
+</span><span style="color: rgba(0, 128, 128, 1)">31</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)">32</span>     <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> run(){
+</span><span style="color: rgba(0, 128, 128, 1)">33</span>         <span style="color: rgba(0, 0, 255, 1)">try</span><span style="color: rgba(0, 0, 0, 1)"> {
+</span><span style="color: rgba(0, 128, 128, 1)">34</span>             <span style="color: rgba(0, 0, 255, 1)">while</span> (!<span style="color: rgba(0, 0, 0, 1)">Thread.interrupted()){
+</span><span style="color: rgba(0, 128, 128, 1)">35</span>                 Person p =<span style="color: rgba(0, 0, 0, 1)"> wakedQueue.take();
+</span><span style="color: rgba(0, 128, 128, 1)">36</span> <span style="color: rgba(0, 0, 0, 1)">                p.getup();
+</span><span style="color: rgba(0, 128, 128, 1)">37</span> <span style="color: rgba(0, 0, 0, 1)">                gotupQueue.put(p);
+</span><span style="color: rgba(0, 128, 128, 1)">38</span> <span style="color: rgba(0, 0, 0, 1)">            }
+</span><span style="color: rgba(0, 128, 128, 1)">39</span>         } <span style="color: rgba(0, 0, 255, 1)">catch</span><span style="color: rgba(0, 0, 0, 1)"> (InterruptedException e) {
+</span><span style="color: rgba(0, 128, 128, 1)">40</span>             System.out.println("GetupPerson thread ended"<span style="color: rgba(0, 0, 0, 1)">);
+</span><span style="color: rgba(0, 128, 128, 1)">41</span> <span style="color: rgba(0, 0, 0, 1)">        }
+</span><span style="color: rgba(0, 128, 128, 1)">42</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)">43</span> <span style="color: rgba(0, 0, 0, 1)">}
+</span><span style="color: rgba(0, 128, 128, 1)">44</span> <span style="color: rgba(0, 0, 255, 1)">class</span> WorkingPerson <span style="color: rgba(0, 0, 255, 1)">implements</span><span style="color: rgba(0, 0, 0, 1)"> Runnable{
+</span><span style="color: rgba(0, 128, 128, 1)">45</span>     <span style="color: rgba(0, 0, 255, 1)">private</span><span style="color: rgba(0, 0, 0, 1)"> PersonQueue gotupQueue;
+</span><span style="color: rgba(0, 128, 128, 1)">46</span>     WorkingPerson(PersonQueue gotupQueue){<span style="color: rgba(0, 0, 255, 1)">this</span>.gotupQueue =<span style="color: rgba(0, 0, 0, 1)"> gotupQueue; }
+</span><span style="color: rgba(0, 128, 128, 1)">47</span>     <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> run(){
+</span><span style="color: rgba(0, 128, 128, 1)">48</span>         <span style="color: rgba(0, 0, 255, 1)">try</span><span style="color: rgba(0, 0, 0, 1)"> {
+</span><span style="color: rgba(0, 128, 128, 1)">49</span>             <span style="color: rgba(0, 0, 255, 1)">while</span> (!<span style="color: rgba(0, 0, 0, 1)">Thread.interrupted()){
+</span><span style="color: rgba(0, 128, 128, 1)">50</span>                 Person p =<span style="color: rgba(0, 0, 0, 1)"> gotupQueue.take();
+</span><span style="color: rgba(0, 128, 128, 1)">51</span> <span style="color: rgba(0, 0, 0, 1)">                p.working();
+</span><span style="color: rgba(0, 128, 128, 1)">52</span> <span style="color: rgba(0, 0, 0, 1)">            }
+</span><span style="color: rgba(0, 128, 128, 1)">53</span>         } <span style="color: rgba(0, 0, 255, 1)">catch</span><span style="color: rgba(0, 0, 0, 1)"> (InterruptedException e){
+</span><span style="color: rgba(0, 128, 128, 1)">54</span>             System.out.println("WorkingPerson thread ended"<span style="color: rgba(0, 0, 0, 1)">);
+</span><span style="color: rgba(0, 128, 128, 1)">55</span> <span style="color: rgba(0, 0, 0, 1)">        }
+</span><span style="color: rgba(0, 128, 128, 1)">56</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)">57</span> <span style="color: rgba(0, 0, 0, 1)">}
+</span><span style="color: rgba(0, 128, 128, 1)">58</span> 
+<span style="color: rgba(0, 128, 128, 1)">59</span> <span style="color: rgba(0, 0, 255, 1)">void</span> test() <span style="color: rgba(0, 0, 255, 1)">throws</span><span style="color: rgba(0, 0, 0, 1)"> InterruptedException {
+</span><span style="color: rgba(0, 128, 128, 1)">60</span>     PersonQueue personQueue = <span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> PersonQueue();
+</span><span style="color: rgba(0, 128, 128, 1)">61</span>     PersonQueue gotupQueue = <span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> PersonQueue();
+</span><span style="color: rgba(0, 128, 128, 1)">62</span>     ExecutorService exec =<span style="color: rgba(0, 0, 0, 1)"> Executors.newCachedThreadPool();
+</span><span style="color: rgba(0, 128, 128, 1)">63</span>     exec.execute(<span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> WakedPerson(personQueue));
+</span><span style="color: rgba(0, 128, 128, 1)">64</span>     exec.execute(<span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> GetupPerson(personQueue, gotupQueue));
+</span><span style="color: rgba(0, 128, 128, 1)">65</span>     exec.execute(<span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> WorkingPerson(gotupQueue));
+</span><span style="color: rgba(0, 128, 128, 1)">66</span>     <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">后两个线程的写法不会主动结束，这里有需要的话可以主动结束</span>
+<span style="color: rgba(0, 128, 128, 1)">67</span>     TimeUnit.SECONDS.sleep(5L<span style="color: rgba(0, 0, 0, 1)">);
+</span><span style="color: rgba(0, 128, 128, 1)">68</span> <span style="color: rgba(0, 0, 0, 1)">    exec.shutdownNow();
+</span><span style="color: rgba(0, 128, 128, 1)">69</span> }</pre>
+</div>
+<div class="cnblogs_code"><img src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" id="code_img_closed_1015929a-f291-47b1-807b-a852d98ff883" class="code_img_closed"><img src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" id="code_img_opened_1015929a-f291-47b1-807b-a852d98ff883" class="code_img_opened" style="display: none">
+<div id="cnblogs_code_open_1015929a-f291-47b1-807b-a852d98ff883" class="cnblogs_code_hide">
+<pre>----------<span style="color: rgba(0, 0, 0, 1)">
+test()运行结果：
+</span>0<span style="color: rgba(0, 0, 0, 1)"> wake up
+</span>1<span style="color: rgba(0, 0, 0, 1)"> wake up
+</span>2<span style="color: rgba(0, 0, 0, 1)"> wake up
+</span>3<span style="color: rgba(0, 0, 0, 1)"> wake up
+0get up
+</span>0<span style="color: rgba(0, 0, 0, 1)"> working
+1get up
+</span>1<span style="color: rgba(0, 0, 0, 1)"> working
+2get up
+</span>2<span style="color: rgba(0, 0, 0, 1)"> working
+3get up
+</span>3<span style="color: rgba(0, 0, 0, 1)"> working
+GetupPerson thread ended
+WorkingPerson thread ended</span></pre>
+</div>
+<span class="cnblogs_code_collapse">test()运行结果：</span></div>
+<h4>3、管道通信</h4>
+<p>另一种协作，不同平台之间可能存在差异，相对而言BlockingQueue更健壮</p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 128, 128, 1)"> 1</span> <span style="color: rgba(0, 0, 255, 1)">class</span> Sender <span style="color: rgba(0, 0, 255, 1)">implements</span><span style="color: rgba(0, 0, 0, 1)"> Runnable{
+</span><span style="color: rgba(0, 128, 128, 1)"> 2</span>     <span style="color: rgba(0, 0, 255, 1)">private</span> Random random = <span style="color: rgba(0, 0, 255, 1)">new</span> Random(46<span style="color: rgba(0, 0, 0, 1)">);
+</span><span style="color: rgba(0, 128, 128, 1)"> 3</span>     <span style="color: rgba(0, 0, 255, 1)">private</span> PipedWriter writer = <span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> PipedWriter();
+</span><span style="color: rgba(0, 128, 128, 1)"> 4</span>     <span style="color: rgba(0, 0, 255, 1)">public</span> PipedWriter getWriter(){<span style="color: rgba(0, 0, 255, 1)">return</span><span style="color: rgba(0, 0, 0, 1)"> writer;}
+</span><span style="color: rgba(0, 128, 128, 1)"> 5</span>     <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> run() {
+</span><span style="color: rgba(0, 128, 128, 1)"> 6</span>         <span style="color: rgba(0, 0, 255, 1)">for</span> (<span style="color: rgba(0, 0, 255, 1)">char</span> i = 'A'; i &lt; 'G'; i++<span style="color: rgba(0, 0, 0, 1)">){
+</span><span style="color: rgba(0, 128, 128, 1)"> 7</span>             <span style="color: rgba(0, 0, 255, 1)">try</span><span style="color: rgba(0, 0, 0, 1)"> {
+</span><span style="color: rgba(0, 128, 128, 1)"> 8</span> <span style="color: rgba(0, 0, 0, 1)">                writer.write(i);
+</span><span style="color: rgba(0, 128, 128, 1)"> 9</span>                 TimeUnit.MILLISECONDS.sleep(random.nextInt(500<span style="color: rgba(0, 0, 0, 1)">));
+</span><span style="color: rgba(0, 128, 128, 1)">10</span>             } <span style="color: rgba(0, 0, 255, 1)">catch</span> (IOException |<span style="color: rgba(0, 0, 0, 1)"> InterruptedException e) {
+</span><span style="color: rgba(0, 128, 128, 1)">11</span> <span style="color: rgba(0, 0, 0, 1)">                e.printStackTrace();
+</span><span style="color: rgba(0, 128, 128, 1)">12</span> <span style="color: rgba(0, 0, 0, 1)">            }
+</span><span style="color: rgba(0, 128, 128, 1)">13</span> <span style="color: rgba(0, 0, 0, 1)">        }
+</span><span style="color: rgba(0, 128, 128, 1)">14</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)">15</span> <span style="color: rgba(0, 0, 0, 1)">}
+</span><span style="color: rgba(0, 128, 128, 1)">16</span> 
+<span style="color: rgba(0, 128, 128, 1)">17</span> <span style="color: rgba(0, 0, 255, 1)">class</span> Receiver <span style="color: rgba(0, 0, 255, 1)">implements</span><span style="color: rgba(0, 0, 0, 1)"> Runnable{
+</span><span style="color: rgba(0, 128, 128, 1)">18</span>     <span style="color: rgba(0, 0, 255, 1)">private</span><span style="color: rgba(0, 0, 0, 1)"> PipedReader reader;
+</span><span style="color: rgba(0, 128, 128, 1)">19</span>     Receiver(Sender sender) <span style="color: rgba(0, 0, 255, 1)">throws</span><span style="color: rgba(0, 0, 0, 1)"> IOException {
+</span><span style="color: rgba(0, 128, 128, 1)">20</span>         <span style="color: rgba(0, 0, 255, 1)">this</span>.reader = <span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> PipedReader(sender.getWriter());
+</span><span style="color: rgba(0, 128, 128, 1)">21</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)">22</span>     <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> run(){
+</span><span style="color: rgba(0, 128, 128, 1)">23</span>         <span style="color: rgba(0, 0, 255, 1)">while</span> (<span style="color: rgba(0, 0, 255, 1)">true</span><span style="color: rgba(0, 0, 0, 1)">){
+</span><span style="color: rgba(0, 128, 128, 1)">24</span>             <span style="color: rgba(0, 0, 255, 1)">try</span><span style="color: rgba(0, 0, 0, 1)"> {
+</span><span style="color: rgba(0, 128, 128, 1)">25</span>                 System.out.println("read: " + (<span style="color: rgba(0, 0, 255, 1)">char</span><span style="color: rgba(0, 0, 0, 1)">)reader.read());
+</span><span style="color: rgba(0, 128, 128, 1)">26</span>             } <span style="color: rgba(0, 0, 255, 1)">catch</span><span style="color: rgba(0, 0, 0, 1)"> (IOException e) {
+</span><span style="color: rgba(0, 128, 128, 1)">27</span> <span style="color: rgba(0, 0, 0, 1)">                e.printStackTrace();
+</span><span style="color: rgba(0, 128, 128, 1)">28</span> <span style="color: rgba(0, 0, 0, 1)">            }
+</span><span style="color: rgba(0, 128, 128, 1)">29</span> <span style="color: rgba(0, 0, 0, 1)">        }
+</span><span style="color: rgba(0, 128, 128, 1)">30</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)">31</span> <span style="color: rgba(0, 0, 0, 1)">}
+</span><span style="color: rgba(0, 128, 128, 1)">32</span> <span style="color: rgba(0, 0, 255, 1)">void</span> test() <span style="color: rgba(0, 0, 255, 1)">throws</span><span style="color: rgba(0, 0, 0, 1)"> IOException {
+</span><span style="color: rgba(0, 128, 128, 1)">33</span>     Sender sender = <span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> Sender();
+</span><span style="color: rgba(0, 128, 128, 1)">34</span>     Receiver receiver = <span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> Receiver(sender);
+</span><span style="color: rgba(0, 128, 128, 1)">35</span>     ExecutorService excu =<span style="color: rgba(0, 0, 0, 1)"> Executors.newCachedThreadPool();
+</span><span style="color: rgba(0, 128, 128, 1)">36</span> <span style="color: rgba(0, 0, 0, 1)">    excu.execute(receiver);
+</span><span style="color: rgba(0, 128, 128, 1)">37</span> <span style="color: rgba(0, 0, 0, 1)">    excu.execute(sender);
+</span><span style="color: rgba(0, 128, 128, 1)">38</span> }</pre>
+</div>
+<div class="cnblogs_code"><img src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" id="code_img_closed_ddcdc531-8810-4600-9220-75469c25bfde" class="code_img_closed"><img src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" id="code_img_opened_ddcdc531-8810-4600-9220-75469c25bfde" class="code_img_opened" style="display: none">
+<div id="cnblogs_code_open_ddcdc531-8810-4600-9220-75469c25bfde" class="cnblogs_code_hide">
+<pre>----------<span style="color: rgba(0, 0, 0, 1)">
+test()运行结果：
+read: A
+read: B
+read: C
+read: D
+read: E
+read: F</span></pre>
+</div>
+<span class="cnblogs_code_collapse">test()运行结果</span></div>
+<p>&nbsp;</p>
+<h3>五、SE5引入的线程处理构件(类)</h3>
+<h4>1、同步一个或多个任务，强制它们等待另一组任务的执行完成（CountDownLatch）</h4>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 128, 128, 1)"> 1</span> <span style="color: rgba(0, 0, 255, 1)">class</span> PreTask <span style="color: rgba(0, 0, 255, 1)">implements</span><span style="color: rgba(0, 0, 0, 1)"> Runnable{
+</span><span style="color: rgba(0, 128, 128, 1)"> 2</span>     <span style="color: rgba(0, 0, 255, 1)">private</span> <span style="color: rgba(0, 0, 255, 1)">final</span><span style="color: rgba(0, 0, 0, 1)"> Integer index;
+</span><span style="color: rgba(0, 128, 128, 1)"> 3</span>     <span style="color: rgba(0, 0, 255, 1)">private</span><span style="color: rgba(0, 0, 0, 1)"> CyclicBarrier cyclicBarrier;
+</span><span style="color: rgba(0, 128, 128, 1)"> 4</span> <span style="color: rgba(0, 0, 0, 1)">    PreTask(Integer index, CyclicBarrier cyclicBarrier) {
+</span><span style="color: rgba(0, 128, 128, 1)"> 5</span>         <span style="color: rgba(0, 0, 255, 1)">this</span>.index =<span style="color: rgba(0, 0, 0, 1)"> index;
+</span><span style="color: rgba(0, 128, 128, 1)"> 6</span>         <span style="color: rgba(0, 0, 255, 1)">this</span>.cyclicBarrier =<span style="color: rgba(0, 0, 0, 1)"> cyclicBarrier;
+</span><span style="color: rgba(0, 128, 128, 1)"> 7</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)"> 8</span>     <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> run() {
+</span><span style="color: rgba(0, 128, 128, 1)"> 9</span>         <span style="color: rgba(0, 0, 255, 1)">try</span><span style="color: rgba(0, 0, 0, 1)"> {
+</span><span style="color: rgba(0, 128, 128, 1)">10</span>             TimeUnit.MILLISECONDS.sleep(100 *<span style="color: rgba(0, 0, 0, 1)"> index);
+</span><span style="color: rgba(0, 128, 128, 1)">11</span> <span style="color: rgba(0, 0, 0, 1)">            cyclicBarrier.await();
+</span><span style="color: rgba(0, 128, 128, 1)">12</span>             System.out.print(index + ","<span style="color: rgba(0, 0, 0, 1)">);
+</span><span style="color: rgba(0, 128, 128, 1)">13</span>         } <span style="color: rgba(0, 0, 255, 1)">catch</span> (InterruptedException |<span style="color: rgba(0, 0, 0, 1)"> BrokenBarrierException e) {}
+</span><span style="color: rgba(0, 128, 128, 1)">14</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)">15</span> <span style="color: rgba(0, 0, 0, 1)">}
+</span><span style="color: rgba(0, 128, 128, 1)">16</span> 
+<span style="color: rgba(0, 128, 128, 1)">17</span> <span style="color: rgba(0, 0, 255, 1)">class</span><span style="color: rgba(0, 0, 0, 1)"> AfterTask{
+</span><span style="color: rgba(0, 128, 128, 1)">18</span>     <span style="color: rgba(0, 0, 255, 1)">private</span> ExecutorService excu =<span style="color: rgba(0, 0, 0, 1)"> Executors.newCachedThreadPool();
+</span><span style="color: rgba(0, 128, 128, 1)">19</span>     <span style="color: rgba(0, 0, 255, 1)">private</span><span style="color: rgba(0, 0, 0, 1)"> CyclicBarrier barrier;
+</span><span style="color: rgba(0, 128, 128, 1)">20</span>     <span style="color: rgba(0, 0, 255, 1)">private</span> <span style="color: rgba(0, 0, 255, 1)">int</span> index = 0<span style="color: rgba(0, 0, 0, 1)">;
+</span><span style="color: rgba(0, 128, 128, 1)">21</span> 
+<span style="color: rgba(0, 128, 128, 1)">22</span>     <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> runn(){
+</span><span style="color: rgba(0, 128, 128, 1)">23</span>         barrier = <span style="color: rgba(0, 0, 255, 1)">new</span> CyclicBarrier(3, <span style="color: rgba(0, 0, 255, 1)">new</span> Runnable() {<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">3表示cycle运行了3次才会运行此内容</span>
+<span style="color: rgba(0, 128, 128, 1)">24</span> <span style="color: rgba(0, 0, 0, 1)">            @Override
+</span><span style="color: rgba(0, 128, 128, 1)">25</span>             <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> run() {
+</span><span style="color: rgba(0, 128, 128, 1)">26</span>                 System.out.println("AfterTask;"<span style="color: rgba(0, 0, 0, 1)">);
+</span><span style="color: rgba(0, 128, 128, 1)">27</span> <span style="color: rgba(0, 0, 0, 1)">            }
+</span><span style="color: rgba(0, 128, 128, 1)">28</span> <span style="color: rgba(0, 0, 0, 1)">        });
+</span><span style="color: rgba(0, 128, 128, 1)">29</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)">30</span> 
+<span style="color: rgba(0, 128, 128, 1)">31</span>     <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> test(){
+</span><span style="color: rgba(0, 128, 128, 1)">32</span> <span style="color: rgba(0, 0, 0, 1)">        runn();
+</span><span style="color: rgba(0, 128, 128, 1)">33</span>         <span style="color: rgba(0, 0, 255, 1)">for</span> (<span style="color: rgba(0, 0, 255, 1)">int</span> index = 0; index &lt; 12; index ++<span style="color: rgba(0, 0, 0, 1)">){
+</span><span style="color: rgba(0, 128, 128, 1)">34</span>             excu.execute(<span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> PreTask(index, barrier));
+</span><span style="color: rgba(0, 128, 128, 1)">35</span> <span style="color: rgba(0, 0, 0, 1)">        }
+</span><span style="color: rgba(0, 128, 128, 1)">36</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)">37</span> }</pre>
+</div>
+<div class="cnblogs_code"><img src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" id="code_img_closed_8485fec4-a309-45f9-ad31-e56e16b4a543" class="code_img_closed"><img src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" id="code_img_opened_8485fec4-a309-45f9-ad31-e56e16b4a543" class="code_img_opened" style="display: none">
+<div id="cnblogs_code_open_8485fec4-a309-45f9-ad31-e56e16b4a543" class="cnblogs_code_hide">
+<pre>----------<span style="color: rgba(0, 0, 0, 1)">
+test()运行结果：
+AfterTask;
+</span>2,0,1<span style="color: rgba(0, 0, 0, 1)">,AfterTask;
+</span>3,4,5<span style="color: rgba(0, 0, 0, 1)">,AfterTask;
+</span>6,7,8<span style="color: rgba(0, 0, 0, 1)">,AfterTask;
+</span>11,9,10,</pre>
+</div>
+<span class="cnblogs_code_collapse">test()运行结果：</span></div>
+<h4>3、基础优先级队列PriorityBlockingQueue</h4>
+<p>可以根据优先级执行顺便执行，必须要实现Comparable接口；</p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 128, 128, 1)"> 1</span> <span style="color: rgba(0, 0, 255, 1)">class</span> PriorityTask <span style="color: rgba(0, 0, 255, 1)">implements</span><span style="color: rgba(0, 0, 0, 1)"> Runnable, Comparable{
+</span><span style="color: rgba(0, 128, 128, 1)"> 2</span>     <span style="color: rgba(0, 0, 255, 1)">private</span> <span style="color: rgba(0, 0, 255, 1)">final</span> <span style="color: rgba(0, 0, 255, 1)">int</span><span style="color: rgba(0, 0, 0, 1)"> index;
+</span><span style="color: rgba(0, 128, 128, 1)"> 3</span>     <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">final</span> <span style="color: rgba(0, 0, 255, 1)">int</span> priority = <span style="color: rgba(0, 0, 255, 1)">new</span> Random().nextInt(20<span style="color: rgba(0, 0, 0, 1)">);
+</span><span style="color: rgba(0, 128, 128, 1)"> 4</span>     PriorityTask(<span style="color: rgba(0, 0, 255, 1)">int</span> index) {<span style="color: rgba(0, 0, 255, 1)">this</span>.index =<span style="color: rgba(0, 0, 0, 1)"> index;}
+</span><span style="color: rgba(0, 128, 128, 1)"> 5</span> 
+<span style="color: rgba(0, 128, 128, 1)"> 6</span> <span style="color: rgba(0, 0, 0, 1)">    @Override
+</span><span style="color: rgba(0, 128, 128, 1)"> 7</span>     <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> run() {
+</span><span style="color: rgba(0, 128, 128, 1)"> 8</span>         System.out.println(index + " run with priority:" +<span style="color: rgba(0, 0, 0, 1)"> priority);
+</span><span style="color: rgba(0, 128, 128, 1)"> 9</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)">10</span> <span style="color: rgba(0, 0, 0, 1)">    @Override
+</span><span style="color: rgba(0, 128, 128, 1)">11</span>     <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">int</span><span style="color: rgba(0, 0, 0, 1)"> compareTo(Object o) {
+</span><span style="color: rgba(0, 128, 128, 1)">12</span>         <span style="color: rgba(0, 0, 255, 1)">return</span> <span style="color: rgba(0, 0, 255, 1)">this</span>.priority -<span style="color: rgba(0, 0, 0, 1)"> ((PriorityTask) o).priority;
+</span><span style="color: rgba(0, 128, 128, 1)">13</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)">14</span> <span style="color: rgba(0, 0, 0, 1)">}
+</span><span style="color: rgba(0, 128, 128, 1)">15</span> <span style="color: rgba(0, 0, 255, 1)">class</span> Consumer <span style="color: rgba(0, 0, 255, 1)">implements</span><span style="color: rgba(0, 0, 0, 1)"> Runnable{
+</span><span style="color: rgba(0, 128, 128, 1)">16</span>     <span style="color: rgba(0, 0, 255, 1)">private</span> PriorityBlockingQueue&lt;Runnable&gt;<span style="color: rgba(0, 0, 0, 1)"> queue;
+</span><span style="color: rgba(0, 128, 128, 1)">17</span>     Consumer(PriorityBlockingQueue&lt;Runnable&gt; queue) { <span style="color: rgba(0, 0, 255, 1)">this</span>.queue =<span style="color: rgba(0, 0, 0, 1)"> queue;}
+</span><span style="color: rgba(0, 128, 128, 1)">18</span> 
+<span style="color: rgba(0, 128, 128, 1)">19</span> <span style="color: rgba(0, 0, 0, 1)">    @Override
+</span><span style="color: rgba(0, 128, 128, 1)">20</span>     <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> run() {
+</span><span style="color: rgba(0, 128, 128, 1)">21</span>         <span style="color: rgba(0, 0, 255, 1)">while</span> (!<span style="color: rgba(0, 0, 0, 1)">Thread.interrupted()){
+</span><span style="color: rgba(0, 128, 128, 1)">22</span>             <span style="color: rgba(0, 0, 255, 1)">try</span><span style="color: rgba(0, 0, 0, 1)"> {
+</span><span style="color: rgba(0, 128, 128, 1)">23</span> <span style="color: rgba(0, 0, 0, 1)">                queue.take().run();
+</span><span style="color: rgba(0, 128, 128, 1)">24</span>             } <span style="color: rgba(0, 0, 255, 1)">catch</span><span style="color: rgba(0, 0, 0, 1)"> (InterruptedException e) {}
+</span><span style="color: rgba(0, 128, 128, 1)">25</span> <span style="color: rgba(0, 0, 0, 1)">        }
+</span><span style="color: rgba(0, 128, 128, 1)">26</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)">27</span> <span style="color: rgba(0, 0, 0, 1)">}
+</span><span style="color: rgba(0, 128, 128, 1)">28</span> 
+<span style="color: rgba(0, 128, 128, 1)">29</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> test(){
+</span><span style="color: rgba(0, 128, 128, 1)">30</span>     ExecutorService excu =<span style="color: rgba(0, 0, 0, 1)"> Executors.newCachedThreadPool();
+</span><span style="color: rgba(0, 128, 128, 1)">31</span>     PriorityBlockingQueue&lt;Runnable&gt; queue = <span style="color: rgba(0, 0, 255, 1)">new</span> PriorityBlockingQueue&lt;Runnable&gt;<span style="color: rgba(0, 0, 0, 1)">();
+</span><span style="color: rgba(0, 128, 128, 1)">32</span>     <span style="color: rgba(0, 0, 255, 1)">for</span> (<span style="color: rgba(0, 0, 255, 1)">int</span> index = 1; index &lt; 7; index ++<span style="color: rgba(0, 0, 0, 1)">){
+</span><span style="color: rgba(0, 128, 128, 1)">33</span>         queue.put(<span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> PriorityTask(index));
+</span><span style="color: rgba(0, 128, 128, 1)">34</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)">35</span>     excu.execute(<span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> Consumer(queue));
+</span><span style="color: rgba(0, 128, 128, 1)">36</span> }</pre>
+</div>
+<div class="cnblogs_code"><img src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" id="code_img_closed_96343610-0dd6-41ec-abd9-c2d209d927db" class="code_img_closed"><img src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" id="code_img_opened_96343610-0dd6-41ec-abd9-c2d209d927db" class="code_img_opened" style="display: none">
+<div id="cnblogs_code_open_96343610-0dd6-41ec-abd9-c2d209d927db" class="cnblogs_code_hide">
+<pre>----------<span style="color: rgba(0, 0, 0, 1)">
+test()运行结果：
+</span>1 run with priority:1
+6 run with priority:3
+4 run with priority:8
+2 run with priority:10
+3 run with priority:15
+5 run with priority:16</pre>
+</div>
+<span class="cnblogs_code_collapse">test()运行结果：</span></div>
+<h4>4、等待执行DelayQueue</h4>
+<p>等待一段时间后执行，可作超时处理任务之类的工作，其实除去等待时间也是一个优先级队列；</p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 128, 128, 1)"> 1</span> <span style="color: rgba(0, 0, 255, 1)">class</span> DelayTask <span style="color: rgba(0, 0, 255, 1)">implements</span><span style="color: rgba(0, 0, 0, 1)"> Runnable, Delayed{
+</span><span style="color: rgba(0, 128, 128, 1)"> 2</span>     <span style="color: rgba(0, 0, 255, 1)">private</span> <span style="color: rgba(0, 0, 255, 1)">int</span><span style="color: rgba(0, 0, 0, 1)"> index;
+</span><span style="color: rgba(0, 128, 128, 1)"> 3</span>     <span style="color: rgba(0, 0, 255, 1)">int</span> wait = <span style="color: rgba(0, 0, 255, 1)">new</span> Random().nextInt(10<span style="color: rgba(0, 0, 0, 1)">);
+</span><span style="color: rgba(0, 128, 128, 1)"> 4</span>     <span style="color: rgba(0, 0, 255, 1)">private</span> Long startTime =<span style="color: rgba(0, 0, 0, 1)"> System.currentTimeMillis();
+</span><span style="color: rgba(0, 128, 128, 1)"> 5</span>     DelayTask(<span style="color: rgba(0, 0, 255, 1)">int</span> index){ <span style="color: rgba(0, 0, 255, 1)">this</span>.index =<span style="color: rgba(0, 0, 0, 1)"> index;}
+</span><span style="color: rgba(0, 128, 128, 1)"> 6</span>     <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">int</span> getWait(){<span style="color: rgba(0, 0, 255, 1)">return</span> <span style="color: rgba(0, 0, 255, 1)">this</span><span style="color: rgba(0, 0, 0, 1)">.wait;}
+</span><span style="color: rgba(0, 128, 128, 1)"> 7</span> 
+<span style="color: rgba(0, 128, 128, 1)"> 8</span>     <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">如果两个都在队列里判断谁优先执行(与getDelay的时间无关)，所以一般可以用延迟的时间进行排序</span>
+<span style="color: rgba(0, 128, 128, 1)"> 9</span> <span style="color: rgba(0, 0, 0, 1)">    @Override
+</span><span style="color: rgba(0, 128, 128, 1)">10</span>     <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">int</span><span style="color: rgba(0, 0, 0, 1)"> compareTo(Delayed o) {
+</span><span style="color: rgba(0, 128, 128, 1)">11</span>         <span style="color: rgba(0, 0, 255, 1)">return</span> wait -<span style="color: rgba(0, 0, 0, 1)"> ((DelayTask)o).getWait();
+</span><span style="color: rgba(0, 128, 128, 1)">12</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)">13</span>     <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">等待时间,一定要减去当前时间，因为此方法会被持续调用，直到返回值为0或负数时才执行run的方法，返回一个常量的正数，则run一直不会运行。</span>
+<span style="color: rgba(0, 128, 128, 1)">14</span> <span style="color: rgba(0, 0, 0, 1)">    @Override
+</span><span style="color: rgba(0, 128, 128, 1)">15</span>     <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">long</span><span style="color: rgba(0, 0, 0, 1)"> getDelay(TimeUnit unit) {
+</span><span style="color: rgba(0, 128, 128, 1)">16</span>         <span style="color: rgba(0, 0, 255, 1)">return</span> unit.convert(startTime + wait * 1000  -<span style="color: rgba(0, 0, 0, 1)"> System.currentTimeMillis(),
+</span><span style="color: rgba(0, 128, 128, 1)">17</span> <span style="color: rgba(0, 0, 0, 1)">                TimeUnit.MILLISECONDS);
+</span><span style="color: rgba(0, 128, 128, 1)">18</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)">19</span> <span style="color: rgba(0, 0, 0, 1)">    @Override
+</span><span style="color: rgba(0, 128, 128, 1)">20</span>     <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> run() {
+</span><span style="color: rgba(0, 128, 128, 1)">21</span>         System.out.println(index + "waited:" + wait + "s,"<span style="color: rgba(0, 0, 0, 1)">);
+</span><span style="color: rgba(0, 128, 128, 1)">22</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)">23</span> <span style="color: rgba(0, 0, 0, 1)">}
+</span><span style="color: rgba(0, 128, 128, 1)">24</span> <span style="color: rgba(0, 0, 255, 1)">class</span> Consumer <span style="color: rgba(0, 0, 255, 1)">implements</span><span style="color: rgba(0, 0, 0, 1)"> Runnable{
+</span><span style="color: rgba(0, 128, 128, 1)">25</span>     <span style="color: rgba(0, 0, 255, 1)">private</span> DelayQueue&lt;DelayTask&gt;<span style="color: rgba(0, 0, 0, 1)"> queue;
+</span><span style="color: rgba(0, 128, 128, 1)">26</span>     Consumer(DelayQueue&lt;DelayTask&gt; queue) {<span style="color: rgba(0, 0, 255, 1)">this</span>.queue =<span style="color: rgba(0, 0, 0, 1)"> queue;}
+</span><span style="color: rgba(0, 128, 128, 1)">27</span> <span style="color: rgba(0, 0, 0, 1)">    @Override
+</span><span style="color: rgba(0, 128, 128, 1)">28</span>     <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> run() {
+</span><span style="color: rgba(0, 128, 128, 1)">29</span>         <span style="color: rgba(0, 0, 255, 1)">while</span> (!<span style="color: rgba(0, 0, 0, 1)">Thread.interrupted()){
+</span><span style="color: rgba(0, 128, 128, 1)">30</span>             <span style="color: rgba(0, 0, 255, 1)">try</span><span style="color: rgba(0, 0, 0, 1)"> {
+</span><span style="color: rgba(0, 128, 128, 1)">31</span> <span style="color: rgba(0, 0, 0, 1)">                queue.take().run();
+</span><span style="color: rgba(0, 128, 128, 1)">32</span>             } <span style="color: rgba(0, 0, 255, 1)">catch</span><span style="color: rgba(0, 0, 0, 1)"> (InterruptedException e) {
+</span><span style="color: rgba(0, 128, 128, 1)">33</span> <span style="color: rgba(0, 0, 0, 1)">                e.printStackTrace();
+</span><span style="color: rgba(0, 128, 128, 1)">34</span> <span style="color: rgba(0, 0, 0, 1)">            }
+</span><span style="color: rgba(0, 128, 128, 1)">35</span> <span style="color: rgba(0, 0, 0, 1)">        }
+</span><span style="color: rgba(0, 128, 128, 1)">36</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)">37</span> <span style="color: rgba(0, 0, 0, 1)">}
+</span><span style="color: rgba(0, 128, 128, 1)">38</span> 
+<span style="color: rgba(0, 128, 128, 1)">39</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> test(){
+</span><span style="color: rgba(0, 128, 128, 1)">40</span>     ExecutorService excu =<span style="color: rgba(0, 0, 0, 1)"> Executors.newCachedThreadPool();
+</span><span style="color: rgba(0, 128, 128, 1)">41</span>     DelayQueue&lt;DelayTask&gt; queue = <span style="color: rgba(0, 0, 255, 1)">new</span> DelayQueue&lt;DelayTask&gt;<span style="color: rgba(0, 0, 0, 1)">();
+</span><span style="color: rgba(0, 128, 128, 1)">42</span>     <span style="color: rgba(0, 0, 255, 1)">for</span> (<span style="color: rgba(0, 0, 255, 1)">int</span> index = 1; index &lt; 12; index ++<span style="color: rgba(0, 0, 0, 1)">){
+</span><span style="color: rgba(0, 128, 128, 1)">43</span>         queue.put(<span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> DelayTask(index));
+</span><span style="color: rgba(0, 128, 128, 1)">44</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)">45</span>     excu.execute(<span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> Consumer(queue));
+</span><span style="color: rgba(0, 128, 128, 1)">46</span> }</pre>
+</div>
+<div class="cnblogs_code"><img src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" id="code_img_closed_3bf6b031-30a8-4762-9bdf-7ebfb8dea4a1" class="code_img_closed"><img src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" id="code_img_opened_3bf6b031-30a8-4762-9bdf-7ebfb8dea4a1" class="code_img_opened" style="display: none">
+<div id="cnblogs_code_open_3bf6b031-30a8-4762-9bdf-7ebfb8dea4a1" class="cnblogs_code_hide">
+<pre>----------<span style="color: rgba(0, 0, 0, 1)">
+test()运行结果：
+4waited:0s,
+10waited:1s,
+7waited:1s,
+11waited:3s,
+1waited:3s,
+2waited:4s,
+8waited:5s,
+3waited:7s,
+6waited:7s,
+5waited:8s,
+9waited:8s,</span></pre>
+</div>
+<span class="cnblogs_code_collapse">test()运行结果：</span></div>
+<h4>5、定时任务ScheduledThreadPoolExecutor</h4>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 128, 128, 1)"> 1</span> <span style="color: rgba(0, 0, 255, 1)">class</span> ScheduleTask <span style="color: rgba(0, 0, 255, 1)">implements</span><span style="color: rgba(0, 0, 0, 1)"> Runnable{
+</span><span style="color: rgba(0, 128, 128, 1)"> 2</span>     <span style="color: rgba(0, 0, 255, 1)">private</span> <span style="color: rgba(0, 0, 255, 1)">final</span><span style="color: rgba(0, 0, 0, 1)"> String name;
+</span><span style="color: rgba(0, 128, 128, 1)"> 3</span>     ScheduleTask(String name) {<span style="color: rgba(0, 0, 255, 1)">this</span>.name =<span style="color: rgba(0, 0, 0, 1)"> name; }
+</span><span style="color: rgba(0, 128, 128, 1)"> 4</span> 
+<span style="color: rgba(0, 128, 128, 1)"> 5</span> <span style="color: rgba(0, 0, 0, 1)">    @Override
+</span><span style="color: rgba(0, 128, 128, 1)"> 6</span>     <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> run() {
+</span><span style="color: rgba(0, 128, 128, 1)"> 7</span>         System.out.println(<span style="color: rgba(0, 0, 255, 1)">new</span> Date().toString() + " running " +<span style="color: rgba(0, 0, 0, 1)"> name);
+</span><span style="color: rgba(0, 128, 128, 1)"> 8</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)"> 9</span> <span style="color: rgba(0, 0, 0, 1)">}
+</span><span style="color: rgba(0, 128, 128, 1)">10</span> <span style="color: rgba(0, 0, 255, 1)">void</span> test() <span style="color: rgba(0, 0, 255, 1)">throws</span><span style="color: rgba(0, 0, 0, 1)"> InterruptedException {
+</span><span style="color: rgba(0, 128, 128, 1)">11</span>     ScheduledThreadPoolExecutor scheduler = <span style="color: rgba(0, 0, 255, 1)">new</span> ScheduledThreadPoolExecutor(10);<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">线程池容量
+</span><span style="color: rgba(0, 128, 128, 1)">12</span>     <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">执行一次</span>
+<span style="color: rgba(0, 128, 128, 1)">13</span>     scheduler.schedule(<span style="color: rgba(0, 0, 255, 1)">new</span> ScheduleTask("singletask"), 2<span style="color: rgba(0, 0, 0, 1)">, TimeUnit.SECONDS);
+</span><span style="color: rgba(0, 128, 128, 1)">14</span>     <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">周期性执行多次</span>
+<span style="color: rgba(0, 128, 128, 1)">15</span>     scheduler.scheduleAtFixedRate(<span style="color: rgba(0, 0, 255, 1)">new</span> ScheduleTask("repeatetask"), 1, 4<span style="color: rgba(0, 0, 0, 1)">, TimeUnit.SECONDS);
+</span><span style="color: rgba(0, 128, 128, 1)">16</span>     TimeUnit.SECONDS.sleep(20<span style="color: rgba(0, 0, 0, 1)">);
+</span><span style="color: rgba(0, 128, 128, 1)">17</span> <span style="color: rgba(0, 0, 0, 1)">    scheduler.shutdownNow();
+</span><span style="color: rgba(0, 128, 128, 1)">18</span> }</pre>
+</div>
+<div class="cnblogs_code"><img src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" id="code_img_closed_80d146dd-1fac-4e5f-bd57-8cd485d8b04e" class="code_img_closed"><img src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" id="code_img_opened_80d146dd-1fac-4e5f-bd57-8cd485d8b04e" class="code_img_opened" style="display: none">
+<div id="cnblogs_code_open_80d146dd-1fac-4e5f-bd57-8cd485d8b04e" class="cnblogs_code_hide">
+<pre>----------<span style="color: rgba(0, 0, 0, 1)">
+test()运行结果：
+Thu Feb </span>04 01:08:19 CST 2021<span style="color: rgba(0, 0, 0, 1)"> running repeatetask
+Thu Feb </span>04 01:08:20 CST 2021<span style="color: rgba(0, 0, 0, 1)"> running singletask
+Thu Feb </span>04 01:08:23 CST 2021<span style="color: rgba(0, 0, 0, 1)"> running repeatetask
+Thu Feb </span>04 01:08:27 CST 2021<span style="color: rgba(0, 0, 0, 1)"> running repeatetask
+Thu Feb </span>04 01:08:31 CST 2021<span style="color: rgba(0, 0, 0, 1)"> running repeatetask
+Thu Feb </span>04 01:08:35 CST 2021 running repeatetask</pre>
+</div>
+<span class="cnblogs_code_collapse">test()运行结果：</span></div>
+<p>&nbsp;</p>
+<h3>六、其他</h3>
+<p>1、变量在各线程内时独立的，使用java.lang.ThreadLocal&lt;E&gt;这个类来辅助实现线程本地存储<br>2、使用Lock通常会比使用synchronized高效许多，但一般可以 synchronized关键字入手，只有在性能调优时替换为Lock对象；Atomic对象只有在非常简单的情况下才有用，通常不使用。<br>3、线程池的创建方式：<br>Executors.newFixedThreadPool：创建一个固定大小的线程池，可控制并发的线程数，超出的线程会在队列中等待；<br>Executors.newCachedThreadPool：创建一个可缓存的线程池，若线程数超过处理所需，缓存一段时间后会回收，若线程数不够，则新建线程；<br>Executors.newSingleThreadExecutor：创建单个线程数的线程池，它可以保证先进先出的执行顺序；<br>Executors.newScheduledThreadPool：创建一个可以执行延迟任务的线程池；<br>Executors.newSingleThreadScheduledExecutor：创建一个单线程的可以执行延迟任务的线程池；<br>Executors.newWorkStealingPool：创建一个抢占式执行的线程池（任务执行顺序不确定）【JDK 1.8 添加】。<br>ThreadPoolExecutor：最原始的创建线程池的方式，它包含了 7 个参数可供设置，后面会详细讲</p>
+<p>参考：<span style="color: rgba(51, 102, 255, 1)"><a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/vipstone/p/14149065.html"><span style="color: rgba(51, 102, 255, 1)">线程池的7种创建方式</span></a></span></p>
+<p>&nbsp;</p>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2021-04-16 10:14</span>&nbsp;
+<a href="https://www.cnblogs.com/aland-1415/">覆手为云p</a>&nbsp;
+阅读(<span id="post_view_count">18</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14449745" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14449745);return false;">收藏</a></div>
+        </div>
+        <script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 338974, cb_blogApp = 'aland-1415', cb_blogUserGuid = 'f6602aed-9b04-e711-845c-ac853d9f53ac';
+    var cb_entryId = 14449745, cb_entryCreatedDate = '2021-04-16 10:14', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+        <a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+    </div>
+</div>
+            </div>
+        </div>
+
+        <div id="sideBar">
+            <div id="sideBarMain">
+                <div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+                <div id="calendar"><div id="blog-calendar" style="display:none"></div></div>                
+                <script>loadBlogDefaultCalendar();</script>
+                <div id="leftcontentcontainer">
+                    <!-- begin:SingleColumn -->
+                    <div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+                    <!-- end:  SingleColumn -->
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+    <div id="footer">
+        <!--done-->
+Copyright &copy; 2021 覆手为云p
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+    </div>
+</div>
+
+    <div id="page_end_html">
+        <div id="xiaociguai">
+<img title="精灵球停止器" alt="停止精灵球" src="https://images.cnblogs.com/cnblogs_com/aland-1415/1188559/o_o_xiaociguai2.jpg">
+</div>
+
+<span id="back-to-top"><a href="#top">
+<img src="https://images.cnblogs.com/cnblogs_com/aland-1415/1188559/o_top.png">
+</a></span>
+    </div>
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjsmQbLss-iiHYrGd2Oj5IIVYDu-kDLUSQks21yS2tdg33-KMNMZ-OmYcM9zB7ze-9plXJR7UzytcKU8TFQmsArazdllGBdU_904eq6iPrE4Cd-aX75ffM29hpkVcSZVLIg" />
+</body>
+</html>

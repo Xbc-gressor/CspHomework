@@ -1,0 +1,982 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="never" />
+    <meta name="description" content="6的个数 题意： 问你从1到2021出现了多少个数字6 思路： 签到题，莽暴力就完辽 print(602) 小明的作业 题意： 小明同学正在学习一种新的语言。在该语言中，如果出现了一次wa或者一次aw" />
+    <meta property="og:description" content="6的个数 题意： 问你从1到2021出现了多少个数字6 思路： 签到题，莽暴力就完辽 print(602) 小明的作业 题意： 小明同学正在学习一种新的语言。在该语言中，如果出现了一次wa或者一次aw" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>“九韶杯”河科院程序设计协会第一届程序设计竞赛（蓝桥杯模拟赛 2021.04.01） - 扇与她尽失 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/chelsea0901/custom.css?v=bhEIaj3ablzwUs&#x2B;svYYRmGxN6uA=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/SimpleMemory/bundle-SimpleMemory-mobile.min.css" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/chelsea0901/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/chelsea0901/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/chelsea0901/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 657317;
+        var currentBlogApp = 'chelsea0901';
+        var cb_enable_mathjax = true;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'SimpleMemory';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-04-21 07:34';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+        tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processClass: 'math', processEscapes: true },
+        TeX: {
+        equationNumbers: { autoNumber: ['AMS'], useLabelIds: true },
+        extensions: ['extpfeil.js', 'mediawiki-texvc.js'],
+        Macros: {bm: "\\boldsymbol"}
+        },
+        'HTML-CSS': { linebreaks: { automatic: true } },
+        SVG: { linebreaks: { automatic: true } }
+        });
+    </script>
+    <script src="https://mathjax.cnblogs.com/2_7_5/MathJax.js?config=TeX-AMS-MML_HTMLorMML&amp;v=20200504"></script>
+    
+</head>
+<body class="no-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="page_begin_html">
+        <script>loadPageBeginHtml();</script>
+    </div>
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/chelsea0901/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/chelsea0901/">蓝冉</a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/chelsea0901/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E6%89%87%E4%B8%8E%E5%A5%B9%E5%B0%BD%E5%A4%B1">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/chelsea0901/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/chelsea0901/p/14686612.html">
+    <span>“九韶杯”河科院程序设计协会第一届程序设计竞赛（蓝桥杯模拟赛 2021.04.01）</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+<h2 id="6的个数"><a href="https://ac.nowcoder.com/acm/contest/13493/A" target="_blank">6的个数</a></h2>
+<h3 id="题意：">题意：</h3>
+<p>问你从1到2021出现了多少个数字6</p>
+<h3 id="思路：">思路：</h3>
+<p>签到题，莽暴力就完辽</p>
+<pre><code class="language-python">print(602)
+</code></pre>
+<h2 id="小明的作业"><a href="https://ac.nowcoder.com/acm/contest/13493/B" target="_blank">小明的作业</a></h2>
+<h3 id="题意：-1">题意：</h3>
+<p>小明同学正在学习一种新的语言。在该语言中，如果出现了一次wa或者一次aw，则代表出现了一个警告。如果出现了连续的wa或者连续的aw，则代表出现了一个错误。小明由于学习比较粗心，所以他想要知道自己刚刚写完的作业中一共出现了多少处警告和错误。下面是小明刚刚写完的作业，请你帮助小明找到他一共出现了多少次警告和多少次错误。</p>
+<p>abcwaawawawa中出现了一次警告(wa)和一次错误(awawaw)</p>
+<p>abcdefg中没有出现一次警告和错误<br>
+waawwaawwawa中出现了四次警告(两次wa和两次aw)和一次错误(wawa)<br>
+awawwawa中只出现了两次错误(awaw和wawa)</p>
+<h3 id="思路：-1">思路：</h3>
+<p>没好好读题而错失五分，嗯，下次一定要好好读题(╥﹏╥)</p>
+<p>用一个“指针”从头扫一遍，如果连续两个是wa，就判断后两个是不是也是wa，如果是就让wa的答案加一，然后跳到下一个不是wa的地方；如果不是wa，就让aw加一，指针移动2</p>
+<p>对于另一种aw的情况同上</p>
+<pre><code class="language-cpp">#include &lt;cstdio&gt;
+#include &lt;cstring&gt;
+#include &lt;string&gt;
+#include &lt;cmath&gt;
+#include &lt;iostream&gt;
+#include &lt;algorithm&gt;
+#include &lt;vector&gt;
+#include &lt;stack&gt;
+#include &lt;queue&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;sstream&gt;
+#include &lt;map&gt;
+#include &lt;set&gt;
+using  namespace std;
+#define inf 0x3f3f3f3f
+#define MAX 5000 + 50
+#define endl '\n'
+//#define mod 1000000007
+//const int mod = 1e9 + 7;
+#define io ios::sync_with_stdio(false); cin.tie(0); cout.tie(0)
+#define mem(a,b) memset((a),(b),sizeof(a))
+typedef  long long ll ;
+//不开longlong见祖宗！
+inline int IntRead(){char ch = getchar();int s = 0, w = 1;while(ch &lt; '0' || ch &gt; '9'){if(ch == '-') w = -1;ch = getchar();}while(ch &gt;= '0' &amp;&amp; ch &lt;= '9'){s = s * 10 + ch - '0';ch = getchar();}return s * w;}
+
+
+string s;
+
+int main(){
+    cin&gt;&gt;s;
+    int wa = 0, aw = 0;
+    for(int i = 0; i &lt; s.size() &amp;&amp; i != -1;){
+        if(s[i] == 'w' &amp;&amp; s[i + 1] == 'a'){
+            if(s[i + 2] == 'w' &amp;&amp; s[i + 3] == 'a'){
+                ++wa;
+                i += 4;
+                while (s[i] == 'w' &amp;&amp; s[i + 1 ] == 'a') {
+                    i += 2;
+                }
+            }
+            else {
+                ++aw;
+                i += 2;
+            }
+        }
+        else if(s[i] == 'a' &amp;&amp; s[i + 1] == 'w'){
+            if(s[i + 2] == 'a' &amp;&amp; s[i + 3] == 'w'){
+                ++wa;
+                i += 4;
+                while (s[i] == 'a' &amp;&amp; s[i + 1] == 'w') {
+                    i += 2;
+                }
+            }
+            else {
+                ++aw;
+                i += 2;
+            }
+        }
+        else ++i;
+    }
+    cout&lt;&lt;aw&lt;&lt;endl&lt;&lt;wa&lt;&lt;endl;
+    return 0;
+}
+
+/*
+
+ iawaswapwauawhawdwafwanbiopwanivgbikvblvbwawawawvolyuvgbololvolgbyolgyowagbolgawgboplwawaolgyolwaogblwaygbowawagwabwayawopwawagyowabwaowapjwapcfrtuywawacvujwawawaufttyfuftywawawatifgugbgbyguwawawawayugbigwwwytigwygwgbwyoawawgoghwaogwborgrewabouyhwabyuhowabhnwawauygbawyawuwaoawfcawaaaahwaywauwagwawefwaafmbawklawjiawihnwanhawawawawijwajiofjeriofgjrefjhwaewarwaowagwahwauwaiwarwaiwaqwarwahwaqwawwaowapfweofbwewafwahwaiwaewawwawawawawafwawawawaeiufwepfhnewfwahwajwatwafowawajtokshwawafwaiwahwafwahmgoewawawawafkfjkewnwawafiewhfwawawafjkernhawkrenwawawawafujnrheiowanwakawawawawwanoifewajrwaoawawfweojnwawawawawawawafjkwenawawferkwmpwawawawaforeijawawferhfiueorghwuwafguwegfwaghrwiufgwahweofgowaidwiweaiwwawieyiwe
+ */
+
+</code></pre>
+<h2 id="斐波那契"><a href="https://ac.nowcoder.com/acm/contest/13493/C" target="_blank">斐波那契</a></h2>
+<h3 id="题意：-2">题意：</h3>
+<p>小明最近痴迷于斐波那契数列（1，1，2，3，5……），但是最近他又有了新的奇思妙想，就是对于斐波那契数列的相邻的两个数相乘取倒数然后将每一项进行相加，由于小明只喜欢思考不喜欢动手，所以现在他想让你帮他算下这样一个新的数列的前13项的和为多少？（结果用分数表示，且保留最简分数）</p>
+<h3 id="思路：-2">思路：</h3>
+<p></p><div class="math display">\[\frac{1}{a1*a2} + \frac{1}{a2*a3} + \frac{1}{a3*a4} +……+\frac{1}{a13*a14}
+\]</div><p></p><p>通分之后得到</p>
+<p></p><div class="math display">\[\frac{\frac{\sum_{i = 1}^{13}{a(i+1)-ai}}{a1*a2}+\frac{\sum_{i = 1}^{13}{a(i+1)-ai}}{a2*a3}+\frac{\sum_{i = 1}^{13}{a(i+1)-ai}}{a3*a4}+……\frac{\sum_{i = 1}^{13}{a(i+1)-ai}}{a13*a14}}{\sum_{i = 1}^{13}{a(i+1)-ai}}
+\]</div><p></p><p>然后就可以直接用循环莽他o(≧v≦)o</p>
+<p>记得最后写个gcd求最大公约数来进行分式约分</p>
+<pre><code class="language-cpp">#include &lt;cstdio&gt;
+#include &lt;cstring&gt;
+#include &lt;string&gt;
+#include &lt;cmath&gt;
+#include &lt;iostream&gt;
+#include &lt;algorithm&gt;
+#include &lt;vector&gt;
+#include &lt;stack&gt;
+#include &lt;queue&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;sstream&gt;
+#include &lt;map&gt;
+#include &lt;set&gt;
+using  namespace std;
+#define inf 0x3f3f3f3f
+#define MAX 1000 + 50
+#define endl '\n'
+//#define mod 1000000007
+//const int mod = 1e9 + 7;
+#define io ios::sync_with_stdio(false); cin.tie(0); cout.tie(0)
+#define mem(a,b) memset((a),(b),sizeof(a))
+typedef  long long ll ;
+//不开longlong见祖宗！
+inline int IntRead(){char ch = getchar();int s = 0, w = 1;while(ch &lt; '0' || ch &gt; '9'){if(ch == '-') w = -1;ch = getchar();}while(ch &gt;= '0' &amp;&amp; ch &lt;= '9'){s = s * 10 + ch - '0';ch = getchar();}return s * w;}
+
+ll ans = 1;
+
+ll gcd(ll a, ll b){
+    if(b)return gcd(b, a % b);
+    else return a;
+}
+
+int main(){
+//    cout&lt;&lt;"6535086616739/3684083162760\n";
+    int tr[100];
+    tr[1] = 1;tr[2] = 1;
+    for(int i = 3; i &lt;= 15; ++i){
+        tr[i] = tr[i - 1] + tr[i - 2];
+    }
+    for(int i = 1; i &lt;= 14; ++i)ans *= tr[i];
+//    cout&lt;&lt;ans&lt;&lt;endl;
+    ll sum = 0;
+    for(int i = 2; i &lt;= 14; ++i){
+        sum += ans / (tr[i] * tr[i - 1]);
+    }
+    cout&lt;&lt;ans&lt;&lt;endl;
+    cout&lt;&lt;sum&lt;&lt;endl;
+    cout&lt;&lt;sum / gcd(sum, ans)&lt;&lt;'/'&lt;&lt;ans / gcd(sum, ans)&lt;&lt;endl;
+    
+    return 0;
+}
+
+
+</code></pre>
+<h2 id="数列重组"><a href="https://ac.nowcoder.com/acm/contest/13493/D" target="_blank">数列重组</a></h2>
+<h3 id="题意：-3">题意：</h3>
+<p>小明同学最近喜欢上了排列组合，但是现在有这样的一道题把他难住了，已知有一组数字（2，5，3，6，3，6，7，3，7，8）共10个，对于这组数字进行排列后，可以将排列好的数字分为三个部分，且三个部分都是分别有序的（升序或逆序），小明想知道能够有满足条件的多少种排列方式?</p>
+<h3 id="思路：-3">思路：</h3>
+<p>当时一直在想这个题有什么规律，正着来逆着来都想过，但是感觉不太行。</p>
+<p>结果谁知道这题就是个大暴力？？</p>
+<p>对所有的全排列去枚举两个分割点，判断是否符合题意</p>
+<p>这次还学到了一个函数：</p>
+<p><code> is_sorted(tr + l,tr +  r, cmp)</code></p>
+<p>判断 tr 数组的 l 到 r 的区间是否按照cmp函数的方法进行的排序，忽律cmp时，就默认从小到大</p>
+<pre><code class="language-cpp">#include &lt;cstdio&gt;
+#include &lt;cstring&gt;
+#include &lt;string&gt;
+#include &lt;cmath&gt;
+#include &lt;iostream&gt;
+#include &lt;algorithm&gt;
+#include &lt;vector&gt;
+#include &lt;stack&gt;
+#include &lt;queue&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;sstream&gt;
+#include &lt;map&gt;
+#include &lt;set&gt;
+using  namespace std;
+#define inf 0x3f3f3f3f
+#define MAX 5000 + 50
+#define endl '\n'
+//#define mod 1000000007
+//const int mod = 1e9 + 7;
+#define io ios::sync_with_stdio(false); cin.tie(0); cout.tie(0)
+#define mem(a,b) memset((a),(b),sizeof(a))
+typedef  long long ll ;
+//不开longlong见祖宗！
+inline int IntRead(){char ch = getchar();int s = 0, w = 1;while(ch &lt; '0' || ch &gt; '9'){if(ch == '-') w = -1;ch = getchar();}while(ch &gt;= '0' &amp;&amp; ch &lt;= '9'){s = s * 10 + ch - '0';ch = getchar();}return s * w;}
+bool cmp(int x, int y){
+    return x &gt; y;
+}
+int tr[] = {2, 3, 3, 3, 5, 6, 6, 7, 7, 8};
+int main(){
+    int ans = 0;
+    do{
+        bool judge = 0;
+        for(int i = 0; i &lt;= 7; ++i){
+            for(int j = i + 1; j &lt;= 8; ++j){
+                if((is_sorted(tr, tr + 1 + i) || is_sorted(tr, tr + i + 1, cmp))
+                   &amp;&amp;(is_sorted(tr + 1 + i, tr + 1 + j) || is_sorted(tr + 1 + i, tr + 1 + j, cmp))
+                   &amp;&amp; (is_sorted(tr + 1 + j, tr + 10) || is_sorted(tr + 1 + j, tr + 10, cmp))){
+                    judge = 1;
+                    break;
+                }
+            }
+            if(judge)break;
+        }
+        if(judge)++ans;
+    }while (next_permutation(tr, tr + 10));
+    cout&lt;&lt;ans&lt;&lt;endl;
+    return 0;
+}
+
+</code></pre>
+<h2 id="三角形个数"><a href="https://ac.nowcoder.com/acm/contest/13493/E" target="_blank">三角形个数</a></h2>
+<h3 id="题意：-4">题意：</h3>
+<p>坤坤给你一个边长为n的等边三角形图形，请你查出图形内等边三角形的个数。 因为数据过大，所以要求答案对1e9+7取模。</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/cd7a621754ae52e76bc83cc6e77b255f.png" alt="img" loading="lazy"></p>
+<h3 id="思路：-4">思路：</h3>
+<p>每多一行，就会贡献出一些正三角形和倒三角形，所以只需要记录每一行贡献的三角形的数量即可</p>
+<p>观察得：每一行贡献的正三角形的数量为(n + 1) * n / 2</p>
+<p>而逆三角形贡献的数量也是有规律滴：</p>
+<p>公差为-2的等差数列</p>
+<p>第 i 行的通项公式为</p>
+<p></p><div class="math display">\[ai = a1 + (n - 1) * d
+\]</div><p></p><p></p><div class="math display">\[ai = （i - 1） - 2 * （k - 1),k代表数量
+\]</div><p></p><p>通过求和公式</p>
+<p></p><div class="math display">\[S = n * a1 + (n - 1) * n * d / 2
+\]</div><p></p><p>所以得第 i 行的逆三角形数量的求和公式</p>
+<p></p><div class="math display">\[S = k * (i - 1) - (k - 1) * k
+\]</div><p></p><p>由观察得：</p>
+<p></p><div class="math display">\[k = \lfloor i\rfloor
+\]</div><p></p><p>所以</p>
+<p>第 i 行贡献的逆三角的数量为：</p>
+<p></p><div class="math display">\[k * (i - k),k = \lfloor i\rfloor
+\]</div><p></p><p>综上所述：</p>
+<p>第i行贡献第三角形的数量为：</p>
+<p></p><div class="math display">\[（i + 1）* i/ 2 +\lfloor i\rfloor * （i - \lfloor i\rfloor）
+\]</div><p></p><p><img src="https://img-blog.csdnimg.cn/20210412215321902.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl81MTIxNjU1Mw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" loading="lazy"></p>
+<pre><code class="language-cpp">#include &lt;cstdio&gt;
+#include &lt;cstring&gt;
+#include &lt;string&gt;
+#include &lt;cmath&gt;
+#include &lt;iostream&gt;
+#include &lt;algorithm&gt;
+#include &lt;vector&gt;
+#include &lt;stack&gt;
+#include &lt;queue&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;sstream&gt;
+#include &lt;map&gt;
+#include &lt;set&gt;
+using  namespace std;
+#define inf 0x3f3f3f3f
+#define MAX 5000 + 50
+#define endl '\n'
+//#define mod 1000000007
+const int mod = 1e9 + 7;
+#define io ios::sync_with_stdio(false); cin.tie(0); cout.tie(0)
+#define mem(a,b) memset((a),(b),sizeof(a))
+typedef  long long ll ;
+//不开longlong见祖宗！
+inline int IntRead(){char ch = getchar();int s = 0, w = 1;while(ch &lt; '0' || ch &gt; '9'){if(ch == '-') w = -1;ch = getchar();}while(ch &gt;= '0' &amp;&amp; ch &lt;= '9'){s = s * 10 + ch - '0';ch = getchar();}return s * w;}
+
+
+ll n, m;
+
+int main(){
+    n = 20210411;
+    ll sum = 0;
+    for(ll i = 1; i &lt;= n; ++i){
+        m = i / 2;
+        ll a = ((i + 1) * i / 2) % mod;
+        ll b = ((i - m) * m) % mod;
+        sum += (a + b + mod) % mod;
+        sum %= mod;
+    }
+    cout&lt;&lt;sum&lt;&lt;endl;
+    return 0;
+}
+</code></pre>
+<p>记得开longlong，不然就算你公式推对了，也是必wa，耶稣都救不了你</p>
+<h2 id="字符串"><a href="https://ac.nowcoder.com/acm/contest/13493/F" target="_blank">字符串</a></h2>
+<h3 id="题意：-5">题意：</h3>
+<p>又是努力刷题的一天。众所周知wyk是国一大佬喜欢帮群友解答问题。</p>
+<p>现在xmy好奇群里的聊天记录有多少条是@wyk的，但是他在忙着摸鱼。</p>
+<p>所以找到了你，给了你N条聊天记录，让你帮他算一下。</p>
+<p>注意：保证聊天记录的字母都是<strong>在ASSIC</strong>内。聊天记录存在空格，也可能以空格开头或结尾。@wyk必须连续才能生效，一条聊天记录保证在一行。</p>
+<h3 id="思路：-5">思路：</h3>
+<p>签到题，无限find即可</p>
+<p>需要注意的是，输入字符串之前getchar一下，不然你会发现死活输不进去最后一个字符串(///▽///)</p>
+<pre><code class="language-cpp">#include &lt;cstdio&gt;
+#include &lt;cstring&gt;
+#include &lt;string&gt;
+#include &lt;cmath&gt;
+#include &lt;iostream&gt;
+#include &lt;algorithm&gt;
+#include &lt;vector&gt;
+#include &lt;stack&gt;
+#include &lt;queue&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;sstream&gt;
+#include &lt;map&gt;
+#include &lt;set&gt;
+using  namespace std;
+#define inf 0x3f3f3f3f
+#define MAX 1000 + 50
+#define endl '\n'
+//#define mod 1000000007
+//const int mod = 1e9 + 7;
+#define io ios::sync_with_stdio(false); cin.tie(0); cout.tie(0)
+#define mem(a,b) memset((a),(b),sizeof(a))
+typedef  long long ll ;
+//不开longlong见祖宗！
+inline int IntRead(){char ch = getchar();int s = 0, w = 1;while(ch &lt; '0' || ch &gt; '9'){if(ch == '-') w = -1;ch = getchar();}while(ch &gt;= '0' &amp;&amp; ch &lt;= '9'){s = s * 10 + ch - '0';ch = getchar();}return s * w;}
+
+string s, ss;
+int main(){
+    int t;
+    cin&gt;&gt;t;
+    getchar();
+    int ans = 0;
+    ss = "@wyk";
+    while (t--) {
+        getline(cin,s);
+        if(s.find(ss) != -1){
+            ++ans;
+        }
+    }
+    cout&lt;&lt;ans&lt;&lt;endl;
+    return 0;
+}
+
+/*
+
+ 10
+ abcbdaasddwj@wyk
+ dasdsafav@Alan
+ acdbbd@alan@wyk
+ @zbrnb
+ ??CC??
+ abababab
+ wgyyds
+ @wykyyds
+ @wyk 111
+ endcccc@wyk
+ */
+
+</code></pre>
+<h2 id="最强对手矩阵"><a href="https://ac.nowcoder.com/acm/contest/13493/G" target="_blank">最强对手矩阵</a></h2>
+<h3 id="题意：-6">题意：</h3>
+<p>这一天你来到了蓝桥杯的考场，你发现考场是一个N*M的矩阵。</p>
+<p>因为你的群友很多，你知道考场内每个人有多强，并且把实力换算成了数值。<strong>(<strong><strong>因为有的人太弱了,所以可能出现实力值是负数的可能</strong></strong>)</strong></p>
+<p>你想知道考场内实力总和最大的<strong>矩阵****区域</strong>的实力和是多少。</p>
+<p><strong>（注意:区域是按照矩形划分的）</strong></p>
+<h3 id="思路：-6">思路：</h3>
+<p>比赛的时候我是打暴力，就是枚举x1，y1，x2，y2，并采用二维前缀和进行了优化，得到了百分之四十的分，时间复杂度是$$O(n<sup>2m</sup>2)$$</p>
+<p>而正解的方法是枚举行的位置，然后再通过对行进行类似于连续的最大子串的dp来优化时间复杂度，时间复杂度是$$O(n^2m)$$</p>
+<p>先对每列求其前缀和，然后第一层for循环循环的是上行的位置，第二层for循环循环的是下行的位置，然后再一层for循环就进行类dp操作</p>
+<p>此时能拿百分之七十的分</p>
+<p>剩下的三十分，是这个题的数据范围比较恶心，n*m&lt;=2e5，就有可能是n = 1，m = 2e5，就没办法开二维数组，不然会爆！同样的，可能是n = 2e5 , m = 1，此时就时间复杂度又过不去了，所以，我们对n &gt; m 的情况再次进行优化，把矩阵转置一下，并交换n和m，再进行上述的操作</p>
+<pre><code class="language-cpp">#include &lt;cstdio&gt;
+#include &lt;cstring&gt;
+#include &lt;string&gt;
+#include &lt;cmath&gt;
+#include &lt;iostream&gt;
+#include &lt;algorithm&gt;
+#include &lt;vector&gt;
+#include &lt;stack&gt;
+#include &lt;queue&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;sstream&gt;
+#include &lt;map&gt;
+#include &lt;set&gt;
+using  namespace std;
+#define inf 0x3f3f3f3f
+#define MAX 5000 + 50
+#define endl '\n'
+//#define mod 1000000007
+//const int mod = 1e9 + 7;
+#define io ios::sync_with_stdio(false); cin.tie(0); cout.tie(0)
+#define mem(a,b) memset((a),(b),sizeof(a))
+typedef  long long ll ;
+//不开longlong见祖宗！
+inline int IntRead(){char ch = getchar();int s = 0, w = 1;while(ch &lt; '0' || ch &gt; '9'){if(ch == '-') w = -1;ch = getchar();}while(ch &gt;= '0' &amp;&amp; ch &lt;= '9'){s = s * 10 + ch - '0';ch = getchar();}return s * w;}
+
+
+
+int n, m;
+
+int main(){
+    io;
+    cin&gt;&gt;n&gt;&gt;m;
+    if(n &gt; m){//要进行矩阵转置
+        vector&lt;vector&lt;int&gt;&gt;a(n + 1, vector&lt;int&gt;(m + 1));
+        vector&lt;vector&lt;int&gt;&gt;sum(m + 1, vector&lt;int&gt;(n + 1));
+        for(int i = 1; i &lt;= n; ++i)for(int j = 1; j &lt;= m; ++j)cin&gt;&gt;a[i][j];
+        vector&lt;vector&lt;int&gt;&gt;tr(m + 1, vector&lt;int&gt;(n + 1));
+        for(int i = 1; i &lt;= m; ++i)for(int j = 1; j &lt;= n; ++j)tr[i][j] = a[j][i];
+        swap(n, m);
+        for(int i = 1; i &lt;= n; ++i)for(int j = 1; j &lt;= m; ++j)sum[i][j] = sum[i - 1][j] + tr[i][j];//对每一列都求前缀和
+        ll ans = -inf;
+        for(int i = 1; i &lt;= n; ++i){
+            for(int j = i; j &lt;= n; ++j){
+                ll cnt = 0;
+                for(int k = 1; k &lt;= m; ++k){
+                  //这里的0ll相当于一个为值为0的变量，如果cnt小于0，就说明前面选的连续的几个大和已经小于0了，是负数，不管自己是不是负数，自己加上一个负数肯定是比原来小，所以加了这个负数还不如不加，就加0，这里就很类似于求连续的最大子串dp
+                    cnt = max(cnt, 0ll) + sum[j][k] - sum[i - 1][k];
+                    ans = max(ans, cnt);//实时跟新答案
+                }
+            }
+        }
+        cout&lt;&lt;ans&lt;&lt;endl;
+    }
+    else{//同上，只不过没有转置操作了
+        vector&lt;vector&lt;int&gt;&gt;tr(n + 1, vector&lt;int&gt;(m + 1));
+        vector&lt;vector&lt;int&gt;&gt;sum(n + 1, vector&lt;int&gt;(m + 1));
+        for(int i = 1; i &lt;= n; ++i)for(int j = 1; j &lt;= m; ++j)cin&gt;&gt;tr[i][j];
+        for(int i = 1; i &lt;= n; ++i)for(int j = 1; j &lt;= m; ++j)sum[i][j] = sum[i - 1][j] + tr[i][j];
+        ll ans = -inf;
+        for(int i = 1; i &lt;= n; ++i){
+            for(int j = i; j &lt;= n; ++j){
+                ll cnt = 0;
+                for(int k = 1; k &lt;= m; ++k){
+                    cnt = max(cnt, 0ll) + sum[j][k] - sum[i - 1][k];
+                    ans = max(ans, cnt);
+                }
+            }
+        }
+        cout&lt;&lt;ans&lt;&lt;endl;
+        
+    }
+    return 0;
+}
+
+</code></pre>
+<h2 id="友谊纽带"><a href="https://ac.nowcoder.com/acm/contest/13493/H" target="_blank">友谊纽带</a></h2>
+<h3 id="题意：-7">题意：</h3>
+<p>小航是计算机系的学生，但他并不喜欢自己的专业。在课余时间，小航喜欢研究社会学的内容，在他经过了多年的研究后，他发现了一个伟大的定理：世界上任意两个人之间最少需要k个友谊纽带就可以全部连接。他需要向世界公布这个研究成果，但是他还没有对这个定理进行验证，由于他急着陪女朋友，所以将验证这个定理的任务交给了他的朋友小杰和小坤。</p>
+<p>由于人数太多，而导致任务量非常大，所以小杰和小坤找到了你，请你帮助他们验证这个结论。</p>
+<h3 id="思路：-7">思路：</h3>
+<p>又是一个会错题意的题(╥﹏╥)，比赛的时候以为是找到一个最短的路，使得所有的点连在一起，那么我就直接用并查集判掉，如果存在的话就相当于一颗最小生成树，输出n-1即可</p>
+<p>但是！题意是：任意两个人之间都有路能到，并求出最远的两个人之间的路有多长</p>
+<p>也就是多源最长路？</p>
+<p>我用的是n次迪杰斯特拉，每次都判断有没有点到不了，然后更新最大值</p>
+<pre><code class="language-cpp">#include &lt;cstdio&gt;
+#include &lt;cstring&gt;
+#include &lt;string&gt;
+#include &lt;cmath&gt;
+#include &lt;iostream&gt;
+#include &lt;algorithm&gt;
+#include &lt;vector&gt;
+#include &lt;stack&gt;
+#include &lt;queue&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;sstream&gt;
+#include &lt;map&gt;
+#include &lt;set&gt;
+using  namespace std;
+#define inf 0x3f3f3f3f
+#define MAX 5000 + 50
+#define endl '\n'
+//#define mod 1000000007
+//const int mod = 1e9 + 7;
+#define io ios::sync_with_stdio(false); cin.tie(0); cout.tie(0)
+#define mem(a,b) memset((a),(b),sizeof(a))
+typedef  long long ll ;
+//不开longlong见祖宗！
+inline int IntRead(){char ch = getchar();int s = 0, w = 1;while(ch &lt; '0' || ch &gt; '9'){if(ch == '-') w = -1;ch = getchar();}while(ch &gt;= '0' &amp;&amp; ch &lt;= '9'){s = s * 10 + ch - '0';ch = getchar();}return s * w;}
+
+int n, m, a, b, tot;
+int dist[MAX];
+int head[MAX];
+bool vis[MAX];
+int ans;
+
+struct ran{
+    int to, next, val;
+    inline bool operator &lt; (const ran &amp;x)const{
+        return val &gt; x.val;
+    }
+}tr[MAX];
+priority_queue&lt;ran&gt;q;
+ran now, nextt;
+void built(int u, int v){
+    tr[++tot].to = v;
+    tr[tot].next = head[u];
+    tr[tot].val = 1;
+    head[u] = tot;
+}
+
+int dijkstra(int s){
+    mem(dist, inf);
+    mem(vis, 0);
+    dist[s] = 0;
+//    vis[s] = 1;
+    now.to = s;
+    now.val = 0;
+    q.push(now);
+    while (!q.empty()) {
+        now = q.top();q.pop();
+        if(vis[now.to])continue;
+        vis[now.to] = 1;
+        for(int i = head[now.to]; i != -1; i = tr[i].next){
+            int u = tr[i].to;
+            if(dist[u] &gt; tr[i].val + dist[now.to]){
+                dist[u] = tr[i].val + dist[now.to];
+                nextt.to = u;
+                nextt.val = dist[u];
+                q.push(nextt);
+            }
+        }
+    }
+    ans = 0;
+    for(int i = 1; i &lt;= n; ++i){
+        ans = max(ans, dist[i]);
+    }
+    if(ans == inf ) return -1;
+    else return ans;
+}
+
+int main(){
+    io;
+    cin&gt;&gt;n&gt;&gt;m;
+    mem(head, -1);
+    mem(tr, 0);
+    int maxn = 0;
+    for(int i = 1; i &lt;= m; ++i){
+        cin&gt;&gt;a&gt;&gt;b;
+        built(a, b);
+        built(b, a);
+    }
+    for(int i = 1; i &lt;= n; ++i){
+        int k = dijkstra(i);
+        if(k == -1){
+            cout&lt;&lt;-1&lt;&lt;endl;
+            return 0;
+        }
+        else {
+            maxn = max(maxn, k);
+        }
+    }
+    cout&lt;&lt;maxn&lt;&lt;endl;
+    return 0;
+}
+
+
+
+</code></pre>
+<h2 id="传送门"><a href="https://ac.nowcoder.com/acm/contest/13493/I" target="_blank">传送门</a></h2>
+<h3 id="题意：-8">题意：</h3>
+<p>公元2200年科学家发明了点对点传送门，随后基建狂魔发挥了优良传统，在城市之间进行了大规模建设。</p>
+<p>现在你接到了一个任务，上级给你发了一份资料，这份资料是XX地区的传送门建设规划资料，共M条。</p>
+<p>领导要求你完成这些任务，使得这个地区的N座城市可以互相传送，你比较喜欢摸鱼，于是你想知道完成任务的最短时间。如果无法完成任务，则输出-1。</p>
+<p><strong>注意:A市与B市可以利用C市中转，可以算互相传送。只要达到N座城市可以互相传送的目的就可以，所以规划资料不一定全部建设。</strong></p>
+<h3 id="思路：-8">思路：</h3>
+<p>最小生成树的板子题</p>
+<p>用Kruskal算法按照权值从小到大排序，得到一颗生成树时，此时的权值是完成所有任务的时间最小值。</p>
+<pre><code class="language-cpp">#include &lt;cstdio&gt;
+#include &lt;cstring&gt;
+#include &lt;string&gt;
+#include &lt;cmath&gt;
+#include &lt;iostream&gt;
+#include &lt;algorithm&gt;
+#include &lt;vector&gt;
+#include &lt;stack&gt;
+#include &lt;queue&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;sstream&gt;
+#include &lt;map&gt;
+#include &lt;set&gt;
+using  namespace std;
+#define inf 0x3f3f3f3f
+#define MAX 100000 + 50
+#define endl '\n'
+//#define mod 1000000007
+//const int mod = 1e9 + 7;
+#define io ios::sync_with_stdio(false); cin.tie(0); cout.tie(0)
+#define mem(a,b) memset((a),(b),sizeof(a))
+typedef  long long ll ;
+//不开longlong见祖宗！
+inline int IntRead(){char ch = getchar();int s = 0, w = 1;while(ch &lt; '0' || ch &gt; '9'){if(ch == '-') w = -1;ch = getchar();}while(ch &gt;= '0' &amp;&amp; ch &lt;= '9'){s = s * 10 + ch - '0';ch = getchar();}return s * w;}
+    
+int n, m, a, b, c, ans, cnt;
+int fa[MAX];
+
+struct ran{
+    int x, y, val;
+}tr[MAX];
+
+bool cmp(ran a, ran b){
+    return a.val &lt; b.val;
+}
+
+void init(){
+    cnt = 0;
+    mem(tr, 0);
+    ans = 0;
+    for(int i = 1; i &lt;= n; ++i)fa[i] = i;
+}
+
+
+int findd(int x){
+    return x == fa[x] ? x : fa[x] = findd(fa[x]);
+}
+
+void emerge(int x, int y){
+    fa[findd(x)] = findd(y);
+}
+
+int main(){
+    io;
+    cin&gt;&gt;n&gt;&gt;m;
+    init();
+    for(int i = 1; i &lt;= m; ++i){
+        cin&gt;&gt;tr[i].x&gt;&gt;tr[i].y&gt;&gt;tr[i].val;
+    }
+    sort(tr + 1, tr + 1 + m, cmp);
+    for(int i = 1; i &lt;= m; ++i){
+        if(findd(tr[i].x) != findd(tr[i].y)){
+//            ans += tr[i].val;
+            ++cnt;
+            emerge(tr[i].x, tr[i].y);
+            if(cnt == n - 1){
+                cout&lt;&lt;tr[i].val&lt;&lt;endl;
+                return 0;
+            }
+        }
+    }
+    cout&lt;&lt;-1&lt;&lt;endl;
+    return 0;
+}
+
+</code></pre>
+<p>真不愧是暴力杯（<s>bushi</s></p>
+
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2021-04-21 19:34</span>&nbsp;
+<a href="https://www.cnblogs.com/chelsea0901/">扇与她尽失</a>&nbsp;
+阅读(<span id="post_view_count">9</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14686612" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14686612);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 657317, cb_blogApp = 'chelsea0901', cb_blogUserGuid = '8de1662f-760c-4679-5c38-08d89a71b89c';
+    var cb_entryId = 14686612, cb_entryCreatedDate = '2021-04-21 19:34', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 扇与她尽失
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    <div id="page_end_html">
+        <script type="text/javascript">
+/* 鼠标特效 */
+var a_idx = 0;
+jQuery(document).ready(function($) {
+    $("body").click(function(e) {
+        var a = new Array("自古表白多白表 ","从来姻缘没原因","笑叹少年多年少","哪知自负终负自","悠长情书难书情","惨遭拒绝成绝句","纵使往事皆失望","他朝逢春沐春风","不惧历练结连理","一旦爱久忘旧爱","I miss you","I miss you","我 爱 你");
+        var $i = $("<span></span>").text(a[a_idx]);
+        a_idx = (a_idx + 1) % a.length;
+        var x = e.pageX,
+        y = e.pageY;
+        $i.css({
+            "z-index": 999999999999999999999999999999999999999999999999999999999999999999999,
+            "top": y - 20,
+            "left": x,
+            "position": "absolute",
+            "font-weight": "bold",
+            "color": "rgb("+~~(255*Math.random())+","+~~(255*Math.random())+","+~~(255*Math.random())+")"
+        });
+        $("body").append($i);
+        $i.animate({
+            "top": y - 180,
+            "opacity": 0
+        },
+        1500,
+        function() {
+            $i.remove();
+        });
+    });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+/* 设置签名格式 定制css样式 */
+#MySignature {
+    display: none;
+    background-color: #B2E866;
+    border-radius: 10px;
+    box-shadow: 1px 1px 1px #6B6B6B;
+    padding: 10px;
+    line-height: 1.5;
+    text-shadow: 1px 1px 1px #FFF;
+    font-size: 16px;
+    font-family: 'Microsoft Yahei';
+}
+
+<link rel="stylesheet" type="text/css" href="https://blog-static.cnblogs.com/files/cyuanwu/waifu.css"/>
+<link rel="stylesheet" type="text/css" href="https://blog-static.cnblogs.com/files/cyuanwu/flat-ui.min.css"/>
+ 
+<div class="waifu">　　<div class="waifu-tips"></div>　　<canvas id="live2d" width="280" height="250" class="live2d"></canvas>　　<div class="waifu-tool">　　　　<span class="fui-home"></span>　　　　<span class="fui-chat"></span>　　　　<span class="fui-eye"></span>　　　　<span class="fui-user"></span>　　　　<span class="fui-photo"></span>　　　　<span class="fui-info-circle"></span>　　　　<span class="fui-cross"></span>　　</div></div>
+        
+<script src="https://blog-static.cnblogs.com/files/cyuanwu/waifu-tips.js"></script>
+<script src="https://blog-static.cnblogs.com/files/cyuanwu/live2d.js"></script>
+<script type="text/javascript">initModel()</script>
+<script id="c_n_script" src="https://blog-static.cnblogs.com/files/xiaokang01/js.js" color="240,230,140" opacity="1" count="75" zindex="-2">
+if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+
+} else {
+       
+}
+</script>
+    </div>
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjub9J0iXSZNIWMGYGVhXlF80bzsGFhso-sWdnNPUDSfH8TpuHi8zrudrLdx9uQ2LCmD_q2G4UsZ1vuuYu_wWjbJASFcJRHsDNps042mMSG5CwHStHlresC0jRUfVoBczXo" />
+</body>
+</html>

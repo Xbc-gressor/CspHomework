@@ -1,0 +1,426 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="简介 在做科学计算的时候，我们需要从外部加载数据，今天给大家介绍一下NumPy中非常有用的一个方法genfromtxt。genfromtxt可以分解成两步，第一步是从文件读取数据，并转化成为字符串。第" />
+    <meta property="og:description" content="简介 在做科学计算的时候，我们需要从外部加载数据，今天给大家介绍一下NumPy中非常有用的一个方法genfromtxt。genfromtxt可以分解成两步，第一步是从文件读取数据，并转化成为字符串。第" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>NumPy之:使用genfromtxt导入数据 - flydean - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/codinglife/bundle-codinglife.min.css?v=2uJkpdACLVfstRQ7zeCFK19brTwKuDEaNBLgKz9nm3A" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/codinglife/bundle-codinglife-mobile.min.css?v=DwDRKMd1bmjnJZ4iQqrTCO9QLlYb6OZaUAzHoHIIihg" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/flydean/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/flydean/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/flydean/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 595304;
+        var currentBlogApp = 'flydean';
+        var cb_enable_mathjax = true;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'CodingLife';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-05-08 09:42';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+        tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processClass: 'math', processEscapes: true },
+        TeX: {
+        equationNumbers: { autoNumber: ['AMS'], useLabelIds: true },
+        extensions: ['extpfeil.js', 'mediawiki-texvc.js'],
+        Macros: {bm: "\\boldsymbol"}
+        },
+        'HTML-CSS': { linebreaks: { automatic: true } },
+        SVG: { linebreaks: { automatic: true } }
+        });
+    </script>
+    <script src="https://mathjax.cnblogs.com/2_7_5/MathJax.js?config=TeX-AMS-MML_HTMLorMML&amp;v=20200504"></script>
+    
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="page_begin_html">
+        
+<a href="https://github.com/ddean2009/www.flydean.com"><img style="position:absolute;top:0;right:0;border:0" width="149" height="149" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_red_aa0000.png?resize=149%2C149" class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1"></a>
+    </div>
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/flydean/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/flydean/">flydean程序那些事</a>
+</h1>
+<h2>最通俗的解读，最深刻的干货，最简洁的教程，众多你不知道的小技巧等你来发现！
+www.flydean.com
+</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/flydean/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+</li>
+<li>
+
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/flydean/p/14743670.html">
+    <span>NumPy之:使用genfromtxt导入数据</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+<p></p><div class="toc"><div class="toc-container-header">目录</div><ul><li><a href="#简介">简介</a></li><li><a href="#genfromtxt介绍">genfromtxt介绍</a></li><li><a href="#多维数组">多维数组</a></li><li><a href="#autostrip">autostrip</a></li><li><a href="#comments">comments</a></li><li><a href="#跳过行和选择列">跳过行和选择列</a></li></ul></div><p></p>
+<h1 id="简介">简介</h1>
+<p>在做科学计算的时候，我们需要从外部加载数据，今天给大家介绍一下NumPy中非常有用的一个方法genfromtxt。genfromtxt可以分解成两步，第一步是从文件读取数据，并转化成为字符串。第二步就是将字符串转化成为指定的数据类型。</p>
+<h1 id="genfromtxt介绍">genfromtxt介绍</h1>
+<p>先看下genfromtxt的定义：</p>
+<pre><code class="language-Python">numpy.genfromtxt(fname, dtype=&lt;class 'float'&gt;, comments='#', delimiter=None, skip_header=0, skip_footer=0, converters=None, missing_values=None, filling_values=None, usecols=None, names=None, excludelist=None, deletechars=" !#$%&amp;'()*+, -./:;&lt;=&gt;?@[\]^{|}~", replace_space='_', autostrip=False, case_sensitive=True, defaultfmt='f%i', unpack=None, usemask=False, loose=True, invalid_raise=True, max_rows=None, encoding='bytes')
+</code></pre>
+<p>genfromtxt可以接受多个参数，这么多参数中只有fname是必须的参数，其他的都是可选的。</p>
+<p>fname可以有多种形式，可以是<strong>file, str, pathlib.Path, list of str, 或者generator</strong>。</p>
+<p>如果是单独的str，那么默认是本地或者远程文件的名字。如果是list of str，那么每个str都被当做文件中的一行数据。如果传入的是远程的文件，这个文件会被自动下载到本地目录中。</p>
+<p>genfromtxt还可以自动识别文件是否是压缩类型，目前支持两种压缩类型：gzip 和 bz2。</p>
+<p>接下来我们看下genfromtxt的常见应用：</p>
+<p>使用之前，通常需要导入两个库：</p>
+<pre><code class="language-Python">from io import StringIO
+import numpy as np
+</code></pre>
+<p>StringIO会生成一个String对象，可以作为genfromtxt的输入。</p>
+<p>我们先定义一个包含不同类型的StringIO:</p>
+<pre><code class="language-Python">s = StringIO(u"1,1.3,abcde")
+</code></pre>
+<p>这个StringIO包含一个int,一个float和一个str。并且分割符是 <code>,</code>。</p>
+<p>我们看下genfromtxt最简单的使用：</p>
+<pre><code class="language-python">In [65]: data = np.genfromtxt(s)
+
+In [66]: data
+Out[66]: array(nan)
+</code></pre>
+<p>因为默认的分隔符是delimiter=None，所以StringIO中的数据会被作为一个整体转换成数组，结果就是nan。</p>
+<p>下面我们添加一个逗号分割符：</p>
+<pre><code class="language-python">In [67]: _ = s.seek(0)
+
+In [68]: data = np.genfromtxt(s,delimiter=",")
+
+In [69]: data
+Out[69]: array([1. , 1.3, nan])
+</code></pre>
+<p>这次有输出了，但是最后一个字符串因为不能被转换成为float，所以得到了nan。</p>
+<blockquote>
+<p>注意，我们第一行需要重置StringIO的指针到文件的开头。这里我们使用 s.seek(0)。</p>
+</blockquote>
+<p>那么怎么把最后一个str也进行转换呢？我们需要手动指定dtype：</p>
+<pre><code class="language-python">In [74]: _ = s.seek(0)
+
+In [75]: data = np.genfromtxt(s,dtype=float,delimiter=",")
+
+In [76]: data
+Out[76]: array([1. , 1.3, nan])
+</code></pre>
+<p>上面我们指定了所有的数组类型都是float，我们还可以分别为数组的每个元素指定类型：</p>
+<pre><code class="language-python">In [77]: _ = s.seek(0)
+
+In [78]: data = np.genfromtxt(s,dtype=[int,float,'S5'],delimiter=",")
+
+In [79]: data
+Out[79]: array((1, 1.3, b'abcde'), dtype=[('f0', '&lt;i8'), ('f1', '&lt;f8'), ('f2', '&lt;U')])
+</code></pre>
+<p>我们分别使用int，float和str来对文件中的类型进行转换,可以看到得到了正确的结果。</p>
+<p>除了指定类型，我们还可以指定名字，上面的例子中，我们没有指定名字，所以使用的是默认的f0,f1,f2。看一个指定名字的例子：</p>
+<pre><code class="language-python">In [214]: data = np.genfromtxt(s, dtype="i8,f8,S5",names=['myint','myfloat','mystring'], delimiter=",")
+
+In [215]: data
+Out[215]:
+array((1, 1.3, b'abcde'),
+      dtype=[('myint', '&lt;i8'), ('myfloat', '&lt;f8'), ('mystring', 'S5')])
+</code></pre>
+<p>分隔符除了使用字符之外，还可以使用index：</p>
+<pre><code class="language-pythonIn">In [216]: s = StringIO(u"11.3abcde")
+In [217]: data = np.genfromtxt(s, dtype=None, names=['intvar','fltvar','strvar'],
+     ...:  delimiter=[1,3,5])
+
+In [218]: data
+Out[218]:
+array((1, 1.3, b'abcde'),
+      dtype=[('intvar', '&lt;i8'), ('fltvar', '&lt;f8'), ('strvar', 'S5')])
+</code></pre>
+<p>上面我们使用index作为s的分割。</p>
+<h1 id="多维数组">多维数组</h1>
+<p>如果数据中有换行符，那么可以使用genfromtxt来生成多维数组：</p>
+<pre><code class="language-Python">&gt;&gt;&gt; data = u"1, 2, 3\n4, 5, 6"
+&gt;&gt;&gt; np.genfromtxt(StringIO(data), delimiter=",")
+array([[ 1.,  2.,  3.],
+       [ 4.,  5.,  6.]])
+</code></pre>
+<h1 id="autostrip">autostrip</h1>
+<p>使用<code>autostrip</code> 可以删除数据两边的空格：</p>
+<pre><code class="language-Python">&gt;&gt;&gt; data = u"1, abc , 2\n 3, xxx, 4"
+&gt;&gt;&gt; # Without autostrip
+&gt;&gt;&gt; np.genfromtxt(StringIO(data), delimiter=",", dtype="|U5")
+array([['1', ' abc ', ' 2'],
+       ['3', ' xxx', ' 4']], dtype='&lt;U5')
+&gt;&gt;&gt; # With autostrip
+&gt;&gt;&gt; np.genfromtxt(StringIO(data), delimiter=",", dtype="|U5", autostrip=True)
+array([['1', 'abc', '2'],
+       ['3', 'xxx', '4']], dtype='&lt;U5')
+</code></pre>
+<h1 id="comments">comments</h1>
+<p>默认的comments 是 #  ，数据中所有以# 开头的都被看做是注释。</p>
+<pre><code>&gt;&gt;&gt; data = u"""#
+... # Skip me !
+... # Skip me too !
+... 1, 2
+... 3, 4
+... 5, 6 #This is the third line of the data
+... 7, 8
+... # And here comes the last line
+... 9, 0
+... """
+&gt;&gt;&gt; np.genfromtxt(StringIO(data), comments="#", delimiter=",")
+array([[1., 2.],
+       [3., 4.],
+       [5., 6.],
+       [7., 8.],
+       [9., 0.]])
+</code></pre>
+<h1 id="跳过行和选择列">跳过行和选择列</h1>
+<p>可以使用<code>skip_header</code> 和 <code>skip_footer</code> 来跳过返回的数组特定的行：</p>
+<pre><code>&gt;&gt;&gt; data = u"\n".join(str(i) for i in range(10))
+&gt;&gt;&gt; np.genfromtxt(StringIO(data),)
+array([ 0.,  1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.])
+&gt;&gt;&gt; np.genfromtxt(StringIO(data),
+...               skip_header=3, skip_footer=5)
+array([ 3.,  4.])
+</code></pre>
+<p>可以使用<code>usecols</code> 来选择特定的行数：</p>
+<pre><code>&gt;&gt;&gt; data = u"1 2 3\n4 5 6"
+&gt;&gt;&gt; np.genfromtxt(StringIO(data), usecols=(0, -1))
+array([[ 1.,  3.],
+       [ 4.,  6.]])
+</code></pre>
+<p>如果列还有名字的话，可以用<code>usecols</code> 来选择列的名字：</p>
+<pre><code>&gt;&gt;&gt; data = u"1 2 3\n4 5 6"
+&gt;&gt;&gt; np.genfromtxt(StringIO(data),
+...               names="a, b, c", usecols=("a", "c"))
+array([(1.0, 3.0), (4.0, 6.0)],
+      dtype=[('a', '&lt;f8'), ('c', '&lt;f8')])
+&gt;&gt;&gt; np.genfromtxt(StringIO(data),
+...               names="a, b, c", usecols=("a, c"))
+    array([(1.0, 3.0), (4.0, 6.0)],
+          dtype=[('a', '&lt;f8'), ('c', '&lt;f8')])
+</code></pre>
+<blockquote>
+<p>本文已收录于 <a href="http://www.flydean.com/06-python-numpy-genfromtxt/" target="_blank">http://www.flydean.com/06-python-numpy-genfromtxt/</a></p>
+<p>最通俗的解读，最深刻的干货，最简洁的教程，众多你不知道的小技巧等你来发现！</p>
+<p>欢迎关注我的公众号:「程序那些事」,懂技术，更懂你！</p>
+</blockquote>
+
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2021-05-08 09:42</span>&nbsp;
+<a href="https://www.cnblogs.com/flydean/">flydean</a>&nbsp;
+阅读(<span id="post_view_count">0</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14743670" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14743670);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 595304, cb_blogApp = 'flydean', cb_blogUserGuid = '44ec582e-81b3-4ade-9fd5-08d7d7b52bb0';
+    var cb_entryId = 14743670, cb_entryCreatedDate = '2021-05-08 09:42', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 flydean
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjtfLdcIw_hstyzJDMoXEmWoQPY0IxxL9a4MLdIwi9d2i86CaJzuKZ_DM1V_xGlMy4vvvOxfODlW1w4uR2smojMbxOf3uy0rWw_-xG94-4vKWjAsrWqB-KuLS2rz0F9e01I" />
+</body>
+</html>

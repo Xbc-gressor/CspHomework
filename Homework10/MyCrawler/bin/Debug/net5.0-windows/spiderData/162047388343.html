@@ -1,0 +1,625 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="前言：这两个星期一直在写公司项目里的千里眼系统，这个系统主要负责的就是将各个平台的快递接收与跟单推送与公司的WMS仓储系统跟维密客服系统对接起来。详细的内容我就不做过多阐述，写下这篇博客主要的原因也就" />
+    <meta property="og:description" content="前言：这两个星期一直在写公司项目里的千里眼系统，这个系统主要负责的就是将各个平台的快递接收与跟单推送与公司的WMS仓储系统跟维密客服系统对接起来。详细的内容我就不做过多阐述，写下这篇博客主要的原因也就" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>关于调用三方平台接口与推送接口的总结（2020.7.25） - Alan-Turing-Son - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/darkgreentrip/bundle-darkgreentrip.min.css?v=eoZATbPKwJCL5eWVDTQIYC6CIxJPcFz191dkzN2tSyQ" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/darkgreentrip/bundle-darkgreentrip-mobile.min.css?v=lU86o8mZVn3FOSdFt7nHKYTD8gzeKaiQIIZ6lSjEFyo" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/alanturingson/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/alanturingson/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/alanturingson/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 602367;
+        var currentBlogApp = 'alanturingson';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'darkgreentrip';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2020-07-25 05:28';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/alanturingson/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/alanturingson/">Alan-Turing-Son</a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/alanturingson/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/Alan-Turing-Son">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/alanturingson/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/alanturingson/p/13377500.html">
+    <span>关于调用三方平台接口与推送接口的总结（2020.7.25）</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<p><strong>前言：这两个星期一直在写公司项目里的千里眼系统，这个系统主要负责的就是将各个平台的快递接收与跟单推送与公司的WMS仓储系统跟维密客服系统对接起来。详细的内容我就不做过多阐述，写下这篇博客主要的原因也就是为了把这两个星期所学的记录一下，另外也方便以后的回顾复习。</strong></p>
+<p><strong>&nbsp;</strong></p>
+<p><strong>正文开始：</strong></p>
+<p><strong><span style="font-size: 18px">既然是对接快递平台，那么无非就有两种对接的模式。第一种，是本方去调用第三方的接口，例如快递查询接口、路由查询接口、路由订阅接口等。这些都需要本方主动去请求三方提供的url，按照三方要去的请求参数来推送参数获得数据。第二种，与第一种相反，是三方调我们的接口。例如路由推送接口等。这种模式需要本方封装一个接口，并提供地址给第三方，然后第三方来调我们自己的接口从而实现我们封装的接口实现的逻辑。</span></strong></p>
+<p><strong><span style="font-size: 18px">那么我们首先说说第一种，本方调用三方接口。</span></strong></p>
+<p><strong><span style="font-size: 18px">一、本方调用三方接口</span></strong></p>
+<p><strong><span style="font-size: 18px">1、第一步，我们首先要做的，是先将http请求的基本框架搭好，那么开始设计吧（提醒一下，为了便于理解，这里我以申通平台为例，申通的官方api地址：<a href="https://open.sto.cn/#/apiDocument/STO_TRACE_QUERY_COMMON">https://open.sto.cn/#/apiDocument/STO_TRACE_QUERY_COMMON</a>&nbsp; 参照这来看，更容易理解哦！）。</span></strong></p>
+<p><strong><span style="font-size: 18px">首先是请求的基本方法：</span></strong></p>
+<p><strong>&nbsp;</strong></p>
+<div class="cnblogs_code">
+<pre><strong><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * 执行请求
+     *
+     * </span><span style="color: rgba(128, 128, 128, 1)">@param</span><span style="color: rgba(0, 128, 0, 1)"> request 请求
+     * </span><span style="color: rgba(128, 128, 128, 1)">@param</span><span style="color: rgba(0, 128, 0, 1)"> &lt;T&gt;     响应类型
+     * </span><span style="color: rgba(128, 128, 128, 1)">@return</span><span style="color: rgba(0, 128, 0, 1)"> 响应值
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+    <span style="color: rgba(0, 0, 255, 1)">public</span> &lt;T <span style="color: rgba(0, 0, 255, 1)">extends</span> BaseStoResponse&gt; T execute(BaseStoRequest&lt;T&gt;<span style="color: rgba(0, 0, 0, 1)"> request) {
+        T response;
+        String body </span>= <span style="color: rgba(0, 0, 255, 1)">null</span><span style="color: rgba(0, 0, 0, 1)">;
+        </span><span style="color: rgba(0, 0, 255, 1)">try</span><span style="color: rgba(0, 0, 0, 1)"> {
+            </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> 生成http请求</span>
+            Request httpRequest =<span style="color: rgba(0, 0, 0, 1)"> generateHttpRequest(request);
+            Call call </span>=<span style="color: rgba(0, 0, 0, 1)"> httpClient.newCall(httpRequest);
+            Response execute </span>=<span style="color: rgba(0, 0, 0, 1)"> call.execute();
+            </span><span style="color: rgba(0, 0, 255, 1)">if</span> (execute.code() == 200<span style="color: rgba(0, 0, 0, 1)">) {
+                body </span>=<span style="color: rgba(0, 0, 0, 1)"> execute.body().byteString().string(Charset.forName(charsetName));
+                response </span>=<span style="color: rgba(0, 0, 0, 1)"> objectMapper.readValue(body, request.getResponseClass());
+            } </span><span style="color: rgba(0, 0, 255, 1)">else</span><span style="color: rgba(0, 0, 0, 1)"> {
+                response </span>= request.fail("请求三方平台接口发生异常，状态码：" +<span style="color: rgba(0, 0, 0, 1)"> execute.code());
+            }
+        } </span><span style="color: rgba(0, 0, 255, 1)">catch</span><span style="color: rgba(0, 0, 0, 1)"> (Exception e) {
+            response </span>= request.fail("请求三方平台接口发生异常，" +<span style="color: rgba(0, 0, 0, 1)"> e.getMessage());
+        }
+        response.setBody(body);
+        </span><span style="color: rgba(0, 0, 255, 1)">return</span><span style="color: rgba(0, 0, 0, 1)"> response;
+    }</span></strong></pre>
+</div>
+<p><strong><span style="font-size: 18px">这个方法里，请求参数会放到&nbsp;</span><span style="font-size: 18px">BaseSfRequest 类里，返回的参数用&nbsp;BaseSfResponse 类接收。这里的两个base类，后面会再细说。</span></strong></p>
+<p><strong><span style="font-size: 18px">然后就是生成http请求的方法&nbsp;</span><span style="font-size: 18px">generateHttpRequest(request)了。具体代码如下：</span></strong></p>
+<div class="cnblogs_code">
+<pre><strong>/**</strong><br><strong> * 生成 Http 请求</strong><br><strong> *</strong><br><strong> * @param request 请求对象</strong><br><strong> * @return Http 请求对象</strong><br><strong> * @throws Exception 生成签名异常</strong><br><strong> */</strong><br><strong>private Request generateHttpRequest(BaseStoRequest&lt;?&gt; request) throws Exception {</strong><br><strong>    // 请求报文</strong><br><strong>    String content = objectMapper.writeValueAsString(request);</strong><br><br><strong>    // 计算签名</strong><br><strong>    String sign = doSign(content);</strong><br><br><strong>    // 生成 Request</strong><br><strong>    return new Request.Builder().url(stoConfig.getUrl()).addHeader("Accept", "application/json")</strong><br><strong>        .post(new FormBody.Builder().add("content", content).add("data_digest", sign)</strong><br><strong>            .add("api_name", request.apiName()).add("from_appkey", stoConfig.getFromAppKey())</strong><br><strong>            .add("from_code", stoConfig.getFromCode()).add("to_appkey", request.toAppKey())</strong><br><strong>            .add("to_code", request.toAppKey()).build())</strong><br><strong>        .build();</strong><br><strong>}</strong></pre>
+</div>
+<p><strong><span style="font-size: 18px">这里会根据每个平台的具体要求来传公共参数与业务参数，另外还会对加密方法进行声明。下面是最寻常的 base64（md5（参数））加密方法。</span></strong></p>
+<div class="cnblogs_code">
+<pre><strong><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * 计算签名
+     *
+     * </span><span style="color: rgba(128, 128, 128, 1)">@param</span><span style="color: rgba(0, 128, 0, 1)"> content 报文内容
+     * </span><span style="color: rgba(128, 128, 128, 1)">@return</span><span style="color: rgba(0, 128, 0, 1)"> 签名
+     * </span><span style="color: rgba(128, 128, 128, 1)">@throws</span><span style="color: rgba(0, 128, 0, 1)"> Exception 异常
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+    <span style="color: rgba(0, 0, 255, 1)">public</span> String doSign(String content) <span style="color: rgba(0, 0, 255, 1)">throws</span><span style="color: rgba(0, 0, 0, 1)"> Exception {
+        </span><span style="color: rgba(0, 0, 255, 1)">return</span><span style="color: rgba(0, 0, 0, 1)"> Base64.getEncoder().encodeToString(
+            MessageDigest.getInstance(</span>"MD5").digest((content +<span style="color: rgba(0, 0, 0, 1)"> stoConfig.getSecretKey()).getBytes(charsetName)));
+    }</span></strong></pre>
+</div>
+<p><strong><span style="font-size: 18px">以上三个方法，就实现了基本的http请求与请求参数的封装了，这三个方法，我们把它放到manager层里面。</span></strong></p>
+<div class="cnblogs_code">
+<pre><strong><span style="color: rgba(0, 0, 0, 1)">@Component
+</span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">class</span><span style="color: rgba(0, 0, 0, 1)"> StoApiManager {
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * httpClient
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span><span style="color: rgba(0, 0, 0, 1)">
+    @Autowired
+    </span><span style="color: rgba(0, 0, 255, 1)">private</span><span style="color: rgba(0, 0, 0, 1)"> OkHttpClient httpClient;
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * stoConfig
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span><span style="color: rgba(0, 0, 0, 1)">
+    @Autowired
+    </span><span style="color: rgba(0, 0, 255, 1)">private</span><span style="color: rgba(0, 0, 0, 1)"> StoConfig stoConfig;
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * 字符编码格式
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+    <span style="color: rgba(0, 0, 255, 1)">private</span> <span style="color: rgba(0, 0, 255, 1)">final</span> String charsetName = "UTF-8"<span style="color: rgba(0, 0, 0, 1)">;
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * objectMapper
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span><span style="color: rgba(0, 0, 0, 1)">
+    @Autowired
+    </span><span style="color: rgba(0, 0, 255, 1)">private</span><span style="color: rgba(0, 0, 0, 1)"> ObjectMapper objectMapper;
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * 执行请求
+     *
+     * </span><span style="color: rgba(128, 128, 128, 1)">@param</span><span style="color: rgba(0, 128, 0, 1)"> request 请求
+     * </span><span style="color: rgba(128, 128, 128, 1)">@param</span><span style="color: rgba(0, 128, 0, 1)"> &lt;T&gt; 响应类型
+     * </span><span style="color: rgba(128, 128, 128, 1)">@return</span><span style="color: rgba(0, 128, 0, 1)"> 响应值
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+    <span style="color: rgba(0, 0, 255, 1)">public</span> &lt;T <span style="color: rgba(0, 0, 255, 1)">extends</span> BaseStoResponse&lt;?&gt;&gt; T execute(BaseStoRequest&lt;T&gt;<span style="color: rgba(0, 0, 0, 1)"> request) {
+        T response;
+        String body </span>= <span style="color: rgba(0, 0, 255, 1)">null</span><span style="color: rgba(0, 0, 0, 1)">;
+        </span><span style="color: rgba(0, 0, 255, 1)">try</span><span style="color: rgba(0, 0, 0, 1)"> {
+            </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> 生成http请求</span>
+            Request httpRequest =<span style="color: rgba(0, 0, 0, 1)"> generateHttpRequest(request);
+            Call call </span>=<span style="color: rgba(0, 0, 0, 1)"> httpClient.newCall(httpRequest);
+            Response execute </span>=<span style="color: rgba(0, 0, 0, 1)"> call.execute();
+            </span><span style="color: rgba(0, 0, 255, 1)">if</span> (execute.code() == 200<span style="color: rgba(0, 0, 0, 1)">) {
+                body </span>=<span style="color: rgba(0, 0, 0, 1)"> execute.body().byteString().string(Charset.forName(charsetName));
+                response </span>=<span style="color: rgba(0, 0, 0, 1)"> objectMapper.readValue(body, request.getResponseClass());
+            } </span><span style="color: rgba(0, 0, 255, 1)">else</span><span style="color: rgba(0, 0, 0, 1)"> {
+                response </span>= request.fail("请求三方接口发生异常，状态码：" +<span style="color: rgba(0, 0, 0, 1)"> execute.code());
+            }
+        } </span><span style="color: rgba(0, 0, 255, 1)">catch</span><span style="color: rgba(0, 0, 0, 1)"> (Exception e) {
+            response </span>= request.fail("请求三方接口发生异常，" +<span style="color: rgba(0, 0, 0, 1)"> e.getMessage());
+        }
+        response.setBody(body);
+        </span><span style="color: rgba(0, 0, 255, 1)">return</span><span style="color: rgba(0, 0, 0, 1)"> response;
+    }
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * 生成 Http 请求
+     *
+     * </span><span style="color: rgba(128, 128, 128, 1)">@param</span><span style="color: rgba(0, 128, 0, 1)"> request 请求对象
+     * </span><span style="color: rgba(128, 128, 128, 1)">@return</span><span style="color: rgba(0, 128, 0, 1)"> Http 请求对象
+     * </span><span style="color: rgba(128, 128, 128, 1)">@throws</span><span style="color: rgba(0, 128, 0, 1)"> Exception 生成签名异常
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+    <span style="color: rgba(0, 0, 255, 1)">private</span> Request generateHttpRequest(BaseStoRequest&lt;?&gt; request) <span style="color: rgba(0, 0, 255, 1)">throws</span><span style="color: rgba(0, 0, 0, 1)"> Exception {
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> 请求报文</span>
+        String content =<span style="color: rgba(0, 0, 0, 1)"> objectMapper.writeValueAsString(request);
+
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> 计算签名</span>
+        String sign =<span style="color: rgba(0, 0, 0, 1)"> doSign(content);
+
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> 生成 Request</span>
+        <span style="color: rgba(0, 0, 255, 1)">return</span> <span style="color: rgba(0, 0, 255, 1)">new</span> Request.Builder().url(stoConfig.getUrl()).addHeader("Accept", "application/json"<span style="color: rgba(0, 0, 0, 1)">)
+            .post(</span><span style="color: rgba(0, 0, 255, 1)">new</span> FormBody.Builder().add("content", content).add("data_digest"<span style="color: rgba(0, 0, 0, 1)">, sign)
+                .add(</span>"api_name", request.apiName()).add("from_appkey"<span style="color: rgba(0, 0, 0, 1)">, stoConfig.getFromAppKey())
+                .add(</span>"from_code", stoConfig.getFromCode()).add("to_appkey"<span style="color: rgba(0, 0, 0, 1)">, request.toAppKey())
+                .add(</span>"to_code"<span style="color: rgba(0, 0, 0, 1)">, request.toAppKey()).build())
+            .build();
+    }
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * 计算签名
+     *
+     * </span><span style="color: rgba(128, 128, 128, 1)">@param</span><span style="color: rgba(0, 128, 0, 1)"> content 报文内容
+     * </span><span style="color: rgba(128, 128, 128, 1)">@return</span><span style="color: rgba(0, 128, 0, 1)"> 签名
+     * </span><span style="color: rgba(128, 128, 128, 1)">@throws</span><span style="color: rgba(0, 128, 0, 1)"> Exception 异常
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+    <span style="color: rgba(0, 0, 255, 1)">public</span> String doSign(String content) <span style="color: rgba(0, 0, 255, 1)">throws</span><span style="color: rgba(0, 0, 0, 1)"> Exception {
+        </span><span style="color: rgba(0, 0, 255, 1)">return</span><span style="color: rgba(0, 0, 0, 1)"> Base64.getEncoder().encodeToString(
+            MessageDigest.getInstance(</span>"MD5").digest((content +<span style="color: rgba(0, 0, 0, 1)"> stoConfig.getSecretKey()).getBytes(charsetName)));
+    }
+}</span></strong></pre>
+</div>
+<p><strong>&nbsp;</strong></p>
+<p><strong><span style="font-size: 18px">接下来就是关于如何封装请求参数与封装返回参数的问题。</span></strong></p>
+<p><strong><span style="font-size: 18px">1.1 请求参数的封装</span></strong></p>
+<p><strong><span style="font-size: 18px">分三步，其实自己写的话分两步封装就可以了，但是这里我们的架构大神规定了框架，所以都是按照baseRequest &lt;一&nbsp; baseStoRequest&nbsp; &lt;一 baseTraceQueryRequest（路由查询接口）来三级封装的。也就是基本公共请求，基本平台公共请求，平台具体接口请求来写。</span></strong></p>
+<p><strong><span style="font-size: 18px">首先是基本公共请求类代码（这里的方法是所有三方平台去请求都会用到的）：</span></strong></p>
+<div class="cnblogs_code">
+<pre><strong><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">abstract</span> <span style="color: rgba(0, 0, 255, 1)">class</span> BaseRequest&lt;T <span style="color: rgba(0, 0, 255, 1)">extends</span> BaseResponse&gt;<span style="color: rgba(0, 0, 0, 1)"> {
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * </span><span style="color: rgba(128, 128, 128, 1)">@return</span><span style="color: rgba(0, 128, 0, 1)"> 获取响应对象类型
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span><span style="color: rgba(0, 0, 0, 1)">
+    @JsonIgnore
+    </span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">abstract</span> Class&lt;T&gt;<span style="color: rgba(0, 0, 0, 1)"> getResponseClass();
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * </span><span style="color: rgba(128, 128, 128, 1)">@return</span><span style="color: rgba(0, 128, 0, 1)"> 默认响应值
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+    <span style="color: rgba(0, 0, 255, 1)">public</span><span style="color: rgba(0, 0, 0, 1)"> T generateDefaultResponse() {
+        Object response;
+        </span><span style="color: rgba(0, 0, 255, 1)">try</span><span style="color: rgba(0, 0, 0, 1)"> {
+            response </span>=<span style="color: rgba(0, 0, 0, 1)"> getResponseClass().newInstance();
+        } </span><span style="color: rgba(0, 0, 255, 1)">catch</span><span style="color: rgba(0, 0, 0, 1)"> (Exception e) {
+            e.printStackTrace();
+            </span><span style="color: rgba(0, 0, 255, 1)">throw</span> <span style="color: rgba(0, 0, 255, 1)">new</span> SntProjectException(SystemCodeEnum.PARAMETER_UNKNOWN, "生成 DefaultResponse 异常"<span style="color: rgba(0, 0, 0, 1)">);
+        }
+        </span><span style="color: rgba(0, 0, 255, 1)">return</span><span style="color: rgba(0, 0, 0, 1)"> (T)response;
+    }
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * </span><span style="color: rgba(128, 128, 128, 1)">@param</span><span style="color: rgba(0, 128, 0, 1)"> errMsg 失败信息
+     * </span><span style="color: rgba(128, 128, 128, 1)">@return</span><span style="color: rgba(0, 128, 0, 1)"> 失败响应
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+    <span style="color: rgba(0, 0, 255, 1)">public</span><span style="color: rgba(0, 0, 0, 1)"> T fail(String errMsg) {
+        T response </span>=<span style="color: rgba(0, 0, 0, 1)"> generateDefaultResponse();
+        response.setFail(errMsg);
+        </span><span style="color: rgba(0, 0, 255, 1)">return</span><span style="color: rgba(0, 0, 0, 1)"> response;
+    }
+}</span></strong></pre>
+</div>
+<p><strong><span style="font-size: 18px">基本平台公共请求类代码（这里的方法与参数是该三方平台所有接口都会用到的）：</span></strong></p>
+<div class="cnblogs_code">
+<pre><strong><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">abstract</span> <span style="color: rgba(0, 0, 255, 1)">class</span> BaseStoRequest&lt;T <span style="color: rgba(0, 0, 255, 1)">extends</span> BaseStoResponse&lt;?&gt;&gt; <span style="color: rgba(0, 0, 255, 1)">extends</span> BaseRequest&lt;T&gt;<span style="color: rgba(0, 0, 0, 1)"> {
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * </span><span style="color: rgba(128, 128, 128, 1)">@return</span><span style="color: rgba(0, 128, 0, 1)"> 接口名称
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+    <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">abstract</span><span style="color: rgba(0, 0, 0, 1)"> String apiName();
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * </span><span style="color: rgba(128, 128, 128, 1)">@return</span><span style="color: rgba(0, 128, 0, 1)"> AppKey
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+    <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">abstract</span><span style="color: rgba(0, 0, 0, 1)"> String toAppKey();
+
+
+}</span></strong></pre>
+</div>
+<p><strong><span style="font-size: 18px">三方平台具体接口请求类代码（以申通的路由查询为例）：</span></strong></p>
+<div class="cnblogs_code">
+<pre><strong>@EqualsAndHashCode(callSuper = <span style="color: rgba(0, 0, 255, 1)">true</span><span style="color: rgba(0, 0, 0, 1)">)
+@Data
+</span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">class</span> StoTraceQueryRequest <span style="color: rgba(0, 0, 255, 1)">extends</span> BaseStoRequest&lt;StoTraceQueryResponse&gt;<span style="color: rgba(0, 0, 0, 1)"> {
+
+    @Override
+    </span><span style="color: rgba(0, 0, 255, 1)">public</span> Class&lt;StoTraceQueryResponse&gt;<span style="color: rgba(0, 0, 0, 1)"> getResponseClass() {
+        </span><span style="color: rgba(0, 0, 255, 1)">return</span> StoTraceQueryResponse.<span style="color: rgba(0, 0, 255, 1)">class</span><span style="color: rgba(0, 0, 0, 1)">;
+    }
+
+    @Override
+    </span><span style="color: rgba(0, 0, 255, 1)">public</span><span style="color: rgba(0, 0, 0, 1)"> String apiName() {
+        </span><span style="color: rgba(0, 0, 255, 1)">return</span> "STO_TRACE_QUERY_COMMON"<span style="color: rgba(0, 0, 0, 1)">;
+    }
+
+    @Override
+    </span><span style="color: rgba(0, 0, 255, 1)">public</span><span style="color: rgba(0, 0, 0, 1)"> String toAppKey() {
+        </span><span style="color: rgba(0, 0, 255, 1)">return</span> "sto_trace_query"<span style="color: rgba(0, 0, 0, 1)">;
+    }
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * 运单号集合
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span><span style="color: rgba(0, 0, 0, 1)">
+    @JsonProperty(</span>"waybillNoList"<span style="color: rgba(0, 0, 0, 1)">)
+    </span><span style="color: rgba(0, 0, 255, 1)">private</span> List&lt;String&gt;<span style="color: rgba(0, 0, 0, 1)"> waybillNos;
+}</span></strong></pre>
+</div>
+<p><strong><span style="font-size: 18px">不知道大家注意到上面声明的&nbsp;</span>&nbsp;<span style="font-size: 18px">private List&lt;String&gt; waybillNos 了没，因为这个是申通接口文档里声明的，所以我们秩序要照着封装就行了。这里可以跟大家说一下，现在的三方平台接口，一般都提供了xml与json两种格式的参数，我推荐是用json的来封装。而json的话，{&nbsp; }代表一个object对象，[&nbsp; ]代表一个list数组。</span></strong></p>
+<p><strong>&nbsp;</strong></p>
+<p><strong><span style="font-size: 18px">1.2 接收参数的封装</span></strong></p>
+<p><strong><span style="font-size: 18px">同样的，我们的架构大神将返回参数的封装同样分为三层。这里我就直接放代码了，跟上面的请求三级封装逻辑是一样的。</span></strong></p>
+<p><strong><span style="font-size: 18px">基本公共返回类代码：</span></strong></p>
+<div class="cnblogs_code">
+<pre><strong><span style="color: rgba(0, 0, 0, 1)">@Data
+</span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">class</span><span style="color: rgba(0, 0, 0, 1)"> BaseResponse {
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * 响应原始报文
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+    <span style="color: rgba(0, 0, 255, 1)">private</span><span style="color: rgba(0, 0, 0, 1)"> String body;
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * 是否成功
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span><span style="color: rgba(0, 0, 0, 1)">
+    @JsonIgnore
+    </span><span style="color: rgba(0, 0, 255, 1)">private</span><span style="color: rgba(0, 0, 0, 1)"> Boolean isError;
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * 原因
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span><span style="color: rgba(0, 0, 0, 1)">
+    @JsonIgnore
+    </span><span style="color: rgba(0, 0, 255, 1)">private</span><span style="color: rgba(0, 0, 0, 1)"> String errMsg;
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * 设置失败响应
+     *
+     * </span><span style="color: rgba(128, 128, 128, 1)">@param</span><span style="color: rgba(0, 128, 0, 1)"> errMsg 失败原因
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span><span style="color: rgba(0, 0, 0, 1)">
+    @JsonIgnore
+    </span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> setFail(String errMsg) {
+        setIsError(</span><span style="color: rgba(0, 0, 255, 1)">true</span><span style="color: rgba(0, 0, 0, 1)">);
+        setErrMsg(errMsg);
+    }
+}</span></strong></pre>
+</div>
+<p><strong><span style="font-size: 18px">基本平台公共返回类代码（这里的方法与参数是该三方平台所有接口都会用到的）：</span></strong></p>
+<div class="cnblogs_code">
+<pre><strong>@EqualsAndHashCode(callSuper = <span style="color: rgba(0, 0, 255, 1)">true</span><span style="color: rgba(0, 0, 0, 1)">)
+@Data
+</span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">class</span> BaseStoResponse&lt;T&gt; <span style="color: rgba(0, 0, 255, 1)">extends</span><span style="color: rgba(0, 0, 0, 1)"> BaseResponse {
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * 是否成功
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+    <span style="color: rgba(0, 0, 255, 1)">private</span><span style="color: rgba(0, 0, 0, 1)"> Boolean success;
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * 错误编码
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+    <span style="color: rgba(0, 0, 255, 1)">private</span><span style="color: rgba(0, 0, 0, 1)"> String errorCode;
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * 错误信息
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+    <span style="color: rgba(0, 0, 255, 1)">private</span><span style="color: rgba(0, 0, 0, 1)"> String errorMsg;
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * 是否重试
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+    <span style="color: rgba(0, 0, 255, 1)">private</span><span style="color: rgba(0, 0, 0, 1)"> Boolean needRetry;
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * 请求id
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+    <span style="color: rgba(0, 0, 255, 1)">private</span><span style="color: rgba(0, 0, 0, 1)"> String requestId;
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * 异常信息
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+    <span style="color: rgba(0, 0, 255, 1)">private</span><span style="color: rgba(0, 0, 0, 1)"> String expInfo;         
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * 数据
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+    <span style="color: rgba(0, 0, 255, 1)">private</span><span style="color: rgba(0, 0, 0, 1)"> T data;
+
+    @Override
+    </span><span style="color: rgba(0, 0, 255, 1)">public</span><span style="color: rgba(0, 0, 0, 1)"> Boolean getIsError() {
+        </span><span style="color: rgba(0, 0, 255, 1)">return</span><span style="color: rgba(0, 0, 0, 1)"> BooleanUtils.isNotTrue(success);
+    }
+
+    @Override
+    </span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> setIsError(Boolean isError) {
+        success </span>=<span style="color: rgba(0, 0, 0, 1)"> BooleanUtils.isFalse(isError);
+    }
+
+    @Override
+    </span><span style="color: rgba(0, 0, 255, 1)">public</span><span style="color: rgba(0, 0, 0, 1)"> String getErrMsg() {
+        </span><span style="color: rgba(0, 0, 255, 1)">return</span><span style="color: rgba(0, 0, 0, 1)"> errorMsg;
+    }
+
+    @Override
+    </span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> setErrMsg(String errMsg) {
+        errorMsg </span>=<span style="color: rgba(0, 0, 0, 1)"> errMsg;
+    }
+
+    </span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">static</span> BaseStoResponse&lt;?&gt;<span style="color: rgba(0, 0, 0, 1)"> fail(String errMsg) {
+        BaseStoResponse</span>&lt;?&gt; response = <span style="color: rgba(0, 0, 255, 1)">new</span> BaseStoResponse&lt;String&gt;<span style="color: rgba(0, 0, 0, 1)">();
+        response.setFail(errMsg);
+        response.setNeedRetry(Boolean.TRUE);
+        </span><span style="color: rgba(0, 0, 255, 1)">return</span><span style="color: rgba(0, 0, 0, 1)"> response;
+    }
+
+    </span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">static</span> &lt;T&gt; BaseStoResponse&lt;T&gt;<span style="color: rgba(0, 0, 0, 1)"> ok(T data) {
+        BaseStoResponse</span>&lt;T&gt; response = <span style="color: rgba(0, 0, 255, 1)">new</span> BaseStoResponse&lt;T&gt;<span style="color: rgba(0, 0, 0, 1)">();
+        response.setSuccess(Boolean.TRUE);
+        response.setData(data);
+        </span><span style="color: rgba(0, 0, 255, 1)">return</span><span style="color: rgba(0, 0, 0, 1)"> response;
+    }
+}</span></strong></pre>
+</div>
+<p><strong><span style="font-size: 18px">注意一下，这里的 fail 与 ok方法，是后面的路由推送接口也就是三方平台调我们接口会用到的。</span></strong></p>
+<p><strong><span style="font-size: 18px">三方平台具体接口返回类代码（以申通的路由查询为例）：</span></strong></p>
+<div class="cnblogs_code">
+<pre><strong><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">class</span> StoTraceQueryResponse <span style="color: rgba(0, 0, 255, 1)">extends</span> BaseStoResponse&lt;Map&lt;String, List&lt;StoTraceDTO&gt;&gt;&gt;<span style="color: rgba(0, 0, 0, 1)"> {
+}</span></strong></pre>
+</div>
+<p><strong>&nbsp;<span style="font-size: 18px">这里的</span><span style="font-size: 18px">&nbsp;Map&lt;String, List&lt;StoTraceDTO&gt;&gt;也是根据三方平台文档返回数据来对应接收的。</span></strong></p>
+<p><strong>&nbsp;</strong></p>
+<p><strong><span style="font-size: 18px">好啦，写到这里，基本就报本方调用三方接口的思路基本写完啦。后面的第二种模式，让三方平台调用本方的接口传送参数的代码实例与思路，我放到下篇博客接着来写。</span></strong></p>
+<p><strong><span style="font-size: 18px">创作不易，分享技术！喜欢我的博客的话，给我一个赞吧！</span></strong></p>
+<p><strong>&nbsp;</strong></p>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2020-07-25 17:28</span>&nbsp;
+<a href="https://www.cnblogs.com/alanturingson/">Alan-Turing-Son</a>&nbsp;
+阅读(<span id="post_view_count">531</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=13377500" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(13377500);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 602367, cb_blogApp = 'alanturingson', cb_blogUserGuid = '6dea79f4-adf9-4db9-e3ca-08d7f1c799c8';
+    var cb_entryId = 13377500, cb_entryCreatedDate = '2020-07-25 17:28', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 Alan-Turing-Son
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjujB2oVcz0nEOeldDrCpfif8RsxNUCt_S9Ns6GMJjsaoUcUC_ATkNoFvq8N4JXrx7pkAFuIA4NfEVrJ6_1v2KaYOKN5s6uNkYbhUmEuMwU_09ujv6w2OUA5XfWrCYrBYkw" />
+</body>
+</html>

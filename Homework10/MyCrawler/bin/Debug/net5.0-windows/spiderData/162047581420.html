@@ -1,0 +1,693 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="前言 Startup类相信大家都比较熟悉,在我们使用ASP.NET Core开发过程中经常用到的类，我们通常使用它进行IOC服务注册，配置中间件信息等。虽然它不是必须的，但是将这些操作统一在Start" />
+    <meta property="og:description" content="前言 Startup类相信大家都比较熟悉,在我们使用ASP.NET Core开发过程中经常用到的类，我们通常使用它进行IOC服务注册，配置中间件信息等。虽然它不是必须的，但是将这些操作统一在Start" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>深入探究ASP.NET Core Startup初始化 - yi念之间 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/wucy/custom.css?v=Jr&#x2B;luDHHhYQVZ/m1Tbw1HfGXOlI=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/custom/bundle-custom-mobile.min.css?v=OayYBbtUbH4FYkn_bTL4VVf4DsEOiTHSWhbl11KyY6Y" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/wucy/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/wucy/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/wucy/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 605020;
+        var currentBlogApp = 'wucy';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'Custom';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2020-11-03 12:29';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="no-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="page_begin_html">
+        <div class="light-loading">
+  <div class="box">
+    <h2>加载中</h2>
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+</div>
+    </div>
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/wucy/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/wucy/">yi念之间</a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/wucy/">
+首页</a>
+</li>
+<li>
+
+
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/yi%E5%BF%B5%E4%B9%8B%E9%97%B4">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/wucy/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/wucy/p/13886728.html">
+    <span>深入探究ASP.NET Core Startup初始化</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+<h4 id="前言">前言</h4>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;Startup类相信大家都比较熟悉,在我们使用ASP.NET Core开发过程中经常用到的类，我们通常使用它进行IOC服务注册，配置中间件信息等。虽然它不是必须的，但是将这些操作统一在Startup中做处理，会在实际开发中带来许多方便。当我们谈起Startup类的时候你有没有好奇过以下几点</p>
+<ul>
+<li>为何我们自定义的Startup可以正常工作。</li>
+<li>我们定义的Startup类中ConfigureServices和Configure只能叫这个名字才能被调用到吗？</li>
+<li>在使用泛型主机(IHostBuilder)时Startup的构造函数，为何只支持注入IWebHostEnvironment、IHostEnvironment、IConfiguration。</li>
+<li>ConfigureServices方法为何只能传递IServiceCollection实例。</li>
+<li>Configure方法的参数为何可以是所有在IServiceCollection注册服务实例。</li>
+<li>在ASP.NET Core结合Autofac使用的时候为何我们添加的ConfigureContainer方法会被调用。<br>
+带着以上几点疑问，我们将在本篇文章中探索Startup的源码，来了解Startup初始化过程到底为我们做了些什么。</li>
+</ul>
+<h4 id="startup的另类指定方式">Startup的另类指定方式</h4>
+<p>在日常编码过程中，我们通常使用UseStartup的方式来引入Startup类。但是这并不是唯一的方式，还有一种方式是在配置节点中指定Startup所在的程序集来自动查找Startup类，这个我们可以在GenericWebHostBuilder的构造函数源码中的找到相关代码[<a href="https://github.com/dotnet/aspnetcore/blob/v3.1.9/src/Hosting/Hosting/src/GenericHost/GenericWebHostBuilder.cs#L92" target="_blank">点击查看源码👈</a>]相信熟悉ASP.Net Core启动流程的同学对GenericWebHostBuilder这个类都比较了解。ConfigureWebHostDefaults方法中其实调用了ConfigureWebHost方法，ConfigureWebHost方法中实例化了GenericWebHostBuilder对象，启动流程不是咱们的重点，所以这里只是简单描述一下。直接找到我们需要的代码如下所示</p>
+<pre><code class="language-cs">//判断是否配置了StartupAssembly参数
+if (!string.IsNullOrEmpty(webHostOptions.StartupAssembly))
+{
+    try
+    {
+        //根据你配置的程序集去查找Startup
+        var startupType = StartupLoader.FindStartupType(webHostOptions.StartupAssembly, webhostContext.HostingEnvironment.EnvironmentName);
+        UseStartup(startupType, context, services);
+    }
+    catch (Exception ex) when (webHostOptions.CaptureStartupErrors)
+    {
+       //此处省略代码省略
+    }
+}
+</code></pre>
+<p>这里我们可以看出来，我们需要配置StartupAssembly对应的程序集，它可以通过StartupLoader的FindStartupType方法加载程序集中对应的类。我们还可以看到它还传递了EnvironmentName环境变量，至于它起到了什么作用，我们继续往下看。<br>
+首先我们需要找到webHostOptions.StartupAssembly是如何被初始化的，在WebHostOptions的构造函数中我们找到了StartupAssembly初始化的地方[<a href="https://github.com/dotnet/aspnetcore/blob/v3.1.9/src/Hosting/Hosting/src/Internal/WebHostOptions.cs#L27" target="_blank">点击查看源码👈</a>]</p>
+<pre><code class="language-cs">StartupAssembly = configuration[WebHostDefaults.StartupAssemblyKey];
+</code></pre>
+<p>从这里也可以看出来它的值来于配置，它的key来自WebHostDefaults.StartupAssemblyKey这个常量值，最后我们找到了的值为</p>
+<pre><code class="language-cs">public static readonly string StartupAssemblyKey = "startupAssembly";
+</code></pre>
+<p>也就是说只要我们给startupAssembly配置Startup所在的程序集名称，它就可以在程序集中查找Startup类进行初始化，如下所示</p>
+<pre><code class="language-cs">public static IHostBuilder CreateHostBuilder(string[] args) =&gt;
+            Host.CreateDefaultBuilder(args)
+                .ConfigureHostConfiguration(config=&gt; {
+                    List&lt;KeyValuePair&lt;string, string&gt;&gt; keyValuePairs = new List&lt;KeyValuePair&lt;string, string&gt;&gt;();
+                    //配置Startup所在的程序集名称
+                    keyValuePairs.Add(new KeyValuePair&lt;string, string&gt;("startupAssembly", "Startup所在的程序集名称"));
+                    config.AddInMemoryCollection(keyValuePairs);
+                })
+                .ConfigureWebHostDefaults(webBuilder =&gt;
+                {
+                    //这样的话这里就可以省略了
+                    //webBuilder.UseStartup&lt;Startup&gt;();
+                });
+</code></pre>
+<p>回到上面的思路，我们在StartupLoader类中查看FindStartupType方法，来看下它是通过什么规则来查找Startup的[<a href="https://github.com/dotnet/aspnetcore/blob/v3.1.9/src/Hosting/Hosting/src/Internal/StartupLoader.cs#L224" target="_blank">点击查看源码👈</a>]精简之后的代码大致如下</p>
+<pre><code class="language-cs">public static Type FindStartupType(string startupAssemblyName, string environmentName)
+{
+    var assembly = Assembly.Load(new AssemblyName(startupAssemblyName));
+    //名称Startup+环境变量的类比如(StartupDevelopment)
+    var startupNameWithEnv = "Startup" + environmentName;
+    //名称为Startup的类
+    var startupNameWithoutEnv = "Startup";
+
+    // 先查找包含名称Startup+环境变量的相关类，如果找不到则查找名称为Startup的类
+    var type =
+        assembly.GetType(startupNameWithEnv) ??
+        assembly.GetType(startupAssemblyName + "." + startupNameWithEnv) ??
+        assembly.GetType(startupNameWithoutEnv) ??
+        assembly.GetType(startupAssemblyName + "." + startupNameWithoutEnv);
+
+    if (type == null)
+    {
+        // 如果上述规则找不到，则在程序集定义的所有类中继续查找
+        var definedTypes = assembly.DefinedTypes.ToList();
+
+        var startupType1 = definedTypes.Where(info =&gt; info.Name.Equals(startupNameWithEnv, StringComparison.OrdinalIgnoreCase));
+        var startupType2 = definedTypes.Where(info =&gt; info.Name.Equals(startupNameWithoutEnv, StringComparison.OrdinalIgnoreCase));
+
+        var typeInfo = startupType1.Concat(startupType2).FirstOrDefault();
+        if (typeInfo != null)
+        {
+            type = typeInfo.AsType();
+        }
+    }
+    //最终返回Startup类型
+    return type;
+}
+</code></pre>
+<p>通过上述代码我们可以看到在通过配置指定程序集时是如何查找指定规则的Startup类的，基本上可以理解为<font color="red">先去查找名称为Startup+环境变量的类，如果找不到则继续查找名称为Startup的类，最终会返回Startup的类型传递给UseStartup方法。</font>其实我们最常使用的UseStartup<t>()方法最终也是转换成UseStartup(typeof(T))的方式，所以最终这两种方式走到了相同的地方，接下来我们步入正题，来一起探究一下Starup究竟是如何被初始化的。</t></p>
+<h4 id="startup的构造函数">Startup的构造函数</h4>
+<p>相信对Startup有所了解的同学们都比较清楚,在使用泛型主机(IHostBuilder)时Startup的构造函数只支持注入IWebHostEnvironment、IHostEnvironment、IConfiguration,这个在微软官方文档中<a href="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/startup?view=aspnetcore-3.1#the-startup-class" target="_blank">https://docs.microsoft.com/en-us/aspnet/core/fundamentals/startup?view=aspnetcore-3.1#the-startup-class</a>也有介绍,如果还有不熟悉这个操作的请先反思一下自己,然后在查阅微软官方文档。接下来我们就从源码着手，来探究一下它到底是如何做到的。沿着上述的操作，继续查看UseStartup里的代码找到了如下的实现[<a href="https://github.com/dotnet/aspnetcore/blob/v3.1.9/src/Hosting/Hosting/src/GenericHost/GenericWebHostBuilder.cs#L235" target="_blank">点击查看源码👈</a>]</p>
+<pre><code class="language-cs">//创建Startup实例
+object instance = ActivatorUtilities.CreateInstance(new HostServiceProvider(webHostBuilderContext), startupType);
+</code></pre>
+<p>这里的startupType就是我们传递的Startup类型，关于ActivatorUtilities这个类还是比较实用的，它为我们提供了许多帮助我们实例化对象的方法，在日常编程中如果有需要可以使用这个类。上面的ActivatorUtilities的CreateInstance方法的功能就是根据传递IServiceProvider类型的对象去实例化指定的类型对象，我们这里的类型就是startupType。它的使用场景就是，如果某个类型需要用过有参构造函数去实例化，而构造函数的参数可以来自于IServiceProvider的实例，那么使用这个方法就在合适不过了。上面的代码传递的IServiceProvider的实例是HostServiceProvider对象，接下来我们找到它的实现源码[<a href="https://github.com/dotnet/aspnetcore/blob/v3.1.9/src/Hosting/Hosting/src/GenericHost/GenericWebHostBuilder.cs#L346" target="_blank">点击查看源码👈</a>]代码并不多我们就全部粘贴出来</p>
+<pre><code class="language-cs">private class HostServiceProvider : IServiceProvider
+{
+    private readonly WebHostBuilderContext _context;
+    public HostServiceProvider(WebHostBuilderContext context)
+    {
+        _context = context;
+    }
+
+    public object GetService(Type serviceType)
+    {
+        // 通过这里我们就比较清晰的看出，只有满足这几种情况下才能返回具体的实例，其他的都会返回null
+        #pragma warning disable CS0618 // Type or member is obsolete
+        if (serviceType == typeof(Microsoft.Extensions.Hosting.IHostingEnvironment)
+            || serviceType == typeof(Microsoft.AspNetCore.Hosting.IHostingEnvironment)
+        #pragma warning restore CS0618 // Type or member is obsolete
+            || serviceType == typeof(IWebHostEnvironment)
+            || serviceType == typeof(IHostEnvironment)
+            )
+        {
+            return _context.HostingEnvironment;
+        }
+        if (serviceType == typeof(IConfiguration))
+        {
+            return _context.Configuration;
+        }
+        //不满足这几种情况的类型都返回null
+        return null;
+    }
+}
+</code></pre>
+<p><font color="red">通过这个内部私有类我们就能清晰的看到为何Starup的构造函数只能注入IWebHostEnvironment、IHostEnvironment、IConfiguration相关实例了，HostServiceProvider类实现了IServiceProvider的GetService方法并做了判断，只有满足这几种类型才能返回具体的实例注入，其它不满足条件的类型都会返回null。因此在初始化Starup实例的时候，通过构造函数注入的类型也就只能是这几种了。</font>最终通过这个构造函数初始化了Startup类的实例。</p>
+<h4 id="configureservices的装载">ConfigureServices的装载</h4>
+<p>接下来我们就来在UseStartup方法里继续查看是如何查找并执行ConfigureServices方法的，继续查看找到如下实现[<a href="https://github.com/dotnet/aspnetcore/blob/v3.1.9/src/Hosting/Hosting/src/GenericHost/GenericWebHostBuilder.cs#L239" target="_blank">点击查看源码👈</a>]</p>
+<pre><code class="language-cs">//传递startupType和环境变量参数查找返回ConfigureServicesBuilder
+var configureServicesBuilder = StartupLoader.FindConfigureServicesDelegate(startupType, context.HostingEnvironment.EnvironmentName);
+//调用Build方法返回ConfigureServices委托
+var configureServices = configureServicesBuilder.Build(instance);
+//传递services对象即IServiceCollection对象调用ConfigureServices方法
+configureServices(services);
+</code></pre>
+<p>从上述代码中我们可以了解到查找并执行ConfigureServices方法的具体步骤可分为三步，首先在startupType类型中根据环境变量名称查找具体方法返回ConfigureServicesBuilder实例，然后构建ConfigureServicesBuilder实例返回ConfigureServices方法的委托，最后传递IServiceCollection对象执行委托方法。接下来我们就来查看具体实现源码。<br>
+我们在StartupLoader类中找到了FindConfigureServicesDelegate方法的相关实现[<a href="https://github.com/dotnet/aspnetcore/blob/v3.1.9/src/Hosting/Hosting/src/Internal/StartupLoader.cs#L293" target="_blank">点击查看源码👈</a>]</p>
+<pre><code class="language-cs">internal static ConfigureServicesBuilder FindConfigureServicesDelegate(Type startupType, string environmentName)
+{
+    //根据startupType和根据environmentName构建的Configure{0}Services字符串先去查找返回类型为IServiceProvider的方法
+    //找不到在查找返回值为void类型的方法
+    var servicesMethod = FindMethod(startupType, "Configure{0}Services", environmentName, typeof(IServiceProvider), required: false)
+        ?? FindMethod(startupType, "Configure{0}Services", environmentName, typeof(void), required: false);
+    //根据查找的到的MethodInfo去构建ConfigureServicesBuilder实例
+    return new ConfigureServicesBuilder(servicesMethod);
+}
+</code></pre>
+<p>通过这里的源码我们可以看到在startupType类型里去查找名字为environmentName构建的Configure{0}Services的方法信息，然后根据查找的方法信息即MethodInfo对象去构建ConfigureServicesBuilder实例。接下里我们就来查询FindMethod方法的实现</p>
+<pre><code class="language-cs">private static MethodInfo FindMethod(Type startupType, string methodName, string environmentName, Type returnType = null, bool required = true)
+{
+    //包含环境变量的ConfigureServices方法名称比如(ConfigureDevelopmentServices)
+    var methodNameWithEnv = string.Format(CultureInfo.InvariantCulture, methodName, environmentName);
+    //名为ConfigureServices的方法
+    var methodNameWithNoEnv = string.Format(CultureInfo.InvariantCulture, methodName, "");
+    //方法是共有的静态的或非静态的方法
+    var methods = startupType.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
+    //查找包含环境变量的ConfigureServices方法名称
+    var selectedMethods = methods.Where(method =&gt; method.Name.Equals(methodNameWithEnv, StringComparison.OrdinalIgnoreCase)).ToList();
+    if (selectedMethods.Count &gt; 1)
+    {
+        //找打多个满足规则的方法直接抛出异常
+        throw new InvalidOperationException(string.Format("Having multiple overloads of method '{0}' is not supported.", methodNameWithEnv));
+
+    }
+    //如果不存在包含环境变量的ConfigureServices的方法比如(ConfigureDevelopmentServices)，则直接查找方法名为ConfigureServices的方法
+    if (selectedMethods.Count == 0)
+    {
+        selectedMethods = methods.Where(method =&gt; method.Name.Equals(methodNameWithNoEnv, StringComparison.OrdinalIgnoreCase)).ToList();
+        //如果存在多个则同样抛出异常
+        if (selectedMethods.Count &gt; 1)
+        {
+            throw new InvalidOperationException(string.Format("Having multiple overloads of method '{0}' is not supported.", methodNameWithNoEnv));
+        }
+    }
+
+    var methodInfo = selectedMethods.FirstOrDefault();
+    //如果没找到满足规则的方法，并且满足required参数，则抛出未找到方法的异常
+    if (methodInfo == null)
+    {
+        if (required)
+        {
+            throw new InvalidOperationException(string.Format("A public method named '{0}' or '{1}' could not be found in the '{2}' type.",
+                methodNameWithEnv,
+                methodNameWithNoEnv,
+                startupType.FullName));
+
+        }
+        return null;
+    }
+    //如果找到了名称一致的方法，但是返回类型和预期的不一致，也抛出异常
+    if (returnType != null &amp;&amp; methodInfo.ReturnType != returnType)
+    {
+        if (required)
+        {
+            throw new InvalidOperationException(string.Format("The '{0}' method in the type '{1}' must have a return type of '{2}'.",
+                methodInfo.Name,
+                startupType.FullName,
+                returnType.Name));
+        }
+        return null;
+    }
+    return methodInfo;
+}
+</code></pre>
+<p>通过FindMethod方法我们可以得到几个结论，首先ConfigureServices方法的名称可以是包含环境变量的名称比如(ConfigureDevelopmentServices)，其次方法可以为共有的静态或非静态方法。FindMethod方法是真正执行查找的逻辑所在，如果找到相关方法则返回MethodInfo。<font color="red">FindMethod查找的方法名称是通过methodName参数传递进来的，我们标注的注释代码都是直接写死了ConfigureServices方法，只是为了便于说明理解，但其实FindMethod是通用方法，接下来我们要讲解的内容还会涉及到这个方法，到时候关于这个代码的逻辑我们就不会在进行说明了，因为是同一个方法，希望大家能注意到这一点。</font><br>
+通过上面的相关方法，我们了解到了是通过什么样的规则去查找到ConfigureServices的方法信息的，我们也看到了ConfigureServicesBuilder正是通过查找到的MethodInfo去构造实例的，接下来我们就来查看下ConfigureServicesBuilder的实现源码[<a href="https://github.com/dotnet/aspnetcore/blob/v3.1.9/src/Hosting/Hosting/src/Internal/ConfigureServicesBuilder.cs" target="_blank">点击查看源码👈</a>]</p>
+<pre><code class="language-cs">internal class ConfigureServicesBuilder
+{
+    //构造函数传递的configureServices的MethodInfo
+    public ConfigureServicesBuilder(MethodInfo configureServices)
+    {
+        MethodInfo = configureServices;
+    }
+
+    public MethodInfo MethodInfo { get; }
+    public Func&lt;Func&lt;IServiceCollection, IServiceProvider&gt;, Func&lt;IServiceCollection, IServiceProvider&gt;&gt; StartupServiceFilters { get; set; } = f =&gt; f;
+    //Build委托
+    public Func&lt;IServiceCollection, IServiceProvider&gt; Build(object instance) =&gt; services =&gt; Invoke(instance, services);
+    private IServiceProvider Invoke(object instance, IServiceCollection services)
+    {
+        //执行StartupServiceFilters委托参数为Func&lt;IServiceCollection, IServiceProvider&gt;类型的委托方法即Startup
+        //返回了Func&lt;IServiceCollection, IServiceProvider&gt;委托，执行这个委托需传递services即IServiceCollections实例返回IServiceProvider类型
+        return StartupServiceFilters(Startup)(services);
+        IServiceProvider Startup(IServiceCollection serviceCollection) =&gt; InvokeCore(instance, serviceCollection);
+    }
+
+    private IServiceProvider InvokeCore(object instance, IServiceCollection services)
+    {
+        if (MethodInfo == null)
+        {
+            return null;
+        }
+        // 如果ConfigureServices方法包含多个参数或方法参数类型不是IServiceCollection类型则直接抛出异常
+        // 也就是说ConfigureServices只能包含一个参数且类型为IServiceCollection
+        var parameters = MethodInfo.GetParameters();
+        if (parameters.Length &gt; 1 ||
+            parameters.Any(p =&gt; p.ParameterType != typeof(IServiceCollection)))
+        {
+            throw new InvalidOperationException("The ConfigureServices method must either be parameterless or take only one parameter of type IServiceCollection.");
+        }
+        //找到ConfigureServices方法的参数，并将services即IServiceCollection的实例传递给这个参数
+        var arguments = new object[MethodInfo.GetParameters().Length];
+        if (parameters.Length &gt; 0)
+        {
+            arguments[0] = services;
+        }
+        // 执行返回IServiceProvider实例
+        return MethodInfo.InvokeWithoutWrappingExceptions(instance, arguments) as IServiceProvider;
+    }
+}
+</code></pre>
+<p>看完ConfigureServicesBuilder类的实现逻辑，关于通过什么样的逻辑查找并执行ConfigureServices方法的逻辑就非常清晰了。<font color="red">首先是查找ConfigureServices方法，即包含环境变量的ConfigureServices方法名称比如(ConfigureDevelopmentServices)或名为ConfigureServices的方法，返回的是ConfigureServicesBuilder对象。然后执行ConfigureServicesBuilder的Build方法，这个方法里包含了执行ConfigureServices的规则，即ConfigureServices只能包含一个参数且类型为IServiceCollection，然后将当前程序中存在的IServiceCollection实例传递给它。</font></p>
+<h4 id="configure的装载">Configure的装载</h4>
+<p>我们常使用Startup的Configure方法去配置中间件，默认生成的Configure方法为我们添加了IApplicationBuilder和IWebHostEnvironment实例，但是其实Configure方法不仅仅可以传递这两个参数，它可以通过参数注入在IServiceCollection中注册的所有服务，究竟是如何实现的呢，接下来我们继续探究UseStartup方法查找源码查看想实现<br>
+[<a href="https://github.com/dotnet/aspnetcore/blob/v3.1.9/src/Hosting/Hosting/src/GenericHost/GenericWebHostBuilder.cs#L267" target="_blank">点击查看源码👈</a>],我们抽离出来核心实现如下</p>
+<pre><code class="language-cs">//和ConfigureServices查找方式类似传递Startup实例和环境变量
+ConfigureBuilder configureBuilder = StartupLoader.FindConfigureDelegate(startupType, context.HostingEnvironment.EnvironmentName);
+services.Configure&lt;GenericWebHostServiceOptions&gt;(options =&gt;
+{
+    //通过查看GenericWebHostServiceOptions的源码可知app其实就是IApplicationBuilder实例
+    options.ConfigureApplication = app =&gt;
+    {
+        startupError?.Throw();
+        //执行Startup.Configure，instance为Startup实例
+        if (instance != null &amp;&amp; configureBuilder != null)
+        {  
+            //执行Configure方法传递Startup实例和IApplicationBuilder实例
+            configureBuilder.Build(instance)(app);
+        }
+    };
+});
+</code></pre>
+<p>我们通过查看GenericWebHostServiceOptions的源码可知ConfigureApplication属性的类型为Action<iapplicationbuilder>也就是说app参数其实就是IApplicationBuilder接口的实例。通过上面这段代码可以看出，主要逻辑就是调用StartupLoader的FindConfigureDelegate方法，然后返回ConfigureBuilder建造类，然后构建出Configure方法并执行。首先我们来查看FindConfigureDelegate的逻辑实现<br>
+[<a href="https://github.com/dotnet/aspnetcore/blob/v3.1.9/src/Hosting/Hosting/src/Internal/StartupLoader.cs#L276" target="_blank">点击查看源码👈</a>]</iapplicationbuilder></p>
+<pre><code class="language-cs">internal static ConfigureBuilder FindConfigureDelegate(Type startupType, string environmentName)
+{
+    //通过startup类型和方法名为Configure或Configure+环境变量名称的方法
+    var configureMethod = FindMethod(startupType, "Configure{0}", environmentName, typeof(void), required: true);
+    //用查找到的方法去初始化ConfigureBuilder
+    return new ConfigureBuilder(configureMethod);
+}
+</code></pre>
+<p>从这里我们可以看到FindConfigureDelegate方法也是调用的FindMethod方法，只是传递的方法名字符串为Configure或Configure+环境变量，关于FindMethod的方法实现我们在上面讲解ConfigureServices方法的时候已经非常详细的说过了，这里就不过多的讲解了。总之是通过FindMethod去查找名为Configure的方法或名为Configure+环境变量的方法比如ConfigureDevelopment查找规则和ConfigureServices是完全一致的。但是Configure方法却可以通过参数注入注册到IServiceCollection中的服务，答案我们同样要在ConfigureBuilder类中去探寻<br>
+[<a href="https://github.com/dotnet/aspnetcore/blob/v3.1.9/src/Hosting/Hosting/src/Internal/ConfigureBuilder.cs" target="_blank">点击查看源码👈</a>]</p>
+<pre><code class="language-cs">internal class ConfigureBuilder
+{
+    //构造函数传递Configure的MethodInfo
+    public ConfigureBuilder(MethodInfo configure)
+    {
+        MethodInfo = configure;
+    }
+
+    public MethodInfo MethodInfo { get; }
+    //Build方法返回Action&lt;IApplicationBuilder&gt;委托
+    public Action&lt;IApplicationBuilder&gt; Build(object instance) =&gt; builder =&gt; Invoke(instance, builder);
+    //执行逻辑
+    private void Invoke(object instance, IApplicationBuilder builder)
+    {
+        //通过IApplicationBuilder的ApplicationServices获取IServiceProvider实例创建一个作用域
+        using (var scope = builder.ApplicationServices.CreateScope())
+        {
+            //获取IServiceProvider实例
+            var serviceProvider = scope.ServiceProvider;
+            //获取Configure的所有参数
+            var parameterInfos = MethodInfo.GetParameters();
+            var parameters = new object[parameterInfos.Length];
+            for (var index = 0; index &lt; parameterInfos.Length; index++)
+            {
+                var parameterInfo = parameterInfos[index];
+                //如果方法参数为IApplicationBuilder类型则直接将传递过来的IApplicationBuilder赋值给它
+                if (parameterInfo.ParameterType == typeof(IApplicationBuilder))
+                {
+                    parameters[index] = builder;
+                }
+                else
+                {
+                    try
+                    {
+                        //根据方法的参数类型在serviceProvider中获取具体实例赋值给对应参数
+                        parameters[index] = serviceProvider.GetRequiredService(parameterInfo.ParameterType);
+                    }
+                    catch (Exception ex)
+                    {
+                        //如果对应的方法参数名称，没在serviceProvider中获取到则直接抛出异常
+                        //变相的说明了Configure方法的参数必须是注册在IServiceCollection中的
+                    }
+                }
+            }
+            MethodInfo.InvokeWithoutWrappingExceptions(instance, parameters);
+        }
+    }
+}
+</code></pre>
+<p>通过ConfigureBuilder类的实现逻辑，可以清晰的看到为何Configure方法参数可以注入任何在IServiceCollection中注册的服务了。接下来我们总结一下Configure方法的初始化逻辑，<font color="red">首先在Startup中查找方法名为Configure或Configure+环境变量名称(比如ConfigureDevelopment)的方法，然后查找IApplicationBuilder类型的参数，如果找到则将程序中的IApplicationBuilder实例传递给它。至于为何Configure方法能够通过参数注入任何在IServiceCollection中注册的服务，则是因为循环Configure中的所有参数然后在IOC容器中获取对应实例赋值过来，Configure方法的参数一定得是在IServiceCollection注册过的类型，否则会抛出异常。</font></p>
+<h4 id="configurecontainer为何会被调用">ConfigureContainer为何会被调用</h4>
+<p>如果你在ASP.NET Core 3.1中使用过Autofac那么你对ConfigureContainer方法一定不陌生，它和ConfigureServices、Configure方法一样的神奇，在几乎没有任何约束的情况下我们只需要定义ConfigureContainer方法并为方法传递一个ContainerBuilder参数，那么这个方法就能顺利的被调用了。这一切究竟是如何实现的呢，接下来我们继续探究源码，找到了如下的逻辑<br>
+[<a href="https://github.com/dotnet/aspnetcore/blob/v3.1.9/src/Hosting/Hosting/src/GenericHost/GenericWebHostBuilder.cs#L246" target="_blank">点击查看源码👈</a>]</p>
+<pre><code class="language-cs">//根据规则查找最终返回ConfigureContainerBuilder实例
+var configureContainerBuilder = StartupLoader.FindConfigureContainerDelegate(startupType, context.HostingEnvironment.EnvironmentName);
+if (configureContainerBuilder.MethodInfo != null)
+{
+    //获取容器类型比如如果是autofac则类型为ContainerBuilder
+    var containerType = configureContainerBuilder.GetContainerType();
+    // 存储configureContainerBuilder实例
+    _builder.Properties[typeof(ConfigureContainerBuilder)] = configureContainerBuilder;
+    //构建一个Action&lt;HostBuilderContext,containerType&gt;类型的委托
+    var actionType = typeof(Action&lt;,&gt;).MakeGenericType(typeof(HostBuilderContext), containerType);
+
+    // 获取此类型的私有ConfigureContainer方法，然后声明该方法的泛型为容器类型，然后创建这个方法的委托
+    var configureCallback = GetType().GetMethod(nameof(ConfigureContainer), BindingFlags.NonPublic | BindingFlags.Instance)
+                                     .MakeGenericMethod(containerType)
+                                     .CreateDelegate(actionType, this);
+
+    // 等同于执行_builder.ConfigureContainer&lt;T&gt;(ConfigureContainer)，其中T为容器类型。
+    //C onfigureContainer表示一个委托,即我们在Startup中定义的ConfigureContainer委托
+    typeof(IHostBuilder).GetMethods().First(m =&gt; m.Name == nameof(IHostBuilder.ConfigureContainer))
+        .MakeGenericMethod(containerType)
+        .InvokeWithoutWrappingExceptions(_builder, new object[] { configureCallback });
+}
+</code></pre>
+<p>继续使用老配方，我们查看StartupLoader的FindConfigureContainerDelegate方法实现<br>
+[<a href="https://github.com/dotnet/aspnetcore/blob/v3.1.9/src/Hosting/Hosting/src/Internal/StartupLoader.cs#L282" target="_blank">点击查看源码👈</a>]</p>
+<pre><code class="language-cs">internal static ConfigureContainerBuilder FindConfigureContainerDelegate(Type startupType, string environmentName)
+{
+    //根据startupType和根据environmentName构建的Configure{0}Services字符串先去查找返回类型为IServiceProvider的方法
+    var configureMethod = FindMethod(startupType, "Configure{0}Container", environmentName, typeof(void), required: false);
+    //用查找到的方法去初始化ConfigureContainerBuilder
+    return new ConfigureContainerBuilder(configureMethod);
+}
+</code></pre>
+<p>果然还是这个配方这个味道，废话不多说直接查看ConfigureContainerBuilder源码<br>
+[<a href="https://github.com/dotnet/aspnetcore/blob/v3.1.9/src/Hosting/Hosting/src/Internal/ConfigureContainerBuilder.cs" target="_blank">点击查看源码👈</a>]</p>
+<pre><code class="language-cs">internal class ConfigureContainerBuilder
+{
+    public ConfigureContainerBuilder(MethodInfo configureContainerMethod)
+    {
+        MethodInfo = configureContainerMethod;
+    }
+    public MethodInfo MethodInfo { get; }
+    public Func&lt;Action&lt;object&gt;, Action&lt;object&gt;&gt; ConfigureContainerFilters { get; set; } = f =&gt; f;
+    public Action&lt;object&gt; Build(object instance) =&gt; container =&gt; Invoke(instance, container);
+    //查找容器类型，其实就是ConfigureContainer方法的的唯一参数
+    public Type GetContainerType()
+    {
+        var parameters = MethodInfo.GetParameters();
+        //ConfigureContainer方法只能包含一个参数
+        if (parameters.Length != 1)
+        {
+            throw new InvalidOperationException($"The {MethodInfo.Name} method must take only one parameter.");
+        }
+        return parameters[0].ParameterType;
+    }
+
+    private void Invoke(object instance, object container)
+    {
+        ConfigureContainerFilters(StartupConfigureContainer)(container);
+        void StartupConfigureContainer(object containerBuilder) =&gt; InvokeCore(instance, containerBuilder);
+    }
+    
+    //根据传递的container对象执行ConfigureContainer方法逻辑比如使用autofac时ConfigureContainer(ContainerBuilder)
+    private void InvokeCore(object instance, object container)
+    {
+        if (MethodInfo == null)
+        {
+            return;
+        }
+        var arguments = new object[1] { container };
+        MethodInfo.InvokeWithoutWrappingExceptions(instance, arguments);
+    }
+}
+</code></pre>
+<p>果不其然千年老方下来还是那个味道，和ConfigureServices、Configure方法思路几乎一致。这里需要注意的是GetContainerType获取的容器类型是ConfigureContainer方法的唯一参数即容器类型，如果传递多个参数则直接抛出异常。其实Startup的ConfigureContainer方法经过花里胡哨的一番操作之后，最终还是转换成了雷士如下的操作方式,这个我们在上面代码中构建actionType的时候就可以看出，最终通过查找到的容器类型去完成注册等相关操作，这里就不过多的讲解了</p>
+<pre><code class="language-cs">Host.CreateDefaultBuilder(args)
+        .ConfigureContainer&lt;ContainerBuilder&gt;((context,container)=&gt; {
+            container.RegisterType&lt;PersonService&gt;().As&lt;IPersonService&gt;().InstancePerLifetimeScope();
+        });
+</code></pre>
+<h4 id="总结">总结</h4>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;本篇文章我们主要是围绕着Startup是如何被初始化进行讲解的，分别讲解了Startup是如何被实例化的，为何Startup的构造函数只能传递IWebHostEnvironment、IHostEnvironment、IConfiguration类型的参数，以及ConfigureServices、Configure、ConfigureContainer方法是如何查找到并被初始化调用的。其中虽然涉及到的代码比较多，但是整体思路在阅读源码后还是比较清晰的。由于笔者文笔有限，可能许多地方描述的不够清晰，亦或是本人能力有限理解的不够透彻，不过本人在文章中都标记了源码所在位置的链接，如果有感兴趣的同学可以自行点击连接查看源码。Startup类比较常用，如果能够更深层次的了解其原理，对我们实际编程过程中会有很大的帮助，同时呼吁更多的小伙伴们深入阅读了解.NET Core的源码并分享出来。如有各位有疑问或者有了解的更透彻的，欢迎评论区提问或批评指导。<br>
+<br></p>
+<div align="center">
+  <span style="font-size: 15px">👇欢迎扫码关注我的公众号👇</span>
+  <img src="https://img2020.cnblogs.com/blog/2042116/202006/2042116-20200622133425514-1420050576.png">
+</div>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2020-11-03 00:29</span>&nbsp;
+<a href="https://www.cnblogs.com/wucy/">yi念之间</a>&nbsp;
+阅读(<span id="post_view_count">2860</span>)&nbsp;
+评论(<span id="post_comment_count">11</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=13886728" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(13886728);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 605020, cb_blogApp = 'wucy', cb_blogUserGuid = 'cbf13d4d-9981-4cce-33f2-08d7f668ab52';
+    var cb_entryId = 13886728, cb_entryCreatedDate = '2020-11-03 00:29', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 yi念之间
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjtaUSIWminWFqUF-yR-99vKGPK1vkefqoM2WsLSkEG9DR8oW8HkvnaWcK-7UBc14yz_oJahRkRZMpuqNAj9R4i2U701M1I1O3mTywrDR8ur0chWDunYQTWAgdf-f-Gsnx0" />
+</body>
+</html>

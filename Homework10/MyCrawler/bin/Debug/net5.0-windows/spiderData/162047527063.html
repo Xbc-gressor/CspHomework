@@ -1,0 +1,397 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="never" />
+    <meta name="description" content="前几天，博客园 7 天无法发文，博客园你肿么了？ 怎么就无法发文了？ 一、羁绊 1.1 第一篇 刚开始写博客时，我是在 csdn 上写的，后来发现博客园的博客质量都挺高的，而且页面上的广告也挺少的，所" />
+    <meta property="og:description" content="前几天，博客园 7 天无法发文，博客园你肿么了？ 怎么就无法发文了？ 一、羁绊 1.1 第一篇 刚开始写博客时，我是在 csdn 上写的，后来发现博客园的博客质量都挺高的，而且页面上的广告也挺少的，所" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>博客园，你肿么了？ - 悟空聊架构 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/simpleblue/bundle-simpleblue.min.css?v=2hjghzSZyhYA1HxvSxKnXih3JbC120DBjeO9V9T_nSs" />
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/jackson0714/custom.css?v=iyeWqOLQRcNbbHBk0nDZ4w0KMpU=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/simpleblue/bundle-simpleblue-mobile.min.css?v=3tvwgOOqUo3RpS6gGzEdK0LbptOPv4Bx7M85_UAnFGs" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/jackson0714/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/jackson0714/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/jackson0714/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 154027;
+        var currentBlogApp = 'jackson0714';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'SimpleBlue';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-04-06 09:11';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="no-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="page_begin_html">
+        <script>loadPageBeginHtml();</script>
+    </div>
+    <div id="home">
+    <div id="header">
+        <div id="blogTitle">
+            <div class="title"><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/jackson0714/">7年一线互联网经验，超爱图解底层原理，全栈一枚</a>
+</div>
+<div class="subtitle">手写了两个小程序：PMP 刷题小程序，JAVA刷题小程序。</div>
+
+        </div>
+        <div id="navigator">
+            
+<ul id="navList">
+    <li id="nav_sitehome"><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+    <li id="nav_myhome">
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/jackson0714/">
+首页</a>
+</li>
+    <li id="nav_newpost">
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+    <li id="nav_contact">
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E6%82%9F%E7%A9%BA%E8%81%8A%E6%9E%B6%E6%9E%84">
+联系</a></li>
+    <li id="nav_rss">
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/jackson0714/rss/">
+订阅</a></li>
+    <li id="nav_admin">
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+            <div class="blogStats">
+                <div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+            </div>
+        </div>
+    </div>
+    <div id="main">
+        <div id="mainContent">
+            <div class="forFlow">
+                <div id="post_detail">
+    <div id="topics">
+        <div class="post">
+            <h1 class="postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/jackson0714/p/cnblogs1.html">
+    <span>博客园，你肿么了？</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+<p><img src="https://img-blog.csdnimg.cn/20210406091337833.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2phY2tzb24wNzE0,size_16,color_FFFFFF,t_70" alt="" loading="lazy"></p>
+<p><strong>前几天，博客园 7 天无法发文，博客园你肿么了？</strong> 怎么就无法发文了？</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/67791aaed9475f5f3ef1f9be0f821902.png" alt="7 天内无法发文" loading="lazy"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/0ed15cfb89c47b17a29d749f1b19f44b.png" alt="本文主要内容" loading="lazy"></p>
+<h2 id="一、羁绊">一、羁绊</h2>
+<h3 id="11-第一篇">1.1 第一篇</h3>
+<p>刚开始写博客时，我是在 csdn 上写的，后来发现博客园的博客质量都挺高的，而且页面上的广告也挺少的，所以就只在博客园更文了。</p>
+<p>博客园相比其他平台，我更感觉它是一片<code>净土</code>。博客园内的用户，我们都会称作<code>园友</code>。</p>
+<p>我入住博客园的时间还挺早的，2014 年就开始了，当时自己的技术比较菜的，写博客也只是记录学习笔记。</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/3ca76baebd05e0502590bf02e43f662a.png" alt="博客园第一篇" loading="lazy">到目前为止已经<code>200</code> 多篇，现在的文章质量和之前已经高出一个 level 了，这也得益于在博客园的积累：多向前辈们学习如何写博客，取其精华，去其糟粕。</p>
+<h3 id="12-前端启蒙导师">1.2 前端启蒙导师</h3>
+<p>博客园和其他博客平台的最大<code>不同之处</code>就是可以<code>自定义样式</code>，比如可以自己加 JS 代码，定义 CSS 样式。</p>
+<p>最开始我看到很多博主都定义了自己的样式，看起来非常炫酷，我也学着折腾样式。</p>
+<p>我的<code>前端启蒙导师</code>就是博客园了。下面是我几年前折腾的主题：</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/a72210f0becaa9ce1ca5e3bfada84c4e.png" alt="我的博客样式" loading="lazy"></p>
+<p>在折腾的过程中，我还写了 10 篇玩转博客主题的文章，如下图所示。正是因为有了园友的推荐，我才更有动力写文。</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/888e21279d8493640291db23078fd42f.png" alt="博客主题美化文章汇总" loading="lazy"></p>
+<h3 id="13-微软-mvp">1.3 微软 MVP</h3>
+<p>大家都喜欢称博客园为 .Net 社区，其实这句话是不准确的，至少目前来看，博客园是很开放的一个平台，其他技术方向也有很多涌入进来。当然其中还是有很多 .Net 的大牛在里面，我看到过很多拿到微软 .NET <code>MVP</code> 的博客园博主。</p>
+<p>MVP 就是最有价值专家，拿到微软MVP 是一个非常值得骄傲的事情，说明你在微软的某个技术领域做到了专家级别。</p>
+<p>我当时也朝着这方面努力过，写过很多 SQL 的文章，想要申请一个微软 SQL 技术专家，但以失败告终~这也是一个遗憾吧。</p>
+<h3 id="14-搜索引擎">1.4 搜索引擎</h3>
+<p>在 google 搜索退出中国市场后，大家就改用其他搜索引擎了，但是你会发现其他搜索引擎有几个坑：</p>
+<ul>
+<li>第一页前几个是广告。</li>
+<li>很多资源整合网站盗用博客园、CSDN 等博客，搜索结果还非常靠前，而且很多资源整合网站会去掉原链接或者署名。</li>
+<li>搜到的 CSDN 博客很多都是转载的，访问量比原创还高，但是很多转载的是有格式问题的，影响阅读。而且，你知道原创对于作者是多么重要吗？那博客园有转载的吗？肯定有，但是博客园没有地方标识是转载还是原创，所以无法直观地判断是不是原创。</li>
+</ul>
+<p>鉴于以上原因，我搜索用的关键字都是：<strong>xxx 博客园</strong>，如下图所示，第一个搜索结果就非常详细的讲解了这几个关键字，确实是我想要的结果。</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/5ca1e64623d9ae06ad3f10ccf91b8420.png" alt="" loading="lazy"></p>
+<h2 id="二、一点点吐槽">二、一点点吐槽</h2>
+<h3 id="21-奇怪的曝光途径">2.1 奇怪的曝光途径</h3>
+<p>博客园主页上的浏览量不算高的，平均都是300 个阅读，如果想达到 1000 以上，有三种途径：</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/480218daae1b7655a34b9c16140fe423.png" alt="" loading="lazy"></p>
+<ul>
+<li><strong>编辑推荐</strong>，这个是博客运营团队推荐，需要是高质量或者有深度的文章。</li>
+<li><strong>最多评论</strong>，这个有弊端，只要拉些人帮忙灌水评论下，就可以上架到最多评论，得到足够多的曝光量。另外据我观察，上架的博文是保留 24 小时（在上一个最多评论下架后）。</li>
+<li><strong>最多推荐</strong>，这个也是找注册的园友灌水就容易达到。</li>
+</ul>
+<p>最多评论和最多推荐完全靠自觉，我给的建议是，这个功能可以保留，但是保留时长需要缩短，比如一个小时，或者由官方团队审核之后上架。</p>
+<h3 id="22-可爱又可恨的-js">2.2 可爱又可恨的 JS</h3>
+<p>博客园非常开放的支持自定义 CSS 和 JS，但正是因为如此，很多玩家会把主题做得很酷炫，有几个点，我个人还是不喜欢，这里吐槽一下：</p>
+<ul>
+<li><strong>自动关注</strong>。进入别人博客后，自动进行关注，这个可以说是很不道德的行为了吧，而且还有很多人用，甚至都出教程了。这个自动关注对优秀博主是很不公平的。</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/ea7ea7a1acdda7195b7fe35e99e701ba.png" alt="自动关注" loading="lazy"></p>
+<ul>
+<li><strong>花里胡哨</strong>。看到某些博主的主页是下雪花的，还有各种动态萌妹子在主界面的，还有为了做个炫酷加载界面，耗时 3 s 的，我只想看博客，你给我整个开机画面干啥？我给的建议就是博客只支持部分的定制化，另外有些通用的功能，可以让博客园标准化，比如目录功能。</li>
+</ul>
+<h3 id="23-审核不通过">2.3 审核不通过</h3>
+<p>我经常遇到文章审核不通过，不能被推荐到首页。我问过其他一些博主，也是遇到过。而且官方没有给出到底哪个点出问题了，这就很难受了。</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/6a00233619ff16774ca2901c56b9119a.png" alt="移出首页" loading="lazy"></p>
+<h3 id="23-赞助步骤繁琐">2.3 赞助步骤繁琐</h3>
+<p>博客园最近和 AWS 合作，相当于拉一些赞助，不过需要大家注册 AWS 账号才行，我试过这个活动，步骤有点繁琐，最后我放弃了。如果博客园遇到了困难，何不用其他方式呢，比如给个打赏入口，我想这是博客园的骨气所在吧，但是，哎......希望博客园能挺住吧。</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/a6a3791a0c6c1c8f2df533607541aab5.png" alt="mark" loading="lazy"></p>
+<h2 id="三、目前进展">三、目前进展</h2>
+<h3 id="31-内容审核，无法访问">3.1 内容审核，无法访问</h3>
+<p>看下官方的说法：</p>
+<blockquote>
+<p>为了更加合法合规运营网站，我们正在对全站内容进行审核，之前的内容审核通过后才能访问。</p>
+</blockquote>
+<p><strong>博客园要挺住啊！</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/851e3a7a831c6383b2ed1515b7ccaef7.png" alt="无法发文" loading="lazy"></p>
+<h3 id="32-检讨书">3.2 检讨书</h3>
+<p>目前博客园官方还在主页推送了一封检讨书，是一首诗，我第一遍是没看懂的，检讨就检讨，为什么是一首诗？</p>
+<p>我后来懂了，这是官方抒发的一种无助感，无力感。希望我没理解错，加油吧，博客园团队！</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/e216cbea49a67aa14d9735fbec4f4463.png" alt="博客园" loading="lazy"></p>
+<h2 id="四、后记">四、后记</h2>
+<p>当然，对于大多数博主，都会同步文章到其他博客平台，少一个平台，其实影响不大，毕竟流量不高。</p>
+<p><strong>但是博客园是我的起点，我想看着他越来越强大！加油，挺住！</strong></p>
+<p>欢迎关注我的公众号：<strong>悟空聊架构</strong> 。</p>
+
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2021-04-06 09:11</span>&nbsp;
+<a href="https://www.cnblogs.com/jackson0714/">悟空聊架构</a>&nbsp;
+阅读(<span id="post_view_count">15271</span>)&nbsp;
+评论(<span id="post_comment_count">39</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14620256" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14620256);return false;">收藏</a></div>
+        </div>
+        <script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 154027, cb_blogApp = 'jackson0714', cb_blogUserGuid = '9a35f2c7-18ab-e111-aa3f-842b2b196315';
+    var cb_entryId = 14620256, cb_entryCreatedDate = '2021-04-06 09:11', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+        <a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+    </div>
+</div>
+            </div>
+        </div>
+
+        <div id="sideBar">
+            <div id="sideBarMain">
+                <div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+                <div id="calendar"><div id="blog-calendar" style="display:none"></div></div>                
+                <script>loadBlogDefaultCalendar();</script>
+                <div id="leftcontentcontainer">
+                    <!-- begin:SingleColumn -->
+                    <div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+                    <!-- end:  SingleColumn -->
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+    <div id="footer">
+        <!--done-->
+Copyright &copy; 2021 悟空聊架构
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+    </div>
+</div>
+
+    <div id="page_end_html">
+        <div id="footer1">
+Copyright ©2019 悟空聊架构
+</div>
+
+<link type="text/css" rel="stylesheet" href="https://files.cnblogs.com/files/jackson0714/marvin.nav.my1502.css" >
+<link type="text/css" rel="stylesheet" href="https://files.cnblogs.com/files/jackson0714/myRewards.css">
+<link type="text/css" rel="stylesheet" href="https://cdn.bootcss.com/animate.css/3.5.2/animate.min.css">
+
+
+<script type="text/javascript" src="https://files.cnblogs.com/files/jackson0714/bootstrap.min.js"></script>
+
+<script type="text/javascript" src="https://files.cnblogs.com/files/jackson0714/marvin.nav.my1502.js"></script>
+<script type="text/javascript" src="https://files.cnblogs.com/files/jackson0714/marvin.cnblogs.js"></script>
+<script type="text/javascript" src="https://files.cnblogs.com/files/jackson0714/nav2.min.js"></script>
+<script type="text/javascript" src="https://files.cnblogs.com/files/jackson0714/follow.js"></script>
+<script type="text/javascript" src="https://files.cnblogs.com/files/jackson0714/Comments.js"></script>
+
+
+<script type="text/javascript" language="javascript"> 
+
+
+//生成目录索引列表
+function GenerateContentList() {
+    var jquery_h1_list = $('#cnblogs_post_body h1');//如果你的章节标题不是h1,只需要将这里的h1换掉即可
+    if (jquery_h1_list.length > 0) {
+        var content = '<a name="_labelTop"></a>';
+        content += '<blockquote><div id="navCategory">';
+        content += '<p style="font-size:18px"><b>阅读目录</b></p>';
+        content += '<ul>';
+        for (var i = 0; i < jquery_h1_list.length; i++) {
+            var go_to_top = '<div style="text-align: right"><a href="#_labelTop">回到顶部</a><a name="_label' + i + '"></a></div>';
+            $(jquery_h1_list[i]).before(go_to_top);
+            var li_content = '<li><a href="#_label' + i + '">' + $(jquery_h1_list[i]).text() + '</a></li>';
+            content += li_content;
+        }
+        content += '</ul>';
+        content += '</div></blockquote>';
+        if ($('#cnblogs_post_body').length != 0) {
+            $($('#cnblogs_post_body')[0]).prepend(content);
+        }
+    }
+};
+$("#tbCommentBody").attr("placeholder", "口者，心之门户，智谋皆从之出。——鬼谷子");
+
+GenerateContentList();
+</script>
+
+<a href="#top"><div id="toTop" style="zoom:0;"></div></a>
+
+
+<script type="text/javascript" language="javascript"> 
+//Setting ico for cnblogs
+var linkObject = document.createElement('link');
+linkObject.rel = "shortcut icon";
+linkObject.href = "https://files-cdn.cnblogs.com/files/jackson0714/favicon1.ico";
+document.getElementsByTagName("head")[0].appendChild(linkObject);
+
+
+</script>
+
+<script type="text/javascript" language="javascript"> 
+//为右下角推荐推荐区域添加关注按钮
+window.onload = function () {
+    $('#div_digg').prepend('<div style="padding-bottom: 5px"><span class="icon_favorite" style="padding-top: 2px"></span><a onclick="follow(\'9a35f2c7-18ab-e111-aa3f-842b2b196315\');" href="javascript:void(0);" style="font-weight: bold; padding-left:5px;">关注 悟空</a> </div>');
+
+}
+</script>
+    </div>
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjtnbUQeMxVESWnXaBiWaxXKTemnbBuIe8Dw8yizQRmjuuDN8wWCa1ldsiwLBX53WulWjaylU3agL2R-rDRz_sclc_CmwlNoTjYoTdI-vpOPoQwltuog3_J2L9RgG0Wc2uE" />
+</body>
+</html>

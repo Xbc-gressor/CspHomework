@@ -1,0 +1,461 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="前言 我们在日常开发中对Excel的操作可能会比较频繁，好多功能都会涉及到Excel的操作。在.Net Core中大家可能使用Npoi比较多，这款软件功能也十分强大，而且接近原始编程。但是直接使用Np" />
+    <meta property="og:description" content="前言 我们在日常开发中对Excel的操作可能会比较频繁，好多功能都会涉及到Excel的操作。在.Net Core中大家可能使用Npoi比较多，这款软件功能也十分强大，而且接近原始编程。但是直接使用Np" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>.Net Core Excel导入导出神器Npoi.Mapper - yi念之间 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/wucy/custom.css?v=Jr&#x2B;luDHHhYQVZ/m1Tbw1HfGXOlI=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/custom/bundle-custom-mobile.min.css?v=OayYBbtUbH4FYkn_bTL4VVf4DsEOiTHSWhbl11KyY6Y" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/wucy/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/wucy/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/wucy/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 605020;
+        var currentBlogApp = 'wucy';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'Custom';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2020-12-13 11:31';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="no-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="page_begin_html">
+        <div class="light-loading">
+  <div class="box">
+    <h2>加载中</h2>
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+</div>
+    </div>
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/wucy/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/wucy/">yi念之间</a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/wucy/">
+首页</a>
+</li>
+<li>
+
+
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/yi%E5%BF%B5%E4%B9%8B%E9%97%B4">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/wucy/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/wucy/p/14125392.html">
+    <span>.Net Core Excel导入导出神器Npoi.Mapper</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+<h4 id="前言">前言</h4>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;我们在日常开发中对Excel的操作可能会比较频繁，好多功能都会涉及到Excel的操作。在.Net Core中大家可能使用Npoi比较多，这款软件功能也十分强大，而且接近原始编程。但是直接使用Npoi大部分时候我们可能都会自己封装一下，毕竟根据二八原则，我们百分之八十的场景可能都是进行简单的导入导出操作，这里就引出我们的主角Npoi.Mapper了。</p>
+<h4 id="简介">简介</h4>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;关于Npoi.Mapper看名字我们就知道，它并不是一款创新型的软件，而是针对Npoi的二次封装增强了关于Mapper相关的操作。秉承着使用非常简单的原则，不过这样能够满足我们日常开发工作中很大一部分应用场景。它的GitHub地址为<a href="https://github.com/donnytian/Npoi.Mapper" target="_blank">https://github.com/donnytian/Npoi.Mapper</a>，目前Star并不多才240多，但是确实是非常好用，这里强烈推荐一波。接下来我们就大概演示一下的它的使用。</p>
+<h4 id="常规操作">常规操作</h4>
+<p>Npoi.Mapper的主题内容包括两大块，一个是针对导入，一个是针对导出。接下来我们先来简单演示一下最基础的导入导出。首先我们新建一个Student类作为数据承载的载体，简单定义大致如下</p>
+<pre><code class="language-cs">public class Student
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public string Sex { get; set; }
+    public DateTime BirthDay { get; set; }
+}
+</code></pre>
+<p>然后引入Npoi.Mapper的nuget包</p>
+<pre><code class="language-cs">&lt;PackageReference Include="Npoi.Mapper" Version="3.5.1" /&gt;
+</code></pre>
+<h5 id="导出操作">导出操作</h5>
+<p>接下来我们构建一个Student集合，然后初始化一部分简单的数据，将这些数据导出到Excel，接下来做一个简单的演示</p>
+<pre><code class="language-cs">static void Main(string[] args)
+{
+      List&lt;Student&gt; students = new List&lt;Student&gt;
+      {
+          new Student{ Id = 1,Name="夫子",Sex="男",BirthDay=new DateTime(1999,10,11) },
+          new Student{ Id = 2,Name="余帘",Sex="女",BirthDay=new DateTime(1999,12,12) },
+          new Student{ Id = 3,Name="李慢慢",Sex="男",BirthDay=new DateTime(1999,11,11) },
+          new Student{ Id = 4,Name="叶红鱼",Sex="女",BirthDay=new DateTime(1999,10,10) }
+      };
+      //声明mapper操作对象
+      var mapper = new Mapper();
+      //第一个参数为导出Excel名称
+      //第二个参数为Excel数据来源
+      //第三个参数为导出的Sheet名称
+      //overwrite参数如果是要覆盖已存在的Excel或者新建Excel则为true，如果在原有Excel上追加数据则为false
+      //xlsx参数是用于区分导出的数据格式为xlsx还是xls
+      mapper.Save("Students.xlsx", students, "sheet1", overwrite: true, xlsx:true);
+      Console.WriteLine("执行完成");
+}
+</code></pre>
+<p>其中overwrite参数如果是要覆盖已存在的Excel或者新建Excel则为true，如果在原有Excel上追加数据则为false，说白了就是控制是新建Excel文件还是在原有基础上直接追加。xlsx参数是用于区分导出的Excel格式为xlsx还是xls。通过上述简单代码便可以实现Excel的导出功能，真的是非常简单，如果你只是进行简单的导出操作，通过Npoi.Mapper操作真的是不二的选择。这样导出的Excel效果如下所示<br>
+<img src="https://img2020.cnblogs.com/blog/2042116/202012/2042116-20201212173558297-26608046.png" alt="" loading="lazy">但是这样导出的Excel头信息为属性的名称，而且我们Student类中包含了一个时间字段BirthDay为DateTime类型，这个表示格式好像也不太符合我们常规的阅读习惯，那该怎么办呢？Npoi.Mapper为我们提供了两种处理方式，一种是通过Fluent的方式指定映射关系如下所示</p>
+<pre><code class="language-cs">var mapper = new Mapper();
+//第一个参数表示导出的列名，第二个表示对应的属性字段
+mapper.Map&lt;Student&gt;("姓名", s =&gt; s.Name)
+    .Map&lt;Student&gt;("学号", s =&gt; s.Id)
+    .Map&lt;Student&gt;("性别", s =&gt; s.Sex)
+    .Map&lt;Student&gt;("生日", s =&gt; s.BirthDay)
+     //格式化操作，第一个参数表示格式，第二表示对应字段
+     //Format不仅仅只支持时间操作，还可以是数字或金额等
+    .Format&lt;Student&gt;("yyyy-MM-dd", s =&gt; s.BirthDay);
+mapper.Save("Students.xlsx", students, "sheet1", overwrite: true, xlsx:true);
+</code></pre>
+<p>经过上面相关操作之后导出后的效果如下所示<img src="https://img2020.cnblogs.com/blog/2042116/202012/2042116-20201212174400748-1520873757.png" alt="" loading="lazy">还有一种形式是通过ColumnAttribute的形式在导出的实体类的属性上进行声明导出列相关设置，具体操作如下</p>
+<pre><code class="language-cs">public class Student
+{
+    [Column("学号")]
+    public int Id { get; set; }
+    [Column("姓名")]
+    public string Name { get; set; }
+    [Column("性别")]
+    public string Sex { get; set; }
+    [Column("生日",CustomFormat = "yyyy-MM-dd")]
+    public DateTime BirthDay { get; set; }
+}
+</code></pre>
+<p>通过这种方式操作和通过Fluent的效果是完全一样的，至于使用哪一种完全看个人喜好，不过我个人更喜欢在属性上直接声明的方式，这样看起来显得一目了然。<br>
+有时候我们可能需要将不同的数据源导入到同一个Excel的不同Sheet中，Npoi.Mapper也提供了这方面的支持，具体操作方式如下所示</p>
+<pre><code class="language-cs">static void Main(string[] args)
+{
+      //构建Student集合
+      List&lt;Student&gt; students = new List&lt;Student&gt;
+      {
+          new Student{ Id = 1,Name="夫子",Sex="男",BirthDay=new DateTime(1999,10,11) },
+          new Student{ Id = 2,Name="余帘",Sex="女",BirthDay=new DateTime(1999,12,12) }
+      };
+      //构建Person集合
+      List&lt;Person&gt; persons = new List&lt;Person&gt;
+      {
+          new Person{ Id = 1,Name="陈某", Tel= 18833445566},
+          new Person{ Id = 2,Name="柯浩然", Tel = 15588997766}
+      };
+      var mapper = new Mapper();
+      //放入Mapper中
+      //第一个参数是数据集合，第二个参数是Sheet名称，第三个参数表示是追加数据还是覆盖数据
+      mapper.Put&lt;Student&gt;(students, "student",true);
+      mapper.Put&lt;Person&gt;(persons, "person",true);
+      mapper.Save("Human.xlsx");
+}
+</code></pre>
+<p>不过很多时候我们是通过Web程序直接将数据转换为文件流返回的，并不会生成Excel文件，Npoi.Mapper很贴心的为我们提供了将数据读取到Stream的操作，操作方式如下</p>
+<pre><code class="language-cs">[HttpGet]
+public ActionResult DownLoadFile()
+{
+    List&lt;Student&gt; students = new List&lt;Student&gt;
+    {
+        new Student{ Id = 1,Name="夫子",Sex="男",BirthDay=new DateTime(1999,10,11) },
+        new Student{ Id = 2,Name="余帘",Sex="女",BirthDay=new DateTime(1999,12,12) },
+        new Student{ Id = 3,Name="李慢慢",Sex="男",BirthDay=new DateTime(1999,11,11) },
+        new Student{ Id = 4,Name="叶红鱼",Sex="女",BirthDay=new DateTime(1999,10,10) }
+    };
+
+    var mapper = new Mapper();
+    MemoryStream stream = new MemoryStream();
+    //将students集合生成的Excel直接放置到Stream中
+    mapper.Save(stream, students, "sheet1", overwrite: true, xlsx: true);
+    return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet","Student.xlsx");
+}
+</code></pre>
+<p>Save提供了几个重载方法，其中有一个就是将数据保存到Stream中，但是这里也踩到了一个坑，不过这个是Npoi的坑并不是Npoi.Mapper的坑，那就是Workbook.Write(stream)的时候会将stream关闭，如果继续操作这个Stream会报流已关闭的错误，而Npoi.Mapper的Save到Stream的方法恰恰是对这个方法的封装，这也是为何上面我没直接在File中直接返回Stream，而是将其转换为byte数组再返回的原因。</p>
+<h5 id="导入操作">导入操作</h5>
+<p>上面我们演示了使用Npoi.Mapper将数据导出的场景，接下来我们来演示通过Npoi.Mapper的读取Excel的相关操作，操作也是非常的简单，话不多说直接上代码，比如我读取上面导出的Excel</p>
+<pre><code class="language-cs">//Excel文件的路径
+var mapper = new Mapper("Students.xlsx");
+//读取的sheet信息
+var studentRows = mapper.Take&lt;Student&gt;("sheet1");
+foreach (var row in studentRows)
+{
+    //映射的数据保留在value中
+    Student student = row.Value;
+    Console.WriteLine($"姓名:[{student.Name}],学号:[{student.Id}],性别:[{student.Sex}],生日:[{student.BirthDay:yyyy-MM-dd}]");
+}
+</code></pre>
+<p>通过Take方法直接读取出来的是RowInfo集合，RowInfo是用来包装读取数据的包装类。通过它可以获取读取的行号，或读取过程中可能会出现异常情况，比如某一列读取失败，它会将列信息和报错信息记录下来，如果你不需要这些信息或者觉得遍历的时候比较麻烦想直接拿到需要的集合，可以通过如下方式转换一下</p>
+<pre><code class="language-cs">var studentRows = mapper.Take&lt;Student&gt;("sheet1");
+//通过lambda获取到Student集合
+var students = studentRows.Select(i =&gt; i.Value);
+</code></pre>
+<p>有的时候你可能不想定义一个POCO去接收返回的结果，而是想直接拿到读取信息，转换成你需要的数据格式。比如你想读取Excel中的数据，将结果转换为实体类直接入库，但是你不想定义一个专门的映射类去接收读取结果，这时候你需要一个动态类型去接收，而Npoi.Mapper恰恰提供了这样的功能，可以将Excel中的数据直接读取到dynamic中去，具体操作和上面类似</p>
+<pre><code class="language-cs">var mapper = new Mapper("Students.xlsx");
+var studentRows = mapper.Take&lt;dynamic&gt;("sheet1");
+foreach (var row in studentRows)
+{
+    var student = row.Value;
+    Console.WriteLine($"姓名:[{student.姓名}],学号:[{student.学号}],性别:[{student.性别}],生日:[{student.生日:yyyy-MM-dd}]");
+}
+</code></pre>
+<p>其中你要操作的字段名称和Excel的列名是一致的，比如我的Excel列名叫姓名，那么我读取的时候对应的属性名称也叫姓名。<br>
+同样的情况也存在于导入操作，比如许多情况下我们是通过Web接口直接上传的文件，这种场景下，我们通常能拿到上传的流信息，Npoi.Mapper也支持读取Excel文件流的形式获取Excel数据，如下所示</p>
+<pre><code class="language-cs">[HttpPost] 
+public IEnumerable&lt;Student&gt; UploadFile(IFormFile formFile)
+{
+    //通过上传文件流初始化Mapper
+    var mapper = new Mapper(formFile.OpenReadStream());
+    //读取sheet1的数据
+    return mapper.Take&lt;Student&gt;("sheet1").Select(i=&gt;i.Value);
+}
+</code></pre>
+<h4 id="其他功能">其他功能</h4>
+<p>除了上面介绍的主要功能之外Npoi.Mapper还提供了一些其他的功能，简单介绍一下几个比较实用的点</p>
+<h5 id="忽略操作">忽略操作</h5>
+<p>有时候我们的导出或导入数据可能想忽略某些列不导出，Npoi.Mapper为了我们提供了类似EF的Ignore操作</p>
+<pre><code class="language-cs">[Ignore]
+public string IgnoredProperty { get; set; }
+</code></pre>
+<p>这样的话无论是导入还是导出都会忽略这个属性，即导出不会显示这个列，导入不会映射这一列的数据</p>
+<h5 id="合并单元格">合并单元格</h5>
+<p>如果我们导入的数据有一列数据的值是大家都拥有的，在Excel上可以通过合并单元格的操作来显示这一列，对于合并单元格的列，对于程序来讲就是等价于所有列都是同一个值，Npoi.Mapper为我们做了这种处理</p>
+<pre><code class="language-cs">[UseLastNonBlankValue]
+public string ClassName { get; set; }
+</code></pre>
+<h5 id="自定义map规则">自定义Map规则</h5>
+<p>虽然默认情况下Npoi.Mapper能帮我们满足大部分的类型映射关系，但是有时候我们需要根据我们自己的规则处理处理数据映射关系，这时候我们需要用到Map功能，他有许多重载的方法，我们就查看一个比较常用的方法做参数讲解</p>
+<pre><code class="language-cs">/// &lt;param name="columnName"&gt;对应Excel列的名称&lt;/param&gt;
+/// &lt;param name="propertyName"&gt;对应实体的属性名称&lt;/param&gt;
+/// &lt;param name="tryTake"&gt;该函数用于处理从Excel读取时针对单元格数据的处理&lt;/param&gt;
+/// &lt;param name="tryPut"&gt;该函数用于处理将数据导出到Excel是针对源数据的处理&lt;/param&gt;
+public static Mapper Map&lt;T&gt;(this Mapper mapper, string columnName, string propertyName,
+            Func&lt;IColumnInfo, object, bool&gt; tryTake = null,
+            Func&lt;IColumnInfo, object, bool&gt; tryPut = null)
+{
+}
+</code></pre>
+<p>其中tryTake用于处理从Excel导出时针对单元格数据的处理，IColumnInfo代表数据的来源，object代表对应将Row导入到某个实体中。tryPut恰恰相反，用于处理将数据导出到Excel是针对源数据的处理。其中IColumnInfo代表要导出到的列信息，object代表数据的源。简单演示一下，比如我想将上述示例中，读取到Excel里的性别数据映射到实体中的时候做一下中英文的处理，就可以使用以下操作</p>
+<pre><code class="language-cs">var mapper = new Mapper("Students.xlsx");
+mapper.Map&lt;Student&gt;("性别", "Sex", (c, t) =&gt; {
+    Student student = t as Student;
+    student.Sex = c.CurrentValue == "男" ? "MAN" : "WOMAN";
+    return true;
+}, null);
+</code></pre>
+<p>因为我是要读取Excel，所以使用tryTake函数，t代表target表示要映射到的实体，c代表读取到的单元格信息，我将读取到target里的数据做一下处理，如果在单元格中读取的是"男"那么对应到Student转换为"MAN"，反之则为"WOMAN"。总之你想处理一下，自定义映射逻辑都可以使用这个功能。</p>
+<h4 id="总结">总结</h4>
+<p>以上是我们对Npoi.Mapper的大致讲解，我个人还是非常推荐的。它的使用足够简单而且功能非常完善，因为它既可以处理Excel导入操作，也可以处理Excel导出操作。它很强大，因为它可以满足我们日常开发中，大部分关于导入导出Excel的场景。但是它还不够强大，因为它还存在一定的缺陷，而且许多细节可能还没考虑到。不过庆幸的是，它的源码非常的简单一共不到20个类，而且逻辑非常清晰。如果有的情况它真的不能满足，我们完全可以下载它的源码自己扩展操作。最后再次贴上它的GitHub地址<a href="https://github.com/donnytian/Npoi.Mapper" target="_blank">https://github.com/donnytian/Npoi.Mapper</a>如果大家有类似的场景可以尝试使用一下。<br>
+<br></p>
+<div align="center">
+  <span style="font-size: 15px">👇欢迎扫码关注我的公众号👇</span>
+  <img src="https://img2020.cnblogs.com/blog/2042116/202006/2042116-20200622133425514-1420050576.png">
+</div>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2020-12-13 23:31</span>&nbsp;
+<a href="https://www.cnblogs.com/wucy/">yi念之间</a>&nbsp;
+阅读(<span id="post_view_count">4883</span>)&nbsp;
+评论(<span id="post_comment_count">53</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14125392" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14125392);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 605020, cb_blogApp = 'wucy', cb_blogUserGuid = 'cbf13d4d-9981-4cce-33f2-08d7f668ab52';
+    var cb_entryId = 14125392, cb_entryCreatedDate = '2020-12-13 23:31', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 yi念之间
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjuro0NKtfXtce965iKQG97da-sHHLdvGQ7qYheEt5EkV8I3bVugZ0NRDKmHjqndP-bHypXgPKo1IDzFXKy0SyD-NVzsXKFZigVMaqTyQ9ihAJIbWA-LEoy-Dvkww5crfMg" />
+</body>
+</html>

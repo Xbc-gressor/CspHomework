@@ -1,0 +1,1376 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    
+    
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>心若向阳花自开 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/yanchuanbin/custom.css?v=cansC9ZJJ6jGQM8W4CZ4cif/byI=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/SimpleMemory/bundle-SimpleMemory-mobile.min.css" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/yanchuanbin/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/yanchuanbin/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/yanchuanbin/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 670702;
+        var currentBlogApp = 'yanchuanbin';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'SimpleMemory';
+        var visitorUserId = '';
+    </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="no-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="page_begin_html">
+        <canvas id="c_n9" width="1920" height="990" style="position: fixed; top: 0px; left: 0px; z-index: -1; opacity: 0.5;"></canvas>
+<script src="https://files.cnblogs.com/files/siwuxie095/canvas-nest.min.js" defer></script>
+
+
+<script type="text/javascript">document.write(unescape("%3Cspan id='cnzz_stat_icon_1279790240'%3E%3C/span%3E%3Cscript src='https://v1.cnzz.com/z_stat.php%3Fid%3D1279790240%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
+    </div>
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/yanchuanbin/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/yanchuanbin/">你是人间四月天</a>
+</h1>
+<h2>你的坚持，终会有收获</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/yanchuanbin/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E5%BF%83%E8%8B%A5%E5%90%91%E9%98%B3%E8%8A%B1%E8%87%AA%E5%BC%80">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/yanchuanbin/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+
+
+
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/yanchuanbin/archive/2021/05/07.html">2021年5月7日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/yanchuanbin/p/14742602.html">
+    <span>
+            <span>[置顶]</span>
+        Java类加载和对象创建
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：#引言 Java代码需要被使用，必须要经过类加载器加载到内存中，然后对应的类才能够被创建使用，这文对类加载和对象创建和过程进行分析。 #类加载 Java类通过懒加载的方式，经过了Loading、Linking、Initializing后加载到内存中，才能被进行使用。 ##Loading ###懒加载        <a href="https://www.cnblogs.com/yanchuanbin/p/14742602.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-05-07 21:42
+心若向阳花自开
+<span data-post-id="14742602" class="post-view-count">阅读(6)</span> 
+<span data-post-id="14742602" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14742602" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14742602" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+            <div class="postSeparator"></div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/yanchuanbin/p/14742543.html">
+    <span>
+            <span>[置顶]</span>
+        Java虚拟机
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：##引言 Java的目标是跨平台，就是所谓的“一处编译、处处运行”，但是显然不同的运行环境需要的二进制代码是不一样的，怎么办呢？那就把源代码编译成针对一台抽象的计算机（虚拟机）的代码（.class文件），虚拟机对上的接口是一致的，让编译结果运行在虚拟机之上，再由这个虚拟机软件将程序转换成本地计算机所        <a href="https://www.cnblogs.com/yanchuanbin/p/14742543.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-05-07 20:43
+心若向阳花自开
+<span data-post-id="14742543" class="post-view-count">阅读(5)</span> 
+<span data-post-id="14742543" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14742543" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14742543" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/yanchuanbin/archive/2021/05/06.html">2021年5月6日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/yanchuanbin/p/14734819.html">
+    <span>
+            <span>[置顶]</span>
+        Spring扩展——@Import注解
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：##引言 在Spring中有许多Enable开头的注解，比如以下常见注解 @EnableTransactionManagement @EanbleAsync @EnableCache @EnableAspectJAutoProxy @EnableSchedulin 这些注解是在什么时候，什么地方被处        <a href="https://www.cnblogs.com/yanchuanbin/p/14734819.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-05-06 20:17
+心若向阳花自开
+<span data-post-id="14734819" class="post-view-count">阅读(6)</span> 
+<span data-post-id="14734819" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14734819" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14734819" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+            <div class="postSeparator"></div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/yanchuanbin/p/14731530.html">
+    <span>
+            <span>[置顶]</span>
+        Spring事务隔离级别和传播机制
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：##引言 ###什么是事务？ 在理解事务之前，我们要先了解事务的基本作用 比如在生活中有这样一个场景————取钱，每个人应该都干过的事 在ATM机上取钱，1.输入密码————2.输入金额————3.银行扣钱————4.ATM出钱 以上几个步骤中，3和4就是必须是一个事务，因为它们之间，要么都完成，要        <a href="https://www.cnblogs.com/yanchuanbin/p/14731530.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-05-06 18:24
+心若向阳花自开
+<span data-post-id="14731530" class="post-view-count">阅读(4)</span> 
+<span data-post-id="14731530" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14731530" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14731530" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/yanchuanbin/archive/2021/05/05.html">2021年5月5日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/yanchuanbin/p/14731616.html">
+    <span>
+            <span>[置顶]</span>
+        Spring源码——AOP实现原理
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：##引言 Spring AOP（Aspect Orient Programming），AOP翻译过来就是面向切面编程，它体现的是一种编程思想，是对面向对象编程（OOP）的一种补充。 在实际业务开发过程中，有一些代码，跟业务没有任何关系，但在很多地方又会用到，比如：记录日志、计算执行时间、事务、权限验        <a href="https://www.cnblogs.com/yanchuanbin/p/14731616.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-05-05 17:14
+心若向阳花自开
+<span data-post-id="14731616" class="post-view-count">阅读(3)</span> 
+<span data-post-id="14731616" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14731616" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14731616" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/yanchuanbin/archive/2021/04/30.html">2021年4月30日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/yanchuanbin/p/14721649.html">
+    <span>
+            <span>[置顶]</span>
+        MESI--CPU缓存一致性协议
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：概念 MESI（Modified Exclusive Shared Or Invalid）(也称为伊利诺斯协议，是因为该协议由伊利诺斯州立大学提出）是一种广泛使用的支持写回策略的缓存一致性协议。 MESI协议中的状态 CPU中每个缓存行（caceh line)使用4种状态进行标记（使用额外的两位(b        <a href="https://www.cnblogs.com/yanchuanbin/p/14721649.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-30 12:56
+心若向阳花自开
+<span data-post-id="14721649" class="post-view-count">阅读(6)</span> 
+<span data-post-id="14721649" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14721649" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14721649" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/yanchuanbin/archive/2021/04/27.html">2021年4月27日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/yanchuanbin/p/14708880.html">
+    <span>
+            <span>[置顶]</span>
+        Spring源码——ConfigurationClassPostProcessor类
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：##引言 Spring容器中提供很多方便的注解供我们在工作中使用，比如@Configuration注解，里面可以在方法上定义@Bean注解，将调用方法返回的对象交由Bean容器进行管理，那么Spring框架是如何处理@Configuration注解的呢 ##源码 /** * 此类是一个后置处理器的类        <a href="https://www.cnblogs.com/yanchuanbin/p/14708880.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-27 17:50
+心若向阳花自开
+<span data-post-id="14708880" class="post-view-count">阅读(7)</span> 
+<span data-post-id="14708880" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14708880" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14708880" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+            <div class="postSeparator"></div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/yanchuanbin/p/14708463.html">
+    <span>
+            <span>[置顶]</span>
+        Spring扩展——BeanFactoryPostProcessor（BFPP）
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：##引言 在Spring中BeanFactoryPostProcessor（后面使用简写BFPP），作为容器启动过程的对容器进行修改操作的Bean对象，是Spring框架对外提供的核心扩展点之一，Spring IoC容器允许BeanFactoryPostProcessor在容器实例化任何bean之前        <a href="https://www.cnblogs.com/yanchuanbin/p/14708463.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-27 12:28
+心若向阳花自开
+<span data-post-id="14708463" class="post-view-count">阅读(7)</span> 
+<span data-post-id="14708463" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14708463" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14708463" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+            <div class="postSeparator"></div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/yanchuanbin/p/14707894.html">
+    <span>
+            <span>[置顶]</span>
+        Spring源码——@Component，@Service是如何被解析？
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：##引言 在Spring中，Component、Service是在工作中经常被使用到的注解，为了加深对Spring运行机制的理解，今天我们一起来看一下Spring中对Component等注解的处理方式 ##Component注解源码 在Component注解的源码中（已去掉多余无关内容） /** *        <a href="https://www.cnblogs.com/yanchuanbin/p/14707894.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-27 10:33
+心若向阳花自开
+<span data-post-id="14707894" class="post-view-count">阅读(9)</span> 
+<span data-post-id="14707894" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14707894" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14707894" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/yanchuanbin/archive/2021/04/26.html">2021年4月26日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/yanchuanbin/p/14704590.html">
+    <span>
+            <span>[置顶]</span>
+        Spring MVC基本原理
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：##Spring MVC基本原理 Spring MVC是Spring开源项目在Web开发上的一个扩展，方便我们在开发Web项目的时候使用IOC来管理我们的bean对象，我们都知道Tomcat是作为web项目的一个容器（准确点说是servlet容器），既然要在web项目中使用Spring框架，我们就必        <a href="https://www.cnblogs.com/yanchuanbin/p/14704590.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-26 14:47
+心若向阳花自开
+<span data-post-id="14704590" class="post-view-count">阅读(7)</span> 
+<span data-post-id="14704590" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14704590" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14704590" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/yanchuanbin/archive/2021/04/04.html">2021年4月4日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/yanchuanbin/p/14616852.html">
+    <span>
+            <span>[置顶]</span>
+        Spring源码——详细流程图（超详细）
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：##Spring源码流程图        <a href="https://www.cnblogs.com/yanchuanbin/p/14616852.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-04 19:47
+心若向阳花自开
+<span data-post-id="14616852" class="post-view-count">阅读(34)</span> 
+<span data-post-id="14616852" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14616852" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14616852" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/yanchuanbin/archive/2021/04/02.html">2021年4月2日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/yanchuanbin/p/14610844.html">
+    <span>
+            <span>[置顶]</span>
+        Spring扩展———自定义bean组件注解
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：##引言 Java 注解（Annotation）又称 Java 标注，是 JDK5.0 引入的一种注释机制。 Java 语言中的类、方法、变量、参数和包等都可以被标注。和 Javadoc 不同，Java 标注可以通过反射获取标注内容。在编译器生成类文件时，标注可以被嵌入到字节码中。Java 虚拟机可        <a href="https://www.cnblogs.com/yanchuanbin/p/14610844.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-02 15:45
+心若向阳花自开
+<span data-post-id="14610844" class="post-view-count">阅读(58)</span> 
+<span data-post-id="14610844" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14610844" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14610844" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/yanchuanbin/archive/2021/04/01.html">2021年4月1日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/yanchuanbin/p/14608300.html">
+    <span>
+            <span>[置顶]</span>
+        Spring扩展——BeanFactory和FactoryBean
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：##BeanFactory和FactoryBean BeanFactory和FactoryBean长得很相似，也很容易让我们产生误解，特别是对于初学者而言，搞懂他俩关系非常有必要，因为这两个接口，是Spring框架中非常重要的两个接口，也是很多同鞋在面试中经常被问到的问题 ###BeanFactor        <a href="https://www.cnblogs.com/yanchuanbin/p/14608300.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-01 23:20
+心若向阳花自开
+<span data-post-id="14608300" class="post-view-count">阅读(37)</span> 
+<span data-post-id="14608300" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14608300" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14608300" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/yanchuanbin/archive/2021/03/30.html">2021年3月30日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/yanchuanbin/p/14595690.html">
+    <span>
+            <span>[置顶]</span>
+        Spring扩展——BeanPostProcessor（BPP）
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：##BeanPostProcess简介 在Spring中 BeanPostProcessor 是一个非常重要的接口，它用于在每个bean对象初始化前后修改Bean的属性信息，比如我们最常用的@Autowired注解，在内部处理的时候，是通过一个AutowiredAnnotationBeanPostP        <a href="https://www.cnblogs.com/yanchuanbin/p/14595690.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-03-30 15:23
+心若向阳花自开
+<span data-post-id="14595690" class="post-view-count">阅读(20)</span> 
+<span data-post-id="14595690" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14595690" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14595690" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/yanchuanbin/archive/2021/03/29.html">2021年3月29日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/yanchuanbin/p/14591946.html">
+    <span>
+            <span>[置顶]</span>
+        设计模式——观察者模式
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：##简介——什么是观察者模式 观察者模式是一种定义对象相互之间依赖关系的一种设计模式，它属于设计模式中的行为模式，通过发布/订阅的方式在对象之间互相传送消息 ###一般观察者使用步骤 订阅事件（addObserver） 被观察者发布事件 观察者响应事件 ###举例说明 我们可以用一个例子来解释一下观        <a href="https://www.cnblogs.com/yanchuanbin/p/14591946.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-03-29 13:30
+心若向阳花自开
+<span data-post-id="14591946" class="post-view-count">阅读(28)</span> 
+<span data-post-id="14591946" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14591946" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14591946" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/yanchuanbin/archive/2021/03/26.html">2021年3月26日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/yanchuanbin/p/14582813.html">
+    <span>
+            <span>[置顶]</span>
+        Spring扩展——Aware接口
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：##Aware接口 在Spring中有许多的Aware接口，提供给应用开发者使用，通过Aware接口，我们可以通过set的方式拿到我们需要的bean对象（包括容器中提供的一些对象，ApplicationContext等），根据需要可以将其注入到本地对象的属性中。 先来看一个Spring两个基础的接口        <a href="https://www.cnblogs.com/yanchuanbin/p/14582813.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-03-26 18:12
+心若向阳花自开
+<span data-post-id="14582813" class="post-view-count">阅读(72)</span> 
+<span data-post-id="14582813" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14582813" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14582813" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+            <div class="postSeparator"></div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/yanchuanbin/p/14582368.html">
+    <span>
+            <span>[置顶]</span>
+        Spring解决循环依赖
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：在Spring中创建Bean是分为两个步骤的 实例化Bean（JVM 分配空间，属性设为默认值） 初始化Bean（Spring 属性的依赖注入） 通过将已实例化但未初始化的Bean提前暴露出去的方式解决set或属性注入时产生的循环依赖 流程图        <a href="https://www.cnblogs.com/yanchuanbin/p/14582368.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-03-26 15:02
+心若向阳花自开
+<span data-post-id="14582368" class="post-view-count">阅读(25)</span> 
+<span data-post-id="14582368" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14582368" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14582368" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+            <div class="postSeparator"></div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/yanchuanbin/p/14507208.html">
+    <span>
+            <span>[置顶]</span>
+        java并发编程——CompletableFuture
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：##简介 Java的java.util.concurrent包中提供了并发相关的接口和类，本文将重点介绍CompletableFuture并发操作类 JDK1.8新增CompletableFuture该类 Class CompletableFuture&amp;lt;T&amp;gt; java.lang.Object jav        <a href="https://www.cnblogs.com/yanchuanbin/p/14507208.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-03-26 14:45
+心若向阳花自开
+<span data-post-id="14507208" class="post-view-count">阅读(78)</span> 
+<span data-post-id="14507208" class="post-comment-count">评论(1)</span> 
+<span data-post-id="14507208" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14507208" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+            <div class="postSeparator"></div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/yanchuanbin/p/14581931.html">
+    <span>
+            <span>[置顶]</span>
+        设计模式——单例模式
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：##单例模式 单例模式是我们在编程过程中经常使用的一种设计模式，它属于一种创建型模式。在这种设计模式中涉及到一个需要保证单例的一个类，通过这个类自身去创建本类的一个对象，同时在代码中的任何地方，能够获取到的此类对象都是同一个对象，从而保证此类的对象有且仅被创建一次。 此类提供一个静态的公共方法(pu        <a href="https://www.cnblogs.com/yanchuanbin/p/14581931.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-03-26 14:37
+心若向阳花自开
+<span data-post-id="14581931" class="post-view-count">阅读(22)</span> 
+<span data-post-id="14581931" class="post-comment-count">评论(1)</span> 
+<span data-post-id="14581931" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14581931" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+            <div class="postSeparator"></div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/yanchuanbin/p/14503118.html">
+    <span>
+            <span>[置顶]</span>
+        设计模式——动态代理
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：设计模式——动态代理 java 设计模式 ###简介 动态代理是相对就静态代理而言 静态代理是指：代理类通过对被代理类的引用，在代理类中重构被代理对象中需要代理的方法（在调用被代理类的引用对象相应方法的前后，添加我们需要的操作），静态代理对原有代码不会产生任务改变，不会自动生成新的字节码，只需要新建        <a href="https://www.cnblogs.com/yanchuanbin/p/14503118.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-03-26 13:34
+心若向阳花自开
+<span data-post-id="14503118" class="post-view-count">阅读(13)</span> 
+<span data-post-id="14503118" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14503118" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14503118" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/yanchuanbin/archive/2021/05/07.html">2021年5月7日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/yanchuanbin/p/14742602.html">
+    <span>
+        Java类加载和对象创建
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：#引言 Java代码需要被使用，必须要经过类加载器加载到内存中，然后对应的类才能够被创建使用，这文对类加载和对象创建和过程进行分析。 #类加载 Java类通过懒加载的方式，经过了Loading、Linking、Initializing后加载到内存中，才能被进行使用。 ##Loading ###懒加载        <a href="https://www.cnblogs.com/yanchuanbin/p/14742602.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-05-07 21:42
+心若向阳花自开
+<span data-post-id="14742602" class="post-view-count">阅读(6)</span> 
+<span data-post-id="14742602" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14742602" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14742602" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+            <div class="postSeparator"></div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/yanchuanbin/p/14742543.html">
+    <span>
+        Java虚拟机
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：##引言 Java的目标是跨平台，就是所谓的“一处编译、处处运行”，但是显然不同的运行环境需要的二进制代码是不一样的，怎么办呢？那就把源代码编译成针对一台抽象的计算机（虚拟机）的代码（.class文件），虚拟机对上的接口是一致的，让编译结果运行在虚拟机之上，再由这个虚拟机软件将程序转换成本地计算机所        <a href="https://www.cnblogs.com/yanchuanbin/p/14742543.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-05-07 20:43
+心若向阳花自开
+<span data-post-id="14742543" class="post-view-count">阅读(5)</span> 
+<span data-post-id="14742543" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14742543" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14742543" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/yanchuanbin/archive/2021/05/06.html">2021年5月6日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/yanchuanbin/p/14734819.html">
+    <span>
+        Spring扩展——@Import注解
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：##引言 在Spring中有许多Enable开头的注解，比如以下常见注解 @EnableTransactionManagement @EanbleAsync @EnableCache @EnableAspectJAutoProxy @EnableSchedulin 这些注解是在什么时候，什么地方被处        <a href="https://www.cnblogs.com/yanchuanbin/p/14734819.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-05-06 20:17
+心若向阳花自开
+<span data-post-id="14734819" class="post-view-count">阅读(6)</span> 
+<span data-post-id="14734819" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14734819" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14734819" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+            <div class="postSeparator"></div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/yanchuanbin/p/14731530.html">
+    <span>
+        Spring事务隔离级别和传播机制
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：##引言 ###什么是事务？ 在理解事务之前，我们要先了解事务的基本作用 比如在生活中有这样一个场景————取钱，每个人应该都干过的事 在ATM机上取钱，1.输入密码————2.输入金额————3.银行扣钱————4.ATM出钱 以上几个步骤中，3和4就是必须是一个事务，因为它们之间，要么都完成，要        <a href="https://www.cnblogs.com/yanchuanbin/p/14731530.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-05-06 18:24
+心若向阳花自开
+<span data-post-id="14731530" class="post-view-count">阅读(4)</span> 
+<span data-post-id="14731530" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14731530" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14731530" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/yanchuanbin/archive/2021/05/05.html">2021年5月5日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/yanchuanbin/p/14731616.html">
+    <span>
+        Spring源码——AOP实现原理
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：##引言 Spring AOP（Aspect Orient Programming），AOP翻译过来就是面向切面编程，它体现的是一种编程思想，是对面向对象编程（OOP）的一种补充。 在实际业务开发过程中，有一些代码，跟业务没有任何关系，但在很多地方又会用到，比如：记录日志、计算执行时间、事务、权限验        <a href="https://www.cnblogs.com/yanchuanbin/p/14731616.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-05-05 17:14
+心若向阳花自开
+<span data-post-id="14731616" class="post-view-count">阅读(3)</span> 
+<span data-post-id="14731616" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14731616" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14731616" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/yanchuanbin/archive/2021/04/30.html">2021年4月30日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/yanchuanbin/p/14721649.html">
+    <span>
+        MESI--CPU缓存一致性协议
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：概念 MESI（Modified Exclusive Shared Or Invalid）(也称为伊利诺斯协议，是因为该协议由伊利诺斯州立大学提出）是一种广泛使用的支持写回策略的缓存一致性协议。 MESI协议中的状态 CPU中每个缓存行（caceh line)使用4种状态进行标记（使用额外的两位(b        <a href="https://www.cnblogs.com/yanchuanbin/p/14721649.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-30 12:56
+心若向阳花自开
+<span data-post-id="14721649" class="post-view-count">阅读(6)</span> 
+<span data-post-id="14721649" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14721649" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14721649" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/yanchuanbin/archive/2021/04/27.html">2021年4月27日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/yanchuanbin/p/14708880.html">
+    <span>
+        Spring源码——ConfigurationClassPostProcessor类
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：##引言 Spring容器中提供很多方便的注解供我们在工作中使用，比如@Configuration注解，里面可以在方法上定义@Bean注解，将调用方法返回的对象交由Bean容器进行管理，那么Spring框架是如何处理@Configuration注解的呢 ##源码 /** * 此类是一个后置处理器的类        <a href="https://www.cnblogs.com/yanchuanbin/p/14708880.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-27 17:50
+心若向阳花自开
+<span data-post-id="14708880" class="post-view-count">阅读(7)</span> 
+<span data-post-id="14708880" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14708880" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14708880" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+            <div class="postSeparator"></div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/yanchuanbin/p/14708463.html">
+    <span>
+        Spring扩展——BeanFactoryPostProcessor（BFPP）
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：##引言 在Spring中BeanFactoryPostProcessor（后面使用简写BFPP），作为容器启动过程的对容器进行修改操作的Bean对象，是Spring框架对外提供的核心扩展点之一，Spring IoC容器允许BeanFactoryPostProcessor在容器实例化任何bean之前        <a href="https://www.cnblogs.com/yanchuanbin/p/14708463.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-27 12:28
+心若向阳花自开
+<span data-post-id="14708463" class="post-view-count">阅读(7)</span> 
+<span data-post-id="14708463" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14708463" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14708463" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+            <div class="postSeparator"></div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/yanchuanbin/p/14707894.html">
+    <span>
+        Spring源码——@Component，@Service是如何被解析？
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：##引言 在Spring中，Component、Service是在工作中经常被使用到的注解，为了加深对Spring运行机制的理解，今天我们一起来看一下Spring中对Component等注解的处理方式 ##Component注解源码 在Component注解的源码中（已去掉多余无关内容） /** *        <a href="https://www.cnblogs.com/yanchuanbin/p/14707894.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-27 10:33
+心若向阳花自开
+<span data-post-id="14707894" class="post-view-count">阅读(9)</span> 
+<span data-post-id="14707894" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14707894" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14707894" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/yanchuanbin/archive/2021/04/26.html">2021年4月26日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/yanchuanbin/p/14704590.html">
+    <span>
+        Spring MVC基本原理
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：##Spring MVC基本原理 Spring MVC是Spring开源项目在Web开发上的一个扩展，方便我们在开发Web项目的时候使用IOC来管理我们的bean对象，我们都知道Tomcat是作为web项目的一个容器（准确点说是servlet容器），既然要在web项目中使用Spring框架，我们就必        <a href="https://www.cnblogs.com/yanchuanbin/p/14704590.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-26 14:47
+心若向阳花自开
+<span data-post-id="14704590" class="post-view-count">阅读(7)</span> 
+<span data-post-id="14704590" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14704590" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14704590" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+
+<div class="topicListFooter">
+    <div id="nav_next_page">
+        
+    <a href="https://www.cnblogs.com/yanchuanbin/default.html?page=2">
+        下一页
+    </a>
+
+    </div>    
+</div>
+
+
+
+
+
+
+<script>
+    updatePostStats(
+        $(".post-view-count").map(function () { return this.dataset.postId }).get(),
+        function(id, count) { $(".post-view-count[data-post-id=" + id + "]").text("阅读(" + count + ")") },
+        function(id, count) { $(".post-comment-count[data-post-id=" + id + "]").text("评论(" + count + ")") },
+        function(id, count) { $(".post-digg-count[data-post-id=" + id + "]").text("推荐(" + count + ")") });
+</script>
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 心若向阳花自开
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    <div id="page_end_html">
+        <script type="text/javascript" src="https://v1.cnzz.com/z_stat.php?id=1279790240&web_id=1279790240"></script>
+    </div>
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjsrzn2DObvx2bTUN0WlauUa7A_wnFRGc6ErOqEMoBoURWBnXGajX2O6yk0M-fsou-lRZUC6JC-zQuilmlw6aGCOJFlURvrr_AYwcXKtyAVuXPSlBudqTpN3sufR7bk4XSQ" />
+</body>
+</html>

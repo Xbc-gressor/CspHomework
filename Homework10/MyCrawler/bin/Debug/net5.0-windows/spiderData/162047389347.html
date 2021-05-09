@@ -1,0 +1,1423 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="红黑树之删除节点 上一篇文章中讲了如何向红黑树中添加节点，也顺便创建了一棵红黑树。今天写写怎样从红黑树中删除节点。 相比于添加节点，删除节点要复杂的多。不过我们慢慢梳理，还是能够弄明白的。 回顾一下红" />
+    <meta property="og:description" content="红黑树之删除节点 上一篇文章中讲了如何向红黑树中添加节点，也顺便创建了一棵红黑树。今天写写怎样从红黑树中删除节点。 相比于添加节点，删除节点要复杂的多。不过我们慢慢梳理，还是能够弄明白的。 回顾一下红" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>红黑树之删除节点 - 青儿哥哥 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/darkgreentrip/bundle-darkgreentrip.min.css?v=eoZATbPKwJCL5eWVDTQIYC6CIxJPcFz191dkzN2tSyQ" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/darkgreentrip/bundle-darkgreentrip-mobile.min.css?v=lU86o8mZVn3FOSdFt7nHKYTD8gzeKaiQIIZ6lSjEFyo" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/qingergege/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/qingergege/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/qingergege/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 250224;
+        var currentBlogApp = 'qingergege';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'darkgreentrip';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2017-08-12 09:35';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/qingergege/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/qingergege/">青儿哥哥</a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/qingergege/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E9%9D%92%E5%84%BF%E5%93%A5%E5%93%A5">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/qingergege/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/qingergege/p/7351659.html">
+    <span>红黑树之删除节点</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<h2 align="center">红黑树之删除节点</h2>
+<p>上一篇文章中讲了如何向红黑树中添加节点，也顺便创建了一棵红黑树。今天写写怎样从红黑树中删除节点。</p>
+<p>相比于添加节点，删除节点要复杂的多。不过我们慢慢梳理，还是能够弄明白的。</p>
+<h3 align="left">回顾一下红黑树的性质</h3>
+<p>红黑树是每个节点都带有颜色属性的二叉查找树，颜色或红色或黑色。在二叉查找树强制一般要求以外，对于任何有效的红黑树我们增加了如下的额外要求:</p>
+<ol>
+<li>节点是红色或黑色。</li>
+<li>根节点是黑色。</li>
+<li>每个叶节点（这里的叶节点是指NULL节点，在《算法导论》中这个节点叫哨兵节点，除了颜色属性外，其他属性值都为任意。为了和以前的叶子节点做区分，原来的叶子节点还叫叶子节点，这个节点就叫他NULL节点吧）是黑色的。</li>
+<li>每个红色节点的两个子节点都是黑色。(从每个叶子到根的所有路径上不能有两个连续的红色节点，或者理解为红节点不能有红孩子)</li>
+<li>从任一节点到其每个叶子的所有路径都包含相同数目的黑色节点（黑节点的数目称为黑高black-height）。</li>
+</ol>
+<p>&nbsp;</p>
+<h3 align="left">首先先说一下我们要删除节点的类型</h3>
+<p>我们要删除的节点类型从大的方面来说，只有两种：</p>
+<p>1、&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 单个的叶子节点（不是指NULL节点，就是二叉排序树中的叶子节点的概念）</p>
+<p>2、&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 只有右子树（或只有左子树）的节点</p>
+<p>为什么这样呢？</p>
+<p>我们知道，对于一棵普通的二叉排序树来说，删除的节点情况可以分为3种：</p>
+<p>1、&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 叶子节点</p>
+<p>2、&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 只有左子树或只有右子树的节点</p>
+<p>3、&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 既有左子树又有右子树的节点。</p>
+<p>我们知道对于一棵普通二叉树的情况3来说，要删除既有左子树又有右子树的节点，我们首先要找到该节点的直接后继节点，然后用后继节点替换该节点，最后按1或2中的方法删除后继节点即可。</p>
+<p><span style="color: rgba(255, 0, 0, 1)">所以情况3可以转换成情况1或2。</span></p>
+<p>同样，对于红黑树来讲，我们实际上删除的节点情况只有两种。</p>
+<p>&nbsp;</p>
+<p>对于情况2，也就是待删除的节点只有左子树或这有右子树的情况，<span style="color: rgba(255, 0, 0, 1)">有很多组合在红黑树中是不可能出现的</span>，因为他们违背了红黑树的性质。</p>
+<h3 align="left">情况2中不存在的情况有（其中D表示要删除的节点，DL和DR分别表示左子和右子）：</h3>
+<p>1、&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;</p>
+<p>&nbsp;<img src="https://images2017.cnblogs.com/blog/823435/201708/823435-20170812212413132-346035288.png" alt=""></p>
+<p>&nbsp;</p>
+<p>2、</p>
+<p>&nbsp;<img src="https://images2017.cnblogs.com/blog/823435/201708/823435-20170812212419085-700199430.png" alt=""></p>
+<p>&nbsp;</p>
+<p>3、</p>
+<p>&nbsp;<img src="https://images2017.cnblogs.com/blog/823435/201708/823435-20170812212426788-1371446862.png" alt=""></p>
+<p>&nbsp;</p>
+<p>4、</p>
+<p>&nbsp;<img src="https://images2017.cnblogs.com/blog/823435/201708/823435-20170812212433601-1197624458.png" alt=""></p>
+<p>&nbsp;</p>
+<p><span style="color: rgba(255, 0, 0, 1)">上面这四种明显都违背了性质5</span></p>
+<p>5、</p>
+<p>&nbsp;<img src="https://images2017.cnblogs.com/blog/823435/201708/823435-20170812212446679-1721580057.png" alt=""></p>
+<p>&nbsp;</p>
+<p>6、</p>
+<p>&nbsp;<img src="https://images2017.cnblogs.com/blog/823435/201708/823435-20170812212452429-1074005434.png" alt=""></p>
+<p>&nbsp;</p>
+<p><span style="color: rgba(255, 0, 0, 1)">5和6两种情况明显都违背了性质4</span></p>
+<p>&nbsp;</p>
+<h3 align="left">此外对于删除红色节点的情况比较简单，我们可以先来看看。</h3>
+<p>我们上面把待删除的节点分成为了两种，那这里，对于删除的红色节点，我们也分两种：</p>
+<p>1、&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 删除红色的叶子节点（D表示待删除的节点，P表示其父亲节点）</p>
+<p>&nbsp;<img src="https://images2017.cnblogs.com/blog/823435/201708/823435-20170812212506882-1892336071.png" alt=""></p>
+<p><img src="https://images2017.cnblogs.com/blog/823435/201708/823435-20170812212515351-1407150552.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>上面这两种情况其实处理方式都一样，<span style="color: rgba(255, 0, 0, 1)">直接删除D就好</span>！</p>
+<p>2、&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 删除的红色节点只有左子树或只有右子树</p>
+<p>上面已经分析了，<span style="color: rgba(255, 0, 0, 1)">红黑树中根本不存在这种情况</span>！！</p>
+<p>&nbsp;</p>
+<h3 align="left">接下来我们要讨论删除最复杂的情况了，也就是删除的节点为黑色的情况</h3>
+<p>同样，我们也将其分成两部分来考虑：</p>
+<p>1、&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 删除黑色的叶子节点</p>
+<p>&nbsp;<img src="https://images2017.cnblogs.com/blog/823435/201708/823435-20170812212551695-1914788379.png" alt=""></p>
+<p><img src="https://images2017.cnblogs.com/blog/823435/201708/823435-20170812212558554-1783874754.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>对于这种情况，相对复杂，后面我们再细分</p>
+<p>2、&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 删除的黑色节点仅有左子树或者仅有右子树</p>
+<p>去掉前面已经分析的不存在的情况。这种情况下节点的结构只肯能是<br>
+（竖直的西线代替了左右分支的情况）</p>
+<p>&nbsp;<img src="https://images2017.cnblogs.com/blog/823435/201708/823435-20170812212612898-31460246.png" alt=""></p>
+<p><img src="https://images2017.cnblogs.com/blog/823435/201708/823435-20170812212618992-2016680440.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: rgba(255, 0, 0, 1)">这两种情况的处理方式是一样的，即用D的孩子（左或右）替换D，并将D孩子的颜色改成黑色即可（因为路径上少了一个黑节点，所已将红节点变成黑节点以保持红黑树的性质）</span>。</p>
+<p>&nbsp;</p>
+<p>所以，这些情况处理起来都很简单。。。除了，删除黑色叶子节点的情况。</p>
+<h3 align="left">下面重点讨论删除黑色叶子节点的情况</h3>
+<h4 align="left">情况1：待删除节点D的兄弟节点S为红色</h4>
+<p><strong>D</strong><strong>是左节点的情况</strong></p>
+<p>&nbsp;<img src="https://images2017.cnblogs.com/blog/823435/201708/823435-20170812212637804-334235866.png" alt=""></p>
+<p>&nbsp;</p>
+<p>调整做法是将父亲节点和兄弟节点的颜色互换，也就是p变成红色，S变成黑色，然后将P树进行AVL树种的RR型操作，结果如下图</p>
+<p>&nbsp;<img src="https://images2017.cnblogs.com/blog/823435/201708/823435-20170812212644695-1825093784.png" alt=""></p>
+<p>这个时候我们会发现，D的兄弟节点变成了黑色，这样就成后面要讨论的情况。</p>
+<p><strong>D</strong><strong>是右节点的情况</strong></p>
+<p>&nbsp;</p>
+<p><img src="https://images2017.cnblogs.com/blog/823435/201708/823435-20170812212704788-862053633.png" alt=""></p>
+<p>&nbsp;</p>
+<p>将P和S的颜色互换，也就是将P变成红色，将S变成黑色，然后对P进行类似AVL树的LL操作。结果如下图：</p>
+<p>&nbsp;<img src="https://images2017.cnblogs.com/blog/823435/201708/823435-20170812212721945-963700673.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;此时D的兄弟节点变成了黑色，这样就成了我们后面要讨论的情况</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h4 align="left">情况2：兄弟节点为黑色，且远侄子节点为红色。</h4>
+<p><strong>D</strong><strong>为左孩子对的情况，这时</strong><strong>D</strong><strong>的远侄子节点为</strong><strong>S</strong><strong>的右孩子</strong></p>
+<p>&nbsp;<img src="https://images2017.cnblogs.com/blog/823435/201708/823435-20170812212728820-1105262367.png" alt=""></p>
+<p>&nbsp;</p>
+<p>没有上色的节点表示黑色红色均可，注意如果SL为黑色，则SL必为NULL节点。</p>
+<p>这个时候，如果我们删除D，这样经过D的子节点（NULL节点）的路径的黑色节点个数就会减1，但是我们看到S的孩子中有红色的节点，如果我们能把这棵红色的节点移动到左侧，并把它改成黑色，那么就满足要求了，<span style="color: rgba(255, 0, 0, 1)">这也是为什么P的颜色无关，因为调整过程只在P整棵子树的内部进行</span>。</p>
+<p>调整过程为，将P和S的颜色对调，然后对P树进行类似AVL树RR型的操作，最后把SR节点变成黑色，并删除D即可。</p>
+<p>&nbsp;<img src="https://images2017.cnblogs.com/blog/823435/201708/823435-20170812212808523-2119276075.png" alt=""></p>
+<p>&nbsp;</p>
+<p><strong>D</strong><strong>为右孩子的情况，此时</strong><strong>D</strong><strong>的远侄子为</strong><strong>S</strong><strong>的左孩子</strong></p>
+<p>&nbsp;<img src="https://images2017.cnblogs.com/blog/823435/201708/823435-20170812212817367-131295970.png" alt=""></p>
+<p>&nbsp;</p>
+<p>同样，将P和S的颜色对调，然后再对P树进行类似AVL树RL型的操作，最后将SR变成黑色，并删掉D即可。结果如下图：</p>
+<p>&nbsp;<img src="https://images2017.cnblogs.com/blog/823435/201708/823435-20170812212823351-1073801702.png" alt=""></p>
+<p>&nbsp;</p>
+<p><strong>&nbsp;</strong></p>
+<h4 align="left">情况3：兄弟节点S为黑色，远侄子节点为黑色，近侄子节点为红色</h4>
+<p><strong>D</strong><strong>为左孩子的情况，此时近侄子节点为</strong><strong>S</strong><strong>的左孩子</strong></p>
+<p>&nbsp;<img src="https://images2017.cnblogs.com/blog/823435/201708/823435-20170812212833038-642398342.png" alt=""></p>
+<p>&nbsp;</p>
+<p><span style="color: rgba(255, 0, 0, 1)">做法是，将SL右旋，并将S和SL的颜色互换，这个时候就变成了情况4</span>。</p>
+<p>&nbsp;<img src="https://images2017.cnblogs.com/blog/823435/201708/823435-20170812212847476-1667934283.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong>D</strong><strong>为右孩子的情况，此时近侄子节点为</strong><strong>S</strong><strong>的右孩子</strong></p>
+<p>&nbsp;<img src="https://images2017.cnblogs.com/blog/823435/201708/823435-20170812212857413-719706112.png" alt=""></p>
+<p>&nbsp;</p>
+<p><span style="color: rgba(255, 0, 0, 1)">做法是将S和SR颜色对调，然后对SR进行左旋操作，这样就变成了情况4</span>，结果如下图：</p>
+<p>&nbsp;<img src="https://images2017.cnblogs.com/blog/823435/201708/823435-20170812212905867-48285500.png" alt=""></p>
+<p>&nbsp;</p>
+<h4 align="left">情况4：父亲节p为红色，兄弟节点和兄弟节点的两个孩子（只能是NULL节点）都为黑色的情况。</h4>
+<p>&nbsp;<img src="https://images2017.cnblogs.com/blog/823435/201708/823435-20170812212920288-2063987653.png" alt=""></p>
+<p>&nbsp;</p>
+<p>如果删除D，那经过P到D的子节点NULL的路径上黑色就少了一个，这个时候我们可以把P变成黑色，这样删除D后经过D子节点（NULL节点）路径上的黑色节点就和原来一样了。但是这样会导致经过S的子节点（NULL节点）的路径上的黑色节点数增加一个，所以这个时候可以再将S节点变成红色，这样路径上的黑色节点数就和原来一样啦！</p>
+<p><span style="color: rgba(255, 0, 0, 1)">所以做法是，将父亲节点P改成黑色，将兄弟节点S改成红色，然后删除D即可。如下图</span>：</p>
+<p>&nbsp;<img src="https://images2017.cnblogs.com/blog/823435/201708/823435-20170812212936101-2104449176.png" alt=""></p>
+<p>&nbsp;</p>
+<h4 align="left">情况5：父亲节点p，兄弟节点s和兄弟节点的两个孩子（只能为NULL节点）都为黑色的情况</h4>
+<p>&nbsp;<img src="https://images2017.cnblogs.com/blog/823435/201708/823435-20170812212942695-1230246329.png" alt=""></p>
+<p>&nbsp;</p>
+<p>方法是将兄弟节点S的颜色改成红色，这样删除D后P的左右两支的黑节点数就相等了，但是经过P的路径上的黑色节点数会少1，这个时候，<span style="color: rgba(255, 0, 0, 1)">我们再以P为起始点，继续根据情况进行平衡操作（这句话的意思就是把P当成D（只是不要再删除P了），再看是那种情况，再进行对应的调整，这样一直向上，直到新的起始点为根节点）</span>。结果如下图：</p>
+<p>&nbsp;<img src="https://images2017.cnblogs.com/blog/823435/201708/823435-20170812212956163-438335708.png" alt=""></p>
+<p>&nbsp;</p>
+<h3 align="left">至此，所有的情况都讨论完了。我们稍稍总结一下，然后开始时写代码</h3>
+<p>我这里总结的是如何判断是那种类型，至于特定类型的处理方法，就找前面的内容就好。</p>
+<p>记住一句话：<span style="color: rgba(255, 0, 0, 1)">判断类型的时候，先看待删除的节点的颜色，再看兄弟节点的颜色，再看侄子节点的颜色（侄子节点先看远侄子再看近侄子），最后看父亲节点的颜色</span>。把握好这一点，写代码思路就清晰了。</p>
+<p>流程图如下（忽略了处理过程）</p>
+<p>&nbsp;<img src="https://images2017.cnblogs.com/blog/823435/201708/823435-20170812213015257-885951806.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h3 align="left">开始写代码啦</h3>
+<p>节点的数据结构</p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">定义节点的颜色</span>
+
+<span style="color: rgba(0, 0, 255, 1)">enum</span><span style="color: rgba(0, 0, 0, 1)"> color{
+
+         BLACK,
+
+         RED
+
+};
+
+ 
+
+</span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">节点的数据结构</span>
+<span style="color: rgba(0, 0, 0, 1)">
+typedef </span><span style="color: rgba(0, 0, 255, 1)">struct</span><span style="color: rgba(0, 0, 0, 1)"> b_node{
+
+         </span><span style="color: rgba(0, 0, 255, 1)">int</span> value;<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">节点的值</span>
+
+         <span style="color: rgba(0, 0, 255, 1)">enum</span> color color;<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">树的深度</span>
+
+         <span style="color: rgba(0, 0, 255, 1)">struct</span> b_node *l_tree;<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">左子树</span>
+
+         <span style="color: rgba(0, 0, 255, 1)">struct</span> b_node *r_tree;<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">右子树</span>
+
+         <span style="color: rgba(0, 0, 255, 1)">struct</span> b_node *parent;<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">父亲节点</span>
+<span style="color: rgba(0, 0, 0, 1)">
+} BNode,</span>*<span style="color: rgba(0, 0, 0, 1)">PBNode;
+
+</span><span style="color: rgba(0, 128, 0, 1)">/*</span><span style="color: rgba(0, 128, 0, 1)">*
+
+ * 分配一个节点
+
+ * </span><span style="color: rgba(0, 128, 0, 1)">*/</span><span style="color: rgba(0, 0, 0, 1)">
+
+PBNode allocate_node()
+
+{
+
+         PBNode node </span>=<span style="color: rgba(0, 0, 0, 1)"> NULL;
+
+         node </span>= (PBNode)<span style="color: rgba(0, 0, 255, 1)">malloc</span>(<span style="color: rgba(0, 0, 255, 1)">sizeof</span>(<span style="color: rgba(0, 0, 255, 1)">struct</span><span style="color: rgba(0, 0, 0, 1)"> b_node));
+
+         </span><span style="color: rgba(0, 0, 255, 1)">if</span>(node ==<span style="color: rgba(0, 0, 0, 1)"> NULL)
+
+                  </span><span style="color: rgba(0, 0, 255, 1)">return</span><span style="color: rgba(0, 0, 0, 1)"> NULL;
+
+         memset(node,</span><span style="color: rgba(128, 0, 128, 1)">0</span>,<span style="color: rgba(0, 0, 255, 1)">sizeof</span>(<span style="color: rgba(0, 0, 255, 1)">struct</span><span style="color: rgba(0, 0, 0, 1)"> b_node));
+
+         </span><span style="color: rgba(0, 0, 255, 1)">return</span><span style="color: rgba(0, 0, 0, 1)"> node;
+
+}
+
+</span><span style="color: rgba(0, 128, 0, 1)">/*</span><span style="color: rgba(0, 128, 0, 1)">*
+
+ * 设置一个节点的值
+
+ * </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+
+<span style="color: rgba(0, 0, 255, 1)">void</span> set_value(PBNode node,<span style="color: rgba(0, 0, 255, 1)">int</span><span style="color: rgba(0, 0, 0, 1)"> value)
+
+{
+
+         </span><span style="color: rgba(0, 0, 255, 1)">if</span>(node ==<span style="color: rgba(0, 0, 0, 1)"> NULL)   
+
+                  </span><span style="color: rgba(0, 0, 255, 1)">return</span><span style="color: rgba(0, 0, 0, 1)">;
+
+         node</span>-&gt;value =<span style="color: rgba(0, 0, 0, 1)"> value;
+
+         node</span>-&gt;color =<span style="color: rgba(0, 0, 0, 1)"> RED;
+
+         node</span>-&gt;l_tree =<span style="color: rgba(0, 0, 0, 1)"> NULL;
+
+         node</span>-&gt;r_tree =<span style="color: rgba(0, 0, 0, 1)"> NULL;
+
+         node</span>-&gt;parent =<span style="color: rgba(0, 0, 0, 1)"> NULL;
+
+}
+
+释放节点空间的函数
+
+</span><span style="color: rgba(0, 128, 0, 1)">/*</span><span style="color: rgba(0, 128, 0, 1)">*
+
+* 释放节点空间
+
+ * </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+
+<span style="color: rgba(0, 0, 255, 1)">void</span> free_node(PBNode *<span style="color: rgba(0, 0, 0, 1)">node)
+
+{
+
+         </span><span style="color: rgba(0, 0, 255, 1)">if</span>(*node ==<span style="color: rgba(0, 0, 0, 1)"> NULL)
+
+                  </span><span style="color: rgba(0, 0, 255, 1)">return</span><span style="color: rgba(0, 0, 0, 1)">;
+
+         </span><span style="color: rgba(0, 0, 255, 1)">free</span>(*<span style="color: rgba(0, 0, 0, 1)">node);
+
+         </span>*node =<span style="color: rgba(0, 0, 0, 1)"> NULL;
+
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>后面是与删除有关的函数，我们由易到难，先小后大进行处理。</p>
+<p>首先，我们先写一个删除节点的函数：</p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 128, 0, 1)">/*</span><span style="color: rgba(0, 128, 0, 1)">*
+
+ * 删除一个节点
+
+ * 其中root为整棵树的根结点
+
+ * d为待删除的节点，或者新的起始点
+
+ * </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+
+<span style="color: rgba(0, 0, 255, 1)">void</span> delete_node(PBNode *<span style="color: rgba(0, 0, 0, 1)">root,PBNode d)
+
+{
+
+         PBNode p </span>= d-&gt;parent;<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">父亲节点</span>
+
+         <span style="color: rgba(0, 0, 255, 1)">if</span>(p == NULL)<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">说明d就是树根</span>
+<span style="color: rgba(0, 0, 0, 1)">
+         {
+
+                  free_node(root);
+
+                  </span><span style="color: rgba(0, 0, 255, 1)">return</span><span style="color: rgba(0, 0, 0, 1)">;
+
+         }
+
+         </span><span style="color: rgba(0, 0, 255, 1)">if</span>(p-&gt;l_tree ==<span style="color: rgba(0, 0, 0, 1)"> d)
+
+                  p</span>-&gt;l_tree =<span style="color: rgba(0, 0, 0, 1)"> NULL;
+
+         </span><span style="color: rgba(0, 0, 255, 1)">else</span> <span style="color: rgba(0, 0, 255, 1)">if</span>(p-&gt;r_tree ==<span style="color: rgba(0, 0, 0, 1)"> d)
+
+                  p</span>-&gt;r_tree =<span style="color: rgba(0, 0, 0, 1)"> NULL;
+
+         free_node(</span>&amp;<span style="color: rgba(0, 0, 0, 1)">d);
+
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>删除红色节点的情况非常简单，只需要删除节点就行，所以直接调用删除函数即可。</p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 128, 0, 1)">/*</span><span style="color: rgba(0, 128, 0, 1)">*
+
+ * 删除红色节点
+
+ * </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+
+<span style="color: rgba(0, 0, 255, 1)">void</span> delete_d_red(PBNode *<span style="color: rgba(0, 0, 0, 1)">root,PBNode d)
+
+{
+
+         delete_node(root,d);
+
+}
+
+删除黑色节点的情况比较复杂，我们先处理小的模块：
+
+黑色节点非叶子节点
+
+</span><span style="color: rgba(0, 128, 0, 1)">/*</span><span style="color: rgba(0, 128, 0, 1)">*
+
+ * 黑色节点不是叶子节点，这时候它只有一个孩子，且孩子的颜色为红色
+
+ *
+
+ * </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+
+<span style="color: rgba(0, 0, 255, 1)">void</span> delete_d_black_not_leaf(PBNode *<span style="color: rgba(0, 0, 0, 1)">root,PBNode d)
+
+{
+
+         PBNode dl_r;
+
+         </span><span style="color: rgba(0, 0, 255, 1)">if</span>(d-&gt;l_tree !=<span style="color: rgba(0, 0, 0, 1)"> NULL)
+
+         {
+
+                  dl_r </span>= d-&gt;<span style="color: rgba(0, 0, 0, 1)">l_tree;
+
+         }
+
+         </span><span style="color: rgba(0, 0, 255, 1)">else</span> <span style="color: rgba(0, 0, 255, 1)">if</span>(d-&gt;r_tree !=<span style="color: rgba(0, 0, 0, 1)"> NULL)
+
+         {
+
+                  dl_r </span>= d-&gt;<span style="color: rgba(0, 0, 0, 1)">r_tree;
+
+                 
+
+         }
+
+         </span><span style="color: rgba(0, 0, 255, 1)">else</span><span style="color: rgba(0, 0, 0, 1)">
+
+         {
+
+                  printf(</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">节点有问题！\n</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">);
+
+                  </span><span style="color: rgba(0, 0, 255, 1)">return</span><span style="color: rgba(0, 0, 0, 1)">;
+
+         }
+
+         dl_r</span>-&gt;color =<span style="color: rgba(0, 0, 0, 1)"> BLACK;
+
+         PBNode p </span>= d-&gt;parent;<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">父亲节点</span>
+
+         <span style="color: rgba(0, 0, 255, 1)">if</span>(p == NULL)<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">说明是整棵树的树根</span>
+<span style="color: rgba(0, 0, 0, 1)">
+         {
+
+                  </span>*root =<span style="color: rgba(0, 0, 0, 1)"> dl_r;
+
+         }
+
+         </span><span style="color: rgba(0, 0, 255, 1)">else</span><span style="color: rgba(0, 0, 0, 1)">
+
+         {
+
+                  </span><span style="color: rgba(0, 0, 255, 1)">if</span>(p-&gt;l_tree ==<span style="color: rgba(0, 0, 0, 1)"> d)
+
+                  {
+
+                          p</span>-&gt;l_tree =<span style="color: rgba(0, 0, 0, 1)"> dl_r;
+
+                  }
+
+                  </span><span style="color: rgba(0, 0, 255, 1)">else</span> <span style="color: rgba(0, 0, 255, 1)">if</span>(p-&gt;r_tree ==<span style="color: rgba(0, 0, 0, 1)"> d)
+
+                  {
+
+                          p</span>-&gt;r_tree =<span style="color: rgba(0, 0, 0, 1)"> dl_r;
+
+                  }
+
+ 
+
+         }
+
+         </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">别忘了修改父亲节点</span>
+<span style="color: rgba(0, 0, 0, 1)">
+         dl_r</span>-&gt;parent =<span style="color: rgba(0, 0, 0, 1)"> p;
+
+         free_node(</span>&amp;<span style="color: rgba(0, 0, 0, 1)">d);
+
+ 
+
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>删除黑色叶子节点是最复杂的一种情况，这种情况总体要再循环中进行，循环结束条件为：新的起始节点为根节点。当然，如果循环中某种类型变换完成后，可以确定整棵树都满足红黑树，循环也就结束了。</p>
+<p>&nbsp;</p>
+<p><strong>D</strong><strong>为叶子节点且兄弟节点为红色的情况（也就是情况</strong><strong>1</strong><strong>）：</strong></p>
+<p>这种情况涉及RR型变换和RL型变换，所以我们先写一个函数用来处理RR型和RL型变换。</p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 128, 0, 1)">/*</span><span style="color: rgba(0, 128, 0, 1)">*
+
+ * RR类型和LL类型的变换
+
+ * </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+
+<span style="color: rgba(0, 0, 255, 1)">void</span> avl_trans(PBNode *root,PBNode ch_root,<span style="color: rgba(0, 0, 255, 1)">enum</span><span style="color: rgba(0, 0, 0, 1)"> unbalance_type type)
+
+{
+
+         </span><span style="color: rgba(0, 0, 255, 1)">int</span> t =<span style="color: rgba(0, 0, 0, 1)"> type;
+
+         PBNode small;
+
+         PBNode middle;
+
+         PBNode big;
+
+         </span><span style="color: rgba(0, 0, 255, 1)">switch</span><span style="color: rgba(0, 0, 0, 1)"> (t)
+
+         {
+
+                  </span><span style="color: rgba(0, 0, 255, 1)">case</span><span style="color: rgba(0, 0, 0, 1)"> TYPE_LL:
+
+                          {
+
+                                   </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">确定small、middle、big三个节点</span>
+<span style="color: rgba(0, 0, 0, 1)">
+                                   big </span>=<span style="color: rgba(0, 0, 0, 1)"> ch_root;
+
+                                   middle </span>= ch_root-&gt;<span style="color: rgba(0, 0, 0, 1)">l_tree;
+
+                                   small </span>= ch_root-&gt;l_tree-&gt;<span style="color: rgba(0, 0, 0, 1)">l_tree;
+
+                                  
+
+                                   </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">分配middle节点的孩子，给small和big</span>
+<span style="color: rgba(0, 0, 0, 1)">
+                                   big</span>-&gt;l_tree = middle-&gt;<span style="color: rgba(0, 0, 0, 1)">r_tree;
+
+                                   </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">别忘了该父亲节点！！！！！！！！！</span>
+
+                                   <span style="color: rgba(0, 0, 255, 1)">if</span>(middle-&gt;r_tree !=<span style="color: rgba(0, 0, 0, 1)"> NULL)
+
+                                            middle</span>-&gt;r_tree-&gt;parent =<span style="color: rgba(0, 0, 0, 1)"> big;
+
+                                  
+
+                                   </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">将small和big作为midlle的左子和右子</span>
+<span style="color: rgba(0, 0, 0, 1)">
+                                   middle</span>-&gt;r_tree =<span style="color: rgba(0, 0, 0, 1)"> big;
+
+                                   </span><span style="color: rgba(0, 0, 255, 1)">break</span><span style="color: rgba(0, 0, 0, 1)">;
+
+                          }
+
+                  </span><span style="color: rgba(0, 0, 255, 1)">case</span><span style="color: rgba(0, 0, 0, 1)"> TYPE_RR:
+
+                          {
+
+                                   </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">确定small、middle、big三个节点</span>
+<span style="color: rgba(0, 0, 0, 1)">
+                                   small </span>=<span style="color: rgba(0, 0, 0, 1)">ch_root;
+
+                                   middle  </span>= ch_root-&gt;<span style="color: rgba(0, 0, 0, 1)">r_tree;
+
+                                   big </span>= ch_root-&gt;r_tree-&gt;<span style="color: rgba(0, 0, 0, 1)">r_tree;
+
+                                  
+
+                                   </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">分配middle节点的孩子，给small和big</span>
+<span style="color: rgba(0, 0, 0, 1)">
+                                   small</span>-&gt;r_tree = middle-&gt;<span style="color: rgba(0, 0, 0, 1)">l_tree;
+
+                                   </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">别忘了该父亲节点！！！！！！！！！</span>
+
+                                   <span style="color: rgba(0, 0, 255, 1)">if</span>(middle-&gt;l_tree !=<span style="color: rgba(0, 0, 0, 1)"> NULL)
+
+                                            middle</span>-&gt;l_tree-&gt;parent =<span style="color: rgba(0, 0, 0, 1)"> small;
+
+                                  
+
+                                   </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">将small和big作为midlle的左子和右子</span>
+<span style="color: rgba(0, 0, 0, 1)">
+                                   middle</span>-&gt;l_tree =<span style="color: rgba(0, 0, 0, 1)"> small;
+
+                                   </span><span style="color: rgba(0, 0, 255, 1)">break</span><span style="color: rgba(0, 0, 0, 1)">;
+
+                          }
+
+ 
+
+         }
+
+         </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">将子树的父亲节点的子节点指向middle（也就是将middle，调整后的子树的根结点）</span>
+
+         <span style="color: rgba(0, 0, 255, 1)">if</span>(ch_root-&gt;parent == NULL) <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">说明子树的根节点就是整棵树的根结点</span>
+<span style="color: rgba(0, 0, 0, 1)">
+         {
+
+                  </span>*root =<span style="color: rgba(0, 0, 0, 1)"> middle;
+
+         }
+
+         </span><span style="color: rgba(0, 0, 255, 1)">else</span> <span style="color: rgba(0, 0, 255, 1)">if</span>(ch_root-&gt;parent-&gt;l_tree == ch_root)<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">根是父亲的左孩子</span>
+<span style="color: rgba(0, 0, 0, 1)">
+         {
+
+                  ch_root</span>-&gt;parent-&gt;l_tree =<span style="color: rgba(0, 0, 0, 1)"> middle;
+
+ 
+
+         }
+
+         </span><span style="color: rgba(0, 0, 255, 1)">else</span> <span style="color: rgba(0, 0, 255, 1)">if</span>(ch_root-&gt;parent-&gt;r_tree == ch_root)<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">根是父亲的右孩子</span>
+<span style="color: rgba(0, 0, 0, 1)">
+         {
+
+                  ch_root</span>-&gt;parent-&gt;r_tree =<span style="color: rgba(0, 0, 0, 1)"> middle;
+
+         }
+
+ 
+
+         </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">更改small、middle、big的父亲节点</span>
+<span style="color: rgba(0, 0, 0, 1)">
+         middle</span>-&gt;parent = ch_root-&gt;<span style="color: rgba(0, 0, 0, 1)">parent;
+
+         big</span>-&gt;parent =<span style="color: rgba(0, 0, 0, 1)"> middle;
+
+         small</span>-&gt;parent =<span style="color: rgba(0, 0, 0, 1)"> middle;
+
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>有了这两个变换的函数后，对于兄弟节点为红色的这种情况，处理起来就很简单了。</p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 128, 0, 1)">/*</span><span style="color: rgba(0, 128, 0, 1)">*
+
+ * D为黑色，S为红色的情况
+
+ * 也就是情况1
+
+ * 将其类型变换成D为黑色，S也为黑色的情况
+
+ * </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+
+<span style="color: rgba(0, 0, 255, 1)">void</span> delete_black_case1(PBNode *<span style="color: rgba(0, 0, 0, 1)">root,PBNode d)
+
+{
+
+         PBNode p </span>= d-&gt;parent;<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">父亲节点</span>
+
+         <span style="color: rgba(0, 0, 255, 1)">if</span>(p-&gt;l_tree == d)<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">d为左子的情况</span>
+<span style="color: rgba(0, 0, 0, 1)">
+         {
+
+                  PBNode s </span>= p-&gt;<span style="color: rgba(0, 0, 0, 1)">r_tree;
+
+                  p</span>-&gt;color = RED;<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">父亲节点变成红色</span>
+<span style="color: rgba(0, 0, 0, 1)">
+                  s</span>-&gt;color = BLACK;<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">兄弟节点变成黑色</span>
+<span style="color: rgba(0, 0, 0, 1)">
+                  avl_trans(root,p,TYPE_RR);
+
+         }
+
+         </span><span style="color: rgba(0, 0, 255, 1)">else</span> <span style="color: rgba(0, 0, 255, 1)">if</span>(p-&gt;r_tree == d)<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">d为右子的情况</span>
+<span style="color: rgba(0, 0, 0, 1)">
+         {
+
+                  PBNode s </span>= p-&gt;<span style="color: rgba(0, 0, 0, 1)">l_tree;
+
+                  p</span>-&gt;color = RED;<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">父亲节点变成红色</span>
+<span style="color: rgba(0, 0, 0, 1)">
+                  s</span>-&gt;color = BLACK;<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">兄弟节点变成黑色</span>
+<span style="color: rgba(0, 0, 0, 1)">
+                  avl_trans(root,p,TYPE_LL);
+
+ 
+
+         }
+
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>S</strong><strong>为黑色，远侄子节点为红色的情况（也就是情况</strong><strong>2</strong><strong>）：</strong></p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 128, 0, 1)">/*</span><span style="color: rgba(0, 128, 0, 1)">*
+
+ * D为黑色，S为黑色，远侄子节点为红色
+
+ * 也就是情况2
+
+ * </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+
+<span style="color: rgba(0, 0, 255, 1)">void</span> delete_black_case2(PBNode *<span style="color: rgba(0, 0, 0, 1)">root,PBNode d)
+
+{
+
+         PBNode p </span>= d-&gt;parent;<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">父亲节点</span>
+
+         <span style="color: rgba(0, 0, 255, 1)">if</span>(p-&gt;l_tree == d)<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">d为左孩子的情况</span>
+<span style="color: rgba(0, 0, 0, 1)">
+         {
+
+                  PBNode s </span>= p-&gt;r_tree;<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">兄弟节点
+
+                  </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">交换父亲姐弟和兄弟节点的颜色</span>
+
+                  <span style="color: rgba(0, 0, 255, 1)">enum</span> color temp = p-&gt;<span style="color: rgba(0, 0, 0, 1)">color;
+
+                  p</span>-&gt;color = s-&gt;<span style="color: rgba(0, 0, 0, 1)">color;
+
+                  s</span>-&gt;color =<span style="color: rgba(0, 0, 0, 1)"> temp;
+
+                 
+
+                  PBNode far_nephew </span>= s-&gt;r_tree;<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">远侄子节点</span>
+<span style="color: rgba(0, 0, 0, 1)">
+                  far_nephew</span>-&gt;color = BLACK;<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">将远侄子节点的颜色变成黑色</span>
+<span style="color: rgba(0, 0, 0, 1)">
+                  avl_trans(root,p,TYPE_RR);</span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">进行类似AVL树RR类型的转换</span>
+<span style="color: rgba(0, 0, 0, 1)">
+         }
+
+         </span><span style="color: rgba(0, 0, 255, 1)">else</span> <span style="color: rgba(0, 0, 255, 1)">if</span>(p-&gt;r_tree == d)<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">d为右孩子的情况o</span>
+<span style="color: rgba(0, 0, 0, 1)">
+         {
+
+                  PBNode s </span>= p-&gt;l_tree;<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">兄弟节点
+
+                  </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">交换父亲姐弟和兄弟节点的颜色</span>
+
+                  <span style="color: rgba(0, 0, 255, 1)">enum</span> color temp = p-&gt;<span style="color: rgba(0, 0, 0, 1)">color;
+
+                  p</span>-&gt;color = s-&gt;<span style="color: rgba(0, 0, 0, 1)">color;
+
+                  s</span>-&gt;color =<span style="color: rgba(0, 0, 0, 1)"> temp;
+
+ 
+
+                  PBNode far_nephew </span>= s-&gt;l_tree;<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">远侄子节点</span>
+<span style="color: rgba(0, 0, 0, 1)">
+                  far_nephew</span>-&gt;color = BLACK;<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">将远侄子节点的颜色变成黑色</span>
+<span style="color: rgba(0, 0, 0, 1)">
+                  avl_trans(root,p,TYPE_LL);</span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">进行类似AVL树LL类型的转换</span>
+<span style="color: rgba(0, 0, 0, 1)">
+ 
+
+         }
+
+ 
+
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>D</strong><strong>为黑色，</strong><strong>S</strong><strong>为黑色，远侄子为黑色，近侄子为红色的情况（也就是情况</strong><strong>3</strong><strong>）</strong></p>
+<p>这种情况涉及节点的左旋和右旋操作，所以写一个函数处理节点的旋转</p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 128, 0, 1)">/*</span><span style="color: rgba(0, 128, 0, 1)">*
+
+ * 处理左旋和右旋操作
+
+ * </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+
+<span style="color: rgba(0, 0, 255, 1)">void</span> node_rotate(PBNode to_rotate,<span style="color: rgba(0, 0, 255, 1)">enum</span><span style="color: rgba(0, 0, 0, 1)"> rotate_type type)
+
+{
+
+         PBNode p </span>= to_rotate-&gt;parent;<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">父亲节点</span>
+<span style="color: rgba(0, 0, 0, 1)">
+         PBNode g </span>= p-&gt;parent;<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">祖父节点</span>
+
+         <span style="color: rgba(0, 0, 255, 1)">int</span> t =<span style="color: rgba(0, 0, 0, 1)"> type;
+
+         </span><span style="color: rgba(0, 0, 255, 1)">switch</span><span style="color: rgba(0, 0, 0, 1)">(t)
+
+         {
+
+                  </span><span style="color: rgba(0, 0, 255, 1)">case</span><span style="color: rgba(0, 0, 0, 1)"> TURN_RIGHT:
+
+                          {
+
+                                   g</span>-&gt;r_tree =<span style="color: rgba(0, 0, 0, 1)"> to_rotate;
+
+                                   p</span>-&gt;l_tree = to_rotate-&gt;<span style="color: rgba(0, 0, 0, 1)">r_tree;
+
+                                   to_rotate</span>-&gt;r_tree =<span style="color: rgba(0, 0, 0, 1)"> p;
+
+                                   </span><span style="color: rgba(0, 0, 255, 1)">break</span><span style="color: rgba(0, 0, 0, 1)">;
+
+                          }
+
+                  </span><span style="color: rgba(0, 0, 255, 1)">case</span><span style="color: rgba(0, 0, 0, 1)"> TURN_LEFT:
+
+                          {
+
+                                   g</span>-&gt;l_tree =<span style="color: rgba(0, 0, 0, 1)"> to_rotate;
+
+                                   p</span>-&gt;r_tree = to_rotate-&gt;<span style="color: rgba(0, 0, 0, 1)">l_tree;
+
+                                   to_rotate</span>-&gt;l_tree =<span style="color: rgba(0, 0, 0, 1)"> p;
+
+                                   </span><span style="color: rgba(0, 0, 255, 1)">break</span><span style="color: rgba(0, 0, 0, 1)">;
+
+                          }
+
+         }
+
+         </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">别忘了更改父亲节点</span>
+<span style="color: rgba(0, 0, 0, 1)">
+         to_rotate</span>-&gt;parent =<span style="color: rgba(0, 0, 0, 1)"> g;
+
+         p</span>-&gt;parent =<span style="color: rgba(0, 0, 0, 1)"> to_rotate;
+
+        
+
+ 
+
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>有了旋转操作，剩下的就只有颜色变换了。</p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 128, 0, 1)">/*</span><span style="color: rgba(0, 128, 0, 1)">*
+
+ * D为黑色，S为黑色，远侄子为黑色，近侄子为红色
+
+ * 也就是情况3
+
+ * 通过旋转近侄子节点，和相关颜色变换，使情况3变成情况2
+
+ * </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+
+<span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> delete_black_case3(PBNode d)
+
+{
+
+         PBNode p </span>= d-&gt;parent;<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">父亲节点</span>
+
+         <span style="color: rgba(0, 0, 255, 1)">if</span>(p-&gt;l_tree == d)<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">d为左孩子的情况</span>
+<span style="color: rgba(0, 0, 0, 1)">
+         {
+
+                  PBNode s </span>= p-&gt;<span style="color: rgba(0, 0, 0, 1)">r_tree;
+
+                  PBNode near_nephew </span>= s-&gt;<span style="color: rgba(0, 0, 0, 1)">l_tree;
+
+                  s</span>-&gt;color =<span style="color: rgba(0, 0, 0, 1)"> RED;
+
+                  near_nephew</span>-&gt;color =<span style="color: rgba(0, 0, 0, 1)"> BLACK;
+
+                  node_rotate(near_nephew,TURN_RIGHT);
+
+         }
+
+         </span><span style="color: rgba(0, 0, 255, 1)">else</span> <span style="color: rgba(0, 0, 255, 1)">if</span>(p-&gt;r_tree ==<span style="color: rgba(0, 0, 0, 1)"> d)
+
+         {
+
+                  PBNode s </span>= p-&gt;<span style="color: rgba(0, 0, 0, 1)">l_tree;
+
+                  PBNode near_nephew </span>= s-&gt;<span style="color: rgba(0, 0, 0, 1)">r_tree;
+
+                  s</span>-&gt;color =<span style="color: rgba(0, 0, 0, 1)"> RED;
+
+                  near_nephew</span>-&gt;color =<span style="color: rgba(0, 0, 0, 1)"> BLACK;
+
+                  node_rotate(near_nephew,TURN_LEFT);
+
+         }
+
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>父亲节</strong><strong>p</strong><strong>为红色，兄弟节点和兄弟节点的两个孩子（只能是</strong><strong>NULL</strong><strong>节点）都为黑色的情况，也就是情况</strong><strong>4</strong></p>
+<p>这种情况比较简单，只涉及颜色的改变</p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 128, 0, 1)">/*</span><span style="color: rgba(0, 128, 0, 1)">*
+
+ * D为黑色，S为黑色，远侄子为黑色，近侄子为黑色，父亲为红色
+
+ * 也就是情况4
+
+ * </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+
+<span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> delete_black_case4(PBNode d)
+
+{
+
+         PBNode p </span>= d-&gt;parent;<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">父亲节点</span>
+
+         <span style="color: rgba(0, 0, 255, 1)">if</span>(p-&gt;l_tree == d)<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">d为左孩子</span>
+<span style="color: rgba(0, 0, 0, 1)">
+         {
+
+                  PBNode s </span>= p-&gt;<span style="color: rgba(0, 0, 0, 1)">r_tree;
+
+                  s</span>-&gt;color =<span style="color: rgba(0, 0, 0, 1)"> RED;
+
+         }
+
+         </span><span style="color: rgba(0, 0, 255, 1)">else</span> <span style="color: rgba(0, 0, 255, 1)">if</span>(p-&gt;r_tree == d)<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">d为左孩子</span>
+<span style="color: rgba(0, 0, 0, 1)">
+         {
+
+                  PBNode s </span>= p-&gt;<span style="color: rgba(0, 0, 0, 1)">l_tree;
+
+                  s</span>-&gt;color =<span style="color: rgba(0, 0, 0, 1)"> RED;
+
+         }
+
+         p</span>-&gt;color =<span style="color: rgba(0, 0, 0, 1)"> BLACK;
+
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p><strong>父亲节点</strong><strong>p</strong><strong>，兄弟节点</strong><strong>s</strong><strong>和兄弟节点的两个孩子（只能为</strong><strong>NULL</strong><strong>节点）都为黑色的情况，也就是情况</strong><strong>5</strong></p>
+<p>这种情况也比较简单，就是将S的颜色变成红色，将起始点有d变成p即可</p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 128, 0, 1)">/*</span><span style="color: rgba(0, 128, 0, 1)">*
+
+ * D,S,P,SL,SR都为黑色的情况
+
+ * 也就是情况5
+
+ * </span><span style="color: rgba(0, 128, 0, 1)">*/</span><span style="color: rgba(0, 0, 0, 1)">
+
+PBNode delete_black_case5(PBNode d)
+
+{
+
+         PBNode p </span>= d-&gt;parent;<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">父亲节点</span>
+
+         <span style="color: rgba(0, 0, 255, 1)">if</span>(p-&gt;l_tree == d)<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">d为左孩子</span>
+<span style="color: rgba(0, 0, 0, 1)">
+         {
+
+                  PBNode s </span>= p-&gt;<span style="color: rgba(0, 0, 0, 1)">r_tree;
+
+                  s</span>-&gt;color =<span style="color: rgba(0, 0, 0, 1)"> RED;
+
+         }
+
+         </span><span style="color: rgba(0, 0, 255, 1)">if</span>(p-&gt;r_tree == d)<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">d为左孩子</span>
+<span style="color: rgba(0, 0, 0, 1)">
+         {
+
+                  PBNode s </span>= p-&gt;<span style="color: rgba(0, 0, 0, 1)">l_tree;
+
+                  s</span>-&gt;color =<span style="color: rgba(0, 0, 0, 1)"> RED;
+
+         }
+
+         </span><span style="color: rgba(0, 0, 255, 1)">return</span><span style="color: rgba(0, 0, 0, 1)"> p;
+
+ 
+
+}
+
+ </span></pre>
+</div>
+<p>&nbsp;</p>
+<p>最后要写一个串联函数，将删除黑色叶子节点的各个函数串联起来，这个串联函数中有循环，循环结束条件是新的起始点为根节点，但是由于情况1-4，处理结束后，整棵树就是红黑树了，此时可以用break退出循环。</p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 128, 0, 1)">/*</span><span style="color: rgba(0, 128, 0, 1)">*
+
+ * 删除黑色叶子节点的函数，会将上面的多个函数串连起来
+
+ * </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+
+<span style="color: rgba(0, 0, 255, 1)">void</span> delete_d_black_leaf(PBNode *<span style="color: rgba(0, 0, 0, 1)">root,PBNode d)
+
+{
+
+         PBNode begin </span>= d;<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">起始节点</span>
+
+         <span style="color: rgba(0, 0, 255, 1)">while</span>(begin != *<span style="color: rgba(0, 0, 0, 1)">root)
+
+         {
+
+                  PBNode p </span>= begin-&gt;parent;<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">父亲节点</span>
+
+                  <span style="color: rgba(0, 0, 255, 1)">if</span>(p-&gt;l_tree == begin)<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">d为左孩子</span>
+<span style="color: rgba(0, 0, 0, 1)">
+                  {
+
+                          PBNode s </span>= p-&gt;r_tree;<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">兄弟节点</span>
+
+                          <span style="color: rgba(0, 0, 255, 1)">if</span>(s-&gt;color == RED)<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">情况1</span>
+<span style="color: rgba(0, 0, 0, 1)">
+                          {
+
+                                   delete_black_case1(root,begin);
+
+                                   </span><span style="color: rgba(0, 0, 255, 1)">continue</span><span style="color: rgba(0, 0, 0, 1)">;
+
+                          }
+
+                          PBNode sl </span>= s-&gt;l_tree;<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">近侄子</span>
+<span style="color: rgba(0, 0, 0, 1)">
+                          PBNode sr </span>= s-&gt;r_tree;<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">远侄子</span>
+
+                          <span style="color: rgba(0, 0, 255, 1)">if</span>(sr != NULL &amp;&amp; sr-&gt;color == RED)<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">情况2</span>
+<span style="color: rgba(0, 0, 0, 1)">
+                          {
+
+                                   delete_black_case2(root,begin);
+
+                                   </span><span style="color: rgba(0, 0, 255, 1)">break</span><span style="color: rgba(0, 0, 0, 1)">;
+
+                          }
+
+                          </span><span style="color: rgba(0, 0, 255, 1)">if</span>(sl != NULL &amp;&amp; sl-&gt;color == RED)<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">情况3</span>
+<span style="color: rgba(0, 0, 0, 1)">
+                          {
+
+                                   delete_black_case3(begin);
+
+                                   </span><span style="color: rgba(0, 0, 255, 1)">continue</span><span style="color: rgba(0, 0, 0, 1)">;
+
+                          }
+
+                          </span><span style="color: rgba(0, 0, 255, 1)">if</span>(p-&gt;color == RED)<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">情况4</span>
+<span style="color: rgba(0, 0, 0, 1)">
+                          {
+
+                                   delete_black_case4(begin);
+
+                                   </span><span style="color: rgba(0, 0, 255, 1)">break</span><span style="color: rgba(0, 0, 0, 1)">;
+
+                          }
+
+                          </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">情况5</span>
+<span style="color: rgba(0, 0, 0, 1)">
+                          begin </span>= delete_black_case5(begin);<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">起始点要变换</span>
+
+                          <span style="color: rgba(0, 0, 255, 1)">continue</span><span style="color: rgba(0, 0, 0, 1)">;
+
+ 
+
+                  }
+
+                  </span><span style="color: rgba(0, 0, 255, 1)">else</span> <span style="color: rgba(0, 0, 255, 1)">if</span>(p-&gt;r_tree == begin)<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">d为左孩子</span>
+<span style="color: rgba(0, 0, 0, 1)">
+                  {
+
+                          PBNode s </span>= p-&gt;l_tree;<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">兄弟节点</span>
+
+                          <span style="color: rgba(0, 0, 255, 1)">if</span>(s-&gt;color == RED)<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">情况1</span>
+<span style="color: rgba(0, 0, 0, 1)">
+                          {
+
+                                   delete_black_case1(root,begin);
+
+                                   </span><span style="color: rgba(0, 0, 255, 1)">continue</span><span style="color: rgba(0, 0, 0, 1)">;
+
+                          }
+
+                          PBNode sl </span>= s-&gt;l_tree;<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">远侄子</span>
+<span style="color: rgba(0, 0, 0, 1)">
+                          PBNode sr </span>= s-&gt;r_tree;<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">近侄子
+
+                          </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">一定要先看远侄子，再看近侄子</span>
+
+                          <span style="color: rgba(0, 0, 255, 1)">if</span>(sl != NULL &amp;&amp; sl-&gt;color == RED)<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">情况2</span>
+<span style="color: rgba(0, 0, 0, 1)">
+                          {
+
+                                   delete_black_case2(root,begin);
+
+                                   </span><span style="color: rgba(0, 0, 255, 1)">break</span><span style="color: rgba(0, 0, 0, 1)">;
+
+                          }
+
+                          </span><span style="color: rgba(0, 0, 255, 1)">if</span>(sr != NULL &amp;&amp; sr-&gt;color == RED)<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">情况3</span>
+<span style="color: rgba(0, 0, 0, 1)">
+                          {
+
+                                   delete_black_case3(begin);
+
+                                   </span><span style="color: rgba(0, 0, 255, 1)">continue</span><span style="color: rgba(0, 0, 0, 1)">;
+
+                          }
+
+                          </span><span style="color: rgba(0, 0, 255, 1)">if</span>(p-&gt;color == RED)<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">情况4</span>
+<span style="color: rgba(0, 0, 0, 1)">
+                          {
+
+                                   delete_black_case4(begin);
+
+                                   </span><span style="color: rgba(0, 0, 255, 1)">break</span><span style="color: rgba(0, 0, 0, 1)">;
+
+                          }
+
+                          </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">情况5</span>
+<span style="color: rgba(0, 0, 0, 1)">
+                          begin </span>= delete_black_case5(begin);<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">起始点要变换</span>
+
+                          <span style="color: rgba(0, 0, 255, 1)">continue</span><span style="color: rgba(0, 0, 0, 1)">;
+
+ 
+
+                  }
+
+ 
+
+         }
+
+ 
+
+         </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">循环退出后，删除d</span>
+<span style="color: rgba(0, 0, 0, 1)">
+         delete_node(root,d);
+
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>最后写一个函数将删除红色节点、黑色非叶子节点和黑色叶子节点的函数合并到一起，此外还要根据二叉排序树的要求处理有两个孩子的节点</p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 128, 0, 1)">/*</span><span style="color: rgba(0, 128, 0, 1)">*
+
+ * 删除节点函数，并进行调整，保证调整后任是一棵红黑树
+
+ * </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+
+<span style="color: rgba(0, 0, 255, 1)">void</span> delete_brt_node(PBNode *root,<span style="color: rgba(0, 0, 255, 1)">int</span><span style="color: rgba(0, 0, 0, 1)"> value)
+
+{
+
+         </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">找到该节点</span>
+<span style="color: rgba(0, 0, 0, 1)">
+         PBNode node  </span>= get_node(*<span style="color: rgba(0, 0, 0, 1)">root,value);
+
+         </span><span style="color: rgba(0, 0, 255, 1)">if</span>(node ==<span style="color: rgba(0, 0, 0, 1)"> NULL)
+
+                  </span><span style="color: rgba(0, 0, 255, 1)">return</span><span style="color: rgba(0, 0, 0, 1)">;
+
+         </span><span style="color: rgba(0, 0, 255, 1)">int</span> tag = <span style="color: rgba(128, 0, 128, 1)">0</span><span style="color: rgba(0, 0, 0, 1)">;
+
+         </span><span style="color: rgba(0, 0, 255, 1)">while</span>(tag != <span style="color: rgba(128, 0, 128, 1)">2</span><span style="color: rgba(0, 0, 0, 1)">)
+
+         {
+
+                  </span><span style="color: rgba(0, 0, 255, 1)">if</span>(node-&gt;l_tree ==<span style="color: rgba(0, 0, 0, 1)"> NULL)
+
+                  {
+
+                          PBNode r </span>= node-&gt;<span style="color: rgba(0, 0, 0, 1)">r_tree;
+
+                          </span><span style="color: rgba(0, 0, 255, 1)">if</span>(r == NULL)<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">为叶子节点的情况</span>
+<span style="color: rgba(0, 0, 0, 1)">
+                          {
+
+                                   </span><span style="color: rgba(0, 0, 255, 1)">if</span>(node-&gt;color ==<span style="color: rgba(0, 0, 0, 1)"> RED)
+
+                                   {
+
+                                            delete_d_red(root,node);
+
+                                   }
+
+                                   </span><span style="color: rgba(0, 0, 255, 1)">else</span><span style="color: rgba(0, 0, 0, 1)">
+
+                                   {
+
+                                            delete_d_black_leaf(root,node);
+
+                                   }
+
+                                   </span><span style="color: rgba(0, 0, 255, 1)">break</span><span style="color: rgba(0, 0, 0, 1)">;
+
+                          }
+
+                          </span><span style="color: rgba(0, 0, 255, 1)">else</span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">只有右子树的情况</span>
+<span style="color: rgba(0, 0, 0, 1)">
+                          {
+
+                                   delete_d_black_not_leaf(root,node);
+
+                                   </span><span style="color: rgba(0, 0, 255, 1)">break</span><span style="color: rgba(0, 0, 0, 1)">;
+
+ 
+
+ 
+
+                          }
+
+                  }
+
+                  </span><span style="color: rgba(0, 0, 255, 1)">else</span> <span style="color: rgba(0, 0, 255, 1)">if</span>(node-&gt;r_tree == NULL)<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">只有左子树的情况</span>
+<span style="color: rgba(0, 0, 0, 1)">
+                  {
+
+                          delete_d_black_not_leaf(root,node);
+
+                          </span><span style="color: rgba(0, 0, 255, 1)">break</span><span style="color: rgba(0, 0, 0, 1)">;
+
+ 
+
+ 
+
+                  }
+
+                  </span><span style="color: rgba(0, 0, 255, 1)">else</span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">既有左孩子又有右孩子</span>
+<span style="color: rgba(0, 0, 0, 1)">
+                  {
+
+                          </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">找到后继节点</span>
+<span style="color: rgba(0, 0, 0, 1)">
+                          PBNode y </span>= node-&gt;<span style="color: rgba(0, 0, 0, 1)">r_tree;
+
+                          </span><span style="color: rgba(0, 0, 255, 1)">while</span>(y-&gt;l_tree !=<span style="color: rgba(0, 0, 0, 1)"> NULL)
+
+                          {
+
+                                   y </span>= y-&gt;<span style="color: rgba(0, 0, 0, 1)">l_tree;
+
+                          }
+
+                          </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">用后继节点和该节点进行值交换</span>
+
+                          <span style="color: rgba(0, 0, 255, 1)">int</span> temp = node-&gt;<span style="color: rgba(0, 0, 0, 1)">value;
+
+                          node</span>-&gt;value = y-&gt;<span style="color: rgba(0, 0, 0, 1)">value;
+
+                          y</span>-&gt;value =<span style="color: rgba(0, 0, 0, 1)"> temp;
+
+ 
+
+                          node </span>= y;<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">待删除的节点转换成后继节点</span>
+<span style="color: rgba(0, 0, 0, 1)">
+                          tag </span>++<span style="color: rgba(0, 0, 0, 1)">;
+
+                  }
+
+ 
+
+         }
+
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+<h3><strong>最后附上word文档和源代码文件</strong></h3>
+<p>&nbsp;链接：http://pan.baidu.com/s/1nvQI2iX 密码：16nd</p>
+<p>那个brt2.c是包含添加和删除节点的</p>
+<p>如果你觉得对你有用，请点个赞吧~~~光图都画了好长时间~~</p>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2017-08-12 21:35</span>&nbsp;
+<a href="https://www.cnblogs.com/qingergege/">青儿哥哥</a>&nbsp;
+阅读(<span id="post_view_count">16371</span>)&nbsp;
+评论(<span id="post_comment_count">9</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=7351659" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(7351659);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 250224, cb_blogApp = 'qingergege', cb_blogUserGuid = 'fbf5e3a8-a873-e511-9fc1-ac853d9f53cc';
+    var cb_entryId = 7351659, cb_entryCreatedDate = '2017-08-12 21:35', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 青儿哥哥
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjvN0EVb72d9PZnk6wCpCR2MSnIMw4PBX_Vh1gpy305sreS99yRRwnhY8buh_dxNteJWSkImT1qFdMYoKPpWfxSpLz6ZcZkNeNU6Kvi7JaFVviFJtrcUgMlHpITZY01JMyo" />
+</body>
+</html>

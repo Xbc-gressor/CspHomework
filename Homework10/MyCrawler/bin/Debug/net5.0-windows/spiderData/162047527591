@@ -1,0 +1,672 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    
+    
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>随笔列表第3页 - 博客园团队 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/lessismoreright/bundle-lessismoreright.min.css?v=00nt3ajQUVX0gvFynxRY-4TOqQaW32yFChuBOrvOqLk" />
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/cmt/custom.css?v=2GOft7v8/khW8DYnIqoYHSMrSyc=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/lessismoreright/bundle-lessismoreright-mobile.min.css?v=cSBXSFXCBG9KdnF2sdUs-Rwu75GHG2_Gs50OCy_ecGg" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/cmt/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/cmt/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/cmt/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 39258;
+        var currentBlogApp = 'cmt';
+        var cb_enable_mathjax = true;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'LessIsMoreRight';
+        var visitorUserId = '';
+    </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+        tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processClass: 'math', processEscapes: true },
+        TeX: {
+        equationNumbers: { autoNumber: ['AMS'], useLabelIds: true },
+        extensions: ['extpfeil.js', 'mediawiki-texvc.js'],
+        Macros: {bm: "\\boldsymbol"}
+        },
+        'HTML-CSS': { linebreaks: { automatic: true } },
+        SVG: { linebreaks: { automatic: true } }
+        });
+    </script>
+    <script src="https://mathjax.cnblogs.com/2_7_5/MathJax.js?config=TeX-AMS-MML_HTMLorMML&amp;v=20200504"></script>
+    
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <div id="home">
+    <div id="header">
+        <div id="blogTitle">
+            <div class="title"><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/cmt/">博客园官方博客</a>
+</div>
+<div class="subtitle">代码改变世界</div>
+
+        </div>
+        <div id="navigator">
+            
+<ul id="navList">
+    <li id="nav_sitehome"><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+    <li id="nav_myhome">
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/cmt/">
+首页</a>
+</li>
+    <li id="nav_newpost">
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+    <li id="nav_contact">
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E5%8D%9A%E5%AE%A2%E5%9B%AD%E5%9B%A2%E9%98%9F">
+联系</a></li>
+    <li id="nav_rss">
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/cmt/rss/">
+订阅</a></li>
+    <li id="nav_admin">
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+            <div class="blogStats">
+                <div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+            </div>
+        </div>
+    </div>
+    <div id="main">
+        <div id="mainContent">
+            <div class="forFlow">
+                
+
+
+
+<div id="homepage_top_pager" class="topicListFooter">
+    
+
+<div class="pager">
+    <a href="https://www.cnblogs.com/cmt/default.html?page=2">上一页</a>
+    
+    
+        <a href="https://www.cnblogs.com/cmt/default.html?page=1">1</a>
+        <a href="https://www.cnblogs.com/cmt/default.html?page=2">2</a>
+    3
+        <a href="https://www.cnblogs.com/cmt/default.html?page=4">4</a>
+        <a href="https://www.cnblogs.com/cmt/default.html?page=5">5</a>
+        <a href="https://www.cnblogs.com/cmt/default.html?page=6">6</a>
+        <a href="https://www.cnblogs.com/cmt/default.html?page=7">7</a>
+    ···
+    <a href="https://www.cnblogs.com/cmt/default.html?page=121">121</a>
+    <a href="https://www.cnblogs.com/cmt/default.html?page=4">下一页</a>
+</div>
+</div>
+
+
+    
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/cmt/archive/2021/02/08.html">2021年2月8日</a>
+    </div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/cmt/p/14387648.html">
+    <span>
+        上周热点回顾（2.1-2.7）
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+            
+
+    <div class="c_b_p_desc">
+摘要：热点随笔： &#183;&#160;一位大龄程序员所经历的面试的历炼和思考&#160;(琴水玉)&#183;&#160;漫画 | CPU战争40年，真正的王者终于现身!&#160;(码农翻身)&#183;&#160;分享一款10年前我赚第一桶金的项目&#160;(胡尐睿丶)&#183;&#160;大型翻车现场：如何实现记录存在的话就更新，如果记录不存在的话就插入。很简单、但是很实用&#160;(赐我白日梦)&#183;&#160;漫画         <a href="https://www.cnblogs.com/cmt/p/14387648.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        </div>
+        <div class="clear"></div>
+        <div class="postDesc">
+            posted @ 2021-02-08 09:34
+博客园团队
+<span data-post-id="14387648" class="post-view-count">阅读(770)</span> 
+<span data-post-id="14387648" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14387648" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14387648" rel="nofollow">
+    编辑
+</a>
+
+        </div>
+        <div class="clear"></div>
+</div>
+    
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/cmt/archive/2021/02/01.html">2021年2月1日</a>
+    </div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/cmt/p/14355049.html">
+    <span>
+        上周热点回顾（1.25-1.31）
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+            
+
+    <div class="c_b_p_desc">
+摘要：热点随笔： &#183;&#160;在冷风中我凌乱了半小时，只因健康码刷不出来&#160;(猿天地)&#183;&#160;每月一更的《HelloGitHub》第 58 期，来啦！&#160;(削微寒)&#183;&#160;一文告诉你Java日期时间API到底有多烂&#160;(YourBatman)&#183;&#160;拒演&quot;拼命工作&quot;的苦情戏，如何更聪明地提高工作效率?&#160;(码匠赵铁柱)&#183;&#160;我的202        <a href="https://www.cnblogs.com/cmt/p/14355049.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        </div>
+        <div class="clear"></div>
+        <div class="postDesc">
+            posted @ 2021-02-01 09:03
+博客园团队
+<span data-post-id="14355049" class="post-view-count">阅读(871)</span> 
+<span data-post-id="14355049" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14355049" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14355049" rel="nofollow">
+    编辑
+</a>
+
+        </div>
+        <div class="clear"></div>
+</div>
+    
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/cmt/archive/2021/01/27.html">2021年1月27日</a>
+    </div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/cmt/p/14333247.html">
+    <span>
+        【故障公告】K8s CofigMap 挂载问题引发网站故障
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+            
+
+    <div class="c_b_p_desc">
+摘要：这是我们自去年2月23日将生产环境切换到 k8s 之后第一次与这个 CofigMap 挂载问题相遇，到目前我们也不知道为什么会这样？但我们知道这不是百年修得同船渡的缘分，这是我们接下来面临的一个挑战——上船容易开船难。非常抱歉，这次故障给您带来了很大的麻烦，请您谅解！园子的高可用是我们今年重点解决的一个问题，请给我们一些时间。        <a href="https://www.cnblogs.com/cmt/p/14333247.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        </div>
+        <div class="clear"></div>
+        <div class="postDesc">
+            posted @ 2021-01-27 12:12
+博客园团队
+<span data-post-id="14333247" class="post-view-count">阅读(1765)</span> 
+<span data-post-id="14333247" class="post-comment-count">评论(6)</span> 
+<span data-post-id="14333247" class="post-digg-count">推荐(5)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14333247" rel="nofollow">
+    编辑
+</a>
+
+        </div>
+        <div class="clear"></div>
+</div>
+    
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/cmt/archive/2021/01/25.html">2021年1月25日</a>
+    </div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/cmt/p/14323599.html">
+    <span>
+        上周热点回顾（1.18-1.24）
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+            
+
+    <div class="c_b_p_desc">
+摘要：热点随笔： &#183;&#160;WTM5.0发布，全面支持.net5&#160;(liuliang79)&#183;&#160;【年度总结】在大厂混了两年，然后呢？&#160;(NovaCN)&#183;&#160;&#127881; Element UI for Vue 3.0 来了！&#160;(朱昆)&#183;&#160;[工作札记]03: 微软Winform窗体中设计上的Bug，会导致程序编译失败，影响范围        <a href="https://www.cnblogs.com/cmt/p/14323599.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        </div>
+        <div class="clear"></div>
+        <div class="postDesc">
+            posted @ 2021-01-25 09:32
+博客园团队
+<span data-post-id="14323599" class="post-view-count">阅读(720)</span> 
+<span data-post-id="14323599" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14323599" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14323599" rel="nofollow">
+    编辑
+</a>
+
+        </div>
+        <div class="clear"></div>
+</div>
+    
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/cmt/archive/2021/01/21.html">2021年1月21日</a>
+    </div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/cmt/p/14306142.html">
+    <span>
+        Kubernetes 开船记-脚踏两只船：用 master 服务器镜像克隆出新集群
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+            
+
+    <div class="c_b_p_desc">
+摘要：随着在船上的日子越来越长，随着对 kubernetes 越来越依赖，我们的杞人忧天也越来越难以挥去...。终于有一天，一个贬义的俗语让我们豁然开朗 —— “脚踏两只船”，如果只有1个集群，kubernetes 再怎么工业级标准，也无法让我们高枕无忧，唯有2个集群。于是，我们找到了自己的解忧之道 —— 再开一艘船。        <a href="https://www.cnblogs.com/cmt/p/14306142.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        </div>
+        <div class="clear"></div>
+        <div class="postDesc">
+            posted @ 2021-01-21 15:00
+博客园团队
+<span data-post-id="14306142" class="post-view-count">阅读(1152)</span> 
+<span data-post-id="14306142" class="post-comment-count">评论(12)</span> 
+<span data-post-id="14306142" class="post-digg-count">推荐(11)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14306142" rel="nofollow">
+    编辑
+</a>
+
+        </div>
+        <div class="clear"></div>
+</div>
+    
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/cmt/archive/2021/01/18.html">2021年1月18日</a>
+    </div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/cmt/p/14291243.html">
+    <span>
+        上周热点回顾（1.11-1.17）
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+            
+
+    <div class="c_b_p_desc">
+摘要：热点随笔： &#183;&#160;965七年我失去了什么？得到了什么？&#160;(逃离沙漠)&#183;&#160;面试之后，扼腕叹息。&#160;(why技术)&#183;&#160;图解 | 原来这就是网络&#160;(闪客sun)&#183;&#160;2020年工作上的最大收获——监控告警体系&#160;(老於`)&#183;&#160;.Net微服务实战之负载均衡（下）&#160;(陈珙)&#183;&#160;.netcore 急速接入第三方登录，不        <a href="https://www.cnblogs.com/cmt/p/14291243.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        </div>
+        <div class="clear"></div>
+        <div class="postDesc">
+            posted @ 2021-01-18 09:34
+博客园团队
+<span data-post-id="14291243" class="post-view-count">阅读(770)</span> 
+<span data-post-id="14291243" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14291243" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14291243" rel="nofollow">
+    编辑
+</a>
+
+        </div>
+        <div class="clear"></div>
+</div>
+    
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/cmt/archive/2021/01/11.html">2021年1月11日</a>
+    </div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/cmt/p/14260661.html">
+    <span>
+        上周热点回顾（1.4-1.10）
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+            
+
+    <div class="c_b_p_desc">
+摘要：热点随笔： &#183;&#160;博客园什么时候有的高低贵贱制度？？？&#160;(一 定 会 去 旅 行)&#183;&#160;对HTTP请求接口资源下载时间过长的问题分析&#160;(lulianqi15)&#183;&#160;神奇的 SQL 之性能优化 → 让 SQL 飞起来&#160;(youzhibing2904)&#183;&#160;10年前，我就用 SQL注入漏洞黑了学校网站&#160;(风的姿        <a href="https://www.cnblogs.com/cmt/p/14260661.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        </div>
+        <div class="clear"></div>
+        <div class="postDesc">
+            posted @ 2021-01-11 09:25
+博客园团队
+<span data-post-id="14260661" class="post-view-count">阅读(783)</span> 
+<span data-post-id="14260661" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14260661" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14260661" rel="nofollow">
+    编辑
+</a>
+
+        </div>
+        <div class="clear"></div>
+</div>
+    
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/cmt/archive/2021/01/07.html">2021年1月7日</a>
+    </div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/cmt/p/14244702.html">
+    <span>
+        园子的品牌专区上新：NoSQL 数据库佼佼者 Aerospike
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+            
+
+    <div class="c_b_p_desc">
+摘要：品牌专区是园子去年推出的新楼盘，为优秀的科技企业在园子里提供一个地方，展示自己的品牌，分享自己的技术内容。最近我们和国外领先的 NoSQL 数据库厂商 Aerospike 达成了合作，入驻了园子的品牌专区 —— Aerospike专区。欢迎大家关注并分享与交流 Aerospike 方面的内容。        <a href="https://www.cnblogs.com/cmt/p/14244702.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        </div>
+        <div class="clear"></div>
+        <div class="postDesc">
+            posted @ 2021-01-07 18:20
+博客园团队
+<span data-post-id="14244702" class="post-view-count">阅读(691)</span> 
+<span data-post-id="14244702" class="post-comment-count">评论(2)</span> 
+<span data-post-id="14244702" class="post-digg-count">推荐(1)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14244702" rel="nofollow">
+    编辑
+</a>
+
+        </div>
+        <div class="clear"></div>
+</div>
+    
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/cmt/archive/2021/01/04.html">2021年1月4日</a>
+    </div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/cmt/p/14228147.html">
+    <span>
+        上周热点回顾（12.28-1.3）
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+            
+
+    <div class="c_b_p_desc">
+摘要：热点随笔： &#183;&#160;2020年终总结——卖公众号赚第一桶金后的心痛&#160;(泰斗贤若如)&#183;&#160;C# 9 新特性 —— 增强的 foreach&#160;(WeihanLi)&#183;&#160;国产的开源数据库——GitHub 热点速览 Vol.52&#160;(削微寒)&#183;&#160;.NET 5 源代码生成器——MediatR——CQRS&#160;(码农译站)&#183;&#160;        <a href="https://www.cnblogs.com/cmt/p/14228147.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        </div>
+        <div class="clear"></div>
+        <div class="postDesc">
+            posted @ 2021-01-04 09:30
+博客园团队
+<span data-post-id="14228147" class="post-view-count">阅读(886)</span> 
+<span data-post-id="14228147" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14228147" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14228147" rel="nofollow">
+    编辑
+</a>
+
+        </div>
+        <div class="clear"></div>
+</div>
+    
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/cmt/archive/2020/12/31.html">2020年12月31日</a>
+    </div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/cmt/p/14217355.html">
+    <span>
+        发起一个开源项目：基于 .NET 的博客引擎 fluss
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+            
+
+    <div class="c_b_p_desc">
+摘要：今天我们发起一个开源项目，它的名字叫 fluss，fluss 是 river 的德语。百川归海，每一个博客就如一条河流，输入的是文字，流出的是知识，汇入的是知识的汪洋大海。川流不息，fluss 是一个博客引擎，致力于驱动知识的持续流转，它的厂房设在 github 市 cnblogs 街 324128962 号 ，以开源的方式生产，遵循的生产许可证（开源协议）是 Apache-2.0 License。        <a href="https://www.cnblogs.com/cmt/p/14217355.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        </div>
+        <div class="clear"></div>
+        <div class="postDesc">
+            posted @ 2020-12-31 16:59
+博客园团队
+<span data-post-id="14217355" class="post-view-count">阅读(32466)</span> 
+<span data-post-id="14217355" class="post-comment-count">评论(46)</span> 
+<span data-post-id="14217355" class="post-digg-count">推荐(84)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14217355" rel="nofollow">
+    编辑
+</a>
+
+        </div>
+        <div class="clear"></div>
+</div>
+
+<div class="topicListFooter">
+    <div id="nav_next_page">
+        
+
+    </div>    
+</div>
+
+
+<div id="homepage_bottom_pager" class="topicListFooter">
+    
+
+<div class="pager">
+    <a href="https://www.cnblogs.com/cmt/default.html?page=2">上一页</a>
+    
+    
+        <a href="https://www.cnblogs.com/cmt/default.html?page=1">1</a>
+        <a href="https://www.cnblogs.com/cmt/default.html?page=2">2</a>
+    3
+        <a href="https://www.cnblogs.com/cmt/default.html?page=4">4</a>
+        <a href="https://www.cnblogs.com/cmt/default.html?page=5">5</a>
+        <a href="https://www.cnblogs.com/cmt/default.html?page=6">6</a>
+        <a href="https://www.cnblogs.com/cmt/default.html?page=7">7</a>
+    ···
+    <a href="https://www.cnblogs.com/cmt/default.html?page=121">121</a>
+    <a href="https://www.cnblogs.com/cmt/default.html?page=4">下一页</a>
+</div>
+</div>
+
+<script>
+    updatePostStats(
+        $(".post-view-count").map(function () { return this.dataset.postId }).get(),
+        function(id, count) { $(".post-view-count[data-post-id=" + id + "]").text("阅读(" + count + ")") },
+        function(id, count) { $(".post-comment-count[data-post-id=" + id + "]").text("评论(" + count + ")") },
+        function(id, count) { $(".post-digg-count[data-post-id=" + id + "]").text("推荐(" + count + ")") });
+</script>
+            </div>
+        </div>
+
+        <div id="sideBar">
+            <div id="sideBarMain">
+                <div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+                <div id="calendar"><div id="blog-calendar" style="display:none"></div></div>                
+                <script>loadBlogDefaultCalendar();</script>
+                <div id="leftcontentcontainer">
+                    <!-- begin:SingleColumn -->
+                    <div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+                    <!-- end:  SingleColumn -->
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+    <div id="footer">
+        <!--done-->
+Copyright &copy; 2021 博客园团队
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+    </div>
+</div>
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjvqfQDxBjKGEIlOQazzuwHNKnzhcxZFcZNVnsVAG5jFQRoRzyRqIpkMYWUCjXw2xwkM7UvlcvrG9liPvcdKfqv8FLhwk61Cz9XyIdgrNgOfDPH9k-lW_FvUpmDvd8XV9qg" />
+</body>
+</html>

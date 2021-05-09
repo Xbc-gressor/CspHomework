@@ -1,0 +1,412 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="下面随笔给出块设备文件与文件系统之间的关系解析。 Linux操作系统秉承“一切皆文件”的设计思想，将所有的设备页看作文件来进行处理。目前的Linux版本中，当内核发现一个块设备时，用户空间会利用ude" />
+    <meta property="og:description" content="下面随笔给出块设备文件与文件系统之间的关系解析。 Linux操作系统秉承“一切皆文件”的设计思想，将所有的设备页看作文件来进行处理。目前的Linux版本中，当内核发现一个块设备时，用户空间会利用ude" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>块设备文件与文件系统之间的关系解析 - 流星斩月 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/darkgreentrip/bundle-darkgreentrip.min.css?v=eoZATbPKwJCL5eWVDTQIYC6CIxJPcFz191dkzN2tSyQ" />
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/iFrank/custom.css?v=A2ff6e33&#x2B;mVQrM2qNzbZyKTZt/w=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/darkgreentrip/bundle-darkgreentrip-mobile.min.css?v=lU86o8mZVn3FOSdFt7nHKYTD8gzeKaiQIIZ6lSjEFyo" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/iFrank/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/iFrank/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/iFrank/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 661821;
+        var currentBlogApp = 'iFrank';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'darkgreentrip';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-02-28 11:51';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="no-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="page_begin_html">
+        <script>loadPageBeginHtml();</script>
+    </div>
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/iFrank/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/iFrank/">流星斩月</a>
+</h1>
+<h2>欢迎转载，请注明文章出处
+大家也可关注我的微信公众号:流星斩月</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/iFrank/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E6%B5%81%E6%98%9F%E6%96%A9%E6%9C%88">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/iFrank/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/iFrank/p/14458544.html">
+    <span>块设备文件与文件系统之间的关系解析</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<p>　　下面随笔给出块设备文件与文件系统之间的关系解析。</p>
+<p>　　Linux操作系统秉承“一切皆文件”的设计思想，将所有的设备页看作文件来进行处理。目前的Linux版本中，当内核发现一个块设备时，用户空间会利用udev这一数据结构以及相关的操作来为块设备创建其所需的块设备文件。</p>
+<p>　　关于块设备文件，可以从两方面来进行理解。从块设备文件的外部表现来看，它是属于某个外部文件系统上的一个文件。通常Linux内核将其存放在/dev目录下，用户像对常规文件一样来对其进行访问。从块设备文件的内部实现来看，它可以看作是一种特殊文件系统的所属文件，同时该块设备文件的文件逻辑编号与块设备逻辑编号一一对应。</p>
+<p>　　那如何对常规文件与块设备文件进行区分？当类似于/dev目录下的挂载在宿主系统中的块设备文件，主要通过文件所对应的inode结构中i_mode字段来进行判别，另外在inode结构中i_zone[0]字段中存储了所对应的块设备的编号。</p>
+<p>　　而为了对块设备文件进行便捷的组织与管理，Linux内核创建了bdev文件系统，该文件系统的目的是为了建立块设备文件在外部表现与内部实现之间的关联性。bdev文件系统是一个“伪”文件系统，它只被内核使用，而无需挂载到全局的文件系统树上。</p>
+<p>　　块设备文件除了与常规文件类似的在根文件系统上存在inode之外，其在bdev文件系统上也存在对应的inode。两个inode之间通过块设备编号相关联，需要注意的是，前者的inode称之为次inode，而后者称之为主inode。</p>
+<p>　　Linux中，存在对设备抽象之后的目录，即/dev，也就是前边所描述的宿主文件系统下的块设备文件。该目录由指向系统中硬件的特殊文件组成。所以程序员可以便捷的对硬件进行访问，而不需要使用一些特殊的接口函数。</p>
+<p>　　&nbsp;**这些文件其所对应的inode所具有的特征有以下几点：**</p>
+<p>　　&nbsp;**1. 文件模式为块设备文件**</p>
+<p>　　&nbsp;**2. 文件内容为块设备编号，保存在inode当中**</p>
+<p>　　&nbsp;**3. 文件长度为0**</p>
+<p>　　&nbsp;虽然bdev文件系统是一个“伪”文件系统，不会挂载在全局文件系统树中，且只存在于内存中。但是Linux内核仍然根据文件系统的数据结构来对其进行创建。&nbsp;对于每个块设备，在bdev文件系统中都有一个indoe，同时磁盘和分区也会有属于自己的inode。Linux内核利用blokc_inode数据结构表示块设备的inode，其中包含了两个字段，分别是struct block_device，即块设备描述符。另一个是struct inode，即inode描述符。但是Linux系统为了能够对整体的inode进行统一的管理，因此在宿主系统中创建了与bdev文件系统中相对应的inode。</p>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2021-02-28 11:51</span>&nbsp;
+<a href="https://www.cnblogs.com/iFrank/">流星斩月</a>&nbsp;
+阅读(<span id="post_view_count">47</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14458544" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14458544);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 661821, cb_blogApp = 'iFrank', cb_blogUserGuid = '60c9bdec-9bd2-4dbd-02d4-08d8bdc87a19';
+    var cb_entryId = 14458544, cb_entryCreatedDate = '2021-02-28 11:51', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 流星斩月
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    <div id="page_end_html">
+        <!-- 小火箭-->
+<script src="https://blog-static.cnblogs.com/files/pythonywy/jQuery1.7.js"></script>
+<style type="text/css">
+
+    /*回到顶部*/
+    #rocket-to-top div {
+        left: 0;
+        margin: 0;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        top: 0;
+        width: 149px;
+    }
+
+    #rocket-to-top .level-2 {
+        background: url("https://images.cnblogs.com/cnblogs_com/pythonywy/1455951/o_redhuojian2.png") no-repeat scroll -149px 0 transparent;
+        display: none;
+        height: 250px;
+        opacity: 0;
+        z-index: 1;
+    }
+
+    #rocket-to-top .level-3 {
+        background: none repeat scroll 0 0 transparent;
+        display: block;
+        height: 150px;
+        z-index: 2;
+    }
+
+    #rocket-to-top .level-3:hover {
+        cursor: url(https://images.cnblogs.com/cnblogs_com/pythonywy/1516412/o_huo3.png), auto;
+    }
+
+    #rocket-to-top .level-3:active {
+        cursor: url(https://images.cnblogs.com/cnblogs_com/pythonywy/1516412/o_huo1.png), auto;
+    }
+
+    #rocket-to-top .level-3:focus {
+        cursor: url(https://images.cnblogs.com/cnblogs_com/pythonywy/1516412/o_huo2.png), auto;
+    }
+
+    #rocket-to-top {
+        background: url("https://images.cnblogs.com/cnblogs_com/pythonywy/1455951/o_redhuojian2.png") no-repeat scroll 0 0 transparent;
+        cursor: default;
+        display: block;
+        height: 250px;
+        margin: -125px 0 0;
+        overflow: hidden;
+        padding: 0;
+        position: fixed;
+        left: -40px;
+        top: 90%;
+        width: 149px;
+        z-index: 11;
+    }
+</style>
+<div style="display: none;" id="rocket-to-top">
+    <div style="opacity:0;display: block;" class="level-2"></div>
+    <div class="level-3"></div>
+</div>
+<script>
+    $(function () {
+        var e = $("#rocket-to-top"),
+            t = $(document).scrollTop(),
+            n,
+            r,
+            i = !0;
+        $(window).scroll(function () {
+            var t = $(document).scrollTop();
+            t == 0 ? e.css("background-position") == "0px 0px" ? e.fadeOut("slow") : i && (i = !1, $(".level-2").css("opacity", 1), e.delay(100).animate({
+                    marginTop: "-1000px"
+                },
+                "normal",
+                function () {
+                    e.css({
+                        "margin-top": "-125px",
+                        display: "none"
+                    }),
+                        i = !0
+                })) : e.fadeIn("slow")
+        }),
+            e.hover(function () {
+                    $(".level-2").stop(!0).animate({
+                        opacity: 1
+                    })
+                },
+                function () {
+                    $(".level-2").stop(!0).animate({
+                        opacity: 0
+                    })
+                }),
+            $(".level-3").click(function () {
+                function t() {
+                    var t = e.css("background-position");
+                    if (e.css("display") == "none" || i == 0) {
+                        clearInterval(n),
+                            e.css("background-position", "0px 0px");
+                        e.css("cursor", "url(https://images.cnblogs.com/cnblogs_com/pythonywy/1516412/o_huo1.png), auto");
+                        return
+                    }
+                    switch (t) {
+                        case "0px 0px":
+                            e.css("background-position", "-298px 0px");
+                            break;
+                        case "-298px 0px":
+                            e.css("background-position", "-447px 0px");
+                            break;
+                        case "-447px 0px":
+                            e.css("background-position", "-596px 0px");
+                            break;
+                        case "-596px 0px":
+                            e.css("background-position", "-745px 0px");
+                            break;
+                        case "-745px 0px":
+                            e.css("background-position", "-298px 0px");
+                    }
+                }
+
+                if (!i) return;
+                n = setInterval(t, 50),
+                    $("html,body").animate({scrollTop: 0}, "slow");
+            });
+    });
+</script>
+
+
+
+
+    </div>
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjvnGso1-ggIRWC43r3iz2hRGfEhvnpbzlhq0__CtnadpmhtE8AY7sZqPsWn4LNOgBIQT3mdP0vdspwCF7MjjicAoa6wnp9sImpln0UfxUUyK88buU34Rn19uf464R6LlU4" />
+</body>
+</html>

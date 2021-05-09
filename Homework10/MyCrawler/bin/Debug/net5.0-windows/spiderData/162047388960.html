@@ -1,0 +1,501 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="https://www.luogu.com.cn/problem/P5069 首先对于最大的那个数，两侧的两数要跟着他一起下降，所以它们永远不会成为最大得到，那不妨直接让这个最大的减成 $0$，同时，" />
+    <meta property="og:description" content="https://www.luogu.com.cn/problem/P5069 首先对于最大的那个数，两侧的两数要跟着他一起下降，所以它们永远不会成为最大得到，那不妨直接让这个最大的减成 $0$，同时，" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>P5069 [Ynoi2015]纵使日薄西山 - suxxsfe - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/suxxsfe/custom.css?v=2A2ZmHFUJScvUPjqHVySjkiNV9A=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/SimpleMemory/bundle-SimpleMemory-mobile.min.css" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/suxxsfe/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/suxxsfe/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/suxxsfe/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 583370;
+        var currentBlogApp = 'suxxsfe';
+        var cb_enable_mathjax = true;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'SimpleMemory';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2020-12-16 11:47';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+        tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processClass: 'math', processEscapes: true },
+        TeX: {
+        equationNumbers: { autoNumber: ['AMS'], useLabelIds: true },
+        extensions: ['extpfeil.js', 'mediawiki-texvc.js'],
+        Macros: {bm: "\\boldsymbol"}
+        },
+        'HTML-CSS': { linebreaks: { automatic: true } },
+        SVG: { linebreaks: { automatic: true } }
+        });
+    </script>
+    <script src="https://mathjax.cnblogs.com/2_7_5/MathJax.js?config=TeX-AMS-MML_HTMLorMML&amp;v=20200504"></script>
+    
+</head>
+<body class="no-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="page_begin_html">
+        <!--- 此文件必须修改 topMenu 和尾部的一个链接处的信息 -->
+<!--- 友链、侧边栏的内容可以在 menuList 里面改 -->
+
+<div id="titlePage">
+  <div id="myTitle">
+    <h1 id="userName" style="text-align:center;">suxxsfe</h1>
+    <h2 style="text-align:center;" id="onePoemTitle"><B>一言（ヒトコト）</B></h2>
+    <p id="onePoem"></p>
+  </div>
+
+</div>
+
+<div id="topMenu">
+	<div id="topMenuMain">
+	<ul id="topMenuUl">
+	<!--- 以下列表，引号里的链接内容（就是 href="" 的部分），按顺序依次改成你的博客首页、博客首页、关于我、留言板界面的链接，最后一个不用改 -->
+		<li id="first_page_with_name"><a href="https://www.cnblogs.com/suxxsfe/" class="big_a_top">suxxsfe</a></li><li id="first_page" class="others"><a href="https://www.cnblogs.com/suxxsfe/" class="normal_a_top">首页</a></li><li id="about_me" class="others"><a href="" class="normal_a_top">关于我</a></li><li id="message_board" class="others"><a href="https://www.cnblogs.com/suxxsfe/p/12527578.html" class="normal_a_top">留言板</a></li><li id="new_blog" class="others"><a href="https://i-beta.cnblogs.com/posts/edit" class="normal_a_top">新随笔</a></li>
+		<li id="search">
+			<div id="new_widget_my_zzk" class="new_div_my_zzk">
+				<input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="new_input_my_zzk" placeholder="搜索文章">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="new_btnZzk" class="new_btn_my_zzk">
+			</div>
+		</li>
+	</ul>
+	</div>
+	<div id="topTitle">
+		<p id="topTitle_p"></p>
+	</div>
+</div>
+
+<div id="menus" style="display:block;">
+	<button class="gotoTop menu_button" onclick="gotoTop()"><p>&#8679;</p></button>
+	<button class="menu menu_button" onclick="getMenu()"><p>&raquo;</p></button>
+	<button class="gotoBottom menu_button" onclick="gotoBottom()"><p>&#8681;</p></button>
+</div>
+<div id="menus2">
+	<button class="gotoTop menu_button" onclick="gotoTop()"><p>&#8679;</p></button>
+	<button class="menu menu_button" onclick="getMenu()"><p>&laquo;</p></button>
+	<button class="gotoBottom menu_button" onclick="gotoBottom()"><p>&#8681;</p></button>
+</div>
+
+<div id="menuList">
+	<br>
+	<div id="myNavigator" class="in_menuList">
+	<!--- 把相应的链接（href=""）改成你的 -->
+    <ul>
+		<li><a href="https://www.cnblogs.com/" target="_blank">博客园</a></li>
+		<li><a href="https://www.cnblogs.com/suxxsfe/">首页</a></li>
+		<li><a href="https://i-beta.cnblogs.com/posts/edit" target="_blank">新随笔</a></li>
+		<li><a href="https://msg.cnblogs.com/send/suxxsfe" target="_blank">联系</a></li>
+		<li><a href="http://feed.cnblogs.com/blog/u/583370/rss/" target="_blank">订阅</a></li>
+		<li><a href="https://i-beta.cnblogs.com/" target="_blank">管理</a></li>
+		<li><a href="https://www.luogu.com.cn/user/164432" target="_blank">我的洛谷</a></li>
+		<li><a href="https://codeforces.com/profile/suxxsfe" target="_blank">我的CF</a></li>
+		<li><a href="https://atcoder.jp/users/suxxsfe" target="_blank">我的atcoder</a></li>
+		</ul>
+	</div>
+	<br>
+	<div id="myBlogStats" class="in_menuList"></div>
+	<br>
+	<div id="friends" class="in_menuList">
+		<h3 class="catListTitle">友链</h3>
+		<p style="font-weight:100;font-size:12px;line-height:5px;">欢迎互换友链，可洛谷或博客园私信</p>
+		<p style="font-weight:100;font-size:12px;line-height:5px;">只要说一般都会放</p>
+		<ul>
+		<!--- 友链写在这里 -->
+		<li style="margin-top:10px;"><a href="https://nekox.cn">NekoX</a></li>
+		<li style="margin-top:10px;"><a href="https://www.luogu.com.cn/user/174045">FZzzz</a></li>
+		<li style="margin-top:10px;"><a href="https://www.luogu.com.cn/user/219595">Vocalise</a></li>
+		<li style="margin-top:10px;"><a href="https://shanlunjiajian.github.io/">ShanLunjiaJian</a></li>
+		</ul>
+	</div>
+	<br>
+	<hr>
+	<br>
+	<div id="myMenu" class="in_menuList">
+	</div>
+</div>
+
+<!--- 此处把下面的 onclick 属性改成你的 +关注 按钮上的 onclick 属性 -->
+<a href="javascript:void(0)" onclick="follow('b9ab9dc5-75fd-4c72-49cd-08d7abbfa4af')" id="followMe">关注我</a>
+
+    </div>
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/suxxsfe/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/suxxsfe/">suxxsfe</a>
+</h1>
+<h2>这是子标题</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/suxxsfe/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/suxxsfe">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/suxxsfe/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/suxxsfe/p/14147177.html">
+    <span>P5069 [Ynoi2015]纵使日薄西山</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+<p><a href="https://www.luogu.com.cn/problem/P5069" target="_blank">https://www.luogu.com.cn/problem/P5069</a></p>
+<p>首先对于最大的那个数，两侧的两数要跟着他一起下降，所以它们永远不会成为最大得到，那不妨直接让这个最大的减成 <span class="math inline">\(0\)</span>，同时，两侧两数也就也变成 <span class="math inline">\(0\)</span> 了<br>
+然后再去找下一个最大的<br>
+所以只要求哪些数会成为当前最大的，计算它们的和即可，可以发现是对于每一个极大的单调区间，取第 <span class="math inline">\(1,3,5,7....\)</span> 大的数<br>
+<s>然后想到这就不会维护了</s></p>
+<p>然后考虑怎么维护这个东西，首先用 <code>set</code> 记录下每一个极大（小）值点，然后对于每个极小值点，计算周围一个单调减、一个单调增区间的贡献即可（用一奇一偶两个线段树）<br>
+需要注意一些边界问题<br>
+再考虑单调修改以后怎么做，修改一个数，对与单调性最多只会对周围两个区间产生影响<br>
+对于贡献，则要对于 在修改前的数组中，左右两侧<strong>分别第二个</strong>极值点 围城的区间中，按照修改后的数组重新计算<br>
+这两点修改的影响应该还算好理解</p>
+<p>细节很烦，调了好久</p>
+<pre><code class="language-cpp">#include&lt;cstdio&gt;
+#include&lt;algorithm&gt;
+#include&lt;iostream&gt;
+#include&lt;cmath&gt;
+#include&lt;set&gt;
+#include&lt;iomanip&gt;
+#include&lt;cstring&gt;
+#define reg register
+#define EN puts("")
+inline int read(){
+	register int x=0;register int y=1;
+	register char c=std::getchar();
+	while(c&lt;'0'||c&gt;'9'){if(c=='-') y=0;c=getchar();}
+	while(c&gt;='0'&amp;&amp;c&lt;='9'){x=x*10+(c^48);c=getchar();}
+	return y?x:-x;
+}
+#define N 100006
+int a[N];
+struct Tree{
+	struct Node{
+		Node *ls,*rs;
+		long long sum;
+	}dizhi[N*2],*root;
+	int tot;
+	void build(Node *tree,int l,int r){
+		if(l==r) return;
+		tree-&gt;ls=&amp;dizhi[++tot];tree-&gt;rs=&amp;dizhi[++tot];
+		int mid=(l+r)&gt;&gt;1;
+		build(tree-&gt;ls,l,mid);build(tree-&gt;rs,mid+1,r);
+	}
+	void change(Node *tree,int l,int r,int pos,int k){
+		if(l==r) return tree-&gt;sum=k,void();
+		int mid=(l+r)&gt;&gt;1;
+		if(pos&lt;=mid) change(tree-&gt;ls,l,mid,pos,k);
+		else change(tree-&gt;rs,mid+1,r,pos,k);
+		tree-&gt;sum=tree-&gt;ls-&gt;sum+tree-&gt;rs-&gt;sum;
+	}
+	long long ask(Node *tree,int l,int r,int ql,int qr){
+		if(ql&lt;=l&amp;&amp;r&lt;=qr) return tree-&gt;sum;
+		int mid=(l+r)&gt;&gt;1;
+		long long ret=0;
+		if(ql&lt;=mid) ret+=ask(tree-&gt;ls,l,mid,ql,qr);
+		if(qr&gt;mid) ret+=ask(tree-&gt;rs,mid+1,r,ql,qr);
+		return ret;
+	}
+}odd,even;
+int n,m;
+std::set&lt;int&gt;set;
+long long get(int x){
+	if(x&lt;1||x&gt;n) return 0;
+	std::set&lt;int&gt;::iterator it=set.find(x),nex,pre;
+	nex=it;++nex;
+	pre=it;--pre;
+	//*it 应为极小值点
+	if(*it==1){
+		if(a[*it]&lt;a[*nex]){
+			if((*nex)&amp;1) return odd.ask(odd.root,1,n,1,(*nex)-1);
+			return even.ask(even.root,1,n,1,(*nex)-1);
+		}
+		return 0;
+	}
+	if(*it==n){
+		if(a[*it]&lt;=a[*pre]){
+			if((*pre)&amp;1) return odd.ask(odd.root,1,n,*pre,n);
+			return even.ask(even.root,1,n,*pre,n);
+		}
+		return a[n];//前一个极小值点并不会计算到 a[n]
+	}
+	if(a[*it]&lt;=a[*pre]&amp;&amp;a[*it]&lt;a[*nex]){
+		long long ret=0;
+		if((*pre)&amp;1) ret+=odd.ask(odd.root,1,n,*pre,(*it)-1);
+		else ret+=even.ask(even.root,1,n,*pre,(*it)-1);
+		if((*nex)&amp;1) ret+=odd.ask(odd.root,1,n,*(it)+1,(*nex)-1);
+		else ret+=even.ask(even.root,1,n,*(it)+1,(*nex)-1);
+		if(((*it)&amp;1)==((*nex)&amp;1)&amp;&amp;((*it)&amp;1)==((*pre)&amp;1)) ret+=a[*it];
+		return ret;
+	}
+	return 0;
+}
+int main(){
+	n=read();
+	odd.root=&amp;odd.dizhi[0];even.root=&amp;even.dizhi[0];
+	odd.build(odd.root,1,n);even.build(even.root,1,n);
+	for(reg int i=1;i&lt;=n;i++){
+		a[i]=read();
+		if(i&amp;1) odd.change(odd.root,1,n,i,a[i]);
+		else even.change(even.root,1,n,i,a[i]);
+	}
+	set.insert(-2);set.insert(-1);set.insert(n+2);set.insert(n+3);
+	set.insert(1);set.insert(n);
+	for(reg int i=2;i&lt;n;i++)
+		if((a[i]&gt;a[i-1]&amp;&amp;a[i]&gt;=a[i+1])||(a[i]&lt;=a[i-1]&amp;&amp;a[i]&lt;a[i+1])) set.insert(i);
+	long long ans=0;
+	for(std::set&lt;int&gt;::iterator it=set.begin();it!=set.end();++it) ans+=get(*it);
+	m=read();
+	int x,y;
+	while(m--){
+		x=read();y=read();
+		int nex=*set.upper_bound(x),pre=*--set.lower_bound(x);
+		ans-=get(nex);ans-=get(pre);
+		nex=*set.upper_bound(nex);pre=*--set.lower_bound(pre);
+		ans-=get(nex);ans-=get(pre);
+		if(set.find(x)!=set.end()) ans-=get(x),set.erase(x);
+		set.erase(x-1);set.erase(x+1);//若 x-1 或 x+1 是极值点，则删除
+		if(x&amp;1) odd.change(odd.root,1,n,x,y);
+		else even.change(even.root,1,n,x,y);
+		a[x]=y;
+		for(reg int i=x-1;i&lt;=x+1;i++)if(i&gt;=1&amp;&amp;i&lt;=n){
+			if(i==1||i==n) set.insert(i);
+			else if((a[i]&gt;a[i-1]&amp;&amp;a[i]&gt;=a[i+1])||(a[i]&lt;=a[i-1]&amp;&amp;a[i]&lt;a[i+1])) set.insert(i);
+		}
+		for(std::set&lt;int&gt;::iterator it=set.find(pre),end=set.upper_bound(nex);it!=end;++it)
+			ans+=get(*it);
+		printf("%lld\n",ans);
+	}
+	return 0;
+}
+</code></pre>
+
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2020-12-16 23:47</span>&nbsp;
+<a href="https://www.cnblogs.com/suxxsfe/">suxxsfe</a>&nbsp;
+阅读(<span id="post_view_count">56</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14147177" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14147177);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 583370, cb_blogApp = 'suxxsfe', cb_blogUserGuid = 'b9ab9dc5-75fd-4c72-49cd-08d7abbfa4af';
+    var cb_entryId = 14147177, cb_entryCreatedDate = '2020-12-16 23:47', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 suxxsfe
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    <div id="page_end_html">
+        <!--- 此文件不需要修改 -->
+
+<div id="bottom">
+	<p id="date" style="font-weight:300;"></p>
+	<div id="myBlogStyle">
+		<a id="blogStyle" href="https://www.luogu.com.cn/problem/U132835" class="myBlogStyleClass">关于本博客样式</a>
+	</div>
+	<div id="others"></div>
+</div>
+
+    </div>
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjuOUWQ6PYPvuPiJv6p9ecfhzRjfZhvqrx63XgcTSgtfZ4Y91OHOG5zDIju0GvEENix7QG4D37qwsy0eJK5G8xrYsT7dHm2c6kDO4ZSDkCbEsqcxHeAAY6dGMOqtCum_qQ8" />
+</body>
+</html>

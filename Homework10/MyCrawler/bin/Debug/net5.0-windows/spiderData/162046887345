@@ -1,0 +1,588 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    
+    
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>George - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/kjc/bundle-kjc.min.css?v=seBHH2fgCcZLfWHxSfQE0pHOdmw5bMTSNoqEPRQ54AY" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/kjc/bundle-kjc-mobile.min.css?v=iPf_XHQsJ-ofZZ2RiaeMCHG0JEaMNLa9yhkUGK3xTSQ" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/george/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/george/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/george/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 18240;
+        var currentBlogApp = 'george';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'KJC';
+        var visitorUserId = '';
+    </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <table class="Framework" cellspacing="0" cellpadding="0" width="100%">
+	<tr>
+		<td colspan="3">
+			
+<div id="top">
+<table cellpadding="10" cellspacing="0">
+	<tr>
+		<td nowrap>
+			<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/george/">George</a>
+</h1>
+			人生就是一次旅行
+		</td>
+	</tr>
+</table>
+</div>
+<div id="sub">
+	<div id="sub-right"><div id="blog_stats_place_holder"><script>loadBlogStats();</script></div></div>
+	&nbsp;
+<a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+&nbsp;::
+
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/george/">
+首页</a>
+&nbsp;::
+
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+&nbsp;::
+
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/George">
+联系</a>&nbsp;::
+
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/george/rss/">
+订阅</a>
+
+<a id="blog_nav_rss_image" href="https://www.cnblogs.com/george/rss/">
+    <img src="/skins/kjc/images/xml.gif" alt="订阅" />
+</a>&nbsp;::
+
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+
+
+
+</div>
+
+
+		</td>
+	</tr>
+	<tr>
+		<td class="LeftCell">
+			<div id="leftmenu">
+		            <div id="calendar"><div id="blog-calendar" style="display:none"></div></div>                
+                    <script>loadBlogDefaultCalendar();</script>
+		            <div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+	            <div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>
+		</td>
+		<td class="MainCell">
+			<div id="main">
+				
+
+
+
+
+	
+<p class="date">
+    <span>
+        <a href="https://www.cnblogs.com/george/archive/2007/04/12.html">2007年4月12日</a>
+    </span>
+</p>
+    <div class="post">
+        <div class="posthead">
+            <h2 style="padding-top: 4px; padding-bottom: 4px;">
+                
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/george/archive/2007/04/12/711290.html">
+    <span>
+        火箭股票，火箭发射（07.4.12）
+    </span>
+    
+
+
+
+</a>
+</h2>
+        </div>
+        <div class="postbody">
+            
+
+    <div class="cnblogs-post-body" id="postlist_postbody_711290">
+        正文内容加载中...
+    </div>
+    <script type="text/javascript">getBlogPostBody(711290);</script>
+</div>
+
+        <p class="postfoot">
+            posted @ 2007-04-12 21:49
+George
+<span data-post-id="711290" class="post-view-count">阅读(446)</span> 
+<span data-post-id="711290" class="post-comment-count">评论(0)</span> 
+<span data-post-id="711290" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=711290" rel="nofollow">
+    编辑
+</a>
+
+        </p>
+    </div>    
+
+
+
+	
+<p class="date">
+    <span>
+        <a href="https://www.cnblogs.com/george/archive/2007/03/31.html">2007年3月31日</a>
+    </span>
+</p>
+    <div class="post">
+        <div class="posthead">
+            <h2 style="padding-top: 4px; padding-bottom: 4px;">
+                
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/george/archive/2007/03/31/694895.html">
+    <span>
+        股指期货风声水起 股市＂蛇人&Prime;给我们启示
+    </span>
+    
+
+
+
+</a>
+</h2>
+        </div>
+        <div class="postbody">
+            
+
+    <div class="c_b_p_desc">
+摘要：蛇人不是白蛇传里的蛇妖。蛇人其实是印度的一种捕蛇人。印度人捕获巨蟒的传统方式是将瑜伽功练得出神入化的高人，浑身涂满橄榄油，作为诱饵，送到巨蟒的嘴边，让巨蟒吞吃，因巨蟒在消化这个庞大的猎物时要消耗巨大的能量而不能动弹，这样，蛇人的同伴就能不费吹灰之力将巨蟒捕获，然后开膛破肚，将蛇人救出,猎取到价值不菲的蟒肉。  蛇人因冒了被巨蟒吞食和在巨蟒胃中窒息的风险，而被推崇为最勇敢的人，富贵险中求,做蛇人有两...        <a href="https://www.cnblogs.com/george/archive/2007/03/31/694895.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+
+        <p class="postfoot">
+            posted @ 2007-03-31 12:04
+George
+<span data-post-id="694895" class="post-view-count">阅读(275)</span> 
+<span data-post-id="694895" class="post-comment-count">评论(1)</span> 
+<span data-post-id="694895" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=694895" rel="nofollow">
+    编辑
+</a>
+
+        </p>
+    </div>    
+
+
+
+	
+<p class="date">
+    <span>
+        <a href="https://www.cnblogs.com/george/archive/2006/04/30.html">2006年4月30日</a>
+    </span>
+</p>
+    <div class="post">
+        <div class="posthead">
+            <h2 style="padding-top: 4px; padding-bottom: 4px;">
+                
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/george/archive/2006/04/30/dfadkfjalsfdasfdasfdsa.html">
+    <span>
+        Are we still talking about Stored Procedures vs. Dynamic SQL?(转)
+    </span>
+    
+
+
+
+</a>
+</h2>
+        </div>
+        <div class="postbody">
+            
+
+    <div class="c_b_p_desc">
+摘要：Rob Howard and Frans Bouma still are. And I guess, I am now too. Let's summarize a few of the facts from these counter points:    *Any form of pre-compilation or cached query plan arguments are moot betweem SQL and Procs. Rob has some outdated information and Frans corrects that in his post.    *Stored Procedures can offer the perf benefits if they are designed properly that Rob claims by avoiding round trips and unncessarily data transfer when trying to get computed or aggregated data        <a href="https://www.cnblogs.com/george/archive/2006/04/30/dfadkfjalsfdasfdasfdsa.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+
+        <p class="postfoot">
+            posted @ 2006-04-30 14:30
+George
+<span data-post-id="389471" class="post-view-count">阅读(160)</span> 
+<span data-post-id="389471" class="post-comment-count">评论(0)</span> 
+<span data-post-id="389471" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=389471" rel="nofollow">
+    编辑
+</a>
+
+        </p>
+    </div>    
+
+
+
+	
+<p class="date">
+    <span>
+        <a href="https://www.cnblogs.com/george/archive/2006/04/26.html">2006年4月26日</a>
+    </span>
+</p>
+    <div class="post">
+        <div class="posthead">
+            <h2 style="padding-top: 4px; padding-bottom: 4px;">
+                
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/george/archive/2006/04/26/386073.html">
+    <span>
+        Goals of Distributed Application Design
+    </span>
+    
+
+
+
+</a>
+</h2>
+        </div>
+        <div class="postbody">
+            
+
+    <div class="c_b_p_desc">
+摘要：Designing a distributed application involves making decisions about its logical and physical architecture and the technologies and infrastructure used to implement its functionality. To make these dec...        <a href="https://www.cnblogs.com/george/archive/2006/04/26/386073.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+
+        <p class="postfoot">
+            posted @ 2006-04-26 23:10
+George
+<span data-post-id="386073" class="post-view-count">阅读(116)</span> 
+<span data-post-id="386073" class="post-comment-count">评论(0)</span> 
+<span data-post-id="386073" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=386073" rel="nofollow">
+    编辑
+</a>
+
+        </p>
+    </div>    
+    <div class="post">
+        <div class="posthead">
+            <h2 style="padding-top: 4px; padding-bottom: 4px;">
+                
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/george/archive/2006/04/26/abd123.html">
+    <span>
+        异常处理的讨论
+    </span>
+    
+
+
+
+</a>
+</h2>
+        </div>
+        <div class="postbody">
+            
+
+    <div class="c_b_p_desc">
+摘要：最近在考虑以前做项目的时候，设计的异常处理方式是不是合理，这里共享出来给大家讨论，也想了解一下大家的异常处理的方法。异常处理主要包括2种，一种是系统的异常，另外一种是业务逻辑的不合法，这里称为业务逻辑异常可能不太确切，不过我还是把它当做业务逻辑的异常来处理。系统异常直接通过捕获给与友好的错误页面也好，直接报出来也好，我这里不做说明了，对于项目的开发存在大量的业务逻辑的判断合法性，然后给与提示，我主要说说这里。        <a href="https://www.cnblogs.com/george/archive/2006/04/26/abd123.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+
+        <p class="postfoot">
+            posted @ 2006-04-26 00:18
+George
+<span data-post-id="385042" class="post-view-count">阅读(2024)</span> 
+<span data-post-id="385042" class="post-comment-count">评论(8)</span> 
+<span data-post-id="385042" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=385042" rel="nofollow">
+    编辑
+</a>
+
+        </p>
+    </div>    
+
+
+
+	
+<p class="date">
+    <span>
+        <a href="https://www.cnblogs.com/george/archive/2006/04/20.html">2006年4月20日</a>
+    </span>
+</p>
+    <div class="post">
+        <div class="posthead">
+            <h2 style="padding-top: 4px; padding-bottom: 4px;">
+                
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/george/archive/2006/04/20/www.html">
+    <span>
+         一些面向对象的设计法则(1)
+    </span>
+    
+
+
+
+</a>
+</h2>
+        </div>
+        <div class="postbody">
+            
+
+    <div class="c_b_p_desc">
+摘要：法则1：优先使用（对象）组合，而非（类）继承[ Favor Composition Over Inheritance ]        <a href="https://www.cnblogs.com/george/archive/2006/04/20/www.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+
+        <p class="postfoot">
+            posted @ 2006-04-20 23:42
+George
+<span data-post-id="380742" class="post-view-count">阅读(282)</span> 
+<span data-post-id="380742" class="post-comment-count">评论(0)</span> 
+<span data-post-id="380742" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=380742" rel="nofollow">
+    编辑
+</a>
+
+        </p>
+    </div>    
+    <div class="post">
+        <div class="posthead">
+            <h2 style="padding-top: 4px; padding-bottom: 4px;">
+                
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/george/archive/2006/04/20/rrrrrrr.html">
+    <span>
+        投资启示录（转）
+    </span>
+    
+
+
+
+</a>
+</h2>
+        </div>
+        <div class="postbody">
+            
+
+    <div class="c_b_p_desc">
+摘要：我永远坚信：无论过去、现在和未来，人类都不可能全然理解和把握证券市场的全部运行机理和内在逻辑，目前为止的古今中外所有的证券市场分析投资理论，都基本停留在瞎子摸象层次。市场的最基本功能之一，就是消灭所有企图战胜市场、挑战市场的天才或是怪物，因为假设出现、存在这样的“无敌怪兽”，市场的生态平衡将被破坏殆尽，并将整个市场体系变成一个黑洞，一堆废墟。谁也无法造出那个能够装“可融化万物的药水”的瓶子。菩提本无树，明镜亦非台。一切有为法，如梦幻泡影，如露亦如电，应作如是观。        <a href="https://www.cnblogs.com/george/archive/2006/04/20/rrrrrrr.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+
+        <p class="postfoot">
+            posted @ 2006-04-20 23:06
+George
+<span data-post-id="380719" class="post-view-count">阅读(235)</span> 
+<span data-post-id="380719" class="post-comment-count">评论(0)</span> 
+<span data-post-id="380719" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=380719" rel="nofollow">
+    编辑
+</a>
+
+        </p>
+    </div>    
+
+
+
+	
+<p class="date">
+    <span>
+        <a href="https://www.cnblogs.com/george/archive/2006/04/18.html">2006年4月18日</a>
+    </span>
+</p>
+    <div class="post">
+        <div class="posthead">
+            <h2 style="padding-top: 4px; padding-bottom: 4px;">
+                
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/george/archive/2006/04/18/378662.html">
+    <span>
+        个人对软件开发的思考
+    </span>
+    
+
+
+
+</a>
+</h2>
+        </div>
+        <div class="postbody">
+            
+
+    <div class="c_b_p_desc">
+摘要：最近被客户的要求折磨快受不了了，包括不断的需求变革，性能上的要求，易用性上的要求都很多，还有修改代码片断凌乱、可读性差的情况下来修改代码的痛苦，慢慢的开始思考，怎么样才能快速的满足客户的区，而做的代码的修改最小？怎么提高系统的可扩展性？怎么才能提高代码的可维护性？怎么样提高系统的性能？怎么样提高系统的健壮性可以使系统运行稳定一些？呵呵，这些东西我想也是现在很多软件科学家在研究的东西，可能比较大，不过我觉得适合自己的实用就好。        <a href="https://www.cnblogs.com/george/archive/2006/04/18/378662.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+
+        <p class="postfoot">
+            posted @ 2006-04-18 23:38
+George
+<span data-post-id="378662" class="post-view-count">阅读(2458)</span> 
+<span data-post-id="378662" class="post-comment-count">评论(19)</span> 
+<span data-post-id="378662" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=378662" rel="nofollow">
+    编辑
+</a>
+
+        </p>
+    </div>    
+    <div class="post">
+        <div class="posthead">
+            <h2 style="padding-top: 4px; padding-bottom: 4px;">
+                
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/george/archive/2006/04/18/378648.html">
+    <span>
+        开园报到
+    </span>
+    
+
+
+
+</a>
+</h2>
+        </div>
+        <div class="postbody">
+            
+
+    <div class="c_b_p_desc">
+摘要：刚刚搬家到博客园，到这里报个到，目前致力于面向对象的系统分析和设计，和对需求变革，系统健壮性，可维护性，可重用性，高扩展性的关注和研究。 軟體的本質就是「變動」。不管是設計樣式或是終極（程式開發）流程，其目的都是為了配合軟體使用環境的劇烈變化，迅速改變軟體本身。為了避免軟體間的相依性影響到它「可變」的本質，我們通常會用介面將兩個子系統間的實作隔離開來。除此之外，構面導向程式設計（aspect-or...        <a href="https://www.cnblogs.com/george/archive/2006/04/18/378648.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+
+        <p class="postfoot">
+            posted @ 2006-04-18 22:51
+George
+<span data-post-id="378648" class="post-view-count">阅读(153)</span> 
+<span data-post-id="378648" class="post-comment-count">评论(0)</span> 
+<span data-post-id="378648" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=378648" rel="nofollow">
+    编辑
+</a>
+
+        </p>
+    </div>    
+
+
+
+
+<div class="topicListFooter">
+    <div id="nav_next_page">
+        
+    
+
+    </div>    
+</div>
+
+
+
+
+
+<script>
+    updatePostStats(
+        $(".post-view-count").map(function () { return this.dataset.postId }).get(),
+        function(id, count) { $(".post-view-count[data-post-id=" + id + "]").text("阅读(" + count + ")") },
+        function(id, count) { $(".post-comment-count[data-post-id=" + id + "]").text("评论(" + count + ")") },
+        function(id, count) { $(".post-digg-count[data-post-id=" + id + "]").text("推荐(" + count + ")") });
+</script>
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2" class="FooterCell">
+			<p id="footer">
+	Powered by: 
+	<br />	
+	<a href="https://www.cnblogs.com/" id="footer_site_link">博客园</a>
+	<br />
+	Copyright &copy; 2021 George
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+</p>
+
+
+		</td>
+	</tr>
+</table>
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjsFPGS6n84GtUBAtozIiSGAbTGjAa51ilk9UOcd3hX3VRHWGyLqCmi_q-PEjy4N6zwj0-QmHHxlGdF__4qFLH9MfJoxpzDgjPLRIUPGO4fd7kjEK7nXadmWnXGn3-r16rY" />
+</body>
+</html>

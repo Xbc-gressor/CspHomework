@@ -1,0 +1,489 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="never" />
+    <meta name="description" content="4. 部署Grafana 4.1. 安装Grafana 4.1.1. 准备镜像 [root@hdss7-200 ~]# docker pull grafana/grafana:5.4.2 [root@" />
+    <meta property="og:description" content="4. 部署Grafana 4.1. 安装Grafana 4.1.1. 准备镜像 [root@hdss7-200 ~]# docker pull grafana/grafana:5.4.2 [root@" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>部署Grafana - 包泽旭 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/baozexu/custom.css?v=7MKwNk9BuDspFVQ5LKcRpIwcbog=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/SimpleMemory/bundle-SimpleMemory-mobile.min.css" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/baozexu/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/baozexu/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/baozexu/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 534600;
+        var currentBlogApp = 'baozexu';
+        var cb_enable_mathjax = true;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'SimpleMemory';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2020-09-07 06:19';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+        tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processClass: 'math', processEscapes: true },
+        TeX: {
+        equationNumbers: { autoNumber: ['AMS'], useLabelIds: true },
+        extensions: ['extpfeil.js', 'mediawiki-texvc.js'],
+        Macros: {bm: "\\boldsymbol"}
+        },
+        'HTML-CSS': { linebreaks: { automatic: true } },
+        SVG: { linebreaks: { automatic: true } }
+        });
+    </script>
+    <script src="https://mathjax.cnblogs.com/2_7_5/MathJax.js?config=TeX-AMS-MML_HTMLorMML&amp;v=20200504"></script>
+    
+</head>
+<body class="no-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/baozexu/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/baozexu/">爱可耐九卿</a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/baozexu/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E5%8C%85%E6%B3%BD%E6%97%AD">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/baozexu/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/baozexu/articles/13628345.html">
+    <span>部署Grafana</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+<h2 id="4-部署grafana">4. 部署Grafana</h2>
+<h3 id="41-安装grafana">4.1. 安装Grafana</h3>
+<h4 id="411-准备镜像">4.1.1. 准备镜像</h4>
+<pre><code>[root@hdss7-200 ~]# docker pull grafana/grafana:5.4.2
+[root@hdss7-200 ~]# docker image tag grafana/grafana:5.4.2 harbor.od.com/public/grafana:v5.4.2
+[root@hdss7-200 ~]# docker image push harbor.od.com/infra/grafana:v5.4.2
+[root@hdss7-200 ~]# mkdir /data/nfs-volume/grafana
+</code></pre>
+<h4 id="412-准备资源配置清单">4.1.2. 准备资源配置清单</h4>
+<pre><code>apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    addonmanager.kubernetes.io/mode: Reconcile
+    kubernetes.io/cluster-service: "true"
+  name: grafana
+rules:
+- apiGroups:
+  - "*"
+  resources:
+  - namespaces
+  - deployments
+  - pods
+  verbs:
+  - get
+  - list
+  - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  labels:
+    addonmanager.kubernetes.io/mode: Reconcile
+    kubernetes.io/cluster-service: "true"
+  name: grafana
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: grafana
+subjects:
+- kind: User
+  name: k8s-node
+</code></pre>
+<pre><code>apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: grafana
+    name: grafana
+  name: grafana
+  namespace: kube-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: grafana
+  template:
+    metadata:
+      labels:
+        app: grafana
+        name: grafana
+    spec:
+      containers:
+      - name: grafana
+        image: harbor.od.com/infra/grafana:v5.4.2
+        ports:
+        - containerPort: 3000
+          protocol: TCP
+        volumeMounts:
+        - mountPath: /var/lib/grafana
+          name: data
+      imagePullSecrets:
+      - name: harbor
+      securityContext:
+        runAsUser: 0
+      volumes:
+      - nfs:
+          server: hdss7-200
+          path: /data/nfs-volume/grafana
+        name: data
+</code></pre>
+<pre><code>apiVersion: v1
+kind: Service
+metadata:
+  name: grafana
+  namespace: kube-system
+spec:
+  ports:
+  - port: 3000
+    protocol: TCP
+    targetPort: 3000
+  selector:
+    app: grafana
+</code></pre>
+<pre><code>apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: grafana
+  namespace: kube-system
+spec:
+  rules:
+  - host: grafana.od.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: grafana
+          servicePort: 3000
+</code></pre>
+<h4 id="413-应用资源配置清单">4.1.3. 应用资源配置清单</h4>
+<pre><code>[root@hdss7-21 ~]# kubectl apply -f http://k8s-yaml.od.com/devops/prometheus/grafana/rbac.yaml
+[root@hdss7-21 ~]# kubectl apply -f http://k8s-yaml.od.com/devops/prometheus/grafana/deployment.yaml
+[root@hdss7-21 ~]# kubectl apply -f http://k8s-yaml.od.com/devops/prometheus/grafana/service.yaml
+[root@hdss7-21 ~]# kubectl apply -f http://k8s-yaml.od.com/devops/prometheus/grafana/ingress.yaml
+</code></pre>
+<pre><code>[root@hdss7-11 ~]# vim /var/named/od.com.zone 
+......
+grafana            A    10.4.7.10
+[root@hdss7-11 ~]# systemctl restart named
+[root@hdss7-11 ~]# dig -t A grafana.od.com +short
+10.4.7.10
+</code></pre>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/378176/1580999434884-0cc6133a-14b8-46a3-b7d5-5092849fbfd1.png?x-oss-process=image%2Fwatermark%2Ctype_d3F5LW1pY3JvaGVp%2Csize_10%2Ctext_TGludXgt5rih5rih6bif%2Ccolor_FFFFFF%2Cshadow_50%2Ct_80%2Cg_se%2Cx_10%2Cy_10" alt="image.png" loading="lazy"></p>
+<h4 id="414-安装插件">4.1.4. 安装插件</h4>
+<pre><code># 需要安装的插件
+grafana-kubernetes-app
+grafana-clock-panel
+grafana-piechart-panel
+briangann-gauge-panel
+natel-discrete-panel
+</code></pre>
+<pre><code># 插件安装有两种方式：
+# 1. 进入Container中，执行 grafana-cli plugins install $plugin_name
+# 2. 手动下载插件zip包，访问 https://grafana.com/api/plugins/repo/$plugin_name 查询插件版本号 $version
+#    通过 https://grafana.com/api/plugins/$plugin_name/versions/$version/download 下载zip包
+#    将zip包解压到 /var/lib/grafana/plugins 下
+# 插件安装完毕后，重启Grafana的Pod
+
+# 方式一:
+[root@hdss7-21 ~]# kubectl get pod -n kube-system -l name=grafana
+NAME                       READY   STATUS    RESTARTS   AGE
+grafana-596d8dbcd5-l2466   1/1     Running   0          3m45s
+[root@hdss7-21 ~]# kubectl exec grafana-596d8dbcd5-l2466 -n kube-system -it -- /bin/bash
+root@grafana-596d8dbcd5-l2466:/usr/share/grafana# grafana-cli plugins install grafana-kubernetes-app
+root@grafana-596d8dbcd5-l2466:/usr/share/grafana# grafana-cli plugins install grafana-clock-panel
+root@grafana-596d8dbcd5-l2466:/usr/share/grafana# grafana-cli plugins install grafana-piechart-panel
+root@grafana-596d8dbcd5-l2466:/usr/share/grafana# grafana-cli plugins install briangann-gauge-panel
+root@grafana-596d8dbcd5-l2466:/usr/share/grafana# grafana-cli plugins install natel-discrete-panel
+
+# 方式二:
+[root@hdss7-200 plugins]# wget -O grafana-kubernetes-app.zip https://grafana.com/api/plugins/grafana-kubernetes-app/versions/1.0.1/download
+[root@hdss7-200 plugins]# ls *.zip | xargs -I {} unzip -q {}
+</code></pre>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/378176/1581042791976-1e6de6db-4ecc-470f-b4cc-6db739cb7b4d.png" alt="image.png" loading="lazy"></p>
+<h3 id="42-接入prometheus">4.2. 接入Prometheus</h3>
+<h4 id="421-接入prometheus数据">4.2.1. 接入Prometheus数据</h4>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/378176/1581044427340-1af58dce-6c6c-4049-a867-9476fb72fc15.png?x-oss-process=image%2Fwatermark%2Ctype_d3F5LW1pY3JvaGVp%2Csize_10%2Ctext_TGludXgt5rih5rih6bif%2Ccolor_FFFFFF%2Cshadow_50%2Ct_80%2Cg_se%2Cx_10%2Cy_10" alt="image.png" loading="lazy"></p>
+<h4 id="422-配置kubernetes-app">4.2.2. 配置kubernetes app</h4>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/378176/1581044890738-02dc64ab-fbfc-4fff-bf37-cfe263f9549f.png" alt="image.png" loading="lazy"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/378176/1581044951163-d9e64a99-e082-4607-9a87-9dcee3a7239d.png" alt="image.png" loading="lazy"></p>
+<p><img src="http://noah-pic.oss-cn-chengdu.aliyuncs.com/pic/20200519/232548943.png" alt="mark" loading="lazy"></p>
+<p><strong>注意这里填写apiserver的地址 <a href="https://10.4.7.10:7443" target="_blank">https://10.4.7.10:7443</a></strong></p>
+<p><strong>由于k8s container 有些bug 所以我们需要将这里替换</strong></p>
+<p><img alt="1598001410003" loading="lazy"></p>
+<pre><code>sum(container_memory_usage_bytes{container_label_io_kubernetes_pod_name=~"$pod"}) by (container_label_io_kubernetes_pod_name)
+</code></pre>
+<h4 id="423-导入kubernetes面板">4.2.3. 导入Kubernetes面板</h4>
+<p>当前的Kubernetes面板存在一些问题，可以通过导入更加合适的面板来实现图表展示。<br>
+附件:<a href="https://www.yuque.com/attachments/yuque/0/2020/zip/378176/1581083729746-0aed89e5-d47d-492f-a3d9-07218765c292.zip" target="_blank">📎GrafanaDashboard.zip</a> <a href="https://www.yuque.com/attachments/yuque/0/2020/zip/378176/1581083773205-8b1baeec-ccbe-4822-bf97-9df934dd8000.zip" target="_blank">📎GrafanaDashboard.zip</a></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/378176/1581083924617-c918ebca-1fc4-4881-b37c-4a491790d687.png?x-oss-process=image%2Fwatermark%2Ctype_d3F5LW1pY3JvaGVp%2Csize_10%2Ctext_TGludXgt5rih5rih6bif%2Ccolor_FFFFFF%2Cshadow_50%2Ct_80%2Cg_se%2Cx_10%2Cy_10" alt="image.png" loading="lazy"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/378176/1581084000383-619d4815-290f-497e-ba88-61d5ef802c7d.png?x-oss-process=image%2Fwatermark%2Ctype_d3F5LW1pY3JvaGVp%2Csize_10%2Ctext_TGludXgt5rih5rih6bif%2Ccolor_FFFFFF%2Cshadow_50%2Ct_80%2Cg_se%2Cx_10%2Cy_10" alt="image.png" loading="lazy"></p>
+
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2020-09-07 18:19</span>&nbsp;
+<a href="https://www.cnblogs.com/baozexu/">包泽旭</a>&nbsp;
+阅读(<span id="post_view_count">146</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditArticles.aspx?postid=13628345" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(13628345);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 534600, cb_blogApp = 'baozexu', cb_blogUserGuid = 'dc26bd9d-ee9b-41e5-ef64-08d7188de755';
+    var cb_entryId = 13628345, cb_entryCreatedDate = '2020-09-07 18:19', cb_postType = 2;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 包泽旭
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    <div id="page_end_html">
+        <!-- 滚动进度 -->
+<div id="bottomProgressBar"></div>
+
+<!-- 音乐播放器 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.0/dist/APlayer.min.css">
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.0/dist/APlayer.min.js"></script>
+<div id="aplayer" class="aplayer" data-id="316722029" data-lrctype="0" data-server="netease" data-type="playlist" data-fixed="true" data-listfolded="true"></div>
+<script src="https://unpkg.com/meting@1.2/dist/Meting.min.js"></script>
+<script type="text/javascript">
+/* 鼠标特效 */
+var a_idx = 0;
+jQuery(document).ready(function($) {
+    $("body").click(function(e) {
+        var a = new Array("❤引领技术巅峰❤","❤黑客无所不能❤","❤欢迎您❤","❤光临本园❤","❤加油❤","❤努力❤","❤奋斗❤","❤拼搏❤");
+        var $i = $("<span></span>").text(a[a_idx]);
+        a_idx = (a_idx + 1) % a.length;
+        var x = e.pageX,
+        y = e.pageY;
+        $i.css({
+            "z-index": 999999999999999999999999999999999999999999999999999999999999999999999,
+            "top": y - 20,
+            "left": x,
+            "position": "absolute",
+            "font-weight": "bold",
+            "color": "rgb("+~~(255*Math.random())+","+~~(255*Math.random())+","+~~(255*Math.random())+")"
+        });
+        $("body").append($i);
+        $i.animate({
+            "top": y - 180,
+            "opacity": 0
+        },
+        1500,
+        function() {
+            $i.remove();
+        });
+    });
+});
+</script>
+    </div>
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjs1DgDdqfnYU_UYNalC7YsqkSo0aX2hONiqPkaeGyHs9nWCu5NVXExnTlwnJnHcMHlOpfSFJ2tq3kVJMYVh1rBeuVHn3cAOJwblZoH_xOWoT4MttEUlSV4Lk2vNIBvurqE" />
+</body>
+</html>

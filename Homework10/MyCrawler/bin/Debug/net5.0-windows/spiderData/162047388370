@@ -1,0 +1,619 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    
+    
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>随笔列表第2页 - 包泽旭 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/baozexu/custom.css?v=7MKwNk9BuDspFVQ5LKcRpIwcbog=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/SimpleMemory/bundle-SimpleMemory-mobile.min.css" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/baozexu/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/baozexu/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/baozexu/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 534600;
+        var currentBlogApp = 'baozexu';
+        var cb_enable_mathjax = true;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'SimpleMemory';
+        var visitorUserId = '';
+    </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+        tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processClass: 'math', processEscapes: true },
+        TeX: {
+        equationNumbers: { autoNumber: ['AMS'], useLabelIds: true },
+        extensions: ['extpfeil.js', 'mediawiki-texvc.js'],
+        Macros: {bm: "\\boldsymbol"}
+        },
+        'HTML-CSS': { linebreaks: { automatic: true } },
+        SVG: { linebreaks: { automatic: true } }
+        });
+    </script>
+    <script src="https://mathjax.cnblogs.com/2_7_5/MathJax.js?config=TeX-AMS-MML_HTMLorMML&amp;v=20200504"></script>
+    
+</head>
+<body class="no-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/baozexu/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/baozexu/">爱可耐九卿</a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/baozexu/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E5%8C%85%E6%B3%BD%E6%97%AD">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/baozexu/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+
+
+
+<div id="homepage_top_pager" class="topicListFooter">
+    
+
+<div class="pager">
+    <a href="https://www.cnblogs.com/baozexu/default.html?page=1">上一页</a>
+    
+    
+        <a href="https://www.cnblogs.com/baozexu/default.html?page=1">1</a>
+    2
+        <a href="https://www.cnblogs.com/baozexu/default.html?page=3">3</a>
+        <a href="https://www.cnblogs.com/baozexu/default.html?page=4">4</a>
+        <a href="https://www.cnblogs.com/baozexu/default.html?page=5">5</a>
+        <a href="https://www.cnblogs.com/baozexu/default.html?page=6">6</a>
+    ···
+    <a href="https://www.cnblogs.com/baozexu/default.html?page=9">9</a>
+    <a href="https://www.cnblogs.com/baozexu/default.html?page=3">下一页</a>
+</div>
+</div>
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/baozexu/archive/2020/09/07.html">2020年9月7日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/baozexu/articles/13628363.html">
+    <span>
+        日志收集-elk
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：04-4-日志收集 1. 日志收集方式 Kubernetes的业务Pod日志有两种输出方式：一种是直接打到标准输出或者标准错误，第二种是将日志写到特定目录下的文件种。针对这两种不同场景，提供了不同的容器日志收集思路。 1.1. Kubernetes日志收集思路 1.1.1. 使用节点代理收集日志 在        <a href="https://www.cnblogs.com/baozexu/articles/13628363.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2020-09-07 18:23
+包泽旭
+<span data-post-id="13628363" class="post-view-count">阅读(108)</span> 
+<span data-post-id="13628363" class="post-comment-count">评论(0)</span> 
+<span data-post-id="13628363" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditArticles.aspx?postid=13628363" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+            <div class="postSeparator"></div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/baozexu/articles/13628352.html">
+    <span>
+        部署alertmanager-告警规则
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：5. 部署alertmanager 5.1. 准备镜像 [root@hdss7-200 ~]# docker pull docker.io/prom/alertmanager:v0.14.0 [root@hdss7-200 ~]# docker image tag prom/alertmanager        <a href="https://www.cnblogs.com/baozexu/articles/13628352.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2020-09-07 18:22
+包泽旭
+<span data-post-id="13628352" class="post-view-count">阅读(460)</span> 
+<span data-post-id="13628352" class="post-comment-count">评论(0)</span> 
+<span data-post-id="13628352" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditArticles.aspx?postid=13628352" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+            <div class="postSeparator"></div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/baozexu/articles/13628345.html">
+    <span>
+        部署Grafana
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：4. 部署Grafana 4.1. 安装Grafana 4.1.1. 准备镜像 [root@hdss7-200 ~]# docker pull grafana/grafana:5.4.2 [root@hdss7-200 ~]# docker image tag grafana/grafana:5.4        <a href="https://www.cnblogs.com/baozexu/articles/13628345.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2020-09-07 18:19
+包泽旭
+<span data-post-id="13628345" class="post-view-count">阅读(146)</span> 
+<span data-post-id="13628345" class="post-comment-count">评论(0)</span> 
+<span data-post-id="13628345" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditArticles.aspx?postid=13628345" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+            <div class="postSeparator"></div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/baozexu/articles/13628327.html">
+    <span>
+        集群监控-Prometheus
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：集群监控 1. Prometheus 1.1. Prometheus介绍 Prometheus 是一款基于时序数据库的开源监控告警系统，非常适合Kubernetes集群的监控。Prometheus的基本原理是通过HTTP协议周期性抓取被监控组件的状态，任意组件只要提供对应的HTTP接口就可以接入监控        <a href="https://www.cnblogs.com/baozexu/articles/13628327.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2020-09-07 18:15
+包泽旭
+<span data-post-id="13628327" class="post-view-count">阅读(172)</span> 
+<span data-post-id="13628327" class="post-comment-count">评论(0)</span> 
+<span data-post-id="13628327" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditArticles.aspx?postid=13628327" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+            <div class="postSeparator"></div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/baozexu/articles/13628282.html">
+    <span>
+        配置中心-Apollo（阿波罗）
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：04-2-配置中心 1. 配置中心介绍 1.1. 配置管理方式 当前的微服务环境中，配置项都不是硬编码到代码中的，需要通过外部文件或者参数的方式来实现可动态调整的配置，目前主要有以下几种方式来管理： 数据库：部分开发会将配置写在数据库中，定期读取和应用 环境变量：这种是云原生环境中很常用的一种方式，        <a href="https://www.cnblogs.com/baozexu/articles/13628282.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2020-09-07 18:07
+包泽旭
+<span data-post-id="13628282" class="post-view-count">阅读(80)</span> 
+<span data-post-id="13628282" class="post-comment-count">评论(0)</span> 
+<span data-post-id="13628282" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditArticles.aspx?postid=13628282" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+            <div class="postSeparator"></div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/baozexu/articles/13628247.html">
+    <span>
+        configmap前置说明
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：configmap前置说明 0.1.1 configmap和secret 在K8S中,有两种方式管理资源的配置,分别是configmap和secret,他们的最大区别是: configmap用来管理明文配置 secret用来管理密文配置 0.1.2 怎么使用configmap 创建configmap        <a href="https://www.cnblogs.com/baozexu/articles/13628247.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2020-09-07 18:00
+包泽旭
+<span data-post-id="13628247" class="post-view-count">阅读(43)</span> 
+<span data-post-id="13628247" class="post-comment-count">评论(0)</span> 
+<span data-post-id="13628247" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditArticles.aspx?postid=13628247" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+            <div class="postSeparator"></div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/baozexu/articles/13628238.html">
+    <span>
+        构建和交付dubbo
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：5. 构建和交付dubbo 5.1. 交付Provider到K8S 5.1.1. CI流水线构建 1.1 参数构建要点 jenkins流水线配置的java项目的十个常用参数: 参数名 作用 举例或说明 app_name 项目名 dubbo_demo_service image_name docker        <a href="https://www.cnblogs.com/baozexu/articles/13628238.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2020-09-07 17:59
+包泽旭
+<span data-post-id="13628238" class="post-view-count">阅读(63)</span> 
+<span data-post-id="13628238" class="post-comment-count">评论(0)</span> 
+<span data-post-id="13628238" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditArticles.aspx?postid=13628238" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+            <div class="postSeparator"></div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/baozexu/articles/13627962.html">
+    <span>
+        持续集成
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：4-1-持续集成 1. 组件介绍 1.1. 微服务 1.1.1. 介绍 微服务 (Microservices) 是一种软件架构风格，它是以专注于单一责任与功能的小型功能区块 (Small Building Blocks) 为基础，利用模块化的方式组合出复杂的大型应用程序，各功能区块使用与语言无关 (        <a href="https://www.cnblogs.com/baozexu/articles/13627962.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2020-09-07 17:12
+包泽旭
+<span data-post-id="13627962" class="post-view-count">阅读(79)</span> 
+<span data-post-id="13627962" class="post-comment-count">评论(0)</span> 
+<span data-post-id="13627962" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditArticles.aspx?postid=13627962" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+            <div class="postSeparator"></div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/baozexu/articles/13627944.html">
+    <span>
+        常用dashboard角色设置-RBAC
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：3.2. 常用dashboard角色设置 Dashboard 权限设置中，有两个主要集群角色： cluster-admin、view，一个是管理员权限，一个是查看权限。 3.2.1 RBAC 3.2.2. RBAC概述 3.2.3. RBAC实现的原理 RBAC(Role Base Access C        <a href="https://www.cnblogs.com/baozexu/articles/13627944.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2020-09-07 17:11
+包泽旭
+<span data-post-id="13627944" class="post-view-count">阅读(171)</span> 
+<span data-post-id="13627944" class="post-comment-count">评论(0)</span> 
+<span data-post-id="13627944" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditArticles.aspx?postid=13627944" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+            <div class="postSeparator"></div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/baozexu/articles/13627921.html">
+    <span>
+        部署dashboard
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：1 部署dashboard 1. K8S证书 1.1. SSL和TLS 传输层安全性协议（Transport Layer Security，缩写：TLS）及其前身安全套接层（Secure Sockets Layer，缩写：SSL）是一种安全协议，目的是为互联网通信提供安全及数据完整性保障。 SSL设        <a href="https://www.cnblogs.com/baozexu/articles/13627921.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2020-09-07 17:08
+包泽旭
+<span data-post-id="13627921" class="post-view-count">阅读(97)</span> 
+<span data-post-id="13627921" class="post-comment-count">评论(0)</span> 
+<span data-post-id="13627921" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditArticles.aspx?postid=13627921" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+
+<div class="topicListFooter">
+    <div id="nav_next_page">
+        
+
+    </div>    
+</div>
+
+
+<div id="homepage_bottom_pager" class="topicListFooter">
+    
+
+<div class="pager">
+    <a href="https://www.cnblogs.com/baozexu/default.html?page=1">上一页</a>
+    
+    
+        <a href="https://www.cnblogs.com/baozexu/default.html?page=1">1</a>
+    2
+        <a href="https://www.cnblogs.com/baozexu/default.html?page=3">3</a>
+        <a href="https://www.cnblogs.com/baozexu/default.html?page=4">4</a>
+        <a href="https://www.cnblogs.com/baozexu/default.html?page=5">5</a>
+        <a href="https://www.cnblogs.com/baozexu/default.html?page=6">6</a>
+    ···
+    <a href="https://www.cnblogs.com/baozexu/default.html?page=9">9</a>
+    <a href="https://www.cnblogs.com/baozexu/default.html?page=3">下一页</a>
+</div>
+</div>
+
+
+
+<script>
+    updatePostStats(
+        $(".post-view-count").map(function () { return this.dataset.postId }).get(),
+        function(id, count) { $(".post-view-count[data-post-id=" + id + "]").text("阅读(" + count + ")") },
+        function(id, count) { $(".post-comment-count[data-post-id=" + id + "]").text("评论(" + count + ")") },
+        function(id, count) { $(".post-digg-count[data-post-id=" + id + "]").text("推荐(" + count + ")") });
+</script>
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 包泽旭
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    <div id="page_end_html">
+        <!-- 滚动进度 -->
+<div id="bottomProgressBar"></div>
+
+<!-- 音乐播放器 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.0/dist/APlayer.min.css">
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.0/dist/APlayer.min.js"></script>
+<div id="aplayer" class="aplayer" data-id="316722029" data-lrctype="0" data-server="netease" data-type="playlist" data-fixed="true" data-listfolded="true"></div>
+<script src="https://unpkg.com/meting@1.2/dist/Meting.min.js"></script>
+<script type="text/javascript">
+/* 鼠标特效 */
+var a_idx = 0;
+jQuery(document).ready(function($) {
+    $("body").click(function(e) {
+        var a = new Array("❤引领技术巅峰❤","❤黑客无所不能❤","❤欢迎您❤","❤光临本园❤","❤加油❤","❤努力❤","❤奋斗❤","❤拼搏❤");
+        var $i = $("<span></span>").text(a[a_idx]);
+        a_idx = (a_idx + 1) % a.length;
+        var x = e.pageX,
+        y = e.pageY;
+        $i.css({
+            "z-index": 999999999999999999999999999999999999999999999999999999999999999999999,
+            "top": y - 20,
+            "left": x,
+            "position": "absolute",
+            "font-weight": "bold",
+            "color": "rgb("+~~(255*Math.random())+","+~~(255*Math.random())+","+~~(255*Math.random())+")"
+        });
+        $("body").append($i);
+        $i.animate({
+            "top": y - 180,
+            "opacity": 0
+        },
+        1500,
+        function() {
+            $i.remove();
+        });
+    });
+});
+</script>
+    </div>
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjuah6Cfaq1GMU1r_UQjSsyddg9rvp_BAxZ9ylUD9Yykjg78_SvGBFUV8TyTvwB4tG1Y3jSdq9BEWYXUZ1IrQ4HYgf9wcc50pW01WcofiLVIn7BnqV9MjJhCFFVH_S9OyIg" />
+</body>
+</html>

@@ -1,0 +1,620 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="never" />
+    <meta name="description" content="本文会分享一个我在实际工作中遇到的案例，从最开始的需求分析到项目搭建，以及最后落地的架构的整个过程。最终实现的效果是使用mono-repo实现了跨项目的组件共享。在本文中你可以看到： 从接到需求到深入" />
+    <meta property="og:description" content="本文会分享一个我在实际工作中遇到的案例，从最开始的需求分析到项目搭建，以及最后落地的架构的整个过程。最终实现的效果是使用mono-repo实现了跨项目的组件共享。在本文中你可以看到： 从接到需求到深入" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>使用mono-repo实现跨项目组件共享 - _蒋鹏飞 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/simpleblue/bundle-simpleblue.min.css?v=2hjghzSZyhYA1HxvSxKnXih3JbC120DBjeO9V9T_nSs" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/simpleblue/bundle-simpleblue-mobile.min.css?v=3tvwgOOqUo3RpS6gGzEdK0LbptOPv4Bx7M85_UAnFGs" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/dennisj/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/dennisj/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/dennisj/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 481846;
+        var currentBlogApp = 'dennisj';
+        var cb_enable_mathjax = true;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'SimpleBlue';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-01-04 03:36';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+        tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processClass: 'math', processEscapes: true },
+        TeX: {
+        equationNumbers: { autoNumber: ['AMS'], useLabelIds: true },
+        extensions: ['extpfeil.js', 'mediawiki-texvc.js'],
+        Macros: {bm: "\\boldsymbol"}
+        },
+        'HTML-CSS': { linebreaks: { automatic: true } },
+        SVG: { linebreaks: { automatic: true } }
+        });
+    </script>
+    <script src="https://mathjax.cnblogs.com/2_7_5/MathJax.js?config=TeX-AMS-MML_HTMLorMML&amp;v=20200504"></script>
+    
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <div id="home">
+    <div id="header">
+        <div id="blogTitle">
+            <div class="title"><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/dennisj/">_蒋鹏飞</a>
+</div>
+<div class="subtitle"></div>
+
+        </div>
+        <div id="navigator">
+            
+<ul id="navList">
+    <li id="nav_sitehome"><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+    <li id="nav_myhome">
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/dennisj/">
+首页</a>
+</li>
+    <li id="nav_newpost">
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+    <li id="nav_contact">
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/_%E8%92%8B%E9%B9%8F%E9%A3%9E">
+联系</a></li>
+    <li id="nav_rss">
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/dennisj/rss/">
+订阅</a></li>
+    <li id="nav_admin">
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+            <div class="blogStats">
+                <div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+            </div>
+        </div>
+    </div>
+    <div id="main">
+        <div id="mainContent">
+            <div class="forFlow">
+                <div id="post_detail">
+    <div id="topics">
+        <div class="post">
+            <h1 class="postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/dennisj/p/14230178.html">
+    <span>使用mono-repo实现跨项目组件共享</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+<p>本文会分享一个我在实际工作中遇到的案例，从最开始的需求分析到项目搭建，以及最后落地的架构的整个过程。最终实现的效果是使用<code>mono-repo</code>实现了跨项目的组件共享。在本文中你可以看到：</p>
+<ol>
+<li>从接到需求到深入分析并构建架构的整个思考过程。</li>
+<li><code>mono-repo</code>的简单介绍。</li>
+<li><code>mono-repo</code>适用的场景分析。</li>
+<li>产出一个可以跨项目共享组件的项目架构。</li>
+</ol>
+<p><strong>本文产出的架构模板已经上传到GitHub，如果你刚好需要一个mono-repo + react的模板，直接clone下来吧：<a href="https://github.com/dennis-jiang/mono-repo-demo" target="_blank">https://github.com/dennis-jiang/mono-repo-demo</a></strong></p>
+<h2 id="需求">需求</h2>
+<h3 id="需求概况">需求概况</h3>
+<p>是这么个情况，我还是在那家外企供职，不久前我们接到一个需求：要给外国的政府部门或者他的代理机构开发一个可以缴纳水电费，顺便还能卖卖可乐的网站。主要使用场景是市政厅之类的地方，类似这个样子：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/eb4777294d4c4c8aa0548315c11a4a11~tplv-k3u1fbpfcp-zoom-1.image" alt="image-20201224162525774" loading="lazy"></p>
+<p>这张图是我在网上随便找的某银行的图片，跟我们使用场景有点类似。他有个自助的ATM机，远处还有人工柜台。我们也会有自助机器，另外也会有人工柜台，这两个地方都可以交水电费，汽车罚款什么的，唯一有个区别是人工那里除了交各种账单，还可能会卖点东西，比如口渴了买个可乐，烟瘾犯了来包中华。</p>
+<h3 id="需求分析">需求分析</h3>
+<p>上面只是个概况，要做下来还有很多东西需要细化，柜员使用的功能和客户自助使用的功能看起来差不多，细想下来区别还真不少：</p>
+<ol>
+<li>无论是交账单还是卖可乐，我们都可以将它视为一个商品，既然卖商品那肯定有上架和下架的功能，也就是商品管理，这个肯定只能做在柜员端。</li>
+<li>市政厅人员众多，也会有上下级关系，普通柜员可能没有权限上/下架，他可能只有售卖权限，上/下架可能需要经理才能操作，这意味着柜员界面还需要权限管理。</li>
+<li>权限管理的基础肯定是用户管理，所以柜员界面需要做登陆和注册。</li>
+<li>客户自助界面只能交账单不能卖可乐很好理解，因为是自助机，旁边无人值守，如果摆几瓶可乐，他可能会拿了可乐不付钱。</li>
+<li>那客户自助交水电费需要登陆吗？不需要！跟国内差不多，只需要输入卡号和姓名等基本信息就可以查询到账单，然后线上信用卡就付了。所以客户界面不需要登陆和用户管理。</li>
+</ol>
+<p>从上面这几点分析我们可以看出，柜员界面会多很多功能，包括商品管理，用户管理，权限管理等，而客户自助界面只能交账单，其他功能都没有。</p>
+<h3 id="原型设计">原型设计</h3>
+<p>基于上面几点分析，我们的设计师很快设计了两个界面的原型。</p>
+<p><strong>这个是柜员界面的</strong>：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/770694558eba46b6b5bd5e460bdec1d7~tplv-k3u1fbpfcp-zoom-1.image" alt="image-20201224172006928" loading="lazy"></p>
+<p>柜员界面看起来也很清爽，上面一个头部，左上角显示了当前机构的名称，右上角显示了当前用户的名字和设置入口。登陆/登出相关功能点击用户名可以看到，商品管理，用户管理需要点击设置按钮进行跳转。</p>
+<p><strong>这个是客户自助界面的</strong>：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/bcb3572c06c245e0ba4e82fcbff0b99c~tplv-k3u1fbpfcp-zoom-1.image" alt="image-20201224172649189" loading="lazy"></p>
+<p>这个是客户界面的，看起来基本是一样的，只是少了用户和设置那一块，卖的东西少了可乐，只能交账单。</p>
+<h2 id="技术">技术</h2>
+<p>现在需求基本已经理清楚了，下面就该我们技术出马了，进行技术选型和架构落地。</p>
+<h3 id="一个站点还是两个站点？">一个站点还是两个站点？</h3>
+<p>首先我们需要考虑的一个问题就是，柜员界面和客户界面是做在一个网站里面，还是单独做两个网站？因为两个界面高度相似，所以我们完全可以做在一起，在客户自助界面隐藏掉右上角的用户和设置就行了。</p>
+<p>但是这里面其实还隐藏着一个问题：<strong>柜员界面是需要登陆的，所以他的入口其实是登陆页；客户界面不需要登陆，他的入口应该直接就是售卖页</strong>。如果将他们做在一起，因为不知道是柜员使用还是客户使用，所以入口只能都是登录页，柜员直接登陆进入售卖页，对于客户可以单独加一个“客户自助入口”让他进入客户的售卖页面。但是这样<strong>用户体验不好</strong>，客户本来不需要登陆的，你给他看一个登录页可能会造成困惑，可能需要频繁求教工作人员才知道怎么用，会降低整体的工作效率，所以产品经理并不接受这个，要求客户一进来就需要看到客户的售卖页面。</p>
+<p>而且从技术角度考虑，现在我们是一个<code>if...else...</code>隐藏用户和设置就行了，那万一以后两个界面差异变大，客户界面要求更花哨的效果，就不是简单的一个<code>if...else...</code>能搞定的了。<strong>所以最后我们决定部署两个站点，柜员界面和客户界面单独部署到两个域名上</strong>。</p>
+<h3 id="组件重复">组件重复</h3>
+<p>既然是两个站点，考虑到项目的可扩展性，我们创建了两个项目。但是这两个项目的UI在目前阶段是如此相似，如果我们写两套代码，势必会有很多组件是重复的，比较典型的就是上面的商品卡片，购物车组件等。其实除了上面可以看到这些会重复外，我们往深入想，交个水费，我们肯定还需要用户输入姓名，卡号之类的信息，所以点了水费的卡片后肯定会有一个输入信息的表单，而且这个表单在柜员界面和客户界面基本是一样的，除了水费表单外，还有电费表单，罚单表单等等，所以可以预见重复的组件会非常多。</p>
+<p>作为一个有追求的工程师，这种重复组件肯定不能靠CV大法来解决，我们得想办法让这些组件可以复用。那组件怎么复用呢？提个公共组件库嘛，相信很多朋友都会这么想。我们也是这么想的，但是公共组件库有多种组织方式，我们主要考虑了这么几种：</p>
+<h4 id="单独npm包">单独NPM包</h4>
+<p>再创建一个项目，这个项目专门放这些可复用的组件，类似于我们平时用的<code>antd</code>之类的，创建好后发布到公司的私有NPM仓库上，使用的时候直接这样：</p>
+<pre><code class="language-javascript">import { Cart } from 'common-components';
+</code></pre>
+<p>但是，我们需要复用的这些组件跟<code>antd</code>组件有一个本质上的区别：<strong>我们需要复用的是业务组件，而不是单纯的UI组件</strong>。<code>antd</code>UI组件库为了保证通用性，基本不带业务属性，样式也是开放的。但是我这里的业务组件不仅仅是几个按钮，几个输入框，而是一个完整的表单，包括前端验证逻辑都需要复用，<strong>所以我需要复用的组件其实是跟业务强绑定的</strong>。因为他是跟业务强绑定的，即使我将它作为一个单独的NPM包发布出去，公司的其他项目也用不了。一个不能被其他项目共享的NPM包，始终感觉有点违和呢。</p>
+<h4 id="git-submodule">git submodule</h4>
+<p>另一个方案是<code>git submodule</code>，我们照样为这些共享组件创建一个新的Git项目，但是不发布到NPM仓库去骚扰别人，而是直接在我们主项目以<code>git submodule</code>的方式引用他。<code>git submodule</code>的基本使用方法网上有很多，我这里就不啰嗦了，主要说几个缺点，也是我们没采用他的原因：</p>
+<ol>
+<li>本质上<code>submodule</code>和主项目是两个不同的<code>git repo</code>，所以你需要为每个项目创建一套脚手架(代码规范，发布脚本什么的)。</li>
+<li><code>submodule</code>其实只是主项目保存了一个对子项目的依赖链接，说明了当前版本的主项目依赖哪个版本的子项目，你需要小心的使用<code>git submodule update</code>来管理这种依赖关系。如果没有正确使用<code>git submodule update</code>而搞乱了版本的依赖关系，那就呵呵了。。。</li>
+<li>发布的时候需要自己小心处理依赖关系，先发子项目，子项目好了再发布主项目。</li>
+</ol>
+<h4 id="mono-repo">mono-repo</h4>
+<p><code>mono-repo</code>是现在越来越流行的一种项目管理方式了，与之相对的叫<code>multi-repo</code>。<code>multi-repo</code>就是<code>多个仓库</code>，上面的<code>git submodule</code>其实就是<code>multi-repo</code>的一种方式，主项目和子项目都是单独的<code>git仓库</code>，也就构成了<code>多个仓库</code>。而<code>mono-repo</code>就是<code>一个大仓库</code>，多个项目都放在<code>一个git仓库</code>里面。现在很多知名开源项目都是采用的<code>mono-repo</code>的组织方式，比如<code>Babel</code>，<code>React</code> ,<code>Jest</code>,  <code>create-react-app</code>, <code>react-router</code>等等。<code>mono-repo</code>特别适合联系紧密的多个项目，比如本文面临的这种情况，下面我们就进入本文的主题，认真看下<code>mono-repo</code>。</p>
+<h2 id="mono-repo-1">mono-repo</h2>
+<p>其实我之前写<a href="https://juejin.cn/post/6855129007949398029#heading-2" target="_blank"><code>react-router</code>源码解析的时候就提到过<code>mono-repo</code></a>，当时就说有机会单独写一篇<code>mono-repo</code>的文章，本文也算是把坑填上了。所以我们先从<code>react-router</code>的源码结构入手，来看下<code>mono-repo</code>的整体情况，下图就是<code>react-router</code>的源码结构：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1e9bbf33c31d4eec881dd70ed19c03f2~tplv-k3u1fbpfcp-zoom-1.image" alt="image-20201225153108233" loading="lazy"></p>
+<p>我们发现他有个<code>packages</code>文件夹，里面有四个项目：</p>
+<ol>
+<li>
+<p><strong>react-router</strong>：是<code>React-Router</code>的核心库，处理一些共用的逻辑</p>
+</li>
+<li>
+<p><strong>react-router-config</strong>：是<code>React-Router</code>的配置处理库</p>
+</li>
+<li>
+<p><strong>react-router-dom</strong>：浏览器上使用的库，会引用<code>react-router</code>核心库</p>
+</li>
+<li>
+<p><strong>react-router-native</strong>：支持<code>React-Native</code>的路由库，也会引用<code>react-router</code>核心库</p>
+</li>
+</ol>
+<p>这四个项目都是为<code>react</code>的路由管理服务的，在业务上有很强的关联性，完成一个功能可能需要多个项目配合才能完成。比如修某个BUG需要同时改<code>react-router-dom</code>和<code>react-router</code>的代码，如果他们在不同的Git仓库，需要在两个仓库里面分别修改，提交，打包，测试，然后还要修改彼此依赖的版本号才能正常工作。但是使用了<code>mono-repo</code>，因为他们代码都在同一个Git仓库，我们在一个<code>commit</code>里面就可以修改两个项目的代码，然后统一打包，测试，发布，如果我们使用了<code>lerna</code>管理工具，版本号的依赖也是自动更新的，实在是方便太多了。</p>
+<h3 id="lerna">lerna</h3>
+<p><code>lerna</code>是最知名的<code>mono-repo</code>的管理工具，今天我们就要用它来搭建前面提到的共享业务组件的项目，我们目标的项目结构是这个样子的：</p>
+<pre><code class="language-bash">mono-repo-demo/                  --- 主项目，这是一个Git仓库
+  package.json
+  packages/
+    common/                      --- 共享的业务组件
+      package.json
+    admin-site/                  --- 柜员网站项目
+      package.json
+    customer-site/               --- 客户网站项目
+      package.json
+</code></pre>
+<h3 id="lerna-init">lerna init</h3>
+<p><code>lerna</code>初始化很简单，先创建一个空的文件夹，然后运行：</p>
+<pre><code class="language-javascript">npx lerna init
+</code></pre>
+<p>这行命令会帮我创建一个空的<code>packages</code>文件夹，一个<code>package.json</code>和<code>lerna.json</code>，整个结构长这样：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/719c317112f74794bc77fc1ddc43a7f0~tplv-k3u1fbpfcp-zoom-1.image" alt="image-20201225162905950" loading="lazy"></p>
+<p><code>package.json</code>中有一点需要注意，他的<code>private</code>必须设置为<code>true</code>，因为<code>mono-repo</code>本身的这个Git仓库并不是一个项目，他是多个项目，所以他自己不能直接发布，发布的应该是<code>packages/</code>下面的各个子项目。</p>
+<pre><code class="language-json">"private": true,
+</code></pre>
+<p><code>lerna.json</code>初始化长这样：</p>
+<pre><code class="language-json">{
+  "packages": [
+    "packages/*"
+  ],
+  "version": "0.0.0"
+}
+</code></pre>
+<p><code>packages</code>字段就是标记你子项目的位置，默认就是<code>packages/</code>文件夹，他是一个数组，所以是支持多个不同位置的。另外一个需要特别注意的是<code>version</code>字段，这个字段有两个类型的值，一个是像上面的<code>0.0.0</code>这样一个具体版本号，还可以是<code>independent</code>这个关键字。如果是<code>0.0.0</code>这种具体版本号，那<code>lerna</code>管理的所有子项目都会有相同的版本号----<code>0.0.0</code>，如果你设置为<code>independent</code>，那各个子项目可以有自己的版本号，比如子项目1的版本号是<code>0.0.0</code>，子项目2的版本号可以是<code>0.1.0</code>。</p>
+<h3 id="创建子项目">创建子项目</h3>
+<p>现在我们的<code>packages/</code>目录是空的，根据我们前面的设想，我们需要创建三个项目：</p>
+<ol>
+<li><code>common</code>：共享的业务组件，本身不需要运行，放各种组件就行了。</li>
+<li><code>admin-site</code>：柜员站点，需要能够运行，使用<code>create-react-app</code>创建吧</li>
+<li><code>customer-site</code>：客户站点，也需要运行，还是使用<code>create-react-app</code>创建</li>
+</ol>
+<p>创建子项目可以使用<code>lerna</code>的命令来创建：</p>
+<pre><code class="language-bash">lerna create &lt;name&gt;
+</code></pre>
+<p>也可以自己手动创建文件夹，这里<code>common</code>子项目我就用<code>lerna</code>命令创建吧，<code>lerna create common</code>，运行后<code>common</code>文件夹就出现在<code>packages</code>下面了：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0d8213c98d4d42369d443c55562c996b~tplv-k3u1fbpfcp-zoom-1.image" alt="image-20201231145959966" loading="lazy"></p>
+<p>这个是使用<code>lerna create</code>默认生成的目录结构，<code>__test__</code>文件夹下面放得是单元测试内容，<code>lib</code>下面放得是代码。由于我是准备用它来放共享组件的，所以我把目录结构调整了，默认生成的两个文件夹都删了，新建了一个<code>components</code>文件夹：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/05ee90d98bc74a6cb5926f7bc5f252c9~tplv-k3u1fbpfcp-zoom-1.image" alt="image-20201231150311253" loading="lazy"></p>
+<p>另外两个可运行站点都用<code>create-react-app</code>创建了，在<code>packages</code>文件夹下运行：</p>
+<pre><code class="language-bash">npx create-react-app admin-site; npx create-react-app customer-site;
+</code></pre>
+<p>几个项目都创建完后，整个项目结构是这样的：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/40fbbdf94bfb4765bbfeb08a0c171c94~tplv-k3u1fbpfcp-zoom-1.image" alt="image-20201231151536018" loading="lazy"></p>
+<p>按照<code>mono-repo</code>的惯例，这几个子项目的名称最好命名为<code>@&lt;主项目名称&gt;/&lt;子项目名称&gt;</code>，这样当别人引用你的时候，你的这几个项目都可以在<code>node_modules</code>的同一个目录下面，目录名字就是<code>@&lt;主项目名称&gt;</code>，所以我们手动改下三个子项目<code>package.json</code>里面的<code>name</code>为：</p>
+<pre><code class="language-javascript">@mono-repo-demo/admin-site
+@mono-repo-demo/common
+@mono-repo-demo/customer-site
+</code></pre>
+<h3 id="lerna-bootstrap">lerna bootstrap</h3>
+<p>上面的图片可以看到，<code>packages/</code>下面的每个子项目有自己的<code>node_modules</code>，如果将它打开，会发现很多重复的依赖包，这会占用我们大量的硬盘空间。<code>lerna</code>提供了另一个强大的功能：<strong>将子项目的依赖包都提取到最顶层</strong>，我们只需要<strong>先删除子项目的<code>node_modules</code>再跑下面这行命令就行了</strong>：</p>
+<pre><code class="language-bash">lerna bootstrap --hoist
+</code></pre>
+<p>删除已经安装的子项目<code>node_modules</code>可以手动删，也可以用这个命令：</p>
+<pre><code class="language-bash">lerna clean
+</code></pre>
+<h3 id="yarn-workspace">yarn workspace</h3>
+<p><code>lerna bootstrap --hoist</code>虽然可以将子项目的依赖提升到顶层，但是他的方式比较粗暴：先在每个子项目运行<code>npm install</code>，等所有依赖都安装好后，将他们移动到顶层的<code>node_modules</code>。这会导致一个问题，如果多个子项目依赖同一个第三方库，但是需求的版本不同怎么办？比如我们三个子项目都依赖<code>antd</code>，但是他们的版本不完全一样：</p>
+<pre><code class="language-json">// admin-site
+"antd": "3.1.0"
+
+// customer-site
+"antd": "3.1.0"
+
+// common
+"antd": "4.9.4"
+</code></pre>
+<p>这个例子中<code>admin-site</code>和<code>customer-site</code>需要的<code>antd</code>版本都是<code>3.1.0</code>，但是<code>common</code>需要的版本却是<code>4.9.4</code>，如果使用<code>lerna bootstrap --hoist</code>来进行提升，<code>lerna</code>会提升用的最多的版本，也就是<code>3.1.0</code>到顶层，然后把子项目的<code>node_modules</code>里面的<code>antd</code>都删了。也就是说<code>common</code>去访问<code>antd</code>的话，也会拿到<code>3.1.0</code>的版本，这可能会导致<code>common</code>项目工作不正常。</p>
+<p>这时候就需要介绍<code>yarn workspace</code> 了，他可以解决前面说的版本不一致的问题，<code>lerna bootstrap --hoist</code>会把所有子项目用的最多的版本移动到顶层，而<code>yarn workspace</code> 则会检查每个子项目里面依赖及其版本，如果版本不一样则会留在子项目自己的<code>node_modules</code>里面，只有完全一样的依赖才会提升到顶层。</p>
+<p>还是以上面这个<code>antd</code>为例，使用<code>yarn workspace</code>的话，会把<code>admin-site</code>和<code>customer-site</code>的<code>3.1.0</code>版本移动到顶层，而<code>common</code>项目下会保留自己<code>4.9.4</code>的<code>antd</code>，这样每个子项目都可以拿到自己需要的依赖了。</p>
+<p><code>yarn workspace</code>使用也很简单，<code>yarn 1.0</code>以上的版本默认就是开启<code>workspace</code>的，所以我们只需要在顶层的<code>package.json</code>加一个配置就行：</p>
+<pre><code class="language-json">// 顶层package.json
+{
+  "workspaces": [
+    "packages/*"
+  ]
+}
+</code></pre>
+<p>然后在<code>lerna.json</code>里面指定<code>npmClient</code>为<code>yarn</code>，并将<code>useWorkspaces</code>设置为<code>true</code>：</p>
+<pre><code class="language-json">// lerna.json
+{
+  "npmClient": "yarn",
+  "useWorkspaces": true
+}
+</code></pre>
+<p>使用了<code>yarn workspace</code>，我们就不用<code>lerna bootstrap</code>来安装依赖了，而是像以前一样<code>yarn install</code>就行了，他会自动帮我们提升依赖，这里的<code>yarn install</code>无论在顶层运行还是在任意一个子项目运行效果都是一样的。</p>
+<h3 id="启动子项目">启动子项目</h3>
+<p>现在我们建好了三个子项目，要启动CRA子项目，可以去那个目录下运行<code>yarn start</code>，但是频繁切换文件夹实在是太麻烦了。其实有了<code>lerna</code>的帮助我们可以直接在顶层运行，这需要用到<code>lerna</code>的这个功能：</p>
+<pre><code class="language-bash">lerna run [script]
+</code></pre>
+<p>比如我们在顶层运行了<code>lerna run start</code>，这相当于去每个子项目下面都去执行<code>yarn run start</code>或者<code>npm run start</code>，具体是<code>yarn</code>还是<code>npm</code>，取决于你在<code>lerna.json</code>里面的这个设置：</p>
+<pre><code class="language-json">"npmClient": "yarn"    
+</code></pre>
+<p>如果我只想在其中一个子项目运行命令，应该怎么办呢？加上<code>--scope</code>就行了，比如我就在顶层的<code>package.json</code>里面加了这么一行命令：</p>
+<pre><code class="language-json">// 顶层package.json
+{
+  "scripts": {
+    "start:aSite": "lerna --scope @mono-repo-demo/admin-site run start"
+  }
+}
+</code></pre>
+<p>所以我们可以直接在顶层运行<code>yarn start:aSite</code>，这会启动前面说的管理员站点，他其实运行的命令还是<code>lerna run start</code>，然后加了<code>--scope</code>来指定在管理员子项目下运行，<code>@mono-repo-demo/admin-site</code>就是我们管理员子项目的名字，是定义在这个子项目的<code>package.json</code>里面的：</p>
+<pre><code class="language-json">// 管理员子项目package.json
+{
+  "name": "@mono-repo-demo/admin-site"
+}
+</code></pre>
+<p>然后我们实际运行下<code>yarn start:aSite</code>吧：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1b598ba12afd4119aaea6f33c7d396e6~tplv-k3u1fbpfcp-zoom-1.image" alt="image-20201231155954580" loading="lazy"></p>
+<p>看到了我们熟悉的CRA转圈圈，说明到目前为止我们的配置还算顺利，哈哈~</p>
+<h3 id="创建公共组件">创建公共组件</h3>
+<p>现在项目基本结构已经有了，我们建一个公共组件试一下效果。我们就用<code>antd</code>创建一个交水费的表单吧，也很简单，就一个姓名输入框，一个查询按钮。</p>
+<pre><code class="language-jsx">//  packages/common/components/WaterForm.js
+
+import { Form, Input, Button } from 'antd';
+const layout = {
+  labelCol: {
+    span: 8,
+  },
+  wrapperCol: {
+    span: 16,
+  },
+};
+const tailLayout = {
+  wrapperCol: {
+    offset: 8,
+    span: 16,
+  },
+};
+
+const WaterForm = () =&gt; {
+  const onFinish = (values) =&gt; {
+    console.log('Success:', values);
+  };
+
+  const onFinishFailed = (errorInfo) =&gt; {
+    console.log('Failed:', errorInfo);
+  };
+
+  return (
+    &lt;Form
+      {...layout}
+      name="basic"
+      initialValues={{
+        remember: true,
+      }}
+      onFinish={onFinish}
+      onFinishFailed={onFinishFailed}
+    &gt;
+      &lt;Form.Item
+        label="姓名"
+        name="username"
+        rules={[
+          {
+            required: true,
+            message: '请输入姓名',
+          },
+        ]}
+      &gt;
+        &lt;Input /&gt;
+      &lt;/Form.Item&gt;
+
+      &lt;Form.Item {...tailLayout}&gt;
+        &lt;Button type="primary" htmlType="submit"&gt;
+          查询
+        &lt;/Button&gt;
+      &lt;/Form.Item&gt;
+    &lt;/Form&gt;
+  );
+};
+
+export default WaterForm;
+</code></pre>
+<h3 id="引入公共组件">引入公共组件</h3>
+<p>这个组件写好了，我们就在<code>admin-site</code>里面引用下他，要引用上面的组件，我们需要先在<code>admin-site</code>的<code>package.json</code>里面将这个依赖加上，我们可以去手动修改他，也可以使用<code>lerna</code>命令：</p>
+<pre><code class="language-bash">lerna add @mono-repo-demo/common --scope @mono-repo-demo/admin-site
+</code></pre>
+<p>这个命令效果跟你手动改<code>package.json</code>是一样的：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e02acc782db94365884a8b4f852dbaa8~tplv-k3u1fbpfcp-zoom-1.image" alt="image-20201231161945744" loading="lazy"></p>
+<p>然后我们去把<code>admin-site</code>默认的CRA圈圈改成这个水费表单吧：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f39574c40a334487aa3b69578cb0d8be~tplv-k3u1fbpfcp-zoom-1.image" alt="image-20201231162333590" loading="lazy"></p>
+<p>然后再运行下：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ec52a287a4004ef38d511a7394772f09~tplv-k3u1fbpfcp-zoom-1.image" alt="image-20201231162459416" loading="lazy"></p>
+<p>嗯？报错了。。。如果我说这个错误是我预料之中的，你信吗😜</p>
+<h3 id="共享脚手架">共享脚手架</h3>
+<p>仔细看下上面的错误，是报在<code>WaterForm</code>这个组件里面的，错误信息是说：jsx语法不支持，最后两行还给了个建议，叫我们引入<code>babel</code>来编译。这些都说明了一个同问题：<strong>babel的配置对common子项目没有生效</strong>。这其实是预料之中的，我们的<code>admin-site</code>之所以能跑起来是因为CRA帮我们配置好了这些脚手架，而<code>common</code>这个子项目并没有配置这些脚手架，自然编译不了。</p>
+<p>我们这几个子项目都是<code>React</code>的，其实都可以共用一套脚手架，所以我的方案是：<strong>将CRA的脚手架全部eject出来，然后手动挪到顶层，让三个子项目共享。</strong></p>
+<p>首先我们到<code>admin-site</code>下面运行：</p>
+<pre><code class="language-bash">yarn eject
+</code></pre>
+<p>这个命令会将CRA的<code>config</code>文件夹和<code>scripts</code>文件夹弹出来，同时将他们的依赖添加到<code>admin-site</code>的<code>package.json</code>里面。所以我们要干的就是手动将<code>config</code>文件夹和<code>scripts</code>文件夹移动到顶层，然后将CRA添加到<code>package.json</code>的依赖也移到最顶层，具体CRA改了<code>package.json</code>里面的哪些内容可以通过<code>git</code>看出来的。移动过后的项目结构长这样：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ef0994722b79406dafebff459a071b20~tplv-k3u1fbpfcp-zoom-1.image" alt="image-20201231165208361" loading="lazy"></p>
+<p>注意CRA项目的启动脚本在<code>scripts</code>文件夹里面，所以我们需要稍微修改下<code>admin-site</code>的启动命令：</p>
+<pre><code class="language-json">// admin-site package.json
+
+{
+  "scripts": "node ../../scripts/start.js",
+}
+</code></pre>
+<p>现在我们使用<code>yarn start:aSite</code>仍然会报错，所以我们继续修改<code>babel</code>的设置。</p>
+<p>首先在<code>config/paths</code>里面添加上我们<code>packages</code>的路径并<code>export</code>出去：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/114029b6a01848bc8bf744b3d40dd138~tplv-k3u1fbpfcp-zoom-1.image" alt="image-20201231173801079" loading="lazy"></p>
+<p>然后修改<code>webpacka</code>配置，在<code>babel-loader</code>的<code>include</code>路径里面添加上这个路径：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b5d361f18b144cddbcab716457f7886d~tplv-k3u1fbpfcp-zoom-1.image" alt="image-20201231173912873" loading="lazy"></p>
+<p>现在再运行下我们的项目就正常了：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/82d0c930b7c343e296263e0a1a98a80c~tplv-k3u1fbpfcp-zoom-1.image" alt="image-20210102142340656" loading="lazy"></p>
+<p>最后别忘了，还有我们的<code>customer-site</code>哦，这个处理起来就简单了，因为前面我们已经调好了整个主项目的结构，我们可以将<code>customer-site</code>的其他依赖都删了，只保留<code>@mono-repo-demo/common</code>，然后调整下启动脚本就行了：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0ac703369803489a8e4cf050bdf7b981~tplv-k3u1fbpfcp-zoom-1.image" alt="image-20210102142635875" loading="lazy"></p>
+<p>这样客户站点也可以引入公共组件并启动了。</p>
+<h3 id="发布">发布</h3>
+<p>最后要注意的一点是，当我们修改完成后，需要发布了，一定要使用<code>lerna publish</code>，他会自动帮我更新依赖的版本号。比如我现在稍微修改了一下水费表单，然后提交：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/fc8a8e5dc6b640449b7a742d31e57c82~tplv-k3u1fbpfcp-zoom-1.image" alt="image-20210102145343033" loading="lazy"></p>
+<p>现在我试着发布一下，运行</p>
+<pre><code class="language-bash">lerna publish
+</code></pre>
+<p>运行后，他会让你选择新的版本号：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3b23413458ff49bfaa671e49c87c4808~tplv-k3u1fbpfcp-zoom-1.image" alt="image-20210102150019630" loading="lazy"></p>
+<p>我这里选择一个<code>minor</code>，也就是版本号从<code>0.0.0</code>变成<code>0.1.0</code>,然后<code>lerna</code>会自动更新相关的依赖版本，包括：</p>
+<ol>
+<li>
+<p><code>lerna.json</code>自己版本号升为<code>0.1.0</code>：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/18557421b55d4e04be728afbaf00701d~tplv-k3u1fbpfcp-zoom-1.image" alt="image-20210102150535183" loading="lazy"></p>
+</li>
+<li>
+<p><code>common</code>的版本号变为<code>0.1.0</code>：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b52a79c6ae944df6ba1f61f81735e196~tplv-k3u1fbpfcp-zoom-1.image" alt="image-20210102150621696" loading="lazy"></p>
+</li>
+<li>
+<p><code>admin-site</code>的版本号也变为<code>0.1.0</code>，同时更新依赖的<code>common</code>为<code>0.1.0</code>：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e2412c831909420591a4305523f0a53e~tplv-k3u1fbpfcp-zoom-1.image" alt="image-20210102150722538" loading="lazy"></p>
+</li>
+<li>
+<p><code>customer-site</code>的变化跟<code>admin-site</code>是一样的。</p>
+</li>
+</ol>
+<h3 id="independent-version">independent version</h3>
+<p>上面这种发布策略，我们修改了<code>common</code>的版本，<code>admin-site</code>的版本也变成了一样的，按理来说，这个不是必须的，<code>admin-site</code>只是更新依赖的<code>common</code>版本，自己的版本不一定是升级一个<code>minor</code>，也许只是一个<code>patch</code>。<strong>这种情况下，<code>admin-site</code>的版本要不要跟着变，取决于<code>lerna.json</code>里面的<code>version</code>配置，前面说过了，如果它是一个固定的指，那所有子项目版本会保持一致，所以<code>admin-site</code>版本会跟着变，我们将它改成<code>independent</code>就会不一样了。</strong></p>
+<pre><code class="language-json">// lerna.json
+{
+  "version": "independent"
+}
+</code></pre>
+<p>然后我再改下<code>common</code>再发布试试：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/75f7906f45bc474eb882f4631711dad1~tplv-k3u1fbpfcp-zoom-1.image" alt="image-20210102151332029" loading="lazy"></p>
+<p>在运行下<code>lerna publish</code>，我们发现他会让你自己一个一个来选子项目的版本，我这里就可以选择将<code>common</code>升级为<code>0.2.0</code>，而<code>admin-site</code>只是依赖变了，就可以升级为<code>0.1.1</code>:</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/743a1faaa2684100aa1eb517e253686f~tplv-k3u1fbpfcp-zoom-1.image" alt="image-20210102151752370" loading="lazy"></p>
+<p>具体采用哪种策略，是每个子项目版本都保持一致还是各自版本独立，大家可以根据自己的项目情况决定。</p>
+<h2 id="总结">总结</h2>
+<p><strong>这个<code>mono-repo</code>工程我已经把代码清理了一下，上传到了GitHub，如果你刚好需要一个<code>mono-repo + react</code>的项目模板，直接clone吧：<a href="https://github.com/dennis-jiang/mono-repo-demo" target="_blank">https://github.com/dennis-jiang/mono-repo-demo</a></strong></p>
+<p>下面我们再来回顾下本文的要点：</p>
+<ol>
+<li>事情的起源是我们接到了一个外国人交水电费并能卖东西的需求，有柜员端和客户自助端。</li>
+<li>经过分析，我们决定将柜员端和客户自助端部署为两个站点。</li>
+<li>为了这两个站点，我们新建了两个项目，这样扩展性更好。</li>
+<li>这两个项目有很多长得一样的业务组件，我们需要复用他们。</li>
+<li>为了复用这些业务组件，我们引入了<code>mono-repo</code>的架构来进行项目管理，<code>mono-repo</code>特别适合联系紧密的多个项目。</li>
+<li><code>mono-repo</code>最出名的工具是<code>lerna</code>。</li>
+<li><code>lerna</code>可以自动管理各个项目之间的依赖以及<code>node_modules</code>。</li>
+<li>使用<code>lerna bootstrap --hoist</code>可以将子项目的<code>node_modules</code>提升到顶层，解决<code>node_modules</code>重复的问题。</li>
+<li>但是<code>lerna bootstrap --hoist</code>在提升时如果遇到各个子项目引用的依赖版本不一致，会提升使用最多的版本，从而导致少数派那个找不到正确的依赖，发生错误。</li>
+<li>为了解决提升时版本冲突的问题，我们引入了<code>yarn workspace</code>，他也会提升用的最多的版本，但是会为少数派保留自己的依赖在自己的<code>node_modules</code>下面。</li>
+<li>我们示例中两个CRA项目都有自己的脚手架，而<code>common</code>没有脚手架，我们调整了脚手架，将它挪到了最顶层，从而三个项目可以共享。</li>
+<li>发布的时候使用<code>lerna publish</code>，他会自动更新内部依赖，并更新各个子项目自己的版本号。</li>
+<li>子项目的版本号规则可以在<code>lerna.json</code>里面配置，如果配置为固定版本号，则各个子项目保持一致的版本，如果配置为<code>independent</code>关键字，各个子项目可以有自己不同的版本号。</li>
+</ol>
+<h2 id="参考资料">参考资料</h2>
+<ol>
+<li>Lerna官网：<a href="https://lerna.js.org/" target="_blank">https://lerna.js.org/</a></li>
+<li>Yarn workspace: <a href="https://classic.yarnpkg.com/en/docs/workspaces/" target="_blank">https://classic.yarnpkg.com/en/docs/workspaces/</a></li>
+</ol>
+<p><strong>文章的最后，感谢你花费宝贵的时间阅读本文，如果本文给了你一点点帮助或者启发，请不要吝啬你的赞和GitHub小星星，你的支持是作者持续创作的动力。</strong></p>
+<p><strong>欢迎关注我的公众号<a href="https://test-dennis.oss-cn-hangzhou.aliyuncs.com/QRCode/QR430.jpg" target="_blank">进击的大前端</a>第一时间获取高质量原创~</strong></p>
+<p><strong>“前端进阶知识”系列文章：<a href="https://juejin.im/post/5e3ffc85518825494e2772fd" target="_blank">https://juejin.im/post/5e3ffc85518825494e2772fd</a></strong></p>
+<p><strong>“前端进阶知识”系列文章源码GitHub地址： <a href="https://github.com/dennis-jiang/Front-End-Knowledges" target="_blank">https://github.com/dennis-jiang/Front-End-Knowledges</a></strong></p>
+<p><img src="https://test-dennis.oss-cn-hangzhou.aliyuncs.com/QRCode/QR1270.png" alt="QR1270" loading="lazy"></p>
+
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2021-01-04 15:36</span>&nbsp;
+<a href="https://www.cnblogs.com/dennisj/">_蒋鹏飞</a>&nbsp;
+阅读(<span id="post_view_count">519</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14230178" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14230178);return false;">收藏</a></div>
+        </div>
+        <script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 481846, cb_blogApp = 'dennisj', cb_blogUserGuid = '09977f52-4169-4542-db6f-08d58662b770';
+    var cb_entryId = 14230178, cb_entryCreatedDate = '2021-01-04 15:36', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+        <a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+    </div>
+</div>
+            </div>
+        </div>
+
+        <div id="sideBar">
+            <div id="sideBarMain">
+                <div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+                <div id="calendar"><div id="blog-calendar" style="display:none"></div></div>                
+                <script>loadBlogDefaultCalendar();</script>
+                <div id="leftcontentcontainer">
+                    <!-- begin:SingleColumn -->
+                    <div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+                    <!-- end:  SingleColumn -->
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+    <div id="footer">
+        <!--done-->
+Copyright &copy; 2021 _蒋鹏飞
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+    </div>
+</div>
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjtbD2Sxh99W5Oj6qMcfvl1YF_BmCAZI06cC84ZgBQ8WeWmNGGHFW540HgUKTB2a5G2oAqZPoz7Vt1hG8-9mh2DJ-_0QTG-2aLA8Buqmw1Bp0S9tn1ic3pWIGnqmq3rO-_g" />
+</body>
+</html>

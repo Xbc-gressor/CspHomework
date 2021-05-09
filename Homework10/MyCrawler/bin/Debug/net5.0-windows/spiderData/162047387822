@@ -1,0 +1,628 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    
+    
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>iOS开发专栏 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/lessismoreright/bundle-lessismoreright.min.css?v=00nt3ajQUVX0gvFynxRY-4TOqQaW32yFChuBOrvOqLk" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/lessismoreright/bundle-lessismoreright-mobile.min.css?v=cSBXSFXCBG9KdnF2sdUs-Rwu75GHG2_Gs50OCy_ecGg" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/iOSer1122/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/iOSer1122/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/iOSer1122/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 566861;
+        var currentBlogApp = 'iOSer1122';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'LessIsMoreRight';
+        var visitorUserId = '';
+    </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <div id="home">
+    <div id="header">
+        <div id="blogTitle">
+            <div class="title"><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/iOSer1122/">iOS开发专栏</a>
+</div>
+<div class="subtitle"></div>
+
+        </div>
+        <div id="navigator">
+            
+<ul id="navList">
+    <li id="nav_sitehome"><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+    <li id="nav_myhome">
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/iOSer1122/">
+首页</a>
+</li>
+    <li id="nav_newpost">
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+    <li id="nav_contact">
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/iOS%E5%BC%80%E5%8F%91%E4%B8%93%E6%A0%8F">
+联系</a></li>
+    <li id="nav_rss">
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/iOSer1122/rss/">
+订阅</a></li>
+    <li id="nav_admin">
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+            <div class="blogStats">
+                <div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+            </div>
+        </div>
+    </div>
+    <div id="main">
+        <div id="mainContent">
+            <div class="forFlow">
+                
+
+
+
+
+
+
+    
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/iOSer1122/archive/2021/05/07.html">2021年5月7日</a>
+    </div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/iOSer1122/p/14742573.html">
+    <span>
+        月薪 8K 与30K的程序员 区别到底在哪里？
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+            
+
+    <div class="c_b_p_desc">
+摘要：前言： 有人看到这样的问题，第一感觉的答案就是“因为你是初级工程师，他是高级工程师呗~”。 这确实是一个很好的答案！不管什么样的职业都有一个从“初级”到“高级”的过程，没有哪个人能一步登天，生出来就是当架构师、CTO 之类的职位的。 那么怎么样才能从初级走到高级呢？怎么样才能用更短的时间完成这个过渡        <a href="https://www.cnblogs.com/iOSer1122/p/14742573.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        </div>
+        <div class="clear"></div>
+        <div class="postDesc">
+            posted @ 2021-05-07 20:49
+iOS开发专栏
+<span data-post-id="14742573" class="post-view-count">阅读(13)</span> 
+<span data-post-id="14742573" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14742573" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14742573" rel="nofollow">
+    编辑
+</a>
+
+        </div>
+        <div class="clear"></div>
+</div>
+    
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/iOSer1122/archive/2021/04/27.html">2021年4月27日</a>
+    </div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/iOSer1122/p/14710774.html">
+    <span>
+        那些月薪35K以上的iOS开发者 都掌握了什么技能？
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+            
+
+    <div class="c_b_p_desc">
+摘要：前言： 对于我们绝大多数人来说，工作最基本的意义是我们可以通过自己的劳动换取酬劳来养活自己，尤其是对于刚毕业的学生，拥有一份全日制的工作意味着自己走出校园，踏上社会，自己真正开始独立起来。 在养活自己的基础上，我们才会考虑一些其他的，比如收入的高低、自己是否能得到进步、工作内容是否愉快、工作环境是否        <a href="https://www.cnblogs.com/iOSer1122/p/14710774.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        </div>
+        <div class="clear"></div>
+        <div class="postDesc">
+            posted @ 2021-04-27 20:35
+iOS开发专栏
+<span data-post-id="14710774" class="post-view-count">阅读(9)</span> 
+<span data-post-id="14710774" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14710774" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14710774" rel="nofollow">
+    编辑
+</a>
+
+        </div>
+        <div class="clear"></div>
+</div>
+    
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/iOSer1122/archive/2021/04/13.html">2021年4月13日</a>
+    </div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/iOSer1122/p/14655254.html">
+    <span>
+        从事 iOS 开发8年的面经——送给准备跳槽的你！
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+            
+
+    <div class="c_b_p_desc">
+摘要：前言： 今天和大家分享一下，我从事iOS开发8年的面试心得。大大小小参加过不下35+公司的面试，其中不乏BAT、TMD等一线互联网公司，总结一下，发现大厂招聘都有一个共性。 对技术的要求很全面，有些同学认为iOS掌握了基础的UI、网络、内存、多线程等等就够了，其实要想更好的应付iOS的面试，这些是远        <a href="https://www.cnblogs.com/iOSer1122/p/14655254.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        </div>
+        <div class="clear"></div>
+        <div class="postDesc">
+            posted @ 2021-04-13 20:44
+iOS开发专栏
+<span data-post-id="14655254" class="post-view-count">阅读(12)</span> 
+<span data-post-id="14655254" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14655254" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14655254" rel="nofollow">
+    编辑
+</a>
+
+        </div>
+        <div class="clear"></div>
+</div>
+    
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/iOSer1122/archive/2021/04/07.html">2021年4月7日</a>
+    </div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/iOSer1122/p/14629478.html">
+    <span>
+        想进BAT大厂的 iOS程序员，看完这个你还觉得Offer难拿吗？？？
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+            
+
+    <div class="c_b_p_desc">
+摘要：前言： 从呆了将近两年的公司正式离职，交接完全部工作，心里还有有点不舍。谈及离职原因主要是个人发展，感觉自己的发展遇到了瓶颈，目前工作内容也感觉没有太大的挑战。 这无关钱的问题，最主要的原因就是自己想更大努力的提升自己，充实自己，换一个工作环境，刺激自己的学习动力，所以这个时候离开舒适区，或许对自己        <a href="https://www.cnblogs.com/iOSer1122/p/14629478.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        </div>
+        <div class="clear"></div>
+        <div class="postDesc">
+            posted @ 2021-04-07 20:43
+iOS开发专栏
+<span data-post-id="14629478" class="post-view-count">阅读(25)</span> 
+<span data-post-id="14629478" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14629478" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14629478" rel="nofollow">
+    编辑
+</a>
+
+        </div>
+        <div class="clear"></div>
+</div>
+    
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/iOSer1122/archive/2021/03/29.html">2021年3月29日</a>
+    </div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/iOSer1122/p/14594145.html">
+    <span>
+        iOS开发技能栈：年薪60W的老司机，手把手带你如何突破自身技术瓶颈
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+            
+
+    <div class="c_b_p_desc">
+摘要：前言： 本篇文章适用于所有在这个行业已经有了几年时间后想要在职业生涯中取得突破的开发人员，编程人员和程序员（或者你可能刚刚开始，但希望你能看到你的路径） 本文适合那些有着简单愿望的人：你想成为一名高级开发人员，并希望在你的领域中脱颖而出。在阅读完这篇文章后，您将获得一组具有最佳资源列表的路径，供您升        <a href="https://www.cnblogs.com/iOSer1122/p/14594145.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        </div>
+        <div class="clear"></div>
+        <div class="postDesc">
+            posted @ 2021-03-29 20:35
+iOS开发专栏
+<span data-post-id="14594145" class="post-view-count">阅读(15)</span> 
+<span data-post-id="14594145" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14594145" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14594145" rel="nofollow">
+    编辑
+</a>
+
+        </div>
+        <div class="clear"></div>
+</div>
+    
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/iOSer1122/archive/2021/03/16.html">2021年3月16日</a>
+    </div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/iOSer1122/p/14546250.html">
+    <span>
+        2021年大厂iOS 面试题 - 前篇
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+            
+
+    <div class="c_b_p_desc">
+摘要：Swift好多坑，一个人填不来，怎么办 问身边同事吧，又怕被暗笑技术差劲 1、如何追踪app崩溃率，如何解决线上闪退 当iOS设备上的App应用闪退时，操作系统会生成一个crash日志，保存在设备上。crash日志上有很多有用的信息，比如每个正在执行线程的完整堆栈跟踪信息和内存映像，这样就能够通过解        <a href="https://www.cnblogs.com/iOSer1122/p/14546250.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        </div>
+        <div class="clear"></div>
+        <div class="postDesc">
+            posted @ 2021-03-16 22:02
+iOS开发专栏
+<span data-post-id="14546250" class="post-view-count">阅读(22)</span> 
+<span data-post-id="14546250" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14546250" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14546250" rel="nofollow">
+    编辑
+</a>
+
+        </div>
+        <div class="clear"></div>
+</div>
+    
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/iOSer1122/archive/2021/03/08.html">2021年3月8日</a>
+    </div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/iOSer1122/p/14502811.html">
+    <span>
+        2021年最新 iOS面试高级知识
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+            
+
+    <div class="c_b_p_desc">
+摘要：一、类别 OC不像C++等高级语言能直接继承多个类，不过OC可以使用类别和协议来实现多继承。 1、类别加载时机 在App加载时，Runtime会把Category的实例方法、协议以及属性添加到类上；把Category的类方法添加到类的metaclass上。 2、类别添加属性、方法 1）在类别中不能直        <a href="https://www.cnblogs.com/iOSer1122/p/14502811.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        </div>
+        <div class="clear"></div>
+        <div class="postDesc">
+            posted @ 2021-03-08 22:41
+iOS开发专栏
+<span data-post-id="14502811" class="post-view-count">阅读(45)</span> 
+<span data-post-id="14502811" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14502811" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14502811" rel="nofollow">
+    编辑
+</a>
+
+        </div>
+        <div class="clear"></div>
+</div>
+    
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/iOSer1122/archive/2021/03/03.html">2021年3月3日</a>
+    </div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/iOSer1122/p/14476859.html">
+    <span>
+        备战金三银四，2021最全100道高频iOS面试题分享上（含答案）
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+            
+
+    <div class="c_b_p_desc">
+摘要：原作者：执笔续春秋 iOS面试题 本面试题为个人使用版本，如后续流传出去，请转发的朋友务必注释一下，答案正确性有待商榷，本人的答案不代表权威，仅仅是个人理解。 文章内部有写混乱，将就着看吧。另外大部分图片加载不出来，，MARKDown格式也不太统一（各平台不一样），由于博主太懒不想改，不过不影响最终        <a href="https://www.cnblogs.com/iOSer1122/p/14476859.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        </div>
+        <div class="clear"></div>
+        <div class="postDesc">
+            posted @ 2021-03-03 20:55
+iOS开发专栏
+<span data-post-id="14476859" class="post-view-count">阅读(122)</span> 
+<span data-post-id="14476859" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14476859" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14476859" rel="nofollow">
+    编辑
+</a>
+
+        </div>
+        <div class="clear"></div>
+</div>
+    
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/iOSer1122/archive/2021/02/24.html">2021年2月24日</a>
+    </div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/iOSer1122/p/14443920.html">
+    <span>
+        面试了一个 31岁的iOS开发者，思绪万千，30岁以上的程序员还有哪些出路？
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+            
+
+    <div class="c_b_p_desc">
+摘要：前言 之前HR给了我一份简历,刚看到简历的第一眼，31岁？ 让我有点意外，实际上，现在开发趋向于年轻化，大部分都是90后、95后，毕竟，软件开发不像硬件开发一样，年限越高，相对来说越吃香。 31岁，iOS开发工程师，工作经历7年，5年左右都在外包公司，2年左右在创业公司。 经常能在网上听到一些某某公        <a href="https://www.cnblogs.com/iOSer1122/p/14443920.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        </div>
+        <div class="clear"></div>
+        <div class="postDesc">
+            posted @ 2021-02-24 21:33
+iOS开发专栏
+<span data-post-id="14443920" class="post-view-count">阅读(53)</span> 
+<span data-post-id="14443920" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14443920" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14443920" rel="nofollow">
+    编辑
+</a>
+
+        </div>
+        <div class="clear"></div>
+</div>
+    
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/iOSer1122/archive/2021/01/06.html">2021年1月6日</a>
+    </div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/iOSer1122/p/14243344.html">
+    <span>
+        分析字节跳动解决OOM的在线Memory Graph技术实现
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+            
+
+    <div class="c_b_p_desc">
+摘要：之前看到字节团队分享的 “iOS性能优化实践：头条抖音如何实现OOM崩溃率下降50%+”这篇文章，对其实现比较感兴趣，但是没有开源，所以觉得自己花时间探索一下具体实现。 什么是OOM，为什么会发生OOM以及其原因分析，大家去看原文就好了，本文主要分析APP内存使用到达阈值后，如何采集Memory G        <a href="https://www.cnblogs.com/iOSer1122/p/14243344.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        </div>
+        <div class="clear"></div>
+        <div class="postDesc">
+            posted @ 2021-01-06 20:40
+iOS开发专栏
+<span data-post-id="14243344" class="post-view-count">阅读(116)</span> 
+<span data-post-id="14243344" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14243344" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14243344" rel="nofollow">
+    编辑
+</a>
+
+        </div>
+        <div class="clear"></div>
+</div>
+
+<div class="topicListFooter">
+    <div id="nav_next_page">
+        
+    <a href="https://www.cnblogs.com/iOSer1122/default.html?page=2">
+        下一页
+    </a>
+
+    </div>    
+</div>
+
+
+
+
+<script>
+    updatePostStats(
+        $(".post-view-count").map(function () { return this.dataset.postId }).get(),
+        function(id, count) { $(".post-view-count[data-post-id=" + id + "]").text("阅读(" + count + ")") },
+        function(id, count) { $(".post-comment-count[data-post-id=" + id + "]").text("评论(" + count + ")") },
+        function(id, count) { $(".post-digg-count[data-post-id=" + id + "]").text("推荐(" + count + ")") });
+</script>
+            </div>
+        </div>
+
+        <div id="sideBar">
+            <div id="sideBarMain">
+                <div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+                <div id="calendar"><div id="blog-calendar" style="display:none"></div></div>                
+                <script>loadBlogDefaultCalendar();</script>
+                <div id="leftcontentcontainer">
+                    <!-- begin:SingleColumn -->
+                    <div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+                    <!-- end:  SingleColumn -->
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+    <div id="footer">
+        <!--done-->
+Copyright &copy; 2021 iOS开发专栏
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+    </div>
+</div>
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjt8i68bOiZR0IicsKgFo0943vYov0DMGY34utsatTysxSyMgLWt-PB5JkQ5c49G_MYzsvkto39IiBxFUHoPxb-Wfu0lzM7gFVyBsdABfEp0d1fNocuHKntrSIPHjSlVnwI" />
+</body>
+</html>

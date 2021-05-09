@@ -1,0 +1,939 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="感谢,推荐看他们的,我的只是保存一份,害怕以后找不到 https://learnku.com/articles/39118 https://blog.csdn.net/qq_34657922/arti" />
+    <meta property="og:description" content="感谢,推荐看他们的,我的只是保存一份,害怕以后找不到 https://learnku.com/articles/39118 https://blog.csdn.net/qq_34657922/arti" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>php 图片处理 grafika 使用 - 西瓜霜 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/darkgreentrip/bundle-darkgreentrip.min.css?v=eoZATbPKwJCL5eWVDTQIYC6CIxJPcFz191dkzN2tSyQ" />
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/zonglonglong/custom.css?v=f7QjDgL2cV3Azx92DyXfDfYfyNM=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/darkgreentrip/bundle-darkgreentrip-mobile.min.css?v=lU86o8mZVn3FOSdFt7nHKYTD8gzeKaiQIIZ6lSjEFyo" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/zonglonglong/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/zonglonglong/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/zonglonglong/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 123133;
+        var currentBlogApp = 'zonglonglong';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'darkgreentrip';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2020-11-19 09:20';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="no-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/zonglonglong/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/zonglonglong/"><font class="title">西瓜霜^_^</font></a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/zonglonglong/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E8%A5%BF%E7%93%9C%E9%9C%9C">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/zonglonglong/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/zonglonglong/p/14003510.html">
+    <span>php 图片处理 grafika 使用</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<p>感谢,推荐看他们的,我的只是保存一份,害怕以后找不到</p>
+<p>https://learnku.com/articles/39118</p>
+<p>https://blog.csdn.net/qq_34657922/article/details/79479892</p>
+<p>&nbsp;</p>
+<div class="ui readme markdown-body content-body article-content fluidbox-content">
+<div class="toc-wraper ui  card column author-box grid pt-2" style="display: none">
+<div id="toc" class="toc-content tocify">
+<ul id="tocify-header0" class="tocify-header nav nav-list">
+<li class="tocify-item" data-unique="3c02a4"><a>一、 环境需求</a></li>
+</ul>
+<ul id="tocify-header1" class="tocify-header nav nav-list">
+<li class="tocify-item" data-unique="ea829f"><a>二、 安装及配置</a></li>
+</ul>
+<ul id="tocify-header2" class="tocify-header nav nav-list">
+<li class="tocify-item" data-unique="649abb"><a>三、常用 API 及用法</a></li>
+<ul class="tocify-subheader nav nav-list" data-tag="3">
+<li class="tocify-item" data-unique="379858"><a>创建编辑器</a></li>
+<li class="tocify-item active" data-unique="173cef"><a>创建图像，Grafika 允许使用 4 种方式创建一个待处理的图像</a></li>
+<li class="tocify-item" data-unique="05853d"><a>缩放</a></li>
+</ul>
+</ul>
+</div>
+</div>
+<blockquote>
+<p>Grafika 是一个 PHP 图像处理库，是基于 Imagick 和 GD，可以用于改变图片大小，剪裁，比较，添加水印等等功能。还有感知哈希，高级图像过滤，绘制贝塞尔曲线等功能，功能非常强大。优点：缩略图的速度非常快，质量非常高、支持智能剪裁、很好的支持 GIF 图片、5 种缩略图模式、图像对比功能、图像高级过滤功能、图像混合、其他图像处理库支持的 API 基本都支持</p>
+</blockquote>
+<div data-unique="3c02a4">&nbsp;</div>
+<h2 id="3c02a4"><a class="reference-link" name="一、  环境需求"></a>一、 环境需求<a class="anchorific" style="display: none" href="#3c02a4">#</a></h2>
+<ul>
+<li>PHP &gt;= 5.3，当然官方推荐 php7</li>
+<li>GD 库 &gt;= 2.0 版本</li>
+<li><code>Imagick</code> 最好（不强求）&gt;=3.3.0 ， <code>ImageMagick</code> &gt;= 6.5.3</li>
+</ul>
+<div data-unique="ea829f">&nbsp;</div>
+<h2 id="ea829f"><a class="reference-link" name="二、 安装及配置"></a>二、 安装及配置<a class="anchorific" style="display: none" href="#ea829f">#</a></h2>
+<div style="position: relative">
+<pre class="  language-php"><code class="  language-php">composer <span class="token keyword">require</span> kosinix<span class="token operator">/</span>grafika<span class="token punctuation">:</span>dev<span class="token operator">-</span>master <span class="token operator">--</span>prefer<span class="token operator">-</span>dist</code><button class="copy-code-button ui label" style="position: absolute; top: 20px; right: 1px; display: none">Copy</button></pre>
+</div>
+<div data-unique="649abb">&nbsp;</div>
+<h2 id="649abb"><a class="reference-link" name="三、常用 API 及用法"></a>三、常用 API 及用法<a class="anchorific" href="#649abb">#</a></h2>
+<div data-unique="379858">&nbsp;</div>
+<h3 id="379858"><a class="reference-link" name="创建编辑器"></a>创建编辑器<a class="anchorific" href="#379858">#</a></h3>
+<ul>
+<li><code>Create Editor</code> 编辑器用于处理图像，官方建议使用 <code>Grafika::createEditor()</code> 创建 ，<code>Grafika</code> 会自动选择可用的最佳编辑器（将检查 Imagick 是否可用，如果没有就会使用 GD）</li>
+</ul>
+<div style="position: relative">
+<pre class="  language-php"><code class="  language-php"> <span class="token comment">// 导入扩展包</span>
+<span class="token keyword">use</span> <span class="token package">Grafika<span class="token punctuation">\</span>Grafika</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 创建最佳可用编辑器</span>
+<span class="token variable">$editor</span> <span class="token operator">=</span> <span class="token scope">Grafika<span class="token punctuation">::</span></span><span class="token function">createEditor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> </code><button class="copy-code-button ui label" style="position: absolute; top: 20px; right: 1px; display: none">Copy</button></pre>
+</div>
+<ul>
+<li><code>Imagick Editor()</code> 当然也可直接使用 <code>Imagick</code> 类库</li>
+</ul>
+<div style="position: relative">
+<pre class="  language-php"><code class="  language-php"><span class="token keyword">use</span> <span class="token package">Grafika<span class="token punctuation">\</span>Imagick<span class="token punctuation">\</span>Editor</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 创建 Imagick 编辑器</span>
+<span class="token variable">$editor</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Editor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> </code><button class="copy-code-button ui label" style="position: absolute; top: 20px; right: 1px; display: none">Copy</button></pre>
+</div>
+<p>注意：在使用 Imagick 编辑器时因为某些 PHP 安装默认情况下没有 Imagick 编辑器，需要添加一些安全检查：</p>
+<div style="position: relative">
+<pre class="  language-php"><code class="  language-php"><span class="token keyword">use</span> <span class="token package">Grafika<span class="token punctuation">\</span>Imagick<span class="token punctuation">\</span>Editor</span><span class="token punctuation">;</span>
+
+<span class="token variable">$editor</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Editor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+
+<span class="token comment">// 安全检查</span>
+<span class="token keyword">if</span><span class="token punctuation">(</span> <span class="token variable">$editor</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">isAvailable</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+     <span class="token comment">//  ……</span>
+<span class="token punctuation">}</span></code><button class="copy-code-button ui label" style="position: absolute; top: 20px; right: 1px; display: none">Copy</button></pre>
+</div>
+<ul>
+<li>GD Editor 也可直接使用 GD 库，也有些情况可能不支持，注意检查</li>
+</ul>
+<div style="position: relative">
+<pre class="  language-php"><code class="  language-php"><span class="token keyword">use</span> <span class="token package">Grafika<span class="token punctuation">\</span>Gd<span class="token punctuation">\</span>Editor</span><span class="token punctuation">;</span>
+<span class="token comment">//  ……</span>
+<span class="token comment">// 创建 GD 编辑器</span>
+<span class="token variable">$editor</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Editor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 安全检查</span>
+<span class="token keyword">if</span><span class="token punctuation">(</span> <span class="token variable">$editor</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">isAvailable</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+   <span class="token comment">//  ……</span>
+<span class="token punctuation">}</span></code><button class="copy-code-button ui label" style="position: absolute; top: 20px; right: 1px; display: none">Copy</button></pre>
+</div>
+<div data-unique="173cef">&nbsp;</div>
+<h3 id="173cef"><a class="reference-link" name="创建图像，Grafika允许使用4种方式创建一个待处理的图像"></a>创建图像，Grafika 允许使用 4 种方式创建一个待处理的图像<a class="anchorific" href="#173cef">#</a></h3>
+<ul>
+<li>编辑器打开</li>
+</ul>
+<div style="position: relative">
+<pre class="  language-php"><code class="  language-php"><span class="token keyword">use</span> <span class="token package">Grafika<span class="token punctuation">\</span>Grafika</span><span class="token punctuation">;</span>
+ <span class="token comment">//  ……</span>
+<span class="token variable">$editor</span> <span class="token operator">=</span> <span class="token scope">Grafika<span class="token punctuation">::</span></span><span class="token function">createEditor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token variable">$editor</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">open</span><span class="token punctuation">(</span> <span class="token variable">$image</span><span class="token punctuation">,</span> <span class="token single-quoted-string string">'images/foo.jpg'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code><button class="copy-code-button ui label" style="position: absolute; top: 20px; right: 1px; display: none">Copy</button></pre>
+</div>
+<ul>
+<li>使用静态方法打开图片</li>
+</ul>
+<div style="position: relative">
+<pre class="  language-php"><code class="  language-php"><span class="token keyword">use</span> <span class="token package">Grafika<span class="token punctuation">\</span>Grafika</span><span class="token punctuation">;</span>
+<span class="token comment">//  ……</span>
+<span class="token variable">$editor</span> <span class="token operator">=</span> <span class="token scope">Grafika<span class="token punctuation">::</span></span><span class="token function">createEditor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token variable">$image</span> <span class="token operator">=</span> <span class="token scope">Grafika<span class="token punctuation">::</span></span><span class="token function">createImage</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'images/foo.jpg'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> </code><button class="copy-code-button ui label" style="position: absolute; top: 20px; right: 1px; display: none">Copy</button></pre>
+</div>
+<ul>
+<li>创建一个空白的画布</li>
+</ul>
+<div style="position: relative">
+<pre class="  language-php"><code class="  language-php"><span class="token keyword">use</span> <span class="token package">Grafika<span class="token punctuation">\</span>Grafika</span><span class="token punctuation">;</span>
+ <span class="token comment">//  ……</span>
+<span class="token variable">$image</span> <span class="token operator">=</span> <span class="token scope">Grafika<span class="token punctuation">::</span></span><span class="token function">createBlankImage</span><span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">,</span><span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code><button class="copy-code-button ui label" style="position: absolute; top: 20px; right: 1px; display: none">Copy</button></pre>
+</div>
+<ul>
+<li>从已有图片拷贝一个副本</li>
+</ul>
+<div style="position: relative">
+<pre class="  language-php"><code class="  language-php"><span class="token variable">$copy</span> <span class="token operator">=</span> <span class="token keyword">clone</span> <span class="token variable">$image</span><span class="token punctuation">;</span></code><button class="copy-code-button ui label" style="position: absolute; top: 20px; right: 1px; display: none">Copy</button></pre>
+</div>
+<div data-unique="05853d">&nbsp;</div>
+<h3 id="05853d"><a class="reference-link" name="缩放"></a>缩放<a class="anchorific" href="#05853d">#</a></h3>
+<ul>
+<li><code>resizeFit()</code> 等比例缩放，调整图像大小以适应给定的宽度和高度，重新调整大小的图像不会超过给定的尺寸，如果要保留宽高比，则此选项非常有用</li>
+</ul>
+<div style="position: relative">
+<pre class="  language-php"><code class="  language-php">resizeFit <span class="token punctuation">(</span> ImageInterface <span class="token operator">&amp;</span><span class="token variable">$image</span><span class="token punctuation">,</span> int <span class="token variable">$newWidth</span><span class="token punctuation">,</span> int <span class="token variable">$newHeight</span> <span class="token punctuation">)</span><span class="token punctuation">:</span> EditorInterface </code><button class="copy-code-button ui label" style="position: absolute; top: 20px; right: 1px; display: none">Copy</button></pre>
+</div>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>参数</th><th>描述</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>image</td>
+<td>基础图片</td>
+</tr>
+<tr>
+<td>newWidth</td>
+<td>新的宽度</td>
+</tr>
+<tr>
+<td>newWidth</td>
+<td>新的高度</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div style="position: relative">
+<pre class="  language-php"><code class="  language-php"><span class="token keyword">use</span> <span class="token package">Grafika<span class="token punctuation">\</span>Grafika</span><span class="token punctuation">;</span>
+<span class="token comment">//  ……</span>
+<span class="token comment">// 打开图像</span>
+<span class="token variable">$editor</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">open</span><span class="token punctuation">(</span> <span class="token variable">$image</span><span class="token punctuation">,</span> <span class="token double-quoted-string string">"images/foo.jpg"</span> <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// 将图像调整大小</span>
+<span class="token variable">$editor</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">resizeFit</span><span class="token punctuation">(</span> <span class="token variable">$image</span><span class="token punctuation">,</span> <span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">200</span> <span class="token punctuation">)</span><span class="token punctuation">;</span> 
+<span class="token comment">// 保存</span>
+<span class="token variable">$editor</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">save</span><span class="token punctuation">(</span> <span class="token variable">$image</span><span class="token punctuation">,</span> <span class="token double-quoted-string string">"images/testResizeFit.jpg"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> </code><button class="copy-code-button ui label" style="position: absolute; top: 20px; right: 1px; display: none">Copy</button></pre>
+</div>
+<ul>
+<li><code>resizeExact()</code> 固定尺寸缩放，调整图像大小以精确尺寸，会忽略宽高比。</li>
+</ul>
+<div style="position: relative">
+<pre class="  language-php"><code class="  language-php">resizeExact <span class="token punctuation">(</span> ImageInterface <span class="token operator">&amp;</span><span class="token variable">$image</span><span class="token punctuation">,</span> int <span class="token variable">$newWidth</span><span class="token punctuation">,</span> int <span class="token variable">$newHeight</span> <span class="token punctuation">)</span><span class="token punctuation">:</span> EditorInterface </code><button class="copy-code-button ui label" style="position: absolute; top: 20px; right: 1px; display: none">Copy</button></pre>
+</div>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>参数</th><th>描述</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>image</td>
+<td>基础图片</td>
+</tr>
+<tr>
+<td>newWidth</td>
+<td>新的宽度</td>
+</tr>
+<tr>
+<td>newWidth</td>
+<td>新的高度</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div style="position: relative">
+<pre class="  language-php"><code class="  language-php"><span class="token keyword">use</span> <span class="token package">Grafika<span class="token punctuation">\</span>Grafika</span><span class="token punctuation">;</span>
+<span class="token comment">//  ……</span>
+<span class="token variable">$editor</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">open</span><span class="token punctuation">(</span> <span class="token variable">$image</span><span class="token punctuation">,</span> <span class="token double-quoted-string string">"images/foo.jpg"</span> <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token variable">$editor</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">resizeExact</span><span class="token punctuation">(</span> <span class="token variable">$image</span><span class="token punctuation">,</span> <span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">200</span> <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token variable">$editor</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">save</span><span class="token punctuation">(</span> <span class="token variable">$image</span><span class="token punctuation">,</span> <span class="token double-quoted-string string">"images/testResizeExact.jpg"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code><button class="copy-code-button ui label" style="position: absolute; top: 20px; right: 1px; display: none">Copy</button></pre>
+</div>
+<blockquote>
+<p><code>resizeExactWidth()</code> 等宽缩放，高度自动计算<br><code>resizeExactHeight()</code> 等高缩放，宽度自动计算</p>
+
+</blockquote>
+<ul>
+<li><code>resizeFill()</code>  缩放裁剪，调整图像大小以填充给定维度中的所有空间，多余的部分被裁切。</li>
+</ul>
+<div style="position: relative">
+<pre class="  language-php"><code class="  language-php">resizeFill <span class="token punctuation">(</span> ImageInterface <span class="token operator">&amp;</span><span class="token variable">$image</span><span class="token punctuation">,</span> int <span class="token variable">$newWidth</span><span class="token punctuation">,</span> int <span class="token variable">$newHeight</span> <span class="token punctuation">)</span><span class="token punctuation">:</span> EditorInterface</code><button class="copy-code-button ui label" style="position: absolute; top: 20px; right: 1px; display: none">Copy</button></pre>
+</div>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>参数</th><th>描述</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>image</td>
+<td>基础图片</td>
+</tr>
+<tr>
+<td>newWidth</td>
+<td>新的宽度</td>
+</tr>
+<tr>
+<td>newWidth</td>
+<td>新的高度</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div style="position: relative">
+<pre class="  language-php"><code class="  language-php"><span class="token keyword">use</span> <span class="token package">Grafika<span class="token punctuation">\</span>Grafika</span><span class="token punctuation">;</span>
+<span class="token comment">//  ……</span>
+<span class="token variable">$editor</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">open</span><span class="token punctuation">(</span> <span class="token variable">$image</span><span class="token punctuation">,</span> <span class="token double-quoted-string string">"images/foo.jpg"</span> <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token variable">$editor</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">resizeFill</span><span class="token punctuation">(</span> <span class="token variable">$image</span><span class="token punctuation">,</span> <span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">200</span> <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token variable">$editor</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">save</span><span class="token punctuation">(</span> <span class="token variable">$image</span><span class="token punctuation">,</span> <span class="token double-quoted-string string">"images/testResizeFill.jpg"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code><button class="copy-code-button ui label" style="position: absolute; top: 20px; right: 1px; display: none">Copy</button></pre>
+</div>
+<div style="position: relative">
+<pre class="  language-php"><code class="  language-php"><span class="token variable">$editor</span> <span class="token operator">=</span> <span class="token scope">Grafika<span class="token punctuation">::</span></span><span class="token function">createEditor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token variable">$editor</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">open</span><span class="token punctuation">(</span> <span class="token variable">$image</span><span class="token punctuation">,</span> <span class="token double-quoted-string string">"images/foo.png"</span> <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token variable">$editor</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">resizeFit</span><span class="token punctuation">(</span><span class="token variable">$image</span><span class="token punctuation">,</span> <span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">200</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 等比缩放</span>
+<span class="token comment">//$editor-&gt;resizeExact($image, 200, 200);  // 固定尺寸缩放</span>
+<span class="token comment">//$editor-&gt;resizeFill($image, 200, 200);  // 缩放裁剪</span>
+<span class="token function">header</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'Content-type: image/png'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token variable">$image</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">blob</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'PNG'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code><button class="copy-code-button ui label" style="position: absolute; top: 20px; right: 1px; display: none">Copy</button></pre>
+</div>
+<ul>
+<li><code>compare()</code> 图片相似度对比，返回值越接近于 0 表示图片越相似，如果数字在 0-10 范围内那么图片都可能相似，果数字大于 10 那么可能就完全不同。</li>
+</ul>
+<div style="position: relative">
+<pre class="  language-php"><code class="  language-php"><span class="token function">compare</span><span class="token punctuation">(</span>string<span class="token operator">|</span>ImageInterface <span class="token variable">$image1</span><span class="token punctuation">,</span> string<span class="token operator">|</span>ImageInterface <span class="token variable">$image2</span><span class="token punctuation">)</span><span class="token punctuation">:</span> int </code><button class="copy-code-button ui label" style="position: absolute; top: 20px; right: 1px; display: none">Copy</button></pre>
+</div>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>参数</th><th>描述</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>image1</td>
+<td>图片 1</td>
+</tr>
+<tr>
+<td>image2</td>
+<td>图片 2</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div style="position: relative">
+<pre class="  language-php"><code class="  language-php"><span class="token keyword">use</span> <span class="token package">Grafika<span class="token punctuation">\</span>Grafika</span><span class="token punctuation">;</span>
+<span class="token comment">//  ……</span>
+<span class="token variable">$editor</span> <span class="token operator">=</span> <span class="token scope">Grafika<span class="token punctuation">::</span></span><span class="token function">createEditor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token variable">$result</span> <span class="token operator">=</span> <span class="token variable">$editor</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">compare</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'images/foo-gray.png'</span> <span class="token punctuation">,</span> <span class="token single-quoted-string string">'images/foo.png'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code><button class="copy-code-button ui label" style="position: absolute; top: 20px; right: 1px; display: none">Copy</button></pre>
+</div>
+<ul>
+<li><code>blend()</code> 图片合并，将两张图像合并，第一张图像作为基础，第二张图像位于基础之上，支持多种混合模式。</li>
+</ul>
+<div style="position: relative">
+<pre class="  language-php"><code class="  language-php"><span class="token function">blend</span><span class="token punctuation">(</span>ImageInterface <span class="token operator">&amp;</span><span class="token variable">$image1</span><span class="token punctuation">,</span> ImageInterface <span class="token variable">$image2</span><span class="token punctuation">,</span> string <span class="token variable">$type</span> <span class="token operator">=</span> <span class="token single-quoted-string string">'normal'</span><span class="token punctuation">,</span> float <span class="token variable">$opacity</span> <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">,</span> string <span class="token variable">$position</span> <span class="token operator">=</span> <span class="token single-quoted-string string">'top-left'</span><span class="token punctuation">,</span> int <span class="token variable">$offsetX</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> int <span class="token variable">$offsetY</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">:</span> EditorInterface </code><button class="copy-code-button ui label" style="position: absolute; top: 20px; right: 1px; display: none">Copy</button></pre>
+</div>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>参数</th><th>描述</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>image1</td>
+<td>基础图片</td>
+</tr>
+<tr>
+<td>image2</td>
+<td>放置在基础图片之上的图片</td>
+</tr>
+<tr>
+<td>type</td>
+<td>图片叠加模式，值为：normal、multiply,、overlay 、 screen</td>
+</tr>
+<tr>
+<td>opacity</td>
+<td>图片 2 的不透明度，取值范围为 0.0 到 1，默认为 1</td>
+</tr>
+<tr>
+<td>position</td>
+<td>图片 2 在图片 1 上的位置，值为：top-left、op-center、top-right、center-left、 center、 center-right、 bottom-left、bottom-center、bottom-right 、 smart，默认为 top-left，smart 表示 grafika 来判断摆放在哪里好</td>
+</tr>
+<tr>
+<td>offsetX</td>
+<td>图片 2 距离图片 1 左边的距离</td>
+</tr>
+<tr>
+<td>offsetY</td>
+<td>图片 2 距离图片 1 上边的距离</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div style="position: relative">
+<pre class="  language-php"><code class="  language-php"><span class="token keyword">use</span> <span class="token package">Grafika<span class="token punctuation">\</span>Grafika</span><span class="token punctuation">;</span>
+<span class="token comment">//  ……</span>
+<span class="token variable">$editor</span> <span class="token operator">=</span> <span class="token scope">Grafika<span class="token punctuation">::</span></span><span class="token function">createEditor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token variable">$editor</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">open</span><span class="token punctuation">(</span><span class="token variable">$image1</span> <span class="token punctuation">,</span> <span class="token single-quoted-string string">'images/foo-h.jpg'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token variable">$editor</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">open</span><span class="token punctuation">(</span><span class="token variable">$image2</span> <span class="token punctuation">,</span> <span class="token single-quoted-string string">'images/foo.jpg'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token variable">$editor</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token property">blend</span> <span class="token punctuation">(</span> <span class="token variable">$image1</span><span class="token punctuation">,</span> <span class="token variable">$image2</span> <span class="token punctuation">,</span> <span class="token single-quoted-string string">'normal'</span><span class="token punctuation">,</span> <span class="token number">0.9</span><span class="token punctuation">,</span> <span class="token single-quoted-string string">'center'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token variable">$editor</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">save</span><span class="token punctuation">(</span><span class="token variable">$image1</span><span class="token punctuation">,</span><span class="token single-quoted-string string">'images/foo-blend.jpg'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code><button class="copy-code-button ui label" style="position: absolute; top: 20px; right: 1px; display: none">Copy</button></pre>
+</div>
+<ul>
+<li><code>rotate()</code> 图像旋转</li>
+</ul>
+<div style="position: relative">
+<pre class="  language-php"><code class="  language-php"><span class="token function">rotate</span><span class="token punctuation">(</span>ImageInterface <span class="token operator">&amp;</span><span class="token variable">$image</span><span class="token punctuation">,</span> int <span class="token variable">$angle</span><span class="token punctuation">,</span> Color<span class="token operator">|</span><span class="token constant">null</span> <span class="token variable">$color</span> <span class="token operator">=</span> <span class="token constant">null</span><span class="token punctuation">)</span><span class="token punctuation">:</span> EditorInterface </code><button class="copy-code-button ui label" style="position: absolute; top: 20px; right: 1px; display: none">Copy</button></pre>
+</div>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>参数</th><th>描述</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>image</td>
+<td>基础图片</td>
+</tr>
+<tr>
+<td>angle</td>
+<td>角度</td>
+</tr>
+<tr>
+<td>color</td>
+<td>背景色</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div style="position: relative">
+<pre class="  language-php"><code class="  language-php"><span class="token keyword">use</span> <span class="token package">Grafika<span class="token punctuation">\</span>Grafika</span><span class="token punctuation">;</span>
+<span class="token keyword">use</span> <span class="token package">Grafika<span class="token punctuation">\</span>Color</span><span class="token punctuation">;</span>
+ <span class="token comment">//  ……</span>
+<span class="token variable">$editor</span> <span class="token operator">=</span> <span class="token scope">Grafika<span class="token punctuation">::</span></span><span class="token function">createEditor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token variable">$editor</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">open</span><span class="token punctuation">(</span><span class="token variable">$image</span> <span class="token punctuation">,</span> <span class="token single-quoted-string string">'images/foo.png'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token variable">$editor</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">rotate</span><span class="token punctuation">(</span><span class="token variable">$image</span> <span class="token punctuation">,</span><span class="token single-quoted-string string">'45'</span><span class="token punctuation">,</span><span class="token keyword">new</span> <span class="token class-name">Color</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'#ff0000'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">header</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'Content-type: image/png'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token variable">$image</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">blob</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'PNG'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code><button class="copy-code-button ui label" style="position: absolute; top: 20px; right: 1px; display: none">Copy</button></pre>
+</div>
+<ul>
+<li><code>text()</code> 图片写文字</li>
+</ul>
+<div style="position: relative">
+<pre class="  language-php"><code class="  language-php">text <span class="token punctuation">(</span>ImageInterface <span class="token operator">&amp;</span><span class="token variable">$image</span><span class="token punctuation">,</span> string <span class="token variable">$text</span><span class="token punctuation">,</span> int <span class="token variable">$size</span> <span class="token operator">=</span> <span class="token number">12</span><span class="token punctuation">,</span> int <span class="token variable">$x</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> int <span class="token variable">$y</span> <span class="token operator">=</span> <span class="token number">12</span><span class="token punctuation">,</span> Color <span class="token variable">$color</span> <span class="token operator">=</span> <span class="token constant">null</span><span class="token punctuation">,</span> string <span class="token variable">$font</span> <span class="token operator">=</span> <span class="token single-quoted-string string">''</span><span class="token punctuation">,</span> int <span class="token variable">$angle</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">:</span> EditorInterface </code><button class="copy-code-button ui label" style="position: absolute; top: 20px; right: 1px; display: none">Copy</button></pre>
+</div>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>参数</th><th>描述</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>image</td>
+<td>图片</td>
+</tr>
+<tr>
+<td>text</td>
+<td>文字</td>
+</tr>
+<tr>
+<td>size</td>
+<td>字体大小 (可选)，默认为 12px</td>
+</tr>
+<tr>
+<td>x</td>
+<td>从图像左边缘到文本左边缘的距离 (可选)，默认为 0</td>
+</tr>
+<tr>
+<td>y</td>
+<td>从图像上边缘到文本基线的距离 (可选)，默认值为 12（等于字体大小），以便将文本放置在图像中</td>
+</tr>
+<tr>
+<td>color</td>
+<td>字体颜色 (可选)，默认为黑色</td>
+</tr>
+<tr>
+<td>font</td>
+<td>字体路径 (可选)</td>
+</tr>
+<tr>
+<td>angle</td>
+<td>文字旋转角度 (可选)，取值范围为 0-359，默认为 0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div style="position: relative">
+<pre class="  language-php"><code class="  language-php"><span class="token keyword">use</span> <span class="token package">Grafika<span class="token punctuation">\</span>Grafika</span><span class="token punctuation">;</span>
+<span class="token keyword">use</span> <span class="token package">Grafika<span class="token punctuation">\</span>Color</span><span class="token punctuation">;</span>
+<span class="token comment">//  ……</span>
+<span class="token variable">$editor</span> <span class="token operator">=</span> <span class="token scope">Grafika<span class="token punctuation">::</span></span><span class="token function">createEditor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token variable">$editor</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">open</span><span class="token punctuation">(</span><span class="token variable">$image</span> <span class="token punctuation">,</span> <span class="token single-quoted-string string">'images/foo.jpg'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token variable">$editor</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">text</span><span class="token punctuation">(</span><span class="token variable">$image</span> <span class="token punctuation">,</span><span class="token single-quoted-string string">'foo'</span><span class="token punctuation">,</span><span class="token number">30</span><span class="token punctuation">,</span><span class="token number">200</span><span class="token punctuation">,</span><span class="token number">100</span><span class="token punctuation">,</span><span class="token keyword">new</span> <span class="token class-name">Color</span><span class="token punctuation">(</span><span class="token double-quoted-string string">"#000000"</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token single-quoted-string string">''</span><span class="token punctuation">,</span><span class="token number">45</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token variable">$editor</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">save</span><span class="token punctuation">(</span><span class="token variable">$image</span><span class="token punctuation">,</span><span class="token single-quoted-string string">'images/foo-text.jpg'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code><button class="copy-code-button ui label" style="position: absolute; top: 20px; right: 1px; display: none">Copy</button></pre>
+</div>
+<div style="position: relative">
+<pre class="  language-php"><code class="  language-php"><span class="token variable">$editor</span> <span class="token operator">=</span> <span class="token scope">Grafika<span class="token punctuation">::</span></span><span class="token function">createEditor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token variable">$editor</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">open</span><span class="token punctuation">(</span><span class="token variable">$image</span> <span class="token punctuation">,</span> <span class="token single-quoted-string string">'images/foo.png'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token variable">$editor</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">text</span><span class="token punctuation">(</span><span class="token variable">$image</span><span class="token punctuation">,</span> <span class="token single-quoted-string string">'测试文字'</span><span class="token punctuation">,</span> <span class="token number">24</span><span class="token punctuation">,</span> <span class="token number">50</span><span class="token punctuation">,</span> <span class="token number">50</span><span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">Color</span><span class="token punctuation">(</span><span class="token double-quoted-string string">"#000000"</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token single-quoted-string string">'images/Alibaba-PuHuiTi-Light.ttf'</span><span class="token punctuation">,</span><span class="token number">90</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">header</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'Content-type: image/png'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token variable">$image</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">blob</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'PNG'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code><button class="copy-code-button ui label" style="position: absolute; top: 20px; right: 1px; display: none">Copy</button></pre>
+</div>
+<p>*<code>getWidth()</code> 获取图片宽度</p>
+<div style="position: relative">
+<pre class="  language-php"><code class="  language-php">getWidth <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> int </code><button class="copy-code-button ui label" style="position: absolute; top: 20px; right: 1px; display: none">Copy</button></pre>
+</div>
+<div style="position: relative">
+<pre class="  language-php"><code class="  language-php"><span class="token keyword">use</span> <span class="token package">Grafika<span class="token punctuation">\</span>Grafika</span><span class="token punctuation">;</span>
+<span class="token comment">//  ……</span>
+<span class="token variable">$editor</span> <span class="token operator">=</span> <span class="token scope">Grafika<span class="token punctuation">::</span></span><span class="token function">createEditor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token variable">$editor</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">open</span><span class="token punctuation">(</span> <span class="token variable">$image</span><span class="token punctuation">,</span> <span class="token single-quoted-string string">'images/foo.jpg'</span> <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token variable">$image</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">getWidth</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code><button class="copy-code-button ui label" style="position: absolute; top: 20px; right: 1px; display: none">Copy</button></pre>
+</div>
+<blockquote>
+<p><code>getHeight()</code> 获取高度 、<code>getImageFile()</code> 获取名称 <code>getType()</code> 获取类型 <code>isAnimated</code> 是否是动图</p>
+</blockquote>
+<ul>
+<li>绘制直线</li>
+</ul>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>参数</th><th>描述</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>point1</td>
+<td>起始点的坐标（数组）</td>
+</tr>
+<tr>
+<td>point2</td>
+<td>结束点的坐标（数组）</td>
+</tr>
+<tr>
+<td>thickness</td>
+<td>宽度，其中 GD 库会忽略掉，默认为 1</td>
+</tr>
+<tr>
+<td>color</td>
+<td>颜色，默认为黑色</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div style="position: relative">
+<pre class="  language-php"><code class="  language-php"><span class="token variable">$editor</span> <span class="token operator">=</span> <span class="token scope">Grafika<span class="token punctuation">::</span></span><span class="token function">createEditor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token variable">$editor</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">open</span><span class="token punctuation">(</span><span class="token variable">$image</span> <span class="token punctuation">,</span> <span class="token single-quoted-string string">'images/foo.jpg'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// 创建绘制对象，同时检测可用的编辑器</span>
+<span class="token variable">$drawingObject</span> <span class="token operator">=</span> <span class="token scope">Grafika<span class="token punctuation">::</span></span><span class="token function">createDrawingObject</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'Line'</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">200</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">Color</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'#FF0000'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// 在图像上绘制上面创建的绘制对象</span>
+<span class="token variable">$editor</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">draw</span><span class="token punctuation">(</span> <span class="token variable">$image</span><span class="token punctuation">,</span> <span class="token variable">$drawingObject</span> <span class="token punctuation">)</span><span class="token punctuation">;</span> 
+<span class="token function">header</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'Content-type: image/png'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token variable">$image</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">blob</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'PNG'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code><button class="copy-code-button ui label" style="position: absolute; top: 20px; right: 1px; display: none">Copy</button></pre>
+</div>
+<ul>
+<li>绘制椭圆</li>
+</ul>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>参数</th><th>描述</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>width</td>
+<td>宽度</td>
+</tr>
+<tr>
+<td>height</td>
+<td>高度</td>
+</tr>
+<tr>
+<td>pos</td>
+<td>位置 <code>[x,y]</code>，X 为椭圆最左边距离图像最左边值，Y 最上边距离图形最上边值</td>
+</tr>
+<tr>
+<td>borderSize</td>
+<td>边宽度，0 表示无边框，默认为 1</td>
+</tr>
+<tr>
+<td>borderColor</td>
+<td>边颜色，NULL 表示无边框颜色，默认为黑色</td>
+</tr>
+<tr>
+<td>fillColor</td>
+<td>填充颜色，NULL 表示无填充颜色，默认为白色</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div style="position: relative">
+<pre class="  language-php"><code class="  language-php"><span class="token comment">// ……</span>
+<span class="token variable">$drawingObject</span> <span class="token operator">=</span> <span class="token scope">Grafika<span class="token punctuation">::</span></span><span class="token function">createDrawingObject</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'Ellipse'</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">,</span> <span class="token number">50</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">50</span><span class="token punctuation">,</span> <span class="token number">75</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">Color</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'#000000'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">Color</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'#FF0000'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token variable">$editor</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">draw</span><span class="token punctuation">(</span> <span class="token variable">$image</span><span class="token punctuation">,</span> <span class="token variable">$drawingObject</span> <span class="token punctuation">)</span><span class="token punctuation">;</span> </code><button class="copy-code-button ui label" style="position: absolute; top: 20px; right: 1px; display: none">Copy</button></pre>
+</div>
+<ul>
+<li>绘制矩形</li>
+</ul>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>参数</th><th>描述</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>width</td>
+<td>宽度</td>
+</tr>
+<tr>
+<td>height</td>
+<td>高度</td>
+</tr>
+<tr>
+<td>pos</td>
+<td>位置 <code>[x,y]</code>，X 为矩形最左边距离图像最左边值，Y 为矩形最上边距离图像最上边值，默认为 <code>[0,0]</code></td>
+</tr>
+<tr>
+<td>borderSize</td>
+<td>边宽度，0 表示无边框，默认为 1</td>
+</tr>
+<tr>
+<td>borderColor</td>
+<td>边颜色，NULL 表示无边框颜色，默认为黑色</td>
+</tr>
+<tr>
+<td>fillColor</td>
+<td>填充颜色，NULL 表示无填充颜色，默认为白色</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div style="position: relative">
+<pre class="  language-php"><code class="  language-php"><span class="token comment">// 没有边框的85x50绿色矩形</span>
+<span class="token comment">// ……</span>
+<span class="token variable">$drawingObject</span> <span class="token operator">=</span> <span class="token scope">Grafika<span class="token punctuation">::</span></span><span class="token function">createDrawingObject</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'Rectangle'</span><span class="token punctuation">,</span> <span class="token number">85</span><span class="token punctuation">,</span> <span class="token number">50</span><span class="token punctuation">,</span><span class="token punctuation">[</span><span class="token number">105</span><span class="token punctuation">,</span> <span class="token number">70</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token constant">null</span><span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">Color</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'#00FF00'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token variable">$editor</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">draw</span><span class="token punctuation">(</span> <span class="token variable">$image</span><span class="token punctuation">,</span>drawingObject <span class="token punctuation">)</span><span class="token punctuation">;</span></code><button class="copy-code-button ui label" style="position: absolute; top: 20px; right: 1px; display: none">Copy</button></pre>
+</div>
+<div style="position: relative">
+<pre class="  language-php"><code class="  language-php"><span class="token variable">$editor</span> <span class="token operator">=</span> <span class="token scope">Grafika<span class="token punctuation">::</span></span><span class="token function">createEditor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token variable">$editor</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">open</span><span class="token punctuation">(</span><span class="token variable">$image</span> <span class="token punctuation">,</span> <span class="token single-quoted-string string">'images/foo.png'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// 绘制直线</span>
+<span class="token variable">$drawingObject</span> <span class="token operator">=</span> <span class="token scope">Grafika<span class="token punctuation">::</span></span><span class="token function">createDrawingObject</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'Line'</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">145</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">190</span><span class="token punctuation">,</span> <span class="token number">145</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">Color</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'#FF0000'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// 绘制椭圆</span>
+<span class="token comment">//$drawingObject = Grafika::createDrawingObject('Ellipse', 180, 70, [10, 10], 1, new Color('#000000'), new Color('#FF0000'));</span>
+<span class="token comment">// 绘制矩形</span>
+<span class="token comment">//$drawingObject = Grafika::createDrawingObject('Rectangle', 180, 70,[10, 10], 0, null, new Color('#FF0000'));</span>
+<span class="token variable">$editor</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">draw</span><span class="token punctuation">(</span><span class="token variable">$image</span><span class="token punctuation">,</span> <span class="token variable">$drawingObject</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">header</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'Content-type: image/png'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token variable">$image</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">blob</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'PNG'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code><button class="copy-code-button ui label" style="position: absolute; top: 20px; right: 1px; display: none">Copy</button></pre>
+</div>
+<ul>
+<li>绘制多边形</li>
+</ul>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>参数</th><th>描述</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>points</td>
+<td>多边形角的坐标 <code>[[0, 0], [50, 0], [0, 50]]</code>，至少有三个</td>
+</tr>
+<tr>
+<td>borderSize</td>
+<td>边宽度，0 表示无边框，默认为 1</td>
+</tr>
+<tr>
+<td>borderColor</td>
+<td>边颜色，NULL 表示无边框颜色，默认为黑色</td>
+</tr>
+<tr>
+<td>fillColor</td>
+<td>填充颜色，NULL 表示无填充颜色，默认为白色</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div style="position: relative">
+<pre class="  language-php"><code class="  language-php"><span class="token variable">$drawingObject</span> <span class="token operator">=</span> <span class="token scope">Grafika<span class="token punctuation">::</span></span><span class="token function">createDrawingObject</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'Polygon'</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">100</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">140</span><span class="token punctuation">,</span> <span class="token number">50</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">100</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">60</span><span class="token punctuation">,</span> <span class="token number">50</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">Color</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'#FF0000'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token variable">$editor</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">draw</span><span class="token punctuation">(</span> <span class="token variable">$image</span><span class="token punctuation">,</span>drawingObject <span class="token punctuation">)</span><span class="token punctuation">;</span></code><button class="copy-code-button ui label" style="position: absolute; top: 20px; right: 1px; display: none">Copy</button></pre>
+</div>
+<ul>
+<li><code>blob()</code> 图像二进制输出</li>
+</ul>
+<div style="position: relative">
+<pre class="  language-php"><code class="  language-php"><span class="token function">blob</span><span class="token punctuation">(</span>string<span class="token operator">|</span>ImageType <span class="token variable">$type</span><span class="token punctuation">)</span><span class="token punctuation">:</span> void </code><button class="copy-code-button ui label" style="position: absolute; top: 20px; right: 1px; display: none">Copy</button></pre>
+</div>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>参数</th><th>描述</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>图片格式 GIF、JPEG、PNG、WBMP</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div style="position: relative">
+<pre class="  language-php"><code class="  language-php"><span class="token keyword">use</span> <span class="token package">Grafika<span class="token punctuation">\</span>Grafika</span><span class="token punctuation">;</span>
+<span class="token comment">//  ……</span>
+<span class="token variable">$editor</span> <span class="token operator">=</span> <span class="token scope">Grafika<span class="token punctuation">::</span></span><span class="token function">createEditor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token variable">$editor</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">open</span><span class="token punctuation">(</span> <span class="token variable">$image</span><span class="token punctuation">,</span> <span class="token single-quoted-string string">'images/foo.jpg'</span> <span class="token punctuation">)</span><span class="token punctuation">;</span> 
+<span class="token function">header</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'Content-type: image/png'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 设置浏览器输出的类型是图片</span>
+<span class="token variable">$image</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">blob</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'PNG'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> </code><button class="copy-code-button ui label" style="position: absolute; top: 20px; right: 1px; display: none">Copy</button></pre>
+</div>
+<ul>
+<li><code>save()</code> 保存</li>
+</ul>
+<div style="position: relative">
+<pre class="  language-php"><code class="  language-php"><span class="token function">save</span><span class="token punctuation">(</span>ImageInterface <span class="token variable">$image</span><span class="token punctuation">,</span> string <span class="token variable">$file</span><span class="token punctuation">,</span> <span class="token constant">null</span><span class="token operator">|</span>string <span class="token variable">$type</span> <span class="token operator">=</span> <span class="token constant">null</span><span class="token punctuation">,</span> <span class="token constant">null</span><span class="token operator">|</span>string <span class="token variable">$quality</span> <span class="token operator">=</span> <span class="token constant">null</span><span class="token punctuation">,</span> bool <span class="token variable">$interlace</span> <span class="token operator">=</span> <span class="token boolean constant">false</span><span class="token punctuation">,</span> int <span class="token variable">$permission</span> <span class="token operator">=</span> <span class="token number">0755</span><span class="token punctuation">)</span><span class="token punctuation">:</span> EditorInterface </code><button class="copy-code-button ui label" style="position: absolute; top: 20px; right: 1px; display: none">Copy</button></pre>
+</div>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>参数</th><th>描述</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>image</td>
+<td>图片</td>
+</tr>
+<tr>
+<td>file</td>
+<td>保存路径</td>
+</tr>
+<tr>
+<td>type</td>
+<td>图像格式，可以为空，gif、png 或 jpeg，如果为空，将根据 $file 中的输出文件名选择适当的格式</td>
+</tr>
+<tr>
+<td>quality</td>
+<td>图像质量，仅适用于 JPEG，范围为数字 0-100，其中 0 是最低的，100 是最高的质量，默认为空，如果空值为 75，则为默认质量</td>
+</tr>
+<tr>
+<td>interlace</td>
+<td>设置为渐进式 JPEG，仅适用于 JPEG，默认为 false</td>
+</tr>
+<tr>
+<td>permission</td>
+<td>目录不存在时创建目录的默认权限，默认值为 0755</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div style="position: relative">
+<pre class="  language-php"><code class="  language-php"><span class="token variable">$editor</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">open</span><span class="token punctuation">(</span><span class="token variable">$image</span><span class="token punctuation">,</span> <span class="token single-quoted-string string">'images/foo.png'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token variable">$editor</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">save</span><span class="token punctuation">(</span><span class="token variable">$image</span><span class="token punctuation">,</span> <span class="token single-quoted-string string">'images/output.png'</span><span class="token punctuation">,</span> <span class="token constant">null</span><span class="token punctuation">,</span> <span class="token constant">null</span><span class="token punctuation">,</span> <span class="token boolean constant">false</span><span class="token punctuation">,</span> <span class="token number">0777</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code><button class="copy-code-button ui label" style="position: absolute; top: 20px; right: 1px; display: none">Copy</button></pre>
+</div>
+</div>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2020-11-19 09:20</span>&nbsp;
+<a href="https://www.cnblogs.com/zonglonglong/">西瓜霜</a>&nbsp;
+阅读(<span id="post_view_count">198</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14003510" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14003510);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 123133, cb_blogApp = 'zonglonglong', cb_blogUserGuid = 'f24cfa8e-ac83-e111-aa3f-842b2b196315';
+    var cb_entryId = 14003510, cb_entryCreatedDate = '2020-11-19 09:20', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 西瓜霜
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjvGDBI6aHBuzV-lWSIywgNIJt8xMtfOqJTtjLVLK6ZN_Fht5Xq-jTYmx9ZNsGBXAnHnippPNr1fRz6rSZr2K2KIjugd2p8OFFtOola-RQPG2ZPLxxLceRenpYVcfS_zGJA" />
+</body>
+</html>

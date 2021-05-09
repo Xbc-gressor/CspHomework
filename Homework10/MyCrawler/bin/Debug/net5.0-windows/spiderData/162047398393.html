@@ -1,0 +1,476 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="never" />
+    <meta name="description" content="如何实现多域名单站点部署？" />
+    <meta property="og:description" content="如何实现多域名单站点部署？" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>ASP.NET Core 反向代理部署知多少 - 「圣杰」 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/simplememory/bundle-simplememory.min.css?v=uknaX_hejnSu-njQgx4Hj1R0JiPLwUhFPUlwWNmWyB4" />
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/sheng-jie/custom.css?v=dI3&#x2B;bzKcn&#x2B;Xd3q1cAN6CrqbwRww=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/SimpleMemory/bundle-SimpleMemory-mobile.min.css" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/sheng-jie/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/sheng-jie/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/sheng-jie/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 326932;
+        var currentBlogApp = 'sheng-jie';
+        var cb_enable_mathjax = true;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'SimpleMemory';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2020-03-02 08:20';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+        tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processClass: 'math', processEscapes: true },
+        TeX: {
+        equationNumbers: { autoNumber: ['AMS'], useLabelIds: true },
+        extensions: ['extpfeil.js', 'mediawiki-texvc.js'],
+        Macros: {bm: "\\boldsymbol"}
+        },
+        'HTML-CSS': { linebreaks: { automatic: true } },
+        SVG: { linebreaks: { automatic: true } }
+        });
+    </script>
+    <script src="https://mathjax.cnblogs.com/2_7_5/MathJax.js?config=TeX-AMS-MML_HTMLorMML&amp;v=20200504"></script>
+    
+</head>
+<body class="no-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="page_begin_html">
+        <a href="https://github.com/sheng-jie"  target="_blank" class="github-corner" aria-label="View source on GitHub"><svg width="100" height="100" viewBox="0 0 250 250" style="fill:#FD6C6C; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?b0ea31a9aa64a27f329823a0796c132e";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+<style>
+#home{
+width:85%
+}
+#back-top {
+     position: fixed;
+     bottom: 10px;
+     right: 5px;
+     z-index: 99;
+}
+#back-top span {
+     width: 50px;
+     height: 64px;
+     display: block;
+     background:url(http://images.cnblogs.com/cnblogs_com/seanshao/855033/o_rocket.png) no-repeat center center;
+}
+#back-top a{outline:none}
+</style>
+    </div>
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/sheng-jie/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/sheng-jie/">『___知多少』</a>
+</h1>
+<h2>一名立志成为架构师并为之努力奋斗的程序员！</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/sheng-jie/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E3%80%8C%E5%9C%A3%E6%9D%B0%E3%80%8D">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/sheng-jie/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/sheng-jie/p/Deploy-ASP-NET-CORE-WITH-REVERSE-PROXY.html">
+    <span>ASP.NET Core 反向代理部署知多少</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                    <div id="cnblogs_post_description" style="display: none">
+        如何实现多域名单站点部署？
+    </div>
+<div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+<p><img src="https://user-gold-cdn.xitu.io/2020/2/29/1708ecde60c7a331?w=600&amp;h=315&amp;f=png&amp;s=20494" alt="" loading="lazy"></p>
+<h1 id="引言">引言</h1>
+<p>最近在折腾统一认证中心，看到开源项目<a href="https://github.com/skoruba/IdentityServer4.Admin" target="_blank">IdentityServer4.Admin</a>集成了IdentityServer4和管理面板，就直接拿过来用了。在尝试Nginx部署时遇到了诸如虚拟目录映射，请求头超长、基础路径映射有误等问题，简单记录，以供后人参考。</p>
+<h1 id="nginx-配置路由转发">Nginx 配置路由转发</h1>
+<p>首先来看下<a href="https://github.com/skoruba/IdentityServer4.Admin" target="_blank">IdentityServer4.Admin</a>的项目结构：</p>
+<pre><code>IdentityServer4.Admin /                         
+├── Id4.Admin.Api                  # 用于提供访问Id4资源的WebApi项目
+├── Id4.Admin                      # 用于提供管理Id4资源的Web管理面板 
+├── Id4.STS.Identity               # 用于提供 STS 服务的Web项目
+</code></pre>
+<p>作为三个独立的项目，分开部署很简单，但为了统一入口管理，我倾向于将<code>Id4.Admin</code>和<code>Id4.STS.Identity</code> 部署在一个域名之下，<code>Id4.Admin.API</code>项目部署到网关中去。也就是通过<code>http://auth.xxx.com</code>访问<code>Id4.STS.Identity</code>，通过<code>http://auth.xxx.com/admin</code>访问<code>Id4.Admin</code>。</p>
+<p><strong>这也就是遇到的第一个问题如何借助Nginx实现单域名多站点部署！</strong></p>
+<p>Kestrel作为一个边缘web服务器部署时，其将独占一个IP和端口。在没有反向代理服务器的情况下，用作边缘服务器的Kestrel不支持在多个进程之间共享相同的IP和端口。当将Kestrel配置为在端口上侦听时，Kestrel将处理该端口的所有网络通信，并且忽略请求头中指定的<code>Host</code>请求头，也就意味着Kestrel 不会负责请求转发。<br>
+<img src="https://user-gold-cdn.xitu.io/2020/2/29/1708ecde61f3bde6?w=422&amp;h=82&amp;f=png&amp;s=2362" alt="Use Kestrel Server" loading="lazy"></p>
+<p>因此为了进行端口共享，我们需借助反向代理将唯一的IP和端口上将请求转发给Kestrel。也就是下面这张图。<br>
+<img src="https://user-gold-cdn.xitu.io/2020/2/29/1708ecde62fff765?w=641&amp;h=82&amp;f=png&amp;s=3373" alt="Use Reverse Proxy" loading="lazy"></p>
+<p>根据Nginx 官方配置文档，通过配置Location就可以实现指定路径路由转发。</p>
+<pre><code>server {
+    listen 80;
+    listen [::]:80;
+    server_name mysite;
+    
+    location / {
+        proxy_pass http://id4.sts.identity:80;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+    
+    location /admin/ {
+        proxy_pass http://id4.admin:80/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+</code></pre>
+<p>我们 比较下两个proxy_pass的配置：</p>
+<ol>
+<li>location / { proxy_pass <a href="http://id4.sts.identity:80" target="_blank">http://id4.sts.identity:80</a>; }</li>
+<li>location /admin/ { proxy_pass <a href="http://id4.admin:80" target="_blank">http://id4.admin:80</a><strong>/</strong>; }</li>
+</ol>
+<p>主要的不同点是 <code>location /admin/</code> 节点下<code>proxy_pass http://id4.admin:80/</code>结尾包含一个左斜杠 <strong>/</strong>。（如果没有这个左斜杠，所有的请求都会被路由到根节点。）比如有个请求<code>http://auth.xxx.com/admin/dashboard</code>，那么nginx根据以上配置会将请求路由到<code>http://id4.admin:80/dashboard</code>。也就是最后一个左斜杠会将替换掉 location 指定的路由规则，也就是这里的<code>/admin</code>。</p>
+<p>但这样就OK了吗？Absolutely no！执行<code>nginx -s reload</code> 你将会得到一个大大的<code>404</code>。</p>
+<h1 id="启用-usepathbase-中间件">启用 UsePathBase 中间件</h1>
+<p>这时就要用到UsePathBase中间件了，其作用就是设置站点请求基础路径。在Web项目中添加<code>UsePathBase</code> 中间件很简单，首先在<code>appsettings.json</code>中添加一个配置项<code>PATHBASE</code>，然后Startup的Config中启用就好。</p>
+<pre><code>appsettings.json
+{
+    "PATHBASE":"/admin"
+}
+-----
+
+public class Startup
+{
+    public Startup(IConfiguration configuration)
+    {
+        Configuration = configuration;
+    }
+    private IConfiguration Configuration { get; }
+    // ...
+    public void Configure(...)
+    {
+        // ...
+        app.UsePathBase(Configuration.GetValue&lt;string&gt;("PATHBASE"));
+</code></pre>
+<h1 id="启用-useforwardedheaders-中间件">启用 UseForwardedHeaders 中间件</h1>
+<p>使用反向代理还有一个问题要注意，那就是反向代理会模糊一些请求信息：</p>
+<ol>
+<li>通过HTTP代理HTTPS请求时，原始传输协议（HTTPS）丢失，必须在请求头中转发。</li>
+<li>由于应用程序是从代理服务器收到请求的，而不是真正的请求来源，因此原始客户端IP地址也必须在请求头中转发。</li>
+</ol>
+<p>这也就是为什么上面的Nginx 配置，会默认包含以下两项配置的原因。</p>
+<pre><code>proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+proxy_set_header X-Forwarded-Proto $scheme;
+</code></pre>
+<p>Nginx已经默认配置转发了以上信息，那么自然要显式告知ASP.NET Core Web 应用要从请求头中取回真实的请求信息。配置很简单，需要安`<a href="https://www.nuget.org/packages/Microsoft.AspNetCore.HttpOverrides/" target="_blank">Microsoft.AspNetCore.HttpOverrides</a> NuGet包，然后在Startup的Config中启用中间件。</p>
+<pre><code>public class Startup
+{
+    public Startup(IConfiguration configuration)
+    {
+        Configuration = configuration;
+    }
+    private IConfiguration Configuration { get; }
+    // ...
+    public void Configure(...)
+    {
+        // ...        
+        app.UseForwardedHeaders(new ForwardedHeadersOptions{
+          ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto });
+
+        app.UsePathBase(Configuration.GetValue&lt;string&gt;("PATHBASE"));
+</code></pre>
+<p>有一点必须注意，依赖于传输协议的任何组件，例如身份验证，链接生成，重定向和地理位置，都必须在请求头转发中间件之后启用。通常，除了诊断和错误处理中间件外，请求头转发中间件应先于其他中间件运行。</p>
+<p>配置完成后，重新部署，对于一般的项目，应该可以正常运行了。但也可能遭遇：<br>
+<img src="https://user-gold-cdn.xitu.io/2020/2/29/1708ecde62e293e2?w=1054&amp;h=513&amp;f=png&amp;s=30749" alt="" loading="lazy"></p>
+<h1 id="解除-nginx-请求头转发大小限制">解除 Nginx 请求头转发大小限制</h1>
+<p>针对这种错误当然要查Nginx错误日志了，如果Nginx服务器部署在Linux服务器，那么默认日志文件在<code>/var/log/nginx/error.log</code>，日志如下：<em>17677925 upstream sent too big header while reading response header from upstream</em>。简单翻译就是请求头数据过大。那我们就来看看转发的请求头到底会有多大，从下图来看请求头中携带的Cookie最大的有3K多。<br>
+<img src="https://user-gold-cdn.xitu.io/2020/2/29/1708ecde6377aee5?w=670&amp;h=175&amp;f=png&amp;s=7413" alt="" loading="lazy"></p>
+<p>nginx添加下面的配置即可：</p>
+<pre><code>proxy_buffer_size          128k;
+proxy_buffers              4 256k;
+proxy_busy_buffers_size    256k;
+</code></pre>
+<p>重新加载Nginx 配置，访问成功。<br>
+<img src="https://user-gold-cdn.xitu.io/2020/2/29/1708ecde68e06832?w=1164&amp;h=871&amp;f=png&amp;s=54451" alt="" loading="lazy"></p>
+<p>Is All Set? No!</p>
+<h1 id="修复基础路径错误">修复基础路径错误</h1>
+<p>当我尝试点击Admin管理面板的链接时，得到无情的404，因为链接地址为：<code>http://auth.xxx.com/configruaion/clients</code>，正确的链接地址应该是<code>http://auth.xxx.com/admin/configruaion/clients</code>。也就是Razor TagHelper 渲染的<code>&lt;a asp-controller="Configruaion" asp-action="Clients"&gt;Manage Client&lt;/a&gt;</code>，并没有帮按照<code>UsePathBase</code>指定的路径生成a标签链接。咱们只能看看源码一探究竟了<a href="https://github.com/aspnet/Mvc/blob/master/src/Microsoft.AspNetCore.Mvc.TagHelpers/AnchorTagHelper.cs" target="_blank">Microsoft.AspNetCore.Mvc.TagHelpers/AnchorTagHelper.cs</a>，最终在拼接<code>Herf</code>属性时使用的是<code>var pathBase = ActionContext.HttpContext.Request.PathBase;</code>来拼接基础路径。也就是说说TagHelper根据Http请求上下文中获取基础路径。因此如果采用<code>location /admin/ {        proxy_pass http://id4.admin:80/;</code>这种路由映射，最终会丢失原始路由的基础路径，也就是<code>/admin/</code> 路由部分。所以，我们还是乖乖把基础路径补充上，也就是<code>proxy_pass http://id4.admin:80/admin/;</code><br>
+至此完成反向代理的单域名多站点部署。</p>
+<h1 id="最后">最后</h1>
+<p>一波三折，但最终不负期望。最后完整Nginx配置放出，以供参考：</p>
+<pre><code>server {
+    listen 80;
+    listen [::]:80;
+    server_name mysite;
+    
+    location / {
+        proxy_pass http://id4.sts.identity:80;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+    
+    location /admin/ {
+        proxy_pass http://id4.admin:80/admin/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_buffer_size          128k;
+        proxy_buffers              4 256k;
+        proxy_busy_buffers_size    256k;
+    }
+}
+</code></pre>
+<hr>
+<p>参考资料：</p>
+<ol>
+<li><a href="https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/proxy-load-balancer?view=aspnetcore-3.1" target="_blank">Configure ASP.NET Core to work with proxy servers and load balancers</a></li>
+<li><a href="https://github.com/dotnet/AspNetCore.Docs/issues/15464" target="_blank">GitHub Issue: Deploy to subdirectory #15464</a></li>
+<li><a href="http://www.endycahyono.com/article/aspnetcore3-running-under-subdirectory-on-nginx" target="_blank">ASP.Net Core 3 App Running under a Subdirectory on Nginx</a></li>
+</ol>
+
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2020-03-02 08:20</span>&nbsp;
+<a href="https://www.cnblogs.com/sheng-jie/">「圣杰」</a>&nbsp;
+阅读(<span id="post_view_count">4836</span>)&nbsp;
+评论(<span id="post_comment_count">15</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=12381777" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(12381777);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 326932, cb_blogApp = 'sheng-jie', cb_blogUserGuid = '56782349-8e3d-e311-8d02-90b11c0b17d6';
+    var cb_entryId = 12381777, cb_entryCreatedDate = '2020-03-02 08:20', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 「圣杰」
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    <div id="page_end_html">
+        <script src="https://cdn.bootcss.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<link href="https://files.cnblogs.com/files/sheng-jie/auto.catalogs.css" rel="stylesheet">
+<script type="text/javascript" src="https://files.cnblogs.com/files/sheng-jie/auto.catalogs.js"></script>
+<script>
+//Setting ico for cnblogs
+var linkObject = document.createElement('link');
+linkObject.rel = "shortcut icon";
+linkObject.href = "https://files.cnblogs.com/files/sheng-jie/brand.ico";
+document.getElementsByTagName("head")[0].appendChild(linkObject);
+
+window.tctipConfig = {
+        imagePrefix: "https://files.cnblogs.com/files/kdy11/",
+        cssPrefix:     "https://files.cnblogs.com/files/kdy11",
+        buttonImageId:  4,
+        buttonTip:  "dashang",
+        list:{
+            alipay: {qrimg: "https://files.cnblogs.com/files/sheng-jie/zfb.bmp"},
+            weixin:{qrimg: "https://files.cnblogs.com/files/sheng-jie/wechat.bmp"},
+        }
+};
+</script>
+    </div>
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjtnBjjPeR10I0k1761gZwEZcbGNfoiVkyimHPUS8_SiJfS_J8XkLBRvz9hUOkjbaZ9RzpUe-fYtRO8ytZYTAptx02iDcnS5bPZsgMYU1kEBAiIteimxPLGnnZkJAS03pi4" />
+</body>
+</html>

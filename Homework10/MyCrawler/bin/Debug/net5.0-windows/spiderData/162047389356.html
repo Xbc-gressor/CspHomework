@@ -1,0 +1,402 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="1.comparable接口 当我们运行关于treeMap示例代码1： 代码示例 package com.test.ComparatorTest; import java.util.*; public" />
+    <meta property="og:description" content="1.comparable接口 当我们运行关于treeMap示例代码1： 代码示例 package com.test.ComparatorTest; import java.util.*; public" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>TreeMap集合类中的Comparator与Comparable接口详解 - 妙乌 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/simplememory/bundle-simplememory.min.css?v=uknaX_hejnSu-njQgx4Hj1R0JiPLwUhFPUlwWNmWyB4" />
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/miaowulj/custom.css?v=6euxoNLfceSuipu9LTh2Wnyd3bc=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/SimpleMemory/bundle-SimpleMemory-mobile.min.css" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/miaowulj/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/miaowulj/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/miaowulj/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 527214;
+        var currentBlogApp = 'miaowulj';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'SimpleMemory';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-04-13 11:39';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="no-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="page_begin_html">
+        <script>loadPageBeginHtml();</script>
+    </div>
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/miaowulj/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/miaowulj/">妙乌</a>
+</h1>
+<h2>就算全世界对你失去信心，你也要坚定不移相信自己</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/miaowulj/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E5%A6%99%E4%B9%8C">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/miaowulj/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/miaowulj/p/14652443.html">
+    <span>TreeMap集合类中的Comparator与Comparable接口详解</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+<h2 id="1comparable接口">1.comparable接口</h2>
+<p>当我们运行关于treeMap示例代码1：</p>
+<details>
+<summary>代码示例</summary>
+<pre><code>package com.test.ComparatorTest;
+
+import java.util.*;
+
+public class Test {
+    public static void main(String[] args) {
+        Map students = new TreeMap();
+        students.put(02,"邱烁铭");
+        students.put(01,"李家雄");
+        students.put(04,"李文高");
+        students.put(03,"周云龙");
+
+        Set st = students.keySet();     //获取键的集合
+        Iterator it = st.iterator();       //获取Iterator对象
+        while(it.hasNext()){
+            Object key = it.next();
+            Object value = students.get(key);       //根据获取的键值找到对应的值
+            System.out.println(key + ":" + value);
+        }
+    }
+}
+</code></pre>
+</details>
+<p><strong>结果如下：</strong><br>
+<img src="https://img2020.cnblogs.com/blog/1597476/202104/1597476-20210413102513135-1713374676.png" alt="" loading="lazy"></p>
+<p><strong>通过分析结果发现：</strong><br>
+◆ 对插入的键值对按照键的升序进行了排序。<br>
+◆ TreeMap类是一个无序集合（输出顺序与插入顺序不同）</p>
+<p>造成此种现象的玄机就在TreeMap类的put方法中，put方法的部分源码如下所示：</p>
+<pre><code>public V put(K key, V value){
+    ……
+    Entry&lt;K,V&gt; t = root;
+    if (key == null)
+                throw new NullPointerException();
+            @SuppressWarnings("unchecked")
+                Comparable&lt;? super K&gt; k = (Comparable&lt;? super K&gt;) key;
+            do {
+                parent = t;
+                cmp = k.compareTo(t.key);
+                if (cmp &lt; 0)
+                    t = t.left;
+                else if (cmp &gt; 0)
+                    t = t.right;
+                else
+                    return t.setValue(value);
+            } while (t != null);
+    ……
+}
+</code></pre>
+<p>TreeMap底层数据结构依赖于红黑树的实现，其核心在于比较待插入键值对中键的大小。因此，在put方法中我们将聚焦于compareTo方法。由于compareTo()是由变量k进行调用（k.compareTo())，不难发现，compareTo()是key强转后Comparable类型中的方法。查看comparable接口源码如下：</p>
+<pre><code>public interface Comparable&lt;T&gt; {
+    public int compareTo(T o);
+}
+</code></pre>
+<p>comparable接口中只有一个compareTo(T o)的抽象方法。结合示例代码，我们put的键值对为Integer-String类型，通过观察Integer类发现其为comparable接口的实现类。<strong>Integer类部分源码如下所示：</strong></p>
+<pre><code>public final class Integer extends Number implements Comparable&lt;Integer&gt; {
+                    ……
+    public int compareTo(Integer anotherInteger) {
+        return compare(this.value, anotherInteger.value);
+    }
+
+    public static int compare(int x, int y) {
+        return (x &lt; y) ? -1 : ((x == y) ? 0 : 1);
+    }       
+                    ……
+}
+</code></pre>
+<p><strong>总结：</strong><br>
+实例1中TreeMap类元素之所以能够排序是因为每次向TreeMap集合中存入键值对时，就会将键值取出通过调用compareTo()方法与其他元素的键值进行比较，该方法是Comparable接口中定义的。因此想要对集合中的元素进行排序，就必须实现Comparable接口。JDK中大部分类都实现Comparable接口，拥有接口中的CompareTo()方法，如Integer,String和double等。</p>
+<h2 id="2comparator接口">2.comparator接口</h2>
+<p>有时候，定义的类没有实现Comparable接口或者实现了Comparable接口而不想按照定义的compareTo()方法进行排序。例如，希望按照降序进行排序。这时可以通过自定义比较器方式对TreeMap集合中的元素排序，即实现Comparator接口，在创建TreeMap集合时指定比较器。如实例2所示：</p>
+<pre><code>public class Test {
+    public static void main(String[] args) {
+        Map students = new TreeMap(new Decreasing());
+        students.put(02,"邱烁铭");
+        students.put(01,"李家雄");
+        students.put(04,"李文高");
+        students.put(03,"周云龙");
+
+        Set st = students.keySet();
+        Iterator it = st.iterator();
+        while(it.hasNext()){
+            Object key = it.next();
+            Object value = students.get(key);
+            System.out.println(key + ":" + value);
+        }
+    }
+}
+</code></pre>
+<p>Decreasing比较器源码如下：</p>
+<pre><code>import java.util.Comparator;
+
+public class Decreasing implements Comparator {
+
+    @Override
+    public int compare(Object o1, Object o2) {
+        int id1 = (Integer) o1;
+        int id2 = (Integer) o2;
+        return (id2 &lt; id1) ? -1 : ((id1 == id2) ? 0 : 1);
+    }
+}
+</code></pre>
+<p><strong>运行结果如下：</strong><br>
+<img src="https://img2020.cnblogs.com/blog/1597476/202104/1597476-20210413112427470-2022883552.png" alt="" loading="lazy"></p>
+<p>通过结果对比发现，集合按照key值的降序进行排列。实例2中定义了比较器Decreasing针对Integer类型的key进行比较。其实现过程分析如下：<br>
+由于我们在创建TreeMap对象使传入了比较器实例，因此在put方法中，将会运行以下代码：</p>
+<pre><code>    public V put(K key, V value) {
+            …………
+        Entry&lt;K,V&gt; t = root;
+        Comparator&lt;? super K&gt; cpr = comparator;
+        if (cpr != null) {
+            do {
+                parent = t;
+                cmp = cpr.compare(key, t.key);
+                if (cmp &lt; 0)
+                    t = t.left;
+                else if (cmp &gt; 0)
+                    t = t.right;
+                else
+                    return t.setValue(value);
+            } while (t != null);
+        }
+            …………
+    }
+</code></pre>
+<p>根据源码分析，在比较键值时，会调用自定义比较器Decreasing中的compare方法对待插入节点的键值与其他节点的键值进行比对。然后按照自定义比较器制定的规则将节点插入到合适的位置。</p>
+<p><strong>总结：</strong><br>
+实例2中TreeMap类元素之所以能够排序是因为每次向TreeMap集合中存入键值对时，就会将键值取出通过调用compare()方法与其他元素的键值进行比较，该方法是实现了Comparator接口的自定义比较器定义的。自定义比较器实现compare方法，并在创建TreeMap对象时传入。在用户层面，就能按照定义的compare规则对TreeMap集合进行排序。</p>
+
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2021-04-13 11:39</span>&nbsp;
+<a href="https://www.cnblogs.com/miaowulj/">妙乌</a>&nbsp;
+阅读(<span id="post_view_count">20</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14652443" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14652443);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 527214, cb_blogApp = 'miaowulj', cb_blogUserGuid = '180d78fa-dd60-4188-b995-08d68676d85a';
+    var cb_entryId = 14652443, cb_entryCreatedDate = '2021-04-13 11:39', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 妙乌
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjt1fjalB6-4Dz4z6cWd5BYBsEg1zmdUvLB4LwSDd0MM418kwHSaKK3cgekQXtVQMOxnFavoHDy-1PmCWuantI1BhuspyRICpF1vWWx_xaaGr4xFguGPFvzy-SkQjoiJSCA" />
+</body>
+</html>

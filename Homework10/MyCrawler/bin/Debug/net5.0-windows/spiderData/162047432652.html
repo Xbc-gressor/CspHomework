@@ -1,0 +1,287 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="1.错误zlib.hcompress.c:14:58: fatal error: zlib.h: No such file or directorycompilation terminated.解决:" />
+    <meta property="og:description" content="1.错误zlib.hcompress.c:14:58: fatal error: zlib.h: No such file or directorycompilation terminated.解决:" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Linux内核编译报错的解决办法 - hellodev - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/lessismoreright/bundle-lessismoreright.min.css?v=00nt3ajQUVX0gvFynxRY-4TOqQaW32yFChuBOrvOqLk" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/lessismoreright/bundle-lessismoreright-mobile.min.css?v=cSBXSFXCBG9KdnF2sdUs-Rwu75GHG2_Gs50OCy_ecGg" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/javalinux/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/javalinux/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/javalinux/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 645726;
+        var currentBlogApp = 'javalinux';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'LessIsMoreRight';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-05-06 01:31';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <div id="home">
+    <div id="header">
+        <div id="blogTitle">
+            <div class="title"><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/javalinux/">hellodev</a>
+</div>
+<div class="subtitle"></div>
+
+        </div>
+        <div id="navigator">
+            
+<ul id="navList">
+    <li id="nav_sitehome"><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+    <li id="nav_myhome">
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/javalinux/">
+首页</a>
+</li>
+    <li id="nav_newpost">
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+    <li id="nav_contact">
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/hellodev">
+联系</a></li>
+    <li id="nav_rss">
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/javalinux/rss/">
+订阅</a></li>
+    <li id="nav_admin">
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+            <div class="blogStats">
+                <div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+            </div>
+        </div>
+    </div>
+    <div id="main">
+        <div id="mainContent">
+            <div class="forFlow">
+                <div id="post_detail">
+    <div id="topics">
+        <div class="post">
+            <h1 class="postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/javalinux/p/14734739.html">
+    <span>Linux内核编译报错的解决办法</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+<p><strong>1.错误zlib.h</strong><br>compress.c:14:58: fatal error: zlib.h: No such file or directory<br>compilation terminated.<br>解决:sudo apt-get install zlib1g-dev</p>
+<p><strong>2.错误bison</strong><br>make[2]: bison: Command not found<br>解决:sudo apt-get install bison</p>
+<p><strong>3.错误flex</strong><br>/bin/sh: flex: not found<br>make[2]: *** [lib/conf-lex.c] Error 127<br>解决:sudo apt-get install flex</p>
+<p><strong>4.错误</strong><br>lib/libsensors.so: undefined reference to sensors_yylex<br>lib/libsensors.so: undefined reference to sensors_yyin<br>lib/libsensors.so: undefined reference to sensors_lex_error<br>lib/libsensors.so: undefined reference to sensors_yylineno<br>collect2: ld returned 1 exit status<br>make[2]: *** [prog/sensors/sensors] Error 1<br>解决:After installing flex and/or bison, you'll need to 'make clean' before 'make user' will work properly.（安装flex或者bison之后，需要先make clean一下）</p>
+<p><strong>5.错误gmake</strong><br>/bin/sh: gmake: not found<br>make[3]: *** [clean] Error 1<br>原因:在ubuntu中已经取消掉了gmake，都用make代替。<br>解决: sudo ln -s /usr/bin/make /usr/bin/gmake</p>
+<p><strong>6.错误</strong><br>(cd basis/build/linux-am34-bluraypan; sh build_me.sh -c -b -j -L lex)<br>[: 133: unexpected operator<br>[: 133: unexpected operator<br>Error: DirectFB path point to an invalid path<br>Hint: you can set DirectFB path by:</p>
+<ol>
+<li>setenv MEI2_TOOLCHAIN_JAVA_DIR your_directfb_path</li>
+<li>use -D build switch, type build_me.sh -h for help<br>make[4]: [clean] Error 1<br>解决:$ sudo dpkg-reconfigure dash（可见dash的说明文）<br>选择[NO]</li>
+
+</ol>
+<p><strong>7.错误</strong><br>Sequence (?&lt;...) not recognized in regex; marked by &lt;-- HERE in m//+|(?&lt;\ &lt;-- HERE !/)$/ at -e line 1.<br>解决:perl版本差别引起的异常message，降级perl版本至5.8.9</p>
+<p><strong>8.错误XftConfigLexDone</strong><br>xftlex.l: In function XftConfigLexDone:<br>xftlex.l:274: `XftConfig_current_buffer' undeclared (first use in this function)<br>解决:<br>flex包版本不匹配.降级到2.5.4后,make clean后,编译通过.</p>
+<p><strong>9.错误libext2fs.info</strong><br>make[5]: makeinfo: Command not found<br>make[5]: *** [libext2fs.info] Error 127<br>解决:$ sudo apt-get install texinfo</p>
+<p><strong>10.错误gawk</strong><br>/bin/sh: line 1: gawk: command not found<br>make[6]: *** [stamp-gtktypebuiltins.h] Error 127<br>解决:$ sudo apt-get install gawk</p>
+<p><strong>11.错误indent</strong><br>/bin/sh: line 2: indent: command not found<br>make[6]: *** [stamp-gtkmarshal.h] Error 127<br>解决:$ sudo apt-get install indent</p>
+<p><strong>12 错误: openssl/bio.h</strong><br>“error : openssl/bio.h :No such file or folder<br>解决方法：sudo apt-get install libssl-dev</p>
+<p><strong>13 错误: code model kernel does not support PIC mode</strong><br>在进行make oldconfig时出现，code model kernel does not support PIC mode的错误<br>解决方法如下：<br>在源码的根目录下的Makefile中的KBUILD_CFLAGS中添加一个编译选项<br><img src="https://img2020.cnblogs.com/blog/1805681/202012/1805681-20201215201216230-1888641460.png" alt="" loading="lazy"></p>
+<p><strong>14 编译linux内核出现"linux/compiler-gcc7.h: No such file or directory"</strong><br>解决方法如下<br><a href="https://blog.csdn.net/ysheng76/article/details/104943794" target="_blank">https://blog.csdn.net/ysheng76/article/details/104943794</a></p>
+<p><strong>15 重启之后开机出现错误如下：</strong><br>[Linux] end Kernel panic - not syncing: System is deadlocked on memory错误<br>解决方法：在虚拟机选项中将内存改大一些，我这边直接改成3GB了，然后再重启</p>
+<p>总结：<br>1.一般出现”NO such file or directory”之类的报错，先看报错缺的是什么，然后再网上搜索对应的包是什么，使用sudo apt-get install X安装该包<br>2.建议不要使用太旧的linux内核版本，因为现在的交叉编译环境也再不断更新，使用太老旧的内核有时候会报一些奇奇怪怪的错误</p>
+<p>参考文章：</p>
+<ol>
+<li><a href="https://www.cnblogs.com/gavin-world/p/11169282.html" target="_blank">https://www.cnblogs.com/gavin-world/p/11169282.html</a></li>
+<li><a href="https://blog.csdn.net/ysheng76/article/details/104943794" target="_blank">https://blog.csdn.net/ysheng76/article/details/104943794</a></li>
+<li></li>
+
+</ol></div>
+<div class="clear">&nbsp;</div>
+<div id="blog_post_info_block">&nbsp;</div>
+<div>转自：https://www.cnblogs.com/y-c-y/p/14140714.html</div>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2021-05-06 13:31</span>&nbsp;
+<a href="https://www.cnblogs.com/javalinux/">hellodev</a>&nbsp;
+阅读(<span id="post_view_count">0</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14734739" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14734739);return false;">收藏</a></div>
+        </div>
+        <script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 645726, cb_blogApp = 'javalinux', cb_blogUserGuid = 'e73e91c6-a4c9-438e-14e5-08d88556d8f6';
+    var cb_entryId = 14734739, cb_entryCreatedDate = '2021-05-06 13:31', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+        <a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+    </div>
+</div>
+            </div>
+        </div>
+
+        <div id="sideBar">
+            <div id="sideBarMain">
+                <div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+                <div id="calendar"><div id="blog-calendar" style="display:none"></div></div>                
+                <script>loadBlogDefaultCalendar();</script>
+                <div id="leftcontentcontainer">
+                    <!-- begin:SingleColumn -->
+                    <div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+                    <!-- end:  SingleColumn -->
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+    <div id="footer">
+        <!--done-->
+Copyright &copy; 2021 hellodev
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+    </div>
+</div>
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjsD7TWh2ItLca-ErV4Dtcgw_cWSryeLhvey139Uf2ywF_BkuoejT1FeeQ6fLnlDipk5mEaXF4ungkpTkaWODvijbK1VldNuuu3QNsW-gLXH4KynXd7eZCdWrQyTl9vE3Bk" />
+</body>
+</html>

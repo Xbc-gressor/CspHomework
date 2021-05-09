@@ -1,0 +1,1384 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="1. 概述 Kerberos可以与CDH集成，CDH里面可以管理与hdfs、yarn、hbase、yarn、kafka等相关组件的kerberos凭证。但当我们不使用CDH的时候，也需要了解hdfs、" />
+    <meta property="og:description" content="1. 概述 Kerberos可以与CDH集成，CDH里面可以管理与hdfs、yarn、hbase、yarn、kafka等相关组件的kerberos凭证。但当我们不使用CDH的时候，也需要了解hdfs、" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Kerberos与各大组件的集成 - 牧梦者 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/darkgreentrip/bundle-darkgreentrip.min.css?v=eoZATbPKwJCL5eWVDTQIYC6CIxJPcFz191dkzN2tSyQ" />
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/swordfall/custom.css?v=OHwWKu9RQ1jLnJVxXXSp&#x2B;LZz42g=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/darkgreentrip/bundle-darkgreentrip-mobile.min.css?v=lU86o8mZVn3FOSdFt7nHKYTD8gzeKaiQIIZ6lSjEFyo" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/swordfall/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/swordfall/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/swordfall/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 373050;
+        var currentBlogApp = 'swordfall';
+        var cb_enable_mathjax = true;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'darkgreentrip';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2020-07-23 11:25';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+        tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processClass: 'math', processEscapes: true },
+        TeX: {
+        equationNumbers: { autoNumber: ['AMS'], useLabelIds: true },
+        extensions: ['extpfeil.js', 'mediawiki-texvc.js'],
+        Macros: {bm: "\\boldsymbol"}
+        },
+        'HTML-CSS': { linebreaks: { automatic: true } },
+        SVG: { linebreaks: { automatic: true } }
+        });
+    </script>
+    <script src="https://mathjax.cnblogs.com/2_7_5/MathJax.js?config=TeX-AMS-MML_HTMLorMML&amp;v=20200504"></script>
+    
+</head>
+<body class="no-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="page_begin_html">
+        <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+<a class="git-link" href="https://github.com/SwordfallYeung"></a>
+    </div>
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/swordfall/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/swordfall/">牧梦者</a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/swordfall/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E7%89%A7%E6%A2%A6%E8%80%85">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/swordfall/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/swordfall/p/13301097.html">
+    <span>Kerberos与各大组件的集成</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<h1 id="auto_id_0">1. 概述</h1>
+<p>　　Kerberos可以与CDH集成，CDH里面可以管理与hdfs、yarn、hbase、yarn、kafka等相关组件的kerberos凭证。但当我们不使用CDH的时候，也需要了解hdfs、yarn、hbase和kafka是如何配置关联kerberos的。</p>
+<p>　　该文是建立在<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/swordfall/p/12009716.html">Kerberos基本原理、安装部署及用法</a>博客的前提上的，需要首先了解Kerberos的基本原理、安装用法，才能阅读下文。</p>
+<p>　　集群机器信息为：</p>
+<table border="0">
+<tbody>
+<tr>
+<td>ip</td>
+<td>hostname</td>
+</tr>
+<tr>
+<td>192.168.1.150</td>
+<td>cdh1</td>
+</tr>
+<tr>
+<td>192.168.1.151</td>
+<td>cdh2</td>
+</tr>
+<tr>
+<td>192.168.1.152</td>
+<td>cdh3</td>
+</tr>
+</tbody>
+</table>
+<h1>2. Cloudera Manager添加Kerberos</h1>
+<p>　　注：这里的Cloudera Manager版本为5.6。</p>
+<h2>2.1.&nbsp;创建Kerberos管理员principal</h2>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 0, 1)"># 需要设置两次密码 
+</span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">使用cloudera-scm/admin作为CM创建其它principals的超级用户</span>
+kadmin.local -q <span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">addprinc cloudera-scm/admin</span><span style="color: rgba(128, 0, 0, 1)">"</span></pre>
+</div>
+<p>&nbsp;　　principal的名字的第二部分是admin，是根据Kerberos安装部署文章里面提到的配置acl文件，该principal就拥有administrative privileges，这个账号将会被CDH用来生成其他用户/服务的principal。</p>
+<p>　　注意：需要先kinit保证已经有principal缓存。</p>
+<div class="cnblogs_code">
+<pre>[root@master ~]# kinit cloudera-scm/<span style="color: rgba(0, 0, 0, 1)">admin
+Password </span><span style="color: rgba(0, 0, 255, 1)">for</span> cloudera-scm/<span style="color: rgba(0, 0, 0, 1)">admin@EXAMPLE.COM: 
+[root@master </span>~<span style="color: rgba(0, 0, 0, 1)">]# klist 
+Ticket cache: KEYRING:persistent:</span><span style="color: rgba(128, 0, 128, 1)">0</span>:<span style="color: rgba(128, 0, 128, 1)">0</span><span style="color: rgba(0, 0, 0, 1)">
+Default principal: cloudera</span>-scm/<span style="color: rgba(0, 0, 0, 1)">admin@EXAMPLE.COM
+
+Valid starting       Expires              Service principal
+</span><span style="color: rgba(128, 0, 128, 1)">07</span>/<span style="color: rgba(128, 0, 128, 1)">01</span>/<span style="color: rgba(128, 0, 128, 1)">2020</span> <span style="color: rgba(128, 0, 128, 1)">11</span>:<span style="color: rgba(128, 0, 128, 1)">51</span>:<span style="color: rgba(128, 0, 128, 1)">17</span>  <span style="color: rgba(128, 0, 128, 1)">07</span>/<span style="color: rgba(128, 0, 128, 1)">02</span>/<span style="color: rgba(128, 0, 128, 1)">2020</span> <span style="color: rgba(128, 0, 128, 1)">11</span>:<span style="color: rgba(128, 0, 128, 1)">51</span>:<span style="color: rgba(128, 0, 128, 1)">16</span>  krbtgt/<span style="color: rgba(0, 0, 0, 1)">BOCLOUD.COM@EXAMPLE.COM
+    renew </span><span style="color: rgba(0, 0, 255, 1)">until</span> <span style="color: rgba(128, 0, 128, 1)">07</span>/<span style="color: rgba(128, 0, 128, 1)">08</span>/<span style="color: rgba(128, 0, 128, 1)">2020</span> <span style="color: rgba(128, 0, 128, 1)">11</span>:<span style="color: rgba(128, 0, 128, 1)">51</span>:<span style="color: rgba(128, 0, 128, 1)">16</span></pre>
+</div>
+<h2>2.2. Cloudera Manager添加Kerberos　　</h2>
+<p>　　在此之前，请确保一下前序工作完成：</p>
+<ul>
+<li>KDC已经安装好并且正在运行</li>
+<li>将KDC配置为允许renewable tickets with non-zerolifetime，我们在之前修改kdc.conf文件的时候已经添加了max_life和max_renewable_life这2个属性，前者表示服务端允许的Service&nbsp;ticket最大生命周期，后者表示服务端允许的Service ticket更新周期。这2个属性必须分别大于等于客户端对应的配置ticket_lifetime和renew_lifetime。我们假设，不这样进行配置：ticket_lifetime=8d，max_life=7d，renew_lifetime=25h, max_renew_life=24h，那么可能造成的结果就是当service持有的票据超过24小时没有更新，在第24.5小时的时候去进行更新，请求会遭到拒绝，报错：Ticket expired while renewing credentials，永远无法进行正常更新。对于Cloudera来说，因为更新机制被透明（Cloudera有renew进程会去定期更新），即使我们手动使用modprinc -maxrenewlife 1 week krbtgt/DOMAIN.COM@DOMAIN.COM进行更新，也无济于事。</li>
+<li>在Clouder Manager Server上安装openldap-clients</li>
+<li>为Cloudera Manager&nbsp;创建了超级管理员principal，使其能够有权限在KDC中创建其他的principals，如上面创建的cloudera-scm；</li>
+</ul>
+<p>　　再次确认完毕后进入如下步骤：</p>
+<h3>2.2.1. 启动Kerberos</h3>
+<p>　　<img src="https://img2020.cnblogs.com/blog/1217276/202007/1217276-20200714201726477-2125124510.png" alt="" loading="lazy"></p>
+<h3>2.2.2.&nbsp;确认完成后启用Kerbero前的准备</h3>
+<p><img src="https://img2020.cnblogs.com/blog/1217276/202007/1217276-20200715094543897-272688307.png" alt="" loading="lazy"></p>
+<h3>2.2.3.&nbsp;KDC信息</h3>
+<p><img src="https://img2020.cnblogs.com/blog/1217276/202007/1217276-20200715095213249-891380398.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;　　要注意的是：这里的Kerberos Encryption Types必须跟KDC实际支持的加密类型匹配（即kdc.conf中的值）</p>
+<h3>2.2.4.KDB5信息</h3>
+<p><img src="https://img2020.cnblogs.com/blog/1217276/202007/1217276-20200715095715036-2101294977.png" alt="" loading="lazy"></p>
+<h3>2.2.5. KDC&nbsp;Account Manager</h3>
+<p><img src="https://img2020.cnblogs.com/blog/1217276/202007/1217276-20200715100110657-721670476.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+<h3>2.2.6.&nbsp;导入KDC Account Manager凭据</h3>
+<p><img src="https://img2020.cnblogs.com/blog/1217276/202007/1217276-20200715100536439-453800937.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+<h3>2.2.7.&nbsp;Kerberos Principals</h3>
+<p><img src="https://img2020.cnblogs.com/blog/1217276/202007/1217276-20200715100700772-1953056318.png" alt="" loading="lazy"></p>
+<p>&nbsp;　　如下为，CDH为各个组件自动生成的principals：</p>
+<p>　　<img src="https://img2020.cnblogs.com/blog/1217276/202007/1217276-20200715150919868-2128934813.png" alt="" loading="lazy"></p>
+<h3>2.2.8. Set HDFS Port</h3>
+<p><img src="https://img2020.cnblogs.com/blog/1217276/202007/1217276-20200715100750706-572879250.png" alt="" loading="lazy"></p>
+<h3>2.2.9.&nbsp;重启服务</h3>
+<p><img src="https://img2020.cnblogs.com/blog/1217276/202007/1217276-20200715100914563-505692749.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;　　之后Cloudera Manager会自动重启集群服务，启动之后会提示Kerberos已启用。在Cloudera Manager上启用Kerberos的过程中，会自动做以下的事情：</p>
+<ul>
+<li>集群中有多少个节点，每个账号就会生成对应个数的principal；</li>
+<li>为每个对应的principal创建keytab；　　</li>
+<li>部署keytab文件到指定的节点中；</li>
+<li>在每个服务的配置文件中加入有关kerberos的配置；</li>
+</ul>
+<p>　　启用之后访问集群的所有资源都需要使用相应的账号来访问，否则会无法通过Kerberos的authentication。对于HDFS，Yarn，需要开启Web Console的认证，以防未认证用户访问资源界面。</p>
+<h3>2.2.10.&nbsp;开启HTTP Web认证</h3>
+<p>&nbsp;　　HDFS开启HTTP Web：</p>
+<p><img src="https://img2020.cnblogs.com/blog/1217276/202007/1217276-20200715105054513-1254983514.png" alt="" loading="lazy"></p>
+<p>&nbsp;　　Yarn开启HTTP&nbsp;Web</p>
+<p><img src="https://img2020.cnblogs.com/blog/1217276/202007/1217276-20200715110329271-1093833623.png" alt="" loading="lazy"></p>
+<p>&nbsp;　　HBase&nbsp;开启REST认证</p>
+<p><img src="https://img2020.cnblogs.com/blog/1217276/202007/1217276-20200715110424249-2092515167.png" alt="" loading="lazy"></p>
+<h2>2.3. Cloudera Manager禁用Kerberos</h2>
+<h3>2.3.1. 停止整个hadoop集群</h3>
+<p>　　在CDH界面停止整个集群</p>
+<h3>2.3.2. 修改相关组件参数</h3>
+<ul>
+<li>Zookeeper：
+<ul>
+<li>取消勾选enableSecurity和quorum.auth.enableSasl</li>
+</ul>
+</li>
+</ul>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 　　&nbsp;<img src="https://img2020.cnblogs.com/blog/1217276/202008/1217276-20200831155921988-510837000.png" alt="" loading="lazy"></p>
+<ul>
+<li>HDFS：</li>
+</ul>
+<ol>
+<li style="list-style-type: none">
+<ul>
+<li>hadoop.security.authentication设置为：Simple</li>
+<li>hadoop.security.authorization取消勾选（FALSE）</li>
+</ul>
+</li>
+</ol>
+<p>&nbsp;　　　　　　<img src="https://img2020.cnblogs.com/blog/1217276/202007/1217276-20200716114606529-557540979.png" alt="" loading="lazy"></p>
+<ul>
+<li style="list-style-type: none">
+<ul>
+<li>dfs.datanode.address from 1004（for Kerberos）修改为50010（default）</li>
+<li>dfs.datanode.http.address from 1006（for Kerberos）修改为50075（default）</li>
+</ul>
+</li>
+</ul>
+<p>　　　　　　<img src="https://img2020.cnblogs.com/blog/1217276/202007/1217276-20200716114457231-2014680912.png" alt="" loading="lazy"></p>
+<ul>
+<li style="list-style-type: none">
+<ul>
+<li>Data Directory Permissions from 700&nbsp;修改为755</li>
+</ul>
+</li>
+</ul>
+<p>　　　　　　<img src="https://img2020.cnblogs.com/blog/1217276/202007/1217276-20200716115112197-768757225.png" alt="" loading="lazy"></p>
+<ul>
+<li>HBase：
+<ul>
+<li>hbase.security.authentication设置为：Simple</li>
+<li>hbase.security.authorization取消勾选（FALSE）</li>
+</ul>
+</li>
+</ul>
+<p>　　　　&nbsp; &nbsp;&nbsp;<img src="https://img2020.cnblogs.com/blog/1217276/202007/1217276-20200716115551843-990307468.png" alt="" loading="lazy"></p>
+<ul>
+<li>Hue：
+<ul>
+<li>Kerberos Ticket Renewer删除或停止role　</li>
+</ul>
+</li>
+</ul>
+<h3>2.3.3. 删除相应的ZNode目录</h3>
+<p>　　当CDH部署Kerberos后，zookeeper里面的节点目录hbase、kafka、hdfs会带有权限；而当CDH去掉Kerberos后，这些目录仍然有权限，需要先删除再重新创建。</p>
+<p>　　1. 在CDH界面打开zookeeper的配置，搜索java关键字：</p>
+<p>　　2.&nbsp;添加-Dzookeeper.skipACL=yes配置，关闭zookeeper的权限检查配置项：</p>
+<p>　　　　<img src="https://img2020.cnblogs.com/blog/1217276/202007/1217276-20200716142548255-2059033476.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>　　3.&nbsp;重启zookeeper服务</p>
+<p>　　4.&nbsp;登录zookeeper shell：zkCli.sh -server ip:port&nbsp;</p>
+<p>　　5.&nbsp;删除HBase znode：rmr /hbase</p>
+<p>　　6.&nbsp;删除RM znode：rmr /rmstore/ZKRMStateRoot</p>
+<p>　　7.&nbsp;删除zkfc znode：rmr /hadoop-ha/nameservice-test1</p>
+<p>　　8.&nbsp;删除kafka znode：rmr /kafka</p>
+<p>　　9.&nbsp;删除-Dzookeeper.skipACL=yes配置项</p>
+<p>　　10.&nbsp;重启zookeeper及相应服务</p>
+<h1>3. Hadoop集成Kerberos　　</h1>
+<p>　　上面2节点是CDH集成hadoop，会自动配置hadoop相关的kerberos配置，如果不依赖CDH的话，我们也需要了解HDFS与Kerberos方面的相关配置。</p>
+<p>　　注：hadoop版本为2.7.3.</p>
+<h2>3.1.&nbsp;创建kerberos用户和keytab　　</h2>
+<p>　　在kerberos数据库中增加hadoop、HTTP两个用户。各个hadoop组件都使用这两个用户访问kerberos。</p>
+<div class="cnblogs_Highlighter">
+<pre class="brush:bash;gutter:true;">kadmin.local -q "addprinc -randkey hadoop/cdh1@EXAMPLE.COM"
+kadmin.local -q "addprinc -randkey hadoop/cdh2@EXAMPLE.COM"
+kadmin.local -q "addprinc -randkey hadoop/cdh3@EXAMPLE.COM"
+kadmin.local -q "addprinc -randkey hadoop@EXAMPLE.COM"
+
+kadmin.local -q "addprinc -randkey HTTP/cdh1@EXAMPLE.COM"
+kadmin.local -q "addprinc -randkey HTTP/cdh2@EXAMPLE.COM"
+kadmin.local -q "addprinc -randkey HTTP/cdh3@EXAMPLE.COM"
+</pre>
+</div>
+<p>　　</p>
+<p>&nbsp;　　为hdfs和HTTP两个用户创建keytab，<span style="background-color: rgba(255, 0, 0, 1)">这里HTTP只能大写，不能小写</span>：</p>
+<div class="cnblogs_Highlighter">
+<pre class="brush:bash;gutter:true;">cd /opt/hadoop/etc/
+kadmin.local -q "xst -k hadoop.keytab hadoop/cdh1@EXAMPLE.COM"
+kadmin.local -q "xst -k hadoop.keytab hadoop/cdh2@EXAMPLE.COM"
+kadmin.local -q "xst -k hadoop.keytab hadoop/cdh3@EXAMPLE.COM"
+kadmin.local -q "xst -k hadoop.keytab hadoop@EXAMPLE.COM"
+
+kadmin.local -q "xst -k hadoop.keytab HTTP/cdh1@EXAMPLE.COM"
+kadmin.local -q "xst -k hadoop.keytab HTTP/cdh2@EXAMPLE.COM"
+kadmin.local -q "xst -k hadoop.keytab HTTP/cdh3@EXAMPLE.COM"
+</pre>
+</div>
+<p>　　</p>
+<p>　　测试keytab是否可用：</p>
+<div class="cnblogs_code">
+<pre>kinit -kt /opt/hadoop/etc/hadoop.keytab hadoop/<span style="color: rgba(0, 0, 0, 1)">cdh1
+klist</span></pre>
+</div>
+<h2>3.2. 各个节点安装jce</h2>
+<p>　　在hadoop集群所有节点安装jce，下载地址为：</p>
+<div class="cnblogs_code">
+<pre>https:<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html</span></pre>
+</div>
+<p>　　解压jce_policy-8.zip，把解压后文件夹里面的jar包copy到$JAVA_HOME/jre/lib/security目录下。</p>
+<p>　　不安装的话后面启动会有下面异常：</p>
+<p>　　<img src="https://img2020.cnblogs.com/blog/1217276/202010/1217276-20201013111442743-1939849333.png" alt="" loading="lazy"></p>
+<h2>3.3.&nbsp;为HADOOP添加Kerberos配置认证</h2>
+<p>&nbsp;　　core-site.xml添加的配置内容为：</p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>hadoop.security.authorization<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>true<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>hadoop.security.authentication<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>kerberos<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span></pre>
+</div>
+<p>　　</p>
+<p>　　hdfs-site.xml添加的配置内容为：</p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 128, 0, 1)">&lt;!--</span><span style="color: rgba(0, 128, 0, 1)">NameNode Kerberos Config</span><span style="color: rgba(0, 128, 0, 1)">--&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>dfs.block.access.token.enable<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>true<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>dfs.namenode.kerberos.principal<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>hadoop/_HOST@EXAMPLE.COM<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>dfs.namenode.keytab.file<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>/opt/hadoop/etc/hadoop.keytab<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>dfs.namenode.kerberos.internal.spnego.principal<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>HTTP/_HOST@EXAMPLE.COM<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+
+<span style="color: rgba(0, 128, 0, 1)">&lt;!--</span><span style="color: rgba(0, 128, 0, 1)"> DataNode Kerberos Config </span><span style="color: rgba(0, 128, 0, 1)">--&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>dfs.datanode.kerberos.principal<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>hadoop/_HOST@EXAMPLE.COM<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>dfs.datanode.keytab.file<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>/opt/hadoop/etc/hadoop.keytab<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+
+<span style="color: rgba(0, 128, 0, 1)">&lt;!--</span><span style="color: rgba(0, 128, 0, 1)"> 配置WebHDFS安全 </span><span style="color: rgba(0, 128, 0, 1)">--&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+  <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>dfs.webhdfs.enabled<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+  <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>true<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>dfs.web.authentication.kerberos.principal<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>HTTP/_HOST@EXAMPLE.COM<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>dfs.web.authentication.kerberos.keytab<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>/opt/hadoop/etc/hadoop.keytab<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span></pre>
+</div>
+<p>　　hadoop为HA模式，则需要添加journalnode相关的kerberos配置：</p>
+<div class="cnblogs_code">
+<pre>&lt;!-- Journalnode Kerberos Config --&gt;
+&lt;property&gt;
+    &lt;name&gt;dfs.journalnode.kerberos.principal&lt;/name&gt;
+    &lt;value&gt;hadoop/_HOST@EXAMPLE.COM&lt;/value&gt;
+&lt;/property&gt;
+&lt;property&gt;
+    &lt;name&gt;dfs.journalnode.keytab.<span style="color: rgba(0, 0, 255, 1)">file</span>&lt;/name&gt;
+    &lt;value&gt;/opt/hadoop/etc/hadoop.keytab&lt;/value&gt;
+&lt;/property&gt;
+&lt;property&gt;
+&lt;name&gt;dfs.journalnode.kerberos.internal.spnego.principal&lt;/name&gt;
+    &lt;value&gt;HTTP/_HOST@EXAMPLE.COM&lt;/value&gt;
+&lt;/property&gt;</pre>
+</div>
+<p>　　hadoop为非HA模式，且带有secondarynamenode，则配置相关kerberos：</p>
+<div class="cnblogs_code">
+<pre>  &lt;!-- Secondnode Kerberos Config --&gt;
+  &lt;property&gt;
+       &lt;name&gt;dfs.secondary.namenode.kerberos.principal&lt;/name&gt;
+       &lt;value&gt;hadoop/_HOST@HADOOP.COM&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+       &lt;name&gt;dfs.secondary.namenode.keytab.<span style="color: rgba(0, 0, 255, 1)">file</span>&lt;/name&gt;
+       &lt;value&gt;/home/redpeak/hadoop.keytab&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+       &lt;name&gt;dfs.secondary.namenode.kerberos.internal.spnego.principal&lt;/name&gt;
+       &lt;value&gt;HTTP/_HOST@HADOOP.COM&lt;/value&gt;
+  &lt;/property&gt;</pre>
+</div>
+<p>　　</p>
+<p>　　Yarn支持两种容器实现方式，一种是yarn容器，一种是Linux容器，Linux容器比较Yarn容器具有更好的扩展性和隔离性。本文将讲述Linux容器的配置。yarn-site.xml添加的配置内容为：</p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 128, 0, 1)">&lt;!--</span><span style="color: rgba(0, 128, 0, 1)">配置resourcemanager kerberos config</span><span style="color: rgba(0, 128, 0, 1)">--&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+  <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>yarn.resourcemanager.principal<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+  <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>hadoop/_HOST@EXAMPLE.COM<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+  <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>yarn.resourcemanager.keytab<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+  <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>/opt/hadoop/etc/hadoop.keytab<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+
+<span style="color: rgba(0, 128, 0, 1)">&lt;!--</span><span style="color: rgba(0, 128, 0, 1)">配置nodemanager kerberos config</span><span style="color: rgba(0, 128, 0, 1)">--&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+  <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>yarn.nodemanager.principal<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+  <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>hadoop/_HOST@EXAMPLE.COM<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+  <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>yarn.nodemanager.keytab<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+  <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>/opt/hadoop/etc/hadoop.keytab<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>yarn.resourcemanager.webapp.spnego-principal<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>HTTP/_HOST@EXAMPLE.COM<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+  <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>yarn.nodemanager.container-executor.class<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>org.apache.hadoop.yarn.server.nodemanager.LinuxContainerExecutor<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+  <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>yarn.nodemanager.linux-container-executor.group<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+  <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>hadoop<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+  <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>yarn.nodemanager.linux-container-executor.nonsecure-mode.limit-users<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+  <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>false<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+  <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">description</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>Whether all applications should be run as the NodeManager process' owner.When false, applications are launched instead <br>as the application owner<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">description</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span></pre>
+</div>
+<p>　　注：分别设置容器类为LinuxContainerExecutor；允许使用的用户组为：hadoop；第三个为可选项，配置是否限制NodeManager用户作为应用用户。</p>
+<p>　　container-executor.cfg修改配置内容：</p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 0, 1)">#configured value of yarn.nodemanager.linux-container-executor.group 确保容器运行组是hadoop
+yarn.nodemanager.linux-container-executor.group=hadoop 
+#comma separated list of users who can not run applications  禁用用户
+banned.users=hdfs,yarn,mapred,bin
+#Prevent other super-users 禁用其他系统用户
+min.user.id=1000
+##comma separated list of system users who CAN run applications 谁可以运行该应用
+allowed.system.users=root,hadoop
+feature.tc.enabled=false<br># 创建两个目录
+yarn.nodemanager.local-dirs=$HADOOP_HOME/logs/yarn/local
+yarn.nodemanager.log-dirs=$HADOOP_HOME/logs/yarn/log</span></pre>
+</div>
+<p>　　</p>
+<p>　　HADOOP_HOME/etc/hadoop/container-executor.cfg配置文件的权限，和他上层目录的user（所属者）必须是root。这个container-executor.cfg配置文件的所有上层目录都变成root，就是说/opt，/opt/app，/opt/app/hadoop3.1.4，etc，hadoop这几个目录都要变成root:root。如：</p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 255, 1)">chown</span> root:root /opt/app/
+<span style="color: rgba(0, 0, 255, 1)">chown</span> root:root /opt/app/hadoop-<span style="color: rgba(128, 0, 128, 1)">3.1</span>.<span style="color: rgba(128, 0, 128, 1)">4</span>/
+<span style="color: rgba(0, 0, 255, 1)">chown</span> root:root /opt/app/hadoop-<span style="color: rgba(128, 0, 128, 1)">3.1</span>.<span style="color: rgba(128, 0, 128, 1)">4</span>/<span style="color: rgba(0, 0, 0, 1)">etc
+</span><span style="color: rgba(0, 0, 255, 1)">chown</span> root:root /opt/app/hadoop-<span style="color: rgba(128, 0, 128, 1)">3.1</span>.<span style="color: rgba(128, 0, 128, 1)">4</span>/etc/<span style="color: rgba(0, 0, 0, 1)">hadoop
+</span><span style="color: rgba(0, 0, 255, 1)">chown</span> root:root /opt/app/hadoop-<span style="color: rgba(128, 0, 128, 1)">3.1</span>.<span style="color: rgba(128, 0, 128, 1)">4</span>/etc/hadoop/container-executor.cfg </pre>
+</div>
+<p>　　另外还需要修改HADOOP_HOME/bin下面的container-executor的权限，root:hadoop的hadoop是上面配置的“yarn.nodemanager.linux-container-executor.group=hadoop”</p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 255, 1)">chown</span> root:hadoop /opt/app/hadoop-<span style="color: rgba(128, 0, 128, 1)">3.1</span>.<span style="color: rgba(128, 0, 128, 1)">4</span>/bin/container-<span style="color: rgba(0, 0, 0, 1)">executor 
+
+</span><span style="color: rgba(0, 0, 255, 1)">chmod</span> <span style="color: rgba(128, 0, 128, 1)">6050</span> /opt/app/hadoop-<span style="color: rgba(128, 0, 128, 1)">3.1</span>.<span style="color: rgba(128, 0, 128, 1)">4</span>/bin/container-executor</pre>
+</div>
+<p>&nbsp;</p>
+<p>　　mapred-site.xml添加的配置内容为：</p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+  <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>mapreduce.jobhistory.keytab<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+  <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>/opt/hadoop/etc/hadoop.keytab<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+  <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>mapreduce.jobhistory.principal<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+  <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>hdfs/_HOST@EXAMPLE.COM<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>　　当开启Kerberos认证时，core-site.xml还需要添加各个组件的代理用户，不然所有用户都没权限访问，配置内容为：</p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 128, 0, 1)">&lt;!--</span><span style="color: rgba(0, 128, 0, 1)">hadoop user</span><span style="color: rgba(0, 128, 0, 1)">--&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>hadoop.proxyuser.hadoop.hosts<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>*<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>hadoop.proxyuser.hadoop.groups<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>*<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+
+<span style="color: rgba(0, 128, 0, 1)">&lt;!--</span><span style="color: rgba(0, 128, 0, 1)">root user</span><span style="color: rgba(0, 128, 0, 1)">--&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>hadoop.proxyuser.root.hosts<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>*<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>hadoop.proxyuser.root.groups<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>*<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+
+<span style="color: rgba(0, 128, 0, 1)">&lt;!--</span><span style="color: rgba(0, 128, 0, 1)">HTTP user</span><span style="color: rgba(0, 128, 0, 1)">--&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>hadoop.proxyuser.HTTP.hosts<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>*<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>hadoop.proxyuser.HTTP.groups<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>*<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span></pre>
+</div>
+<h2>3.4. datanode的配置方式</h2>
+<p>　　因为DataNode数据传输协议不使用Hadoop RPC框架，DataNode必须使用由dfs.datanode.address和dfs.datanode.http.address指定的特权端口进行身份验证。此身份验证基于以下假设：攻击者将无法在DataNode主机上获得root权限。</p>
+<p>　　以root用户身份执行hdfs datanode命令时，服务器进程首先绑定特权端口，然后删除特权并以HADOOP_SECURE_DN_USER指定的用户账号运行。此启动过程使用安装到JSVC_HOME的jsvc程序。你必须在启动时（在hadoop-env.sh中）指定HADOOP_SECURE_DN_USER和JSVC_HOME作为环境变量。</p>
+<p>　　从版本2.6.0起，SASL可用于验证数据传输协议。在此配置中，安全集群不再需要使用jsvc以root身份启动DataNode并绑定到特权端口。要启用SASL数据传输协议，请在hdfs-site.xml中设置dfs.data.transfer.protection，为dfs.datanode.address设置非特权端口，将dfs.http.policy设置为HTTPS_ONLY，并确保HADOOP_SECURE_DN_USER环境变量未定义。请注意，如果dfs.datanode.address设置为特权端口，则不能在数据传输协议上使用SASL。出于向后兼容性的原因，这是必需的。</p>
+<p>　　datanode启动有两种方式，一：在2.6版本之前，可以使用配置jsvc方式启动datanode，二：在2.6版本之后，新增可以使用配置sasl方式启动datanode。这里我主要使用sasl方式。</p>
+<h3>3.4.1.&nbsp;配置sasl方式启动datanode</h3>
+<p>　　sasl方式需要设置dfs.http.policy为HTTPS_ONLY。https要求集群中有一个CA，它会生成ca_key和ca_cert，想要加入这个集群的节点，需要拿到这2个文件，然后经过一连串的动作生成keystore，并在hadoop的ssl-server.xml和ssl-client.xml中指定这个keystore的路径和密码，这样各个节点间就可以使用https进行通信了。</p>
+<h4>3.4.1.1&nbsp;CA服务器的证书和密码</h4>
+<p>　　在cdh1节点上创建目录</p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 255, 1)">mkdir</span> -p  /home/hadoop/CA/<span style="color: rgba(0, 0, 0, 1)">private
+
+openssl req </span>-new -x509 -keyout /home/hadoop/CA/private/hadoop_ca_key -out /home/hadoop/CA/private/hadoop_ca_cert -days <span style="color: rgba(128, 0, 128, 1)">9999</span> -subj <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">/C=CN/ST=guangdong/L=shenzhen/O=hongshan/OU=security/CN=hadoop.com</span><span style="color: rgba(128, 0, 0, 1)">'</span></pre>
+</div>
+<p>　　输入hadoop_ca_key的密码：hadoop</p>
+<div class="cnblogs_code">
+<pre>-<span style="color: rgba(0, 0, 0, 1)">new：表示生成一个新的证书签署请求；
+</span>-<span style="color: rgba(0, 0, 0, 1)">x509：专用于生成CA自签证书；
+</span>-<span style="color: rgba(0, 0, 0, 1)">keyout 指定生成密匙文件路径
+</span>-<span style="color: rgba(0, 0, 0, 1)">out ：指定生成的证书的保存路径；
+</span>-<span style="color: rgba(0, 0, 0, 1)">days：指定证书的有效期限，单位为day，默认是365天；
+</span>-<span style="color: rgba(0, 0, 0, 1)">subj :证书的描述，也可以不写，生成证书的时候填写
+C </span>=&gt;<span style="color: rgba(0, 0, 0, 1)"> Country 
+ST </span>=&gt;<span style="color: rgba(0, 0, 0, 1)"> stateOrProvinceName
+L </span>=&gt;<span style="color: rgba(0, 0, 0, 1)"> Locality  (eg, city)
+O  </span>=&gt;<span style="color: rgba(0, 0, 0, 1)"> Organization 
+OU </span>=&gt;<span style="color: rgba(0, 0, 0, 1)">  Organizational Unit
+CN </span>=&gt; Common Name</pre>
+</div>
+<p>&nbsp; &nbsp;通过 ll 在/home/hadoop/CA/private目录查看生成的密码和证书</p>
+<p>&nbsp; &nbsp;scp到hadoop集群的每个节点</p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 255, 1)">scp</span> -r CA  hadoop@cdh2:/home/hadoop/
+<span style="color: rgba(0, 0, 255, 1)">scp</span> -r CA  hadoop@cdh3:/home/hadoop/</pre>
+</div>
+<h4>3.4.1.2&nbsp;在hadoop集群的各个节点上执行</h4>
+<p>　　每个节点只需修改CN的hostname，在每个节点把下面所有命令全部执行。注意下面输入的keystore和trustkeystore的密码，后面配置ssl-client.xml、ssl-server.xml会用上。注意这里的keystore和trustkeystore的密码可以保持一致，方便记忆，这里默认密码为hadoop，这里包括上面步骤的hadoop_ca_key的密码也是一致。</p>
+<p>&nbsp; &nbsp; &nbsp;进入到/home/hadoop/CA/private目录。</p>
+<p>&nbsp; &nbsp; &nbsp;a)&nbsp;生成密钥和证书，创建keystore密码和key passwd：hadoop &nbsp;</p>
+<div class="cnblogs_code">
+<pre>keytool -keystore keystore -alias localhost -validity <span style="color: rgba(128, 0, 128, 1)">9999</span> -genkey -keyalg RSA -keysize <span style="color: rgba(128, 0, 128, 1)">2048</span> -dname <span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">CN=cdh1, OU=test, O=test, L=shenzhen, ST=guangdong, C=cn</span><span style="color: rgba(128, 0, 0, 1)">"</span>;</pre>
+</div>
+<p>　　b) 创建trustkeystore密码：hadoop</p>
+<div class="cnblogs_code">
+<pre>keytool -keystore truststore -alias CARoot -import -<span style="color: rgba(0, 0, 255, 1)">file</span> hadoop_ca_cert;</pre>
+</div>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; c)&nbsp;执行下面的命令，</p>
+<div class="cnblogs_code">
+<pre>keytool -certreq -alias localhost -keystore keystore -<span style="color: rgba(0, 0, 255, 1)">file</span> cert;</pre>
+</div>
+<p>　　d) 输入hadoop_ca_key的密码：hadoop</p>
+<div class="cnblogs_code">
+<pre>openssl x509 -req -CA hadoop_ca_cert -CAkey hadoop_ca_key -<span style="color: rgba(0, 0, 255, 1)">in</span> cert -out cert_signed -days <span style="color: rgba(128, 0, 128, 1)">9999</span> -CAcreateserial</pre>
+</div>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; e)&nbsp;输入keystore密码：hadoop</p>
+<div class="cnblogs_code">
+<pre>keytool -keystore keystore -alias CARoot -import -<span style="color: rgba(0, 0, 255, 1)">file</span> hadoop_ca_cert </pre>
+</div>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;f)&nbsp;再次输入keystore密码：hadoop</p>
+<div class="cnblogs_code">
+<pre>keytool -keystore keystore -alias localhost -import -<span style="color: rgba(0, 0, 255, 1)">file</span> cert_signed </pre>
+</div>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; g)&nbsp;查看生成文件，并检查客户端证书</p>
+<div class="cnblogs_code">
+<pre>ll /home/hadoop/CA/<span style="color: rgba(0, 0, 0, 1)">private
+
+keytool  </span>-list -v -keystore keystore  -storepass hadoop</pre>
+</div>
+<h4>3.4.1.3&nbsp;修改hdfs-site.xml</h4>
+<p>&nbsp; &nbsp;https模式默认的web端口不是50070，这里配置成一样的。</p>
+<div class="cnblogs_code">
+<pre> &lt;property&gt;
+       &lt;name&gt;dfs.datanode.address&lt;/name&gt;
+       &lt;value&gt;<span style="color: rgba(128, 0, 128, 1)">0.0</span>.<span style="color: rgba(128, 0, 128, 1)">0.0</span>:<span style="color: rgba(128, 0, 128, 1)">61004</span>&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+       &lt;name&gt;dfs.datanode.http.address&lt;/name&gt;
+       &lt;value&gt;<span style="color: rgba(128, 0, 128, 1)">0.0</span>.<span style="color: rgba(128, 0, 128, 1)">0.0</span>:<span style="color: rgba(128, 0, 128, 1)">61006</span>&lt;/value&gt;
+  &lt;/property&gt;
+
+  &lt;property&gt;
+       &lt;name&gt;dfs.http.policy&lt;/name&gt;
+       &lt;value&gt;HTTPS_ONLY&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+       &lt;name&gt;dfs.data.transfer.protection&lt;/name&gt;
+       &lt;value&gt;integrity&lt;/value&gt;
+  &lt;/property&gt;
+
+  &lt;property&gt;
+        &lt;name&gt;dfs.namenode.https-address&lt;/name&gt;
+        &lt;value&gt;bridge1:<span style="color: rgba(128, 0, 128, 1)">50070</span>&lt;/value&gt;
+   &lt;/property&gt;</pre>
+</div>
+<p>　　注：这里的dfs.datanode.address和dfs.datanode.http.address配置成非特权端口，分别为61004和61006，均大于1024端口。</p>
+<p>　　如果hadoop集群为非HA模式，带有secondarynamenode，还需要配置</p>
+<div class="cnblogs_code">
+<pre>  &lt;property&gt;
+        &lt;name&gt;dfs.namenode.secondary.https-address&lt;/name&gt;
+        &lt;value&gt;bridge1:<span style="color: rgba(128, 0, 128, 1)">50072</span>&lt;/value&gt;
+   &lt;/property&gt;</pre>
+</div>
+<h4>3.4.1.4 修改ssl-client.xml</h4>
+<p>　　ssl-client.xml主要修改为上面生成的keystore和truststore的路径，填写keystore密码，key passwd，truststore密码</p>
+<div class="cnblogs_code">
+<pre>&lt;configuration&gt;
+
+&lt;property&gt;
+  &lt;name&gt;ssl.client.truststore.location&lt;/name&gt;
+  &lt;value&gt;/home/hadoop/CA/private/truststore&lt;/value&gt;
+  &lt;description&gt;<span style="color: rgba(0, 0, 0, 1)">Truststore to be used by clients like distcp. Must be
+  specified.
+  </span>&lt;/description&gt;
+&lt;/property&gt;
+
+&lt;property&gt;
+  &lt;name&gt;ssl.client.truststore.password&lt;/name&gt;
+  &lt;value&gt;hadoop&lt;/value&gt;
+  &lt;description&gt;Optional. Default value is <span style="color: rgba(128, 0, 0, 1)">""</span><span style="color: rgba(0, 0, 0, 1)">.
+  </span>&lt;/description&gt;
+&lt;/property&gt;
+
+&lt;property&gt;
+  &lt;name&gt;ssl.client.truststore.type&lt;/name&gt;
+  &lt;value&gt;jks&lt;/value&gt;
+  &lt;description&gt;Optional. The keystore <span style="color: rgba(0, 0, 255, 1)">file</span> format, default value is <span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">jks</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">.
+  </span>&lt;/description&gt;
+&lt;/property&gt;
+
+&lt;property&gt;
+  &lt;name&gt;ssl.client.truststore.reload.interval&lt;/name&gt;
+  &lt;value&gt;<span style="color: rgba(128, 0, 128, 1)">10000</span>&lt;/value&gt;
+  &lt;description&gt;Truststore reload check interval, <span style="color: rgba(0, 0, 255, 1)">in</span><span style="color: rgba(0, 0, 0, 1)"> milliseconds.
+  Default value is </span><span style="color: rgba(128, 0, 128, 1)">10000</span> (<span style="color: rgba(128, 0, 128, 1)">10</span><span style="color: rgba(0, 0, 0, 1)"> seconds).
+  </span>&lt;/description&gt;
+&lt;/property&gt;
+
+&lt;property&gt;
+  &lt;name&gt;ssl.client.keystore.location&lt;/name&gt;
+  &lt;value&gt;/home/hadoop/CA/private/keystore&lt;/value&gt;
+  &lt;description&gt;<span style="color: rgba(0, 0, 0, 1)">Keystore to be used by clients like distcp. Must be
+  specified.
+  </span>&lt;/description&gt;
+&lt;/property&gt;
+
+&lt;property&gt;
+  &lt;name&gt;ssl.client.keystore.password&lt;/name&gt;
+  &lt;value&gt;hadoop&lt;/value&gt;
+  &lt;description&gt;Optional. Default value is <span style="color: rgba(128, 0, 0, 1)">""</span><span style="color: rgba(0, 0, 0, 1)">.
+  </span>&lt;/description&gt;
+&lt;/property&gt;
+
+&lt;property&gt;
+  &lt;name&gt;ssl.client.keystore.keypassword&lt;/name&gt;
+  &lt;value&gt;hadoop&lt;/value&gt;
+  &lt;description&gt;Optional. Default value is <span style="color: rgba(128, 0, 0, 1)">""</span><span style="color: rgba(0, 0, 0, 1)">.
+  </span>&lt;/description&gt;
+&lt;/property&gt;
+
+&lt;property&gt;
+  &lt;name&gt;ssl.client.keystore.type&lt;/name&gt;
+  &lt;value&gt;jks&lt;/value&gt;
+  &lt;description&gt;Optional. The keystore <span style="color: rgba(0, 0, 255, 1)">file</span> format, default value is <span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">jks</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">.
+  </span>&lt;/description&gt;
+&lt;/property&gt;
+
+&lt;/configuration&gt;</pre>
+</div>
+<h4>3.4.1.4 修改ssl-server.xml</h4>
+<div class="cnblogs_code">
+<pre>&lt;configuration&gt;
+
+&lt;property&gt;
+  &lt;name&gt;ssl.server.truststore.location&lt;/name&gt;
+  &lt;value&gt;/home/hadoop/CA/private/truststore&lt;/value&gt;
+  &lt;description&gt;<span style="color: rgba(0, 0, 0, 1)">Truststore to be used by NN and DN. Must be specified.
+  </span>&lt;/description&gt;
+&lt;/property&gt;
+
+&lt;property&gt;
+  &lt;name&gt;ssl.server.truststore.password&lt;/name&gt;
+  &lt;value&gt;hadoop&lt;/value&gt;
+  &lt;description&gt;Optional. Default value is <span style="color: rgba(128, 0, 0, 1)">""</span><span style="color: rgba(0, 0, 0, 1)">.
+  </span>&lt;/description&gt;
+&lt;/property&gt;
+
+&lt;property&gt;
+  &lt;name&gt;ssl.server.truststore.type&lt;/name&gt;
+  &lt;value&gt;jks&lt;/value&gt;
+  &lt;description&gt;Optional. The keystore <span style="color: rgba(0, 0, 255, 1)">file</span> format, default value is <span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">jks</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">.
+  </span>&lt;/description&gt;
+&lt;/property&gt;
+
+&lt;property&gt;
+  &lt;name&gt;ssl.server.truststore.reload.interval&lt;/name&gt;
+  &lt;value&gt;<span style="color: rgba(128, 0, 128, 1)">10000</span>&lt;/value&gt;
+  &lt;description&gt;Truststore reload check interval, <span style="color: rgba(0, 0, 255, 1)">in</span><span style="color: rgba(0, 0, 0, 1)"> milliseconds.
+  Default value is </span><span style="color: rgba(128, 0, 128, 1)">10000</span> (<span style="color: rgba(128, 0, 128, 1)">10</span><span style="color: rgba(0, 0, 0, 1)"> seconds).
+  </span>&lt;/description&gt;
+&lt;/property&gt;
+
+&lt;property&gt;
+  &lt;name&gt;ssl.server.keystore.location&lt;/name&gt;
+  &lt;value&gt;/home/hadoop/CA/private/keystore&lt;/value&gt;
+  &lt;description&gt;<span style="color: rgba(0, 0, 0, 1)">Keystore to be used by NN and DN. Must be specified.
+  </span>&lt;/description&gt;
+&lt;/property&gt;
+
+&lt;property&gt;
+  &lt;name&gt;ssl.server.keystore.password&lt;/name&gt;
+  &lt;value&gt;hadoop&lt;/value&gt;
+  &lt;description&gt;<span style="color: rgba(0, 0, 0, 1)">Must be specified.
+  </span>&lt;/description&gt;
+&lt;/property&gt;
+
+&lt;property&gt;
+  &lt;name&gt;ssl.server.keystore.keypassword&lt;/name&gt;
+  &lt;value&gt;hadoop&lt;/value&gt;
+  &lt;description&gt;<span style="color: rgba(0, 0, 0, 1)">Must be specified.
+  </span>&lt;/description&gt;
+&lt;/property&gt;
+
+&lt;property&gt;
+  &lt;name&gt;ssl.server.keystore.type&lt;/name&gt;
+  &lt;value&gt;jks&lt;/value&gt;
+  &lt;description&gt;Optional. The keystore <span style="color: rgba(0, 0, 255, 1)">file</span> format, default value is <span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">jks</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">.
+  </span>&lt;/description&gt;
+&lt;/property&gt;
+
+&lt;property&gt;
+  &lt;name&gt;ssl.server.exclude.cipher.list&lt;/name&gt;
+  &lt;value&gt;<span style="color: rgba(0, 0, 0, 1)">TLS_ECDHE_RSA_WITH_RC4_128_SHA,SSL_DHE_RSA_EXPORT_WITH_DES40_CBC_SHA,
+  SSL_RSA_WITH_DES_CBC_SHA,SSL_DHE_RSA_WITH_DES_CBC_SHA,
+  SSL_RSA_EXPORT_WITH_RC4_40_MD5,SSL_RSA_EXPORT_WITH_DES40_CBC_SHA,
+  SSL_RSA_WITH_RC4_128_MD5</span>&lt;/value&gt;
+  &lt;description&gt;<span style="color: rgba(0, 0, 0, 1)">Optional. The weak security cipher suites that you want excluded
+  from SSL communication.</span>&lt;/description&gt;
+&lt;/property&gt;
+
+&lt;/configuration&gt;</pre>
+</div>
+<h4>3.4.1.5&nbsp;重启hadoop</h4>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 0, 1)"># 启动namenode的两种方式
+hadoop</span>-daemon.<span style="color: rgba(0, 0, 255, 1)">sh</span><span style="color: rgba(0, 0, 0, 1)"> start namenode
+hdfs </span>--<span style="color: rgba(0, 0, 0, 1)">daemon start namenode
+
+# 非HA模式，带有secondarynamenode，启动secondarynamenode的两种方式
+hadoop</span>-daemon.<span style="color: rgba(0, 0, 255, 1)">sh</span><span style="color: rgba(0, 0, 0, 1)"> start secondarynamenode
+hdfs </span>--<span style="color: rgba(0, 0, 0, 1)">daemon start secondarynamenode
+
+# 启动datanode
+start</span>-secure-dns.<span style="color: rgba(0, 0, 255, 1)">sh</span></pre>
+</div>
+<h2>3.5.&nbsp;测试</h2>
+<ul>
+<li>首先，使用hadoop用户kinit进行kerberos登录</li>
+</ul>
+<div class="cnblogs_code">
+<pre>kinit -kt /opt/hadoop/etc/<span>hadoop.keytab hadoop@EXAMPLE.COM
+klist</span></pre>
+</div>
+<ul>
+<li>然后，使用hadoop&nbsp;fs -ls /命令或者yarn application -list命令等</li>
+</ul>
+<div class="cnblogs_code">
+<pre>hadoop fs -<span style="color: rgba(0, 0, 255, 1)">ls</span> /<span style="color: rgba(0, 0, 0, 1)">
+yarn application </span>-list</pre>
+</div>
+<h1>4. Hive集成Kerberos</h1>
+<h2>4.1.&nbsp;为HIVE添加认证</h2>
+<p>　　hive-site.xml添加的配置内容为：</p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>hive.server2.authentication<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>KERBEROS<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+   <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>hive.server2.authentication.kerberos.principal<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>hadoop/_HOST@CHEYO.NET<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>hive.server2.authentication.kerberos.keytab<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>/opt/hadoop/etc/hadoop.keytab<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>hive.metastore.kerberos.principal<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>hadoop/_HOST@CHEYO.NET<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>hive.metastore.kerberos.keytab.file<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>/opt/hadoop/etc/hadoop.keytab<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">description</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span><span style="color: rgba(0, 0, 0, 1)">The path to the Kerberos Keytab file containing the
+    metastore thrift server's service principal.</span><span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">description</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>　　core-site.xml还需要添加hive组件的代理用户，配置内容为：</p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 128, 0, 1)">&lt;!--</span><span style="color: rgba(0, 128, 0, 1)"> hive user </span><span style="color: rgba(0, 128, 0, 1)">--&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>hadoop.proxyuser.hive.hosts<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>*<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>hadoop.proxyuser.hive.groups<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>*<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span></pre>
+</div>
+<h2>4.2. HIVE的beeline连接</h2>
+<p>　　启动hiveserver2后，使用beeline客户端连接</p>
+<ul>
+<li>首先，使用hadoop用户kinit进行kerberos登录</li>
+</ul>
+<div class="cnblogs_code">
+<pre>kinit -kt /opt/hadoop/etc/<span style="color: rgba(0, 0, 0, 1)">hadoop.keytab hadoop@EXAMPLE.COM
+klist</span></pre>
+</div>
+<ul>
+<li>然后，beeline使用如下方式连接，注意：-u&nbsp;后面的参数需加双引号，hadoop/cdh1为hiveserver2所在的节点</li>
+</ul>
+<div class="cnblogs_code">
+<pre>beeline -u <span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">jdbc:hive2://cdh1:10000/default;principal=hadoop/cdh1@EXAMPLE.COM</span><span style="color: rgba(128, 0, 0, 1)">"</span></pre>
+</div>
+<p>　　或者</p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 0, 1)">beeline
+</span>&gt; !connect jdbc:hive2:<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">cdh1:10000/default;principal=hadoop/cdh1@EXAMPLE.COM</span>
+用户名密码不输入,直接回车</pre>
+</div>
+<h1>5. HBase集成Kerberos</h1>
+<h2>5.1.&nbsp;为HBase添加认证</h2>
+<p>&nbsp;　　hbase-site.xml添加的配置内容为：</p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>hbase.security.authentication<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>kerberos<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+
+<span style="color: rgba(0, 128, 0, 1)">&lt;!--</span><span style="color: rgba(0, 128, 0, 1)">master</span><span style="color: rgba(0, 128, 0, 1)">--&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>hbase.master.kerberos.principal<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>hadoop/_HOST@EXAMPLE.COM<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>hbase.master.keytab.file<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>/opt/hadoop/etc/hadoop.keytab<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+
+<span style="color: rgba(0, 128, 0, 1)">&lt;!--</span><span style="color: rgba(0, 128, 0, 1)">regionserver</span><span style="color: rgba(0, 128, 0, 1)">--&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>hbase.regionserver.kerberos.principal<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>hadoop/_HOST@EXAMPLE.COM<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>hbase.regionserver.keytab.file<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>/opt/hadoop/etc/hadoop.keytab<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>hbase.cluster.distributed<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>true<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+ <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>hbase.coprocessor.master.classes<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>org.apache.hadoop.hbase.security.access.AccessController<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+  <span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>hbase.coprocessor.region.classes<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span><span style="color: rgba(0, 0, 0, 1)">org.apache.hadoop.hbase.security.token.TokenProvider,
+    org.apache.hadoop.hbase.security.access.SecureBulkLoadEndpoint,
+    org.apache.hadoop.hbase.security.access.AccessController</span><span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>　　core-site.xml还需要添加hbase组件的代理用户hadoop，配置内容为：</p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 128, 0, 1)">&lt;!--</span><span style="color: rgba(0, 128, 0, 1)">hadoop user</span><span style="color: rgba(0, 128, 0, 1)">--&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>hadoop.proxyuser.hadoop.hosts<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>*<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>hadoop.proxyuser.hadoop.groups<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>*<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>【参考资料】</p>
+<p>&nbsp;<a href="https://blog.csdn.net/u011026329/article/details/79167884">https://blog.csdn.net/u011026329/article/details/79167884</a>&nbsp;Cloudera Manager5.11.1 集成Kerberos</p>
+<p><a href="https://www.jianshu.com/p/dd7b04b49c18">https://www.jianshu.com/p/dd7b04b49c18</a>&nbsp;CDH禁用Kerberos</p>
+<p><a href="http://blog.cheyo.net/222.html">http://blog.cheyo.net/222.html</a>&nbsp;Hadoop配置Kerberos认证(2.7.1)</p>
+<p><a href="https://www.cnblogs.com/yjt1993/p/11769515.html">https://www.cnblogs.com/yjt1993/p/11769515.html</a>&nbsp;hdfs、yarn集成kerberos</p>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2020-07-23 11:25</span>&nbsp;
+<a href="https://www.cnblogs.com/swordfall/">牧梦者</a>&nbsp;
+阅读(<span id="post_view_count">885</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=13301097" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(13301097);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 373050, cb_blogApp = 'swordfall', cb_blogUserGuid = 'd3afab68-ea7c-4ce7-6bbb-08d49c352df3';
+    var cb_entryId = 13301097, cb_entryCreatedDate = '2020-07-23 11:25', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 牧梦者
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    <div id="page_end_html">
+        <script type="text/javascript">
+"use strict";
+
+(function (window, document, navigator) {
+
+    var element = {
+        body: document.body,
+	main: "main",
+        forFlow: "forFlow",
+        postTitle: "cb_post_title_url",
+        postBody: "cnblogs_post_body",
+        postCategory: "BlogPostCategory",
+        postTagList: "EntryTag",
+        toc: "table_of_content_warp",
+        digg: "div_digg",
+        sideBar: "sideBar",
+    };
+
+    function $id(id) {
+        return $("#" + id);
+    }
+
+   function $class(id) {
+        return $("." + id);
+    }
+
+   function showTurtle(){
+     var turtleBar = [];
+      turtleBar.push('<div id="gadgetSWF">');
+      turtleBar.push('<embed type="application/x-shockwave-flash" src="https://files-cdn.cnblogs.com/files/swordfall/turtle.swf" width="140" height="140" id="flashID" name="flashID" bgcolor="#FFFFFF" quality="high" scale="noscale" salign="tl" flashvars="up_backgroundColor=FFFFFF" wmode="opaque" allowscriptaccess="always">');
+     turtleBar.push('</div>');
+     var turtleBarHtml = turtleBar.join('');
+     
+     $(element.body).append(turtleBarHtml)
+   }
+
+    function showFixedBarCore() {
+        var fixedBar = [];
+        fixedBar.push('<div class="fixed-bar-warp">');
+        fixedBar.push('<div class="fixed-bar">');
+
+        if ($id(element.postBody).length) {
+            fixedBar.push('<a class="item toc" href="javascript:sf.toc.toggle();" title="目录"><i class="fa fa-hashtag"></i></a>');
+            fixedBar.push('<a class="item comments" href="#comment_form_container" title="评论列表"><i class="fa fa-comments"></i></a>');
+            fixedBar.push('<a class="item comment" href="#comment_form" title="写评论"><i class="fa fa-pencil"></i></a>');
+        }
+
+        fixedBar.push('<a class="item top" href="javascript:scroll(0,0);" title="返回顶部"><i class="fa fa-arrow-circle-up"></i></a>');
+        fixedBar.push('</div>');
+        fixedBar.push('</div>');
+
+        var fixedBarHtml = fixedBar.join('');
+
+        $(element.body).append(fixedBarHtml)
+    }
+
+    function moveDiggCore() {
+        var $sideBar = $id(element.sideBar);
+        if ($sideBar.find(element.digg).length) {
+            return true;
+        }
+
+        var $digg = $id(element.digg);
+        if ($digg.length) {
+            $sideBar.append($digg);
+            return true;
+        }
+    }
+
+    function copyCategoryAndTagCore() {
+        var categotyHtml = $id(element.postCategory).html();
+        var entryTagListHtml = $id(element.postTagList).html();
+
+        if (categotyHtml) {
+            var html = "<div class='post-categoty-tags'>";
+            html += "<div class='post-categoty'>";
+            html += categotyHtml;
+            html += "</div>";
+            html += "<div class='post-tags'>";
+            html += entryTagListHtml;
+            html += "</div>";
+            html += "</div>";
+            $(html).insertBefore("#topics .postBody");
+            return true;
+        }
+    }
+
+    function getPostTitleCore() {
+        return $id(element.postTitle).text();
+    }
+
+    function getPostBodyHeaderListCore() {
+        var headerList = [];
+
+        $id(element.postBody).find(":header").each(function (index, header) {
+            var $header = $(header);
+            var tagName = header.tagName.toLowerCase();
+            if (tagName === 'h1' ||
+                tagName === 'h2' ||
+                tagName === 'h3') {
+                if (!header.id) {
+                    header.id = "auto_id_" + index;
+                }
+
+                headerList.push({
+                    id: header.id,
+                    text: $header.text(),
+                    tagName: tagName,
+                    offsetTop: parseInt($header.offset().top, 10)
+                });
+            }
+        });
+
+        return headerList;
+    }
+
+    function buildTableOfContentsHtmlCore() {
+        var headerList = getPostBodyHeaderListCore();
+        var tableOfContentsHtml = [];
+
+        if (headerList.length) {
+            tableOfContentsHtml.push('<div id="' + element.toc + '" class="sf_toc_warp">');
+            tableOfContentsHtml.push('<div class="title"># ' + getPostTitleCore() + '</div>');
+            tableOfContentsHtml.push('<div class="toc">');
+            for (var i = 0; i < headerList.length; i++) {
+                var header = headerList[i];
+                var tableOfContentsItemHtml = "<a" +
+                    " href='#" + header.id + "'" +
+                    " id='toc_" + header.id + "'" +
+                    " class='item item-" + header.tagName + "'" +
+                    " title='" + header.text + "'" +
+                    ">" +
+                    header.text +
+                    "</a>";
+
+                tableOfContentsHtml.push(tableOfContentsItemHtml);
+            }
+            tableOfContentsHtml.push('</div>');
+            tableOfContentsHtml.push('</div>');
+        }
+
+        return tableOfContentsHtml.join('');
+    }
+
+    var count = 0;
+
+    function toggleTableOfContentsCore() {
+        var $main= $id(element.main);
+        var $forFlow= $class(element.forFlow);
+        var $toc = $id(element.toc);
+
+        if ($toc.length === 0) {
+            var tocHtml = buildTableOfContentsHtmlCore();
+            if (tocHtml) {
+                $main.append(tocHtml);
+                $toc = $id(element.toc);
+            }
+            if ($toc) {
+                show($toc, $forFlow);
+            }
+            return;
+        }
+
+        if ($toc.css("display") === "none") {
+            show($toc, $forFlow);
+        } else {
+            hide($toc, $forFlow);
+        }
+
+        function show($toc, $forFlow) {
+            var width = $toc.width();
+            if(count == 0){
+              var parHeight = $class("sf_toc_warp").height();
+              var tocHeight = parHeight - 250;
+              $toc.css("height", tocHeight + "px");
+              count +=1;
+            }
+            
+            $toc.css("display", "inline-block");
+            if (width != null){ 
+             
+                  $forFlow.css("margin-right", "13%");
+                       
+            }
+        }
+
+        function hide($toc, $forFlow) {
+            $toc.css("display", "none");
+            $forFlow.css("margin-right", "36px");
+        }
+    }
+
+    function selectedTableOfContentsItemCore(headerId) {
+        var $items = $id(element.toc).find(".item");
+        var $current = $("#toc_" + headerId);
+        if (!$current.hasClass("current")) {
+            $items.removeClass("current");
+            $current.addClass("current");
+        }
+    }
+
+    function watchWindowScrollCore() {
+        var headerList = getPostBodyHeaderListCore();
+        var scrollTop = $(window).scrollTop() + 80;
+        for (var i = 0; i < headerList.length; i++) {
+            var current = headerList[i];
+            var next = headerList[i + 1];
+            if (scrollTop > current.offsetTop) {
+                if (next && (scrollTop >= next.offsetTop)) {
+                    continue;
+                }
+                selectedTableOfContentsItemCore(current.id);
+                break;
+            }
+        }
+    }
+
+    window.sf = {
+       turtleBar: {
+            show: showTurtle
+        },
+        fixedBar: {
+            show: showFixedBarCore
+        },
+        digg: {
+            move: moveDiggCore
+        },
+        post: {
+            copyCategoryAndTag: copyCategoryAndTagCore,
+        },
+        toc: {
+            buildId: getPostBodyHeaderListCore,
+            toggle: toggleTableOfContentsCore,
+            watchWindowScroll: function () {
+                $(window).scroll(watchWindowScrollCore);
+            }
+        },
+        run: function () {
+            var functionList = Array.prototype.slice.apply(arguments);
+
+            var intervalCoreHandler = setInterval(intervalCore, 500);
+
+            function intervalCore() {
+                var length = functionList.length;
+                for (var i = 0; i < length; i++) {
+                    var functionHandler = functionList[i];
+                    if (functionHandler) {
+                        var result = functionHandler();
+                        if (result) {
+                            functionList.splice(i, 1);
+                            i--;
+                            length--;
+                        }
+                    }
+                }
+                if (functionList.length === 0) {
+                    clearInterval(intervalCoreHandler);
+                }
+            };
+        }
+    };
+
+    window.sf.isMobile = function () {
+        return navigator.userAgent.match(/.*Mobile.*/);
+    };
+
+    window.sf.addMobileCss = function () {
+        $id("home").before('<link href="//files.cnblogs.com/files/linianhui/sf.cnblogs.mobile.css" rel="stylesheet">');
+    };
+
+})(window, document, navigator);
+
+if (sf.isMobile()) {
+    sf.addMobileCss();
+    sf.toc.buildId();
+    sf.run(sf.post.copyCategoryAndTag);
+} else {
+    sf.fixedBar.show();
+    sf.toc.toggle();
+    sf.toc.watchWindowScroll();
+    sf.run(sf.post.copyCategoryAndTag);
+}
+
+
+//Setting ico for cnblogs
+var linkObject = document.createElement('link');
+linkObject.rel = "shortcut icon";
+linkObject.href = "https://blog-static.cnblogs.com/files/swordfall/favicon.ico";
+document.getElementsByTagName("head")[0].appendChild(linkObject);
+
+var top_nav = document.getElementById("top_nav");
+top_nav.parentNode.removeChild(top_nav);
+</script>
+    </div>
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjsyDbLxb4qa8sPJ3CIPB-FajGPj0zPA7PJhtJ8Undi3BcLXpWfVqJ1euvx-P2YPgw0jPDcbwNMOFMiotGlVcXZxCthLqwB2Ruew8yWXEwX5EDugDVsXhsz5h8t0Q5eav_U" />
+</body>
+</html>

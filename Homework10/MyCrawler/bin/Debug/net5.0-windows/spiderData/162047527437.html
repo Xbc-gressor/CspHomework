@@ -1,0 +1,935 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="Mybatis的初始化和结合Spring Framework后初始化的源码探究" />
+    <meta property="og:description" content="Mybatis的初始化和结合Spring Framework后初始化的源码探究" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Mybatis的初始化和结合Spring Framework后初始化的源码探究 - 码猿手 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/buildtowin/bundle-buildtowin.min.css?v=Tgl1d--mRuaeqinLMFZ2zu1KEazOmNWHLTJIcXu4SXU" />
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/huangrenhui/custom.css?v=gedtPrJ75PkDHFP4SWDuw94khZA=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/buildtowin/bundle-buildtowin-mobile.min.css?v=iPf_XHQsJ-ofZZ2RiaeMCHG0JEaMNLa9yhkUGK3xTSQ" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/huangrenhui/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/huangrenhui/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/huangrenhui/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 427735;
+        var currentBlogApp = 'huangrenhui';
+        var cb_enable_mathjax = true;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'BuildtoWin';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-05-07 11:03';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+        tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processClass: 'math', processEscapes: true },
+        TeX: {
+        equationNumbers: { autoNumber: ['AMS'], useLabelIds: true },
+        extensions: ['extpfeil.js', 'mediawiki-texvc.js'],
+        Macros: {bm: "\\boldsymbol"}
+        },
+        'HTML-CSS': { linebreaks: { automatic: true } },
+        SVG: { linebreaks: { automatic: true } }
+        });
+    </script>
+    <script src="https://mathjax.cnblogs.com/2_7_5/MathJax.js?config=TeX-AMS-MML_HTMLorMML&amp;v=20200504"></script>
+    
+</head>
+<body class="no-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="page_begin_html">
+        <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<body>
+<!-- 鼠标点击特效 -->
+ <style type="text/css">
+       
+        * {
+            cursor: url('https://www.cnblogs.com/images/cnblogs_com/huangrenhui/1802813/o_200709083633o_5997836b66d58.png'), auto;
+        }
+
+    </style>
+<script src="https://blog-static.cnblogs.com/files/huangrenhui/cursor-effects.js" defer="" defer></script>
+<!-- 鼠标点击特效end -->
+<!--添加立方体-->
+<a name="top"></a>
+<!--PageBeginHtml Block Begin-->
+<!-- 正方体中包含html代码 博客园无法上传文件，需要直接写代码-->
+<!--旋转正方体 start-->
+<div class="wrap">
+    <!--包裹所有元素的容器-->
+    <div class="cube">
+        <!--前面图片 -->
+        <div class="out_front">
+            <img src="https://images.cnblogs.com/cnblogs_com/lzw123-/1273451/t_c5.jpg" class="pic">
+        </div>
+        <!--后面图片 -->
+        <div class="out_back">
+            <img src="https://images.cnblogs.com/cnblogs_com/lzw123-/1273451/t_0.jpg" class="pic">
+        </div>
+        <!--左面图片 -->
+        <div class="out_left">
+            <img src="https://images.cnblogs.com/cnblogs_com/lzw123-/1273451/t_3.jpg" class="pic">
+        </div>
+        <!--右面图片 -->
+        <div class="out_right">
+            <img src="https://images.cnblogs.com/cnblogs_com/lzw123-/1273451/t_11.jpg" class="pic">
+        </div>
+        <!--上面图片 -->
+        <div class="out_top">
+            <img src="https://images.cnblogs.com/cnblogs_com/lzw123-/1273451/t_4.jpg" class="pic">
+        </div>
+        <!--下面图片 -->
+        <div class="out_bottom">
+            <img src="https://images.cnblogs.com/cnblogs_com/lzw123-/1266753/t_s6.jpg" class="pic">
+        </div>
+
+        <!--小正方体 -->
+        <span class="in_front">
+                <img src="https://images.cnblogs.com/cnblogs_com/lzw123-/1273451/t_01.jpg" class="in_pic">
+            </span>
+        <span class="in_back">
+                 <img src="https://images.cnblogs.com/cnblogs_com/lzw123-/1273451/t_02.jpg" class="in_pic">
+            </span>
+        <span class="in_left">
+                <img src="https://images.cnblogs.com/cnblogs_com/lzw123-/1273451/t_03.jpg" class="in_pic">
+            </span>
+        <span class="in_right">
+                <img src="https://images.cnblogs.com/cnblogs_com/lzw123-/1273451/t_04.jpg" class="in_pic">
+            </span>
+        <span class="in_top">
+                <img src="https://images.cnblogs.com/cnblogs_com/lzw123-/1273451/t_05.jpg" class="in_pic">
+            </span>
+        <span class="in_bottom">
+                <img src="https://images.cnblogs.com/cnblogs_com/lzw123-/1273451/t_06.jpg" class="in_pic">
+            </span>
+    </div>
+</div>
+
+<style>
+    /*最外层容器样式*/
+    .wrap {
+        z-index:9999;/*置于最上层*/
+        position: absolute;
+        right: 200px;
+        top: 100px;
+        width: 100px;
+        height: 100px;
+
+    }
+
+    /*包裹所有容器样式*/
+    .cube {
+        width: 50px;
+        height: 50px;
+        margin: 0 auto;
+        transform-style: preserve-3d;
+        transform: rotateX(-30deg) rotateY(-80deg);
+        animation: rotate linear 20s infinite;
+    }
+
+    @-webkit-keyframes rotate {
+        from {
+            transform: rotateX(0deg) rotateY(0deg);
+        }
+        to {
+            transform: rotateX(360deg) rotateY(360deg);
+        }
+    }
+
+    .cube div {
+        position: absolute;
+        width: 200px;
+        height: 200px;
+        opacity: 0.8;
+        transition: all .4s;
+    }
+
+    /*定义所有图片样式*/
+    .pic {
+        width: 200px;
+        height: 200px;
+    }
+
+    .cube .out_front {
+        transform: rotateY(0deg) translateZ(100px);
+    }
+
+    .cube .out_back {
+        transform: translateZ(-100px) rotateY(180deg);
+    }
+
+    .cube .out_left {
+        transform: rotateY(-90deg) translateZ(100px);
+    }
+
+    .cube .out_right {
+        transform: rotateY(90deg) translateZ(100px);
+    }
+
+    .cube .out_top {
+        transform: rotateX(90deg) translateZ(100px);
+    }
+
+    .cube .out_bottom {
+        transform: rotateX(-90deg) translateZ(100px);
+    }
+
+    /*定义小正方体样式*/
+    .cube span {
+        display: block;
+        width: 100px;
+        height: 100px;
+        position: absolute;
+        top: 50px;
+        left: 50px;
+    }
+
+    .cube .in_pic {
+        width: 100px;
+        height: 100px;
+    }
+
+    .cube .in_front {
+        transform: rotateY(0deg) translateZ(50px);
+    }
+
+    .cube .in_back {
+        transform: translateZ(-50px) rotateY(180deg);
+    }
+
+    .cube .in_left {
+        transform: rotateY(-90deg) translateZ(50px);
+    }
+
+    .cube .in_right {
+        transform: rotateY(90deg) translateZ(50px);
+    }
+
+    .cube .in_top {
+        transform: rotateX(90deg) translateZ(50px);
+    }
+
+    .cube .in_bottom {
+        transform: rotateX(-90deg) translateZ(50px);
+    }
+
+    /*鼠标移入后样式*/
+    .cube:hover .out_front {
+        transform: rotateY(0deg) translateZ(200px);
+    }
+
+    .cube:hover .out_back {
+        transform: translateZ(-200px) rotateY(180deg);
+    }
+
+    .cube:hover .out_left {
+        transform: rotateY(-90deg) translateZ(200px);
+    }
+
+    .cube:hover .out_right {
+        transform: rotateY(90deg) translateZ(200px);
+    }
+
+    .cube:hover .out_top {
+        transform: rotateX(90deg) translateZ(200px);
+    }
+
+    .cube:hover .out_bottom {
+        transform: rotateX(-90deg) translateZ(200px);
+    }
+</style>
+
+<!-- 
+
+<script type="text/javascript" src="https://blog-static.cnblogs.com/files/longronglang/backlines.js" defer="" defer></script>-->
+<canvas id="c_n7" width="1920" height="318" style="position: fixed; top: 0px; left: 0px; z-index: -1; opacity: 0.5;"></canvas>
+ 
+</body>
+</html>
+    </div>
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/huangrenhui/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/huangrenhui/">码猿手</a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/huangrenhui/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E7%A0%81%E7%8C%BF%E6%89%8B">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/huangrenhui/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/huangrenhui/p/14715884.html">
+    <span>Mybatis的初始化和结合Spring Framework后初始化的源码探究</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                    <div id="cnblogs_post_description" style="display: none">
+        Mybatis的初始化和结合Spring Framework后初始化的源码探究
+    </div>
+<div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<p><span style="font-size: 15px">　　带着下面的问题进行学习：</span></p>
+<p><span style="font-size: 15px">　　（1）Mybatis 框架或 Spring Framework 框架对数据层 Mapper 接口做了代理，那是做了 JDK 动态代理还是 CGLIB 代理？</span></p>
+<p><span style="font-size: 15px">　　（2）Mapper 接口使用和不使用&nbsp;</span><span style="font-size: 15px">@Mapper 注解有什么区别？</span></p>
+<p><span style="font-size: 15px">　　（3）Spring Framework 框架引入 Mybatis 的 jar 包后，Spring Framework 是怎么管理的？</span></p>
+<p><span style="font-size: 15px">　　（4）@MapperScan注解的作用是什么？<br></span></p>
+<p><span style="font-size: 15px">　　在探究上面的问题前，先了解什么是 FactoryBean，FactoryBean 和 BeanFactory有什么区别？<br></span></p>
+<p><span style="font-size: 15px">　　BeanFactory 是 Spring Framework 中的一个 Bean 工厂（</span><span style="font-size: 15px">AnnotationConfigApplicationContext、ClassPathXmlApplicationContext等）</span><span style="font-size: 15px">，可以产生类，它有一个 <strong>getBean</strong>&nbsp;</span><span style="font-size: 15px">方法可以获取到类；</span></p>
+<p><span style="font-size: 15px">　　FactoryBean 是一个 Bean，受 Spring Framework 管理的一个对象，定义 Bean 有好几种方式，比如 xml 的 &lt;bean&gt; 标签，注解 @Bean、@Service 等；</span></p>
+<p><span style="font-size: 15px">　　下面是案例：实现&nbsp;</span><span style="font-size: 15px">FactoryBean 接口，重写方法</span></p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">class</span><span style="color: rgba(0, 0, 0, 1)"> TempBean {
+    </span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> query(){
+        System.out.println(</span>"TempBean"<span style="color: rgba(0, 0, 0, 1)">);
+    }
+}</span></pre>
+</div>
+<div class="cnblogs_code">
+<pre>@Configuration("MyFactroyBean"<span style="color: rgba(0, 0, 0, 1)">)
+</span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">class</span> MyFactroyBean <span style="color: rgba(0, 0, 255, 1)">implements</span><span style="color: rgba(0, 0, 0, 1)"> FactoryBean {
+    </span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> test() {
+        System.out.println(</span>"MyFactroyBean MyFactroyBeanTest"<span style="color: rgba(0, 0, 0, 1)">);
+    }
+
+    @Override
+    </span><span style="color: rgba(0, 0, 255, 1)">public</span> Object getObject() <span style="color: rgba(0, 0, 255, 1)">throws</span><span style="color: rgba(0, 0, 0, 1)"> Exception {
+        </span><span style="color: rgba(0, 0, 255, 1)">return</span> <span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> TempBean();
+    }
+
+    @Override
+    </span><span style="color: rgba(0, 0, 255, 1)">public</span> Class&lt;?&gt;<span style="color: rgba(0, 0, 0, 1)"> getObjectType() {
+        </span><span style="color: rgba(0, 0, 255, 1)">return</span> TempBean.<span style="color: rgba(0, 0, 255, 1)">class</span><span style="color: rgba(0, 0, 0, 1)">;
+    }
+
+    @Override
+    </span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">boolean</span><span style="color: rgba(0, 0, 0, 1)"> isSingleton() {
+        </span><span style="color: rgba(0, 0, 255, 1)">return</span> <span style="color: rgba(0, 0, 255, 1)">true</span><span style="color: rgba(0, 0, 0, 1)">;
+    }
+}</span></pre>
+</div>
+<div class="cnblogs_code">
+<pre>    <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">static</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> main(String[] args) {
+        AnnotationConfigApplicationContext context</span>= <span style="color: rgba(0, 0, 255, 1)">new</span> AnnotationConfigApplicationContext(MyFactroyBean.<span style="color: rgba(0, 0, 255, 1)">class</span><span style="color: rgba(0, 0, 0, 1)">);
+        MyFactroyBean myFactroyBean </span>= (MyFactroyBean) context.getBean("&amp;MyFactroyBean"<span style="color: rgba(0, 0, 0, 1)">);
+        myFactroyBean.test();
+        TempBean tempBean </span>= (TempBean) context.getBean("MyFactroyBean"<span style="color: rgba(0, 0, 0, 1)">);
+        tempBean.query();
+    }<br>//=========结果======<br></span></pre>
+<p>&nbsp; &nbsp;MyFactroyBean MyFactroyBeanTest<br>&nbsp; &nbsp;TempBean</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+<p><span style="font-size: 15px">&nbsp;　　如果你的类实现了 FactoryBean，那么 Spring 存在两个对象：</span></p>
+<p><span style="font-size: 15px">	　　　　一个是 <strong>getObject()</strong> 返回的对象：当前类指定的名字；<br>	　　　　一个是当前类："&amp;"+当前类指定的名字；</span></p>
+<p><span style="font-size: 15px">　　当实现了 FactoryBean 后，Spring 在容器实例化过程中，会对项目中的自定义类进行实例化，当前类会被代理成一个 CGLIB 类（使用了@Configuration注解），当你获取当前类时，传递“&amp;xx”，Spring 会进行判断，如果获取是当前类，返回代理类对象，如果是获取 getObject 返回的对象，会直接调用 getObject 方法中的 new xxx()；</span></p>
+<p><span style="font-size: 15px">　　下面是Spring容器初始化时，在执行一些后置处理器（</span><span style="font-size: 15px"><span style="color: rgba(255, 0, 0, 1)">ConfigurationClassPostProcessor</span>是对项目的&nbsp;ComponentScan 注解的路径、@Configuration 注解的类进行扫描解析，<span style="color: rgba(255, 0, 0, 1)">超级重要的一个类</span></span>）<span style="font-size: 15px">过程中，对实现了 FactoryBean 接口的子类进行代理：</span></p>
+<p><span style="font-size: 15px"><img src="https://img2020.cnblogs.com/blog/1363696/202105/1363696-20210505211255359-1897739437.png" alt="" loading="lazy"><img src="https://img2020.cnblogs.com/blog/1363696/202105/1363696-20210505211508851-906949984.png" alt="" loading="lazy"></span></p>
+<p><span style="font-size: 15px">　　下面是对实现了 FactoryBean 接口的子类的获取：先判断是不是 FactoryBean 类型，如果是加前缀“&amp;"再进行获取；因为前面已经对子类进行了代理，并且存入了&nbsp;</span><strong><span style="font-size: 15px">beanDefinitionMap </span></strong><span style="font-size: 15px">中</span></p>
+<p><span style="font-size: 15px"><img src="https://img2020.cnblogs.com/blog/1363696/202105/1363696-20210505212951768-110619569.png" alt="" loading="lazy"></span></p>
+<p><span style="font-size: 15px">　　但即使上面加了前缀”&amp;“，在后面还是会剔除掉，那怎么判断是获取当前类还是获取getObject方法中的类呢？在 Spring 容器过程中，只会对当前类（实现了 FactoryBean 的子类）进行实例化，当获取时，getSingleton 直接从缓存中获取（每个对象实例化后会放入缓存中<strong>&nbsp;</strong></span><span style="font-size: 15px">singletonObjects）共享对象，然后<strong>&nbsp;</strong></span><span style="font-size: 15px">getObjectForBeanInstance 获取实例对象返回，在获取实例对象过程中，会判断是不是 FactoryBean 类型，如果是直接将代理对象返回；</span></p>
+<p><img src="https://img2020.cnblogs.com/blog/1363696/202105/1363696-20210505214827734-663927497.png" alt="" loading="lazy"><img src="https://img2020.cnblogs.com/blog/1363696/202105/1363696-20210505224307239-1020442569.png" alt="" loading="lazy"></p>
+<p><span style="font-size: 15px">　　下面判断是否是一个FactoryBean对象：</span></p>
+<div class="cnblogs_code">
+<pre>    <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">static</span> <span style="color: rgba(0, 0, 255, 1)">boolean</span><span style="color: rgba(0, 0, 0, 1)"> isFactoryDereference(@Nullable String name) {
+        </span><span style="color: rgba(0, 0, 255, 1)">return</span> (name != <span style="color: rgba(0, 0, 255, 1)">null</span> &amp;&amp;<span style="color: rgba(0, 0, 0, 1)"> name.startsWith(BeanFactory.FACTORY_BEAN_PREFIX));<span style="color: rgba(255, 0, 0, 1)">//<strong>FACTORY_BEAN_PREFIX=”&amp;"</strong></span>
+    }</span></pre>
+</div>
+<p><img src="https://img2020.cnblogs.com/blog/1363696/202105/1363696-20210505224453017-1092309220.png" alt="" loading="lazy"></p>
+<p>　　<span style="font-size: 15px">如果是获取&nbsp;<strong>getObject()</strong>&nbsp;返回的对象，跟上面一样，但在判断是不是一个 FactoryBean 对象时，由于name没有<strong>“&amp;”</strong>的前缀，所以走下面的流程，不会直接 <strong>return beanInstance</strong>；</span></p>
+<p><span style="font-size: 15px"><img src="https://img2020.cnblogs.com/blog/1363696/202105/1363696-20210505225459455-1167887711.png" alt="" loading="lazy"><img src="https://img2020.cnblogs.com/blog/1363696/202105/1363696-20210505225645510-1893471322.png" alt="" loading="lazy"><img src="https://img2020.cnblogs.com/blog/1363696/202105/1363696-20210505225818332-915521123.png" alt="" loading="lazy"></span></p>
+<p><span style="font-size: 15px">　　FactroyBean是一个 Bean（可以当作一个业务类，比如连接数据库做一些业务操作），当一个类的依赖关系很复杂时，只需要提供一个简单的接口给外部使用时（将内部的一些关系进行封装维护好）可以使用 FactroyBean 来实现，比如 mybatis 的 SqlSessionFactoryBean 是一个 FactoryBean 实现类，里面的 <strong>getObject</strong> 方法有一个 <strong>afterPropertiesSet</strong> 方法，内部将很多依赖（Configuration 配置、TransactionFactory 事务工厂等）进行了处理封装维护到了 SqlSessionFactoryBean，外部只需要传入一个 DataSource 数据源即可，添加 MapperScan 扫描 xml 文件会自动把 xml 的信息维护到 SqlSessionFactoryBean中；</span></p>
+<p>&nbsp;<img src="https://img2020.cnblogs.com/blog/1363696/202105/1363696-20210505170910240-889673076.png" alt="" loading="lazy"></p>
+<p><img src="https://img2020.cnblogs.com/blog/1363696/202105/1363696-20210505171349072-1620460461.png" alt="" loading="lazy"></p>
+<p><span style="font-size: 15px">　　那么 SqlSessionFactoryBean 什么时候被调用呢？可以看下idea调试的方法调用栈：</span></p>
+<p><span style="font-size: 15px"><img src="https://img2020.cnblogs.com/blog/1363696/202105/1363696-20210505173147152-516867280.png" alt="" loading="lazy"></span></p>
+<p>&nbsp;<img src="https://img2020.cnblogs.com/blog/1363696/202105/1363696-20210505173235045-805430402.png" alt="" loading="lazy"></p>
+<p>　　<img src="https://img2020.cnblogs.com/blog/1363696/202105/1363696-20210505173827302-529760180.png" alt="" loading="lazy"><img src="https://img2020.cnblogs.com/blog/1363696/202105/1363696-20210505173845838-1212162523.png" alt="" loading="lazy"></p>
+<p><span style="font-size: 15px">　　从上面几张图片可以看出，当IOC容器Context进行类（Service）初始化时，发现有属性变量（Mapper），会对属性变量（Mapper）进行创建获取自动注入进去，其中会获取到Mapper封装成的一个MapperFactoryBean，执行到 SqlSessionFactoryBean的 <strong>afterPropertiesSet</strong> 方法对Mapper接口对应的xml进行解析获取；</span></p>
+<p><span style="font-size: 15px">　　MapperFactoryBean 也是一个 FactoryBean，每个 Mapper 接口都会转换成一个 MapperFactoryBean，所以 <strong>doCreateBean()</strong> 创建获取时可以通过 mapperInterface（Mapper接口）获取到对应的 MapperFactoryBean，它的值是存储到 Configuration的 <strong>MapperRegistry</strong>变量中；</span></p>
+<p><span style="font-size: 15px"><img src="https://img2020.cnblogs.com/blog/1363696/202105/1363696-20210505175718422-819524585.png" alt="" loading="lazy"></span></p>
+<p><img src="https://img2020.cnblogs.com/blog/1363696/202105/1363696-20210505181634110-1689418813.png" alt="" loading="lazy"></p>
+<p>　<span style="font-size: 15px">　那它是什么时候存储到 Configuration的 <strong>MapperRegistry</strong>变量中的呢？通过下面的图片可以看出，是在解析完xml后放入的：</span></p>
+<p><span style="font-size: 15px"><img src="https://img2020.cnblogs.com/blog/1363696/202105/1363696-20210505182145370-326924669.png" alt="" loading="lazy"></span></p>
+<p><span style="font-size: 15px">　　当 Mapper 接口在&nbsp;<strong>MapperFactoryBean#getObject()</strong> 时，它对Mapper接口进行了代理：<strong>MapperRegistry#getMapper()<br></strong></span></p>
+<div class="cnblogs_code">
+<pre>  <span style="color: rgba(0, 0, 255, 1)">public</span> &lt;T&gt; T getMapper(Class&lt;T&gt;<span style="color: rgba(0, 0, 0, 1)"> type, SqlSession sqlSession) {
+    </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">获得代理对象工厂：里面包含Mapper接口信息</span>
+    <span style="color: rgba(0, 0, 255, 1)">final</span> MapperProxyFactory&lt;T&gt; mapperProxyFactory = (MapperProxyFactory&lt;T&gt;<span style="color: rgba(0, 0, 0, 1)">) knownMappers.get(type);
+    </span><span style="color: rgba(0, 0, 255, 1)">if</span> (mapperProxyFactory == <span style="color: rgba(0, 0, 255, 1)">null</span><span style="color: rgba(0, 0, 0, 1)">) {
+      </span><span style="color: rgba(0, 0, 255, 1)">throw</span> <span style="color: rgba(0, 0, 255, 1)">new</span> BindingException("Type " + type + " is not known to the MapperRegistry."<span style="color: rgba(0, 0, 0, 1)">);
+    }
+    </span><span style="color: rgba(0, 0, 255, 1)">try</span><span style="color: rgba(0, 0, 0, 1)"> {
+      </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">代理对象实例化</span>
+      <span style="color: rgba(0, 0, 255, 1)">return</span><span style="color: rgba(0, 0, 0, 1)"><span style="color: rgba(255, 0, 0, 1)"> mapperProxyFactory.newInstance(sqlSession);</span>
+    } </span><span style="color: rgba(0, 0, 255, 1)">catch</span><span style="color: rgba(0, 0, 0, 1)"> (Exception e) {
+      </span><span style="color: rgba(0, 0, 255, 1)">throw</span> <span style="color: rgba(0, 0, 255, 1)">new</span> BindingException("Error getting mapper instance. Cause: " +<span style="color: rgba(0, 0, 0, 1)"> e, e);
+    }
+  }</span></pre>
+</div>
+<p><span style="font-size: 15px"><strong>　　</strong>下面是&nbsp;<strong>MapperProxyFactory#newInstance() </strong>的源码：从中可以看到，Mapper 接口对应的代理对象是使用了 JDK 动态代理产生的；【解决了上文的第一个问题，其实从 Mapper 是接口也可以猜出是使用 JDK 动态实现的】</span></p>
+<div class="cnblogs_code">
+<pre>  <span style="color: rgba(0, 0, 255, 1)">public</span><span style="color: rgba(0, 0, 0, 1)"> T newInstance(SqlSession sqlSession) {
+    </span><span style="color: rgba(0, 0, 255, 1)">final</span> MapperProxy&lt;T&gt; mapperProxy = <span style="color: rgba(0, 0, 255, 1)">new</span> MapperProxy&lt;T&gt;<span style="color: rgba(0, 0, 0, 1)">(sqlSession, mapperInterface, methodCache);
+    </span><span style="color: rgba(0, 0, 255, 1)">return</span><span style="color: rgba(0, 0, 0, 1)"><span style="color: rgba(255, 0, 0, 1)"> newInstance</span>(mapperProxy);
+  }
+    </span><span style="color: rgba(0, 0, 255, 1)">protected</span> T newInstance(MapperProxy&lt;T&gt;<span style="color: rgba(0, 0, 0, 1)"> mapperProxy) {
+    </span><span style="color: rgba(0, 0, 255, 1)">return</span> (T) <span style="color: rgba(255, 0, 0, 1)">Proxy.newProxyInstance</span>(mapperInterface.getClassLoader(), <span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> Class[] { mapperInterface }, mapperProxy);
+  }</span></pre>
+</div>
+<p><span style="font-size: 15px">&nbsp;　　其中 MapperProxy 是一个&nbsp;InvocationHandler 实现类，从前文可以得知调用 Mapper.xxx方法 会进入&nbsp;<strong>MapperProxy#invoke()</strong>，最后会执行<strong>&nbsp;</strong><strong>mapperMethod.execute(sqlSession, args) </strong>进行SQL查询返回结果；</span></p>
+<p><span style="font-size: 15px"><img src="https://img2020.cnblogs.com/blog/1363696/202105/1363696-20210505202300138-1986630213.png" alt="" loading="lazy"></span></p>
+<p><span style="font-size: 15px">　　<strong>综上所述</strong>：每个Mapper接口转化成一个MapperFactoryBean，当调用Mapper接口方法执行JDBC操作时，Mapper 接口通过&nbsp;<strong>MapperFactoryBean#getObject()</strong>&nbsp;对Mapper接口进行了 JDK 动态代理。<strong><br></strong></span></p>
+<p><span style="font-size: 15px">　　对于第三个问题“Spring Framework 框架引入 Mybatis 的 jar 包后，Spring Framework 是怎么管理的？”</span></p>
+<p><span style="font-size: 15px">　　从前文得出每个 Mapper 接口都会转换成一个 MapperFactoryBean，而 MapperFactoryBean 继承了&nbsp;</span><span style="font-size: 15px">SqlSessionDaoSupport（mybatis-spring-xx.jar），</span><span style="font-size: 15px">SqlSessionDaoSupport 继承了 DaoSupport（spring-tx.jar)，</span><span style="font-size: 15px">DaoSupport 实现了 InitializingBean接口，所以</span><span style="font-size: 15px">Spring容器初始化会执行DaoSupport#afterPropertiesSet方法，会执行里面的checkDaoConfig方法，MapperFactoryBean 重写了checkDaoConfig方法，所以最后会执行MapperFactoryBean#checkDaoConfig方法：</span></p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">abstract</span> <span style="color: rgba(0, 0, 255, 1)">class</span> DaoSupport <span style="color: rgba(0, 0, 255, 1)">implements</span><span style="color: rgba(0, 0, 0, 1)"> InitializingBean {
+    </span><span style="color: rgba(0, 0, 255, 1)">protected</span> <span style="color: rgba(0, 0, 255, 1)">final</span> Log logger = LogFactory.getLog(<span style="color: rgba(0, 0, 255, 1)">this</span><span style="color: rgba(0, 0, 0, 1)">.getClass());
+
+    </span><span style="color: rgba(0, 0, 255, 1)">public</span><span style="color: rgba(0, 0, 0, 1)"> DaoSupport() {
+    }
+    
+    </span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">final</span> <span style="color: rgba(0, 0, 255, 1)">void</span> <span style="color: rgba(255, 0, 0, 1)">afterPropertiesSet</span>() <span style="color: rgba(0, 0, 255, 1)">throws</span><span style="color: rgba(0, 0, 0, 1)"> IllegalArgumentException, BeanInitializationException {
+        </span><span style="color: rgba(0, 0, 255, 1)">this</span><span style="color: rgba(0, 0, 0, 1)">.<span style="color: rgba(255, 0, 0, 1)">checkDaoConfig</span>();
+
+        </span><span style="color: rgba(0, 0, 255, 1)">try</span><span style="color: rgba(0, 0, 0, 1)"> {
+            </span><span style="color: rgba(0, 0, 255, 1)">this</span><span style="color: rgba(0, 0, 0, 1)">.initDao();
+        } </span><span style="color: rgba(0, 0, 255, 1)">catch</span><span style="color: rgba(0, 0, 0, 1)"> (Exception var2) {
+            </span><span style="color: rgba(0, 0, 255, 1)">throw</span> <span style="color: rgba(0, 0, 255, 1)">new</span> BeanInitializationException("Initialization of DAO failed"<span style="color: rgba(0, 0, 0, 1)">, var2);
+        }
+    }
+
+    </span><span style="color: rgba(0, 0, 255, 1)">protected</span> <span style="color: rgba(0, 0, 255, 1)">abstract</span> <span style="color: rgba(0, 0, 255, 1)">void</span> checkDaoConfig() <span style="color: rgba(0, 0, 255, 1)">throws</span><span style="color: rgba(0, 0, 0, 1)"> IllegalArgumentException;
+
+    </span><span style="color: rgba(0, 0, 255, 1)">protected</span> <span style="color: rgba(0, 0, 255, 1)">void</span> initDao() <span style="color: rgba(0, 0, 255, 1)">throws</span><span style="color: rgba(0, 0, 0, 1)"> Exception {
+    }
+}</span></pre>
+</div>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">class</span> MapperFactoryBean&lt;T&gt; <span style="color: rgba(0, 0, 255, 1)">extends</span> SqlSessionDaoSupport <span style="color: rgba(0, 0, 255, 1)">implements</span> FactoryBean&lt;T&gt;<span style="color: rgba(0, 0, 0, 1)"> {
+
+  </span><span style="color: rgba(0, 0, 255, 1)">private</span> Class&lt;T&gt;<span style="color: rgba(0, 0, 0, 1)"> mapperInterface;
+
+  </span><span style="color: rgba(0, 0, 255, 1)">private</span> <span style="color: rgba(0, 0, 255, 1)">boolean</span> addToConfig = <span style="color: rgba(0, 0, 255, 1)">true</span><span style="color: rgba(0, 0, 0, 1)">;
+  
+  @Override
+  </span><span style="color: rgba(0, 0, 255, 1)">protected</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"><span style="color: rgba(255, 0, 0, 1)"> checkDaoConfig</span>() {
+    </span><span style="color: rgba(0, 0, 255, 1)">super</span><span style="color: rgba(0, 0, 0, 1)">.checkDaoConfig();
+
+    notNull(</span><span style="color: rgba(0, 0, 255, 1)">this</span>.mapperInterface, "Property 'mapperInterface' is required"<span style="color: rgba(0, 0, 0, 1)">);
+
+    <span style="color: rgba(255, 0, 0, 1)">Configuration configuration </span></span><span style="color: rgba(255, 0, 0, 1)">= getSqlSession().getConfiguration();//得到配置信息
+    </span><span style="color: rgba(0, 0, 255, 1)">if</span> (<span style="color: rgba(0, 0, 255, 1)">this</span>.addToConfig &amp;&amp; !configuration.hasMapper(<span style="color: rgba(0, 0, 255, 1)">this</span><span style="color: rgba(0, 0, 0, 1)">.mapperInterface)) {
+      </span><span style="color: rgba(0, 0, 255, 1)">try</span><span style="color: rgba(0, 0, 0, 1)"> {
+        <span style="color: rgba(255, 0, 0, 1)">configuration.addMapper(</span></span><span style="color: rgba(255, 0, 0, 1)">this</span><span style="color: rgba(0, 0, 0, 1)"><span style="color: rgba(255, 0, 0, 1)">.mapperInterface);//对接口进行xml解析</span>
+      } </span><span style="color: rgba(0, 0, 255, 1)">catch</span><span style="color: rgba(0, 0, 0, 1)"> (Exception e) {
+        logger.error(</span>"Error while adding the mapper '" + <span style="color: rgba(0, 0, 255, 1)">this</span>.mapperInterface + "' to configuration."<span style="color: rgba(0, 0, 0, 1)">, e);
+        </span><span style="color: rgba(0, 0, 255, 1)">throw</span> <span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> IllegalArgumentException(e);
+      } </span><span style="color: rgba(0, 0, 255, 1)">finally</span><span style="color: rgba(0, 0, 0, 1)"> {
+        ErrorContext.instance().reset();
+      }
+    }
+  }
+}</span></pre>
+</div>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(255, 0, 0, 1)">Configuration#addMapper
+  </span><span style="color: rgba(0, 0, 255, 1)">public</span> &lt;T&gt; <span style="color: rgba(0, 0, 255, 1)">void</span> addMapper(Class&lt;T&gt;<span style="color: rgba(0, 0, 0, 1)"> type) {
+    mapperRegistry.addMapper(type);
+  }
+  
+<span style="color: rgba(255, 0, 0, 1)">MapperRegistry#addMapper</span>  
+  </span><span style="color: rgba(0, 0, 255, 1)">public</span> &lt;T&gt; <span style="color: rgba(0, 0, 255, 1)">void</span> addMapper(Class&lt;T&gt;<span style="color: rgba(0, 0, 0, 1)"> type) {
+    </span><span style="color: rgba(0, 0, 255, 1)">if</span><span style="color: rgba(0, 0, 0, 1)"> (type.isInterface()) {
+      </span><span style="color: rgba(0, 0, 255, 1)">if</span><span style="color: rgba(0, 0, 0, 1)"> (hasMapper(type)) {
+        </span><span style="color: rgba(0, 0, 255, 1)">throw</span> <span style="color: rgba(0, 0, 255, 1)">new</span> BindingException("Type " + type + " is already known to the MapperRegistry."<span style="color: rgba(0, 0, 0, 1)">);
+      }
+      </span><span style="color: rgba(0, 0, 255, 1)">boolean</span> loadCompleted = <span style="color: rgba(0, 0, 255, 1)">false</span><span style="color: rgba(0, 0, 0, 1)">;
+      </span><span style="color: rgba(0, 0, 255, 1)">try</span><span style="color: rgba(0, 0, 0, 1)"> {
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">为每个接口配置一个MapperProxyFactory，供后续Mapper接口进行JDK代理</span>
+        knownMappers.put(type, <span style="color: rgba(0, 0, 255, 1)">new</span> MapperProxyFactory&lt;T&gt;<span style="color: rgba(0, 0, 0, 1)">(type));
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> It's important that the type is added before the parser is run
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> otherwise the binding may automatically be attempted by the
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> mapper parser. If the type is already known, it won't try.
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">解析类</span>
+        MapperAnnotationBuilder parser = <span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> MapperAnnotationBuilder(config, type);
+        <span style="color: rgba(255, 0, 0, 1)">parser.parse();</span></span><span style="color: rgba(255, 0, 0, 1)">//XML解析</span>
+        loadCompleted = <span style="color: rgba(0, 0, 255, 1)">true</span><span style="color: rgba(0, 0, 0, 1)">;
+      } </span><span style="color: rgba(0, 0, 255, 1)">finally</span><span style="color: rgba(0, 0, 0, 1)"> {
+        </span><span style="color: rgba(0, 0, 255, 1)">if</span> (!<span style="color: rgba(0, 0, 0, 1)">loadCompleted) {
+          knownMappers.remove(type);
+        }
+      }
+    }
+  }</span></pre>
+</div>
+<p><span style="font-size: 15px">&nbsp;　　@MapperScan 注解是导入了一个&nbsp;MapperScannerRegistrar（是实现了&nbsp;ImportBeanDefinitionRegistrar 接口的，作用是动态往 BeanDefinitionMap 添加 BeanDefinition），的作用是对包路径的 Mapper 接口和对应的XML配置信息进行扫描解析，将所有 Mapper 接口的class信息扫描成对应的 BeanDefition， MapperFactoryBean 类型的 BeanDefition，同时为这个BeanDefition提供一个有参构造方法，参数是 class，在后面Mapper接口进行实例化的 JDK 代理时可以根据这个 class 返回对应的代理对象；</span></p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 0, 1)">@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+@Documented
+<span style="color: rgba(255, 0, 0, 1)">@Import(MapperScannerRegistrar.</span></span><span style="color: rgba(255, 0, 0, 1)">class)
+</span><span style="color: rgba(0, 0, 255, 1)">public</span> @<span style="color: rgba(0, 0, 255, 1)">interface</span><span style="color: rgba(0, 0, 0, 1)"> MapperScan {
+}</span></pre>
+</div>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">class</span> MapperScannerRegistrar <span style="color: rgba(0, 0, 255, 1)">implements</span><span style="color: rgba(0, 0, 0, 1)"> ImportBeanDefinitionRegistrar, ResourceLoaderAware {
+
+  
+  @Override
+  </span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
+
+    AnnotationAttributes annoAttrs </span>= AnnotationAttributes.fromMap(importingClassMetadata.getAnnotationAttributes(MapperScan.<span style="color: rgba(0, 0, 255, 1)">class</span><span style="color: rgba(0, 0, 0, 1)">.getName()));
+    ClassPathMapperScanner scanner </span>= <span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> ClassPathMapperScanner(registry);
+
+    </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> this check is needed in Spring 3.1</span>
+    <span style="color: rgba(0, 0, 255, 1)">if</span> (resourceLoader != <span style="color: rgba(0, 0, 255, 1)">null</span><span style="color: rgba(0, 0, 0, 1)">) {
+      scanner.setResourceLoader(resourceLoader);
+    }
+
+    Class</span>&lt;? <span style="color: rgba(0, 0, 255, 1)">extends</span> Annotation&gt; annotationClass = annoAttrs.getClass("annotationClass"<span style="color: rgba(0, 0, 0, 1)">);
+    </span><span style="color: rgba(0, 0, 255, 1)">if</span> (!Annotation.<span style="color: rgba(0, 0, 255, 1)">class</span><span style="color: rgba(0, 0, 0, 1)">.equals(annotationClass)) {
+      scanner.setAnnotationClass(annotationClass);
+    }
+
+    Class</span>&lt;?&gt; markerInterface = annoAttrs.getClass("markerInterface"<span style="color: rgba(0, 0, 0, 1)">);
+    </span><span style="color: rgba(0, 0, 255, 1)">if</span> (!Class.<span style="color: rgba(0, 0, 255, 1)">class</span><span style="color: rgba(0, 0, 0, 1)">.equals(markerInterface)) {
+      scanner.setMarkerInterface(markerInterface);
+    }
+
+    Class</span>&lt;? <span style="color: rgba(0, 0, 255, 1)">extends</span> BeanNameGenerator&gt; generatorClass = annoAttrs.getClass("nameGenerator"<span style="color: rgba(0, 0, 0, 1)">);
+    </span><span style="color: rgba(0, 0, 255, 1)">if</span> (!BeanNameGenerator.<span style="color: rgba(0, 0, 255, 1)">class</span><span style="color: rgba(0, 0, 0, 1)">.equals(generatorClass)) {
+      scanner.setBeanNameGenerator(BeanUtils.instantiateClass(generatorClass));
+    }
+
+    Class</span>&lt;? <span style="color: rgba(0, 0, 255, 1)">extends</span> MapperFactoryBean&gt; mapperFactoryBeanClass = annoAttrs.getClass("factoryBean"<span style="color: rgba(0, 0, 0, 1)">);
+    </span><span style="color: rgba(0, 0, 255, 1)">if</span> (!MapperFactoryBean.<span style="color: rgba(0, 0, 255, 1)">class</span><span style="color: rgba(0, 0, 0, 1)">.equals(mapperFactoryBeanClass)) {
+      scanner.setMapperFactoryBean(BeanUtils.instantiateClass(mapperFactoryBeanClass));
+    }
+
+    scanner.setSqlSessionTemplateBeanName(annoAttrs.getString(</span>"sqlSessionTemplateRef"<span style="color: rgba(0, 0, 0, 1)">));
+    scanner.setSqlSessionFactoryBeanName(annoAttrs.getString(</span>"sqlSessionFactoryRef"<span style="color: rgba(0, 0, 0, 1)">));
+
+    List</span>&lt;String&gt; basePackages = <span style="color: rgba(0, 0, 255, 1)">new</span> ArrayList&lt;String&gt;<span style="color: rgba(0, 0, 0, 1)">();
+    </span><span style="color: rgba(0, 0, 255, 1)">for</span> (String pkg : annoAttrs.getStringArray("value"<span style="color: rgba(0, 0, 0, 1)">)) {
+      </span><span style="color: rgba(0, 0, 255, 1)">if</span><span style="color: rgba(0, 0, 0, 1)"> (StringUtils.hasText(pkg)) {
+        basePackages.add(pkg);
+      }
+    }
+    </span><span style="color: rgba(0, 0, 255, 1)">for</span> (String pkg : annoAttrs.getStringArray("basePackages"<span style="color: rgba(0, 0, 0, 1)">)) {
+      </span><span style="color: rgba(0, 0, 255, 1)">if</span><span style="color: rgba(0, 0, 0, 1)"> (StringUtils.hasText(pkg)) {
+        basePackages.add(pkg);
+      }
+    }
+    </span><span style="color: rgba(0, 0, 255, 1)">for</span> (Class&lt;?&gt; clazz : annoAttrs.getClassArray("basePackageClasses"<span style="color: rgba(0, 0, 0, 1)">)) {
+      basePackages.add(ClassUtils.getPackageName(clazz));
+    }
+    scanner.registerFilters();
+    scanner.<span style="color: rgba(255, 0, 0, 1)">doScan</span>(StringUtils.toStringArray(basePackages));</span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">包扫描解析</span>
+<span style="color: rgba(0, 0, 0, 1)">  }
+}</span></pre>
+</div>
+<p><span style="font-size: 15px">&nbsp;　　下面是扫描解析包路径的主要逻辑：</span></p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">class</span> ClassPathMapperScanner <span style="color: rgba(0, 0, 255, 1)">extends</span><span style="color: rgba(0, 0, 0, 1)"> ClassPathBeanDefinitionScanner {
+
+  </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+   * Calls the parent search that will search and register all the candidates.
+   * Then the registered objects are post processed to set them as
+   * MapperFactoryBeans
+   </span><span style="color: rgba(0, 128, 0, 1)">*/</span><span style="color: rgba(0, 0, 0, 1)">
+  @Override
+  </span><span style="color: rgba(0, 0, 255, 1)">public</span> Set&lt;BeanDefinitionHolder&gt;<span style="color: rgba(0, 0, 0, 1)"> doScan(String... basePackages) {
+    </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">将每个Mapper解析成BeanDefinitionHolder存放到set集合中</span>
+    Set&lt;BeanDefinitionHolder&gt; beanDefinitions = <span style="color: rgba(0, 0, 255, 1)">super</span><span style="color: rgba(0, 0, 0, 1)">.<span style="color: rgba(255, 0, 0, 1)">doScan</span>(basePackages);
+
+    </span><span style="color: rgba(0, 0, 255, 1)">if</span><span style="color: rgba(0, 0, 0, 1)"> (beanDefinitions.isEmpty()) {
+      logger.warn(</span>"No MyBatis mapper was found in '" + Arrays.toString(basePackages) + "' package. Please check your configuration."<span style="color: rgba(0, 0, 0, 1)">);
+    } </span><span style="color: rgba(0, 0, 255, 1)">else</span><span style="color: rgba(0, 0, 0, 1)"> {
+      </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">对BeanDefinitionHolder集合进行处理</span>
+<span style="color: rgba(0, 0, 0, 1)"><span style="color: rgba(255, 0, 0, 1)">      processBeanDefinitions</span>(beanDefinitions);
+    }
+
+    </span><span style="color: rgba(0, 0, 255, 1)">return</span><span style="color: rgba(0, 0, 0, 1)"> beanDefinitions;
+  }
+
+  </span><span style="color: rgba(0, 0, 255, 1)">private</span> <span style="color: rgba(0, 0, 255, 1)">void</span> processBeanDefinitions(Set&lt;BeanDefinitionHolder&gt;<span style="color: rgba(0, 0, 0, 1)"> beanDefinitions) {
+    GenericBeanDefinition definition;
+    </span><span style="color: rgba(0, 0, 255, 1)">for</span><span style="color: rgba(0, 0, 0, 1)"> (BeanDefinitionHolder holder : beanDefinitions) {
+      definition </span>=<span style="color: rgba(0, 0, 0, 1)"> (GenericBeanDefinition) holder.getBeanDefinition();
+
+      </span><span style="color: rgba(0, 0, 255, 1)">if</span><span style="color: rgba(0, 0, 0, 1)"> (logger.isDebugEnabled()) {
+        logger.debug(</span>"Creating MapperFactoryBean with name '" +<span style="color: rgba(0, 0, 0, 1)"> holder.getBeanName() 
+          </span>+ "' and '" + definition.getBeanClassName() + "' mapperInterface"<span style="color: rgba(0, 0, 0, 1)">);
+      }
+
+      </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> the mapper interface is the original class of the bean
+      </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> but, the actual class of the bean is MapperFactoryBean
+      </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">给每个BeanDefition提供一个有参构造方法，在后面Mapper接口进行实例化的JDK代理时可以根据这个class返回对应的代理对象；</span>
+     <span style="color: rgba(255, 0, 0, 1)"> definition.getConstructorArgumentValues().addGenericArgumentValue(definition.getBeanClassName());</span> <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> issue #59
+      </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">Mapper接口转换成MapperFactoryBean</span>
+      <span style="color: rgba(255, 0, 0, 1)">definition.setBeanClass(this</span><span style="color: rgba(0, 0, 0, 1)"><span style="color: rgba(255, 0, 0, 1)">.mapperFactoryBean.getClass());</span>
+
+      definition.getPropertyValues().add(</span>"addToConfig", <span style="color: rgba(0, 0, 255, 1)">this</span><span style="color: rgba(0, 0, 0, 1)">.addToConfig);
+
+      </span><span style="color: rgba(0, 0, 255, 1)">boolean</span> explicitFactoryUsed = <span style="color: rgba(0, 0, 255, 1)">false</span><span style="color: rgba(0, 0, 0, 1)">;
+      </span><span style="color: rgba(0, 0, 255, 1)">if</span> (StringUtils.hasText(<span style="color: rgba(0, 0, 255, 1)">this</span><span style="color: rgba(0, 0, 0, 1)">.sqlSessionFactoryBeanName)) {
+        definition.getPropertyValues().add(</span>"sqlSessionFactory", <span style="color: rgba(0, 0, 255, 1)">new</span> RuntimeBeanReference(<span style="color: rgba(0, 0, 255, 1)">this</span><span style="color: rgba(0, 0, 0, 1)">.sqlSessionFactoryBeanName));
+        explicitFactoryUsed </span>= <span style="color: rgba(0, 0, 255, 1)">true</span><span style="color: rgba(0, 0, 0, 1)">;
+      } </span><span style="color: rgba(0, 0, 255, 1)">else</span> <span style="color: rgba(0, 0, 255, 1)">if</span> (<span style="color: rgba(0, 0, 255, 1)">this</span>.sqlSessionFactory != <span style="color: rgba(0, 0, 255, 1)">null</span><span style="color: rgba(0, 0, 0, 1)">) {
+        definition.getPropertyValues().add(</span>"sqlSessionFactory", <span style="color: rgba(0, 0, 255, 1)">this</span><span style="color: rgba(0, 0, 0, 1)">.sqlSessionFactory);
+        explicitFactoryUsed </span>= <span style="color: rgba(0, 0, 255, 1)">true</span><span style="color: rgba(0, 0, 0, 1)">;
+      }
+
+      </span><span style="color: rgba(0, 0, 255, 1)">if</span> (StringUtils.hasText(<span style="color: rgba(0, 0, 255, 1)">this</span><span style="color: rgba(0, 0, 0, 1)">.sqlSessionTemplateBeanName)) {
+        </span><span style="color: rgba(0, 0, 255, 1)">if</span><span style="color: rgba(0, 0, 0, 1)"> (explicitFactoryUsed) {
+          logger.warn(</span>"Cannot use both: sqlSessionTemplate and sqlSessionFactory together. sqlSessionFactory is ignored."<span style="color: rgba(0, 0, 0, 1)">);
+        }
+        definition.getPropertyValues().add(</span>"sqlSessionTemplate", <span style="color: rgba(0, 0, 255, 1)">new</span> RuntimeBeanReference(<span style="color: rgba(0, 0, 255, 1)">this</span><span style="color: rgba(0, 0, 0, 1)">.sqlSessionTemplateBeanName));
+        explicitFactoryUsed </span>= <span style="color: rgba(0, 0, 255, 1)">true</span><span style="color: rgba(0, 0, 0, 1)">;
+      } </span><span style="color: rgba(0, 0, 255, 1)">else</span> <span style="color: rgba(0, 0, 255, 1)">if</span> (<span style="color: rgba(0, 0, 255, 1)">this</span>.sqlSessionTemplate != <span style="color: rgba(0, 0, 255, 1)">null</span><span style="color: rgba(0, 0, 0, 1)">) {
+        </span><span style="color: rgba(0, 0, 255, 1)">if</span><span style="color: rgba(0, 0, 0, 1)"> (explicitFactoryUsed) {
+          logger.warn(</span>"Cannot use both: sqlSessionTemplate and sqlSessionFactory together. sqlSessionFactory is ignored."<span style="color: rgba(0, 0, 0, 1)">);
+        }
+        definition.getPropertyValues().add(</span>"sqlSessionTemplate", <span style="color: rgba(0, 0, 255, 1)">this</span><span style="color: rgba(0, 0, 0, 1)">.sqlSessionTemplate);
+        explicitFactoryUsed </span>= <span style="color: rgba(0, 0, 255, 1)">true</span><span style="color: rgba(0, 0, 0, 1)">;
+      }
+
+      </span><span style="color: rgba(0, 0, 255, 1)">if</span> (!<span style="color: rgba(0, 0, 0, 1)">explicitFactoryUsed) {
+        </span><span style="color: rgba(0, 0, 255, 1)">if</span><span style="color: rgba(0, 0, 0, 1)"> (logger.isDebugEnabled()) {
+          logger.debug(</span>"Enabling autowire by type for MapperFactoryBean with name '" + holder.getBeanName() + "'."<span style="color: rgba(0, 0, 0, 1)">);
+        }
+        definition.setAutowireMode(AbstractBeanDefinition.AUTOWIRE_BY_TYPE);
+      }
+    }
+  }
+}</span></pre>
+</div>
+<p><span style="font-size: 15px">&nbsp;　　<strong>综上所述</strong>：在 Spring 容器初始化过程中，在对Mapper接口进行实例化的过程中，@MapperScan 注解主要是解析包路径将 Mapper 接口解析成 MapperFactoryBean 的 BeanDefition，这是 Mapper 接口在实例化之前做的事情，在实例化中和之后的过程中，主要利用 Spring的InitializingBean 接口的特性（每个实现了 InitializingBean 接口的子类有一个 afterPropertiesSet 方法，在实例化过程中会执行）来实现对 Mapper 接口信息的初始化，比如 sql 语句的初始化，将这些信息缓存起来放到一个 Map 中：</span></p>
+<p><span style="font-size: 15px"><img src="https://img2020.cnblogs.com/blog/1363696/202105/1363696-20210507220815787-1423393991.png" alt="" loading="lazy"></span></p>
+<p><img src="https://img2020.cnblogs.com/blog/1363696/202105/1363696-20210507220635314-788018337.png" alt="" loading="lazy"></p>
+<p><span style="font-size: 15px">&nbsp;　　上面的是 Mybatis 和 Spring Framework 结合后的初始化流程，那么单独的 Mybatis 初始化流程是怎样的呢？通过下面的案例（<a href="https://www.cnblogs.com/huangrenhui/p/14702549.html" target="_blank">前文</a>有详细案例）进行探究：</span></p>
+<div class="cnblogs_code">
+<pre>        String resource = "mybatis-config2.xml"<span style="color: rgba(0, 0, 0, 1)">;
+        InputStream inputStream </span>=<span style="color: rgba(0, 0, 0, 1)"> Resources.getResourceAsStream(resource);
+        SqlSessionFactory sqlSessionFactory </span>=
+                <span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> SqlSessionFactoryBuilder().build(inputStream);
+        SqlSession sqlSession </span>=<span style="color: rgba(0, 0, 0, 1)"> sqlSessionFactory.openSession();
+        PersonMapper mapper </span>= sqlSession.getMapper(PersonMapper.<span style="color: rgba(0, 0, 255, 1)">class</span><span style="color: rgba(0, 0, 0, 1)">);
+        mapper.list();
+        mapper.list();</span></pre>
+</div>
+<p><span style="font-size: 15px">&nbsp;　　通过 debug 出来的方法调用栈可以看出：通过 SqlSessionFactoryBuilder 对 Mapper 接口和 XML 配置进行解析的信息也是存储到 Configuration 的 mappedStatements 中；</span></p>
+<p><img src="https://img2020.cnblogs.com/blog/1363696/202105/1363696-20210507224356889-933123634.png" alt="" loading="lazy"></p>
+<p><span style="font-size: 15px">　　sqlSession.getMapper() 直接从 DefaultSqlSession 中获取，还是跟上面一样在解析完存放到 Configuration 的&nbsp;<strong>MapperRegistry&nbsp;</strong>变量中，代理还是走 JDK 动态代理：</span></p>
+<p><img src="https://img2020.cnblogs.com/blog/1363696/202105/1363696-20210507224931080-2075130091.png" alt="" loading="lazy"></p>
+<p><span style="font-size: 15px">　　<strong>综上所述</strong>：&nbsp;Mybatis 和 Spring Framework 结合后对 Mapper 接口的初始化过程中会转换成 MapperFactoryBean 类型，然后利用&nbsp;Spring的InitializingBean 接口的特性来实现对 Mapper 接口信息的初始化，再将这些信息缓存起来放到 Configuration 的 mappedStatements 中；而Mybatis直接解析完放到 Configuration 的 mappedStatements 中；<br></span></p>
+<p><span style="font-size: 15px">　　最后剩余的一个问题：Mapper 接口使用和不使用&nbsp;@Mapper 注解有什么区别？</span></p>
+<p><span style="font-size: 15px">　　通过查看@Mapper注解的注释，发现这个注解只是一个标识功能，使用与不使用没什么区别，不会影响系统的功能；</span></p>
+<p><span style="font-size: 15px"><img src="https://img2020.cnblogs.com/blog/1363696/202105/1363696-20210507223038361-1114305429.png" alt="" loading="lazy"></span></p>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2021-05-07 23:03</span>&nbsp;
+<a href="https://www.cnblogs.com/huangrenhui/">码猿手</a>&nbsp;
+阅读(<span id="post_view_count">28</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14715884" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14715884);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 427735, cb_blogApp = 'huangrenhui', cb_blogUserGuid = 'fd44a137-e2e1-4e7a-b2e4-08d5866282ce';
+    var cb_entryId = 14715884, cb_entryCreatedDate = '2021-05-07 23:03', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 码猿手
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    <div id="page_end_html">
+        <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    
+    <title>Live2D</title>
+     
+    <link rel="stylesheet" type="text/css" href="https://files.cnblogs.com/files/huangrenhui/waifu.css"/>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+    <link rel="stylesheet" type="text/css" href="https://files.cnblogs.com/files/huangrenhui/waifu.css">
+    <div class="waifu" id="waifu">
+        <div class="waifu-tips" style="opacity: 1;"></div>
+        <canvas id="live2d" width="280" height="250" class="live2d"></canvas>
+        <div class="waifu-tool">
+            <span class="fui-home"></span>
+            <span class="fui-chat"></span>
+            <span class="fui-eye"></span>
+            <span class="fui-user"></span>
+            <span class="fui-photo"></span>
+            <span class="fui-info-circle"></span>
+            <span class="fui-cross"></span>
+        </div>
+    </div>
+    <script src="https://files.cnblogs.com/files/huangrenhui/live2d.js"></script>
+    <script src="https://files.cnblogs.com/files/huangrenhui/waifu-tips.js"></script>
+    <script type="text/javascript">initModel()</script>
+</body>
+</html>
+<link rel="stylesheet" type="text/css" href="https://files.cnblogs.com/files/yjlblog/flat-ui.min.css"/>
+
+    </div>
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjtqtgql42NzAUUMZTy2prdlYUmIbrNwF8-paYLVQffrRTuNf6yGWHoXQFlBv8N2cAMtdojtCMxItgB_Pxk1drMyALnLx0PYRccPa_3TiMyvdVcJgfe25Pv4XWmxK9zYxeo" />
+</body>
+</html>

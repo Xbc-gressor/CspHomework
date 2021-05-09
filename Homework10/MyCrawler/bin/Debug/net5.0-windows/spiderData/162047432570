@@ -1,0 +1,671 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    
+    
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>四猿外 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/bluesky/bundle-bluesky.min.css?v=crS-BJKdvIW2vVfJGJMix4EoW6XR-Z12_psc8V6YTNc" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/bluesky/bundle-bluesky-mobile.min.css?v=R6fv62IpzGSvTM7pHsnRgkrk1El3gMSYm75Iwe80srs" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/siyuanwai/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/siyuanwai/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/siyuanwai/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 579882;
+        var currentBlogApp = 'siyuanwai';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'BlueSky';
+        var visitorUserId = '';
+    </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/siyuanwai/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/siyuanwai/">四猿外</a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/siyuanwai/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E5%9B%9B%E7%8C%BF%E5%A4%96">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/siyuanwai/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+
+
+
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/siyuanwai/archive/2020/03/30.html">2020年3月30日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/siyuanwai/p/12595903.html">
+    <span>
+            <span>[置顶]</span>
+        毕业后第一份工作去了很小的公司，是怎样的体验？
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：经常有刚毕业的新人问我，程序员的第一份工作该怎么选，应该去大公司，还是小公司？ 年轻人真纠结，肯定是选给钱多的那个啊。 好，不开玩笑了。大部分毕业生初次找工作，多个 offer 的薪资差别不大的情况下，选择公司确实比较纠结，大公司福利好、制度完善，小公司简单高效、锻炼人。 作为一个过来人，今天这篇文        <a href="https://www.cnblogs.com/siyuanwai/p/12595903.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2020-03-30 14:14
+四猿外
+<span data-post-id="12595903" class="post-view-count">阅读(3262)</span> 
+<span data-post-id="12595903" class="post-comment-count">评论(17)</span> 
+<span data-post-id="12595903" class="post-digg-count">推荐(13)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=12595903" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/siyuanwai/archive/2021/05/07.html">2021年5月7日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/siyuanwai/p/14738726.html">
+    <span>
+        我，管理100多人技术团队的二三事
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：我负责的技术团队，现在有 100 人出头。团队里包括了：前端、后端、测试、运维&amp;amp;DBA、还有几个客户端和 AI 工程师。 我下面分了 7 个组，每个组都有一名组长，组长们汇报给我。 100 多人的技术团队，我是怎么带的呢？ 我带团队是从 3、 5 个人、十几个人、几十个人团队一点点锻炼出来的。 自我        <a href="https://www.cnblogs.com/siyuanwai/p/14738726.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-05-07 12:59
+四猿外
+<span data-post-id="14738726" class="post-view-count">阅读(1719)</span> 
+<span data-post-id="14738726" class="post-comment-count">评论(6)</span> 
+<span data-post-id="14738726" class="post-digg-count">推荐(20)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14738726" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/siyuanwai/archive/2021/04/28.html">2021年4月28日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/siyuanwai/p/14713927.html">
+    <span>
+         “一学就会，一做就废”微服务的架构模式：一个服务一个数据库模式
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：不管你喜不喜欢微服务，现在微服务无疑已经是程序员们绕不过去的话题了。无论你是想把目前的架构改成微服务，还是你要出去面试高级一点的岗位，需要深入理解微服务。 提起微服务，很多程序员对它是又爱又恨，想学微服务不知道如何开始，学了一点之后，又找不到地方去实践。总之就是感觉微服务遥不可及，又很难驾驭。 首先        <a href="https://www.cnblogs.com/siyuanwai/p/14713927.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-28 14:22
+四猿外
+<span data-post-id="14713927" class="post-view-count">阅读(775)</span> 
+<span data-post-id="14713927" class="post-comment-count">评论(5)</span> 
+<span data-post-id="14713927" class="post-digg-count">推荐(1)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14713927" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/siyuanwai/archive/2021/04/27.html">2021年4月27日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/siyuanwai/p/14708595.html">
+    <span>
+        编码编成翔的十八般兵器
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：程序员最怕读别人的代码，比这个更可怕的是什么？ 从别人那里接手一个老项目 别问为什么，并且不接受反驳。 前任程序员或者是编码能力不行，或者是跳槽之前故意摆烂……于是，一个隐藏着一堆烂摊子的项目，扔给了后来接手的人。 本来以前是代码里夹翔，后来就是翔夹代码了。 这些翔有各种各样的风味，其中就有那么十八        <a href="https://www.cnblogs.com/siyuanwai/p/14708595.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-27 13:35
+四猿外
+<span data-post-id="14708595" class="post-view-count">阅读(801)</span> 
+<span data-post-id="14708595" class="post-comment-count">评论(5)</span> 
+<span data-post-id="14708595" class="post-digg-count">推荐(4)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14708595" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/siyuanwai/archive/2021/04/20.html">2021年4月20日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/siyuanwai/p/14680592.html">
+    <span>
+        我很久没写代码了，但我是个好架构师
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：这篇文章还是架构师大刘的故事。 故事之前先说个题外话，最近到了金三银四跳槽季，有不少读者问我一些简历、面试的问题，这些问题大部分在之前的一篇硬核文章里都写过，传送门在这里： 最全干货：从写简历，到面试、谈薪酬的那些技巧和防坑指南 非常全面的一篇程序员找工作的干货文章，基本涵盖了求职的整个流程，最难得        <a href="https://www.cnblogs.com/siyuanwai/p/14680592.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-20 13:04
+四猿外
+<span data-post-id="14680592" class="post-view-count">阅读(4005)</span> 
+<span data-post-id="14680592" class="post-comment-count">评论(19)</span> 
+<span data-post-id="14680592" class="post-digg-count">推荐(6)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14680592" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/siyuanwai/archive/2021/04/13.html">2021年4月13日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/siyuanwai/p/14652810.html">
+    <span>
+        一个技术总监的忠告：你精通那么多技术，为何还是做不好一个项目？
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：编写高质量可维护的代码既是程序员的基本修养，也是能决定项目成败的关键因素，本文试图总结出问题项目普遍存在的共性问题并给出相应的解决方案。 1. 程序员的宿命？ 程序员的职业生涯中难免遇到烂项目，有些项目是你加入时已经烂了，有些是自己从头开始亲手做成了烂项目，有些是从里到外的烂，有些是表面光鲜等你深入        <a href="https://www.cnblogs.com/siyuanwai/p/14652810.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-13 13:34
+四猿外
+<span data-post-id="14652810" class="post-view-count">阅读(9666)</span> 
+<span data-post-id="14652810" class="post-comment-count">评论(50)</span> 
+<span data-post-id="14652810" class="post-digg-count">推荐(90)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14652810" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/siyuanwai/archive/2021/04/06.html">2021年4月6日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/siyuanwai/p/14621525.html">
+    <span>
+        我，第一次做项目经理，干赔了
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：我第一次做项目经理，那是十多年前的事情了，当时给国家开发银行做一个财务风险分析的系统，这个项目： 金额：200 万 周期：起初定的 8 个月做完 人员：10 个人左右。除了我之外还有，需求分析师 2 人；测试 1 人；Java 5 人（那时候还没有前后端分离这个词，前后端一起搞）；BI 工程师 1         <a href="https://www.cnblogs.com/siyuanwai/p/14621525.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-06 13:47
+四猿外
+<span data-post-id="14621525" class="post-view-count">阅读(8749)</span> 
+<span data-post-id="14621525" class="post-comment-count">评论(46)</span> 
+<span data-post-id="14621525" class="post-digg-count">推荐(57)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14621525" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/siyuanwai/archive/2021/03/31.html">2021年3月31日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/siyuanwai/p/14601134.html">
+    <span>
+        大刘跌倒，老田吃饱——首席架构师之争
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：前几年的时候，大刘吃了一个大亏，一个能记忆一辈子的大亏。 1 那是一个夏天，正是午饭时间。大刘刚搞定了一个项目问题，没来得及吃饭，也不太饿，但是极困，就趴在桌子上小睡。这是一个难得的放松间隙，周边同事们的笑闹声、交谈声、屋外的汽车鸣笛声、外卖的呼喊声都已渐渐模糊了起来。 大刘感觉身体暖洋洋的，却不热        <a href="https://www.cnblogs.com/siyuanwai/p/14601134.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-03-31 13:54
+四猿外
+<span data-post-id="14601134" class="post-view-count">阅读(2358)</span> 
+<span data-post-id="14601134" class="post-comment-count">评论(7)</span> 
+<span data-post-id="14601134" class="post-digg-count">推荐(3)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14601134" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/siyuanwai/archive/2021/03/11.html">2021年3月11日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/siyuanwai/p/14517439.html">
+    <span>
+        去哪找Java练手项目？
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：经常有读者在微信上问我： 在学编程的过程中，看了不少书、视频课程，但是看完、听完之后感觉还是不会编程，想找一些项目来练手，但是不知道去哪儿找？ 类似的问题，有不少读者问，估计是大部分人的困惑。 练手项目那肯定是去github找啊！ 之前我在知乎上回答过这种问题，分享了一些 github 的项目，点赞        <a href="https://www.cnblogs.com/siyuanwai/p/14517439.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-03-11 13:54
+四猿外
+<span data-post-id="14517439" class="post-view-count">阅读(1046)</span> 
+<span data-post-id="14517439" class="post-comment-count">评论(2)</span> 
+<span data-post-id="14517439" class="post-digg-count">推荐(11)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14517439" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/siyuanwai/archive/2021/03/04.html">2021年3月4日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/siyuanwai/p/14479983.html">
+    <span>
+        在主动要求涨工资这事上，不要学我！从第一份工资800开始说起
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：在主动要求涨工资这方面，不要学我，为什么？ 因为在我工作的十几年里，我从来都没有主动要求过涨工资。这不是优点，这并不对！ 先说说我的经历，工作这么久，待过很多公司，我在涨工资方面一直很被动。 经历一 我第一家公司在北京，是一个非常小的公司，算上我程序员就 4 个人，靠给客户做一些小软件项目为生。小公        <a href="https://www.cnblogs.com/siyuanwai/p/14479983.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-03-04 14:15
+四猿外
+<span data-post-id="14479983" class="post-view-count">阅读(3674)</span> 
+<span data-post-id="14479983" class="post-comment-count">评论(17)</span> 
+<span data-post-id="14479983" class="post-digg-count">推荐(15)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14479983" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/siyuanwai/archive/2021/02/23.html">2021年2月23日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/siyuanwai/p/14435780.html">
+    <span>
+        做一个很出色的程序员
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：架构师大刘的故事，断更有一段日子了，别着急，今天我们续上： 今年春节大刘响应国家号召，过年没有回老家。 春节假期里，大刘约了许久不见的、同样也没回老家的小马吃了顿饭。 小马是大刘以前的同事，比大刘小好几岁。小马刚毕业的时候，去了大刘所在的公司，正好进了大刘所在的项目。 当时的小马基本上啥也不会，大刘        <a href="https://www.cnblogs.com/siyuanwai/p/14435780.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-02-23 14:21
+四猿外
+<span data-post-id="14435780" class="post-view-count">阅读(378)</span> 
+<span data-post-id="14435780" class="post-comment-count">评论(1)</span> 
+<span data-post-id="14435780" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14435780" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+
+<div class="topicListFooter">
+    <div id="nav_next_page">
+        
+    <a href="https://www.cnblogs.com/siyuanwai/default.html?page=2">
+        下一页
+    </a>
+
+    </div>    
+</div>
+
+
+
+
+
+
+<script>
+    updatePostStats(
+        $(".post-view-count").map(function () { return this.dataset.postId }).get(),
+        function(id, count) { $(".post-view-count[data-post-id=" + id + "]").text("阅读(" + count + ")") },
+        function(id, count) { $(".post-comment-count[data-post-id=" + id + "]").text("评论(" + count + ")") },
+        function(id, count) { $(".post-digg-count[data-post-id=" + id + "]").text("推荐(" + count + ")") });
+</script>
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 四猿外
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjua03WV71p3OXMISEBtSB7Qcj7v5b12ZWEbi84X0AMb6Eqnh-513FbELEfr_1r-1hyaGHLVvTuJaMApNWWw_8MRHCO9Onn4uc7NjoaPy_GDqILUkwMMbangKNwm4W9axsU" />
+</body>
+</html>

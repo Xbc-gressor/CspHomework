@@ -1,0 +1,886 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    
+    
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>无毁的湖光-Al - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/simplememory/bundle-simplememory.min.css?v=uknaX_hejnSu-njQgx4Hj1R0JiPLwUhFPUlwWNmWyB4" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/SimpleMemory/bundle-SimpleMemory-mobile.min.css" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/alchemystar/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/alchemystar/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/alchemystar/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 605890;
+        var currentBlogApp = 'alchemystar';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'SimpleMemory';
+        var visitorUserId = '';
+    </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/alchemystar/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/alchemystar/">alchemystar</a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/alchemystar/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E6%97%A0%E6%AF%81%E7%9A%84%E6%B9%96%E5%85%89-Al">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/alchemystar/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+
+
+
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/alchemystar/archive/2021/03/01.html">2021年3月1日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/alchemystar/p/14462052.html">
+    <span>
+            <span>[置顶]</span>
+        Prometheus时序数据库-磁盘中的存储结构
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：Prometheus时序数据库-磁盘中的存储结构 前言 之前的文章里，笔者详细描述了监控数据在Prometheus内存中的结构。而其在磁盘中的存储结构，也是非常有意思的,关于这部分内容，将在本篇文章进行阐述。 磁盘目录结构 首先我们来看Prometheus运行后，所形成的文件目录结构 在笔者自己的机        <a href="https://www.cnblogs.com/alchemystar/p/14462052.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-03-01 09:59
+无毁的湖光-Al
+<span data-post-id="14462052" class="post-view-count">阅读(231)</span> 
+<span data-post-id="14462052" class="post-comment-count">评论(2)</span> 
+<span data-post-id="14462052" class="post-digg-count">推荐(2)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14462052" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/alchemystar/archive/2021/02/22.html">2021年2月22日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/alchemystar/p/14428876.html">
+    <span>
+            <span>[置顶]</span>
+        Prometheus时序数据库-内存中的存储结构
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：Prometheus时序数据库-内存中的存储结构 前言 笔者最近担起了公司监控的重任，而当前监控最流行的数据库即是Prometheus。按照笔者打破砂锅问到底的精神，自然要把这个开源组件源码搞明白才行。在经过一系列源码/资料的阅读以及各种Debug之后，对其内部机制有了一定的认识。今天，笔者就来介绍        <a href="https://www.cnblogs.com/alchemystar/p/14428876.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-02-22 10:42
+无毁的湖光-Al
+<span data-post-id="14428876" class="post-view-count">阅读(414)</span> 
+<span data-post-id="14428876" class="post-comment-count">评论(6)</span> 
+<span data-post-id="14428876" class="post-digg-count">推荐(2)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14428876" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/alchemystar/archive/2020/12/07.html">2020年12月7日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/alchemystar/p/14096447.html">
+    <span>
+            <span>[置顶]</span>
+        从Linux源码看Socket(TCP)的accept
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：从Linux源码看Socket(TCP)的accept 前言 笔者一直觉得如果能知道从应用到框架再到操作系统的每一处代码，是一件Exciting的事情。 今天笔者就从Linux源码的角度看下Server端的Socket在进行Accept的时候到底做了哪些事情(基于Linux 3.10内核)。 一个最        <a href="https://www.cnblogs.com/alchemystar/p/14096447.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2020-12-07 12:18
+无毁的湖光-Al
+<span data-post-id="14096447" class="post-view-count">阅读(426)</span> 
+<span data-post-id="14096447" class="post-comment-count">评论(4)</span> 
+<span data-post-id="14096447" class="post-digg-count">推荐(3)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14096447" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/alchemystar/archive/2020/10/27.html">2020年10月27日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/alchemystar/p/13883871.html">
+    <span>
+            <span>[置顶]</span>
+        从Linux源码看TIME_WAIT状态的持续时间
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：从Linux源码看TIME_WAIT状态的持续时间 前言 笔者一直以为在Linux下TIME_WAIT状态的Socket持续状态是60s左右。线上实际却存在TIME_WAIT超过100s的Socket。由于这牵涉到最近出现的一个复杂Bug的分析。所以，笔者就去Linux源码里面，一探究竟。 首先介绍        <a href="https://www.cnblogs.com/alchemystar/p/13883871.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2020-10-27 11:27
+无毁的湖光-Al
+<span data-post-id="13883871" class="post-view-count">阅读(1178)</span> 
+<span data-post-id="13883871" class="post-comment-count">评论(2)</span> 
+<span data-post-id="13883871" class="post-digg-count">推荐(1)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=13883871" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/alchemystar/archive/2020/09/25.html">2020年9月25日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/alchemystar/p/13728544.html">
+    <span>
+            <span>[置顶]</span>
+        自己动手写SQL执行引擎
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：自己动手写SQL执行引擎 前言 在阅读了大量关于数据库的资料后，笔者情不自禁产生了一个造数据库轮子的想法。来验证一下自己对于数据库底层原理的掌握是否牢靠。在笔者的github中给这个database起名为Freedom。 整体结构 既然造轮子，那当然得从前端的网络协议交互到后端的文件存储全部给撸一遍        <a href="https://www.cnblogs.com/alchemystar/p/13728544.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2020-09-25 10:17
+无毁的湖光-Al
+<span data-post-id="13728544" class="post-view-count">阅读(5048)</span> 
+<span data-post-id="13728544" class="post-comment-count">评论(41)</span> 
+<span data-post-id="13728544" class="post-digg-count">推荐(58)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=13728544" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/alchemystar/archive/2020/09/21.html">2020年9月21日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/alchemystar/p/13704067.html">
+    <span>
+            <span>[置顶]</span>
+        解Bug之路-记一次对端机器宕机后的tcp行为
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：解Bug之路-记一次对端机器宕机后的tcp行为 前言 机器一般过质保之后，就会因为各种各样的问题而宕机。而这一次的宕机，让笔者观察到了平常观察不到的tcp在对端宕机情况下的行为。经过详细跟踪分析原因之后，发现可以通过调整内核tcp参数来减少宕机造成的影响。 Bug现场 笔者所在的公司用某个中间件的古        <a href="https://www.cnblogs.com/alchemystar/p/13704067.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2020-09-21 10:16
+无毁的湖光-Al
+<span data-post-id="13704067" class="post-view-count">阅读(1943)</span> 
+<span data-post-id="13704067" class="post-comment-count">评论(6)</span> 
+<span data-post-id="13704067" class="post-digg-count">推荐(10)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=13704067" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/alchemystar/archive/2021/03/31.html">2021年3月31日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/alchemystar/p/14600367.html">
+    <span>
+        Prometheus时序数据库-报警的计算
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：Prometheus时序数据库-报警的计算 在前面的文章中，笔者详细的阐述了Prometheus的数据插入存储查询等过程。但作为一个监控神器，报警计算功能是必不可少的。自然的Prometheus也提供了灵活强大的报警规则可以让我们自由去发挥。在本篇文章里，笔者就带读者去看下Prometheus内部是        <a href="https://www.cnblogs.com/alchemystar/p/14600367.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-03-31 10:42
+无毁的湖光-Al
+<span data-post-id="14600367" class="post-view-count">阅读(177)</span> 
+<span data-post-id="14600367" class="post-comment-count">评论(5)</span> 
+<span data-post-id="14600367" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14600367" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/alchemystar/archive/2021/03/30.html">2021年3月30日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/alchemystar/p/14595370.html">
+    <span>
+        解Bug之路-主从切换&quot;未成功&quot;?
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：解Bug之路-主从切换&amp;quot;未成功&amp;quot;? 前言 数据库主从切换是个非常有意思的话题。能够稳定的处理主从切换是保证业务连续性的必要条件。今天笔者就来讲讲主从切换过程中一个小小的问题。 故障场景 最近线上进行主从切换，大部分应用都切过去了，但是某些应用的连接确还在老的主(新的从)上面。 这让对应应用的开发百思        <a href="https://www.cnblogs.com/alchemystar/p/14595370.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-03-30 09:38
+无毁的湖光-Al
+<span data-post-id="14595370" class="post-view-count">阅读(338)</span> 
+<span data-post-id="14595370" class="post-comment-count">评论(5)</span> 
+<span data-post-id="14595370" class="post-digg-count">推荐(3)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14595370" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/alchemystar/archive/2021/03/15.html">2021年3月15日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/alchemystar/p/14535853.html">
+    <span>
+        Prometheus时序数据库-数据的查询
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：Prometheus时序数据库-数据的查询 前言 在之前的博客里，笔者详细阐述了Prometheus数据的插入过程。但我们最常见的打交道的是数据的查询。Prometheus提供了强大的Promql来满足我们千变万化的查询需求。在这篇文章里面，笔者就以一个简单的Promql为例，讲述下Promethe        <a href="https://www.cnblogs.com/alchemystar/p/14535853.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-03-15 09:50
+无毁的湖光-Al
+<span data-post-id="14535853" class="post-view-count">阅读(251)</span> 
+<span data-post-id="14535853" class="post-comment-count">评论(3)</span> 
+<span data-post-id="14535853" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14535853" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/alchemystar/archive/2021/03/08.html">2021年3月8日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/alchemystar/p/14498135.html">
+    <span>
+        Prometheus时序数据库-数据的插入
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：Prometheus时序数据库-数据的插入 前言 在之前的文章里，笔者详细的阐述了Prometheus时序数据库在内存和磁盘中的存储结构。有了前面的铺垫，笔者就可以在本篇文章阐述下数据的插入过程。 监控数据的插入 在这里，笔者并不会去讨论Promtheus向各个Endpoint抓取数据的过程。而是仅        <a href="https://www.cnblogs.com/alchemystar/p/14498135.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-03-08 09:58
+无毁的湖光-Al
+<span data-post-id="14498135" class="post-view-count">阅读(341)</span> 
+<span data-post-id="14498135" class="post-comment-count">评论(1)</span> 
+<span data-post-id="14498135" class="post-digg-count">推荐(2)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14498135" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/alchemystar/archive/2021/03/01.html">2021年3月1日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/alchemystar/p/14462052.html">
+    <span>
+        Prometheus时序数据库-磁盘中的存储结构
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：Prometheus时序数据库-磁盘中的存储结构 前言 之前的文章里，笔者详细描述了监控数据在Prometheus内存中的结构。而其在磁盘中的存储结构，也是非常有意思的,关于这部分内容，将在本篇文章进行阐述。 磁盘目录结构 首先我们来看Prometheus运行后，所形成的文件目录结构 在笔者自己的机        <a href="https://www.cnblogs.com/alchemystar/p/14462052.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-03-01 09:59
+无毁的湖光-Al
+<span data-post-id="14462052" class="post-view-count">阅读(231)</span> 
+<span data-post-id="14462052" class="post-comment-count">评论(2)</span> 
+<span data-post-id="14462052" class="post-digg-count">推荐(2)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14462052" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/alchemystar/archive/2021/02/22.html">2021年2月22日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/alchemystar/p/14428876.html">
+    <span>
+        Prometheus时序数据库-内存中的存储结构
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：Prometheus时序数据库-内存中的存储结构 前言 笔者最近担起了公司监控的重任，而当前监控最流行的数据库即是Prometheus。按照笔者打破砂锅问到底的精神，自然要把这个开源组件源码搞明白才行。在经过一系列源码/资料的阅读以及各种Debug之后，对其内部机制有了一定的认识。今天，笔者就来介绍        <a href="https://www.cnblogs.com/alchemystar/p/14428876.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-02-22 10:42
+无毁的湖光-Al
+<span data-post-id="14428876" class="post-view-count">阅读(414)</span> 
+<span data-post-id="14428876" class="post-comment-count">评论(6)</span> 
+<span data-post-id="14428876" class="post-digg-count">推荐(2)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14428876" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/alchemystar/archive/2021/01/12.html">2021年1月12日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/alchemystar/p/14265732.html">
+    <span>
+        用隧道协议实现不同dubbo集群间的透明通信
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：用隧道协议实现不同dubbo集群间的透明通信 前言 笔者最近完成了一个非常有意思的隧道机制(已在产线运行)，可以让注册到不同zookeeper之间的dubbo集群之间能够正常进行通信。如下图所示: 例如图中A/B两个网络隔离的集群，两者只能通过专线进行通信。但是对于在里面的应用来说，调用另外一个集群        <a href="https://www.cnblogs.com/alchemystar/p/14265732.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-01-12 10:31
+无毁的湖光-Al
+<span data-post-id="14265732" class="post-view-count">阅读(189)</span> 
+<span data-post-id="14265732" class="post-comment-count">评论(4)</span> 
+<span data-post-id="14265732" class="post-digg-count">推荐(3)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14265732" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/alchemystar/archive/2020/12/18.html">2020年12月18日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/alchemystar/p/14154507.html">
+    <span>
+        记一次智能搜题软件的开发
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：很早之前曾经做过一个图片识别的项目，当时有一项功能是整题识别，即传入数学题的截图，可通过ocr技术识别出图片内容，但当时只限于识别文字，并未作更深一步的处理，现在想来实用性并不强，毕竟大家更需要的是解题思路，而不是让AI读出题干（题干的文字，我都认识，连起来我就不知道怎么下手去做了 = = ），最近        <a href="https://www.cnblogs.com/alchemystar/p/14154507.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2020-12-18 13:43
+无毁的湖光-Al
+<span data-post-id="14154507" class="post-view-count">阅读(751)</span> 
+<span data-post-id="14154507" class="post-comment-count">评论(3)</span> 
+<span data-post-id="14154507" class="post-digg-count">推荐(2)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14154507" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/alchemystar/archive/2020/12/07.html">2020年12月7日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/alchemystar/p/14096447.html">
+    <span>
+        从Linux源码看Socket(TCP)的accept
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：从Linux源码看Socket(TCP)的accept 前言 笔者一直觉得如果能知道从应用到框架再到操作系统的每一处代码，是一件Exciting的事情。 今天笔者就从Linux源码的角度看下Server端的Socket在进行Accept的时候到底做了哪些事情(基于Linux 3.10内核)。 一个最        <a href="https://www.cnblogs.com/alchemystar/p/14096447.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2020-12-07 12:18
+无毁的湖光-Al
+<span data-post-id="14096447" class="post-view-count">阅读(426)</span> 
+<span data-post-id="14096447" class="post-comment-count">评论(4)</span> 
+<span data-post-id="14096447" class="post-digg-count">推荐(3)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14096447" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/alchemystar/archive/2020/12/05.html">2020年12月5日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/alchemystar/p/14088572.html">
+    <span>
+        记一次英语批改作业软件的开发-除了老师和家长，它也可以批改作业
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：除了老师和家长，它也可以批改作业 最近一个家长退群的故事在某博上了热搜。故事中老师和家长的矛盾由批改作业集中爆发，至于孰是孰非，还是交给吃瓜群众去评价吧，作为一个技术工作者，我突发奇想，是否以后能让机器来辅助老师批改作业呢？这仿佛是个维护世界和平的点子！ 经过一阵调（搜）研（索），在英语作文批改上，        <a href="https://www.cnblogs.com/alchemystar/p/14088572.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2020-12-05 10:02
+无毁的湖光-Al
+<span data-post-id="14088572" class="post-view-count">阅读(416)</span> 
+<span data-post-id="14088572" class="post-comment-count">评论(3)</span> 
+<span data-post-id="14088572" class="post-digg-count">推荐(1)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14088572" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+
+<div class="topicListFooter">
+    <div id="nav_next_page">
+        
+    <a href="https://www.cnblogs.com/alchemystar/default.html?page=2">
+        下一页
+    </a>
+
+    </div>    
+</div>
+
+
+
+
+
+
+<script>
+    updatePostStats(
+        $(".post-view-count").map(function () { return this.dataset.postId }).get(),
+        function(id, count) { $(".post-view-count[data-post-id=" + id + "]").text("阅读(" + count + ")") },
+        function(id, count) { $(".post-comment-count[data-post-id=" + id + "]").text("评论(" + count + ")") },
+        function(id, count) { $(".post-digg-count[data-post-id=" + id + "]").text("推荐(" + count + ")") });
+</script>
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 无毁的湖光-Al
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjtKukbaysp6pj5lb-zMUFENsCiN401asXFENLiPtRJQb52oKUhn8yvnvYnhTbXbSAODfSlRfi6KJZU9xfE6IhaZl7c9ZPhv589lstiQLuGuKGUu74xbBiIejmRplKjFde4" />
+</body>
+</html>

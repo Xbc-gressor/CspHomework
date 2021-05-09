@@ -1,0 +1,472 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="普通的Bean xml配置文件 &amp;lt;bean id=&amp;quot;bean1&amp;quot; class=&amp;quot;包名.类名&amp;quot;/&amp;gt; 实例化方法 1.构造器实例化 Applicatio" />
+    <meta property="og:description" content="普通的Bean xml配置文件 &amp;lt;bean id=&amp;quot;bean1&amp;quot; class=&amp;quot;包名.类名&amp;quot;/&amp;gt; 实例化方法 1.构造器实例化 Applicatio" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Spring中的Bean - 王子饼干 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/ku1a/custom.css?v=sx/rcKQDbDnxDoFSVzp//k4lG58=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/SimpleMemory/bundle-SimpleMemory-mobile.min.css" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/ku1a/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/ku1a/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/ku1a/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 532376;
+        var currentBlogApp = 'ku1a';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'SimpleMemory';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-05-05 01:24';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="no-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/ku1a/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/ku1a/">kula</a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+
+</li>
+<li>
+
+
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E7%8E%8B%E5%AD%90%E9%A5%BC%E5%B9%B2">
+联系</a></li>
+<li>
+
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/ku1a/p/14730763.html">
+    <span>Spring中的Bean</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<h3>普通的Bean</h3>
+<div>xml配置文件</div>
+<div>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">bean </span><span style="color: rgba(255, 0, 0, 1)">id</span><span style="color: rgba(0, 0, 255, 1)">="bean1"</span><span style="color: rgba(255, 0, 0, 1)"> class</span><span style="color: rgba(0, 0, 255, 1)">="包名.类名"</span><span style="color: rgba(0, 0, 255, 1)">/&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<h3>实例化方法</h3>
+</div>
+<h4>1.构造器实例化</h4>
+<div>
+<div class="cnblogs_Highlighter">
+<pre class="brush:java;gutter:true;">ApplicationContext applicationContext = new ClassPathXmlApplicationContext("beans.xml");
+类名 实例名 = (类名) applicationContext.getBean("bean1");
+</pre>
+</div>
+<h4>2.静态工厂方式实例化&nbsp; 略</h4>
+</div>
+<h4>3.实例工厂方式实例化&nbsp;&nbsp;略</h4>
+<div>&nbsp;</div>
+<h3>Bean的作用域</h3>
+<div>singleton（单例）、prototype（原型）、request、session、globlaSession、application、websocket</div>
+<div>&nbsp;</div>
+<h4>1.singleton 作用域 (默认)</h4>
+<div>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">bean </span><span style="color: rgba(255, 0, 0, 1)">id</span><span style="color: rgba(0, 0, 255, 1)">="bean1"</span><span style="color: rgba(255, 0, 0, 1)"> class</span><span style="color: rgba(0, 0, 255, 1)">="包名.类名"</span><span style="color: rgba(255, 0, 0, 1)"> scope</span><span style="color: rgba(0, 0, 255, 1)">="singleton"</span> <span style="color: rgba(0, 0, 255, 1)">/&gt;</span></pre>
+</div>
+<p>单例模式 ，多次实例化也只会产生一个对象</p>
+</div>
+<div>&nbsp;</div>
+<h4>2.prototype 作用域</h4>
+<div>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">bean </span><span style="color: rgba(255, 0, 0, 1)">id</span><span style="color: rgba(0, 0, 255, 1)">="bean1"</span><span style="color: rgba(255, 0, 0, 1)"> class</span><span style="color: rgba(0, 0, 255, 1)">="包名.类名"</span><span style="color: rgba(255, 0, 0, 1)"> scope</span><span style="color: rgba(0, 0, 255, 1)">="prototype"</span> <span style="color: rgba(0, 0, 255, 1)">/&gt;</span></pre>
+</div>
+<p>每次实例化请求都会返回一个新实例</p>
+</div>
+<div><span>&nbsp;</span></div>
+<h3><span>Bean生命周期</span></h3>
+<div>Spring会对singleton进行管理 具体略</div>
+<div><span>&nbsp;</span></div>
+<h3><span>Bean的装配方式（依赖注入方式）</span></h3>
+<h4><span>①基于xml装配</span></h4>
+<h4><span>②基于Annotation的装配</span></h4>
+<div>Spring可以对Bean中的属性进行初始化（值/引用）</div>
+<h5>&nbsp;</h5>
+<p>1.Setter Injection（值注入）&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">bean </span><span style="color: rgba(255, 0, 0, 1)">id</span><span style="color: rgba(0, 0, 255, 1)">="user1"</span><span style="color: rgba(255, 0, 0, 1)"> class</span><span style="color: rgba(0, 0, 255, 1)">="包名.类名"</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+        <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">property </span><span style="color: rgba(255, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">="username"</span><span style="color: rgba(255, 0, 0, 1)"> value</span><span style="color: rgba(0, 0, 255, 1)">="张三"</span><span style="color: rgba(0, 0, 255, 1)">&gt;&lt;/</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+        <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">property </span><span style="color: rgba(255, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">="password"</span><span style="color: rgba(255, 0, 0, 1)"> value</span><span style="color: rgba(0, 0, 255, 1)">="654321"</span><span style="color: rgba(0, 0, 255, 1)">&gt;&lt;/</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+        <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">property </span><span style="color: rgba(255, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">="list"</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+                <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">list</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+                        <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>"setlistvalue1"<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+                        <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>"setlistvalue2"<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+                <span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">list</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+        <span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">property</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">bean</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span></pre>
+</div>
+<p>注：id：Bean的唯一标识符</p>
+<div>&nbsp; &nbsp; &nbsp; &nbsp;class：Bean的具体实现类</div>
+<div>&nbsp; &nbsp; &nbsp; &nbsp;property：setter赋值使用此标签&nbsp; name为Bean实例中的属性名，ref 或 value为属性值</div>
+<div>&nbsp; &nbsp; &nbsp; &nbsp;ref：另一个Bean的id</div>
+<div>&nbsp;&nbsp; &nbsp; &nbsp; value：一个常量值</div>
+<div>上面例子给出了list 的填充 下面给出set和map的填充</div>
+<div>&nbsp;</div>
+<div>// set与list基本相同</div>
+<div>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">set</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+       <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>"setlistvalue1"<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+       <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>"setlistvalue2"<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">set</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span><span style="color: rgba(0, 0, 0, 1)">
+// map
+</span><span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">map</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+        <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">entry </span><span style="color: rgba(255, 0, 0, 1)">key</span><span style="color: rgba(0, 0, 255, 1)">="p1"</span><span style="color: rgba(255, 0, 0, 1)"> value</span><span style="color: rgba(0, 0, 255, 1)">="foo"</span> <span style="color: rgba(0, 0, 255, 1)">/&gt;</span>
+        <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">entry </span><span style="color: rgba(255, 0, 0, 1)">key</span><span style="color: rgba(0, 0, 255, 1)">="p2"</span><span style="color: rgba(255, 0, 0, 1)"> value</span><span style="color: rgba(0, 0, 255, 1)">="wz"</span> <span style="color: rgba(0, 0, 255, 1)">/&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">map</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>2.Constructor Injection（构造注入）</p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">bean </span><span style="color: rgba(255, 0, 0, 1)">id</span><span style="color: rgba(0, 0, 255, 1)">="user2"</span><span style="color: rgba(255, 0, 0, 1)"> class</span><span style="color: rgba(0, 0, 255, 1)">="包名.类名"</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+        <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">constructor-arg </span><span style="color: rgba(255, 0, 0, 1)">index</span><span style="color: rgba(0, 0, 255, 1)">="0"</span><span style="color: rgba(255, 0, 0, 1)"> value</span><span style="color: rgba(0, 0, 255, 1)">="tom"</span><span style="color: rgba(0, 0, 255, 1)">/&gt;</span>
+        <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">constructor-arg </span><span style="color: rgba(255, 0, 0, 1)">index</span><span style="color: rgba(0, 0, 255, 1)">="1"</span><span style="color: rgba(255, 0, 0, 1)"> value</span><span style="color: rgba(0, 0, 255, 1)">="123456"</span><span style="color: rgba(0, 0, 255, 1)">/&gt;</span>
+        <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">constructor-arg </span><span style="color: rgba(255, 0, 0, 1)">index</span><span style="color: rgba(0, 0, 255, 1)">="2"</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+                <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">list</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+                        <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>"setlistvalue1"<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+                        <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>"setlistvalue2"<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">value</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+                <span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">list</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+        <span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">constructor-arg</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">bean</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+</div>
+<p>3.基于Annotation的装配</p>
+<div>先要引入依赖</div>
+<div>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">dependency</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+            <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">groupId</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>org.apache.tomcat<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">groupId</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+            <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">artifactId</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>tomcat-annotations-api<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">artifactId</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+            <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">version</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>9.0.13<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">version</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">dependency</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+                <span style="color: rgba(0, 128, 0, 1)">&lt;!--</span><span style="color: rgba(0, 128, 0, 1)">两选一</span><span style="color: rgba(0, 128, 0, 1)">--&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">dependency</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+            <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">groupId</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>javax.annotation<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">groupId</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+            <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">artifactId</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>jsr250-api<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">artifactId</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+            <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">version</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>1.0<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">version</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">dependency</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+</div>
+<div>常用注解</div>
+<ul>
+<li>
+<div>@Component: 泛化概念 仅仅就能表示一个组件(Bean)</div>
+</li>
+<li>
+<div>@Repository：将数据访问层（DAO层）中的类标识为Spring中的Bean，功能与Component相同</div>
+</li>
+<li>
+<div>@Service：将业务层（Service层）中的类标识为Spring中的Bean，功能与Component相同</div>
+</li>
+<li>
+<div>@Controller：将控制层（Spring MVC 中的Controller层）中的类标识为Spring中的Bean，功能与Component相同</div>
+</li>
+<li>
+<div>@Autowired：用于对Bean中的属性、属性的setter方法及构造方法进行标注、配合注解处理器完成Bean的自动配置工作 （先按类型自动查找注册的Bean(包括接口类) 、如果有多个则按名称查找）</div>
+</li>
+<li>
+<div>@Resource：与Autowired相同 有name 或者 type属性 指定name 按照Bean id进行装配，指定type按照类型进行装配，不指定先按名称再按类型</div>
+</li>
+<li>
+<div>@Qualifier：与@Autowired配合使用，指定Bean名称（id）</div>
+<div>@Autowired&nbsp; + @Qualifier("bean名称")</div>
+</li>
+</ul>
+<div>&nbsp;</div>
+<div>
+<div class="cnblogs_Highlighter">
+<pre class="brush:java;gutter:true;">@Respository("userDao")
+public class UserDaoImp1 implements UserDao{
+    public void save(){
+        System.out.println("userdao...save...");
+    }
+}
+@Service        //这样会默认和类名相同
+public class UserServiceImp1 implements UserService{
+    @Resource(name="userDao")
+    private UserDao userDao;
+    public void save(){
+        this.userDao.save();
+        System.out.println("userservice...save...");
+    }
+}
+</pre>
+</div>
+<p>配置beans.xml</p>
+</div>
+<div>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 128, 0, 1)">&lt;!--</span><span style="color: rgba(0, 128, 0, 1)">方法1  效率低</span><span style="color: rgba(0, 128, 0, 1)">--&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">context:annotation-config </span><span style="color: rgba(0, 0, 255, 1)">/&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">bean </span><span style="color: rgba(255, 0, 0, 1)">id</span><span style="color: rgba(0, 0, 255, 1)">="userDao"</span><span style="color: rgba(255, 0, 0, 1)"> class</span><span style="color: rgba(0, 0, 255, 1)">="包名.UserDao"</span><span style="color: rgba(0, 0, 255, 1)">/&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">bean </span><span style="color: rgba(255, 0, 0, 1)">id</span><span style="color: rgba(0, 0, 255, 1)">="UserServiceImp1"</span><span style="color: rgba(255, 0, 0, 1)"> class</span><span style="color: rgba(0, 0, 255, 1)">="包名.UserServiceImp1"</span><span style="color: rgba(0, 0, 255, 1)">/&gt;</span>
+ 
+ <span style="color: rgba(0, 128, 0, 1)">&lt;!--</span><span style="color: rgba(0, 128, 0, 1)">方法2</span><span style="color: rgba(0, 128, 0, 1)">--&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">context:component-scan </span><span style="color: rgba(255, 0, 0, 1)">base-package</span><span style="color: rgba(0, 0, 255, 1)">="Bean所在包路径"</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>4.自动装配</p>
+</div>
+<div>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">bean </span><span style="color: rgba(255, 0, 0, 1)">id</span><span style="color: rgba(0, 0, 255, 1)">="userDao"</span><span style="color: rgba(255, 0, 0, 1)"> class</span><span style="color: rgba(0, 0, 255, 1)">="包名.UserDao"</span><span style="color: rgba(0, 0, 255, 1)">/&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">bean </span><span style="color: rgba(255, 0, 0, 1)">id</span><span style="color: rgba(0, 0, 255, 1)">="UserServiceImp1"</span><span style="color: rgba(255, 0, 0, 1)"> class</span><span style="color: rgba(0, 0, 255, 1)">="包名.UserServiceImp1"</span><span style="color: rgba(255, 0, 0, 1)"> autowire</span><span style="color: rgba(0, 0, 255, 1)">="byName"</span> <span style="color: rgba(0, 0, 255, 1)">/&gt;</span></pre>
+</div>
+</div>
+<div>autowrie 属性值：default(根据beans标签)、byName、byType、constructor（根据构造函数参数类型）、no（不自动装配）</div>
+<div><span>&nbsp;</span></div>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2021-05-05 01:24</span>&nbsp;
+<a href="https://www.cnblogs.com/ku1a/">王子饼干</a>&nbsp;
+阅读(<span id="post_view_count">5</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14730763" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14730763);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 532376, cb_blogApp = 'ku1a', cb_blogUserGuid = '3a4efb99-29e3-411b-dd24-08d7188de755';
+    var cb_entryId = 14730763, cb_entryCreatedDate = '2021-05-05 01:24', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 王子饼干
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    <div id="page_end_html">
+        <!--鼠标特效-->
+<script src="https://blog-static.cnblogs.com/files/zouwangblog/mouse-click.js"></script>
+<canvas width="1777" height="841" style="position: fixed; left: 0px; top: 0px; z-index: 2147483647; pointer-events: none;"></canvas>
+<!--鼠标特效 end-->
+
+
+
+
+
+<!--雪花特效1&12月自动添加-->
+
+<div class="Snow">
+    <canvas id="Snow"></canvas>
+</div>
+<script src="https://blog-static.cnblogs.com/files/zouwangblog/xue.js"></script>
+
+
+<!--顶部加载条-->
+<link rel="stylesheet" href="https://blog-static.cnblogs.com/files/zouwangblog/nprogress.css">
+<script src="https://blog-static.cnblogs.com/files/zouwangblog/nprogress.js"></script>
+<script>
+NProgress.start();
+NProgress.done();
+</script>
+
+    </div>
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjs7ej1t0Wq6OWogg2vqEPeulBZJvs8OvsmLNn_uqGwjJxEqcgPi68sVS3aJzU-A9UNpuZy6NWybkL_56rZBVBbMSE0MKzJZEyjuDPoB2sBliPJWOEY6aV2shI23YG9FMRY" />
+</body>
+</html>

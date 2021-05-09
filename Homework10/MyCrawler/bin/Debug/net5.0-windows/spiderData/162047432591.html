@@ -1,0 +1,623 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="你一定会好奇：“老周，你去哪开飞机了？这么久没写博客了。” 老周：“我买不起飞机，开了个铁矿，挖了一年半的石头。谁知铁矿垮了，压死了几条蜈蚣，什么也没挖着。” 所以，这么丢死人的事，还是不要提了，爷爷" />
+    <meta property="og:description" content="你一定会好奇：“老周，你去哪开飞机了？这么久没写博客了。” 老周：“我买不起飞机，开了个铁矿，挖了一年半的石头。谁知铁矿垮了，压死了几条蜈蚣，什么也没挖着。” 所以，这么丢死人的事，还是不要提了，爷爷" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>说说 C# 9 新特性的实际运用 - 东邪独孤 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/moonlightink/bundle-moonlightink.min.css?v=iVE30sZ6vb6blzqPWbGs2kM432fxmh8k3P9XllAp48s" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/moonlightink/bundle-moonlightink-mobile.min.css?v=axcwoS9UbqWFSKj9O2YcPP0sVreDAEIZDpcqOVKt8M4" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/tcjiaan/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/tcjiaan/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/tcjiaan/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 113198;
+        var currentBlogApp = 'tcjiaan';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'MoonlightInk';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2020-11-09 06:14';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/tcjiaan/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/tcjiaan/">老周</a>
+</h1>
+<h2>成于天性，行于自然。</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/tcjiaan/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E4%B8%9C%E9%82%AA%E7%8B%AC%E5%AD%A4">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/tcjiaan/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/tcjiaan/p/13947928.html">
+    <span>说说 C# 9 新特性的实际运用</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<p>你一定会好奇：“老周，你去哪开飞机了？这么久没写博客了。”</p>
+<p>老周：“我买不起飞机，开了个铁矿，挖了一年半的石头。谁知铁矿垮了，压死了几条蜈蚣，什么也没挖着。”</p>
+<p>所以，这么丢死人的事，还是不要提了，爷爷从小教导我做人要低调……</p>
+<p>&nbsp;</p>
+<p>一转眼，.NET 5 要来了，同时也带来了 C# 9。遥想当年，老周刚接触 .NET 1.1 的时候，才刚上大学；如今已经过去13年了。岁月是把水果刀，从来不饶人啊。</p>
+<p>老周很少去写诸如“XXX新特性”之类的文章，总觉得没啥用处。不过，针对 C# 9，老周想说一点什么。</p>
+<p>好，在开始之前，老周再次强调一下：这些语言新特性的东西，<span style="font-size: 18px"><strong>你千万不要特意去学习，千万不要，不要，不要</strong></span>，重要的事情讲四遍！这些玩意儿你只要看看官方给的说明，刷一遍就能掌握了（刷这个比刷抖音有意义多了），不用去学的。如果你连这些东东也要学习成本的话，我只想说句好唱不好听的话——<span style="font-size: 14pt"><strong>你的学习能力真的值得怀疑</strong></span>。</p>
+<p>&nbsp;</p>
+<p>好了，下面开始表演。</p>
+<h2>第一出：record 类型</h2>
+<p>record ，我还是用原词吧，我知道有翻译为“记录类型”的说法。只是，只是，老周老觉得这不太好听，可是老周也找不出更好的词语，还是用回 record吧。</p>
+<p>record 是<span style="text-decoration: underline"><strong>引用类型</strong></span>，跟 class 很像（确实差不多）。那么，用人民群众都熟悉的 class 不香吗，为何要新增个 record 呢？答：为了数据比较的便捷。</p>
+<p>不明白？没事，往下看。最近有一位热心邻居送了老周一只宠物：</p>
+<div class="cnblogs_code">
+<pre>    <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">class</span><span style="color: rgba(0, 0, 0, 1)"> Cat
+    {
+        </span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">string</span> Nick { <span style="color: rgba(0, 0, 255, 1)">get</span>; <span style="color: rgba(0, 0, 255, 1)">set</span><span style="color: rgba(0, 0, 0, 1)">; }
+        </span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">string</span> Name { <span style="color: rgba(0, 0, 255, 1)">get</span>; <span style="color: rgba(0, 0, 255, 1)">set</span><span style="color: rgba(0, 0, 0, 1)">; }
+        </span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">int</span> Age { <span style="color: rgba(0, 0, 255, 1)">get</span>; <span style="color: rgba(0, 0, 255, 1)">set</span><span style="color: rgba(0, 0, 0, 1)">; }
+    }</span></pre>
+</div>
+<p>这只新宠物可不简单，一顶一的高级吃货。鱼肉、猪肉、鸡腿、饼干、豆腐、面包、水果、面条、小麦、飞蛾……反正，只要它能塞进嘴里的，它都吃。</p>
+<p>接下来，我们 new 两个宠物实例。</p>
+<div class="cnblogs_code">
+<pre>            <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> 两个实例描述的是同一只猫</span>
+            Cat pet1 = <span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> Cat
+            {
+                Nick </span>= <span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">松子</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">,
+                Name </span>= <span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">Jack</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">,
+                Age </span>= <span style="color: rgba(128, 0, 128, 1)">1</span><span style="color: rgba(0, 0, 0, 1)">
+            };
+            Cat pet2 </span>= <span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> Cat
+            {
+                Nick </span>= <span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">松子</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">,
+                Name </span>= <span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">Jack</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">,
+                Age </span>= <span style="color: rgba(128, 0, 128, 1)">1</span><span style="color: rgba(0, 0, 0, 1)">
+            };
+
+            </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> 居然不是同一只猫</span>
+            Console.WriteLine(<span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">同一只？{0}</span><span style="color: rgba(128, 0, 0, 1)">"</span>, pet1 == pet2);</pre>
+</div>
+<p>其实，两个实例描述的都是我家的乖乖。可是，输出的是：</p>
+<div class="cnblogs_code">
+<pre>同一只？False</pre>
+</div>
+<p>这是因为，在相等比较时，人家关心的类型引用——引用的是否为同一个实例。但是，在数据处理方案中，我们更关注对象中的字段/属性是否相等，即内容比较。</p>
+<p>现在，把 Cat 的声明改为 record 类型。</p>
+<div class="cnblogs_code">
+<pre>    <span style="color: rgba(0, 0, 255, 1)">public</span><span style="color: rgba(0, 0, 0, 1)"> record Cat
+    {
+        </span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">string</span> Nick { <span style="color: rgba(0, 0, 255, 1)">get</span>; <span style="color: rgba(0, 0, 255, 1)">set</span><span style="color: rgba(0, 0, 0, 1)">; }
+        </span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">string</span> Name { <span style="color: rgba(0, 0, 255, 1)">get</span>; <span style="color: rgba(0, 0, 255, 1)">set</span><span style="color: rgba(0, 0, 0, 1)">; }
+        </span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">int</span> Age { <span style="color: rgba(0, 0, 255, 1)">get</span>; <span style="color: rgba(0, 0, 255, 1)">set</span><span style="color: rgba(0, 0, 0, 1)">; }
+    }</span></pre>
+</div>
+<p>然后同样用上面的 pet1 和 pet2 实例进行相等比较，得到预期的结果：</p>
+<div class="cnblogs_code">
+<pre>同一只？True</pre>
+</div>
+<p>&nbsp;</p>
+<p>record 类型让你省去了重写相等比较（重写 Equals、GetHashCode 等方法或重载运算符）的逻辑。</p>
+<p>实际上，代码在编译后 record 类型也是一个类，但自动实现了成员相等比较的逻辑。以前你要手动去折腾的事现在全交给编译器去干。</p>
+<p>假如，有一个 User 类型，用于表示用户信息（包括用户名、密码），然后这个 User 类型在数据处理方案中可能会产生N多个实例。例如你根据条件从EF模型中筛选出一个 User 实例 A，根据用户输入的登录名和密码产生了 User 实例 B。为了验证用户输入的登录信息是否正确，如果 User 是 class，你可能要这样判断：</p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 255, 1)">if</span>(A.UserName == B.UserName &amp;&amp; A.Password ==<span style="color: rgba(0, 0, 0, 1)"> B.Password)
+{
+    ..................
+}</span></pre>
+</div>
+<p>但要是你把 User 定义为 record 类型，那么，一句话的工夫：</p>
+<div class="cnblogs_code">
+<pre>A == B</pre>
+</div>
+<p>&nbsp;</p>
+<h2>第二出：模式匹配（Pattern Matching）</h2>
+<p>"模式匹配"这个翻译感觉怪怪滴，老周还没想出什么更好的词语。模式匹配并不是什么神奇的东西，它只是在对变量值进行检测时的扩展行为。以前，老感觉C++/C# 的 switch 语句不够强大，因为传统的用法里面，每个 case 子句只能比较单个常量值。比如</p>
+<div class="cnblogs_code">
+<pre>            <span style="color: rgba(0, 0, 255, 1)">int</span> 考试成绩 = <span style="color: rgba(128, 0, 128, 1)">85</span><span style="color: rgba(0, 0, 0, 1)">;
+
+            </span><span style="color: rgba(0, 0, 255, 1)">switch</span><span style="color: rgba(0, 0, 0, 1)"> (考试成绩)
+            {
+                </span><span style="color: rgba(0, 0, 255, 1)">case</span> <span style="color: rgba(128, 0, 128, 1)">10</span><span style="color: rgba(0, 0, 0, 1)">:
+                    Console.WriteLine(</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">才考这么点破分啊</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">);
+                    </span><span style="color: rgba(0, 0, 255, 1)">break</span><span style="color: rgba(0, 0, 0, 1)">;
+                </span><span style="color: rgba(0, 0, 255, 1)">case</span> <span style="color: rgba(128, 0, 128, 1)">50</span><span style="color: rgba(0, 0, 0, 1)">:
+                    Console.WriteLine(</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">还差一点，就合格了</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">);
+                    </span><span style="color: rgba(0, 0, 255, 1)">break</span><span style="color: rgba(0, 0, 0, 1)">;
+                </span><span style="color: rgba(0, 0, 255, 1)">case</span> <span style="color: rgba(128, 0, 128, 1)">85</span><span style="color: rgba(0, 0, 0, 1)">:
+                    Console.WriteLine(</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">真是秀</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">);
+                    </span><span style="color: rgba(0, 0, 255, 1)">break</span><span style="color: rgba(0, 0, 0, 1)">;
+                </span><span style="color: rgba(0, 0, 255, 1)">case</span> <span style="color: rgba(128, 0, 128, 1)">90</span><span style="color: rgba(0, 0, 0, 1)">:
+                    Console.WriteLine(</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">奇迹发生</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">);
+                    </span><span style="color: rgba(0, 0, 255, 1)">break</span><span style="color: rgba(0, 0, 0, 1)">;
+            }</span></pre>
+</div>
+<p>我幻想着，要是能像下面这样写就好了：</p>
+<div class="cnblogs_code">
+<pre>            <span style="color: rgba(0, 0, 255, 1)">switch</span><span style="color: rgba(0, 0, 0, 1)"> (考试成绩)
+            {
+                </span><span style="color: rgba(0, 0, 255, 1)">case</span> <span style="color: rgba(128, 0, 128, 1)">0</span><span style="color: rgba(0, 0, 0, 1)">:
+                    Console.WriteLine(</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">缺考？</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">);
+                    </span><span style="color: rgba(0, 0, 255, 1)">break</span><span style="color: rgba(0, 0, 0, 1)">;
+                </span><span style="color: rgba(0, 0, 255, 1)">case</span> &gt; <span style="color: rgba(128, 0, 128, 1)">0</span> &amp;&amp; &lt;= <span style="color: rgba(128, 0, 128, 1)">30</span><span style="color: rgba(0, 0, 0, 1)">:
+                    Console.WriteLine(</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">太烂了</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">);
+                    </span><span style="color: rgba(0, 0, 255, 1)">break</span><span style="color: rgba(0, 0, 0, 1)">;
+                </span><span style="color: rgba(0, 0, 255, 1)">case</span> &gt; <span style="color: rgba(128, 0, 128, 1)">30</span> &amp;&amp; &lt; <span style="color: rgba(128, 0, 128, 1)">60</span><span style="color: rgba(0, 0, 0, 1)">:
+                    Console.WriteLine(</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">还是不行</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">);
+                    </span><span style="color: rgba(0, 0, 255, 1)">break</span><span style="color: rgba(0, 0, 0, 1)">;
+                </span><span style="color: rgba(0, 0, 255, 1)">case</span> &gt;= <span style="color: rgba(128, 0, 128, 1)">60</span> &amp;&amp; &lt; <span style="color: rgba(128, 0, 128, 1)">80</span><span style="color: rgba(0, 0, 0, 1)">:
+                    Console.WriteLine(</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">还得努力</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">);
+                    </span><span style="color: rgba(0, 0, 255, 1)">break</span><span style="color: rgba(0, 0, 0, 1)">;
+                </span><span style="color: rgba(0, 0, 255, 1)">case</span> &gt;= <span style="color: rgba(128, 0, 128, 1)">80</span> &amp;&amp; &lt; <span style="color: rgba(128, 0, 128, 1)">90</span><span style="color: rgba(0, 0, 0, 1)">:
+                    Console.WriteLine(</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">秀儿，真优秀</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">);
+                    </span><span style="color: rgba(0, 0, 255, 1)">break</span><span style="color: rgba(0, 0, 0, 1)">;
+                </span><span style="color: rgba(0, 0, 255, 1)">case</span> &gt;= <span style="color: rgba(128, 0, 128, 1)">90</span> &amp;&amp; &lt;= <span style="color: rgba(128, 0, 128, 1)">100</span><span style="color: rgba(0, 0, 0, 1)">:
+                    Console.WriteLine(</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">不错，奇迹</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">);
+                    </span><span style="color: rgba(0, 0, 255, 1)">break</span><span style="color: rgba(0, 0, 0, 1)">;
+            }</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>等了很多年很多年（“千年等一回，等……”）以后，终于可以实现了。</p>
+<div class="cnblogs_code">
+<pre>            <span style="color: rgba(0, 0, 255, 1)">switch</span><span style="color: rgba(0, 0, 0, 1)"> (考试成绩)
+            {
+                </span><span style="color: rgba(0, 0, 255, 1)">case</span> <span style="color: rgba(128, 0, 128, 1)">0</span><span style="color: rgba(0, 0, 0, 1)">:
+                    Console.WriteLine(</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">缺考？</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">);
+                    </span><span style="color: rgba(0, 0, 255, 1)">break</span><span style="color: rgba(0, 0, 0, 1)">;
+                </span><span style="color: rgba(0, 0, 255, 1)">case</span> &gt; <span style="color: rgba(128, 0, 128, 1)">0</span> and &lt;= <span style="color: rgba(128, 0, 128, 1)">30</span><span style="color: rgba(0, 0, 0, 1)">:
+                    Console.WriteLine(</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">太烂了</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">);
+                    </span><span style="color: rgba(0, 0, 255, 1)">break</span><span style="color: rgba(0, 0, 0, 1)">;
+                </span><span style="color: rgba(0, 0, 255, 1)">case</span> &gt; <span style="color: rgba(128, 0, 128, 1)">30</span> and &lt; <span style="color: rgba(128, 0, 128, 1)">60</span><span style="color: rgba(0, 0, 0, 1)">:
+                    Console.WriteLine(</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">还是不行</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">);
+                    </span><span style="color: rgba(0, 0, 255, 1)">break</span><span style="color: rgba(0, 0, 0, 1)">;
+                </span><span style="color: rgba(0, 0, 255, 1)">case</span> &gt;= <span style="color: rgba(128, 0, 128, 1)">60</span> and &lt; <span style="color: rgba(128, 0, 128, 1)">80</span><span style="color: rgba(0, 0, 0, 1)">:
+                    Console.WriteLine(</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">还得努力</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">);
+                    </span><span style="color: rgba(0, 0, 255, 1)">break</span><span style="color: rgba(0, 0, 0, 1)">;
+                </span><span style="color: rgba(0, 0, 255, 1)">case</span> &gt;= <span style="color: rgba(128, 0, 128, 1)">80</span> and &lt; <span style="color: rgba(128, 0, 128, 1)">90</span><span style="color: rgba(0, 0, 0, 1)">:
+                    Console.WriteLine(</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">秀儿，真优秀</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">);
+                    </span><span style="color: rgba(0, 0, 255, 1)">break</span><span style="color: rgba(0, 0, 0, 1)">;
+                </span><span style="color: rgba(0, 0, 255, 1)">case</span> &gt;= <span style="color: rgba(128, 0, 128, 1)">90</span> and &lt;= <span style="color: rgba(128, 0, 128, 1)">100</span><span style="color: rgba(0, 0, 0, 1)">:
+                    Console.WriteLine(</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">不错，奇迹</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">);
+                    </span><span style="color: rgba(0, 0, 255, 1)">break</span><span style="color: rgba(0, 0, 0, 1)">;
+            }</span></pre>
+</div>
+<p>哟西，真香。</p>
+<p>&nbsp;</p>
+<p>有时候，不仅要检测对象的值，还得深入到其成员。比如下面这个例子，Order类表示一条订单信息。</p>
+<div class="cnblogs_code">
+<pre>    <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">class</span><span style="color: rgba(0, 0, 0, 1)"> Order
+    {
+        </span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">int</span> ID { <span style="color: rgba(0, 0, 255, 1)">get</span>; <span style="color: rgba(0, 0, 255, 1)">set</span><span style="color: rgba(0, 0, 0, 1)">; }
+        </span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">string</span> Company { <span style="color: rgba(0, 0, 255, 1)">get</span>; <span style="color: rgba(0, 0, 255, 1)">set</span><span style="color: rgba(0, 0, 0, 1)">; }
+        </span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">string</span> ContactName { <span style="color: rgba(0, 0, 255, 1)">get</span>; <span style="color: rgba(0, 0, 255, 1)">set</span><span style="color: rgba(0, 0, 0, 1)">; }
+        </span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">float</span> Qty { <span style="color: rgba(0, 0, 255, 1)">get</span>; <span style="color: rgba(0, 0, 255, 1)">set</span><span style="color: rgba(0, 0, 0, 1)">; }
+        </span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">decimal</span> UP { <span style="color: rgba(0, 0, 255, 1)">get</span>; <span style="color: rgba(0, 0, 255, 1)">set</span><span style="color: rgba(0, 0, 0, 1)">; }
+        </span><span style="color: rgba(0, 0, 255, 1)">public</span> DateTime Date { <span style="color: rgba(0, 0, 255, 1)">get</span>; <span style="color: rgba(0, 0, 255, 1)">set</span><span style="color: rgba(0, 0, 0, 1)">; }
+    }</span></pre>
+</div>
+<p>前不久，公司接到一笔Order，做成了收益应该不错。</p>
+<div class="cnblogs_code">
+<pre>            Order od = <span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> Order
+            {
+                ID </span>= <span style="color: rgba(128, 0, 128, 1)">11</span><span style="color: rgba(0, 0, 0, 1)">,
+                Company </span>= <span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">大嘴狗贸易有限公司</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">,
+                ContactName </span>= <span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">陈大爷</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">,
+                Qty </span>= <span style="color: rgba(128, 0, 128, 1)">425.12f</span><span style="color: rgba(0, 0, 0, 1)">,
+                UP </span>= <span style="color: rgba(128, 0, 128, 1)">1000.55M</span><span style="color: rgba(0, 0, 0, 1)">,
+                Date </span>= <span style="color: rgba(0, 0, 255, 1)">new</span>(<span style="color: rgba(128, 0, 128, 1)">2020</span>, <span style="color: rgba(128, 0, 128, 1)">10</span>, <span style="color: rgba(128, 0, 128, 1)">27</span><span style="color: rgba(0, 0, 0, 1)">)
+            };</span></pre>
+</div>
+<p>假如我要在变量 od 上做 switch，看看，就这样：</p>
+<div class="cnblogs_code">
+<pre>            <span style="color: rgba(0, 0, 255, 1)">switch</span><span style="color: rgba(0, 0, 0, 1)"> (od)
+            {
+                </span><span style="color: rgba(0, 0, 255, 1)">case</span> { Qty: &gt;<span style="color: rgba(0, 0, 0, 1)"> 1000f }:
+                    Console.WriteLine(</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">发财了，发财了</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">);
+                    </span><span style="color: rgba(0, 0, 255, 1)">break</span><span style="color: rgba(0, 0, 0, 1)">;
+                </span><span style="color: rgba(0, 0, 255, 1)">case</span> { Qty: &gt;<span style="color: rgba(0, 0, 0, 1)"> 500f }:
+                    Console.WriteLine(</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">好家伙，年度大订单</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">);
+                    </span><span style="color: rgba(0, 0, 255, 1)">break</span><span style="color: rgba(0, 0, 0, 1)">;
+                </span><span style="color: rgba(0, 0, 255, 1)">case</span> { Qty: &gt;<span style="color: rgba(0, 0, 0, 1)"> 100f }:
+                    Console.WriteLine(</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">订单量不错</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">);
+                    </span><span style="color: rgba(0, 0, 255, 1)">break</span><span style="color: rgba(0, 0, 0, 1)">;
+            }</span></pre>
+</div>
+<p>咦？这，这是什么鬼？莫惊莫惊，这不是鬼。它的意思是判断 Qty 属性的值，如果订单货量大于 100 就输出“订单量不错”；要是订单货量大于 1000，那就输出“发财了，发财了”。</p>
+<p>但你会说，这对大括号怎么来的呢？还记得这种 LINQ 的写法吗？</p>
+<div class="cnblogs_code">
+<pre>    <span style="color: rgba(0, 0, 255, 1)">from</span> x <span style="color: rgba(0, 0, 255, 1)">in</span><span style="color: rgba(0, 0, 0, 1)"> ...
+        </span><span style="color: rgba(0, 0, 255, 1)">where</span><span style="color: rgba(0, 0, 0, 1)"> x.A ...
+        </span><span style="color: rgba(0, 0, 255, 1)">select</span> <span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> {
+            Prop1 </span>=<span style="color: rgba(0, 0, 0, 1)"> ...,
+            Prop2 </span>=<span style="color: rgba(0, 0, 0, 1)"> ...,
+            ................
+        }            </span></pre>
+</div>
+<p>new { ... } 是匿名类型实例，那如果是非匿名类型呢，看看前面的 Cat 实例初始化。</p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 0, 1)">     Cat {
+         ..........
+     }</span></pre>
+</div>
+<p>这就对了，这对大括号就是构造某实例的成员值用的，所以，上面的 switch 语句其实是这样写的：</p>
+<div class="cnblogs_code">
+<pre>            <span style="color: rgba(0, 0, 255, 1)">switch</span><span style="color: rgba(0, 0, 0, 1)"> (od)
+            {
+                </span><span style="color: rgba(0, 0, 255, 1)">case</span> Order{ Qty: &gt;<span style="color: rgba(0, 0, 0, 1)"> 1000f }:
+                    Console.WriteLine(</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">发财了，发财了</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">);
+                    </span><span style="color: rgba(0, 0, 255, 1)">break</span><span style="color: rgba(0, 0, 0, 1)">;
+                </span><span style="color: rgba(0, 0, 255, 1)">case</span> Order{ Qty: &gt;<span style="color: rgba(0, 0, 0, 1)"> 500f }:
+                    Console.WriteLine(</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">好家伙，年度大订单</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">);
+                    </span><span style="color: rgba(0, 0, 255, 1)">break</span><span style="color: rgba(0, 0, 0, 1)">;
+                </span><span style="color: rgba(0, 0, 255, 1)">case</span> Order{ Qty: &gt;<span style="color: rgba(0, 0, 0, 1)"> 100f }:
+                    Console.WriteLine(</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">订单量不错</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">);
+                    </span><span style="color: rgba(0, 0, 255, 1)">break</span><span style="color: rgba(0, 0, 0, 1)">;
+            }</span></pre>
+</div>
+<p>Order{ ... } 就是匹配一个 Order 对象实例，并且它的 Qty 属性要符合 ... 条件。由于变量 od 始终就是 Order 类型，所以，case 子句中的 Order 就省略了，变成</p>
+<div class="cnblogs_code">
+<pre>                <span style="color: rgba(0, 0, 255, 1)">case</span> { Qty: &gt;<span style="color: rgba(0, 0, 0, 1)"> 1000f }:
+                    Console.WriteLine(</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">发财了，发财了</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">);
+                    </span><span style="color: rgba(0, 0, 255, 1)">break</span>;</pre>
+</div>
+<p>如果出现多个属性，则表示为多个属性设定匹配条件，它们之间是“且”的关系。比如</p>
+<div class="cnblogs_code">
+<pre>                <span style="color: rgba(0, 0, 255, 1)">case</span> { Qty: &gt; 100f, Company: not <span style="color: rgba(0, 0, 255, 1)">null</span><span style="color: rgba(0, 0, 0, 1)"> }:
+                    Console.WriteLine(</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">订单量不错</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">);
+                    </span><span style="color: rgba(0, 0, 255, 1)">break</span>;</pre>
+</div>
+<p>猜猜啥意思？这个是可以“望文生义”的，Qty 属性的值要大于 100，并且 Company 属性的值不能为 null。不为 null 的写法是 not null，不要写成 !null，因为这样太难看了。</p>
+<p>&nbsp;</p>
+<p>如果你的代码分支较少，你可以用 if 语句的，只是得配合 is 运算符。</p>
+<div class="cnblogs_code">
+<pre>            <span style="color: rgba(0, 0, 255, 1)">if</span> (od <span style="color: rgba(0, 0, 255, 1)">is</span> { UP: &lt;<span style="color: rgba(0, 0, 0, 1)"> 3000M })
+            {
+                Console.WriteLine(</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">报价不理想</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">);
+            }</span></pre>
+</div>
+<p>但是，这个写法目前有局限性，它只能用常量值来做判断，你要是这样写就会报错。</p>
+<div class="cnblogs_code">
+<pre>            <span style="color: rgba(0, 0, 255, 1)">if</span> (od <span style="color: rgba(0, 0, 255, 1)">is</span> { Date: &lt;<span style="color: rgba(0, 0, 0, 1)"> DateTime.Now })
+            {
+                ................
+            }</span></pre>
+</div>
+<p>DateTime.Now 不是常量值，上面代码无法通过编译。</p>
+<p>&nbsp;</p>
+<p>is 运算符以前是用来匹配类型的，上述的用法是它的语法扩展。</p>
+<div class="cnblogs_code">
+<pre>            <span style="color: rgba(0, 0, 255, 1)">object</span> n = <span style="color: rgba(128, 0, 128, 1)">5000000L</span><span style="color: rgba(0, 0, 0, 1)">;
+            </span><span style="color: rgba(0, 0, 255, 1)">if</span>(n <span style="color: rgba(0, 0, 255, 1)">is</span> <span style="color: rgba(0, 0, 255, 1)">long</span><span style="color: rgba(0, 0, 0, 1)">)
+            {
+                Console.WriteLine(</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">它是个长整型</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">);
+            }</span></pre>
+</div>
+<p>进化之后的 is 运算符也可以这样用：</p>
+<div class="cnblogs_code">
+<pre>            <span style="color: rgba(0, 0, 255, 1)">object</span> n = <span style="color: rgba(128, 0, 128, 1)">5000000L</span><span style="color: rgba(0, 0, 0, 1)">;
+            </span><span style="color: rgba(0, 0, 255, 1)">if</span>(n <span style="color: rgba(0, 0, 255, 1)">is</span> <span style="color: rgba(0, 0, 255, 1)">long</span><span style="color: rgba(0, 0, 0, 1)"> x)
+            {
+                Console.WriteLine(</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">它是个长整型，存放的值是：{0}</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">, x);
+            }</span></pre>
+</div>
+<p>如果你在 if 语句内要使用 n 的值，就可以顺便转为 long 类型并赋值给变量 x，这样就一步到位，不必再去写一句 long x = (long)n 。</p>
+<p>&nbsp;</p>
+<p>如果 switch... 语句在判断之后需要返回一个值，还可以把它变成表达式来用。咱们把前面的 Order 例子改一下。</p>
+<div class="cnblogs_code">
+<pre>            <span style="color: rgba(0, 0, 255, 1)">string</span> message = od <span style="color: rgba(0, 0, 255, 1)">switch</span><span style="color: rgba(0, 0, 0, 1)">
+            {
+                { Qty: </span>&gt; 1000f }    =&gt; <span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">发财了</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">,
+                { Qty: </span>&gt; 500f }     =&gt; <span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">年度大订单</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">,
+                { Qty: </span>&gt; 100f }     =&gt; <span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">订单量不错</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">,
+                _                   </span>=&gt; <span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">未知</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">
+            };
+
+            Console.WriteLine(message);</span></pre>
+</div>
+<p>这时候你得注意：</p>
+<p>1）switch 现在是表达式，不是语句块，所以最后大括号右边的分号不能少；</p>
+<p>2）因为 switch 成了表达式，就不能用 case 子句了，所以直接用具体的内容来匹配；</p>
+<p>3）最后返回“未知”的那个下划线（_），也就是所谓的“弃婴”，哦不，是“弃元”，就是虽然赋了值但不需要使用的变量，可以直接丢掉。这里就相当于 switch 语句块中的 default 子句，当前面所有条件都不能匹配时，就返回“未知”。</p>
+<p>&nbsp;</p>
+<h2>第三出：属性的 init 访问器</h2>
+<p>要首先得知道，这个 init 只用于只读属性的初始化阶段，对于可读可写的属性，和以前一样，直接 get; set; 即可。</p>
+<p>有人说这个 init 不知干啥用，那好，咱们先不说它，先来看看 C# 前些版本中新增的属性初始化语句。</p>
+<div class="cnblogs_code">
+<pre>    <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">class</span><span style="color: rgba(0, 0, 0, 1)"> Dog
+    {
+        </span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">int</span> No { <span style="color: rgba(0, 0, 255, 1)">get</span>; } = <span style="color: rgba(128, 0, 128, 1)">0</span><span style="color: rgba(0, 0, 0, 1)">;
+        </span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">string</span> Name { <span style="color: rgba(0, 0, 255, 1)">get</span>; } = <span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">no name</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">;
+        </span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">int</span> Age { <span style="color: rgba(0, 0, 255, 1)">get</span>; } = <span style="color: rgba(128, 0, 128, 1)">1</span><span style="color: rgba(0, 0, 0, 1)">;
+    }</span></pre>
+</div>
+<p>你看，这样就可以给属性分配初始值了，那还要 init 干吗呢？</p>
+<p>好，我给你制造一个问题——我要是这样初始化 Dog 类的属性，你试试看。</p>
+<div class="cnblogs_code">
+<pre>            Dog x = <span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> Dog
+            {
+                No </span>= <span style="color: rgba(128, 0, 128, 1)">100</span><span style="color: rgba(0, 0, 0, 1)">,
+                Name </span>= <span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">吉吉</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">,
+                Age </span>= <span style="color: rgba(128, 0, 128, 1)">4</span><span style="color: rgba(0, 0, 0, 1)">
+            };</span></pre>
+</div>
+<p>试一下，编译会出错吧。</p>
+<p><img src="https://img2020.cnblogs.com/blog/367389/202011/367389-20201109180014044-706088802.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>有些情况，你可以在属性定义阶段分配初始值，但有些时候，你必须要在代码中初始化。在过去，我们会通过定义带参数的构造函数来解决。</p>
+<div class="cnblogs_code">
+<pre>    <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">class</span><span style="color: rgba(0, 0, 0, 1)"> Dog
+    {
+        </span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">int</span> No { <span style="color: rgba(0, 0, 255, 1)">get</span>; } = <span style="color: rgba(128, 0, 128, 1)">0</span><span style="color: rgba(0, 0, 0, 1)">;
+        </span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">string</span> Name { <span style="color: rgba(0, 0, 255, 1)">get</span>; } = <span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">no name</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">;
+        </span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">int</span> Age { <span style="color: rgba(0, 0, 255, 1)">get</span>; } = <span style="color: rgba(128, 0, 128, 1)">1</span><span style="color: rgba(0, 0, 0, 1)">;
+
+        </span><em><strong><span style="color: rgba(0, 0, 255, 1)">public</span> Dog(<span style="color: rgba(0, 0, 255, 1)">int</span> no, <span style="color: rgba(0, 0, 255, 1)">string</span> name, <span style="color: rgba(0, 0, 255, 1)">int</span><span style="color: rgba(0, 0, 0, 1)"> age)
+        {
+            No </span>=<span style="color: rgba(0, 0, 0, 1)"> no;
+            Name </span>=<span style="color: rgba(0, 0, 0, 1)"> name;
+            Age </span>=</strong></em><span style="color: rgba(0, 0, 0, 1)"><em><strong> age;
+        }</strong></em>
+    }</span></pre>
+</div>
+<p>然后，这样初始化。</p>
+<div class="cnblogs_code">
+<pre>   Dog x = <span style="color: rgba(0, 0, 255, 1)">new</span>(<span style="color: rgba(128, 0, 128, 1)">1001</span>, <span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">吉吉</span><span style="color: rgba(128, 0, 0, 1)">"</span>, <span style="color: rgba(128, 0, 128, 1)">4</span>);</pre>
+</div>
+<p>&nbsp;</p>
+<p>可是，这样做的装逼指数依然不够高，你总不能每个类都来这一招吧，虽然不怎么辛苦，但每个类都得去写一个构造函数，不利落。</p>
+<p>于是，init 访问器用得上了，咱们把 Dog 类改改。</p>
+<div class="cnblogs_code">
+<pre>    <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">class</span><span style="color: rgba(0, 0, 0, 1)"> Dog
+    {
+        </span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">int</span> No { <span style="color: rgba(0, 0, 255, 1)">get</span><span style="color: rgba(0, 0, 0, 1)">; init; }
+        </span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">string</span> Name { <span style="color: rgba(0, 0, 255, 1)">get</span><span style="color: rgba(0, 0, 0, 1)">; init; }
+        </span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">int</span> Age { <span style="color: rgba(0, 0, 255, 1)">get</span><span style="color: rgba(0, 0, 0, 1)">; init; }
+    }</span></pre>
+</div>
+<p>你不用再去写带参数的构造函数了，实例化时直接为属性赋值。</p>
+<div class="cnblogs_code">
+<pre>            Dog x = <span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> Dog
+            {
+                No </span>= 100<span style="color: rgba(0, 0, 0, 1)">,
+                Name </span>= <span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">吉吉</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">,
+                Age </span>= <span style="color: rgba(128, 0, 128, 1)">4</span><span style="color: rgba(0, 0, 0, 1)">
+            };</span></pre>
+</div>
+<p>这样一来，这些只读属性都有默认的初始值了。</p>
+<p>当然，这个赋值只在初始化过程中有效，初始化之后你再想改属性的值，没门！</p>
+<div class="cnblogs_code">
+<pre>            x.Name = <span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">冬冬</span><span style="color: rgba(128, 0, 0, 1)">"</span>;  <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">错误</span>
+            x.Age = <span style="color: rgba(128, 0, 128, 1)">10</span>;       <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">错误</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>嗯，好了，以上就是老周对 C# 9 新特性用法的一些不成文的阐述。看完后你就别说难了。</p>
+<p>&nbsp;</p>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2020-11-09 18:14</span>&nbsp;
+<a href="https://www.cnblogs.com/tcjiaan/">东邪独孤</a>&nbsp;
+阅读(<span id="post_view_count">9434</span>)&nbsp;
+评论(<span id="post_comment_count">35</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=13947928" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(13947928);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 113198, cb_blogApp = 'tcjiaan', cb_blogUserGuid = '9874e16f-6837-e111-b988-842b2b196315';
+    var cb_entryId = 13947928, cb_entryCreatedDate = '2020-11-09 18:14', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 东邪独孤
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjttH_DLQdQIMsghfqbz364YoZih1_4htWR8Kva_7fJ8B1IwbqRyW8HmiZCMGiXMfc3oxCoNaGJgc1Izwt2bJEcV2DMq4TdYUGt40iQjCfsQtOddFhCOvE_WusQ8tzIiVIE" />
+</body>
+</html>

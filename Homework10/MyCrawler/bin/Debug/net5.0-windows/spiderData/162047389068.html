@@ -1,0 +1,409 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="&amp;lt;!DOCTYPE html&amp;gt; &amp;lt;html lang=&amp;quot;en&amp;quot;&amp;gt; &amp;lt;head&amp;gt; &amp;lt;meta charset=&amp;quot;UTF-8&amp;quo" />
+    <meta property="og:description" content="&amp;lt;!DOCTYPE html&amp;gt; &amp;lt;html lang=&amp;quot;en&amp;quot;&amp;gt; &amp;lt;head&amp;gt; &amp;lt;meta charset=&amp;quot;UTF-8&amp;quo" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>JavaScript课程——Day13（1、拖拽封装） - 别动我咖喱 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/coffee/bundle-coffee.min.css?v=BgguPR_JbmA1HKLJOLqLtHq5pt8a1UlO6ibCA_xgwdI" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/coffee/bundle-coffee-mobile.min.css?v=gcYNuAuJkNMICFERxhZCtKHGitYmBYNTxm9W97H2O2g" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/miaochaofan/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/miaochaofan/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/miaochaofan/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 653832;
+        var currentBlogApp = 'miaochaofan';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'coffee';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-05-07 09:35';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<a href="https://www.cnblogs.com/miaochaofan/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>			
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/miaochaofan/">别动我咖喱</a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="navigator">
+			
+<ul id="navList">
+	<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+	<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/miaochaofan/">
+首页</a>
+</li>
+	<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+	<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E5%88%AB%E5%8A%A8%E6%88%91%E5%92%96%E5%96%B1">
+联系</a></li>
+	<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+	<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/miaochaofan/rss/">
+订阅</a>
+	
+<a id="blog_nav_rss_image" href="https://www.cnblogs.com/miaochaofan/rss/">
+    <img src="/skins/coffee/images/xml.gif" alt="订阅" />
+</a></li>
+</ul>
+
+
+
+			<div class="blogStats">
+				
+				<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+				
+			</div><!--end: blogStats -->
+		</div><!--end: navigator 博客导航栏 -->
+		<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class = "postTitle">
+			
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/miaochaofan/p/14742729.html">
+    <span>JavaScript课程——Day13（1、拖拽封装）</span>
+    
+
+
+
+</a>
+
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 255, 1)">&lt;!</span><span style="color: rgba(255, 0, 255, 1)">DOCTYPE html</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">html </span><span style="color: rgba(255, 0, 0, 1)">lang</span><span style="color: rgba(0, 0, 255, 1)">="en"</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">head</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">meta </span><span style="color: rgba(255, 0, 0, 1)">charset</span><span style="color: rgba(0, 0, 255, 1)">="UTF-8"</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">meta </span><span style="color: rgba(255, 0, 0, 1)">http-equiv</span><span style="color: rgba(0, 0, 255, 1)">="X-UA-Compatible"</span><span style="color: rgba(255, 0, 0, 1)"> content</span><span style="color: rgba(0, 0, 255, 1)">="IE=edge"</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">meta </span><span style="color: rgba(255, 0, 0, 1)">name</span><span style="color: rgba(0, 0, 255, 1)">="viewport"</span><span style="color: rgba(255, 0, 0, 1)"> content</span><span style="color: rgba(0, 0, 255, 1)">="width=device-width, initial-scale=1.0"</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">title</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>Document<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">title</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">style</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(128, 0, 0, 1)">
+        div </span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 0, 1)">{</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(255, 0, 0, 1)">
+            width</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 0, 1)">:</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 255, 1)"> 100px</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 0, 1)">;</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(255, 0, 0, 1)">
+            height</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 0, 1)">:</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 255, 1)"> 100px</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 0, 1)">;</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(255, 0, 0, 1)">
+            position</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 0, 1)">:</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 255, 1)"> absolute</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 0, 1)">;</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(255, 0, 0, 1)">
+            top</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 0, 1)">:</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 255, 1)"> 0</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 0, 1)">;</span>
+        <span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 0, 1)">}</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(128, 0, 0, 1)">
+
+        div:nth-child(1) </span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 0, 1)">{</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(255, 0, 0, 1)">
+            left</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 0, 1)">:</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 255, 1)"> 0</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 0, 1)">;</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(255, 0, 0, 1)">
+            background</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 0, 1)">:</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 255, 1)"> red</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 0, 1)">;</span>
+        <span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 0, 1)">}</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(128, 0, 0, 1)">
+
+        div:nth-child(2) </span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 0, 1)">{</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(255, 0, 0, 1)">
+            left</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 0, 1)">:</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 255, 1)"> 100px</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 0, 1)">;</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(255, 0, 0, 1)">
+            background</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 0, 1)">:</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 255, 1)"> green</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 0, 1)">;</span>
+        <span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 0, 1)">}</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(128, 0, 0, 1)">
+
+        div:nth-child(3) </span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 0, 1)">{</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(255, 0, 0, 1)">
+            left</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 0, 1)">:</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 255, 1)"> 200px</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 0, 1)">;</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(255, 0, 0, 1)">
+            background</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 0, 1)">:</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 255, 1)"> pink</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 0, 1)">;</span>
+        <span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 0, 1)">}</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(128, 0, 0, 1)">
+
+        div:nth-child(4) </span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 0, 1)">{</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(255, 0, 0, 1)">
+            left</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 0, 1)">:</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 255, 1)"> 300px</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 0, 1)">;</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(255, 0, 0, 1)">
+            background</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 0, 1)">:</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 255, 1)"> yellow</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 0, 1)">;</span>
+        <span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 0, 1)">}</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">style</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">head</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+
+<span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">body</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">div</span><span style="color: rgba(0, 0, 255, 1)">&gt;&lt;/</span><span style="color: rgba(128, 0, 0, 1)">div</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">div</span><span style="color: rgba(0, 0, 255, 1)">&gt;&lt;/</span><span style="color: rgba(128, 0, 0, 1)">div</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">div</span><span style="color: rgba(0, 0, 255, 1)">&gt;&lt;/</span><span style="color: rgba(128, 0, 0, 1)">div</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">div</span><span style="color: rgba(0, 0, 255, 1)">&gt;&lt;/</span><span style="color: rgba(128, 0, 0, 1)">div</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">script </span><span style="color: rgba(255, 0, 0, 1)">src</span><span style="color: rgba(0, 0, 255, 1)">="js/drag.js"</span><span style="color: rgba(0, 0, 255, 1)">&gt;&lt;/</span><span style="color: rgba(128, 0, 0, 1)">script</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+    <span style="color: rgba(0, 0, 255, 1)">&lt;</span><span style="color: rgba(128, 0, 0, 1)">script</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+        <span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 128, 0, 1)">//</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 128, 0, 1)"> 拖拽函数封装完毕后引入，可以给多个div同时绑定</span>
+
+        <span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 255, 1)">var</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 0, 1)"> div </span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 0, 1)">=</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 0, 1)"> document.getElementsByTagName(</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 0, 1)">'</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 0, 1)">div</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 0, 1)">'</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 0, 1)">);
+
+        </span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 128, 0, 1)">//</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 128, 0, 1)"> 循环获得每一个div</span>
+        <span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 255, 1)">for</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 0, 1)"> (</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 255, 1)">var</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 0, 1)"> i </span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 0, 1)">=</span> <span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 0, 1)">0</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 0, 1)">; i </span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 0, 1)">&lt;</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 0, 1)"> div.length; i</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 0, 1)">++</span><span style="background-color: rgba(245, 245, 245, 1); color: rgba(0, 0, 0, 1)">) {
+            drag(div[i]);
+        }
+    </span><span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">script</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">body</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span>
+
+<span style="color: rgba(0, 0, 255, 1)">&lt;/</span><span style="color: rgba(128, 0, 0, 1)">html</span><span style="color: rgba(0, 0, 255, 1)">&gt;</span></pre>
+</div>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 255, 1)">function</span><span style="color: rgba(0, 0, 0, 1)"> drag(ele) {
+    ele.onmousedown </span>= <span style="color: rgba(0, 0, 255, 1)">function</span><span style="color: rgba(0, 0, 0, 1)"> (ev) {
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> 设置全局捕获，兼容IE8及以下</span>
+        <span style="color: rgba(0, 0, 255, 1)">if</span><span style="color: rgba(0, 0, 0, 1)"> (ele.setCapture) {
+            ele.setCapture();
+        }
+        </span><span style="color: rgba(0, 0, 255, 1)">var</span> ev = ev ||<span style="color: rgba(0, 0, 0, 1)"> window.event;
+
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> 控制盒子的移动范围，就要先得到可视区的宽和高</span>
+        <span style="color: rgba(0, 0, 255, 1)">var</span> clientW =<span style="color: rgba(0, 0, 0, 1)"> document.documentElement.clientWidth;
+        </span><span style="color: rgba(0, 0, 255, 1)">var</span> clientH =<span style="color: rgba(0, 0, 0, 1)"> document.documentElement.clientHeight;
+
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> 获取盒子的宽高</span>
+        <span style="color: rgba(0, 0, 255, 1)">var</span> boxW =<span style="color: rgba(0, 0, 0, 1)"> ele.clientWidth;
+        </span><span style="color: rgba(0, 0, 255, 1)">var</span> boxH =<span style="color: rgba(0, 0, 0, 1)"> ele.clientHeight;
+
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> 鼠标到盒子的距离</span>
+        <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> ev.clientX/ev.clientY  鼠标到可视窗口的左、上距离</span>
+        <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> box.offsetLeft/box.offsetTop   box到父级body的左、上距离</span>
+        <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> disX/disY  鼠标到盒子的左、上距离</span>
+        <span style="color: rgba(0, 0, 255, 1)">var</span> disX = ev.clientX -<span style="color: rgba(0, 0, 0, 1)"> ele.offsetLeft;
+        </span><span style="color: rgba(0, 0, 255, 1)">var</span> disY = ev.clientY -<span style="color: rgba(0, 0, 0, 1)"> ele.offsetTop;
+
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> 改进：鼠标拖动过快，会丢失盒子</span>
+
+        <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> 把box下的鼠标移动事件换成了document下的鼠标移动事件，因为box的事件最终会冒泡至document</span>
+        document.onmousemove = <span style="color: rgba(0, 0, 255, 1)">function</span><span style="color: rgba(0, 0, 0, 1)"> (ev) {
+            </span><span style="color: rgba(0, 0, 255, 1)">var</span> ev = ev ||<span style="color: rgba(0, 0, 0, 1)"> event;
+
+            </span><span style="color: rgba(0, 0, 255, 1)">var</span> L = ev.clientX - disX; <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> 盒子到左边的距离</span>
+            <span style="color: rgba(0, 0, 255, 1)">var</span> T = ev.clientY - disY; <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> 盒子到上边的距离</span>
+
+            <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> 判断L和T的位置距离再赋值</span>
+            <span style="color: rgba(0, 0, 255, 1)">if</span> (L &lt; 0<span style="color: rgba(0, 0, 0, 1)">) {
+                L </span>= 0<span style="color: rgba(0, 0, 0, 1)">;
+            } </span><span style="color: rgba(0, 0, 255, 1)">else</span> <span style="color: rgba(0, 0, 255, 1)">if</span> (L &gt; clientW -<span style="color: rgba(0, 0, 0, 1)"> boxW) {
+                L </span>= clientw -<span style="color: rgba(0, 0, 0, 1)"> disY;
+            }
+
+            </span><span style="color: rgba(0, 0, 255, 1)">if</span> (T &lt; 0<span style="color: rgba(0, 0, 0, 1)">) {
+                T </span>= 0<span style="color: rgba(0, 0, 0, 1)">;
+            } </span><span style="color: rgba(0, 0, 255, 1)">else</span> <span style="color: rgba(0, 0, 255, 1)">if</span> (T &gt; clientH -<span style="color: rgba(0, 0, 0, 1)"> boxH) {
+                T </span>= clientH -<span style="color: rgba(0, 0, 0, 1)"> boxH;
+            }
+
+            </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> 将L和T赋值给box的left和top</span>
+            ele.style.left = L + 'px'<span style="color: rgba(0, 0, 0, 1)">;
+            ele.style.top </span>= T + 'px'<span style="color: rgba(0, 0, 0, 1)">;
+        }
+
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> 抬起</span>
+        document.onmouseup = <span style="color: rgba(0, 0, 255, 1)">function</span><span style="color: rgba(0, 0, 0, 1)"> () {
+            </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> 鼠标抬起时，给鼠标移动和抬起分别设置为空</span>
+            document.onmousemove = <span style="color: rgba(0, 0, 255, 1)">null</span><span style="color: rgba(0, 0, 0, 1)">;
+            document.onmouseup </span>= <span style="color: rgba(0, 0, 255, 1)">null</span><span style="color: rgba(0, 0, 0, 1)">;
+
+            </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> 释放全局捕获，兼容IE8及以下</span>
+            <span style="color: rgba(0, 0, 255, 1)">if</span><span style="color: rgba(0, 0, 0, 1)"> (ele.releaseCapture) {
+                ele.releaseCapture();
+            }
+        }
+
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> 图片拖动产生副本的现象是浏览器默认行为</span>
+        <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> return false可以阻止浏览器的默认行为</span>
+        <span style="color: rgba(0, 0, 255, 1)">return</span> <span style="color: rgba(0, 0, 255, 1)">false</span><span style="color: rgba(0, 0, 0, 1)">;
+    }
+}</span></pre>
+</div>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+		</div>
+		<div class="postDesc">posted @ 
+<span id="post-date">2021-05-07 21:35</span>&nbsp;
+<a href="https://www.cnblogs.com/miaochaofan/">别动我咖喱</a>&nbsp;
+阅读(<span id="post_view_count">5</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14742729" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14742729);return false;">收藏</a></div>
+	</div>
+	
+	
+</div><!--end: topics 文章、评论容器-->
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 653832, cb_blogApp = 'miaochaofan', cb_blogUserGuid = 'c075746b-05ef-4af9-f3b9-08d89cd47bed';
+    var cb_entryId = 14742729, cb_entryCreatedDate = '2021-05-07 21:35', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+</div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="calendar"><div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script></div>
+			
+			<DIV id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</DIV>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 别动我咖喱
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjtKFVmslnT5IOQFBwJZoD5C7lOiIyW-uYFmYvnL9FnyNXdNEv6IUidbLqv9iIDw6JX7D9Fhx8-3Gph3rx_-qYWl8NBOV18NCwhLsbqyMG6997fMuzZB2fpTEt81x0skM0o" />
+</body>
+</html>

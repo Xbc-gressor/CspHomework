@@ -1,0 +1,594 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    
+    
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>1763392456 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/cleargertrude/bundle-cleargertrude.min.css?v=ao_i7cRyAq28rTRfH3XwyaUAOJUI_lVDelGJz66p2QI" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/cleargertrude/bundle-cleargertrude-mobile.min.css?v=_GEQNo39VVwANU5y0vOlsYQvhRAXIeAfOodmkI0Ke0U" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/cnoneblog/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/cnoneblog/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/cnoneblog/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 466041;
+        var currentBlogApp = 'cnoneblog';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'ClearGertrude';
+        var visitorUserId = '';
+    </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <div id="header">
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/cnoneblog/">1763392456</a>
+</h1>
+<p id="tagline"></p>
+
+</div>
+<div id="main">
+	
+
+
+
+
+
+		
+<p class="date">
+	<a href="https://www.cnblogs.com/cnoneblog/archive/2021/05/08.html"><img src="/skins/cleargertrude/images/link.gif" alt="" /></a>
+	2021年5月8日		  
+</p>
+
+    <div class="post">
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/cnoneblog/p/14744088.html">
+    <span>
+        2021年华为Java面试真题解析，帮你解决95%以上的问题！
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        
+
+    <div class="c_b_p_desc">
+摘要：前言 由于作者面试过程中高度紧张，本文中只列出了自己还记得的部分题目。 经历了漫长一个月的等待，终于在前几天通过面试官获悉已被蚂蚁金服录取，这期间的焦虑、痛苦自不必说，知道被录取的那一刻，一整年的阴霾都一扫而空了。 笔者面的是阿里的Java研发工程师岗，面试流程是4轮技术面+1轮hr。 文末可以获取        <a href="https://www.cnblogs.com/cnoneblog/p/14744088.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        <div class="postFoot">
+            posted @ 2021-05-08 11:02
+1763392456
+<span data-post-id="14744088" class="post-view-count">阅读(0)</span> 
+<span data-post-id="14744088" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14744088" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14744088" rel="nofollow">
+    编辑
+</a>
+
+        </div>
+    </div>
+
+
+
+		
+<p class="date">
+	<a href="https://www.cnblogs.com/cnoneblog/archive/2021/02/18.html"><img src="/skins/cleargertrude/images/link.gif" alt="" /></a>
+	2021年2月18日		  
+</p>
+
+    <div class="post">
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/cnoneblog/p/14413858.html">
+    <span>
+        Vue 组件的通信方式都有哪些？
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        
+
+    <div class="c_b_p_desc">
+摘要：说一下 Vue 组件的通信方式都有哪些？（父子组件，兄弟组件，多级嵌套组件等等） 一、父组件向子组件传值 二、子组件向父组件传值 三、兄弟组件传值 四、跨组件 一、父组件向子组件传值 1.1props方式：可以是数组或对象，用于接收父组件的数据 &lt;div id=&quot;app&quot;&gt; &lt;child-compo        <a href="https://www.cnblogs.com/cnoneblog/p/14413858.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        <div class="postFoot">
+            posted @ 2021-02-18 22:37
+1763392456
+<span data-post-id="14413858" class="post-view-count">阅读(49)</span> 
+<span data-post-id="14413858" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14413858" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14413858" rel="nofollow">
+    编辑
+</a>
+
+        </div>
+    </div>
+
+
+
+		
+<p class="date">
+	<a href="https://www.cnblogs.com/cnoneblog/archive/2021/02/17.html"><img src="/skins/cleargertrude/images/link.gif" alt="" /></a>
+	2021年2月17日		  
+</p>
+
+    <div class="post">
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/cnoneblog/p/14409701.html">
+    <span>
+        LVS之DR模式部署
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        
+
+    <div class="c_b_p_desc">
+摘要：一、LVS-DR数据包流向分析 为方便进行原理分析，将Client与群集机器放在同一网络中，数据包流经的路线为1-2-3-41、Client 向目标 VIP 发出请求，Director（负载均衡器）接收。此时源MAC 地址为Client MAC地址，目标MAC地址为 调度器Director 的MAC        <a href="https://www.cnblogs.com/cnoneblog/p/14409701.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        <div class="postFoot">
+            posted @ 2021-02-17 20:43
+1763392456
+<span data-post-id="14409701" class="post-view-count">阅读(106)</span> 
+<span data-post-id="14409701" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14409701" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14409701" rel="nofollow">
+    编辑
+</a>
+
+        </div>
+    </div>
+
+
+
+		
+<p class="date">
+	<a href="https://www.cnblogs.com/cnoneblog/archive/2021/02/15.html"><img src="/skins/cleargertrude/images/link.gif" alt="" /></a>
+	2021年2月15日		  
+</p>
+
+    <div class="post">
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/cnoneblog/p/14403263.html">
+    <span>
+        docker容器开启ssh服务
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        
+
+    <div class="c_b_p_desc">
+摘要：http://www.dtmao.cc/news_show_703007.shtml Step1 利用CentOS基础镜像，创建一个docker容器，主要这里要指定端口映射，必须要映射到容器内的22端口，否则无法用ssh登录容器。 docker run -it -p 3361:22 -p 3362:        <a href="https://www.cnblogs.com/cnoneblog/p/14403263.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        <div class="postFoot">
+            posted @ 2021-02-15 09:47
+1763392456
+<span data-post-id="14403263" class="post-view-count">阅读(17)</span> 
+<span data-post-id="14403263" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14403263" class="post-digg-count">推荐(1)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14403263" rel="nofollow">
+    编辑
+</a>
+
+        </div>
+    </div>
+
+
+
+		
+<p class="date">
+	<a href="https://www.cnblogs.com/cnoneblog/archive/2021/02/14.html"><img src="/skins/cleargertrude/images/link.gif" alt="" /></a>
+	2021年2月14日		  
+</p>
+
+    <div class="post">
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/cnoneblog/p/14401758.html">
+    <span>
+        统计学三大相关性系数：pearson，spearman，kendall
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        
+
+    <div class="c_b_p_desc">
+摘要：目录 person correlation coefficient（皮尔森相关性系数-r） spearman correlation coefficient（斯皮尔曼相关性系数-p） kendall correlation coefficient（肯德尔相关性系数-k） R语言计算correlati        <a href="https://www.cnblogs.com/cnoneblog/p/14401758.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        <div class="postFoot">
+            posted @ 2021-02-14 12:20
+1763392456
+<span data-post-id="14401758" class="post-view-count">阅读(161)</span> 
+<span data-post-id="14401758" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14401758" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14401758" rel="nofollow">
+    编辑
+</a>
+
+        </div>
+    </div>
+    <div class="post">
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/cnoneblog/p/14401483.html">
+    <span>
+        python文件持久化存储
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        
+
+    <div class="c_b_p_desc">
+摘要：文件持久化存储 目录 文件持久化存储 脑图 文件的操作 with 语句 OS模块 json模块 存储为Excel文件 脑图 文件的操作 import os import platform # 1. 获取操作系统类型 print(os.name) # 2. 获取主机信息，windows系统使用plat        <a href="https://www.cnblogs.com/cnoneblog/p/14401483.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        <div class="postFoot">
+            posted @ 2021-02-14 08:23
+1763392456
+<span data-post-id="14401483" class="post-view-count">阅读(87)</span> 
+<span data-post-id="14401483" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14401483" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14401483" rel="nofollow">
+    编辑
+</a>
+
+        </div>
+    </div>
+
+
+
+		
+<p class="date">
+	<a href="https://www.cnblogs.com/cnoneblog/archive/2021/02/12.html"><img src="/skins/cleargertrude/images/link.gif" alt="" /></a>
+	2021年2月12日		  
+</p>
+
+    <div class="post">
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/cnoneblog/p/14398533.html">
+    <span>
+        Eazfuscator.NET(.net混淆工具)
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        
+
+    <div class="c_b_p_desc">
+摘要：软件功能 调试支持： 在你的程序集被Eazfuscator.NET混淆后，它不会成为不可调试混乱的砖块。你总是可以得到一个行号，出现未处理的异常，查看可读的堆栈跟踪，甚至附加调试器来遍历你的模糊代码。 代码和数据虚拟化： 改变您的程序在内存和磁盘上的呈现方式。我们的代码虚拟化技术将您的.NET字节代        <a href="https://www.cnblogs.com/cnoneblog/p/14398533.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        <div class="postFoot">
+            posted @ 2021-02-12 10:03
+1763392456
+<span data-post-id="14398533" class="post-view-count">阅读(52)</span> 
+<span data-post-id="14398533" class="post-comment-count">评论(1)</span> 
+<span data-post-id="14398533" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14398533" rel="nofollow">
+    编辑
+</a>
+
+        </div>
+    </div>
+
+
+
+		
+<p class="date">
+	<a href="https://www.cnblogs.com/cnoneblog/archive/2021/02/11.html"><img src="/skins/cleargertrude/images/link.gif" alt="" /></a>
+	2021年2月11日		  
+</p>
+
+    <div class="post">
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/cnoneblog/p/14398146.html">
+    <span>
+        Linux下的C语言编程
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        
+
+    <div class="c_b_p_desc">
+摘要：一、在Linux下的C语言编程所需工具(下面所列举的都是我编程所用的工具) 1.文本编辑器 Vim 2.编译链接工具 gcc 3.调试器 gdb 4.项目管理工具 make和makefile 二、VIM文本编辑器的模式和配置 vim有三种模式，分别是命令行模式，插入模式，还有底行模式 命令行模式(用        <a href="https://www.cnblogs.com/cnoneblog/p/14398146.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        <div class="postFoot">
+            posted @ 2021-02-11 20:36
+1763392456
+<span data-post-id="14398146" class="post-view-count">阅读(21)</span> 
+<span data-post-id="14398146" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14398146" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14398146" rel="nofollow">
+    编辑
+</a>
+
+        </div>
+    </div>
+    <div class="post">
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/cnoneblog/p/14398048.html">
+    <span>
+        java-GUI编程学习总结
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        
+
+    <div class="c_b_p_desc">
+摘要：狂神说java-GUI编程学习总结 1.简介 2、AWT 2.1、实现如图1-2 （1）面向过程写法 （2）内部类写法 （3）完全改造成面向对象 3、Swing 3.1、鼠标花点 3.2、弹窗 3.3、标签（Icon和ImageIcon） 3.4、JScroll面板 3.5、JButton(单选框、        <a href="https://www.cnblogs.com/cnoneblog/p/14398048.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        <div class="postFoot">
+            posted @ 2021-02-11 19:25
+1763392456
+<span data-post-id="14398048" class="post-view-count">阅读(30)</span> 
+<span data-post-id="14398048" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14398048" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14398048" rel="nofollow">
+    编辑
+</a>
+
+        </div>
+    </div>
+
+
+
+		
+<p class="date">
+	<a href="https://www.cnblogs.com/cnoneblog/archive/2021/02/10.html"><img src="/skins/cleargertrude/images/link.gif" alt="" /></a>
+	2021年2月10日		  
+</p>
+
+    <div class="post">
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/cnoneblog/p/14394887.html">
+    <span>
+        Python基础--核心数据类型
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        
+
+    <div class="c_b_p_desc">
+摘要：python 的核心数据类型： Number 数字（整数，浮点数，复数，布尔型数） String 字符串 List 列表 Tuple 元组 Dictionary 字典 Set 集合 1. 整数（整型数）int 整数是指不带小数部分的数（自然数，0，负数自然数），如：-5，100，0，99999999        <a href="https://www.cnblogs.com/cnoneblog/p/14394887.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        <div class="postFoot">
+            posted @ 2021-02-10 05:22
+1763392456
+<span data-post-id="14394887" class="post-view-count">阅读(59)</span> 
+<span data-post-id="14394887" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14394887" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14394887" rel="nofollow">
+    编辑
+</a>
+
+        </div>
+    </div>
+
+
+
+
+<div class="topicListFooter">
+    <div id="nav_next_page">
+        
+    <a href="https://www.cnblogs.com/cnoneblog/default.html?page=2">
+        下一页
+    </a>
+
+    </div>    
+</div>
+
+
+
+
+
+
+<script>
+    updatePostStats(
+        $(".post-view-count").map(function () { return this.dataset.postId }).get(),
+        function(id, count) { $(".post-view-count[data-post-id=" + id + "]").text("阅读(" + count + ")") },
+        function(id, count) { $(".post-comment-count[data-post-id=" + id + "]").text("评论(" + count + ")") },
+        function(id, count) { $(".post-digg-count[data-post-id=" + id + "]").text("推荐(" + count + ")") });
+</script>
+</div>
+<div id="rightmenu">
+	
+		
+<h3>导航</h3>
+<ul>
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/cnoneblog/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/1763392456">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/cnoneblog/rss/">
+订阅</a>
+<a id="blog_nav_rss_image" href="https://www.cnblogs.com/cnoneblog/rss/">
+    <img src="/skins/cleargertrude/images/xml.gif" alt="订阅" />
+</a></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>					
+		<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>
+		<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+		<div id="footer">
+	Powered by: 
+	<br />
+	<a href="https://www.cnblogs.com/" id="footer_site_link">博客园</a>
+	<br />
+	Copyright &copy; 2021 1763392456
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+</div>
+
+
+	
+</div>			
+			
+	
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjvuzjACmmzHVCWzeQ97CVkqGTlAmylJ7khAY6wzF3-NNpGd_tH581cYkFPVTintUE-KEUrmeUtgZWmvln2sdmTsmLGUsG1N4aIooYtFFHbOXcjf7bxFFjqJUZFGDskvWgQ" />
+</body>
+</html>

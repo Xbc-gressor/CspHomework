@@ -1,0 +1,513 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="一：背景 1. 讲故事 昨天群里有位朋友问：linq 查询的结果会开辟新的内存吗？如果开了，那是对原序列集里面元素的深拷贝还是仅仅拷贝其引用？ 其实这个问题我觉得问的挺好，很多初学 C# 的朋友或多或" />
+    <meta property="og:description" content="一：背景 1. 讲故事 昨天群里有位朋友问：linq 查询的结果会开辟新的内存吗？如果开了，那是对原序列集里面元素的深拷贝还是仅仅拷贝其引用？ 其实这个问题我觉得问的挺好，很多初学 C# 的朋友或多或" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>linq 查询的结果会开辟新的内存吗？ - 一线码农 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/imetro_hd/bundle-imetro_hd.min.css?v=FftQhR2MvKTGGXxV0VXlcGGt4XBM0_1XGJmu6kYD9bg" />
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/huangxincheng/custom.css?v=SdYXO/puoNgM6b4X1hctiyD8/bs=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/imetro_hd/bundle-imetro_hd-mobile.min.css?v=t8lZrYXGRE8kAD_d-besbRXwkXSQmMprnkoJVYlZl-g" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/huangxincheng/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/huangxincheng/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/huangxincheng/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 85195;
+        var currentBlogApp = 'huangxincheng';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'iMetro_HD';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2020-12-01 05:51';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="no-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/huangxincheng/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/huangxincheng/"></a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/huangxincheng/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E4%B8%80%E7%BA%BF%E7%A0%81%E5%86%9C">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/huangxincheng/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/huangxincheng/p/14069782.html">
+    <span>linq 查询的结果会开辟新的内存吗？</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+<h2 id="一：背景">一：背景</h2>
+<h3 id="1-讲故事">1. 讲故事</h3>
+<p><img src="https://img2020.cnblogs.com/other/214741/202012/214741-20201201175056576-2142128791.png" alt="" loading="lazy"></p>
+<blockquote>
+<p>昨天群里有位朋友问：linq 查询的结果会开辟新的内存吗？如果开了，那是对原序列集里面元素的深拷贝还是仅仅拷贝其引用？</p>
+</blockquote>
+<p>其实这个问题我觉得问的挺好，很多初学 C# 的朋友或多或少都有这样的疑问，甚至有 3，4 年工作经验的朋友可能都不是很清楚，这就导致在写代码的时候总是会畏手畏脚，还会莫名的揪心这样玩的话内存会不会暴涨暴跌，这一篇我就用 windbg 来帮助朋友彻底分析一下。</p>
+<h3 id="二：寻找答案">二：寻找答案</h3>
+<h3 id="1-一个小案例">1. 一个小案例</h3>
+<p>这位老弟提到了是深拷贝还是浅拷贝，本意就是想问： <code>linq 一个引用类型集合 到底会怎样？</code> 这里我先模拟一个集合，代码如下：</p>
+<pre><code class="language-C#">
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var personList = new List&lt;Person&gt;() {
+                                              new Person() { Name="jack", Age=20 },
+                                              new Person() { Name="elen",Age=25,  },
+                                              new Person() {  Name="john", Age=22 }
+                                            };
+
+            var query = personList.Where(m =&gt; m.Age &gt; 20).ToList();
+
+            Console.WriteLine($"query.count={query.Count}");
+
+            Console.ReadLine();
+        }
+    }
+
+    class Person
+    {
+        public string Name { get; set; }
+
+        public int Age { get; set; }
+    }
+
+</code></pre>
+<p><img src="https://img2020.cnblogs.com/other/214741/202012/214741-20201201175056826-685094790.jpg" alt="" loading="lazy"></p>
+<h3 id="2-真的是深copy吗？">2. 真的是深copy吗？</h3>
+<p>如果用 windbg 的话，就非常简单了，假设是深copy 的话，那么 query 之后，托管堆上就会有 5个 Person，那是不是这样呢？ 用 <code>!dumpheap -stat -type Person</code> 到托管堆验证一下即可。</p>
+<pre><code class="language-C#">
+0:000&gt; !dumpheap -stat -type Person
+Statistics:
+              MT    Count    TotalSize Class Name
+00007ff7f27c3528        1           64 System.Func`2[[ConsoleApp5.Person, ConsoleApp5],[System.Boolean, System.Private.CoreLib]]
+00007ff7f27c2b60        2           64 System.Collections.Generic.List`1[[ConsoleApp5.Person, ConsoleApp5]]
+00007ff7f27c9878        1           72 System.Linq.Enumerable+WhereListIterator`1[[ConsoleApp5.Person, ConsoleApp5]]
+00007ff7f27c7a10        3          136 ConsoleApp5.Person[]
+00007ff7f27c2ad0        3           96 ConsoleApp5.Person
+
+</code></pre>
+<p>从最后一行输出可以看到: <code>ConsoleApp5.Person</code> 的 Count=3，也就表明没有所谓的深copy，如果你还不信的话，可以在 query 中修改某一个Person的Age，看看原始的 personList 集合是不是同步更新,修改代码如下：</p>
+<pre><code class="language-C#">
+        static void Main(string[] args)
+        {
+            var personList = new List&lt;Person&gt;() {
+                                              new Person() { Name="jack", Age=20 },
+                                              new Person() { Name="elen",Age=25,  },
+                                              new Person() {  Name="john", Age=22 }
+                                            };
+
+            var query = personList.Where(m =&gt; m.Age &gt; 20).ToList();
+
+            //故意修改 Age=25 为  Age=100； 
+            query[0].Age = 100;
+
+            Console.WriteLine($"query[0].Age={query[0].Age}, personList[2].Age={personList[1].Age}");
+
+            Console.ReadLine();
+        }
+
+</code></pre>
+<p><img src="https://img2020.cnblogs.com/other/214741/202012/214741-20201201175056981-1994772362.png" alt="" loading="lazy"></p>
+<p>从截图来看更加验证了 并没有所谓的 深copy 一说。</p>
+<h3 id="3-真的是-copy-引用吗？">3. 真的是 copy 引用吗？</h3>
+<p>要验证是不是 copy 引用，最粗暴的方法就是看看 query 这个数组在 托管堆上的存储行态就明白了，同样你也可以借助 windbg 去验证一下，先到线程栈去找 query 变量，然后用 <code>da</code> 命令 对 query 进行打印。</p>
+<pre><code class="language-C#">
+0:000&gt; !clrstack -l
+OS Thread Id: 0x809c (0)
+        Child SP               IP Call Site
+000000E143D7E9B0 00007ff7f26f18be ConsoleApp5.Program.Main(System.String[]) [E:\net5\ConsoleApp5\ConsoleApp5\Program.cs @ 20]
+    LOCALS:
+        0x000000E143D7EA38 = 0x00000218266aab70
+        0x000000E143D7EA30 = 0x00000218266aad98
+
+0:000&gt; !do 0x00000218266aad98
+Name:        System.Collections.Generic.List`1[[ConsoleApp5.Person, ConsoleApp5]]
+MethodTable: 00007ff7f27b2b60
+EEClass:     00007ff7f27abad0
+Size:        32(0x20) bytes
+File:        C:\Program Files\dotnet\shared\Microsoft.NETCore.App\3.1.9\System.Private.CoreLib.dll
+Fields:
+              MT    Field   Offset                 Type VT     Attr            Value Name
+0000000000000000  4001c35        8              SZARRAY  0 instance 00000218266aadb8 _items
+00007ff7f26bb1f0  4001c36       10         System.Int32  1 instance                2 _size
+00007ff7f26bb1f0  4001c37       14         System.Int32  1 instance                2 _version
+0000000000000000  4001c38        8              SZARRAY  0   static dynamic statics NYI                 s_emptyArray
+
+0:000&gt; !da 00000218266aadb8
+Name:        ConsoleApp5.Person[]
+MethodTable: 00007ff7f27b7a10
+EEClass:     00007ff7f26b6580
+Size:        56(0x38) bytes
+Array:       Rank 1, Number of elements 4, Type CLASS
+Element Methodtable: 00007ff7f27b2ad0
+[0] 00000218266aac00
+[1] 00000218266aac20
+[2] null
+[3] null
+
+</code></pre>
+<p>从最后四行代码可以看出数组有 4 个格子，前2个格子放的是内存地址，后两个都是 null，可能有些朋友会问，query 不是 2 条记录吗？ 怎么会有 4 个格子呢？ 这是因为 query 是 List 结构，而 List 底层用的是数组，默认以 4 个格子起步，不信的话翻一下 List 原代码即可。</p>
+<pre><code class="language-C#">
+    public class List&lt;T&gt;
+    {
+        private void EnsureCapacity(int min)
+        {
+            if (_items.Length &lt; min)
+            {
+                int num = (_items.Length == 0) ? 4 : (_items.Length * 2);   //默认 4 个大小
+                if ((uint)num &gt; 2146435071u)
+                {
+                    num = 2146435071;
+                }
+                if (num &lt; min)
+                {
+                    num = min;
+                }
+                Capacity = num;
+            }
+        }
+    }
+
+</code></pre>
+<p>如果你想进一步查看数组中前两个元素 <code>00000218266aac00, 00000218266aac20</code> 指向的是什么，可以用 !do 打印一下即可。</p>
+<pre><code class="language-C#">
+0:000&gt; !do 00000218266aac00
+Name:        ConsoleApp5.Person
+MethodTable: 00007ff7f27b2ad0
+EEClass:     00007ff7f27c2a00
+Size:        32(0x20) bytes
+File:        E:\net5\ConsoleApp5\ConsoleApp5\bin\Debug\netcoreapp3.1\ConsoleApp5.dll
+Fields:
+              MT    Field   Offset                 Type VT     Attr            Value Name
+00007ff7f2771e18  4000001        8        System.String  0 instance 00000218266aab30 &lt;Name&gt;k__BackingField
+00007ff7f26bb1f0  4000002       10         System.Int32  1 instance               25 &lt;Age&gt;k__BackingField
+0:000&gt; !do 00000218266aac20
+Name:        ConsoleApp5.Person
+MethodTable: 00007ff7f27b2ad0
+EEClass:     00007ff7f27c2a00
+Size:        32(0x20) bytes
+File:        E:\net5\ConsoleApp5\ConsoleApp5\bin\Debug\netcoreapp3.1\ConsoleApp5.dll
+Fields:
+              MT    Field   Offset                 Type VT     Attr            Value Name
+00007ff7f2771e18  4000001        8        System.String  0 instance 00000218266aab50 &lt;Name&gt;k__BackingField
+00007ff7f26bb1f0  4000002       10         System.Int32  1 instance               22 &lt;Age&gt;k__BackingField
+
+</code></pre>
+<p>到这里为止，我觉得回答这位朋友的疑问应该是没有问题了，不过这里既然说到了集合中的引用类型，不得不说一下集合中的值类型又会是怎么样的？</p>
+<h2 id="三：集合中的值类型是什么样的copy方式">三：集合中的值类型是什么样的copy方式</h2>
+<h3 id="1-使用-windbg-验证">1. 使用 windbg 验证</h3>
+<p>有了上面的基础，验证这个问题的答案就简单了，先上测试代码</p>
+<pre><code class="language-C#">
+        static void Main(string[] args)
+        {
+            var list = new List&lt;int&gt;() { 1, 2, 3, 4, 5, 6, 7,8,9,10 };
+
+            var query = list.Where(m =&gt; m &gt; 5).ToList();
+
+            Console.ReadLine();
+        }
+
+</code></pre>
+<p>然后直接把整个数组内容打印出来</p>
+<pre><code class="language-C#">
+// list
+0:000&gt; !DumpArray /d 0000019687c8aba8
+Name:        System.Int32[]
+MethodTable: 00007ff7f279f090
+EEClass:     00007ff7f279f010
+Size:        88(0x58) bytes
+Array:       Rank 1, Number of elements 16, Type Int32
+Element Methodtable: 00007ff7f26cb1f0
+[0] 0000019687c8abb8
+[1] 0000019687c8abbc
+[2] 0000019687c8abc0
+[3] 0000019687c8abc4
+[4] 0000019687c8abc8
+[5] 0000019687c8abcc
+[6] 0000019687c8abd0
+[7] 0000019687c8abd4
+[8] 0000019687c8abd8
+[9] 0000019687c8abdc
+[10] 0000019687c8abe0
+[11] 0000019687c8abe4
+[12] 0000019687c8abe8
+[13] 0000019687c8abec
+[14] 0000019687c8abf0
+[15] 0000019687c8abf4
+
+// query
+0:000&gt; !DumpArray /d 0000019687c8ae68
+Name:        System.Int32[]
+MethodTable: 00007ff7f279f090
+EEClass:     00007ff7f279f010
+Size:        56(0x38) bytes
+Array:       Rank 1, Number of elements 8, Type Int32
+Element Methodtable: 00007ff7f26cb1f0
+[0] 0000019687c8ae78
+[1] 0000019687c8ae7c
+[2] 0000019687c8ae80
+[3] 0000019687c8ae84
+[4] 0000019687c8ae88
+[5] 0000019687c8ae8c
+[6] 0000019687c8ae90
+[7] 0000019687c8ae94
+
+</code></pre>
+<p>仔细对比 list 和 query 的数组呈现，发现有两点好玩的信息：</p>
+<ul>
+<li>
+<p>值类型和引用类型一样，数组中都是存放地址的。</p>
+</li>
+<li>
+<p>值类型数组中的所有格子都被填满，不像引用类型数组中还有 null 的情况。</p>
+</li>
+</ul>
+<p>接下来的问题是，数组中每个元素的地址到底指向了谁，可以挑出每个数组的 0 号元素地址，用 dp 命令看一看：</p>
+<pre><code class="language-C#">
+//list
+0:000&gt; dp 0000019687c8abb8
+00000196`87c8abb8  00000002`00000001 00000004`00000003
+00000196`87c8abc8  00000006`00000005 00000008`00000007
+00000196`87c8abd8  0000000a`00000009 00000000`00000000
+
+//query
+0:000&gt; dp 0000019687c8ae78
+00000196`87c8ae78  00000007`00000006 00000009`00000008
+00000196`87c8ae88  00000000`0000000a 00000000`00000000
+
+</code></pre>
+<p>看到没有，原来地址上面存放的都是数字值，深copy无疑哈。</p>
+<h2 id="四：总结">四：总结</h2>
+<p>以上所有的分析可以得出：引用类型数组是引用copy，值类型数组是深copy，有时候背诵得来的东西总是容易忘记，只有实操验证才能真正的刻骨铭心！🤭🤭🤭</p>
+<p><strong>更多高质量干货：参见我的 GitHub: <a href="https://github.com/ctripxchuang/dotnetfly" target="_blank">dotnetfly</a></strong></p>
+<img src="https://img2020.cnblogs.com/blog/214741/202005/214741-20200522143723695-575216767.png" width="600" height="200" alt="图片名称" align="center">
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2020-12-01 17:51</span>&nbsp;
+<a href="https://www.cnblogs.com/huangxincheng/">一线码农</a>&nbsp;
+阅读(<span id="post_view_count">1141</span>)&nbsp;
+评论(<span id="post_comment_count">8</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14069782" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14069782);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 85195, cb_blogApp = 'huangxincheng', cb_blogUserGuid = '40a06552-abf8-df11-ac81-842b2b196315';
+    var cb_entryId = 14069782, cb_entryCreatedDate = '2020-12-01 17:51', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 一线码农
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjvYJuW4Tr35Ud_6cfYdfRrWYsO6GHEEAm589Hca6TM1g56uklqGp-3sMQ9JcxIUQoR4_wfrLODIzu8ll_pyQRMU2apb0hUNOK88dLHhZpiVsa4_JRbOuVBmmDEGGpW5sow" />
+</body>
+</html>

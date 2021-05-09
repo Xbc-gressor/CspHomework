@@ -1,0 +1,2084 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="Spring笔记" />
+    <meta property="og:description" content="Spring笔记" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Spring笔记(6) - Spring的BeanFactoryPostProcessor探究 - 码猿手 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/buildtowin/bundle-buildtowin.min.css?v=Tgl1d--mRuaeqinLMFZ2zu1KEazOmNWHLTJIcXu4SXU" />
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/huangrenhui/custom.css?v=gedtPrJ75PkDHFP4SWDuw94khZA=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/buildtowin/bundle-buildtowin-mobile.min.css?v=iPf_XHQsJ-ofZZ2RiaeMCHG0JEaMNLa9yhkUGK3xTSQ" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/huangrenhui/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/huangrenhui/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/huangrenhui/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 427735;
+        var currentBlogApp = 'huangrenhui';
+        var cb_enable_mathjax = true;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'BuildtoWin';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2020-11-01 10:37';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+        tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processClass: 'math', processEscapes: true },
+        TeX: {
+        equationNumbers: { autoNumber: ['AMS'], useLabelIds: true },
+        extensions: ['extpfeil.js', 'mediawiki-texvc.js'],
+        Macros: {bm: "\\boldsymbol"}
+        },
+        'HTML-CSS': { linebreaks: { automatic: true } },
+        SVG: { linebreaks: { automatic: true } }
+        });
+    </script>
+    <script src="https://mathjax.cnblogs.com/2_7_5/MathJax.js?config=TeX-AMS-MML_HTMLorMML&amp;v=20200504"></script>
+    
+</head>
+<body class="no-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="page_begin_html">
+        <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<body>
+<!-- 鼠标点击特效 -->
+ <style type="text/css">
+       
+        * {
+            cursor: url('https://www.cnblogs.com/images/cnblogs_com/huangrenhui/1802813/o_200709083633o_5997836b66d58.png'), auto;
+        }
+
+    </style>
+<script src="https://blog-static.cnblogs.com/files/huangrenhui/cursor-effects.js" defer="" defer></script>
+<!-- 鼠标点击特效end -->
+<!--添加立方体-->
+<a name="top"></a>
+<!--PageBeginHtml Block Begin-->
+<!-- 正方体中包含html代码 博客园无法上传文件，需要直接写代码-->
+<!--旋转正方体 start-->
+<div class="wrap">
+    <!--包裹所有元素的容器-->
+    <div class="cube">
+        <!--前面图片 -->
+        <div class="out_front">
+            <img src="https://images.cnblogs.com/cnblogs_com/lzw123-/1273451/t_c5.jpg" class="pic">
+        </div>
+        <!--后面图片 -->
+        <div class="out_back">
+            <img src="https://images.cnblogs.com/cnblogs_com/lzw123-/1273451/t_0.jpg" class="pic">
+        </div>
+        <!--左面图片 -->
+        <div class="out_left">
+            <img src="https://images.cnblogs.com/cnblogs_com/lzw123-/1273451/t_3.jpg" class="pic">
+        </div>
+        <!--右面图片 -->
+        <div class="out_right">
+            <img src="https://images.cnblogs.com/cnblogs_com/lzw123-/1273451/t_11.jpg" class="pic">
+        </div>
+        <!--上面图片 -->
+        <div class="out_top">
+            <img src="https://images.cnblogs.com/cnblogs_com/lzw123-/1273451/t_4.jpg" class="pic">
+        </div>
+        <!--下面图片 -->
+        <div class="out_bottom">
+            <img src="https://images.cnblogs.com/cnblogs_com/lzw123-/1266753/t_s6.jpg" class="pic">
+        </div>
+
+        <!--小正方体 -->
+        <span class="in_front">
+                <img src="https://images.cnblogs.com/cnblogs_com/lzw123-/1273451/t_01.jpg" class="in_pic">
+            </span>
+        <span class="in_back">
+                 <img src="https://images.cnblogs.com/cnblogs_com/lzw123-/1273451/t_02.jpg" class="in_pic">
+            </span>
+        <span class="in_left">
+                <img src="https://images.cnblogs.com/cnblogs_com/lzw123-/1273451/t_03.jpg" class="in_pic">
+            </span>
+        <span class="in_right">
+                <img src="https://images.cnblogs.com/cnblogs_com/lzw123-/1273451/t_04.jpg" class="in_pic">
+            </span>
+        <span class="in_top">
+                <img src="https://images.cnblogs.com/cnblogs_com/lzw123-/1273451/t_05.jpg" class="in_pic">
+            </span>
+        <span class="in_bottom">
+                <img src="https://images.cnblogs.com/cnblogs_com/lzw123-/1273451/t_06.jpg" class="in_pic">
+            </span>
+    </div>
+</div>
+
+<style>
+    /*最外层容器样式*/
+    .wrap {
+        z-index:9999;/*置于最上层*/
+        position: absolute;
+        right: 200px;
+        top: 100px;
+        width: 100px;
+        height: 100px;
+
+    }
+
+    /*包裹所有容器样式*/
+    .cube {
+        width: 50px;
+        height: 50px;
+        margin: 0 auto;
+        transform-style: preserve-3d;
+        transform: rotateX(-30deg) rotateY(-80deg);
+        animation: rotate linear 20s infinite;
+    }
+
+    @-webkit-keyframes rotate {
+        from {
+            transform: rotateX(0deg) rotateY(0deg);
+        }
+        to {
+            transform: rotateX(360deg) rotateY(360deg);
+        }
+    }
+
+    .cube div {
+        position: absolute;
+        width: 200px;
+        height: 200px;
+        opacity: 0.8;
+        transition: all .4s;
+    }
+
+    /*定义所有图片样式*/
+    .pic {
+        width: 200px;
+        height: 200px;
+    }
+
+    .cube .out_front {
+        transform: rotateY(0deg) translateZ(100px);
+    }
+
+    .cube .out_back {
+        transform: translateZ(-100px) rotateY(180deg);
+    }
+
+    .cube .out_left {
+        transform: rotateY(-90deg) translateZ(100px);
+    }
+
+    .cube .out_right {
+        transform: rotateY(90deg) translateZ(100px);
+    }
+
+    .cube .out_top {
+        transform: rotateX(90deg) translateZ(100px);
+    }
+
+    .cube .out_bottom {
+        transform: rotateX(-90deg) translateZ(100px);
+    }
+
+    /*定义小正方体样式*/
+    .cube span {
+        display: block;
+        width: 100px;
+        height: 100px;
+        position: absolute;
+        top: 50px;
+        left: 50px;
+    }
+
+    .cube .in_pic {
+        width: 100px;
+        height: 100px;
+    }
+
+    .cube .in_front {
+        transform: rotateY(0deg) translateZ(50px);
+    }
+
+    .cube .in_back {
+        transform: translateZ(-50px) rotateY(180deg);
+    }
+
+    .cube .in_left {
+        transform: rotateY(-90deg) translateZ(50px);
+    }
+
+    .cube .in_right {
+        transform: rotateY(90deg) translateZ(50px);
+    }
+
+    .cube .in_top {
+        transform: rotateX(90deg) translateZ(50px);
+    }
+
+    .cube .in_bottom {
+        transform: rotateX(-90deg) translateZ(50px);
+    }
+
+    /*鼠标移入后样式*/
+    .cube:hover .out_front {
+        transform: rotateY(0deg) translateZ(200px);
+    }
+
+    .cube:hover .out_back {
+        transform: translateZ(-200px) rotateY(180deg);
+    }
+
+    .cube:hover .out_left {
+        transform: rotateY(-90deg) translateZ(200px);
+    }
+
+    .cube:hover .out_right {
+        transform: rotateY(90deg) translateZ(200px);
+    }
+
+    .cube:hover .out_top {
+        transform: rotateX(90deg) translateZ(200px);
+    }
+
+    .cube:hover .out_bottom {
+        transform: rotateX(-90deg) translateZ(200px);
+    }
+</style>
+
+<!-- 
+
+<script type="text/javascript" src="https://blog-static.cnblogs.com/files/longronglang/backlines.js" defer="" defer></script>-->
+<canvas id="c_n7" width="1920" height="318" style="position: fixed; top: 0px; left: 0px; z-index: -1; opacity: 0.5;"></canvas>
+ 
+</body>
+</html>
+    </div>
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/huangrenhui/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/huangrenhui/">码猿手</a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/huangrenhui/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E7%A0%81%E7%8C%BF%E6%89%8B">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/huangrenhui/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/huangrenhui/p/13903846.html">
+    <span>Spring笔记(6) - Spring的BeanFactoryPostProcessor探究</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                    <div id="cnblogs_post_description" style="display: none">
+        Spring笔记
+    </div>
+<div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<h2>一.背景</h2>
+<p><span style="font-size: 15px">　　在说BeanFactoryPostProcessor之前，先来说下BeanPostProcessor，在前文<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/huangrenhui/p/12969178.html">Spring笔记(2) - 生命周期/属性赋值/自动装配及部分源码解析</a>中讲解了BeanPostProcessor是一个bean后置处理器（bean创建对象初始化前后进行拦截工作）。</span></p>
+<p><span style="font-size: 15px">　　BeanPostProcessor的运行流程如下：</span></p>
+<p><span style="font-size: 15px">　　　　1）Spring IOC容器实例化Bean；</span></p>
+<div>
+<div>
+<p><span style="font-size: 15px">　　　　2）调用BeanPostProcessor的postProcessBeforeInitialization方法；</span></p>
+<p><span style="font-size: 15px">　　　　3）调用bean实例的初始化方法；</span></p>
+<p><span style="font-size: 15px">　　　　4）调用BeanPostProcessor的postProcessAfterInitialization方法；</span>&nbsp;</p>
+<p>　　<span style="font-size: 15px">实现BeanPostProcessor接口可以在Bean(<span style="color: rgba(255, 0, 0, 1)">实例化之后</span>)初始化的前后做一些自定义的操作，但是拿到的参数只有BeanDefinition实例和BeanDefinition的名称，也就是无法修改BeanDefinition元数据,这里说的Bean的初始化是：</span></p>
+<p><span style="font-size: 15px">　　　　1）bean实现了InitializingBean接口，对应的方法为afterPropertiesSet</span>&nbsp;</p>
+<p><span style="font-size: 15px">　　　　2）在bean定义的时候，通过init-method设置的方法</span></p>
+<p><span style="font-size: 15px">　　Spring中Bean的实例化过程图示：</span><span style="font-size: 15px">　　</span></p>
+<p><span style="font-size: 15px"><img src="https://img2020.cnblogs.com/blog/1363696/202010/1363696-20201031113002227-571052878.jpg" alt="" loading="lazy"><br></span></p>
+<p><span style="font-size: 15px">　　那么BeanFactoryPostProcessor顾名思义就是bean工厂的后置处理器，说通俗一些就是可以管理我们的bean工厂内所有的BeanDefinition（<span style="color: rgba(255, 0, 0, 1)">未实例化</span>）数据，可以随心所欲的修改属性。　　　　　　　　　　　　</span></p>
+<p><span style="font-size: 15px">　　Spring容器初始化时，从资源中读取到bean的相关定义后，保存在beanFactory的成员变量中（参考DefaultListableBeanFactory类的成员变量beanDefinitionMap），在实例化bean的操作就是依据这些bean的定义来做的，而在实例化之前，Spring允许我们通过自定义扩展来改变bean的定义，定义一旦变了，后面的实例也就变了，而beanFactory后置处理器，即BeanFactoryPostProcessor就是用来改变bean定义的；如果业务需要，可以配置多个BeanFactoryPostProcessor的实现类，通过”order”控制执行次序(要实现Ordered接口)。</span></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+<p><span style="font-size: 15px">
+　　注册一个BeanFactoryPostProcessor实例需要定义一个Java类来实现BeanFactoryPostProcessor接口，并重写该接口的postProcessorBeanFactory方法。通过beanFactory可以获取bean的定义信息，并可以修改bean的定义信息。（这点是和BeanPostProcessor最大区别）</span></p>
+<p><span style="font-size: 15px">　　所以通过上面的介绍可以总结出有两种方式可以对bean做控制（例如修改某个成员变量）：</span></p>
+<p><span style="font-size: 15px">　　　　1. 只改变实例化的对象(BeanPostProcessor接口)；</span></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+<p><span style="font-size: 15px">　　　　2. 改变bean的定义(BeanFactoryPostProcessor接口) ，可以想象成修改了class文件，这样实例化出来的每个对象都变了；　　</span></p>
+<div>
+<p><span style="font-size: 15px">　　PS：<span style="color: rgba(255, 0, 0, 1)">BeanFactoryPostProcessor回调会先于BeanPostProcessor</span>　　</span></p>
+<p><span style="font-size: 15px">　　下面是BeanFactoryPostProcessor的源码：</span></p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">interface</span><span style="color: rgba(0, 0, 0, 1)"> BeanFactoryPostProcessor {
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * Modify the application context's internal bean factory after its standard
+     * initialization. All bean definitions will have been loaded, but no beans
+     * will have been instantiated yet. This allows for overriding or adding
+     * properties even to eager-initializing beans.
+     * </span><span style="color: rgba(128, 128, 128, 1)">@param</span><span style="color: rgba(0, 128, 0, 1)"> beanFactory the bean factory used by the application context
+     * </span><span style="color: rgba(128, 128, 128, 1)">@throws</span><span style="color: rgba(0, 128, 0, 1)"> org.springframework.beans.BeansException in case of errors
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+     <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">在ioc容器的bean Factory标准初始化之后可以对它们进行修改。所有的bean定义被加载了，但还没有被实例化。
+     </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">允许进行重载或添加属性即使在eager-initializing beans</span>
+    <span style="color: rgba(0, 0, 255, 1)">void</span> postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) <span style="color: rgba(0, 0, 255, 1)">throws</span><span style="color: rgba(0, 0, 0, 1)"> BeansException;
+
+}</span></pre>
+</div>
+<p>　　<span style="font-size: 15px">BeanFactoryPostProcessor此接口只提供了一个方法，方法参数为ConfigurableListableBeanFactory，下面是该类的源码：&nbsp;</span></p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">interface</span><span style="color: rgba(0, 0, 0, 1)"> ConfigurableListableBeanFactory
+        </span><span style="color: rgba(0, 0, 255, 1)">extends</span><span style="color: rgba(0, 0, 0, 1)"> ListableBeanFactory, AutowireCapableBeanFactory, ConfigurableBeanFactory {
+
+    </span><span style="color: rgba(0, 0, 255, 1)">void</span> ignoreDependencyType(Class&lt;?&gt;<span style="color: rgba(0, 0, 0, 1)"> type);
+
+    </span><span style="color: rgba(0, 0, 255, 1)">void</span> ignoreDependencyInterface(Class&lt;?&gt;<span style="color: rgba(0, 0, 0, 1)"> ifc);
+
+    </span><span style="color: rgba(0, 0, 255, 1)">void</span> registerResolvableDependency(Class&lt;?&gt;<span style="color: rgba(0, 0, 0, 1)"> dependencyType, @Nullable Object autowiredValue);
+
+    </span><span style="color: rgba(0, 0, 255, 1)">boolean</span><span style="color: rgba(0, 0, 0, 1)"> isAutowireCandidate(String beanName, DependencyDescriptor descriptor)
+            </span><span style="color: rgba(0, 0, 255, 1)">throws</span><span style="color: rgba(0, 0, 0, 1)"> NoSuchBeanDefinitionException;
+
+    BeanDefinition <span style="color: rgba(255, 0, 0, 1)">getBeanDefinition</span>(String beanName) </span><span style="color: rgba(0, 0, 255, 1)">throws</span><span style="color: rgba(0, 0, 0, 1)"> NoSuchBeanDefinitionException;
+
+    Iterator</span>&lt;String&gt;<span style="color: rgba(0, 0, 0, 1)"> getBeanNamesIterator();
+
+    </span><span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> clearMetadataCache();
+
+    </span><span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> freezeConfiguration();
+
+    </span><span style="color: rgba(0, 0, 255, 1)">boolean</span><span style="color: rgba(0, 0, 0, 1)"> isConfigurationFrozen();
+
+    </span><span style="color: rgba(0, 0, 255, 1)">void</span> preInstantiateSingletons() <span style="color: rgba(0, 0, 255, 1)">throws</span><span style="color: rgba(0, 0, 0, 1)"> BeansException;
+
+}</span></pre>
+</div>
+<p>　　<span style="font-size: 15px">其中有个方法名为getBeanDefinition的方法，我们可以根据此方法，找到我们定义bean的BeanDefinition对象。然后我们可以对定义的属性进行修改，以下是BeanDefinition中的方法：</span></p>
+<div class="cnblogs_code"><img src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" id="code_img_closed_4e366774-c4a5-4e94-abad-f9286536f3fc" class="code_img_closed"><img src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" id="code_img_opened_4e366774-c4a5-4e94-abad-f9286536f3fc" class="code_img_opened" style="display: none">
+<div id="cnblogs_code_open_4e366774-c4a5-4e94-abad-f9286536f3fc" class="cnblogs_code_hide">
+<pre><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">interface</span> BeanDefinition <span style="color: rgba(0, 0, 255, 1)">extends</span><span style="color: rgba(0, 0, 0, 1)"> AttributeAccessor, BeanMetadataElement {
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * Scope identifier for the standard singleton scope: "singleton".
+     * &lt;p&gt;Note that extended bean factories might support further scopes.
+     * </span><span style="color: rgba(128, 128, 128, 1)">@see</span><span style="color: rgba(0, 128, 0, 1)"> #setScope
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span><span style="color: rgba(0, 0, 0, 1)">
+    String SCOPE_SINGLETON </span>=<span style="color: rgba(0, 0, 0, 1)"> ConfigurableBeanFactory.SCOPE_SINGLETON;
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * Scope identifier for the standard prototype scope: "prototype".
+     * &lt;p&gt;Note that extended bean factories might support further scopes.
+     * </span><span style="color: rgba(128, 128, 128, 1)">@see</span><span style="color: rgba(0, 128, 0, 1)"> #setScope
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span><span style="color: rgba(0, 0, 0, 1)">
+    String SCOPE_PROTOTYPE </span>=<span style="color: rgba(0, 0, 0, 1)"> ConfigurableBeanFactory.SCOPE_PROTOTYPE;
+
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * Role hint indicating that a {</span><span style="color: rgba(128, 128, 128, 1)">@code</span><span style="color: rgba(0, 128, 0, 1)"> BeanDefinition} is a major part
+     * of the application. Typically corresponds to a user-defined bean.
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+    <span style="color: rgba(0, 0, 255, 1)">int</span> ROLE_APPLICATION = 0<span style="color: rgba(0, 0, 0, 1)">;
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * Role hint indicating that a {</span><span style="color: rgba(128, 128, 128, 1)">@code</span><span style="color: rgba(0, 128, 0, 1)"> BeanDefinition} is a supporting
+     * part of some larger configuration, typically an outer
+     * {</span><span style="color: rgba(128, 128, 128, 1)">@link</span><span style="color: rgba(0, 128, 0, 1)"> org.springframework.beans.factory.parsing.ComponentDefinition}.
+     * {</span><span style="color: rgba(128, 128, 128, 1)">@code</span><span style="color: rgba(0, 128, 0, 1)"> SUPPORT} beans are considered important enough to be aware
+     * of when looking more closely at a particular
+     * {</span><span style="color: rgba(128, 128, 128, 1)">@link</span><span style="color: rgba(0, 128, 0, 1)"> org.springframework.beans.factory.parsing.ComponentDefinition},
+     * but not when looking at the overall configuration of an application.
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+    <span style="color: rgba(0, 0, 255, 1)">int</span> ROLE_SUPPORT = 1<span style="color: rgba(0, 0, 0, 1)">;
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * Role hint indicating that a {</span><span style="color: rgba(128, 128, 128, 1)">@code</span><span style="color: rgba(0, 128, 0, 1)"> BeanDefinition} is providing an
+     * entirely background role and has no relevance to the end-user. This hint is
+     * used when registering beans that are completely part of the internal workings
+     * of a {</span><span style="color: rgba(128, 128, 128, 1)">@link</span><span style="color: rgba(0, 128, 0, 1)"> org.springframework.beans.factory.parsing.ComponentDefinition}.
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+    <span style="color: rgba(0, 0, 255, 1)">int</span> ROLE_INFRASTRUCTURE = 2<span style="color: rgba(0, 0, 0, 1)">;
+
+
+    </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> Modifiable attributes</span>
+
+    <span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * Set the name of the parent definition of this bean definition, if any.
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+    <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> setParentName(@Nullable String parentName);
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * Return the name of the parent definition of this bean definition, if any.
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span><span style="color: rgba(0, 0, 0, 1)">
+    @Nullable
+    String getParentName();
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * Specify the bean class name of this bean definition.
+     * &lt;p&gt;The class name can be modified during bean factory post-processing,
+     * typically replacing the original class name with a parsed variant of it.
+     * </span><span style="color: rgba(128, 128, 128, 1)">@see</span><span style="color: rgba(0, 128, 0, 1)"> #setParentName
+     * </span><span style="color: rgba(128, 128, 128, 1)">@see</span><span style="color: rgba(0, 128, 0, 1)"> #setFactoryBeanName
+     * </span><span style="color: rgba(128, 128, 128, 1)">@see</span><span style="color: rgba(0, 128, 0, 1)"> #setFactoryMethodName
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+    <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> setBeanClassName(@Nullable String beanClassName);
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * Return the current bean class name of this bean definition.
+     * &lt;p&gt;Note that this does not have to be the actual class name used at runtime, in
+     * case of a child definition overriding/inheriting the class name from its parent.
+     * Also, this may just be the class that a factory method is called on, or it may
+     * even be empty in case of a factory bean reference that a method is called on.
+     * Hence, do &lt;i&gt;not&lt;/i&gt; consider this to be the definitive bean type at runtime but
+     * rather only use it for parsing purposes at the individual bean definition level.
+     * </span><span style="color: rgba(128, 128, 128, 1)">@see</span><span style="color: rgba(0, 128, 0, 1)"> #getParentName()
+     * </span><span style="color: rgba(128, 128, 128, 1)">@see</span><span style="color: rgba(0, 128, 0, 1)"> #getFactoryBeanName()
+     * </span><span style="color: rgba(128, 128, 128, 1)">@see</span><span style="color: rgba(0, 128, 0, 1)"> #getFactoryMethodName()
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span><span style="color: rgba(0, 0, 0, 1)">
+    @Nullable
+    String getBeanClassName();
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * Override the target scope of this bean, specifying a new scope name.
+     * </span><span style="color: rgba(128, 128, 128, 1)">@see</span><span style="color: rgba(0, 128, 0, 1)"> #SCOPE_SINGLETON
+     * </span><span style="color: rgba(128, 128, 128, 1)">@see</span><span style="color: rgba(0, 128, 0, 1)"> #SCOPE_PROTOTYPE
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+    <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> setScope(@Nullable String scope);
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * Return the name of the current target scope for this bean,
+     * or {</span><span style="color: rgba(128, 128, 128, 1)">@code</span><span style="color: rgba(0, 128, 0, 1)"> null} if not known yet.
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span><span style="color: rgba(0, 0, 0, 1)">
+    @Nullable
+    String getScope();
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * Set whether this bean should be lazily initialized.
+     * &lt;p&gt;If {</span><span style="color: rgba(128, 128, 128, 1)">@code</span><span style="color: rgba(0, 128, 0, 1)"> false}, the bean will get instantiated on startup by bean
+     * factories that perform eager initialization of singletons.
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+    <span style="color: rgba(0, 0, 255, 1)">void</span> setLazyInit(<span style="color: rgba(0, 0, 255, 1)">boolean</span><span style="color: rgba(0, 0, 0, 1)"> lazyInit);
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * Return whether this bean should be lazily initialized, i.e. not
+     * eagerly instantiated on startup. Only applicable to a singleton bean.
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+    <span style="color: rgba(0, 0, 255, 1)">boolean</span><span style="color: rgba(0, 0, 0, 1)"> isLazyInit();
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * Set the names of the beans that this bean depends on being initialized.
+     * The bean factory will guarantee that these beans get initialized first.
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+    <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> setDependsOn(@Nullable String... dependsOn);
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * Return the bean names that this bean depends on.
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span><span style="color: rgba(0, 0, 0, 1)">
+    @Nullable
+    String[] getDependsOn();
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * Set whether this bean is a candidate for getting autowired into some other bean.
+     * &lt;p&gt;Note that this flag is designed to only affect type-based autowiring.
+     * It does not affect explicit references by name, which will get resolved even
+     * if the specified bean is not marked as an autowire candidate. As a consequence,
+     * autowiring by name will nevertheless inject a bean if the name matches.
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+    <span style="color: rgba(0, 0, 255, 1)">void</span> setAutowireCandidate(<span style="color: rgba(0, 0, 255, 1)">boolean</span><span style="color: rgba(0, 0, 0, 1)"> autowireCandidate);
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * Return whether this bean is a candidate for getting autowired into some other bean.
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+    <span style="color: rgba(0, 0, 255, 1)">boolean</span><span style="color: rgba(0, 0, 0, 1)"> isAutowireCandidate();
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * Set whether this bean is a primary autowire candidate.
+     * &lt;p&gt;If this value is {</span><span style="color: rgba(128, 128, 128, 1)">@code</span><span style="color: rgba(0, 128, 0, 1)"> true} for exactly one bean among multiple
+     * matching candidates, it will serve as a tie-breaker.
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+    <span style="color: rgba(0, 0, 255, 1)">void</span> setPrimary(<span style="color: rgba(0, 0, 255, 1)">boolean</span><span style="color: rgba(0, 0, 0, 1)"> primary);
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * Return whether this bean is a primary autowire candidate.
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+    <span style="color: rgba(0, 0, 255, 1)">boolean</span><span style="color: rgba(0, 0, 0, 1)"> isPrimary();
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * Specify the factory bean to use, if any.
+     * This the name of the bean to call the specified factory method on.
+     * </span><span style="color: rgba(128, 128, 128, 1)">@see</span><span style="color: rgba(0, 128, 0, 1)"> #setFactoryMethodName
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+    <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> setFactoryBeanName(@Nullable String factoryBeanName);
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * Return the factory bean name, if any.
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span><span style="color: rgba(0, 0, 0, 1)">
+    @Nullable
+    String getFactoryBeanName();
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * Specify a factory method, if any. This method will be invoked with
+     * constructor arguments, or with no arguments if none are specified.
+     * The method will be invoked on the specified factory bean, if any,
+     * or otherwise as a static method on the local bean class.
+     * </span><span style="color: rgba(128, 128, 128, 1)">@see</span><span style="color: rgba(0, 128, 0, 1)"> #setFactoryBeanName
+     * </span><span style="color: rgba(128, 128, 128, 1)">@see</span><span style="color: rgba(0, 128, 0, 1)"> #setBeanClassName
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+    <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> setFactoryMethodName(@Nullable String factoryMethodName);
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * Return a factory method, if any.
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span><span style="color: rgba(0, 0, 0, 1)">
+    @Nullable
+    String getFactoryMethodName();
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * Return the constructor argument values for this bean.
+     * &lt;p&gt;The returned instance can be modified during bean factory post-processing.
+     * </span><span style="color: rgba(128, 128, 128, 1)">@return</span><span style="color: rgba(0, 128, 0, 1)"> the ConstructorArgumentValues object (never {</span><span style="color: rgba(128, 128, 128, 1)">@code</span><span style="color: rgba(0, 128, 0, 1)"> null})
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span><span style="color: rgba(0, 0, 0, 1)">
+    ConstructorArgumentValues getConstructorArgumentValues();
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * Return if there are constructor argument values defined for this bean.
+     * </span><span style="color: rgba(128, 128, 128, 1)">@since</span><span style="color: rgba(0, 128, 0, 1)"> 5.0.2
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+    <span style="color: rgba(0, 0, 255, 1)">default</span> <span style="color: rgba(0, 0, 255, 1)">boolean</span><span style="color: rgba(0, 0, 0, 1)"> hasConstructorArgumentValues() {
+        </span><span style="color: rgba(0, 0, 255, 1)">return</span> !<span style="color: rgba(0, 0, 0, 1)">getConstructorArgumentValues().isEmpty();
+    }
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * Return the property values to be applied to a new instance of the bean.
+     * &lt;p&gt;The returned instance can be modified during bean factory post-processing.
+     * </span><span style="color: rgba(128, 128, 128, 1)">@return</span><span style="color: rgba(0, 128, 0, 1)"> the MutablePropertyValues object (never {</span><span style="color: rgba(128, 128, 128, 1)">@code</span><span style="color: rgba(0, 128, 0, 1)"> null})
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span><span style="color: rgba(0, 0, 0, 1)">
+    MutablePropertyValues getPropertyValues();
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * Return if there are property values values defined for this bean.
+     * </span><span style="color: rgba(128, 128, 128, 1)">@since</span><span style="color: rgba(0, 128, 0, 1)"> 5.0.2
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+    <span style="color: rgba(0, 0, 255, 1)">default</span> <span style="color: rgba(0, 0, 255, 1)">boolean</span><span style="color: rgba(0, 0, 0, 1)"> hasPropertyValues() {
+        </span><span style="color: rgba(0, 0, 255, 1)">return</span> !<span style="color: rgba(0, 0, 0, 1)">getPropertyValues().isEmpty();
+    }
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * Set the name of the initializer method.
+     * </span><span style="color: rgba(128, 128, 128, 1)">@since</span><span style="color: rgba(0, 128, 0, 1)"> 5.1
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+    <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> setInitMethodName(@Nullable String initMethodName);
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * Return the name of the initializer method.
+     * </span><span style="color: rgba(128, 128, 128, 1)">@since</span><span style="color: rgba(0, 128, 0, 1)"> 5.1
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span><span style="color: rgba(0, 0, 0, 1)">
+    @Nullable
+    String getInitMethodName();
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * Set the name of the destroy method.
+     * </span><span style="color: rgba(128, 128, 128, 1)">@since</span><span style="color: rgba(0, 128, 0, 1)"> 5.1
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+    <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> setDestroyMethodName(@Nullable String destroyMethodName);
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * Return the name of the destroy method.
+     * </span><span style="color: rgba(128, 128, 128, 1)">@since</span><span style="color: rgba(0, 128, 0, 1)"> 5.1
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span><span style="color: rgba(0, 0, 0, 1)">
+    @Nullable
+    String getDestroyMethodName();
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * Set the role hint for this {</span><span style="color: rgba(128, 128, 128, 1)">@code</span><span style="color: rgba(0, 128, 0, 1)"> BeanDefinition}. The role hint
+     * provides the frameworks as well as tools with an indication of
+     * the role and importance of a particular {</span><span style="color: rgba(128, 128, 128, 1)">@code</span><span style="color: rgba(0, 128, 0, 1)"> BeanDefinition}.
+     * </span><span style="color: rgba(128, 128, 128, 1)">@since</span><span style="color: rgba(0, 128, 0, 1)"> 5.1
+     * </span><span style="color: rgba(128, 128, 128, 1)">@see</span><span style="color: rgba(0, 128, 0, 1)"> #ROLE_APPLICATION
+     * </span><span style="color: rgba(128, 128, 128, 1)">@see</span><span style="color: rgba(0, 128, 0, 1)"> #ROLE_SUPPORT
+     * </span><span style="color: rgba(128, 128, 128, 1)">@see</span><span style="color: rgba(0, 128, 0, 1)"> #ROLE_INFRASTRUCTURE
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+    <span style="color: rgba(0, 0, 255, 1)">void</span> setRole(<span style="color: rgba(0, 0, 255, 1)">int</span><span style="color: rgba(0, 0, 0, 1)"> role);
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * Get the role hint for this {</span><span style="color: rgba(128, 128, 128, 1)">@code</span><span style="color: rgba(0, 128, 0, 1)"> BeanDefinition}. The role hint
+     * provides the frameworks as well as tools with an indication of
+     * the role and importance of a particular {</span><span style="color: rgba(128, 128, 128, 1)">@code</span><span style="color: rgba(0, 128, 0, 1)"> BeanDefinition}.
+     * </span><span style="color: rgba(128, 128, 128, 1)">@see</span><span style="color: rgba(0, 128, 0, 1)"> #ROLE_APPLICATION
+     * </span><span style="color: rgba(128, 128, 128, 1)">@see</span><span style="color: rgba(0, 128, 0, 1)"> #ROLE_SUPPORT
+     * </span><span style="color: rgba(128, 128, 128, 1)">@see</span><span style="color: rgba(0, 128, 0, 1)"> #ROLE_INFRASTRUCTURE
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+    <span style="color: rgba(0, 0, 255, 1)">int</span><span style="color: rgba(0, 0, 0, 1)"> getRole();
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * Set a human-readable description of this bean definition.
+     * </span><span style="color: rgba(128, 128, 128, 1)">@since</span><span style="color: rgba(0, 128, 0, 1)"> 5.1
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+    <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> setDescription(@Nullable String description);
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * Return a human-readable description of this bean definition.
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span><span style="color: rgba(0, 0, 0, 1)">
+    @Nullable
+    String getDescription();
+
+
+    </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> Read-only attributes</span>
+
+    <span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * Return a resolvable type for this bean definition,
+     * based on the bean class or other specific metadata.
+     * &lt;p&gt;This is typically fully resolved on a runtime-merged bean definition
+     * but not necessarily on a configuration-time definition instance.
+     * </span><span style="color: rgba(128, 128, 128, 1)">@return</span><span style="color: rgba(0, 128, 0, 1)"> the resolvable type (potentially {</span><span style="color: rgba(128, 128, 128, 1)">@link</span><span style="color: rgba(0, 128, 0, 1)"> ResolvableType#NONE})
+     * </span><span style="color: rgba(128, 128, 128, 1)">@since</span><span style="color: rgba(0, 128, 0, 1)"> 5.2
+     * </span><span style="color: rgba(128, 128, 128, 1)">@see</span><span style="color: rgba(0, 128, 0, 1)"> ConfigurableBeanFactory#getMergedBeanDefinition
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span><span style="color: rgba(0, 0, 0, 1)">
+    ResolvableType getResolvableType();
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * Return whether this a &lt;b&gt;Singleton&lt;/b&gt;, with a single, shared instance
+     * returned on all calls.
+     * </span><span style="color: rgba(128, 128, 128, 1)">@see</span><span style="color: rgba(0, 128, 0, 1)"> #SCOPE_SINGLETON
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+    <span style="color: rgba(0, 0, 255, 1)">boolean</span><span style="color: rgba(0, 0, 0, 1)"> isSingleton();
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * Return whether this a &lt;b&gt;Prototype&lt;/b&gt;, with an independent instance
+     * returned for each call.
+     * </span><span style="color: rgba(128, 128, 128, 1)">@since</span><span style="color: rgba(0, 128, 0, 1)"> 3.0
+     * </span><span style="color: rgba(128, 128, 128, 1)">@see</span><span style="color: rgba(0, 128, 0, 1)"> #SCOPE_PROTOTYPE
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+    <span style="color: rgba(0, 0, 255, 1)">boolean</span><span style="color: rgba(0, 0, 0, 1)"> isPrototype();
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * Return whether this bean is "abstract", that is, not meant to be instantiated.
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+    <span style="color: rgba(0, 0, 255, 1)">boolean</span><span style="color: rgba(0, 0, 0, 1)"> isAbstract();
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * Return a description of the resource that this bean definition
+     * came from (for the purpose of showing context in case of errors).
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span><span style="color: rgba(0, 0, 0, 1)">
+    @Nullable
+    String getResourceDescription();
+
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * Return the originating BeanDefinition, or {</span><span style="color: rgba(128, 128, 128, 1)">@code</span><span style="color: rgba(0, 128, 0, 1)"> null} if none.
+     * Allows for retrieving the decorated bean definition, if any.
+     * &lt;p&gt;Note that this method returns the immediate originator. Iterate through the
+     * originator chain to find the original BeanDefinition as defined by the user.
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span><span style="color: rgba(0, 0, 0, 1)">
+    @Nullable
+    BeanDefinition getOriginatingBeanDefinition();
+
+}</span></pre>
+</div>
+<span class="cnblogs_code_collapse">View Code</span></div>
+<p><span style="font-size: 15px">　　我们可以在上面代码中发现里面的方法名字类似bean标签的属性，setBeanClassName对应bean标签中的class属性，所以当我们拿到BeanDefinition对象时，我们可以手动修改bean标签中所定义的属性值。</span></p>
+<p><span style="font-size: 15px">　　具体这个BeanDefinition是个什么对象，当我们在xml中定义了bean标签时，Spring会把这些bean标签解析成一个javabean，这个BeanDefinition就是bean标签对应的javabean。</span></p>
+<p><span style="font-size: 15px">　　所以当我们调用BeanFactoryPostProcess方法时，这时候bean还没有实例化，此时bean刚被解析成BeanDefinition对象。</span></p>
+<p><span style="font-size: 15px">　　Spring容器初始化bean大致过程 ：</span></p>
+<p><span style="font-size: 15px">　　　　1）定义bean标签 </span></p>
+<p><span style="font-size: 15px">　　　　2）将bean标签解析成BeanDefinition</span></p>
+<p><span style="font-size: 15px">　　　　3）调用构造方法实例化(IOC)</span></p>
+<p><span style="font-size: 15px">　　　　4）属性值得依赖注入(DI)</span></p>
+<p><span style="font-size: 15px">　　所以可以看出BeanFactoryPostProcess方法的执行是发生在第二步之后，第三步之前。</span></p>
+<p>　　<span style="font-size: 15px">综上所述BeanPostProcessor和BeanFactoryPostProcess都是为Spring提供的后处理bean的接口，只是两者执行的时机不一样。BeanPostProcessor为实例化之后，BeanFactoryPostProcess是实例化之前。功能上，BeanFactoryPostProcess对bean的处理功能更加强大。</span></p>
+<h2>二.案例</h2>
+<p>&nbsp;　　<span style="font-size: 15px">1.配置类：进行包扫描将类加载到容器中</span></p>
+<div class="cnblogs_code">
+<pre>@ComponentScan("com.hrh.ext"<span style="color: rgba(0, 0, 0, 1)">)
+@Configuration
+</span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">class</span><span style="color: rgba(0, 0, 0, 1)"> ExtConfig {
+    @Bean
+    </span><span style="color: rgba(0, 0, 255, 1)">public</span><span style="color: rgba(0, 0, 0, 1)"> Person person() {
+        </span><span style="color: rgba(0, 0, 255, 1)">return</span> <span style="color: rgba(255, 0, 0, 1)">new Person("张三", "男"</span><span style="color: rgba(0, 0, 0, 1)"><span style="color: rgba(255, 0, 0, 1)">)</span>;
+    }
+}</span></pre>
+</div>
+<p>　　<span style="font-size: 15px">2.实体类：</span></p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">class</span> Person <span style="color: rgba(0, 0, 255, 1)">implements</span><span style="color: rgba(0, 0, 0, 1)"><span style="color: rgba(255, 0, 0, 1)"> InitializingBean</span>, DisposableBean, BeanNameAware, BeanFactoryAware {
+</span><span style="color: rgba(0, 0, 255, 1)">private</span><span style="color: rgba(0, 0, 0, 1)"> String name;
+</span><span style="color: rgba(0, 0, 255, 1)">private</span><span style="color: rgba(0, 0, 0, 1)"> String sex;
+
+    </span><span style="color: rgba(0, 0, 255, 1)">public</span><span style="color: rgba(0, 0, 0, 1)"> Person() {
+        System.out.println(</span>"Person无参构造器"<span style="color: rgba(0, 0, 0, 1)">);
+
+    }
+
+    </span><span style="color: rgba(0, 0, 255, 1)">public</span><span style="color: rgba(0, 0, 0, 1)"> Person(String name, String sex) {
+        System.out.println(</span>"Person有参构造器:[name=" + name + ",sex=" + sex + "]"<span style="color: rgba(0, 0, 0, 1)">);
+    }
+
+    </span><span style="color: rgba(0, 0, 255, 1)">public</span><span style="color: rgba(0, 0, 0, 1)"> String getName() {
+        </span><span style="color: rgba(0, 0, 255, 1)">return</span><span style="color: rgba(0, 0, 0, 1)"> name;
+    }
+
+    </span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> setName(String name) {
+        </span><span style="color: rgba(0, 0, 255, 1)">this</span>.name =<span style="color: rgba(0, 0, 0, 1)"> name;
+    }
+
+    </span><span style="color: rgba(0, 0, 255, 1)">public</span><span style="color: rgba(0, 0, 0, 1)"> String getSex() {
+        </span><span style="color: rgba(0, 0, 255, 1)">return</span><span style="color: rgba(0, 0, 0, 1)"> sex;
+    }
+
+    </span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> setSex(String sex) {
+        </span><span style="color: rgba(0, 0, 255, 1)">this</span>.sex =<span style="color: rgba(0, 0, 0, 1)"> sex;
+    }
+
+    @Override
+    </span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span> setBeanFactory(BeanFactory beanFactory) <span style="color: rgba(0, 0, 255, 1)">throws</span><span style="color: rgba(0, 0, 0, 1)"> BeansException {
+        System.out.println(</span>"[Person]调用了BeanFactoryAware的setBeanFactory方法了：" +<span style="color: rgba(0, 0, 0, 1)"> beanFactory);
+    }
+
+    @Override
+    </span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> setBeanName(String name) {
+        System.out.println(</span>"[Person]调用了BeanNameAware的setBeanName方法了:" +<span style="color: rgba(0, 0, 0, 1)"> name);
+    }
+
+    @Override
+    </span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span> destroy() <span style="color: rgba(0, 0, 255, 1)">throws</span><span style="color: rgba(0, 0, 0, 1)"> Exception {
+        System.out.println(</span>"[Person]调用了DisposableBean的destroy方法了"<span style="color: rgba(0, 0, 0, 1)">);
+    }
+
+    @Override
+    </span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span> <span style="color: rgba(255, 0, 0, 1)">afterPropertiesSet</span>() <span style="color: rgba(0, 0, 255, 1)">throws</span><span style="color: rgba(0, 0, 0, 1)"> Exception {
+        System.out.println(</span>"[Person]调用了Initailization的afterPropertiesSet方法了"<span style="color: rgba(0, 0, 0, 1)">);
+    }
+
+    @Override
+    </span><span style="color: rgba(0, 0, 255, 1)">public</span><span style="color: rgba(0, 0, 0, 1)"> String toString() {
+        </span><span style="color: rgba(0, 0, 255, 1)">return</span> "Person [name=" + name + ", sex=" +<span style="color: rgba(0, 0, 0, 1)"> sex
+                </span>+ "]"<span style="color: rgba(0, 0, 0, 1)">;
+    }
+}</span></pre>
+</div>
+<p>&nbsp;　　<span style="font-size: 15px">3.自定义BeanFactoryPostProcessor类：</span></p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 0, 1)">@Component
+</span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">class</span> MyBeanFactoryPostProcessor <span style="color: rgba(0, 0, 255, 1)">implements</span><span style="color: rgba(0, 0, 0, 1)"> BeanFactoryPostProcessor {
+    @Override
+    </span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span> postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) <span style="color: rgba(0, 0, 255, 1)">throws</span><span style="color: rgba(0, 0, 0, 1)"> BeansException {
+        System.out.println(</span>"[MyBeanFactoryPostProcessor]调用了postProcessBeanFactory"<span style="color: rgba(0, 0, 0, 1)">);
+        </span><span style="color: rgba(0, 0, 255, 1)">int</span> count =<span style="color: rgba(0, 0, 0, 1)"> beanFactory.getBeanDefinitionCount();
+        System.out.println(</span>"[MyBeanFactoryPostProcessor]当前beanFactory共有" + count + "个bean"<span style="color: rgba(0, 0, 0, 1)">);
+        String[] beanDefinitionNames </span>=<span style="color: rgba(0, 0, 0, 1)"> beanFactory.getBeanDefinitionNames();
+        System.out.println(</span>"[MyBeanFactoryPostProcessor]当前beanFactory有下面组件" +<span style="color: rgba(0, 0, 0, 1)"> Arrays.asList(beanDefinitionNames));
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">获取容器中所有的beanDefinition</span>
+        <span style="color: rgba(0, 0, 255, 1)">for</span><span style="color: rgba(0, 0, 0, 1)"> (String beanName : beanDefinitionNames) {
+            </span><span style="color: rgba(0, 0, 255, 1)">if</span> ("person"<span style="color: rgba(0, 0, 0, 1)">.equals(beanName)) {
+                </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">获取PersonDefinition对象</span>
+                BeanDefinition beanDefinition =<span style="color: rgba(0, 0, 0, 1)"> beanFactory.getBeanDefinition(beanName);
+                MutablePropertyValues propertyValues </span>=<span style="color: rgba(0, 0, 0, 1)"> beanDefinition.getPropertyValues();
+                System.out.println(propertyValues.toString());
+                </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">修改定义中的name属性值</span>
+                <span style="color: rgba(255, 0, 0, 1)">propertyValues.addPropertyValue("name", "赵四"</span><span style="color: rgba(0, 0, 0, 1)"><span style="color: rgba(255, 0, 0, 1)">);</span>
+                System.out.println(</span>"[MyBeanFactoryPostProcessor]postProcessBeanFactory方法中修改了name属性初始值了"<span style="color: rgba(0, 0, 0, 1)">);
+                System.out.println(propertyValues.toString());
+            }
+        }
+    }
+}</span></pre>
+</div>
+<p><span style="font-size: 15px">　　4.自定义BeanPostProcessor类：</span></p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 0, 1)">@Component
+</span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">class</span> MyBeanPostProcessor <span style="color: rgba(0, 0, 255, 1)">implements</span><span style="color: rgba(0, 0, 0, 1)"> BeanPostProcessor {
+    @Override
+    </span><span style="color: rgba(0, 0, 255, 1)">public</span><span style="color: rgba(0, 0, 0, 1)"> Object postProcessBeforeInitialization(Object bean,
+                                                  String beanName) </span><span style="color: rgba(0, 0, 255, 1)">throws</span><span style="color: rgba(0, 0, 0, 1)"> BeansException {
+        System.out.println(</span>"[MyBeanPostProcessor]后置处理器处理bean=【" + beanName + "】开始"<span style="color: rgba(0, 0, 0, 1)">);
+        </span><span style="color: rgba(0, 0, 255, 1)">return</span><span style="color: rgba(0, 0, 0, 1)"> bean;
+    }
+
+    @Override
+    </span><span style="color: rgba(0, 0, 255, 1)">public</span><span style="color: rgba(0, 0, 0, 1)"> Object postProcessAfterInitialization(Object bean,
+                                                 String beanName) </span><span style="color: rgba(0, 0, 255, 1)">throws</span><span style="color: rgba(0, 0, 0, 1)"> BeansException {
+        System.out.println(</span>"[MyBeanPostProcessor]后置处理器处理bean=【" + beanName + "】完毕!"<span style="color: rgba(0, 0, 0, 1)">);
+        </span><span style="color: rgba(0, 0, 255, 1)">return</span><span style="color: rgba(0, 0, 0, 1)"> bean;
+    }
+}</span></pre>
+</div>
+<p>&nbsp;　　<span style="font-size: 15px">5.测试：</span></p>
+<div class="cnblogs_code">
+<pre>    <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">static</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> main(String[] args) {
+        AnnotationConfigApplicationContext context </span>= <span style="color: rgba(0, 0, 255, 1)">new</span> AnnotationConfigApplicationContext(ExtConfig.<span style="color: rgba(0, 0, 255, 1)">class</span><span style="color: rgba(0, 0, 0, 1)">);
+        Person bean </span>= context.getBean(Person.<span style="color: rgba(0, 0, 255, 1)">class</span><span style="color: rgba(0, 0, 0, 1)">);
+        System.out.println(bean.toString());
+        context.close();
+    }
+    
+</span>======运行结果======<span style="color: rgba(0, 0, 0, 1)">
+[<span style="color: rgba(255, 0, 0, 1)">MyBeanFactoryPostProcessor</span>]调用了postProcessBeanFactory
+[<span style="color: rgba(255, 0, 0, 1)">MyBeanFactoryPostProcessor</span>]当前beanFactory共有9个bean
+[<span style="color: rgba(255, 0, 0, 1)">MyBeanFactoryPostProcessor</span>]当前beanFactory有下面组件[org.springframework.context.annotation.internalConfigurationAnnotationProcessor, org.springframework.context.annotation.internalAutowiredAnnotationProcessor, org.springframework.context.annotation.internalCommonAnnotationProcessor, org.springframework.context.event.internalEventListenerProcessor, org.springframework.context.event.internalEventListenerFactory, extConfig, myBeanFactoryPostProcessor, myBeanPostProcessor, person]
+PropertyValues: length</span>=0<span style="color: rgba(0, 0, 0, 1)">
+[<span style="color: rgba(255, 0, 0, 1)">MyBeanFactoryPostProcessor</span>]<span style="color: rgba(255, 0, 255, 1)">postProcessBeanFactory方法中修改了name属性初始值了</span>
+PropertyValues: length</span>=1; bean property 'name'<span style="color: rgba(0, 0, 0, 1)">
+[<span style="color: rgba(51, 153, 102, 1)">MyBeanPostProcessor</span>]后置处理器处理bean</span>=<span style="color: rgba(0, 0, 0, 1)">【extConfig】开始
+[<span style="color: rgba(51, 153, 102, 1)">MyBeanPostProcessor</span>]后置处理器处理bean</span>=【extConfig】完毕!<span style="color: rgba(0, 0, 255, 1)">
+Person有参构造器:[name=张三,sex=</span><span style="color: rgba(0, 0, 0, 1)"><span style="color: rgba(0, 0, 255, 1)">男]</span>
+[Person]调用了BeanNameAware的setBeanName方法了:person
+[Person]调用了BeanFactoryAware的setBeanFactory方法了：org.springframework.beans.factory.support.DefaultListableBeanFactory@e45f292: defining beans [org.springframework.context.annotation.internalConfigurationAnnotationProcessor,org.springframework.context.annotation.internalAutowiredAnnotationProcessor,org.springframework.context.annotation.internalCommonAnnotationProcessor,org.springframework.context.event.internalEventListenerProcessor,org.springframework.context.event.internalEventListenerFactory,extConfig,myBeanFactoryPostProcessor,myBeanPostProcessor,person]; root of factory hierarchy
+[<span style="color: rgba(51, 153, 102, 1)">MyBeanPostProcessor</span>]后置处理器处理bean</span>=<span style="color: rgba(0, 0, 0, 1)">【person】开始
+[Person]<span style="color: rgba(255, 0, 255, 1)">调用了Initailization的afterPropertiesSet方法了</span>
+[<span style="color: rgba(51, 153, 102, 1)">MyBeanPostProcessor</span>]后置处理器处理bean</span>=【person】完毕!<span style="color: rgba(0, 0, 255, 1)">
+Person [name=赵四, sex=null</span><span style="color: rgba(0, 0, 0, 1)"><span style="color: rgba(0, 0, 255, 1)">]</span>
+[Person]调用了DisposableBean的destroy方法了</span></pre>
+</div>
+<p><span style="font-size: 15px">&nbsp;　　从上面的运行结果可以看出：</span></p>
+<p><span style="font-size: 15px">　　　　1）Person的name值由"张三"变为"赵四"；</span></p>
+<p><span style="font-size: 15px">　　　　2）BeanFactoryPostProcessor方法执行顺序先于BeanPostProcessor接口中方法，且在bean实例化之前执行；</span></p>
+<p><span style="font-size: 15px">　　　　3）BeanFactoryPostProcessor改变bean的定义，实例化出来的对象变了：“</span><span style="font-size: 15px"><strong>Person有参构造器:[name=张三,sex=男]</strong> ”变成了“<strong>Person [name=赵四, sex=null]</strong>”</span></p>
+<p><span style="font-size: 15px">　　　　4）BeanPostProcessor在bean创建对象实例化后，初始化（bean执行afterPropertiesSet方法或init-method方法）前后进行拦截工作；</span></p>
+<h2>&nbsp;三.原理</h2>
+<p>&nbsp;　　<span style="font-size: 15px">接下来我们通过debug代码来查看BeanFactoryPostProcessor的执行流程，从AbstractApplicationContext类的构造器方法看起，这里面对应着容器初始化的基本操作；</span></p>
+<p><span style="font-size: 15px">　　1.在测试main方法中下面的代码打断点：</span></p>
+<div class="cnblogs_code">
+<pre>AnnotationConfigApplicationContext context = <span style="color: rgba(0, 0, 255, 1)">new</span> AnnotationConfigApplicationContext(ExtConfig.<span style="color: rgba(0, 0, 255, 1)">class</span>);</pre>
+</div>
+<p>　　<span style="font-size: 15px">2.从下图可以看出容器先注册配置类ExtConfig的定义信息，然后进行refresh刷新容器；</span></p>
+<p>&nbsp;<img src="https://img2020.cnblogs.com/blog/1363696/202011/1363696-20201101161356115-2104356624.png" alt="" loading="lazy"></p>
+<p><span style="font-size: 15px">　　3.先来看看register(componentClasses)注册流程：从class文件读取信息解析成beanDefinition</span></p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 0, 1)"><span style="color: rgba(255, 0, 0, 1)">AnnotationConfigApplicationContext</span>：
+    </span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span> register(Class&lt;?&gt;<span style="color: rgba(0, 0, 0, 1)">... componentClasses) {
+        Assert.notEmpty(componentClasses, </span>"At least one component class must be specified"<span style="color: rgba(0, 0, 0, 1)">);
+        </span><span style="color: rgba(0, 0, 255, 1)">this</span><span style="color: rgba(0, 0, 0, 1)">.reader.register(componentClasses);
+    }
+
+
+<span style="color: rgba(255, 0, 0, 1)">AnnotatedBeanDefinitionReader</span>：注册beanDefinition
+    </span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span> register(Class&lt;?&gt;<span style="color: rgba(0, 0, 0, 1)">... componentClasses) {
+        </span><span style="color: rgba(0, 0, 255, 1)">for</span> (Class&lt;?&gt;<span style="color: rgba(0, 0, 0, 1)"> componentClass : componentClasses) {
+            registerBean(componentClass);
+        }
+    }
+    
+    </span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span> registerBean(Class&lt;?&gt;<span style="color: rgba(0, 0, 0, 1)"> beanClass) {
+        doRegisterBean(beanClass, </span><span style="color: rgba(0, 0, 255, 1)">null</span>, <span style="color: rgba(0, 0, 255, 1)">null</span>, <span style="color: rgba(0, 0, 255, 1)">null</span>, <span style="color: rgba(0, 0, 255, 1)">null</span><span style="color: rgba(0, 0, 0, 1)">);
+    }
+        
+    </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">Register a bean from the given bean class, deriving its metadata from  class-declared annotations.
+    </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">从class文件中读取bean的定义信息，并注册到容器中</span>
+    <span style="color: rgba(0, 0, 255, 1)">private</span> &lt;T&gt; <span style="color: rgba(0, 0, 255, 1)">void</span> doRegisterBean(Class&lt;T&gt;<span style="color: rgba(0, 0, 0, 1)"> beanClass, @Nullable String name,
+        @Nullable Class</span>&lt;? <span style="color: rgba(0, 0, 255, 1)">extends</span> Annotation&gt;[] qualifiers, @Nullable Supplier&lt;T&gt;<span style="color: rgba(0, 0, 0, 1)"> supplier,
+        @Nullable BeanDefinitionCustomizer[] customizers) {
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">得到bean的所有定义信息：元数据metadata、作用域scope、初始化方法名字initMethodName等等</span>
+        AnnotatedGenericBeanDefinition abd = <span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> AnnotatedGenericBeanDefinition(beanClass);
+        </span><span style="color: rgba(0, 0, 255, 1)">if</span> (<span style="color: rgba(0, 0, 255, 1)">this</span><span style="color: rgba(0, 0, 0, 1)">.conditionEvaluator.shouldSkip(abd.getMetadata())) {
+            </span><span style="color: rgba(0, 0, 255, 1)">return</span><span style="color: rgba(0, 0, 0, 1)">;
+        }
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">为bean实例创建一个特殊的回调信号</span>
+<span style="color: rgba(0, 0, 0, 1)">        abd.setInstanceSupplier(supplier);
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">获取作用域的数据：单例</span>
+        ScopeMetadata scopeMetadata = <span style="color: rgba(0, 0, 255, 1)">this</span><span style="color: rgba(0, 0, 0, 1)">.scopeMetadataResolver.resolveScopeMetadata(abd);
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">设置bean为单例</span>
+<span style="color: rgba(0, 0, 0, 1)">        abd.setScope(scopeMetadata.getScopeName());
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">获取beanName</span>
+        String beanName = (name != <span style="color: rgba(0, 0, 255, 1)">null</span> ? name : <span style="color: rgba(0, 0, 255, 1)">this</span>.beanNameGenerator.generateBeanName(abd, <span style="color: rgba(0, 0, 255, 1)">this</span><span style="color: rgba(0, 0, 0, 1)">.registry));
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">处理一些注释信息：lazyInit、primary、dependsOn、role、description</span>
+<span style="color: rgba(0, 0, 0, 1)">        AnnotationConfigUtils.processCommonDefinitionAnnotations(abd);
+        </span><span style="color: rgba(0, 0, 255, 1)">if</span> (qualifiers != <span style="color: rgba(0, 0, 255, 1)">null</span>) {<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">qualifiers = nul 跳过</span>
+            <span style="color: rgba(0, 0, 255, 1)">for</span> (Class&lt;? <span style="color: rgba(0, 0, 255, 1)">extends</span> Annotation&gt;<span style="color: rgba(0, 0, 0, 1)"> qualifier : qualifiers) {
+                </span><span style="color: rgba(0, 0, 255, 1)">if</span> (Primary.<span style="color: rgba(0, 0, 255, 1)">class</span> ==<span style="color: rgba(0, 0, 0, 1)"> qualifier) {
+                    abd.setPrimary(</span><span style="color: rgba(0, 0, 255, 1)">true</span><span style="color: rgba(0, 0, 0, 1)">);
+                }
+                </span><span style="color: rgba(0, 0, 255, 1)">else</span> <span style="color: rgba(0, 0, 255, 1)">if</span> (Lazy.<span style="color: rgba(0, 0, 255, 1)">class</span> ==<span style="color: rgba(0, 0, 0, 1)"> qualifier) {
+                    abd.setLazyInit(</span><span style="color: rgba(0, 0, 255, 1)">true</span><span style="color: rgba(0, 0, 0, 1)">);
+                }
+                </span><span style="color: rgba(0, 0, 255, 1)">else</span><span style="color: rgba(0, 0, 0, 1)"> {
+                    abd.addQualifier(</span><span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> AutowireCandidateQualifier(qualifier));
+                }
+            }
+        }
+        </span><span style="color: rgba(0, 0, 255, 1)">if</span> (customizers != <span style="color: rgba(0, 0, 255, 1)">null</span>) {<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">customizers = null跳过</span>
+            <span style="color: rgba(0, 0, 255, 1)">for</span><span style="color: rgba(0, 0, 0, 1)"> (BeanDefinitionCustomizer customizer : customizers) {
+                customizer.customize(abd);
+            }
+        }
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">创建一个BeanDefinitionHolder</span>
+        BeanDefinitionHolder definitionHolder = <span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> BeanDefinitionHolder(abd, beanName);
+        definitionHolder </span>= AnnotationConfigUtils.applyScopedProxyMode(scopeMetadata, definitionHolder, <span style="color: rgba(0, 0, 255, 1)">this</span><span style="color: rgba(0, 0, 0, 1)">.registry);
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">容器中注册beanDefinition</span>
+        BeanDefinitionReaderUtils.registerBeanDefinition(definitionHolder, <span style="color: rgba(0, 0, 255, 1)">this</span><span style="color: rgba(0, 0, 0, 1)">.registry);
+    }</span></pre>
+</div>
+<p><span style="font-size: 15px">　　4.refresh刷新容器：invokeBeanFactoryPostProcessors方法用来找出所有beanFactory后置处理器，并且调用这些处理器来改变bean的定义</span></p>
+<div class="cnblogs_code">
+<pre>    <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span> refresh() <span style="color: rgba(0, 0, 255, 1)">throws</span><span style="color: rgba(0, 0, 0, 1)"> BeansException, IllegalStateException {
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">来个锁，不然 refresh() 还没结束，你又来个启动或销毁容器的操作，那不就乱套了嘛</span>
+        <span style="color: rgba(0, 0, 255, 1)">synchronized</span> (<span style="color: rgba(0, 0, 255, 1)">this</span><span style="color: rgba(0, 0, 0, 1)">.startupShutdownMonitor) {
+            </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> Prepare this context for refreshing.
+            </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">容器刷新前的处理方法：获取启动的系统时间、设置active活跃标识、开始打印日志、设置环境变量、设置容器监听器、设置容器事件</span>
+<span style="color: rgba(0, 0, 0, 1)">            prepareRefresh();
+
+            </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> Tell the subclass to refresh the internal bean factory.
+            </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">刷新bean工厂并获取到bean工厂</span>
+            ConfigurableListableBeanFactory beanFactory =<span style="color: rgba(0, 0, 0, 1)"> obtainFreshBeanFactory();
+
+            </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> Prepare the bean factory for use in this context.
+            </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> bean工厂的初始化操作：设置类加载器、设置bean表达式解析器、设置bean后置处理器等等；</span>
+<span style="color: rgba(0, 0, 0, 1)">            prepareBeanFactory(beanFactory);
+
+            </span><span style="color: rgba(0, 0, 255, 1)">try</span><span style="color: rgba(0, 0, 0, 1)"> {
+                </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> Allows post-processing of the bean factory in context subclasses.
+                </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> 【这里需要知道 BeanFactoryPostProcessor 这个知识点，Bean 如果实现了此接口，
+                </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> 那么在容器初始化以后，Spring 会负责调用里面的 postProcessBeanFactory 方法。】
+                 </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> 这里是提供给子类的扩展点，到这里的时候，所有的 Bean 都加载、注册完成了，但是都还没有初始化
+                 </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> 具体的子类可以在这步的时候根据自身业务添加或修改一些特殊的 beanFactory属性</span>
+<span style="color: rgba(0, 0, 0, 1)">                postProcessBeanFactory(beanFactory);
+
+                </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> Invoke factory processors registered as beans in the context.
+                </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">找出所有beanFactory后置处理器，并且调用这些处理器来改变bean的定义</span>
+<span style="color: rgba(0, 0, 0, 1)"><span style="color: rgba(255, 0, 0, 1)">                invokeBeanFactoryPostProcessors</span>(beanFactory);
+
+                </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> Register bean processors that intercept bean creation.<br>                //注册bean后置处理器</span>
+<span style="color: rgba(0, 0, 0, 1)">                registerBeanPostProcessors(beanFactory);
+
+                </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> Initialize message source for this context.<br>                //初始化容器的信息源</span>
+<span style="color: rgba(0, 0, 0, 1)">                initMessageSource();
+
+                </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> Initialize event multicaster for this context.<br>                //初始化事件监听多路广播器</span>
+<span style="color: rgba(0, 0, 0, 1)">                initApplicationEventMulticaster();
+
+                </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> Initialize other special beans in specific context subclasses.<br>                //是个空壳方法，在AnnotationApplicationContex上下文中没有实现，可能在spring后面的版本会去扩展。<br>                //与Web上下文有关</span>
+<span style="color: rgba(0, 0, 0, 1)">                onRefresh();
+
+                </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> Check for listener beans and register them.
+                </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">注册监听器</span>
+<span style="color: rgba(0, 0, 0, 1)">                registerListeners();
+
+                </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> Instantiate all remaining (non-lazy-init) singletons.
+                </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">对象的创建:初始化剩下所有的(非懒加载的）单实例对象<span style="color: rgba(255, 0, 0, 1)">【从这里可以看出beanFactory后置处理器在初始化其他组件之前执行】</span></span>
+<span style="color: rgba(0, 0, 0, 1)"><span style="color: rgba(255, 0, 0, 1)">                finishBeanFactoryInitialization</span>(beanFactory);
+
+                </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> Last step: publish corresponding event.<br>                //刷新完成工作，包括初始化LifecycleProcessor，发布刷新完成事件等</span>
+<span style="color: rgba(0, 0, 0, 1)">                finishRefresh();
+            }
+
+            </span><span style="color: rgba(0, 0, 255, 1)">catch</span><span style="color: rgba(0, 0, 0, 1)"> (BeansException ex) {
+                </span><span style="color: rgba(0, 0, 255, 1)">if</span><span style="color: rgba(0, 0, 0, 1)"> (logger.isWarnEnabled()) {
+                    logger.warn(</span>"Exception encountered during context initialization - " +
+                            "cancelling refresh attempt: " +<span style="color: rgba(0, 0, 0, 1)"> ex);
+                }
+
+                </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> Destroy already created singletons to avoid dangling resources.<br>                //销毁已经初始化的 singleton 的 Beans，以免有些 bean 会一直占用资源</span>
+<span style="color: rgba(0, 0, 0, 1)">                destroyBeans();
+
+                </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> Reset 'active' flag.<br>                //取消刷新的标志</span>
+<span style="color: rgba(0, 0, 0, 1)">                cancelRefresh(ex);
+
+                </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> Propagate exception to caller.</span>
+                <span style="color: rgba(0, 0, 255, 1)">throw</span><span style="color: rgba(0, 0, 0, 1)"> ex;
+            }
+
+            </span><span style="color: rgba(0, 0, 255, 1)">finally</span><span style="color: rgba(0, 0, 0, 1)"> {
+                </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> Reset common introspection caches in Spring's core, since we
+                </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> might not ever need metadata for singleton beans anymore...</span>
+<span style="color: rgba(0, 0, 0, 1)">                resetCommonCaches();
+            }
+        }
+    }</span></pre>
+</div>
+<p><span style="font-size: 15px">　　5.打开invokeBeanFactoryPostProcessors方法，如下所示，实际操作是委托PostProcessorRegis</span></p>
+<p><span style="font-size: 15px">trationDelegate去完成的：调用getBeanFactoryPostProcessors()方法获取手工注册到ApplicationCon</span></p>
+<p><span style="font-size: 15px">text的容器后置处理器集合</span></p>
+<div class="cnblogs_code">
+<pre>    <span style="color: rgba(0, 0, 255, 1)">protected</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> invokeBeanFactoryPostProcessors(ConfigurableListableBeanFactory beanFactory) {
+        <span style="color: rgba(255, 0, 0, 1)">PostProcessorRegistrationDelegate</span>.invokeBeanFactoryPostProcessors(beanFactory, getBeanFactoryPostProcessors());
+
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> Detect a LoadTimeWeaver and prepare for weaving, if found in the meantime
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> (e.g. through an @Bean method registered by ConfigurationClassPostProcessor)</span>
+        <span style="color: rgba(0, 0, 255, 1)">if</span> (beanFactory.getTempClassLoader() == <span style="color: rgba(0, 0, 255, 1)">null</span> &amp;&amp;<span style="color: rgba(0, 0, 0, 1)"> beanFactory.containsBean(LOAD_TIME_WEAVER_BEAN_NAME)) {
+            beanFactory.addBeanPostProcessor(</span><span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> LoadTimeWeaverAwareProcessor(beanFactory));
+            beanFactory.setTempClassLoader(</span><span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> ContextTypeMatchClassLoader(beanFactory.getBeanClassLoader()));
+        }
+    }</span>&nbsp;</pre>
+</div>
+<p style="margin-left: 30px">　　<span style="font-size: 15px">1）在调用PostProcessorRegistrationDelegate类的invokeBeanFactoryPostProcessors方法时，注意第二个入参是getBeanFactoryPostProcessors()方法，该方法返回的是applicationContext的成员变量beanFactoryPostProcessors，该成员变量的值来自AbstractApplicationContext.addBeanFactoryPostProcessor方法被调用的时候：</span></p>
+<div class="cnblogs_code">
+<pre>    <span style="color: rgba(0, 0, 255, 1)">private</span> <span style="color: rgba(0, 0, 255, 1)">final</span> List&lt;BeanFactoryPostProcessor&gt; beanFactoryPostProcessors = <span style="color: rgba(0, 0, 255, 1)">new</span> ArrayList&lt;&gt;<span style="color: rgba(0, 0, 0, 1)">();
+    @Override
+    </span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> addBeanFactoryPostProcessor(BeanFactoryPostProcessor postProcessor) {
+        Assert.notNull(postProcessor, </span>"BeanFactoryPostProcessor must not be null"<span style="color: rgba(0, 0, 0, 1)">);
+        </span><span style="color: rgba(0, 0, 255, 1)">this</span><span style="color: rgba(0, 0, 0, 1)">.beanFactoryPostProcessors.add(postProcessor);
+    }
+
+    </span><span style="color: rgba(0, 0, 255, 1)">public</span> List&lt;BeanFactoryPostProcessor&gt;<span style="color: rgba(0, 0, 0, 1)"> getBeanFactoryPostProcessors() {
+        </span><span style="color: rgba(0, 0, 255, 1)">return</span> <span style="color: rgba(0, 0, 255, 1)">this</span><span style="color: rgba(0, 0, 0, 1)">.beanFactoryPostProcessors;
+    }</span></pre>
+</div>
+<p>　　　　<span style="font-size: 15px">2）AbstractApplicationContext.addBeanFactoryPostProcessor方法是留给业务扩展时调用的，例如在springboot初始化时，ConfigurationWarningsApplicationContextInitializer类的initialize方法中就有调用：</span></p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 0, 1)">@Override
+</span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> initialize(ConfigurableApplicationContext context) {
+    context.addBeanFactoryPostProcessor(
+            </span><span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> ConfigurationWarningsPostProcessor(getChecks()));
+}</span></pre>
+</div>
+<p style="margin-left: 30px"><span style="font-size: 15px">6.看过了如何添加BeanFactoryPostProcessor，再回到</span><span style="font-size: 15px">PostProcessorRegistrationDelegate</span><span style="font-size: 15px">.invo</span><span style="font-size: 15px">k</span></p>
+<p style="margin-left: 30px"><span style="font-size: 15px">e</span><span style="font-size: 15px">BeanFactoryPostProcessors方法：实例化并调用所有已注册的BeanFactoryPostProcessor bean；</span></p>
+<p style="margin-left: 30px"><span style="font-size: 15px">流程是：</span></p>
+<p style="margin-left: 30px"><span style="font-size: 15px">　　1）</span><span style="font-size: 15px">beanFactory是BeanDefinitionRegistry类型时，</span><span style="font-size: 15px">此条件下完成如下流程：</span></p>
+<p style="margin-left: 30px"><span style="font-size: 15px">　　　　1.遍历传入后置处理器集合查找类型为BeanDefinitionRegistryPostProcessor的后置处理器，调用后置处理器的postProcessBeanDefinitionRegistry方法；</span></p>
+<p style="margin-left: 30px"><span style="font-size: 15px">　　　　2.在容器中查找所有的实现了PriorityOrdered接口的BeanDefinition</span></p>
+<p style="margin-left: 30px"><span style="font-size: 15px">RegistryPostProcesso</span><span style="font-size: 15px">r集合，对后置处理器集合排序，遍历，执行后置处理的postProcessBeanDefinitionRegistry方法；</span></p>
+<p style="margin-left: 30px"><span style="font-size: 15px">　　　　3.在容器中查找所有实现了Ordered接口的BeanDefinitionRegistryPostProcessor集合，对后置处理器集合排序，遍历，执行后置处理的postProcessBeanDefinitionRegistry方法；</span></p>
+<p style="margin-left: 30px"><span style="font-size: 15px">　　　　4.在容器中查找其它（未实现排序接口）的BeanDefinitionRegistryPostProcessor并添加到集合nonOrderedPostProcessors中，对后置处理器集合排序，遍历，执行后置处理的postProcessBeanDefinitionRegistry方法；</span></p>
+<p style="margin-left: 30px"><span style="font-size: 15px">　　　　5.当前所有的BeanDefinitionRegistryPostProcessor处理器的方法post</span><span style="font-size: 15px">Process</span><span style="font-size: 15px">BeanD</span></p>
+<p style="margin-left: 30px"><span style="font-size: 15px">efinitionRegistry 执行完毕后，执行其父类postProcessBeanFactory方法；</span></p>
+<p style="margin-left: 30px"><span style="font-size: 15px">　　　　6.执行所有非BeanDefinitionRegistryPostProcessor类型的后置处理器的post</span><span style="font-size: 15px">Process</span><span style="font-size: 15px">B</span></p>
+<p style="margin-left: 30px"><span style="font-size: 15px">ean</span><span style="font-size: 15px">Factory方法；</span></p>
+<p style="margin-left: 30px"><span style="font-size: 15px">　　　　PS：BeanDefinitionRegistryPostProcessor的简介（BeanDefinitionRegistry</span><span style="font-size: 15px">PostProc</span></p>
+<p style="margin-left: 30px"><span style="font-size: 15px">essor的实现案例请查看下文第7点的后文）</span></p>
+<p style="margin-left: 30px"><span style="font-size: 15px">　　　　 （1）<span style="color: rgba(255, 0, 0, 1)">我们开发的类，如果想注册到spring容器，让spring来完成实例化，常用方式如下：xml中通过bean节点来配置；使用@Service、@Controller、@Conponent等注解；</span><br><span style="color: rgba(255, 0, 0, 1)">　　　　　　其实，除了以上方式，spring还支持我们通过代码来将指定的类注册到spring容器中，即使用BeanDefinitionRegistryPostProcessor来进行bean的注册；</span></span></p>
+<p style="margin-left: 30px"><span style="font-size: 15px">　　　　（2）<span style="color: rgba(255, 0, 0, 1)">BeanDefinitionRegistryPostProcessor是BeanFactoryPostProcessor的子类，执行顺序优先于BeanFactoryPostProcessor，执行流程跟BeanFactoryPostProcessor一样，只是会先执行</span></span><span style="color: rgba(255, 0, 0, 1)">postProcessBeanDefinitionRegistry再执行postProcessBeanFactory；</span></p>
+<p style="margin-left: 30px"><span style="color: rgba(255, 0, 0, 1)"><span style="font-size: 15px; color: rgba(0, 0, 0, 1)">　　　　（3）<span style="color: rgba(255, 0, 0, 1)">BeanDefinitionRegistry提供了丰富的方法来操作bean定义，判断、注册、反注册等方法都准备好了，我们在编写postProcessBeanDefinitionRegistry方法的内容时，就能直接使用入参registry的这些方法来完成判断和注册、反注册等操作；</span></span></span></p>
+<p style="margin-left: 30px"><span style="color: rgba(255, 0, 0, 1)"><span style="font-size: 15px; color: rgba(0, 0, 0, 1)"><span style="color: rgba(255, 0, 0, 1)"><img src="https://img2020.cnblogs.com/blog/1363696/202011/1363696-20201102203611022-1593893057.png" alt="" loading="lazy"></span></span></span></p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">interface</span> BeanDefinitionRegistryPostProcessor <span style="color: rgba(0, 0, 255, 1)">extends</span><span style="color: rgba(0, 0, 0, 1)"> BeanFactoryPostProcessor {
+
+    </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(255, 0, 0, 1)">执行时机：在所有bean定义信息将要被加载，bean实例还未创建，利用下面方法给容器再额外添加一些组件</span>
+    <span style="color: rgba(0, 0, 255, 1)">void</span> postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) <span style="color: rgba(0, 0, 255, 1)">throws</span><span style="color: rgba(0, 0, 0, 1)"> BeansException;
+
+}</span></pre>
+</div>
+<p style="margin-left: 30px"><span style="font-size: 15px">　　2）beanFactory非BeanDefinitionRegistry类型时，</span><span style="font-size: 15px">此条件下完成如下流程：</span></p>
+<p style="margin-left: 30px"><span style="font-size: 15px">　　　　1.遍历传入后置处理器集合，执行后置处理器的postProcessBeanFactory方法；</span></p>
+<p style="margin-left: 30px"><span style="font-size: 15px">　　　　2.在容器中（beanFactory.getBeanNamesForType）查找所有的实现了PriorityOrdered接口的BeanFactoryPostProcessor集合，对后置处理器集合排序，遍历，执行后置处理；</span></p>
+<p style="margin-left: 30px"><span style="font-size: 15px">　　　　3.在容器中查找所有实现了Ordered接口的BeanFactoryPostProcessor集合，对后置处理器集合排序，遍历，执行后置处理；</span></p>
+<p style="margin-left: 30px"><span style="font-size: 15px">　　　　4.在容器中查找其它（未实现排序接口）的BeanFactoryPostProcessor并添加到集合nonOrderedPostProcessors中，对后置处理器集合排序，遍历，执行后置处理；</span></p>
+<div class="cnblogs_code">
+<pre>    <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">static</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> invokeBeanFactoryPostProcessors(
+            ConfigurableListableBeanFactory beanFactory, List</span>&lt;BeanFactoryPostProcessor&gt;<span style="color: rgba(0, 0, 0, 1)"> beanFactoryPostProcessors) {
+
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> Invoke BeanDefinitionRegistryPostProcessors first, if any.</span>
+        Set&lt;String&gt; processedBeans = <span style="color: rgba(0, 0, 255, 1)">new</span> HashSet&lt;&gt;<span style="color: rgba(0, 0, 0, 1)">();
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">如果beanFactory实现了BeanDefinitionRegistry</span>
+        <span style="color: rgba(0, 0, 255, 1)">if</span> (beanFactory <span style="color: rgba(0, 0, 255, 1)">instanceof</span><span style="color: rgba(0, 0, 0, 1)"> BeanDefinitionRegistry) {
+            BeanDefinitionRegistry registry </span>=<span style="color: rgba(0, 0, 0, 1)"> (BeanDefinitionRegistry) beanFactory;
+            List</span>&lt;BeanFactoryPostProcessor&gt; regularPostProcessors = <span style="color: rgba(0, 0, 255, 1)">new</span> ArrayList&lt;&gt;<span style="color: rgba(0, 0, 0, 1)">();
+            List</span>&lt;BeanDefinitionRegistryPostProcessor&gt; registryProcessors = <span style="color: rgba(0, 0, 255, 1)">new</span> ArrayList&lt;&gt;<span style="color: rgba(0, 0, 0, 1)">();
+
+            </span><span style="color: rgba(0, 0, 255, 1)">for</span><span style="color: rgba(0, 0, 0, 1)"> (BeanFactoryPostProcessor postProcessor : beanFactoryPostProcessors) {
+                </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">如果beanFactoryPostProcessor实现了BeanDefinitionRegistryPostProcessor，分别放入两个集合：registryProcessors 和 regularPostProcessors</span>
+                <span style="color: rgba(0, 0, 255, 1)">if</span> (postProcessor <span style="color: rgba(0, 0, 255, 1)">instanceof</span><span style="color: rgba(0, 0, 0, 1)"> BeanDefinitionRegistryPostProcessor) {
+                    BeanDefinitionRegistryPostProcessor registryProcessor </span>=<span style="color: rgba(0, 0, 0, 1)">
+                            (BeanDefinitionRegistryPostProcessor) postProcessor;
+                    registryProcessor.postProcessBeanDefinitionRegistry(registry);
+                    registryProcessors.add(registryProcessor);
+                }
+                </span><span style="color: rgba(0, 0, 255, 1)">else</span><span style="color: rgba(0, 0, 0, 1)"> {
+                    regularPostProcessors.add(postProcessor);
+                }
+            }
+
+            </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> Do not initialize FactoryBeans here: We need to leave all regular beans
+            </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> uninitialized to let the bean factory post-processors apply to them!
+            </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> Separate between BeanDefinitionRegistryPostProcessors that implement
+            </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> PriorityOrdered, Ordered, and the rest.</span>
+            List&lt;BeanDefinitionRegistryPostProcessor&gt; currentRegistryProcessors = <span style="color: rgba(0, 0, 255, 1)">new</span> ArrayList&lt;&gt;<span style="color: rgba(0, 0, 0, 1)">();
+
+            </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> First, invoke the BeanDefinitionRegistryPostProcessors that implement PriorityOrdered.
+            </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">找出所有实现了BeanDefinitionRegistryPostProcessor接口和PriorityOrdered接口的bean，放入registryProcessors集合，
+            </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">放入根据Set接口来排序，然后这些bean会被invokeBeanDefinitionRegistryPostProcessors方法执行；</span>
+            String[] postProcessorNames =<span style="color: rgba(0, 0, 0, 1)">
+                    beanFactory.getBeanNamesForType(BeanDefinitionRegistryPostProcessor.</span><span style="color: rgba(0, 0, 255, 1)">class</span>, <span style="color: rgba(0, 0, 255, 1)">true</span>, <span style="color: rgba(0, 0, 255, 1)">false</span><span style="color: rgba(0, 0, 0, 1)">);
+            </span><span style="color: rgba(0, 0, 255, 1)">for</span><span style="color: rgba(0, 0, 0, 1)"> (String ppName : postProcessorNames) {
+                </span><span style="color: rgba(0, 0, 255, 1)">if</span> (beanFactory.isTypeMatch(ppName, PriorityOrdered.<span style="color: rgba(0, 0, 255, 1)">class</span><span style="color: rgba(0, 0, 0, 1)">)) {
+                    currentRegistryProcessors.add(beanFactory.getBean(ppName, BeanDefinitionRegistryPostProcessor.</span><span style="color: rgba(0, 0, 255, 1)">class</span><span style="color: rgba(0, 0, 0, 1)">));
+                    processedBeans.add(ppName);
+                }
+            }
+            sortPostProcessors(currentRegistryProcessors, beanFactory);
+            registryProcessors.addAll(currentRegistryProcessors);
+            invokeBeanDefinitionRegistryPostProcessors(currentRegistryProcessors, registry);
+            currentRegistryProcessors.clear();
+
+            </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> Next, invoke the BeanDefinitionRegistryPostProcessors that implement Ordered.
+            </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">找出所有实现了BeanDefinitionRegistryPostProcessor接口和Ordered接口的bean，放入registryProcessors集合，
+            </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">放入根据Set接口来排序，然后这些bean会被invokeBeanDefinitionRegistryPostProcessors方法执行；</span>
+            postProcessorNames = beanFactory.getBeanNamesForType(BeanDefinitionRegistryPostProcessor.<span style="color: rgba(0, 0, 255, 1)">class</span>, <span style="color: rgba(0, 0, 255, 1)">true</span>, <span style="color: rgba(0, 0, 255, 1)">false</span><span style="color: rgba(0, 0, 0, 1)">);
+            </span><span style="color: rgba(0, 0, 255, 1)">for</span><span style="color: rgba(0, 0, 0, 1)"> (String ppName : postProcessorNames) {
+                </span><span style="color: rgba(0, 0, 255, 1)">if</span> (!processedBeans.contains(ppName) &amp;&amp; beanFactory.isTypeMatch(ppName, Ordered.<span style="color: rgba(0, 0, 255, 1)">class</span><span style="color: rgba(0, 0, 0, 1)">)) {
+                    currentRegistryProcessors.add(beanFactory.getBean(ppName, BeanDefinitionRegistryPostProcessor.</span><span style="color: rgba(0, 0, 255, 1)">class</span><span style="color: rgba(0, 0, 0, 1)">));
+                    processedBeans.add(ppName);
+                }
+            }
+            sortPostProcessors(currentRegistryProcessors, beanFactory);
+            registryProcessors.addAll(currentRegistryProcessors);
+            invokeBeanDefinitionRegistryPostProcessors(currentRegistryProcessors, registry);
+            currentRegistryProcessors.clear();
+
+            </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> Finally, invoke all other BeanDefinitionRegistryPostProcessors until no further ones appear.
+            </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">对于那些实现了BeanDefinitionRegistryPostProcessor接口，但是没有实现PriorityOrdered和Ordered的bean也被找出来，
+            </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">然后这些bean会被invokeBeanDefinitionRegistryPostProcessors方法执行；</span>
+            <span style="color: rgba(0, 0, 255, 1)">boolean</span> reiterate = <span style="color: rgba(0, 0, 255, 1)">true</span><span style="color: rgba(0, 0, 0, 1)">;
+            </span><span style="color: rgba(0, 0, 255, 1)">while</span><span style="color: rgba(0, 0, 0, 1)"> (reiterate) {
+                reiterate </span>= <span style="color: rgba(0, 0, 255, 1)">false</span><span style="color: rgba(0, 0, 0, 1)">;
+                postProcessorNames </span>= beanFactory.getBeanNamesForType(BeanDefinitionRegistryPostProcessor.<span style="color: rgba(0, 0, 255, 1)">class</span>, <span style="color: rgba(0, 0, 255, 1)">true</span>, <span style="color: rgba(0, 0, 255, 1)">false</span><span style="color: rgba(0, 0, 0, 1)">);
+                </span><span style="color: rgba(0, 0, 255, 1)">for</span><span style="color: rgba(0, 0, 0, 1)"> (String ppName : postProcessorNames) {
+                    </span><span style="color: rgba(0, 0, 255, 1)">if</span> (!<span style="color: rgba(0, 0, 0, 1)">processedBeans.contains(ppName)) {
+                        currentRegistryProcessors.add(beanFactory.getBean(ppName, BeanDefinitionRegistryPostProcessor.</span><span style="color: rgba(0, 0, 255, 1)">class</span><span style="color: rgba(0, 0, 0, 1)">));
+                        processedBeans.add(ppName);
+                        reiterate </span>= <span style="color: rgba(0, 0, 255, 1)">true</span><span style="color: rgba(0, 0, 0, 1)">;
+                    }
+                }
+                sortPostProcessors(currentRegistryProcessors, beanFactory);
+                registryProcessors.addAll(currentRegistryProcessors);
+                invokeBeanDefinitionRegistryPostProcessors(currentRegistryProcessors, registry);
+                currentRegistryProcessors.clear();
+            }
+
+            </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> Now, invoke the postProcessBeanFactory callback of all processors handled so far.
+            </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">registryProcessors和regularPostProcessors集合被invokeBeanFactoryPostProcessors执行</span>
+<span style="color: rgba(0, 0, 0, 1)">            invokeBeanFactoryPostProcessors(registryProcessors, beanFactory);
+            invokeBeanFactoryPostProcessors(regularPostProcessors, beanFactory);
+        }
+
+        </span><span style="color: rgba(0, 0, 255, 1)">else</span><span style="color: rgba(0, 0, 0, 1)"> {
+            </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> Invoke factory processors registered with the context instance.
+            </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">入参中的BeanFactoryPostProcessor，没有实现BeanDefinitionRegistryPostProcessor的那些bean，被invokeBeanFactoryPostProcessors执行</span>
+<span style="color: rgba(0, 0, 0, 1)">            invokeBeanFactoryPostProcessors(beanFactoryPostProcessors, beanFactory);
+        }
+
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> Do not initialize FactoryBeans here: We need to leave all regular beans
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> uninitialized to let the bean factory post-processors apply to them!</span>
+        String[] postProcessorNames =<span style="color: rgba(0, 0, 0, 1)">
+                beanFactory.getBeanNamesForType(BeanFactoryPostProcessor.</span><span style="color: rgba(0, 0, 255, 1)">class</span>, <span style="color: rgba(0, 0, 255, 1)">true</span>, <span style="color: rgba(0, 0, 255, 1)">false</span><span style="color: rgba(0, 0, 0, 1)">);
+
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> Separate between BeanFactoryPostProcessors that implement PriorityOrdered,
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> Ordered, and the rest.
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">找出实现了BeanFactoryPostProcessor接口的bean，注意这里已将上面实现了BeanDefinitionRegistryPostProcessor接口的bean给剔除了，
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">将这些bean分为三类：实现了PriorityOrdered接口的放入priorityOrderedPostProcessors，
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">实现了Ordered接口的放入orderedPostProcessorNames，其他的放入nonOrderedPostProcessorNames
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(255, 0, 0, 1)">自定义的实现BeanFactoryPostProcessor接口的bean就会在nonOrderedPostProcessorNames被找出来</span>
+        List&lt;BeanFactoryPostProcessor&gt; priorityOrderedPostProcessors = <span style="color: rgba(0, 0, 255, 1)">new</span> ArrayList&lt;&gt;<span style="color: rgba(0, 0, 0, 1)">();
+        List</span>&lt;String&gt; orderedPostProcessorNames = <span style="color: rgba(0, 0, 255, 1)">new</span> ArrayList&lt;&gt;<span style="color: rgba(0, 0, 0, 1)">();
+        List</span>&lt;String&gt; nonOrderedPostProcessorNames = <span style="color: rgba(0, 0, 255, 1)">new</span> ArrayList&lt;&gt;<span style="color: rgba(0, 0, 0, 1)">();
+        </span><span style="color: rgba(0, 0, 255, 1)">for</span><span style="color: rgba(0, 0, 0, 1)"> (String ppName : postProcessorNames) {
+            </span><span style="color: rgba(0, 0, 255, 1)">if</span><span style="color: rgba(0, 0, 0, 1)"> (processedBeans.contains(ppName)) {
+                </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> skip - already processed in first phase above</span>
+<span style="color: rgba(0, 0, 0, 1)">            }
+            </span><span style="color: rgba(0, 0, 255, 1)">else</span> <span style="color: rgba(0, 0, 255, 1)">if</span> (beanFactory.isTypeMatch(ppName, PriorityOrdered.<span style="color: rgba(0, 0, 255, 1)">class</span><span style="color: rgba(0, 0, 0, 1)">)) {
+                priorityOrderedPostProcessors.add(beanFactory.getBean(ppName, BeanFactoryPostProcessor.</span><span style="color: rgba(0, 0, 255, 1)">class</span><span style="color: rgba(0, 0, 0, 1)">));
+            }
+            </span><span style="color: rgba(0, 0, 255, 1)">else</span> <span style="color: rgba(0, 0, 255, 1)">if</span> (beanFactory.isTypeMatch(ppName, Ordered.<span style="color: rgba(0, 0, 255, 1)">class</span><span style="color: rgba(0, 0, 0, 1)">)) {
+                orderedPostProcessorNames.add(ppName);
+            }
+            </span><span style="color: rgba(0, 0, 255, 1)">else</span><span style="color: rgba(0, 0, 0, 1)"> {
+                nonOrderedPostProcessorNames.add(ppName);
+            }
+        }
+
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> First, invoke the BeanFactoryPostProcessors that implement PriorityOrdered.
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">priorityOrderedPostProcessors先排序再被invokeBeanFactoryPostProcessors执行</span>
+<span style="color: rgba(0, 0, 0, 1)">        sortPostProcessors(priorityOrderedPostProcessors, beanFactory);
+        invokeBeanFactoryPostProcessors(priorityOrderedPostProcessors, beanFactory);
+
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> Next, invoke the BeanFactoryPostProcessors that implement Ordered.
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">orderedPostProcessorNames先被遍历加入到orderedPostProcessors，再被排序，最后才被invokeBeanFactoryPostProcessors执行</span>
+        List&lt;BeanFactoryPostProcessor&gt; orderedPostProcessors = <span style="color: rgba(0, 0, 255, 1)">new</span> ArrayList&lt;&gt;<span style="color: rgba(0, 0, 0, 1)">(orderedPostProcessorNames.size());
+        </span><span style="color: rgba(0, 0, 255, 1)">for</span><span style="color: rgba(0, 0, 0, 1)"> (String postProcessorName : orderedPostProcessorNames) {
+            orderedPostProcessors.add(beanFactory.getBean(postProcessorName, BeanFactoryPostProcessor.</span><span style="color: rgba(0, 0, 255, 1)">class</span><span style="color: rgba(0, 0, 0, 1)">));
+        }
+        sortPostProcessors(orderedPostProcessors, beanFactory);
+        invokeBeanFactoryPostProcessors(orderedPostProcessors, beanFactory);
+
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> Finally, invoke all other BeanFactoryPostProcessors.
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">nonOrderedPostProcessorNames也是先被遍历到nonOrderedPostProcessors，再被invokeBeanFactoryPostProcessors执行</span>
+        List&lt;BeanFactoryPostProcessor&gt; nonOrderedPostProcessors = <span style="color: rgba(0, 0, 255, 1)">new</span> ArrayList&lt;&gt;<span style="color: rgba(0, 0, 0, 1)">(nonOrderedPostProcessorNames.size());
+        </span><span style="color: rgba(0, 0, 255, 1)">for</span><span style="color: rgba(0, 0, 0, 1)"> (String postProcessorName : nonOrderedPostProcessorNames) {
+            nonOrderedPostProcessors.add(beanFactory.<span style="color: rgba(255, 0, 0, 1)">getBean</span>(postProcessorName, BeanFactoryPostProcessor.</span><span style="color: rgba(0, 0, 255, 1)">class</span><span style="color: rgba(0, 0, 0, 1)">));
+        }
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">这时才是执行自定义BeanFactoryPostProcessor的postProcessBeanFactory</span>
+<span style="color: rgba(0, 0, 0, 1)"><span style="color: rgba(255, 0, 0, 1)">        invokeBeanFactoryPostProcessors</span>(nonOrderedPostProcessors, beanFactory);
+
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> Clear cached merged bean definitions since the post-processors might have
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> modified the original metadata, e.g. replacing placeholders in values...</span>
+<span style="color: rgba(0, 0, 0, 1)">        beanFactory.clearMetadataCache();
+    }</span></pre>
+</div>
+<div>
+<ul>
+<li style="list-style-type: none">
+<ul>
+<li><span style="font-size: 15px"><span style="font-size: 15px">getBeanNamesForType()：根据传递的类型获取容器中的beanName</span></span>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> type:类的类型名称
+</span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> includeNonSingletons:返回数据包含了非单例beanName
+</span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> allowEagerInit: 可以提前加载初始化</span>
+<span style="color: rgba(0, 0, 255, 1)">public</span> String[] getBeanNamesForType(Class&lt;?&gt; type, <span style="color: rgba(0, 0, 255, 1)">boolean</span> includeNonSingletons, <span style="color: rgba(0, 0, 255, 1)">boolean</span><span style="color: rgba(0, 0, 0, 1)"> allowEagerInit) {
+    </span><span style="color: rgba(0, 0, 255, 1)">if</span> (!isConfigurationFrozen() || type == <span style="color: rgba(0, 0, 255, 1)">null</span> || !<span style="color: rgba(0, 0, 0, 1)">allowEagerInit) {
+       </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> 不可用缓存、类型无效、不允许提前加载初始化
+       </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> 需要获取当前type的原始类型，继续获取数据</span>
+        <span style="color: rgba(0, 0, 255, 1)">return</span><span style="color: rgba(0, 0, 0, 1)"> doGetBeanNamesForType(ResolvableType.forRawClass(type), includeNonSingletons, allowEagerInit);
+    }
+    Map</span>&lt;Class&lt;?&gt;, String[]&gt; cache =<span style="color: rgba(0, 0, 0, 1)">
+            (includeNonSingletons </span>? <span style="color: rgba(0, 0, 255, 1)">this</span>.allBeanNamesByType : <span style="color: rgba(0, 0, 255, 1)">this</span><span style="color: rgba(0, 0, 0, 1)">.singletonBeanNamesByType);
+    String[] resolvedBeanNames </span>=<span style="color: rgba(0, 0, 0, 1)"> cache.get(type);
+    </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> 如果缓存已经存储了该数据，则无需再计算，直接返回即可</span>
+    <span style="color: rgba(0, 0, 255, 1)">if</span> (resolvedBeanNames != <span style="color: rgba(0, 0, 255, 1)">null</span><span style="color: rgba(0, 0, 0, 1)">) {
+        </span><span style="color: rgba(0, 0, 255, 1)">return</span><span style="color: rgba(0, 0, 0, 1)"> resolvedBeanNames;
+    }
+    resolvedBeanNames </span>= doGetBeanNamesForType(ResolvableType.forRawClass(type), includeNonSingletons, <span style="color: rgba(0, 0, 255, 1)">true</span><span style="color: rgba(0, 0, 0, 1)">);
+    </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> 这一步就是真正的获取数据，遍历beanDefinitionNames的每一个数据，符合要求的就会加入到返回的列表中</span>
+    
+    <span style="color: rgba(0, 0, 255, 1)">if</span><span style="color: rgba(0, 0, 0, 1)"> (ClassUtils.isCacheSafe(type, getBeanClassLoader())) {
+        cache.put(type, resolvedBeanNames);
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> 便于下一次获取，加入缓存中</span>
+<span style="color: rgba(0, 0, 0, 1)">    }
+    </span><span style="color: rgba(0, 0, 255, 1)">return</span><span style="color: rgba(0, 0, 0, 1)"> resolvedBeanNames;
+}</span></pre>
+</div>
+</li>
+<li><span style="font-size: 15px">getBean后面还有一个参数BeanFactoryPostProcessor.class，注意看这个函数，会发现返回的是一个抽象类，结论就是<strong>nonOrderedPostProcessors添加的不是bean实例，而是beandefinition，在实例化前。</strong></span></li>
+</ul>
+</li>
+</ul>
+</div>
+<span style="font-size: 15px">　　7.从上面代码中可以看出所有实现了BeanFactoryPostProcessor接口的bean，都被作为入参，然后调用了invokeBeanDefinitionRegistryPostProcessors或者invokeBeanFactoryPostProcessors方法去处理：对每个BeanFactoryPostProcessor接口的实现类，都调用了其接口方法，不同的是，对于实现了BeanDefinitionRegistryPostProcessor接口的bean，调用其post</span><span style="font-size: 15px">ProcessBean</span><span style="font-size: 15px">DefinitionRegistry方法的时候，入参是BeanDefinitionRegistry，而非BeanFactory，因此，实现了BeanDefinitionRegistryPostProcessor接口的bean，其postProcessBeanDefinitionRegistry在被调用时，可以通过入参BeanDefinitionRegistry来做更多和bean的定义有关的操作，例如注册bean；</span>
+<div class="cnblogs_code">
+<pre>    <span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * Invoke the given BeanDefinitionRegistryPostProcessor beans.
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span>
+    <span style="color: rgba(0, 0, 255, 1)">private</span> <span style="color: rgba(0, 0, 255, 1)">static</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> invokeBeanDefinitionRegistryPostProcessors(
+            Collection</span>&lt;? <span style="color: rgba(0, 0, 255, 1)">extends</span> BeanDefinitionRegistryPostProcessor&gt;<span style="color: rgba(0, 0, 0, 1)"> postProcessors, BeanDefinitionRegistry registry) {
+
+        </span><span style="color: rgba(0, 0, 255, 1)">for</span><span style="color: rgba(0, 0, 0, 1)"> (BeanDefinitionRegistryPostProcessor postProcessor : postProcessors) {
+            postProcessor.postProcessBeanDefinitionRegistry(registry);
+        }
+    }
+        
+    </span><span style="color: rgba(0, 128, 0, 1)">/**</span><span style="color: rgba(0, 128, 0, 1)">
+     * Invoke the given BeanFactoryPostProcessor beans.
+     </span><span style="color: rgba(0, 128, 0, 1)">*/</span>    
+    <span style="color: rgba(0, 0, 255, 1)">private</span> <span style="color: rgba(0, 0, 255, 1)">static</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> invokeBeanFactoryPostProcessors(
+        Collection</span>&lt;? <span style="color: rgba(0, 0, 255, 1)">extends</span> BeanFactoryPostProcessor&gt;<span style="color: rgba(0, 0, 0, 1)"> postProcessors, ConfigurableListableBeanFactory beanFactory) {
+
+        </span><span style="color: rgba(0, 0, 255, 1)">for</span><span style="color: rgba(0, 0, 0, 1)"> (BeanFactoryPostProcessor postProcessor : postProcessors) {
+            postProcessor.postProcessBeanFactory(beanFactory);
+        }
+    }</span>&nbsp;</pre>
+</div>
+<ul>
+<li style="list-style-type: none">
+<ul>
+<li><span style="font-size: 15px"><span style="font-size: 15px">BeanDefinitionRegistryPostProcessor案例实现：在上面案例中多添加一个BeanDefinitionRegistryPostProcessor实现类</span></span>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 0, 1)">@Configuration
+</span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">class</span> MyBeanDefinitionRegistryPostProcessor <span style="color: rgba(0, 0, 255, 1)">implements</span><span style="color: rgba(0, 0, 0, 1)"> BeanDefinitionRegistryPostProcessor {
+
+
+    @Override
+    </span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span> postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) <span style="color: rgba(0, 0, 255, 1)">throws</span><span style="color: rgba(0, 0, 0, 1)"> BeansException {
+        System.out.println(</span>"[MyBeanDefinitionRegistryPostProcessor]postProcessBeanFactory---&gt;bean的数量：" +<span style="color: rgba(0, 0, 0, 1)"> beanFactory.getBeanDefinitionCount());
+
+    }
+
+    @Override
+    </span><span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span> postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) <span style="color: rgba(0, 0, 255, 1)">throws</span><span style="color: rgba(0, 0, 0, 1)"> BeansException {
+        System.out.println(</span>"[MyBeanDefinitionRegistryPostProcessor]postProcessBeanDefinitionRegistry---&gt;bean的数量：" +<span style="color: rgba(0, 0, 0, 1)"> registry.getBeanDefinitionCount());
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(255, 102, 0, 1)">给容器注册bean
+        </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">RootBeanDefinition beanDefinition = new RootBeanDefinition(Color.class);</span>
+        AbstractBeanDefinition beanDefinition = BeanDefinitionBuilder.rootBeanDefinition(Color.<span style="color: rgba(0, 0, 255, 1)">class</span><span style="color: rgba(0, 0, 0, 1)">).getBeanDefinition();
+        registry.registerBeanDefinition(</span>"color"<span style="color: rgba(0, 0, 0, 1)">,beanDefinition);
+    }
+}
+</span>=========测试执行结果=========<span style="color: rgba(0, 0, 0, 1)">
+[<span style="color: rgba(128, 0, 0, 1)">MyBeanDefinitionRegistryPostProcessor</span>]postProcessBeanDefinitionRegistry</span>---&gt;<span style="color: rgba(255, 102, 0, 1)">bean的数量：10</span><span style="color: rgba(0, 0, 0, 1)">
+十一月 </span>02, 2020 7:26:46<span style="color: rgba(0, 0, 0, 1)"> 下午 org.springframework.context.annotation.ConfigurationClassPostProcessor enhanceConfigurationClasses
+信息: Cannot enhance @Configuration bean definition </span>'myBeanDefinitionRegistryPostProcessor' since its singleton instance has been created too early. The typical cause is a non-<span style="color: rgba(0, 0, 255, 1)">static</span> @Bean method with a BeanDefinitionRegistryPostProcessor <span style="color: rgba(0, 0, 255, 1)">return</span> type: Consider declaring such methods as 'static'<span style="color: rgba(0, 0, 0, 1)">.
+[<span style="color: rgba(128, 0, 0, 1)">MyBeanDefinitionRegistryPostProcessor</span>]postProcessBeanFactory</span>---&gt;<span style="color: rgba(255, 102, 0, 1)">bean的数量：11</span><span style="color: rgba(0, 0, 0, 1)">
+[<span style="color: rgba(255, 0, 0, 1)">MyBeanFactoryPostProcessor</span>]调用了postProcessBeanFactory
+[<span style="color: rgba(255, 0, 0, 1)">MyBeanFactoryPostProcessor</span>]当前beanFactory共有11个bean
+[<span style="color: rgba(255, 0, 0, 1)">MyBeanFactoryPostProcessor</span>]当前beanFactory有下面组件[org.springframework.context.annotation.internalConfigurationAnnotationProcessor, org.springframework.context.annotation.internalAutowiredAnnotationProcessor, org.springframework.context.annotation.internalCommonAnnotationProcessor, org.springframework.context.event.internalEventListenerProcessor, org.springframework.context.event.internalEventListenerFactory, extConfig, myBeanDefinitionRegistryPostProcessor, myBeanFactoryPostProcessor, myBeanPostProcessor, person, color]
+PropertyValues: length</span>=0<span style="color: rgba(0, 0, 0, 1)">
+[<span style="color: rgba(255, 0, 0, 1)">MyBeanFactoryPostProcessor</span>]<span style="color: rgba(255, 0, 255, 1)">postProcessBeanFactory方法中修改了name属性初始值了</span>
+PropertyValues: length</span>=1; bean property 'name'<span style="color: rgba(0, 0, 0, 1)">
+[<span style="color: rgba(51, 204, 204, 1)">MyBeanPostProcessor</span>]后置处理器处理bean</span>=<span style="color: rgba(0, 0, 0, 1)">【extConfig】开始
+[<span style="color: rgba(51, 204, 204, 1)">MyBeanPostProcessor</span>]后置处理器处理bean</span>=【extConfig】完毕!<span style="color: rgba(0, 0, 255, 1)">
+Person有参构造器:[name=张三,sex=</span><span style="color: rgba(0, 0, 0, 1)"><span style="color: rgba(0, 0, 255, 1)">男]</span>
+[Person]调用了BeanNameAware的setBeanName方法了:person
+[Person]调用了BeanFactoryAware的setBeanFactory方法了：org.springframework.beans.factory.support.DefaultListableBeanFactory@e45f292: defining beans [org.springframework.context.annotation.internalConfigurationAnnotationProcessor,org.springframework.context.annotation.internalAutowiredAnnotationProcessor,org.springframework.context.annotation.internalCommonAnnotationProcessor,org.springframework.context.event.internalEventListenerProcessor,org.springframework.context.event.internalEventListenerFactory,extConfig,myBeanDefinitionRegistryPostProcessor,myBeanFactoryPostProcessor,myBeanPostProcessor,person,color]; root of factory hierarchy
+[<span style="color: rgba(51, 204, 204, 1)">MyBeanPostProcessor</span>]后置处理器处理bean</span>=<span style="color: rgba(0, 0, 0, 1)">【person】开始
+[Person]<span style="color: rgba(255, 0, 255, 1)">调用了Initailization的afterPropertiesSet方法了</span>
+[<span style="color: rgba(51, 204, 204, 1)">MyBeanPostProcessor</span>]后置处理器处理bean</span>=【person】完毕!<span style="color: rgba(0, 0, 0, 1)">
+[<span style="color: rgba(51, 204, 204, 1)">MyBeanPostProcessor</span>]后置处理器处理bean</span>=<span style="color: rgba(0, 0, 0, 1)">【color】开始
+[<span style="color: rgba(51, 204, 204, 1)">MyBeanPostProcessor</span>]后置处理器处理bean</span>=【color】完毕!<span style="color: rgba(0, 0, 255, 1)">
+Person [name=赵四, sex=null</span><span style="color: rgba(0, 0, 0, 1)"><span style="color: rgba(0, 0, 255, 1)">]</span>
+[Person]调用了DisposableBean的destroy方法了</span></pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+<p><span style="font-size: 15px">　　8.BeanFactoryPostProcessor 执行的整体流程：</span></p>
+<p><span style="font-size: 15px">　　　　1）ApplicationContext的refresh方法</span></p>
+<p><span style="font-size: 15px">　　　　2）ApplicationContext的invokeBeanFactoryPostProcessors方法</span></p>
+<p><span style="font-size: 15px">　　　　3）PostProcessorRegistrationDelegate的invokeBeanFactoryPostProcessors</span></p>
+<p><span style="font-size: 15px">　　9.BeanFactoryPostProcessor执行的优先级:</span></p>
+<p><span style="font-size: 15px">　　　　1）首先是实现了PriorityOrdered接口的，排序执行</span></p>
+<p><span style="font-size: 15px">　　　　2）下来是实现了Ordered接口的，排序执行</span></p>
+<p><span style="font-size: 15px">　　　　3）最后是其它（未实现排序接口），顺序执行</span></p>
+<p><span style="font-size: 15px">　　10.BeanFactoryPostProcessor获取机制：</span></p>
+<p><span style="font-size: 15px">　　　　1）首先获取手动注册ApplicationContext的集合</span></p>
+<p><span style="font-size: 15px">　　　　2）再次是通过beanFactory.getBeanNamesForType查找所有已注册的BeanFactory</span></p>
+<p><span style="font-size: 15px">PostProcessor的bean定义并实例化。</span></p>
+<h2>四.总结</h2>
+<p><span style="font-size: 15px">　　1. ApplicationContext扩展类可以调用AbstractApplicationContext.addBeanFactoryPostProcessor方法，将自定义的BeanFactoryPostProcessor实现类保存到ApplicationContext中；</span><br><span style="font-size: 15px">　　2. Spring容器初始化时，上一步中被加入到ApplicationContext的bean会被优先调用其postProcessBeanFactory方法；</span><br><span style="font-size: 15px">　　3. 自定义的BeanFactoryPostProcessor接口实现类，也会被找出来，然后调用其postProcessBeanFactory方法；</span><br><span style="font-size: 15px">　　4. postProcessBeanFactory方法被调用时，beanFactory会被作为参数传入，自定义类中可以使用该参数来处理bean的定义，达到业务需求；</span><br><span style="font-size: 15px">　　5. 此时的Spring容器还没有开始实例化bean，因此自定义的BeanFactoryPostProcessor实现类不要做与bean实例有关的操作，而是做一些与bean定义有关的操作，例如修改某些字段的值，这样后面实例化的bean的就会有相应的改变</span>；</p>
+<p><span style="font-size: 15px">&nbsp;　　6.Spring主要将BeanFactoryPostProcessor划分了两类：</span></p>
+<div>
+<div>
+<ul>
+<li style="list-style-type: none">
+<ul>
+<li><span style="font-size: 15px">正常的BeanFactoryPostProcessor</span></li>
+<li><span style="font-size: 15px">BeanDefinitionRegistry类型的BeanDefinitionRegistryPostProcessor</span></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+<p><span style="font-size: 15px">　　7.在执行流程中可以看到Spring先执行了BeanDefinitionRegistryPostProcessor类型的postProcessBeanDefinitionRegistry方法，再执行BeanDefinitionRegistryPostProcessor和正常BeanFactoryPostProcessor的postProcessBeanFactory方法。</span></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+<div>
+<p><span style="font-size: 15px">　　8.Spring对BeanDefinitionRegistryPostProcessor的解释是：允许在正常的BeanFactoryPostProcessor执行检测开始之前注册更多的自定义bean。也就是说BeanDefinitionRegistryPostProcessor的方法postProcessBeanDefinitionRegistry可以在后置处理器执行前自定义注册更多的BeanDefinition</span><span style="font-size: 15px">。</span></p>
+<p><span style="font-size: 15px">　　例如：Spring实现的ConfigurationClassPostProcessor用于注册注解@Configuration标识的类里面定义的BeanDefinition。</span></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2020-11-01 22:37</span>&nbsp;
+<a href="https://www.cnblogs.com/huangrenhui/">码猿手</a>&nbsp;
+阅读(<span id="post_view_count">303</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=13903846" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(13903846);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 427735, cb_blogApp = 'huangrenhui', cb_blogUserGuid = 'fd44a137-e2e1-4e7a-b2e4-08d5866282ce';
+    var cb_entryId = 13903846, cb_entryCreatedDate = '2020-11-01 22:37', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 码猿手
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    <div id="page_end_html">
+        <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    
+    <title>Live2D</title>
+     
+    <link rel="stylesheet" type="text/css" href="https://files.cnblogs.com/files/huangrenhui/waifu.css"/>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+    <link rel="stylesheet" type="text/css" href="https://files.cnblogs.com/files/huangrenhui/waifu.css">
+    <div class="waifu" id="waifu">
+        <div class="waifu-tips" style="opacity: 1;"></div>
+        <canvas id="live2d" width="280" height="250" class="live2d"></canvas>
+        <div class="waifu-tool">
+            <span class="fui-home"></span>
+            <span class="fui-chat"></span>
+            <span class="fui-eye"></span>
+            <span class="fui-user"></span>
+            <span class="fui-photo"></span>
+            <span class="fui-info-circle"></span>
+            <span class="fui-cross"></span>
+        </div>
+    </div>
+    <script src="https://files.cnblogs.com/files/huangrenhui/live2d.js"></script>
+    <script src="https://files.cnblogs.com/files/huangrenhui/waifu-tips.js"></script>
+    <script type="text/javascript">initModel()</script>
+</body>
+</html>
+<link rel="stylesheet" type="text/css" href="https://files.cnblogs.com/files/yjlblog/flat-ui.min.css"/>
+
+    </div>
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjvXWfeIDz0pkPyZyi5uasd4NybxRhV3AAkb2NBmELvKIpGja7aGmsYkof5EiA9uV0L1N9cSPtyfoFXHg_gqEC_VLahWmbXfIjctFoBaQLcGlkBpCRmQZTWFeL17XebplDg" />
+</body>
+</html>

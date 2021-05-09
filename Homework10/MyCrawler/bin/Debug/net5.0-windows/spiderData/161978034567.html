@@ -1,0 +1,325 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="今天我们来聊聊广告成本控制中常用的PID算法。 0.PID算法简介 首先我们可以看下维基百科中给PID算法的定义：由比例单元（Proportional）、积分单元（Integral）和微分单元（Der" />
+    <meta property="og:description" content="今天我们来聊聊广告成本控制中常用的PID算法。 0.PID算法简介 首先我们可以看下维基百科中给PID算法的定义：由比例单元（Proportional）、积分单元（Integral）和微分单元（Der" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>广告成本控制-PID算法 - GeorgePig - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/simplememory/bundle-simplememory.min.css?v=uknaX_hejnSu-njQgx4Hj1R0JiPLwUhFPUlwWNmWyB4" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/SimpleMemory/bundle-SimpleMemory-mobile.min.css" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/GeorgePigX/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/GeorgePigX/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/GeorgePigX/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 670888;
+        var currentBlogApp = 'GeorgePigX';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'SimpleMemory';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-04-21 11:07';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=CJtNAb53Ex2fBes_h70ZUTUv5aZTxcvvM7mCnA44svE"></script>
+    
+    
+    
+</head>
+<body class="has-navbar has-bannerbar">
+    <a name="top"></a>
+        <a target="_blank" href="https://www.aliyun.com/minisite/goods?userCode=swh7dvlt" onclick="ga('send', 'event', 'Link', 'click', 'aliyun-cps-blog-bannerbar-pc')">
+            <div class="bannerbar aliyun forpc" style="background-size: contain;background-image: url(https://img2020.cnblogs.com/blog/35695/202104/35695-20210428221933214-737067094.jpg)">
+            </div>
+        </a>
+        <div id="bannerbar" class="bannerbar-mobile formobile">
+            <a href="https://www.aliyun.com/minisite/goods?userCode=swh7dvlt" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'aliyun-cps-blog-bannerbar-mobile')">
+                <img src="https://img2020.cnblogs.com/blog/35695/202104/35695-20210428213541700-642740375.jpg" alt="" />
+            </a>
+        </div>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/GeorgePigX/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/GeorgePigX/">GeorgePig</a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/GeorgePigX/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/GeorgePig">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/GeorgePigX/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/GeorgePigX/p/14684394.html">
+    <span>广告成本控制-PID算法</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<p>今天我们来聊聊广告成本控制中常用的PID算法。</p>
+<p>&nbsp;</p>
+<p>0.PID算法简介</p>
+<p>首先我们可以看下维基百科中给PID算法的定义：由比例单元（Proportional）、积分单元（Integral）和微分单元（Derivative）组成。可以透过调整这三个单元的增益Kp, Ki和Kd来调定其特性。PID控制器主要适用于基本上线性，且动态特性不随时间变化的系统。PID算法可以用下面的公式表示：</p>
+<p>&nbsp;<img src="https://img2020.cnblogs.com/blog/2324504/202104/2324504-20210421110447556-361638530.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>好的，看完上面“好官方”的定义，我们急需一个简单的“栗子”来理解。假设我有一个水缸，最终的控制目的是要保证水缸里的水位永远的维持在1米的高度。假设初始时刻，水缸里的水位是0.2米，那么当前时刻的水位和目标水位之间是存在一个误差error，且error为0.8。这个时候，假设旁边站着一个人，这个人通过往缸里加水的方式来控制水位。如果单纯的用比例控制算法，就是指加入的水量u和误差error是成正比的，即u=Kp*error，Kp=0.5。当第一次对系统施加控制时，u=0.5*0.8=0.4即此时水位等于0.2+0.4=0.6米，接着第二次对系统施加控制，u=0.5*0.4=0.2即此时水位等于0.6+0.2=0.8米，以此类推，最终水位会达到我们所需要的1米。如下图所示：</p>
+<p><img src="https://img2020.cnblogs.com/blog/2324504/202104/2324504-20210421110506465-1118366931.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>但是如果单纯的只使用比例控制算法，相当于使用的是一种稳态误差，这与实际生活还是存在一定的距离，这时候我们考虑另外一种情况：</p>
+<p>&nbsp;</p>
+<p>假设这个水缸在加水的过程中，存在漏水的情况，每次加水的过程，都会漏掉0.1米高度的水。仍然假设Kp取0.5，那么此时会发生一个神奇的状态，假设经过几次加水，水缸中的水位到0.8时，水位将不会再发生变换。因为，水位为0.8，则误差error=0.2. 所以每次往水缸中加水的量为u=0.5*0.2=0.1.同时，每次加水，缸里又会流出去0.1米的水。加入的水和流出的水相抵消，水位将不再变化。也就是说，我的目标是1米，但是最后系统达到0.8米的水位就不再变化了，且系统已经达到稳定。由此产生的误差就是稳态误差了。（在实际情况中，这种类似水缸漏水的情况往往更加常见，比如控制汽车运动，摩擦阻力就相当于是“漏水”，控制机械臂、无人机的飞行，各类阻力和消耗都可以理解为本例中的“漏水”，而广告系统中的稳态误差则可以认为是由于网络等问题引发的广告折损率）。如何解决这种情况呢，我们可以引入积分控件以及微分控件。</p>
+<p>&nbsp;</p>
+<p>积分控件：</p>
+<p><img src="https://img2020.cnblogs.com/blog/2324504/202104/2324504-20210421110519124-607845625.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>积分控制会考虑过去一段时间的误差，它对过去一段时间的误差值做积分然后再乘以常数Ki。Ki是系统的输出结果和预定值的平均误差。一个简单的比例会导致系统震荡，从而在预定值的附近来回变化，因为系统无法消除多余的纠正。通过加上负的平均误差值，平均系统误差值就会渐渐减少。所以，最终这个PID回路系统会在设定值稳定下来。</p>
+<p>&nbsp;</p>
+<p>微分控件：</p>
+<p><img src="https://img2020.cnblogs.com/blog/2324504/202104/2324504-20210421110529541-142345094.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>微分控制考虑将来误差，计算误差的一阶导，并和一个正值的常数Kd相乘。这个导数的控制会对系统的改变作出反应。导数的结果越大，那么控制系统就对输出结果作出更快速的反应。这个Kd参数也是PID被称为可预测的控制器的原因。Kd参数对减少控制器短期的改变很有帮助。当然在一些实际中的速度缓慢的系统可以不需要Kd参数。</p>
+<p>&nbsp;</p>
+<p>1.PID算法在广告领域的使用姿势</p>
+<p>以信息流广告投放为例，广告主通过采买媒体平台广告位进行广告投放。在广告投放前，综合考虑投放目标以及历史投放经验等，会对广告投放预算成本进行控制，希望能够以预先规划的价格拿到广告位资源（即控制广告成交价）。但由于广告投放系统中的出价优化模型以及二价成交机制等，广告主往往不能直接控制成交价，而需通过调整出价等方式间接控制成交价。</p>
+<p>为了能够实现控制成交价的目的，我们实时监控成交价（输出）与预算成本（目标）间关系，并通过PID控制算法来动态调整出价，PID反馈控制环如下图所示：</p>
+<p><img src="https://img2020.cnblogs.com/blog/2324504/202104/2324504-20210421110541998-335824540.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>PID算法在传统的工业系统中通常输入值都是从0开始，而在广告投放中，广告主的出价不可能从0开始，假如在初次出价时，成交价与目标值差值很小，这就导致PID算法的输出接近于0，因而直接使用其输出作为出价是不合理的。根据这个特点，我们对传统的PID算法做些改进，以第i次PID算法的输出作为变动量与第i-1次出价相加后作为最终出价，这样就会避免在算法运行初期，系统出现较大的波动。</p>
+<p>&nbsp;</p>
+<p>PID算法中各项系数对系统的影响十分重要，因而在算法上线前，需要事先确定较为合理的系数，避免上线后算法性能不稳定，导致出价幅度波动较大，造成损失。此外，由于广告系统的不确定性因素，即使一直以相同的价格出价，也会呈现不同的成交价。</p>
+<p>&nbsp;</p>
+<p>为了线下模拟广告出价与成交价关系，我们对历史出价与成交价数据进行分析。分析发现，出价与成交价均值呈现正相关，即在一定范围内，出价均值增大，成交价均值也随之增大。但对应到具体的数据点上，二者还会伴随一定的随机性。将出价与成交价关系分解为线性部分与随机波动部分。其中线性部分利用最小化均方误差拟合线性函数，得到线性函数表达式；随机波动部分根据相同出价时对应的不同成交价出现频率，生成与历史数据等概率分布随机模型。利用线性部分与随机部分叠加，得到给定出价对应的成交价。使用该模型输出的模拟结果与真实结果作对比，发现模型输出能够较为准确的还原数据真实分布。</p>
+<p>&nbsp;</p>
+<p>在刚开始对PID控制器进行参数设定的时候，可以只考虑出价与成交价的线性关系，使用不同参数进行试验，观察不同参数对系统性能的影响，初步得到各项系数较为合理的参数的区间。由试验结果可以发现，当比例系数较大时系统振荡幅度较大，积分系数较大时系统达到稳态的时间较长，微分系数较大会导致系统持续振荡，难以达到稳定的状态。通常我们会引入随机项进行微调，得到较为理想的PID控制器。</p>
+<p>&nbsp;</p>
+<p>使用PID控制算法动态调整出价能够很好的将广告平均成交价稳定在目标成交价，而使用固定出价策略，则会使得广告投放的实际平均成本偏离目标值，特别是当广告投放时间周期较短时，偏离程度会更大。由于实际投放场景中，对出价范围及出价时间有一定的约束，需根据业务场景对PID算法的输出做一定的处理，使得算法输出价格能够合理的参与到广告竞价系统中。</p>
+<p>&nbsp;</p>
+<p>2.小结</p>
+<p>本文主要给大家介绍了PID算法及其在广告成本控制领域的使用方式。当然，通过PID算法控制成本只是广告投放中特定场景下的一种手段，为了优化广告的投放效果，常常还需要做一些其他方面的工作，比如通过预估用户点击率和转化率，实现广告精准定向；使用媒体标签进行人群量级和价值的预估，对广告主的投放进行自动扩量等，其目的均是为了保证广告主的投放收益最大化。</p>
+<p>欢迎关注微信公众号：计算广告那些事儿</p>
+<p><img src="https://img2020.cnblogs.com/blog/2324504/202104/2324504-20210421110631983-789362573.png" alt="" loading="lazy"></p>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2021-04-21 11:07</span>&nbsp;
+<a href="https://www.cnblogs.com/GeorgePigX/">GeorgePig</a>&nbsp;
+阅读(<span id="post_view_count">306</span>)&nbsp;
+评论(<span id="post_comment_count">2</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14684394" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14684394);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 670888, cb_blogApp = 'GeorgePigX', cb_blogUserGuid = '4bea0f3b-3ebe-4fd9-7884-08d8d71b3f30';
+    var cb_entryId = 14684394, cb_entryCreatedDate = '2021-04-21 11:07', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 GeorgePig
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjuiY16pUJVf-Hn3hpYAgZ3r_wg9SLtr1ItoKBq9osY4-jlZkydkP8v8jlJleaRhKArybPEtAq-aCcikcyLZsRFF2fyQM54Yf_hPysvuK14tcbUC5QQSKbiqA57n4yYeVsc" />
+</body>
+</html>

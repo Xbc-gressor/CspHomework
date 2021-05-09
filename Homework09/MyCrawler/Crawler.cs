@@ -14,9 +14,9 @@ namespace MyCrawler
     class Crawler
     {
         // 解析网站内容的正则表达式
-        public readonly string urlContentRegex = @"^(?<url>https?://(?<host>(www.)?[-a-zA-Z0-9@:%._+~#=]{1,256}.[a-zA-Z0-9()]{1,6})/?)(.*/)*(?<type>(.*(.html|.jsp|.aspx))?)$";
+        public readonly string urlContentRegex = @"^(?<url>https?://(?<host>(www.)?[-a-zA-Z0-9@:%._+~#=]{1,256}.[a-zA-Z0-9()]{1,6})/?)(.*/)*(?<type>(.*(.html|.jsp|.aspx))?)";
         // 过滤网站类型的正则表达式，保证只爬取htm/html/aspx/jsp等网页
-        public string TypeRegex { get; set; } = @".*(.html|.jsp|.aspx)?$";
+        public string TypeRegex { get; set; } = @"((.html?|.aspx|.jsp|.php)$|^[^.]+$)";
         // 过滤host，保证只爬取特定网站的页面
         public string HostRegex { get; set; } = @"";
         // 解析url的正则表达式
@@ -42,7 +42,7 @@ namespace MyCrawler
 
         public Crawler()
         {
-            MaxPage = 100;
+            MaxPage = 200;
         }
 
         public void Crawl()
@@ -71,6 +71,7 @@ namespace MyCrawler
 
                     //触发当前页下载成功事件
                     CurPageDownloaded(this, current, "SUCCESS：爬取成功");
+                    count += 1;
                 }
                 catch (Exception e)
                 {
@@ -130,7 +131,7 @@ namespace MyCrawler
             {
                 string linkUrl = matchUrl.Groups["url"].Value;
 
-                if (linkUrl == null || linkUrl.Equals(""))
+                if (linkUrl == null || linkUrl.Equals("") || linkUrl.StartsWith("javascript:"))
                 {
                     continue;
                 }

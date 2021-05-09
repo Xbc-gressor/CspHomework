@@ -1,0 +1,651 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    
+    
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>上古南城 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/coffee/bundle-coffee.min.css?v=BgguPR_JbmA1HKLJOLqLtHq5pt8a1UlO6ibCA_xgwdI" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/coffee/bundle-coffee-mobile.min.css?v=gcYNuAuJkNMICFERxhZCtKHGitYmBYNTxm9W97H2O2g" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/zhangwencheng/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/zhangwencheng/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/zhangwencheng/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 638707;
+        var currentBlogApp = 'zhangwencheng';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'coffee';
+        var visitorUserId = '';
+    </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="page_begin_html">
+        <script>loadPageBeginHtml();</script>
+    </div>
+    
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<a href="https://www.cnblogs.com/zhangwencheng/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>			
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/zhangwencheng/">上古南城</a>
+</h1>
+<h2>    自律，即自由！</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="navigator">
+			
+<ul id="navList">
+	<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+	<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/zhangwencheng/">
+首页</a>
+</li>
+	<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+	<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E4%B8%8A%E5%8F%A4%E5%8D%97%E5%9F%8E">
+联系</a></li>
+	<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+	<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/zhangwencheng/rss/">
+订阅</a>
+	
+<a id="blog_nav_rss_image" href="https://www.cnblogs.com/zhangwencheng/rss/">
+    <img src="/skins/coffee/images/xml.gif" alt="订阅" />
+</a></li>
+</ul>
+
+
+
+			<div class="blogStats">
+				
+				<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+				
+			</div><!--end: blogStats -->
+		</div><!--end: navigator 博客导航栏 -->
+		
+
+
+
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/zhangwencheng/archive/2021/05/08.html">2021年5月8日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/zhangwencheng/p/14738375.html">
+    <span>
+        HUAWEI防火墙通过IKE方式协商IPSec VPN隧道（采用预共享密钥认证）
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：组网图形 组网需求 如图1所示，网络A和网络B分别通过FW_A和FW_B连接到Internet。网络环境描述如下： 网络A属于10.1.1.0/24子网，通过接口GigabitEthernet 1/0/3与FW_A连接。 网络B属于10.1.2.0/24子网，通过接口GigabitEthernet         <a href="https://www.cnblogs.com/zhangwencheng/p/14738375.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-05-08 09:17
+上古南城
+<span data-post-id="14738375" class="post-view-count">阅读(1)</span> 
+<span data-post-id="14738375" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14738375" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14738375" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/zhangwencheng/archive/2021/04/30.html">2021年4月30日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/zhangwencheng/p/14699060.html">
+    <span>
+        HUAWEI防火墙双出口据链路带宽负载分担
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：组网图形 组网需求 通过配置根据链路带宽负载分担，使流量按照带宽的比例分担到各链路上，保证带宽资源得到充分利用。 如图1所示，企业分别从ISP1和ISP2租用了一条链路，ISP1链路的带宽为100M，ISP2链路的带宽为50M。 企业希望流量按照带宽比例分担到ISP1和ISP2链路上，保证带宽资源得        <a href="https://www.cnblogs.com/zhangwencheng/p/14699060.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-30 09:21
+上古南城
+<span data-post-id="14699060" class="post-view-count">阅读(64)</span> 
+<span data-post-id="14699060" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14699060" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14699060" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/zhangwencheng/archive/2021/04/23.html">2021年4月23日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/zhangwencheng/p/14688324.html">
+    <span>
+        HUAWEI防火墙双出口根据链路优先级主备备份
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：组网图形 组网需求 通过配置根据链路优先级主备备份，FW可以在主接口链路故障时，使用备份接口链路转发流量，提高传输的可靠性。 如图1所示，企业从ISP1租用2条链路，带宽均为50M，从ISP2租用1条链路，带宽为10M。 企业希望优先使用ISP1的2条链路传输上网流量，只有当ISP1的2条链路均故障        <a href="https://www.cnblogs.com/zhangwencheng/p/14688324.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-23 09:15
+上古南城
+<span data-post-id="14688324" class="post-view-count">阅读(210)</span> 
+<span data-post-id="14688324" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14688324" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14688324" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/zhangwencheng/archive/2021/04/20.html">2021年4月20日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/zhangwencheng/p/14676725.html">
+    <span>
+        HUAWEI防火墙双出口环境下私网用户通过NAPT访问Internet
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：组网图形 组网需求 如图1所示，某企业在网络边界处部署了FW作为安全网关，并分别从运营商ISP1和ISP2处购买了宽带上网服务，实现内部网络接入Internet的需求。 具体需求如下： 研发部门和市场部门中的PC可以通过运营商ISP1和ISP2访问Internet，要求去往特定目的地址的流量必须经由        <a href="https://www.cnblogs.com/zhangwencheng/p/14676725.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-20 09:40
+上古南城
+<span data-post-id="14676725" class="post-view-count">阅读(158)</span> 
+<span data-post-id="14676725" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14676725" class="post-digg-count">推荐(1)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14676725" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/zhangwencheng/archive/2021/04/14.html">2021年4月14日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/zhangwencheng/p/14656492.html">
+    <span>
+        如何实现IP话机接入交换机？
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：组网图形 简介 如果语音设备支持LLDP协议，并且支持通过network-policy TLV字段获取语音VLAN，可以在交换机上配置命令lldp tlv-enable med-tlv network-policy voice-vlan为语音设备分配Voice VLAN，然后再通过Voice VLA        <a href="https://www.cnblogs.com/zhangwencheng/p/14656492.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-14 09:56
+上古南城
+<span data-post-id="14656492" class="post-view-count">阅读(59)</span> 
+<span data-post-id="14656492" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14656492" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14656492" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/zhangwencheng/archive/2021/03/26.html">2021年3月26日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/zhangwencheng/p/14536483.html">
+    <span>
+        WLAN-AC+AP，动态负载均衡用户量，避免某一个AP负载过重
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：组网图形 动态负载均衡简介 负载均衡功能主要功能就是平衡WLAN网络中AP的负载，充分地保证每个STA的带宽。当有一个新的STA加入网络时，动态负载均衡动态将AC将所有上报该STA的AP动态组成一个组，然后根据负载均衡算法判断STA是否允许接入。 与静态负载均衡相比，动态负载均衡解决了静态负载均衡的        <a href="https://www.cnblogs.com/zhangwencheng/p/14536483.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-03-26 11:50
+上古南城
+<span data-post-id="14536483" class="post-view-count">阅读(49)</span> 
+<span data-post-id="14536483" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14536483" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14536483" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/zhangwencheng/archive/2021/02/20.html">2021年2月20日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/zhangwencheng/p/14416250.html">
+    <span>
+        WLAN-AC+AP射频一劳永逸的调优方式
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：AP射频调优组网图 射频调优简介 射频调优的主要功能就是动态调整AP的信道和功率，可以使同一AC管理的各AP的信道和功率保持相对平衡，保证AP工作在最佳状态。WLAN网络中，AP的工作状态会受到周围环境的影响。例如，一个AC管理下的多个AP，如果相邻AP的工作信道存在重叠频段，或者某个AP的功率过大        <a href="https://www.cnblogs.com/zhangwencheng/p/14416250.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-02-20 08:51
+上古南城
+<span data-post-id="14416250" class="post-view-count">阅读(588)</span> 
+<span data-post-id="14416250" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14416250" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14416250" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/zhangwencheng/archive/2021/02/02.html">2021年2月2日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/zhangwencheng/p/14357340.html">
+    <span>
+        中大型企业有线无线用户统一接入(实施笔记)
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：组网图形 有线无线用户统一接入简介 在实际的使用场景中，有线网络和无线网络环境通常是共同存在的。例如在办公区内PC电脑、打印机等设备通常通过有线方式接入网络，而笔记本、手机终端等移动设备通常是通过无线方式接入网络。通过部署有线无线用户统一接入的网络环境，可以同时为有线用户和无线用户提供网络接入的服务        <a href="https://www.cnblogs.com/zhangwencheng/p/14357340.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-02-02 09:08
+上古南城
+<span data-post-id="14357340" class="post-view-count">阅读(523)</span> 
+<span data-post-id="14357340" class="post-comment-count">评论(5)</span> 
+<span data-post-id="14357340" class="post-digg-count">推荐(1)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14357340" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/zhangwencheng/archive/2021/01/13.html">2021年1月13日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/zhangwencheng/p/14270474.html">
+    <span>
+        常见大中型网络WLAN基本业务实例
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：组网图形 大中型WLAN网络简介 本文介绍的WLAN网络是指利用频率为2.4GHz或5GHz的射频信号作为传输介质的无线局域网，相对于有线网络的铺设成本高，不便于网络调整和扩展、位置固定，移动性差等缺点，WLAN网络以其低廉的铺设成本、便捷的网络调整和扩展、灵活的可移动性获得了越来越广泛的应用。 组        <a href="https://www.cnblogs.com/zhangwencheng/p/14270474.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-01-13 09:43
+上古南城
+<span data-post-id="14270474" class="post-view-count">阅读(327)</span> 
+<span data-post-id="14270474" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14270474" class="post-digg-count">推荐(1)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14270474" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/zhangwencheng/archive/2020/12/30.html">2020年12月30日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/zhangwencheng/p/14212148.html">
+    <span>
+        企业使用路由策略控制L3VPN分支间用户互访案例
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：组网图形 简介 BGP/MPLS IP VPN是一种基于MPLS的L3VPN，组网方式灵活，可扩展性好，支持大规模部署。利用BGP/MPLS IP VPN技术，可以实现位于不同地理位置的分支间安全互通或隔离。 路由策略主要实现了路由过滤和路由属性设置等功能，它通过改变路由属性来改变网络流量所经过的路        <a href="https://www.cnblogs.com/zhangwencheng/p/14212148.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2020-12-30 17:33
+上古南城
+<span data-post-id="14212148" class="post-view-count">阅读(25)</span> 
+<span data-post-id="14212148" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14212148" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14212148" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+
+</div>
+
+
+
+<div class="topicListFooter">
+    <div id="nav_next_page">
+        
+    <a href="https://www.cnblogs.com/zhangwencheng/default.html?page=2">
+        下一页
+    </a>
+
+    </div>    
+</div>
+
+
+
+
+
+
+<script>
+    updatePostStats(
+        $(".post-view-count").map(function () { return this.dataset.postId }).get(),
+        function(id, count) { $(".post-view-count[data-post-id=" + id + "]").text("阅读(" + count + ")") },
+        function(id, count) { $(".post-comment-count[data-post-id=" + id + "]").text("评论(" + count + ")") },
+        function(id, count) { $(".post-digg-count[data-post-id=" + id + "]").text("推荐(" + count + ")") });
+</script>
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="calendar"><div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script></div>
+			
+			<DIV id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</DIV>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 上古南城
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjuzL9RbhSV3ghF0062xZwvq5E-ccWuH-cbg0MYiR4CenLNOGA9-eBHM3RF6F645VyuBzYfJViG-_2CurVgM8mDvSUaJnRCZEjW6uQcBDOPJgO0WI8qM9NB3ASkVpWVh73A" />
+</body>
+</html>

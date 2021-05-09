@@ -1,0 +1,536 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="never" />
+    <meta name="description" content="目录： 1、引言 2、功能介绍 3、BGABadgeView 使用指南 4、BGABadgeView 开发指南 5、《HarmonyOS三方件开发指南》系列文章合集 引言 现在很多的APP会有新消息/" />
+    <meta property="og:description" content="目录： 1、引言 2、功能介绍 3、BGABadgeView 使用指南 4、BGABadgeView 开发指南 5、《HarmonyOS三方件开发指南》系列文章合集 引言 现在很多的APP会有新消息/" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>HarmonyOS三方件开发指南(19)-BGABadgeView徽章组件 - HarmonyOS技术社区 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/darkgreentrip/bundle-darkgreentrip.min.css?v=eoZATbPKwJCL5eWVDTQIYC6CIxJPcFz191dkzN2tSyQ" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/darkgreentrip/bundle-darkgreentrip-mobile.min.css?v=lU86o8mZVn3FOSdFt7nHKYTD8gzeKaiQIIZ6lSjEFyo" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/HarmonyOS/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/HarmonyOS/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/HarmonyOS/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 645321;
+        var currentBlogApp = 'HarmonyOS';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'darkgreentrip';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-05-08 11:55';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/HarmonyOS/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/HarmonyOS/">HarmonyOS技术社区</a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/HarmonyOS/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/HarmonyOS%E6%8A%80%E6%9C%AF%E7%A4%BE%E5%8C%BA">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/HarmonyOS/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/HarmonyOS/p/14744384.html">
+    <span>HarmonyOS三方件开发指南(19)-BGABadgeView徽章组件</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<p><span style="font-size: 24px"><strong>目录：</strong></span></p>
+<p><a href="https://harmonyos.51cto.com/posts/4288#bky" target="_blank"><span style="font-size: 14px">1、引言</span></a></p>
+<p><a href="https://harmonyos.51cto.com/posts/4288#bky" target="_blank"><span style="font-size: 14px">2、功能介绍</span></a></p>
+<p><a href="https://harmonyos.51cto.com/posts/4288#bky" target="_blank"><span style="font-size: 14px">3、<span style="font-size: 14px">BGABadgeView 使用指南</span></span></a></p>
+<p><a href="https://harmonyos.51cto.com/posts/4288#bky" target="_blank"><span style="font-size: 14px"><span style="font-size: 14px">4、<span style="font-size: 14px">BGABadgeView 开发指南</span></span></span></a></p>
+<p><a href="https://harmonyos.51cto.com/column/30#bky" target="_blank"><span style="font-size: 14px"><span style="font-size: 14px"><span style="font-size: 14px">5、《HarmonyOS三方件开发指南》系列文章合集</span></span></span></a></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 24px"><strong>引言</strong></span></p>
+<p>现在很多的APP会有新消息/未接来电/未读消息/新通知圆球红点提示，典型的以微信、QQ新消息提示为例，当微信朋友圈有新的朋友更新/发布朋友圈消息后，在微信的底部切换卡上会有一个红色的小圆球红点，表示有新消息，提示用户查看。在消息通讯类的app中十分实用。</p>
+<p><span style="font-size: 24px"><strong>功能介绍</strong></span></p>
+<p>鸿蒙BGABadgeView 徽章组件，主要功能包括：传入图片生成徽章，设置文本生成文本徽章，并且每个徽章都具有拖拽超范围即可消除，范围内即可回到原位置。模拟机效果图如下</p>
+<p>1.图片徽章：</p>
+<p><img src="https://dl-harmonyos.51cto.com/images/202105/c463e5827e7ff9e664c1636f6f3a5b18ea9297.png" alt="【软通动力】HarmonyOS三方件开发指南(19)-BGABadgeView徽章组件" title="【软通动力】HarmonyOS三方件开发指南(19)-BGABadgeView徽章组件"><img src="https://dl-harmonyos.51cto.com/images/202105/370648407824afbf3d676444d0959f5b6b0a4c.png" alt="【软通动力】HarmonyOS三方件开发指南(19)-BGABadgeView徽章组件" width="328" height="200" title="【软通动力】HarmonyOS三方件开发指南(19)-BGABadgeView徽章组件"></p>
+<p>2.文字徽章:</p>
+<p><img src="https://dl-harmonyos.51cto.com/images/202105/c7748f11930b0ab4fd21866c9851315d407306.png" alt="【软通动力】HarmonyOS三方件开发指南(19)-BGABadgeView徽章组件" width="343" height="180" title="【软通动力】HarmonyOS三方件开发指南(19)-BGABadgeView徽章组件"></p>
+<p>3.拖动徽章爆炸:<img src="https://dl-harmonyos.51cto.com/images/202105/85e9e30296336241545875a0b149c7e3bbbc90.png" alt="【软通动力】HarmonyOS三方件开发指南(19)-BGABadgeView徽章组件" width="322" height="216" title="【软通动力】HarmonyOS三方件开发指南(19)-BGABadgeView徽章组件"></p>
+<p>使用时候，直接将其下载，作为一个har包导入到自己的项目中即可。下面则详细介绍BGABadgeView 的使用以及开发指南。</p>
+<p><span style="font-size: 24px"><strong>BGABadgeView 使用指南</strong></span></p>
+<p>Ø 新建工程， 添加组件Har包依赖</p>
+<p>在应用模块中添加HAR，只需要将verificationcodeview-debug.har复制到entry\libs目录下即可</p>
+<p>Ø 修改配置文件</p>
+<p>1. 修改主页面的布局文件：</p>
+<div class="code-toolbar">
+<pre class=" prettyprint  language-markup"><code class="has-numbering  language-markup"><span class="token prolog">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;DependentLayout
+    <span class="token attr-name"><span class="token namespace">xmlns:ohos<span class="token attr-value"><span class="token punctuation attr-equals">=<span class="token punctuation">"http://schemas.huawei.com/res/ohos<span class="token punctuation">"
+    <span class="token attr-name"><span class="token namespace">ohos:height<span class="token attr-value"><span class="token punctuation attr-equals">=<span class="token punctuation">"match_parent<span class="token punctuation">"
+    <span class="token attr-name"><span class="token namespace">ohos:width<span class="token attr-value"><span class="token punctuation attr-equals">=<span class="token punctuation">"match_parent<span class="token punctuation">"
+    <span class="token attr-name"><span class="token namespace">ohos:id<span class="token attr-value"><span class="token punctuation attr-equals">=<span class="token punctuation">"$+id:layout1<span class="token punctuation">"
+    <span class="token attr-name"><span class="token namespace">ohos:orientation<span class="token attr-value"><span class="token punctuation attr-equals">=<span class="token punctuation">"vertical<span class="token punctuation">"<span class="token punctuation">&gt;
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;DependentLayout
+        <span class="token attr-name"><span class="token namespace">ohos:id<span class="token attr-value"><span class="token punctuation attr-equals">=<span class="token punctuation">"$+id:dependent1<span class="token punctuation">"
+        <span class="token attr-name"><span class="token namespace">ohos:height<span class="token attr-value"><span class="token punctuation attr-equals">=<span class="token punctuation">"200vp<span class="token punctuation">"
+        <span class="token attr-name"><span class="token namespace">ohos:width<span class="token attr-value"><span class="token punctuation attr-equals">=<span class="token punctuation">"match_parent<span class="token punctuation">"<span class="token punctuation">&gt;
+
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;com.example.bgabadgecomp_library.BAGDragBadgeImage
+            <span class="token attr-name"><span class="token namespace">ohos:top_margin<span class="token attr-value"><span class="token punctuation attr-equals">=<span class="token punctuation">"15vp<span class="token punctuation">"
+            <span class="token attr-name"><span class="token namespace">ohos:right_margin<span class="token attr-value"><span class="token punctuation attr-equals">=<span class="token punctuation">"10vp<span class="token punctuation">"
+            <span class="token attr-name"><span class="token namespace">ohos:bottom_margin<span class="token attr-value"><span class="token punctuation attr-equals">=<span class="token punctuation">"10vp<span class="token punctuation">"
+            <span class="token attr-name"><span class="token namespace">ohos:height<span class="token attr-value"><span class="token punctuation attr-equals">=<span class="token punctuation">"80vp<span class="token punctuation">"
+            <span class="token attr-name"><span class="token namespace">ohos:width<span class="token attr-value"><span class="token punctuation attr-equals">=<span class="token punctuation">"80vp<span class="token punctuation">"
+            <span class="token attr-name"><span class="token namespace">ohos:scale_mode<span class="token attr-value"><span class="token punctuation attr-equals">=<span class="token punctuation">"zoom_center<span class="token punctuation">"
+            <span class="token attr-name"><span class="token namespace">ohos:image_src<span class="token attr-value"><span class="token punctuation attr-equals">=<span class="token punctuation">"$media:avator<span class="token punctuation">"
+            <span class="token attr-name"><span class="token namespace">ohos:id<span class="token attr-value"><span class="token punctuation attr-equals">=<span class="token punctuation">"$+id:image1<span class="token punctuation">"
+            <span class="token attr-name"><span class="token namespace">ohos:below<span class="token attr-value"><span class="token punctuation attr-equals">=<span class="token punctuation">"$id:title<span class="token punctuation">"
+            <span class="token attr-name"><span class="token namespace">ohos:left_margin<span class="token attr-value"><span class="token punctuation attr-equals">=<span class="token punctuation">"30vp<span class="token punctuation">"<span class="token punctuation">/&gt;
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;Image
+            <span class="token attr-name"><span class="token namespace">ohos:top_margin<span class="token attr-value"><span class="token punctuation attr-equals">=<span class="token punctuation">"15vp<span class="token punctuation">"
+            <span class="token attr-name"><span class="token namespace">ohos:right_margin<span class="token attr-value"><span class="token punctuation attr-equals">=<span class="token punctuation">"10vp<span class="token punctuation">"
+            <span class="token attr-name"><span class="token namespace">ohos:bottom_margin<span class="token attr-value"><span class="token punctuation attr-equals">=<span class="token punctuation">"10vp<span class="token punctuation">"
+            <span class="token attr-name"><span class="token namespace">ohos:height<span class="token attr-value"><span class="token punctuation attr-equals">=<span class="token punctuation">"80vp<span class="token punctuation">"
+            <span class="token attr-name"><span class="token namespace">ohos:width<span class="token attr-value"><span class="token punctuation attr-equals">=<span class="token punctuation">"80vp<span class="token punctuation">"
+            <span class="token attr-name"><span class="token namespace">ohos:scale_mode<span class="token attr-value"><span class="token punctuation attr-equals">=<span class="token punctuation">"zoom_center<span class="token punctuation">"
+            <span class="token attr-name"><span class="token namespace">ohos:image_src<span class="token attr-value"><span class="token punctuation attr-equals">=<span class="token punctuation">"$media:avator<span class="token punctuation">"
+            <span class="token attr-name"><span class="token namespace">ohos:id<span class="token attr-value"><span class="token punctuation attr-equals">=<span class="token punctuation">"$+id:image2<span class="token punctuation">"
+            <span class="token attr-name"><span class="token namespace">ohos:end_of<span class="token attr-value"><span class="token punctuation attr-equals">=<span class="token punctuation">"$id:image1<span class="token punctuation">"
+            <span class="token attr-name"><span class="token namespace">ohos:below<span class="token attr-value"><span class="token punctuation attr-equals">=<span class="token punctuation">"$id:title<span class="token punctuation">"
+            <span class="token attr-name"><span class="token namespace">ohos:left_margin<span class="token attr-value"><span class="token punctuation attr-equals">=<span class="token punctuation">"10vp<span class="token punctuation">"<span class="token punctuation">/&gt;
+           <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/DependentLayout<span class="token punctuation">&gt;
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;Text
+            <span class="token attr-name"><span class="token namespace">ohos:left_margin<span class="token attr-value"><span class="token punctuation attr-equals">=<span class="token punctuation">"30vp<span class="token punctuation">"
+            <span class="token attr-name"><span class="token namespace">ohos:id<span class="token attr-value"><span class="token punctuation attr-equals">=<span class="token punctuation">"$+id:text1<span class="token punctuation">"
+            <span class="token attr-name"><span class="token namespace">ohos:top_margin<span class="token attr-value"><span class="token punctuation attr-equals">=<span class="token punctuation">"10vp<span class="token punctuation">"
+            <span class="token attr-name"><span class="token namespace">ohos:right_margin<span class="token attr-value"><span class="token punctuation attr-equals">=<span class="token punctuation">"15vp<span class="token punctuation">"
+            <span class="token attr-name"><span class="token namespace">ohos:bottom_margin<span class="token attr-value"><span class="token punctuation attr-equals">=<span class="token punctuation">"10vp<span class="token punctuation">"
+            <span class="token attr-name"><span class="token namespace">ohos:height<span class="token attr-value"><span class="token punctuation attr-equals">=<span class="token punctuation">"40vp<span class="token punctuation">"
+            <span class="token attr-name"><span class="token namespace">ohos:width<span class="token attr-value"><span class="token punctuation attr-equals">=<span class="token punctuation">"match_parent<span class="token punctuation">"
+            <span class="token attr-name"><span class="token namespace">ohos:text<span class="token attr-value"><span class="token punctuation attr-equals">=<span class="token punctuation">"测试1<span class="token punctuation">"
+            <span class="token attr-name"><span class="token namespace">ohos:below<span class="token attr-value"><span class="token punctuation attr-equals">=<span class="token punctuation">"$id:dependent1<span class="token punctuation">"
+            <span class="token attr-name"><span class="token namespace">ohos:text_size<span class="token attr-value"><span class="token punctuation attr-equals">=<span class="token punctuation">"20vp<span class="token punctuation">"<span class="token punctuation">/&gt;
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/DependentLayout<span class="token punctuation">&gt;
+</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></code></pre>
+</div>
+<p>2.修改MainAbilitySlice中的UI加载代码</p>
+<p>在MainAbilitySlince类的onStart函数中，增加如下代码：</p>
+<div class="code-toolbar">
+<pre class=" prettyprint  language-markup"><code class="has-numbering  language-markup">@Override
+public void onStart(Intent intent) {
+    super.onStart(intent);
+    super.setUIContent(ResourceTable.Layout_ability_main);
+
+    BAGDragBadgeImage bagDragBadgeImage = (BAGDragBadgeImage) findComponentById(ResourceTable.Id_image1);
+    bagDragBadgeImage.setCornerRadius(bagDragBadgeImage.getWidth() / 2); // 圆形边框
+    DependentLayout stackLayout = (DependentLayout) findComponentById(ResourceTable.Id_layout1);
+
+    Image image2 = (Image) findComponentById(ResourceTable.Id_image2);
+    image2.setCornerRadius(20);
+
+    DependentLayout.LayoutConfig config = new DependentLayout.LayoutConfig(DependentLayout.LayoutConfig.MATCH_PARENT, DependentLayout.LayoutConfig.MATCH_PARENT);
+
+    RoundRectImage roundRectImage = RoundRectImage.attach2Window(this, stackLayout, image2, config, BGABadgeViewHelper.getPixelMap(this, ResourceTable.Media_avatar_vip));
+
+    RoundRectText roundRectText = RoundRectText.attach2Window(this, stackLayout, image3, config);
+
+    Text text1  = (Text) findComponentById(ResourceTable.Id_text1);
+    RoundRectText roundText1 = RoundRectText.attach2Window(this, stackLayout, text1, config);
+    roundText1.setBadgeText("qqqqqqqq");
+    List<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;Component<span class="token punctuation">&gt; componentList = new ArrayList&lt;&gt;();
+    componentList.add(roundRectText);
+    componentList.add(roundText1);
+
+    stackLayout.setTouchEventListener(new Component.TouchEventListener() {
+        @Override
+        public boolean onTouchEvent(Component component, TouchEvent event) {
+
+            switch (event.getAction()) {
+                case TouchEvent.PRIMARY_POINT_DOWN:// 手指第一次触摸到屏幕
+                    int startX = (int) event.getPointerPosition(event.getIndex()).getX();
+                    int startY = (int) event.getPointerPosition(event.getIndex()).getY();
+                   if (startX &lt; roundRectImage.getCircleLeft() + 2 * roundRectImage.getCircleRadius()
+                           &amp;&amp; startX &gt; roundRectImage.getCircleLeft()
+                           &amp;&amp; startY &lt; roundRectImage.getCircleTop() + 2 * roundRectImage.getCircleRadius()
+                           &amp;&amp; startY &gt; roundRectImage.getCircleTop()) {
+                       roundRectImage.setDraggedListener(DRAG_HORIZONTAL_VERTICAL, roundRectImage );
+
+                       for (Component component1 : componentList) {
+                           component1.setDraggedListener(DRAG_HORIZONTAL_VERTICAL,null);
+                       }
+                   } else {
+                       roundRectImage.setDraggedListener(DRAG_HORIZONTAL_VERTICAL, null );
+
+                       for (Component component1 : componentList) {
+                           RoundRectText rectText = (RoundRectText) component1;
+                           if (startX &lt; rectText.getCircleLeft() + 2 * rectText.getRadius()
+                                   &amp;&amp; startX &gt; rectText.getCircleLeft()
+                                   &amp;&amp; startY &lt; rectText.getCircleTop() + 2 * rectText.getRadius()
+                                   &amp;&amp; startY &gt; rectText.getCircleTop()) {
+                               component1.setDraggedListener(DRAG_HORIZONTAL_VERTICAL, (Component.DraggedListener) component1);
+                           } else {
+                               component1.setDraggedListener(DRAG_HORIZONTAL_VERTICAL,null);
+                           }
+                       }
+                   }
+
+                    break;
+                case TouchEvent.PRIMARY_POINT_UP:
+                case TouchEvent.POINT_MOVE:
+                default:
+                    break;
+            }
+            return true;
+        }
+    });
+}</span></span></span></span></code></pre>
+</div>
+<p>通过以上两个步骤，就实现了简单的徽章组件，接下来在一起看下徽章组件是如何实现的。</p>
+<p><span style="font-size: 24px"><strong>BGABadgeView 开发指南</strong></span></p>
+<p><span style="font-size: 18px"><strong>新建一个Module</strong></span></p>
+<p><span style="font-size: 16px">新建一个Module，类型选择HarmonyOS Library，模块名为VerificationCodeView，如图:</span></p>
+<p><span style="font-size: 16px"><img src="https://dl-harmonyos.51cto.com/images/202105/112836455788d049ec7064279dae82f4505e6a.png" alt="【软通动力】HarmonyOS三方件开发指南(19)-BGABadgeView徽章组件" width="1428" height="688" title="【软通动力】HarmonyOS三方件开发指南(19)-BGABadgeView徽章组件"><span style="font-size: 18px"><strong>新建一个RoundRectText类</strong></span></span></p>
+<p><span style="font-size: 16px"><strong>1.实现自定义RoundRectText绘制</strong></span></p>
+<div class="code-toolbar">
+<pre class=" prettyprint  language-java"><code class="has-numbering  language-java"><span class="token annotation punctuation">@Override
+<span class="token keyword">public <span class="token keyword">void <span class="token function">onDraw<span class="token punctuation">(<span class="token class-name">Component component<span class="token punctuation">, <span class="token class-name">Canvas canvas<span class="token punctuation">)<span class="token punctuation">{
+    length <span class="token operator">= mBadgeText<span class="token punctuation">.<span class="token function">length<span class="token punctuation">(<span class="token punctuation">)<span class="token punctuation">;
+    <span class="token class-name">Paint mTextPain <span class="token operator">= <span class="token keyword">new <span class="token class-name">Paint<span class="token punctuation">(<span class="token punctuation">)<span class="token punctuation">;
+    mTextPain<span class="token punctuation">.<span class="token function">setColor<span class="token punctuation">(<span class="token class-name">Color<span class="token punctuation">.WHITE<span class="token punctuation">)<span class="token punctuation">;
+    mTextPain<span class="token punctuation">.<span class="token function">setStyle<span class="token punctuation">(<span class="token class-name">Paint<span class="token punctuation">.Style<span class="token punctuation">.FILL_STYLE<span class="token punctuation">)<span class="token punctuation">;
+    mTextPain<span class="token punctuation">.<span class="token function">setTextSize<span class="token punctuation">(<span class="token number">30<span class="token punctuation">)<span class="token punctuation">;
+    mTextPain<span class="token punctuation">.<span class="token function">setFont<span class="token punctuation">(<span class="token class-name">Font<span class="token punctuation">.DEFAULT<span class="token punctuation">)<span class="token punctuation">;
+    <span class="token class-name">Rect textBounds <span class="token operator">= mTextPain<span class="token punctuation">.<span class="token function">getTextBounds<span class="token punctuation">(mBadgeText<span class="token punctuation">)<span class="token punctuation">;
+
+    <span class="token class-name">Paint mBadgePaint <span class="token operator">= <span class="token keyword">new <span class="token class-name">Paint<span class="token punctuation">(<span class="token punctuation">)<span class="token punctuation">;
+    mBadgePaint<span class="token punctuation">.<span class="token function">setColor<span class="token punctuation">(<span class="token class-name">Color<span class="token punctuation">.RED<span class="token punctuation">)<span class="token punctuation">;
+    mBadgePaint<span class="token punctuation">.<span class="token function">setStyle<span class="token punctuation">(<span class="token class-name">Paint<span class="token punctuation">.Style<span class="token punctuation">.FILL_STYLE<span class="token punctuation">)<span class="token punctuation">;
+    mBadgePaint<span class="token punctuation">.<span class="token function">setStrokeWidth<span class="token punctuation">(<span class="token number">5<span class="token punctuation">)<span class="token punctuation">;
+    <span class="token keyword">if <span class="token punctuation">(mBadgeRectF <span class="token operator">== <span class="token keyword">null<span class="token punctuation">) <span class="token punctuation">{
+        <span class="token keyword">switch <span class="token punctuation">(mBadgeGravity<span class="token punctuation">) <span class="token punctuation">{
+            <span class="token keyword">case <span class="token class-name">RightTop<span class="token operator">:
+                <span class="token keyword">int left <span class="token operator">= mComponent<span class="token punctuation">.<span class="token function">getLeft<span class="token punctuation">(<span class="token punctuation">)<span class="token punctuation">;
+                <span class="token keyword">int top <span class="token operator">= mComponent<span class="token punctuation">.<span class="token function">getTop<span class="token punctuation">(<span class="token punctuation">)<span class="token punctuation">;
+                circleLeft <span class="token operator">= mComponent<span class="token punctuation">.<span class="token function">getWidth<span class="token punctuation">(<span class="token punctuation">) <span class="token operator">+ left <span class="token operator">- <span class="token number">2 <span class="token operator">* radius <span class="token operator">- <span class="token number">15 <span class="token operator">* <span class="token punctuation">(length <span class="token operator">- <span class="token number">2<span class="token punctuation">)<span class="token punctuation">;
+                circleTop <span class="token operator">= top<span class="token punctuation">;
+                mBadgeRectF <span class="token operator">= <span class="token keyword">new <span class="token class-name">RectFloat<span class="token punctuation">( circleLeft<span class="token punctuation">, circleTop<span class="token punctuation">, circleLeft <span class="token operator">+ <span class="token number">2 <span class="token operator">* radius <span class="token operator">+ <span class="token number">15 <span class="token operator">* <span class="token punctuation">(length <span class="token operator">- <span class="token number">2<span class="token punctuation">)  <span class="token punctuation">, circleTop <span class="token operator">+ <span class="token number">2 <span class="token operator">* radius<span class="token punctuation">)<span class="token punctuation">;
+                <span class="token keyword">break<span class="token punctuation">;
+            <span class="token keyword">case <span class="token class-name">RightCenter<span class="token operator">:
+                left <span class="token operator">= mComponent<span class="token punctuation">.<span class="token function">getLeft<span class="token punctuation">(<span class="token punctuation">)<span class="token punctuation">;
+                top <span class="token operator">= mComponent<span class="token punctuation">.<span class="token function">getTop<span class="token punctuation">(<span class="token punctuation">)<span class="token punctuation">;
+                circleLeft <span class="token operator">= mComponent<span class="token punctuation">.<span class="token function">getWidth<span class="token punctuation">(<span class="token punctuation">) <span class="token operator">+ left <span class="token operator">- <span class="token number">2 <span class="token operator">* radius <span class="token operator">- <span class="token number">15 <span class="token operator">* <span class="token punctuation">(length <span class="token operator">- <span class="token number">2<span class="token punctuation">)<span class="token punctuation">;
+                circleTop <span class="token operator">= top <span class="token operator">+ <span class="token punctuation">(<span class="token keyword">float<span class="token punctuation">)mComponent<span class="token punctuation">.<span class="token function">getHeight<span class="token punctuation">(<span class="token punctuation">) <span class="token operator">/ <span class="token number">2 <span class="token operator">- radius<span class="token punctuation">;
+                mBadgeRectF <span class="token operator">= <span class="token keyword">new <span class="token class-name">RectFloat<span class="token punctuation">( circleLeft<span class="token punctuation">, circleTop<span class="token punctuation">, circleLeft <span class="token operator">+ <span class="token number">2 <span class="token operator">* radius <span class="token operator">+ <span class="token number">15 <span class="token operator">* <span class="token punctuation">(length <span class="token operator">- <span class="token number">2<span class="token punctuation">) <span class="token punctuation">, circleTop <span class="token operator">+ <span class="token number">2 <span class="token operator">* radius<span class="token punctuation">)<span class="token punctuation">;
+
+                <span class="token keyword">break<span class="token punctuation">;
+            <span class="token keyword">case <span class="token class-name">RightBottom<span class="token operator">:
+                mBadgeRectF <span class="token operator">= <span class="token keyword">new <span class="token class-name">RectFloat<span class="token punctuation">(<span class="token punctuation">)<span class="token punctuation">;
+                left <span class="token operator">= mComponent<span class="token punctuation">.<span class="token function">getLeft<span class="token punctuation">(<span class="token punctuation">)<span class="token punctuation">;
+                top <span class="token operator">= mComponent<span class="token punctuation">.<span class="token function">getTop<span class="token punctuation">(<span class="token punctuation">)<span class="token punctuation">;
+                circleLeft <span class="token operator">= mComponent<span class="token punctuation">.<span class="token function">getWidth<span class="token punctuation">(<span class="token punctuation">) <span class="token operator">+ left <span class="token operator">- <span class="token number">2 <span class="token operator">* radius <span class="token operator">- <span class="token number">15 <span class="token operator">* <span class="token punctuation">(length <span class="token operator">- <span class="token number">2<span class="token punctuation">) <span class="token punctuation">;
+                circleTop <span class="token operator">= top <span class="token operator">+ mComponent<span class="token punctuation">.<span class="token function">getHeight<span class="token punctuation">(<span class="token punctuation">) <span class="token operator">- <span class="token number">2 <span class="token operator">* radius<span class="token punctuation">;
+                mBadgeRectF <span class="token operator">= <span class="token keyword">new <span class="token class-name">RectFloat<span class="token punctuation">( circleLeft<span class="token punctuation">, circleTop<span class="token punctuation">, circleLeft <span class="token operator">+ <span class="token number">2 <span class="token operator">* radius <span class="token operator">+ <span class="token number">15 <span class="token operator">* <span class="token punctuation">(length <span class="token operator">- <span class="token number">2<span class="token punctuation">) <span class="token punctuation">, circleTop <span class="token operator">+ <span class="token number">2 <span class="token operator">* radius<span class="token punctuation">)<span class="token punctuation">;
+
+                <span class="token keyword">break<span class="token punctuation">;
+            <span class="token keyword">default<span class="token operator">:
+                <span class="token keyword">break<span class="token punctuation">;
+        <span class="token punctuation">}
+    <span class="token punctuation">}
+    path <span class="token operator">= <span class="token punctuation">(<span class="token keyword">float<span class="token punctuation">) <span class="token class-name">Math<span class="token punctuation">.<span class="token function">sqrt<span class="token punctuation">(<span class="token punctuation">(mBadgeRectF<span class="token punctuation">.left <span class="token operator">- circleLeft<span class="token punctuation">) <span class="token operator">* <span class="token punctuation">(mBadgeRectF<span class="token punctuation">.left <span class="token operator">- circleLeft<span class="token punctuation">) <span class="token operator">+ <span class="token punctuation">(mBadgeRectF<span class="token punctuation">.top <span class="token operator">- circleTop<span class="token punctuation">) <span class="token operator">* <span class="token punctuation">(mBadgeRectF<span class="token punctuation">.top <span class="token operator">- circleTop<span class="token punctuation">)<span class="token punctuation">)<span class="token punctuation">;
+    isOverPath <span class="token operator">= path <span class="token operator">&gt; overPath<span class="token punctuation">;
+    <span class="token keyword">float offSet <span class="token operator">= <span class="token punctuation">(<span class="token keyword">float<span class="token punctuation">) <span class="token punctuation">(textBounds<span class="token punctuation">.top <span class="token operator">+ textBounds<span class="token punctuation">.bottom<span class="token punctuation">) <span class="token operator">/ <span class="token number">2<span class="token punctuation">;
+    <span class="token keyword">float boundsX <span class="token operator">= <span class="token number">0 <span class="token punctuation">;
+    <span class="token keyword">if<span class="token punctuation">( <span class="token number">15 <span class="token operator">* length <span class="token operator">&lt; <span class="token punctuation">(mBadgeRectF<span class="token punctuation">.right <span class="token operator">- mBadgeRectF<span class="token punctuation">.left<span class="token punctuation">)<span class="token punctuation">)<span class="token punctuation">{
+       <span class="token keyword">float temp <span class="token operator">=  mBadgeRectF<span class="token punctuation">.right <span class="token operator">- mBadgeRectF<span class="token punctuation">.left <span class="token operator">- <span class="token number">15 <span class="token operator">* length<span class="token punctuation">;
+        boundsX <span class="token operator">= temp <span class="token operator">/ <span class="token number">2<span class="token punctuation">;
+    <span class="token punctuation">}
+   <span class="token keyword">float roundNum <span class="token operator">= <span class="token number">2 <span class="token operator">* radius <span class="token operator">/ <span class="token punctuation">(mBadgeRectF<span class="token punctuation">.right <span class="token operator">- mBadgeRectF<span class="token punctuation">.left<span class="token punctuation">) <span class="token punctuation">;
+    canvas<span class="token punctuation">.<span class="token function">drawRoundRect<span class="token punctuation">(mBadgeRectF<span class="token punctuation">,roundNum <span class="token operator">* radius <span class="token punctuation">,roundNum <span class="token operator">* radius<span class="token punctuation">, mBadgePaint<span class="token punctuation">)<span class="token punctuation">;
+    canvas<span class="token punctuation">.<span class="token function">drawText<span class="token punctuation">(mTextPain<span class="token punctuation">, mBadgeText<span class="token punctuation">, mBadgeRectF<span class="token punctuation">.left <span class="token operator">+ boundsX<span class="token punctuation">, mBadgeRectF<span class="token punctuation">.top <span class="token operator">+ radius <span class="token operator">- offSet<span class="token punctuation">)<span class="token punctuation">;
+<span class="token punctuation">}</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></code></pre>
+</div>
+<p><strong>2.生成拖拽事件</strong></p>
+<div class="code-toolbar">
+<pre class=" prettyprint  language-java"><code class="has-numbering  language-java"><span class="token annotation punctuation">@Override
+<span class="token keyword">public <span class="token keyword">void <span class="token function">onDragDown<span class="token punctuation">(<span class="token class-name">Component component<span class="token punctuation">, <span class="token class-name">DragInfo dragInfo<span class="token punctuation">) <span class="token punctuation">{
+     pointX <span class="token operator">= dragInfo<span class="token punctuation">.downPoint<span class="token punctuation">.<span class="token function">getPointX<span class="token punctuation">(<span class="token punctuation">)<span class="token punctuation">;
+     pointY <span class="token operator">= dragInfo<span class="token punctuation">.downPoint<span class="token punctuation">.<span class="token function">getPointY<span class="token punctuation">(<span class="token punctuation">)<span class="token punctuation">;
+    <span class="token keyword">if <span class="token punctuation">(pointX <span class="token operator">&lt;= circleLeft <span class="token operator">|| pointX <span class="token operator">&gt;= circleLeft <span class="token operator">+ <span class="token number">2 <span class="token operator">* radius <span class="token operator">+ <span class="token number">15 <span class="token operator">* <span class="token punctuation">(length <span class="token operator">- <span class="token number">2<span class="token punctuation">)
+            <span class="token operator">|| pointY <span class="token operator">&lt;= circleTop <span class="token operator">|| pointY <span class="token operator">&gt;= circleTop <span class="token operator">+ <span class="token number">2 <span class="token operator">* radius<span class="token punctuation">) <span class="token punctuation">{
+        <span class="token function">onDragCancel<span class="token punctuation">(component<span class="token punctuation">, dragInfo<span class="token punctuation">)<span class="token punctuation">;
+    <span class="token punctuation">}
+<span class="token punctuation">}
+
+<span class="token annotation punctuation">@Override
+<span class="token keyword">public <span class="token keyword">void <span class="token function">onDragStart<span class="token punctuation">(<span class="token class-name">Component component<span class="token punctuation">, <span class="token class-name">DragInfo dragInfo<span class="token punctuation">) <span class="token punctuation">{
+<span class="token punctuation">}
+<span class="token annotation punctuation">@Override
+<span class="token keyword">public <span class="token keyword">void <span class="token function">onDragUpdate<span class="token punctuation">(<span class="token class-name">Component component<span class="token punctuation">, <span class="token class-name">DragInfo dragInfo<span class="token punctuation">) <span class="token punctuation">{
+
+    <span class="token keyword">float left <span class="token operator">= mBadgeRectF<span class="token punctuation">.left<span class="token punctuation">;
+    <span class="token keyword">float right <span class="token operator">= mBadgeRectF<span class="token punctuation">.right<span class="token punctuation">;
+    <span class="token keyword">float top <span class="token operator">= mBadgeRectF<span class="token punctuation">.top<span class="token punctuation">;
+    <span class="token keyword">float bottom <span class="token operator">= mBadgeRectF<span class="token punctuation">.bottom<span class="token punctuation">;
+
+    <span class="token keyword">if <span class="token punctuation">(pointX <span class="token operator">&lt;= circleLeft <span class="token operator">|| pointX <span class="token operator">&gt;= circleLeft <span class="token operator">+ <span class="token number">2 <span class="token operator">* radius <span class="token operator">+ <span class="token number">15 <span class="token operator">* <span class="token punctuation">(length <span class="token operator">- <span class="token number">2<span class="token punctuation">)
+            <span class="token operator">|| pointY <span class="token operator">&lt;= circleTop <span class="token operator">|| pointY <span class="token operator">&gt;= circleTop <span class="token operator">+ <span class="token number">2 <span class="token operator">* radius<span class="token punctuation">) <span class="token punctuation">{
+        <span class="token function">onDragCancel<span class="token punctuation">(component<span class="token punctuation">, dragInfo<span class="token punctuation">)<span class="token punctuation">;
+    <span class="token punctuation">} <span class="token keyword">else <span class="token punctuation">{
+        mBadgeRectF<span class="token punctuation">.left <span class="token operator">= <span class="token punctuation">(<span class="token keyword">float<span class="token punctuation">) <span class="token punctuation">(left <span class="token operator">+ dragInfo<span class="token punctuation">.xOffset<span class="token punctuation">)<span class="token punctuation">;
+        mBadgeRectF<span class="token punctuation">.right <span class="token operator">= <span class="token punctuation">(<span class="token keyword">float<span class="token punctuation">) <span class="token punctuation">(right <span class="token operator">+ dragInfo<span class="token punctuation">.xOffset<span class="token punctuation">)<span class="token punctuation">;
+        mBadgeRectF<span class="token punctuation">.top <span class="token operator">= <span class="token punctuation">(<span class="token keyword">float<span class="token punctuation">) <span class="token punctuation">(top <span class="token operator">+ dragInfo<span class="token punctuation">.yOffset<span class="token punctuation">)<span class="token punctuation">;
+        mBadgeRectF<span class="token punctuation">.bottom <span class="token operator">= <span class="token punctuation">(<span class="token keyword">float<span class="token punctuation">) <span class="token punctuation">(bottom <span class="token operator">+ dragInfo<span class="token punctuation">.yOffset<span class="token punctuation">)<span class="token punctuation">;
+        <span class="token function">invalidate<span class="token punctuation">(<span class="token punctuation">)<span class="token punctuation">;
+    <span class="token punctuation">}
+
+<span class="token punctuation">}
+<span class="token annotation punctuation">@Override
+<span class="token keyword">public <span class="token keyword">void <span class="token function">onDragEnd<span class="token punctuation">(<span class="token class-name">Component component<span class="token punctuation">, <span class="token class-name">DragInfo dragInfo<span class="token punctuation">) <span class="token punctuation">{
+    <span class="token keyword">if <span class="token punctuation">(isOverPath<span class="token punctuation">) <span class="token punctuation">{
+        explosionField<span class="token punctuation">.<span class="token function">explode<span class="token punctuation">(component<span class="token punctuation">, mBadgeRectF<span class="token punctuation">, explosionFieldColor<span class="token punctuation">)<span class="token punctuation">;
+    <span class="token punctuation">} <span class="token keyword">else <span class="token punctuation">{
+        mBadgeRectF <span class="token operator">= <span class="token keyword">new <span class="token class-name">RectFloat<span class="token punctuation">(circleLeft<span class="token punctuation">, circleTop <span class="token punctuation">, circleLeft <span class="token operator">+ <span class="token number">2 <span class="token operator">* radius <span class="token operator">+ <span class="token number">15 <span class="token operator">* <span class="token punctuation">(length <span class="token operator">- <span class="token number">2<span class="token punctuation">)<span class="token punctuation">, circleTop <span class="token operator">+ <span class="token number">2 <span class="token operator">* radius<span class="token punctuation">)<span class="token punctuation">;
+        <span class="token function">invalidate<span class="token punctuation">(<span class="token punctuation">)<span class="token punctuation">;
+    <span class="token punctuation">}
+<span class="token punctuation">}
+<span class="token annotation punctuation">@Override
+<span class="token keyword">public <span class="token keyword">void <span class="token function">onDragCancel<span class="token punctuation">(<span class="token class-name">Component component<span class="token punctuation">, <span class="token class-name">DragInfo dragInfo<span class="token punctuation">) <span class="token punctuation">{
+    mBadgeRectF <span class="token operator">= <span class="token keyword">new <span class="token class-name">RectFloat<span class="token punctuation">(circleLeft<span class="token punctuation">, circleTop <span class="token punctuation">, circleLeft <span class="token operator">+ <span class="token number">2 <span class="token operator">* radius <span class="token operator">+ <span class="token number">15 <span class="token operator">* <span class="token punctuation">(length <span class="token operator">- <span class="token number">2<span class="token punctuation">)<span class="token punctuation">, circleTop <span class="token operator">+ <span class="token number">2 <span class="token operator">* radius<span class="token punctuation">)<span class="token punctuation">;
+    <span class="token function">invalidate<span class="token punctuation">(<span class="token punctuation">)<span class="token punctuation">;
+<span class="token punctuation">}
+</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></code></pre>
+</div>
+<p>具体代码请下载项目查看。</p>
+<p><span style="font-size: 18px"><strong>编译HAR包</strong></span></p>
+<p>利用Gradle可以将HarmonyOS Library库模块构建为HAR包，构建HAR包的方法如下：</p>
+<p>在Gradle构建任务中，双击PackageDebugHar或PackageReleaseHar任务，构建Debug类型或Release类型的HAR。</p>
+<p>待构建任务完成后，可以在工程目录中的VerificationCodeView&gt; bulid &gt; outputs &gt; har目录中，获取生成的HAR包。</p>
+<p><img src="https://dl-harmonyos.51cto.com/images/202105/b714a7664f4fe35e9186496587a6373b593ad2.png" alt="【软通动力】HarmonyOS三方件开发指南(19)-BGABadgeView徽章组件" width="444" height="245" title="【软通动力】HarmonyOS三方件开发指南(19)-BGABadgeView徽章组件"></p>
+<p>更多原创，请关注：软通动力HarmonyOS学院https://harmonyos.51cto.com/column/30</p>
+<p>作者：软通田可辉</p>
+<p>想了解更多内容，请访问51CTO和华为合作共建的鸿蒙社区：<a href="https://harmonyos.51cto.com#bky" target="_blank">https://harmonyos.51cto.com</a></p>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2021-05-08 11:55</span>&nbsp;
+<a href="https://www.cnblogs.com/HarmonyOS/">HarmonyOS技术社区</a>&nbsp;
+阅读(<span id="post_view_count">0</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14744384" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14744384);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 645321, cb_blogApp = 'HarmonyOS', cb_blogUserGuid = '9774744f-f4e3-4b52-d035-08d8820b421f';
+    var cb_entryId = 14744384, cb_entryCreatedDate = '2021-05-08 11:55', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 HarmonyOS技术社区
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjsg2X7ivhXn2MTXFHptRktGG4eutqJLCNvvYzxJcbpQs1quHtSClNXMB7CpvBC4ykckSYTpvivbTIK0WYIEx1XoVH_ryvXTvxn-VIK_hjNgtIEVBIB4-glslwH0uBuqXYA" />
+</body>
+</html>

@@ -1,0 +1,372 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="安装 注意:如果使用的是4.0&#x2B;的版本,还需要安装webpack-cli 初始化之后,就会发现文件夹里面多了一个package.json文件, 注意:下面的注释是我为了让大家知道该字段代表的时候什么意" />
+    <meta property="og:description" content="安装 注意:如果使用的是4.0&#x2B;的版本,还需要安装webpack-cli 初始化之后,就会发现文件夹里面多了一个package.json文件, 注意:下面的注释是我为了让大家知道该字段代表的时候什么意" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>webpack入门教程 - Cynthia-milk - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/codinglife/bundle-codinglife.min.css?v=2uJkpdACLVfstRQ7zeCFK19brTwKuDEaNBLgKz9nm3A" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/codinglife/bundle-codinglife-mobile.min.css?v=DwDRKMd1bmjnJZ4iQqrTCO9QLlYb6OZaUAzHoHIIihg" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/cythia/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/cythia/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/cythia/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 310173;
+        var currentBlogApp = 'cythia';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'CodingLife';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2018-06-16 01:33';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/cythia/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/cythia/">Cynthia-milk</a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/cythia/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/Cynthia-milk">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/cythia/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/cythia/p/9190377.html">
+    <span>webpack入门教程</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<h3 class="md-end-block md-heading md-focus"><span class="md-expand">安装</span></h3>
+<h5 class="md-end-block md-heading"><span>全局安装(如果之前没安装的话,就全局安装一下,之前安装过了的话,就可以直接跳过这一步)</span></h5>
+<pre class="md-fences md-end-block contain-cm modeLoaded"><span><span class="cm-variable">cnpm <span class="cm-variable">install <span class="cm-variable">webpack <span class="cm-operator">-<span class="cm-variable">g &nbsp; <span class="cm-comment">//全局安装<br><span><span>​<br><span><span class="cm-variable">cnpm <span class="cm-variable">install <span class="cm-variable">webpack <span class="cm-operator">-<span class="cm-variable">s &nbsp; <span class="cm-comment">// 局部安装</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></pre>
+<p><span class="md-line md-end-block"><span><strong><span><em>注意:如果使用的是4.0+的版本,还需要安装webpack-cli</em></span></strong></span></span></p>
+<pre class="md-fences md-end-block contain-cm modeLoaded"><span><span class="cm-variable">cnpm <span class="cm-variable">i <span class="cm-variable">webpack<span class="cm-operator">-<span class="cm-variable">cli <span class="cm-operator">-<span class="cm-variable">s</span></span></span></span></span></span></span></span></pre>
+<h5 class="md-end-block md-heading"><span>初始化</span></h5>
+<pre class="md-fences md-end-block contain-cm modeLoaded"><span>cnpm init<br><span><span>​<br><span>// 或则是:和上面的区别是,加-y是快捷安装,不需要你输入文件说明等<br><span>cnpm init -y &nbsp; &nbsp; &nbsp; </span></span></span></span></span></pre>
+<p><span class="md-line md-end-block"><span>初始化之后,就会发现文件夹里面多了一个package.json文件,</span></span></p>
+<p><span class="md-line md-end-block"><span>注意:下面的注释是我为了让大家知道该字段代表的时候什么意思才加的,在json文件中添加注释是会报错的</span></span></p>
+<pre class="md-fences md-end-block contain-cm modeLoaded"><span>{<br><span> &nbsp;<span class="cm-string">"name": <span class="cm-string">"vue-cli", &nbsp;<span class="cm-comment">// 文件名<br><span> &nbsp;<span class="cm-string">"version": <span class="cm-string">"1.0.0", <span class="cm-comment">// 项目版本<br><span> &nbsp;<span class="cm-string">"description": <span class="cm-string">"", &nbsp;<span class="cm-comment">// 描述<br><span> &nbsp;<span class="cm-string">"main": <span class="cm-string">"index.js", <span class="cm-comment">// 加载的入口文件<br><span> &nbsp;<span class="cm-string">"scripts": {<br><span> &nbsp; &nbsp;<span class="cm-string">"test": <span class="cm-string">"echo \"Error: no test specified\" &amp;&amp; exit 1" &nbsp; <span class="cm-comment">// 指定脚本命令的缩写<br><span>  },<br><span> &nbsp;<span class="cm-string">"author": <span class="cm-string">"Cynthia", <span class="cm-comment">// 作者<br><span> &nbsp;<span class="cm-string">"license": <span class="cm-string">"ISC"<br><span>}</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></pre>
+<h5 class="md-end-block md-heading"><span>创建一个bundle.js</span></h5>
+<p><span class="md-line md-end-block"><span>首先呢,我们需要先搭好文件结构</span></span></p>
+<pre class="md-fences md-end-block contain-cm modeLoaded"><span> <span class="cm-variable">webpack<span class="cm-operator">-<span class="cm-variable">demo<br><span> &nbsp;<span class="cm-operator">|- <span class="cm-variable">package.<span class="cm-property">json<br><span><span class="cm-operator">+ <span class="cm-operator">|- <span class="cm-string-2">/dist<br><span><span class="cm-operator">+ &nbsp; <span class="cm-operator">|- <span class="cm-variable">index.<span class="cm-property">html<br><span> &nbsp;<span class="cm-operator">|+ <span class="cm-string-2">/src<br><span> &nbsp; &nbsp;<span class="cm-operator">|+ <span class="cm-variable">index.<span class="cm-property">js</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></pre>
+<p><span class="md-line md-end-block"><span>就是新建两个文件夹src和dist文件夹,在src文件夹里面添加index.js,在dist文件夹里面添加index.html</span></span></p>
+<p><span class="md-line md-end-block"><span>index.js</span></span></p>
+<pre class="md-fences md-end-block contain-cm modeLoaded"><span><span class="cm-keyword">function <span class="cm-def">sayHello (){<br><span> &nbsp; &nbsp;<span class="cm-keyword">return <span class="cm-string">'hello world'<br><span>}<br><span><span class="cm-variable">console.<span class="cm-property">log(<span class="cm-variable">sayHello())</span></span></span></span></span></span></span></span></span></span></span></pre>
+<p><span class="md-line md-end-block"><span>index.html</span></span></p>
+<pre class="md-fences md-end-block contain-cm modeLoaded"><span><span class="cm-operator">&lt;!<span class="cm-variable">DOCTYPE <span class="cm-variable">html<span class="cm-operator">&gt;<br><span><span class="cm-operator">&lt;<span class="cm-variable">html <span class="cm-variable">lang<span class="cm-operator">=<span class="cm-string">"en"<span class="cm-operator">&gt;<br><span><span>​<br><span><span class="cm-operator">&lt;<span class="cm-variable">head<span class="cm-operator">&gt;<br><span> &nbsp; &nbsp;<span class="cm-operator">&lt;<span class="cm-variable">meta <span class="cm-variable">charset<span class="cm-operator">=<span class="cm-string">"UTF-8"<span class="cm-operator">&gt;<br><span> &nbsp; &nbsp;<span class="cm-operator">&lt;<span class="cm-variable">meta <span class="cm-variable">name<span class="cm-operator">=<span class="cm-string">"viewport" <span class="cm-variable">content<span class="cm-operator">=<span class="cm-string">"width=device-width, initial-scale=1.0"<span class="cm-operator">&gt;<br><span> &nbsp; &nbsp;<span class="cm-operator">&lt;<span class="cm-variable">meta <span class="cm-variable">http<span class="cm-operator">-<span class="cm-variable">equiv<span class="cm-operator">=<span class="cm-string">"X-UA-Compatible" <span class="cm-variable">content<span class="cm-operator">=<span class="cm-string">"ie=edge"<span class="cm-operator">&gt;<br><span> &nbsp; &nbsp;<span class="cm-operator">&lt;<span class="cm-variable">title<span class="cm-operator">&gt;<span class="cm-variable">首页<span class="cm-operator">&lt;<span class="cm-string-2">/title&gt;<br><span><span class="cm-operator">&lt;<span class="cm-string-2">/head&gt;<br><span><span>​<br><span><span class="cm-operator">&lt;<span class="cm-variable">body<span class="cm-operator">&gt;<br><span> &nbsp; &nbsp; <span class="cm-operator">&lt;!--<span class="cm-variable">引入main.<span class="cm-property">js,<span class="cm-variable">等下打包会把index.<span class="cm-property">js默认打包为main.<span class="cm-property">js<span class="cm-operator">--&gt;<br><span> &nbsp; &nbsp;<span class="cm-operator">&lt;<span class="cm-variable">script <span class="cm-variable">src<span class="cm-operator">=<span class="cm-string">"main.js"<span class="cm-operator">&gt;&lt;<span class="cm-string-2">/script&gt;<br><span><span class="cm-operator">&lt;<span class="cm-string-2">/body&gt;<br><span><span>​<br><span><span class="cm-operator">&lt;<span class="cm-string-2">/html&gt;</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></pre>
+<p>&nbsp;</p>
+<p><span class="md-line md-end-block"><span>然后在命令窗口运行</span></span></p>
+<pre class="md-fences md-end-block contain-cm modeLoaded"><span><span>​</span></span></pre>
+<h4 class="md-end-block md-heading"><span>创建配置文件</span></h4>
+<p><span class="md-line md-end-block"><span>在webpack-demo中创建一个文件名webpack.config.js的js文件,然后输入下面的代码</span></span></p>
+<pre class="md-fences md-end-block contain-cm modeLoaded"><span><span class="cm-keyword">const <span class="cm-def">path <span class="cm-operator">= <span class="cm-variable">require(<span class="cm-string">"path");<span class="cm-comment">// 导入path模块<br><span><span class="cm-variable">module.<span class="cm-property">exports <span class="cm-operator">= {<br><span> &nbsp;<span class="cm-property">entry: <span class="cm-string">"./src/index.js", <span class="cm-comment">// 入口文件<br><span> &nbsp;<span class="cm-property">output: {<br><span> &nbsp; &nbsp;<span class="cm-property">filename: <span class="cm-string">"bundle.js", <span class="cm-comment">// 打包后的文件<br><span> &nbsp; &nbsp;<span class="cm-property">path: <span class="cm-variable">path.<span class="cm-property">resolve(<span class="cm-variable">__dirname, <span class="cm-string">"dist") &nbsp;<span class="cm-comment">// 打包后文件所放的文件夹路径<br><span>  },<br><span> &nbsp;<br><span>};</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></pre>
+<p><span class="md-line md-end-block"><span>然后运行</span></span></p>
+<pre class="md-fences md-end-block contain-cm modeLoaded"><span>npx webpack --config webpack.config.js</span></pre>
+<p><span class="md-line md-end-block"><span>此时,你就会发现在dist文件里面会多了一个bundle.js</span></span></p>
+<h6 class="md-end-block md-heading"><span>npm脚本</span></h6>
+<p><span class="md-line md-end-block"><span>上面的打包语句是webpack-cli的打包语句,考虑到用起来不是特别的方便,我们自己可以在package.json里面</span></span></p>
+<pre class="md-fences md-end-block contain-cm modeLoaded"><span> <span class="cm-string">"scripts": {<br><span> &nbsp; &nbsp;<span class="cm-string">"test": <span class="cm-string">"echo \"Error: no test specified\" &amp;&amp; exit 1",<br><span> &nbsp;<span class="cm-operator">+ <span class="cm-string">"build": <span class="cm-string">"webpack" &nbsp;<span class="cm-comment">// 加上这一句,打包就能简化<br><span>  },</span></span></span></span></span></span></span></span></span></span></span></pre>
+<p><span class="md-line md-end-block"><span>直接输入<span><code>cnpm run build</code></span></span></span></p>
+<h4 class="md-end-block md-heading"><span>添加资源管理</span></h4>
+<h5 class="md-end-block md-heading"><span>加载css样式</span></h5>
+<p><span class="md-line md-end-block"><span>需要添加css样式的话,就需要添加css-loader和style-loader</span></span></p>
+<pre class="md-fences md-end-block contain-cm modeLoaded"><span>cnpm i -s style-loader css-loader</span></pre>
+<p><span class="md-line md-end-block"><span>添加完之后,在webpack.config.js文件中添加配置资源管理</span></span></p>
+<pre class="md-fences md-end-block contain-cm modeLoaded"><span> <span class="cm-variable">module: {<br><span> &nbsp; &nbsp;<span class="cm-variable">rules: [<br><span> &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-comment">// 配置css<br><span> &nbsp; &nbsp;  {<br><span> &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-property">test: <span class="cm-string-2">/\.css$/,<br><span> &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-property">use: [<span class="cm-string">"style-loader", <span class="cm-string">"css-loader"]<br><span> &nbsp; &nbsp;  }<br><span> &nbsp;  ]<br><span>  }</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></pre>
+<ul class="ul-list" data-mark="*">
+<li class="md-list-item">
+<p><span class="md-line md-end-block"><span>配置完之后,文件一个static文件夹,然后在里面添加添加/css/style.css表,并且写入一些基本样式</span></span></p>
+</li>
+<li class="md-list-item">
+<p><span class="md-line md-end-block"><span>然后在index.js文件中导入css样式</span></span></p>
+<pre class="md-fences md-end-block contain-cm modeLoaded"><span><span class="cm-keyword">import <span class="cm-string">'./../static/css/style.css'<br><span><span>​</span></span></span></span></span></pre>
+</li>
+</ul>
+<h5 class="md-end-block md-heading"><span>加载less文件</span></h5>
+<p><span class="md-line md-end-block"><span>安装less的loader</span></span></p>
+<pre class="md-fences md-end-block contain-cm modeLoaded"><span>cnpm install --save-dev less less-loader</span></pre>
+<p><span class="md-line md-end-block"><span>在webpack.config.js中配置</span></span></p>
+<pre class="md-fences md-end-block contain-cm modeLoaded"><span> {<br><span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">test: <span class="cm-string-2">/\.less$/,<br><span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">use: [<span class="cm-string">'style-loader', <span class="cm-string">'css-loader', <span class="cm-string">'less-loader']<br><span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  }</span></span></span></span></span></span></span></span></span></span></pre>
+<h5 class="md-end-block md-heading"><span>加载图片</span></h5>
+<p><span class="md-line md-end-block"><span>安装file-loader</span></span></p>
+<pre class="md-fences md-end-block contain-cm modeLoaded"><span><span class="cm-variable">cnpm <span class="cm-variable">install <span class="cm-operator">--<span class="cm-variable">save<span class="cm-operator">-<span class="cm-variable">dev <span class="cm-variable">file<span class="cm-operator">-<span class="cm-variable">loader</span></span></span></span></span></span></span></span></span></span></pre>
+<p><span class="md-line md-end-block"><span>在webpack.config.js中的rule里面添加配置:这里涉及的格式有png,svg,jpg,gif</span></span></p>
+<pre class="md-fences md-end-block contain-cm modeLoaded"><span>{<br><span> &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">test: <span class="cm-string-2">/\.(png|svg|jpg|gif)$/,<br><span> &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">use: [<span class="cm-string">"file-loader"]<br><span> &nbsp; &nbsp;  }</span></span></span></span></span></span></span></span></pre>
+<h5 class="md-end-block md-heading"><span>加载字体</span></h5>
+<p><span class="md-line md-end-block"><span>加载字体的话,需要url-loader</span></span></p>
+<pre class="md-fences md-end-block contain-cm modeLoaded"><span>cnpm install --save-dev url-loader</span></pre>
+<p><span class="md-line md-end-block"><span>在webpack.config.js中配置:</span></span></p>
+<pre class="md-fences md-end-block contain-cm modeLoaded"><span>{<br><span> &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">test: <span class="cm-string-2">/\.(woff|woff2|eot|ttf|otf)$/,<br><span> &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">use: [<span class="cm-string">"file-loader"]<br><span> &nbsp; &nbsp;  }</span></span></span></span></span></span></span></span></pre>
+<h5 class="md-end-block md-heading"><span>加载数据</span></h5>
+<p><span class="md-line md-end-block"><span>在webpack中,因为node.js中json是内置的,所以json不需要配置,但是像CSV、TSV 和 XML 这些的话,就需要加载包来设置处理</span></span></p>
+<pre class="md-fences md-end-block contain-cm modeLoaded"><span>cnpm install --save-dev csv-loader xml-loader</span></pre>
+<p><span class="md-line md-end-block"><span>在webpack.config.js中配置</span></span></p>
+<pre class="md-fences md-end-block contain-cm modeLoaded"><span>{<br><span> &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">test: <span class="cm-string-2">/\.(csv|tsv)$/,<br><span> &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">use: [<span class="cm-string">"csv-loader"]<br><span> &nbsp; &nbsp;  },<br><span> &nbsp; &nbsp;  {<br><span> &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">test: <span class="cm-string-2">/\.xml$/,<br><span> &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-variable">use: [<span class="cm-string">"xml-loader"]<br><span> &nbsp; &nbsp;  }</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></pre>
+<p><span class="md-line md-end-block"><span>如何测试:</span></span></p>
+<p><span class="md-line md-end-block"><span>在index.js的同级目录里面添加data.xml</span></span></p>
+<pre class="md-fences md-end-block contain-cm modeLoaded"><span><span class="cm-operator">&lt;?<span class="cm-variable">xml <span class="cm-variable">version<span class="cm-operator">=<span class="cm-string">"1.0" <span class="cm-variable">encoding<span class="cm-operator">=<span class="cm-string">"UTF-8"<span class="cm-operator">?&gt;<br><span><span class="cm-operator">&lt;<span class="cm-variable">note<span class="cm-operator">&gt;<br><span> &nbsp;<span class="cm-operator">&lt;<span class="cm-variable">to<span class="cm-operator">&gt;<span class="cm-variable">Mary<span class="cm-operator">&lt;<span class="cm-string-2">/to&gt;<br><span> &nbsp;<span class="cm-operator">&lt;<span class="cm-variable">from<span class="cm-operator">&gt;<span class="cm-variable">John<span class="cm-operator">&lt;<span class="cm-string-2">/from&gt;<br><span> &nbsp;<span class="cm-operator">&lt;<span class="cm-variable">heading<span class="cm-operator">&gt;<span class="cm-variable">Reminder<span class="cm-operator">&lt;<span class="cm-string-2">/heading&gt;<br><span> &nbsp;<span class="cm-operator">&lt;<span class="cm-variable">body<span class="cm-operator">&gt;<span class="cm-variable">Call <span class="cm-variable">Cindy <span class="cm-variable">on <span class="cm-variable">Tuesday<span class="cm-operator">&lt;<span class="cm-string-2">/body&gt;<br><span><span class="cm-operator">&lt;<span class="cm-string-2">/note&gt;</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></pre>
+<p><span class="md-line md-end-block"><span>在index.js中引入</span></span></p>
+<pre class="md-fences md-end-block contain-cm modeLoaded"><span><span class="cm-keyword">import <span class="cm-def">data <span class="cm-keyword">from <span class="cm-string">'./data.xml'<br><span><span>​<br><span><span class="cm-variable">console.<span class="cm-property">log(<span class="cm-variable">data)</span></span></span></span></span></span></span></span></span></span></span></pre>
+<p>&nbsp;</p>
+<h5 class="md-end-block md-heading"><span>设定html</span></h5>
+<pre class="md-fences md-end-block contain-cm modeLoaded"><span><span class="cm-variable">cnpm <span class="cm-variable">install <span class="cm-operator">--<span class="cm-variable">save<span class="cm-operator">-<span class="cm-variable">dev <span class="cm-variable">html<span class="cm-operator">-<span class="cm-variable">webpack<span class="cm-operator">-<span class="cm-variable">plugin</span></span></span></span></span></span></span></span></span></span></span></span></pre>
+<p><span class="md-line md-end-block"><span>在webpack.config.js中</span></span></p>
+<pre class="md-fences md-end-block contain-cm modeLoaded"><span><span class="cm-keyword">const <span class="cm-def">HtmlWebpackPlugin <span class="cm-operator">= <span class="cm-variable">require(<span class="cm-string">'html-webpack-plugin');<br><span><span>​<br><span><span class="cm-comment">// 和output同级添加下面这一段<br><span> &nbsp;<span class="cm-variable">plugins: [<br><span> &nbsp; &nbsp;<span class="cm-keyword">new <span class="cm-variable">HtmlWebpackPlugin({<br><span> &nbsp; &nbsp; &nbsp;<span class="cm-property">title: <span class="cm-string">"Output Management"<br><span> &nbsp;  })<br><span>  ]</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></pre>
+<h5 class="md-end-block md-heading"><span>清理dist文件夹</span></h5>
+<p><span class="md-line md-end-block"><span>因为打包太多次文件,导致dist文件里面相当的混乱,webpack打包的时候,webpack 会生成文件，然后将这些文件放置在 <span><code>/dist</code><span> 文件夹中，但是 webpack 无法追踪到哪些文件是实际在项目中用到的。</span></span></span></span></p>
+<p><span class="md-line md-end-block"><span>通常，在每次构建前清理 <span><code>/dist</code><span> 文件夹，是比较推荐的做法，因此只会生成用到的文件。让我们完成这个需求。</span></span></span></span></p>
+<p><span class="md-line md-end-block"><span><a href="https://www.npmjs.com/package/clean-webpack-plugin"><span><code>clean-webpack-plugin</code></span></a><span> 是一个比较普及的管理插件，让我们安装和配置下。</span></span></span></p>
+<pre class="md-fences md-end-block contain-cm modeLoaded"><span><span class="cm-variable">cnpm <span class="cm-variable">install <span class="cm-variable">clean<span class="cm-operator">-<span class="cm-variable">webpack<span class="cm-operator">-<span class="cm-variable">plugin <span class="cm-operator">--<span class="cm-variable">save<span class="cm-operator">-<span class="cm-variable">dev</span></span></span></span></span></span></span></span></span></span></span></span></pre>
+<p><span class="md-line md-end-block"><span>然后在webpack.config.js中</span></span></p>
+<pre class="md-fences md-end-block contain-cm modeLoaded"><span><span class="cm-keyword">const <span class="cm-def">CleanWebpackPlugin <span class="cm-operator">= <span class="cm-variable">require(<span class="cm-string">"clean-webpack-plugin");<br><span><span>​<br><span><span class="cm-comment">// 在plugins里面添加<br><span> <span class="cm-variable">plugins: [<br><span> &nbsp; &nbsp;<span class="cm-keyword">new <span class="cm-variable">HtmlWebpackPlugin({<br><span> &nbsp; &nbsp; &nbsp;<span class="cm-property">title: <span class="cm-string">"Output Management"<br><span> &nbsp;  }),<br><span> &nbsp; <span class="cm-operator">+ <span class="cm-keyword">new <span class="cm-variable">CleanWebpackPlugin([<span class="cm-string">"dist"])<br><span>  ]</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></pre>
+<p>&nbsp;</p>
+<h4 class="md-end-block md-heading"><span>使用webpack-dev-server</span></h4>
+<p><span class="md-line md-end-block"><span>webpack-dev-server为你提供了一个简单的 web 服务器，并且能够实时重新加载(live reloading) </span></span></p>
+<p><span class="md-line md-end-block"><span>安装webpack-dev-server</span></span></p>
+<pre class="md-fences md-end-block contain-cm modeLoaded"><span>cnpm install --save-dev webpack-dev-server</span></pre>
+<p><span class="md-line md-end-block"><span>在webpack.config.js中配置:默认端口是8080,contentBase设置可访问的文件夹</span></span></p>
+<pre class="md-fences md-end-block contain-cm modeLoaded"><span><span class="cm-variable">devServer: {<br><span> &nbsp; &nbsp;<span class="cm-variable">contentBase: <span class="cm-string">"./dist" &nbsp;<span class="cm-comment">// 默认localhost:8080 下建立服务，将 dist 目录下的文件，作为可访问文件。<br><span>  },</span></span></span></span></span></span></span></pre>
+<p><span class="md-line md-end-block"><span>在package.json文件里面添加star的命令,这样只要输入运行<span><code>cnpm run start</code><span> 就能自动打开浏览器,而实现自动打开浏览器的配置是--open</span></span></span></span></p>
+<pre class="md-fences md-end-block contain-cm modeLoaded"><span> <span class="cm-string">"scripts": {<br><span> &nbsp; &nbsp;<span class="cm-string">"test": <span class="cm-string">"echo \"Error: no test specified\" &amp;&amp; exit 1",<br><span> &nbsp; &nbsp;<span class="cm-string">"build": <span class="cm-string">"webpack",<br><span> &nbsp; <span class="cm-operator">+ <span class="cm-string">"start": <span class="cm-string">"webpack-dev-server --open"<br><span>  }</span></span></span></span></span></span></span></span></span></span></span></span></span></pre>
+<p><span class="md-line md-end-block"><span>或则你可以设置为dev命令也行,我的习惯是dev命令</span></span></p>
+<pre class="md-fences md-end-block contain-cm modeLoaded"><span><span class="cm-string">"scripts": {<br><span> &nbsp; &nbsp;<span class="cm-string">"test": <span class="cm-string">"echo \"Error: no test specified\" &amp;&amp; exit 1",<br><span> &nbsp; &nbsp;<span class="cm-string">"build": <span class="cm-string">"webpack",<br><span> &nbsp; &nbsp;<span class="cm-string">"start": <span class="cm-string">"webpack-dev-server --open",<br><span> &nbsp;<span class="cm-operator">+ <span class="cm-string">"dev": <span class="cm-string">"webpack-dev-server --open"<br><span>  }</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></pre>
+<p><span class="md-line md-end-block"><span>如果你希望打开的端口不是8080，而是自己定义的话，你可以添加在dev或则start里面添加<span><code>--port 端口号</code></span></span></span></p>
+<pre class="md-fences md-end-block contain-cm modeLoaded"><span><span class="cm-string">"scripts": {<br><span> &nbsp; &nbsp;<span class="cm-string">"test": <span class="cm-string">"echo \"Error: no test specified\" &amp;&amp; exit 1",<br><span> &nbsp; &nbsp;<span class="cm-string">"build": <span class="cm-string">"webpack",<br><span> &nbsp; &nbsp;<span class="cm-string">"start": <span class="cm-string">"webpack-dev-server --open",<br><span> &nbsp;<span class="cm-operator">+ <span class="cm-string">"dev": <span class="cm-string">"webpack-dev-server --port 3000 --open" &nbsp; &nbsp;<span class="cm-comment">// 我这里设置打开的端口号是3000<br><span>  }</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></pre>
+<p><span class="md-line md-end-block"><span>如果你希望打开服务器之后，在页面不关闭的情况下，你每次修改都能自动刷新（俗称热加载），那么你就在dev或则start里面添加--hot配置</span></span></p>
+<pre class="md-fences md-end-block contain-cm modeLoaded"><span><span class="cm-string">"scripts": {<br><span> &nbsp; &nbsp;<span class="cm-string">"test": <span class="cm-string">"echo \"Error: no test specified\" &amp;&amp; exit 1",<br><span> &nbsp; &nbsp;<span class="cm-string">"build": <span class="cm-string">"webpack",<br><span> &nbsp; &nbsp;<span class="cm-string">"start": <span class="cm-string">"webpack-dev-server --open",<br><span> &nbsp;<span class="cm-operator">+ <span class="cm-string">"dev": <span class="cm-string">"webpack-dev-server --port 3000 --hot --open" &nbsp; &nbsp;<span class="cm-comment">// 我这里设置打开的端口号是3000<br><span>  }</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></pre>
+<h4 class="md-end-block md-heading"><span>观察者模式</span></h4>
+<p><span class="md-line md-end-block"><span>如果其中一个文件被更新，代码将被重新编译，所以你不必手动运行整个构建。 </span></span></p>
+<p><span class="md-line md-end-block"><span>在package.json文件中</span></span></p>
+<pre class="md-fences md-end-block contain-cm modeLoaded"><span><span class="cm-string">"scripts": {<br><span> &nbsp; &nbsp;<span class="cm-string">"test": <span class="cm-string">"echo \"Error: no test specified\" &amp;&amp; exit 1",<br><span> &nbsp; &nbsp;<span class="cm-string">"build": <span class="cm-string">"webpack",<br><span> &nbsp;<span class="cm-operator">+ &nbsp;<span class="cm-string">"watch": <span class="cm-string">"webpack --watch",<br><span> &nbsp; &nbsp;<span class="cm-string">"start": <span class="cm-string">"webpack-dev-server --open",<br><span> &nbsp; &nbsp;<span class="cm-string">"dev": <span class="cm-string">"webpack-dev-server --hot --port 3000 --open"<br><span>  },</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></pre>
+<p><span class="md-line md-end-block"><span>然后我们可以在index.js中引入的js文件里面修改,例如我给print.js添加了一句话</span></span></p>
+<pre class="md-fences md-end-block contain-cm modeLoaded"><span><span class="cm-keyword">export <span class="cm-keyword">default <span class="cm-keyword">function <span class="cm-def">printMe() {<br><span> &nbsp;<span class="cm-variable">console.<span class="cm-property">log(<span class="cm-string">"I get called from print.js!");<br><span><span class="cm-operator">+ &nbsp;<span class="cm-variable">console.<span class="cm-property">log(<span class="cm-string">"嘟嘟是个傻逼狗子");<br><span>}<br><span><span>​</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></pre>
+<p><span class="md-line md-end-block"><span>然后我就运行<span><code>cnpm run dev</code><span>,不需要再重新构建(就是输入<span><code>cnpm run build</code><span>),你会发现,你添加的东西会显示在控制台</span></span></span></span></span></span></p>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2018-06-16 13:33</span>&nbsp;
+<a href="https://www.cnblogs.com/cythia/">Cynthia-milk</a>&nbsp;
+阅读(<span id="post_view_count">1927</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=9190377" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(9190377);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 310173, cb_blogApp = 'cythia', cb_blogUserGuid = '4700fca4-3985-e611-845c-ac853d9f53ac';
+    var cb_entryId = 9190377, cb_entryCreatedDate = '2018-06-16 13:33', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 Cynthia-milk
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjv5zhe9Cytm8hxmXYvutUeff6VBlLNWyVOKhTpi2jSnR5DRBIqwcmoR8K3YH6UC_HOUbI7V0rdRRU58j_gFTA0KbzS9r2ctvYmARNJz4f4CtMWQOOiRymPA4eBZ9vVS9No" />
+</body>
+</html>

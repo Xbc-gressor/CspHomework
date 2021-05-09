@@ -1,0 +1,695 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="never" />
+    <meta name="description" content="我们的生活已经越来越离不开相机，从自拍到直播，扫码再到VR等等。相机的优劣自然就成为了厂商竞相追逐的赛场。对于app开发者来说，如何快速驱动相机，提供优秀的拍摄体验，优化相机的使用功耗，是一直以来追求" />
+    <meta property="og:description" content="我们的生活已经越来越离不开相机，从自拍到直播，扫码再到VR等等。相机的优劣自然就成为了厂商竞相追逐的赛场。对于app开发者来说，如何快速驱动相机，提供优秀的拍摄体验，优化相机的使用功耗，是一直以来追求" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>音视频开发：为什么推荐使用Jetpack CameraX？ - Button123 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/codinglife/bundle-codinglife.min.css?v=2uJkpdACLVfstRQ7zeCFK19brTwKuDEaNBLgKz9nm3A" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/codinglife/bundle-codinglife-mobile.min.css?v=DwDRKMd1bmjnJZ4iQqrTCO9QLlYb6OZaUAzHoHIIihg" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/button123/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/button123/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/button123/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 619693;
+        var currentBlogApp = 'button123';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'CodingLife';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-05-07 10:18';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/button123/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/button123/">Button123</a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/button123/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/Button123">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/button123/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/button123/p/14742909.html">
+    <span>音视频开发：为什么推荐使用Jetpack CameraX？</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+<p><strong>我们的生活已经越来越离不开相机，从<code>自拍</code>到<code>直播</code>，<code>扫码</code>再到<code>VR</code>等等。相机的优劣自然就成为了厂商竞相追逐的赛场。对于app开发者来说，如何快速驱动相机，提供优秀的拍摄体验，优化相机的使用功耗，是一直以来追求的目标。</strong></p>
+<blockquote>
+<p>本文可能是当下最新最全的<code>CameraX</code>解读，篇幅较长，慢慢享用。</p>
+</blockquote>
+<h1 id="作者">作者</h1>
+<p><strong><a href="https://juejin.cn/post/6951017751457005576" target="_blank">TechMerger</a></strong></p>
+<h2 id="前言">前言</h2>
+<p>Android 5.0 时期<code>Camera</code>接口便已弃用，所以一般的做法是使用其替代者<code>Camera2</code>接口。但随着<code>CameraX</code>的出现，这个选择变得不再唯一。</p>
+<p>我们先来回顾下图像预览这一简单的需求，使用<code>Camera2</code>接口是如何实现的。</p>
+<h2 id="camera2">Camera2</h2>
+<p>抛开回调，异常等附加处理，仍然需要多个步骤才能实现，比较繁琐。<em>※篇幅原因省略代码只概括步骤※</em></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/4c96fcebec8475c53ec60baa8d5ba931.png" alt="" loading="lazy"></p>
+<p>同样是图像预览采用<code>CameraX</code>的话，实现就非常简洁。</p>
+<h2 id="camerax">CameraX</h2>
+<h4 id="图像预览">图像预览</h4>
+<p>可以说十几行就可以完成。和<code>Camera2</code>一样需要展示预览的控件<code>PreviewView</code>到布局上，并确保获得了<code>camera</code>权限。差异的地方主要体现在相机的配置步骤上。</p>
+<pre><code>    private void setupCamera(PreviewView previewView) {
+        ListenableFuture&lt;ProcessCameraProvider&gt; cameraProviderFuture =
+                ProcessCameraProvider.getInstance(this);
+        cameraProviderFuture.addListener(() -&gt; {
+            try {
+                mCameraProvider = cameraProviderFuture.get();
+                bindPreview(mCameraProvider, previewView);
+            } catch (ExecutionException | InterruptedException e) {
+                e.printStackTrace();
+            }
+        }, ContextCompat.getMainExecutor(this));
+    }
+
+    private void bindPreview(@NonNull ProcessCameraProvider cameraProvider,
+                             PreviewView previewView) {
+        mPreview = new Preview.Builder().build();
+        mCamera = cameraProvider.bindToLifecycle(this,
+                CameraSelector.DEFAULT_BACK_CAMERA, mPreview);
+        mPreview.setSurfaceProvider(previewView.getSurfaceProvider());
+    }
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/59800441d8d3e6fafc845f02d59a910c.png" alt="图像预览" loading="lazy"></p>
+<h5 id="镜头切换">镜头切换</h5>
+<p>如果想要切换镜头，只要将目标镜头的<code>CameraSelector</code>示例绑定到<code>CameraProvider</code>即可。我们在画面上添加按钮以切换镜头。</p>
+<pre><code>    public void onChangeGo(View view) {
+        if (mCameraProvider != null) {
+            isBack = !isBack;
+            bindPreview(mCameraProvider, binding.previewView);
+        }
+    }
+
+    private void bindPreview(@NonNull ProcessCameraProvider cameraProvider,
+                             PreviewView previewView) {
+        ...
+        CameraSelector cameraSelector = isBack ? CameraSelector.DEFAULT_BACK_CAMERA
+                : CameraSelector.DEFAULT_FRONT_CAMERA;
+        // 绑定前确保解除了所有绑定，防止CameraProvider重复绑定到Lifecycle发生异常
+        cameraProvider.unbindAll(); 
+        mCamera = cameraProvider.bindToLifecycle(this, cameraSelector, mPreview);
+        ...
+    }
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/3e081bc2ff2a3089d99a8a4c91a92ef6.png" alt="镜头切换" loading="lazy"></p>
+<h5 id="镜头聚焦">镜头聚焦</h5>
+<p>无法聚焦的拍摄是不完整的，我们监听<code>Preview</code>的触摸事件将触摸坐标告知<code>CameraX</code>开始聚焦。</p>
+<pre><code>    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        ...
+        binding.previewView.setOnTouchListener((v, event) -&gt; {
+            FocusMeteringAction action = new FocusMeteringAction.Builder(
+                    binding.previewView.getMeteringPointFactory()
+                            .createPoint(event.getX(), event.getY())).build();
+            try {
+                showTapView((int) event.getX(), (int) event.getY());
+                mCamera.getCameraControl().startFocusAndMetering(action);
+            }...
+        });
+    }
+
+    private void showTapView(int x, int y) {
+        PopupWindow popupWindow = new PopupWindow(ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        ImageView imageView = new ImageView(this);
+        imageView.setImageResource(R.drawable.ic_focus_view);
+        popupWindow.setContentView(imageView);
+        popupWindow.showAsDropDown(binding.previewView, x, y);
+        binding.previewView.postDelayed(popupWindow::dismiss, 600);
+        binding.previewView.playSoundEffect(SoundEffectConstants.CLICK);
+    }
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/cc45aad0d9a6effbda24e95b866d2a05.png" alt="镜头聚焦" loading="lazy"></p>
+<p>除了图像预览以外还有很多其他使用场景，比如图像拍摄，图像分析和视频录制。<code>CameraX</code>将这些使用场景统一抽象为<code>UseCase</code>，它有四个子类，分别为<code>Preview</code>，<code>ImageCapture</code>，<code>ImageAnalysis</code>和<code>VideoCapture</code>。接下来介绍下它们如何使用。</p>
+<h4 id="图像拍摄">图像拍摄</h4>
+<p>借助<code>ImageCapture</code>提供的<code>takePicture()</code>可以将图像拍摄下来。支持保存到外部存储空间，当然需要获得<code>external storage</code>的读写权限。</p>
+<pre><code>    private void takenPictureInternal(boolean isExternal) {
+        final ContentValues contentValues = new ContentValues();
+        contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, CAPTURED_FILE_NAME
+                + "_" + picCount++);
+        contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg");
+
+        ImageCapture.OutputFileOptions outputFileOptions = 
+                new ImageCapture.OutputFileOptions.Builder(
+                        getContentResolver(),
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+                .build();
+        if (mImageCapture != null) {
+            mImageCapture.takePicture(outputFileOptions, CameraXExecutors.mainThreadExecutor(),
+                    new ImageCapture.OnImageSavedCallback() {
+                        @Override
+                        public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
+                            Toast.makeText(DemoActivityLite.this, "Picture got"
+                                    + (outputFileResults.getSavedUri() != null
+                                    ? " @ " + outputFileResults.getSavedUri().getPath()
+                                    : "") + ".", Toast.LENGTH_SHORT)
+                                    .show();
+                        }
+                        ...
+                    });
+        }
+    }
+
+    private void bindPreview(@NonNull ProcessCameraProvider cameraProvider,
+                             PreviewView previewView) {
+        ...
+        mImageCapture =  new ImageCapture.Builder()
+                .setTargetRotation(previewView.getDisplay().getRotation())
+                .build();
+        ...
+        // 需要将ImageCapture场景一并绑定
+        mCamera = cameraProvider.bindToLifecycle(this, cameraSelector, mPreview, mImageCapture);
+        ...
+    }
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/66d5df7af127b6f1673a748ba0ef7e65.png" alt="图像拍摄" loading="lazy"></p>
+<h4 id="图像分析">图像分析</h4>
+<p>图像分析指的是对预览的图像实时分析，将色彩，内容等信息识别出来，应用在<code>机器学习</code>，<code>二维码识别</code>等业务场景。继续对demo做些改造，添加扫描二维码的按钮。点击按钮后进入扫码模式，并在二维码解析成功后弹出解析结果。</p>
+<pre><code>    public void onAnalyzeGo(View view) {
+        if (!isAnalyzing) {
+            mImageAnalysis.setAnalyzer(CameraXExecutors.mainThreadExecutor(), image -&gt; {
+               analyzeQRCode(image);
+            });
+        }
+        ...
+    }
+
+    // 从ImageProxy取出图像数据，交由二维码框架zxing解析
+    private void analyzeQRCode(@NonNull ImageProxy imageProxy) {
+        ByteBuffer byteBuffer = imageProxy.getPlanes()[0].getBuffer();
+        byte[] data = new byte[byteBuffer.remaining()];
+        byteBuffer.get(data);
+        ...
+        BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
+        Result result;
+        try {
+            result = multiFormatReader.decode(bitmap);
+        }
+        ...
+        showQRCodeResult(result);
+        imageProxy.close();
+    }
+
+    private void showQRCodeResult(@Nullable Result result) {
+        if (binding != null &amp;&amp; binding.qrCodeResult != null) {
+            binding.qrCodeResult.post(() -&gt;
+                    binding.qrCodeResult.setText(result != null ? "Link:\n" + result.getText() : ""));
+            binding.qrCodeResult.playSoundEffect(SoundEffectConstants.CLICK);
+        }
+    }
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/7889f87cec2a62f1fd2dc9d10c62512d.png" alt="图像分析" loading="lazy"></p>
+<h4 id="视频录制">视频录制</h4>
+<p>依托<code>VideoCapture</code>的<code>startRecording()</code>可以进行视频录制。在demo上添加一个图像拍摄和视频录制模式的切换按钮，切换到视频录制模式的时候将视频拍摄的<code>UseCase</code>綁定到<code>CameraProvider</code>。</p>
+<pre><code>    public void onVideoGo(View view) {
+        bindPreview(mCameraProvider, binding.previewView, isVideoMode);
+    }
+
+    private void bindPreview(@NonNull ProcessCameraProvider cameraProvider,
+                             PreviewView previewView, boolean isVideo) {
+        ...
+        mVideoCapture = new VideoCapture.Builder()
+                .setTargetRotation(previewView.getDisplay().getRotation())
+                .setVideoFrameRate(25)
+                .setBitRate(3 * 1024 * 1024)
+                .build();
+        cameraProvider.unbindAll();
+        if (isVideo) {
+            mCamera = cameraProvider.bindToLifecycle(this, cameraSelector,
+                    mPreview, mVideoCapture);
+        } else {
+            mCamera = cameraProvider.bindToLifecycle(this, cameraSelector,
+                    mPreview, mImageCapture, mImageAnalysis);
+        }
+        mPreview.setSurfaceProvider(previewView.getSurfaceProvider());
+    }
+</code></pre>
+<p>点击录制按钮后首先确保获得外部存储和<code>audio</code>权限，之后再开始视频的录制。</p>
+<pre><code>    public void onCaptureGo(View view) {
+        if (isVideoMode) {
+            if (!isRecording) {
+                // Check permission first.
+                ensureAudioStoragePermission(REQUEST_STORAGE_VIDEO);
+            }
+        }
+        ...
+    }
+
+    private void ensureAudioStoragePermission(int requestId) {
+        ...
+        if (requestId == REQUEST_STORAGE_VIDEO) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED
+                    || ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(...);
+                return;
+            }
+            recordVideo();
+        }
+    }
+
+    private void recordVideo() {
+       try {
+            mVideoCapture.startRecording(
+                    new VideoCapture.OutputFileOptions.Builder(getContentResolver(),
+                            MediaStore.Video.Media.EXTERNAL_CONTENT_URI, contentValues)
+                            .build(),
+                    CameraXExecutors.mainThreadExecutor(),
+                    new VideoCapture.OnVideoSavedCallback() {
+                        @Override
+                        public void onVideoSaved(@NonNull VideoCapture.OutputFileResults outputFileResults) {
+                            // Notify user...
+                        }
+                    }
+            );
+        } 
+        ...
+        toggleRecordingStatus();
+    }
+
+    private void toggleRecordingStatus() {
+        // Stop recording when toggle to false.
+        if (!isRecording &amp;&amp; mVideoCapture != null) {
+            mVideoCapture.stopRecording();
+        }
+    }
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/f2f8e28156f65fcab7ff11c7354e5bd8.png" alt="" loading="lazy"></p>
+<h5 id="小插曲">小插曲</h5>
+<p>实现视频录制功能的时候发现一个问题。</p>
+<p>点击视频录制按钮的时候，如果此刻尚未获得<code>audio</code>权限，那么将申请该权限。即便此后获得了权限调用拍摄接口仍将发生异常。日志显示<code>AudioRecorder</code>实例为null引发了<code>NPE</code>。</p>
+<p>仔细查看相关逻辑发现，demo现在的处理是在切换为视频录制模式的时候，就将<code>VideoCapture</code>绑定到了<code>CameraProvider</code>。这个时间点如果还未获得<code>audio</code>权限的话，那么将无法初始化<code>AudioRecorder</code>。其实日志里也会给出相应提示：<code>VideoCapture: AudioRecord object cannot initialized correctly</code>。</p>
+<p>可是后面获得了权限再去调用<code>VideoCapture</code>的拍摄接口为何还是会发生<code>NPE</code>?</p>
+<p>因为拍摄接口<code>startRecording()</code>的内部处理是<code>AudioRecorder</code>实例为null的话将直接终止请求。后面无论调用多少遍也无济于事。事实上该函数的后段存在再次获取<code>AudioRecorder</code>实例的逻辑，但因为前面发生了<code>NPE</code>而没有机会执行。</p>
+<pre><code>    // VideoCapture.java
+    public void startRecording(
+            @NonNull OutputFileOptions outputFileOptions, @NonNull Executor executor,
+            @NonNull OnVideoSavedCallback callback) {
+        ...
+        try {
+            // mAudioRecorder为null将引发NPE终止录制的请求
+            mAudioRecorder.startRecording();
+        } catch (IllegalStateException e) {
+            postListener.onError(ERROR_ENCODER, "AudioRecorder start fail", e);
+            return;
+        }
+
+        ...
+        mRecordingFuture.addListener(() -&gt; {
+            ...
+            if (getCamera() != null) {
+                // 前面发生了NPE,那么将失去此处再次获得AudioRecorder实例的机会
+                setupEncoder(getCameraId(), getAttachedSurfaceResolution());
+                notifyReset();
+            }
+        }, CameraXExecutors.mainThreadExecutor());
+        ...
+    }
+</code></pre>
+<p>不知道这是<code>VideoCapture</code>实现上的漏洞还是开发者有意为之。但是在明明已经获得了<code>audio</code>权限的情况下调用录製接口却仍然发生<code>NPE</code>貌似并不合理。</p>
+<p>当下只能采取一些回避方案，或者说开发者本该就这么做？</p>
+<p>现在是在获得了<code>audio</code>权限前执行了<code>VideoCapture</code>的绑定，这存在发生上述反复<code>NPE</code>的可能。所以改成获得<code>audio</code>权限后再绑定<code>VideoCapture</code>即可回避。</p>
+<p>话说回来，在<code>VideoCaptue</code>的文档里加上需要获得<code>audio</code>的权限的说明是不是更好一些呢？</p>
+<h4 id="相机效果扩展">相机效果扩展</h4>
+<p>光有上述几个场景的使用并不能满足日益丰富的拍摄需求，<code>人像</code>，<code>夜拍</code>，<code>美颜</code>等相机效果是必不可少的。幸好<code>CameraX</code>是支持效果扩展的。但不是所有设备都能兼容这种扩展，具体可在官网的设备兼容列表里查询到。</p>
+<p>可供扩展的效果主要分为两大类，一个是用于图像预览时效果扩展的<code>PreviewExtender</code>，另一个是用于图像拍摄时效果扩展的<code>ImageCaptureExtender</code>。</p>
+<p>每个大类都包含几个典型的效果。</p>
+<ul>
+<li>NightPreviewExtender <strong>夜拍预览</strong></li>
+<li>BokehPreviewExtender　<strong>人像预览</strong></li>
+<li>BeautyPreviewExtender <strong>美顔预览</strong></li>
+<li>HdrPreviewExtender <strong>HDR预览</strong></li>
+<li>AutoPreviewExtender <strong>自动预览</strong></li>
+</ul>
+<p>开启这些效果的实现也非常简单。</p>
+<pre><code>    private void bindPreview(@NonNull ProcessCameraProvider cameraProvider,
+                             PreviewView previewView, boolean isVideo) {
+        Preview.Builder previewBuilder = new Preview.Builder();
+        ImageCapture.Builder captureBuilder = new ImageCapture.Builder()
+                .setTargetRotation(previewView.getDisplay().getRotation());
+        ...
+        setPreviewExtender(previewBuilder, cameraSelector);
+        mPreview = previewBuilder.build();
+
+        setCaptureExtender(captureBuilder, cameraSelector);
+        mImageCapture =  captureBuilder.build();
+        ...
+    }
+
+    private void setPreviewExtender(Preview.Builder builder, CameraSelector cameraSelector) {
+        BeautyPreviewExtender beautyPreviewExtender = BeautyPreviewExtender.create(builder);
+        if (beautyPreviewExtender.isExtensionAvailable(cameraSelector)) {
+            // Enable the extension if available.
+            beautyPreviewExtender.enableExtension(cameraSelector);
+        }
+    }
+
+    private void setCaptureExtender(ImageCapture.Builder builder, CameraSelector cameraSelector) {
+        NightImageCaptureExtender nightImageCaptureExtender = NightImageCaptureExtender.create(builder);
+        if (nightImageCaptureExtender.isExtensionAvailable(cameraSelector)) {
+            // Enable the extension if available.
+            nightImageCaptureExtender.enableExtension(cameraSelector);
+        }
+    }
+</code></pre>
+<p>遗憾的是笔者手中的<code>Redmi 6A</code>不在支持<code>OEM</code>效果扩展的设备列表里，无法给大家展示成功扩展效果的样图。</p>
+<h4 id="高阶用法">高阶用法</h4>
+<p>除了上述常见相机使用场景外还有其他可选的配置方法。篇幅限制不再详细展开，感兴趣者可参考官网进行尝试。</p>
+<ul>
+<li><strong>转换输出</strong> <code>CameraX</code>支持将图像数据进行转换后输出，比如应用于<code>人像识别</code>后绘制人脸框图</li>
+</ul>
+<p><a href="https://developer.android.google.cn/training/camerax/transform-output?hl=zh-cn" target="_blank">developer.android.google.cn/training/ca…</a></p>
+<ul>
+<li><strong>用例旋转</strong> 图像拍摄和分析的过程中屏幕可能发生旋转，学习如何配置使得<code>CameraX</code>能够实时获取到屏幕方向和旋转角度，以抓取到正确的图像</li>
+</ul>
+<p><a href="https://developer.android.google.cn/training/camerax/orientation-rotation?hl=zh-cn" target="_blank">developer.android.google.cn/training/ca…</a></p>
+<ul>
+<li><strong>配置选项</strong> 控制分辨率，自动对焦，取景框形状设置等配置的指导</li>
+</ul>
+<p><a href="https://developer.android.google.cn/training/camerax/configuration?hl=zh-cn" target="_blank">developer.android.google.cn/training/ca…</a></p>
+<h4 id="使用注意">使用注意</h4>
+<ol>
+<li>
+<p>调用<code>CameraProvider</code>的<code>bindToLifecycle()</code>前记得先调用<code>unbindAll()</code>，否则可能发生重复绑定的<code>exception</code></p>
+</li>
+<li>
+<p><code>ImageAnalyzer</code>的<code>analyze()</code>在分析完图片之后应立即调用<code>ImageProxy</code>的<code>close()</code>释放图像，以便后续图像能继续传送过来。否则将阻塞回调。因而也要注意分析图像的耗时问题</p>
+</li>
+<li>
+<p>每个<code>ImageProxy</code>实例在关闭后不要存储它的引用，因为一旦调用<code>close()</code>，这些图像将变得不合法</p>
+</li>
+<li>
+<p>图像分析结束后应当调用<code>ImageAnalysis</code>的<code>clearAnalyzer()</code>以告知不用将图像流传输过来避免性能的浪费</p>
+</li>
+<li>
+<p>视频录制场景<strong>一定不要</strong>忘记获得<code>audio</code>权限</p>
+</li>
+</ol>
+<h2 id="有趣的兼容性处理">有趣的兼容性处理</h2>
+<p>实现图像拍摄功能的时候发现<code>ImageCapture</code>的<code>takePicture()</code>文档里写着这么一段有趣的注释。</p>
+<blockquote>
+<p>Before triggering the image capture pipeline, if the save location is a File or MediaStore, it is first verified to ensure it's valid and writable.</p>
+</blockquote>
+<blockquote>
+<p>A File is verified by attempting to open a FileOutputStream to it, whereas a location in MediaStore is validated by ContentResolver#insert() creating a new row in the user defined table, retrieving a Uri pointing to it, then attempting to open an OutputStream to it. The newly created row is ContentResolver#delete() deleted at the end of the verification.</p>
+</blockquote>
+<blockquote>
+<p>On Huawei devices, this deletion results in the system displaying a notification informing the user that a photo has been deleted. In order to avoid this, validating the image capture save location in MediaStore is skipped on Huawei devices.</p>
+</blockquote>
+<p>大意是拍摄保存的<code>Uri</code>为<code>MediaStore</code>的话，将插入一行以验证保存路径是否合法并可写。验证结束后会删除该测试行。</p>
+<p>但是在<code>Huawei</code>设备上删除行的操作将触发一条删除照片的通知。所以为避免困扰用户，<code>CameraX</code>将会在<code>Huawei</code>设备上跳过路径的验证。</p>
+<pre><code>class ImageSaveLocationValidator {
+	// 将判断设备品牌是否为华为或荣耀，是则直接跳过验证
+    static boolean isValid(final @NonNull ImageCapture.OutputFileOptions outputFileOptions) {
+        ...
+        if (isSaveToMediaStore(outputFileOptions)) {
+            // Skip verification on Huawei devices
+            final HuaweiMediaStoreLocationValidationQuirk huaweiQuirk =
+                    DeviceQuirks.get(HuaweiMediaStoreLocationValidationQuirk.class);
+            if (huaweiQuirk != null) {
+                return huaweiQuirk.canSaveToMediaStore();
+            }
+
+            return canSaveToMediaStore(outputFileOptions.getContentResolver(),
+                    outputFileOptions.getSaveCollection(), outputFileOptions.getContentValues());
+        }
+        return true;
+    }
+    ...
+}
+
+public class HuaweiMediaStoreLocationValidationQuirk implements Quirk {
+    static boolean load() {
+        return "HUAWEI".equals(Build.BRAND.toUpperCase())
+                || "HONOR".equals(Build.BRAND.toUpperCase());
+    }
+
+    /**
+     * Always skip checking if the image capture save destination in
+     * {@link android.provider.MediaStore} is valid.
+     */
+    public boolean canSaveToMediaStore() {
+        return true;
+    }
+}
+</code></pre>
+<h2 id="camerax的优势">CameraX的优势</h2>
+<p>源于<code>CameraX</code>在<code>Camera2</code>的基础上进行了高度的封裝和对大量设备进行了兼容性的处理，使得<code>CameraX</code>拥有了很多优势。</p>
+<ul>
+<li><strong>易用性</strong> 采用封装的API可以高效达到目标</li>
+<li><strong>设备一致性</strong> 不用在乎版本，忽略设备硬件差异带来的开发区别，达到一致的开发体验</li>
+<li><strong>新的相机体验</strong> 通过效果扩展可以实现和原生相机一样的美颜等拍摄功能</li>
+</ul>
+<h2 id="本文demo">本文demo</h2>
+<p>demo的源码已经开源至<code>Github</code>，大家可以查阅参考。</p>
+<p><a href="https://github.com/ellisonchan/JetpackDemo" target="_blank">github.com/ellisonchan…</a></p>
+<h2 id="结语">结语</h2>
+<p><code>CameraX</code>发布于<strong>2019年8月7日</strong>，从alpha版到现在的beta版，一直在更新。从上面有趣的Huawei设备兼容性处理可以看到<code>CameraX</code>一统江湖的决心。</p>
+<p>最新仍是beta版，需要继续改进，但并非不能投入生产环境。</p>
+<p>这么好用的框架，大家要多多使用并给出建议，这样才能越来越完善，才能给开发者给用户带来福音。</p>
+<h2 id="参考资料">参考资料</h2>
+<ul>
+<li><code>CameraX</code>使用指南：<a href="https://developer.android.google.cn/training/camerax?hl=zh-cn" target="_blank">developer.android.google.cn/training/ca…</a></li>
+<li><code>CameraX</code>的历史版本：<a href="https://developer.android.google.cn/jetpack/androidx/releases/camera?hl=zh-cn" target="_blank">developer.android.google.cn/jetpack/and…</a></li>
+<li><code>CameraX</code>的兼容和效果扩展支持的设备：<a href="https://developer.android.google.cn/training/camerax/devices?hl=zh-cn" target="_blank">developer.android.google.cn/training/ca…</a></li>
+<li><code>CameraX</code>的官方示例：<a href="https://github.com/android/camera-samples/tree/main/CameraXBasic" target="_blank">github.com/android/cam…</a></li>
+</ul>
+<h1 id="视频讲解">视频讲解</h1>
+<p><strong>CameraX与手机屏幕采集、CameraX与摄像头数据采集</strong></p>
+<p>B站：<a href="https://www.bilibili.com/video/BV1kp4y187C7?p=20" target="_blank">https://www.bilibili.com/video/BV1kp4y187C7?p=20</a></p>
+<p>百度云盘视频下载：<br>
+链接：<a href="https://pan.baidu.com/s/1RtvX1Zea6CuJNUJo2iOtHw" target="_blank">https://pan.baidu.com/s/1RtvX1Zea6CuJNUJo2iOtHw</a><br>
+提取码：k3qp</p>
+
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2021-05-07 22:18</span>&nbsp;
+<a href="https://www.cnblogs.com/button123/">Button123</a>&nbsp;
+阅读(<span id="post_view_count">0</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14742909" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14742909);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 619693, cb_blogApp = 'button123', cb_blogUserGuid = 'ee48f2c9-4684-4c53-d6a2-08d82d4186a8';
+    var cb_entryId = 14742909, cb_entryCreatedDate = '2021-05-07 22:18', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 Button123
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjst12y0fIFfas4JqkjLN7YRyL2-ofoZKiow5rRvRSLx5Xx-7jIBGrolx7-LH_22vqqvIAzbuWmZ96ddIFOr-uYMN4A-ULD9fgLG0DfweaZlj9QRUlVE9nCt7fnQqN4tPbE" />
+</body>
+</html>

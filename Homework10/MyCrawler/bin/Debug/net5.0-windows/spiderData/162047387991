@@ -1,0 +1,731 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    
+    
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>流星斩月 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/darkgreentrip/bundle-darkgreentrip.min.css?v=eoZATbPKwJCL5eWVDTQIYC6CIxJPcFz191dkzN2tSyQ" />
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/iFrank/custom.css?v=A2ff6e33&#x2B;mVQrM2qNzbZyKTZt/w=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/darkgreentrip/bundle-darkgreentrip-mobile.min.css?v=lU86o8mZVn3FOSdFt7nHKYTD8gzeKaiQIIZ6lSjEFyo" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/iFrank/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/iFrank/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/iFrank/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 661821;
+        var currentBlogApp = 'iFrank';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'darkgreentrip';
+        var visitorUserId = '';
+    </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="no-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="page_begin_html">
+        <script>loadPageBeginHtml();</script>
+    </div>
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/iFrank/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/iFrank/">流星斩月</a>
+</h1>
+<h2>欢迎转载，请注明文章出处
+大家也可关注我的微信公众号:流星斩月</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/iFrank/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E6%B5%81%E6%98%9F%E6%96%A9%E6%9C%88">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/iFrank/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+
+
+
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/iFrank/archive/2021/03/30.html">2021年3月30日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/iFrank/p/14598288.html">
+    <span>
+        printf打印(u8/.../int/.../float)各类型方法
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：给出打印格式： 给出定义类型： 1 /* bsd */ 2 typedef unsigned char u_char; 3 typedef unsigned short u_short; 4 typedef unsigned int u_int; 5 typedef unsigned long u_        <a href="https://www.cnblogs.com/iFrank/p/14598288.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-03-30 19:00
+流星斩月
+<span data-post-id="14598288" class="post-view-count">阅读(15)</span> 
+<span data-post-id="14598288" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14598288" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14598288" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/iFrank/archive/2021/03/27.html">2021年3月27日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/iFrank/p/14587524.html">
+    <span>
+        2021华为软件精英挑战赛（C/C++实现）-苦行僧的实现过程
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：下面给出2021华为软件精英挑战赛参与的整个过程，虽然成绩不是很好，但是也是花了一些时间的，希望后面多多学习，多多进步。 代码已经上传到了Github上：https://github.com/myFrank/huawei_test，代码给出了简易的虚拟机迁移思路和服务器初始化购买及服务器的扩容实现。        <a href="https://www.cnblogs.com/iFrank/p/14587524.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-03-27 23:52
+流星斩月
+<span data-post-id="14587524" class="post-view-count">阅读(309)</span> 
+<span data-post-id="14587524" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14587524" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14587524" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/iFrank/archive/2021/03/26.html">2021年3月26日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/iFrank/p/14580096.html">
+    <span>
+        Ubuntu20.04linux内核(5.4.0版本)编译准备与实现过程-编译过程（2）
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：前面因为博客园维修，所以内核编译过程一直没有发出来，现在把整个内核过程分享出来。本随笔给出内核的编译实现过程，在编译前需要参照我前面一篇随笔： Ubuntu20.04linux内核(5.4.0版本)编译准备与实现过程-编译前准备（1）&#160;：https://www.cnblogs.com/iFrank/        <a href="https://www.cnblogs.com/iFrank/p/14580096.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-03-26 12:40
+流星斩月
+<span data-post-id="14580096" class="post-view-count">阅读(390)</span> 
+<span data-post-id="14580096" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14580096" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14580096" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/iFrank/archive/2021/03/25.html">2021年3月25日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/iFrank/p/14556664.html">
+    <span>
+        Ubuntu20.04linux内核(5.4.0版本)编译准备与实现过程-编译前准备（1）
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：最近项目也和linux&#160;kernel技术有关，调试内核和内核模块、修改内核源码，是学习内核的重要技术手段之一。应用这些技术时，都有一本基本的要求，那就是编译内核。因此，在分析内核调试技术之前，本随笔给出内核的编译准备工作与具体实现过程。 开发环境 Ubuntu20.04 系统自带的内核版本：5.4.        <a href="https://www.cnblogs.com/iFrank/p/14556664.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-03-25 19:30
+流星斩月
+<span data-post-id="14556664" class="post-view-count">阅读(188)</span> 
+<span data-post-id="14556664" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14556664" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14556664" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/iFrank/archive/2021/03/15.html">2021年3月15日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/iFrank/p/14540137.html">
+    <span>
+        Linux内核模块驱动加载与dmesg调试
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：因为近期用到了Linux内核的相关知识，下面随笔将给出内核模块的编写记录，供大家参考。 1、运行环境 Ubuntu&#160;版本：20.04 Linux内核版本：5.4.0-42-generic gcc版本：gcc version 9.3.0 驱动和一般应用程序的执行方式很大不同 2、内核模块模型说明 （1        <a href="https://www.cnblogs.com/iFrank/p/14540137.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-03-15 21:38
+流星斩月
+<span data-post-id="14540137" class="post-view-count">阅读(158)</span> 
+<span data-post-id="14540137" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14540137" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14540137" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/iFrank/archive/2021/02/28.html">2021年2月28日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/iFrank/p/14459232.html">
+    <span>
+        Linux ctrl+z挂起的进程恢复与杀死
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：Linux系统下，不小心按了ctrl+z命令后，退出了当前进程的执行界面，程序没有结束，只是被挂起了。通过ps命令可以查看进程信息，这里不做详细介绍，可通过jobs命令查看被挂起的进程号 #jobs ，通过fg命令可以恢复进程到前台执行、bg命令恢复进程到后台执行。 示例： /mnt/mpp/sam        <a href="https://www.cnblogs.com/iFrank/p/14459232.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-02-28 15:45
+流星斩月
+<span data-post-id="14459232" class="post-view-count">阅读(93)</span> 
+<span data-post-id="14459232" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14459232" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14459232" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+            <div class="postSeparator"></div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/iFrank/p/14458544.html">
+    <span>
+        块设备文件与文件系统之间的关系解析
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：下面随笔给出块设备文件与文件系统之间的关系解析。 Linux操作系统秉承“一切皆文件”的设计思想，将所有的设备页看作文件来进行处理。目前的Linux版本中，当内核发现一个块设备时，用户空间会利用udev这一数据结构以及相关的操作来为块设备创建其所需的块设备文件。 关于块设备文件，可以从两方面来进行理        <a href="https://www.cnblogs.com/iFrank/p/14458544.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-02-28 11:51
+流星斩月
+<span data-post-id="14458544" class="post-view-count">阅读(47)</span> 
+<span data-post-id="14458544" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14458544" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14458544" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/iFrank/archive/2021/02/25.html">2021年2月25日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/iFrank/p/14447762.html">
+    <span>
+        c++ string类使用及用string类解决整行字符串输入
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：下面随笔给出c++ string类使用及用string类解决整行字符串输入。 string类 使用字符串类string表示字符串 string实际上是对字符数组操作的封装 string类常用的构造函数 string(); //默认构造函数，建立一个长度为0的串 例： string s1; strin        <a href="https://www.cnblogs.com/iFrank/p/14447762.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-02-25 16:39
+流星斩月
+<span data-post-id="14447762" class="post-view-count">阅读(39)</span> 
+<span data-post-id="14447762" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14447762" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14447762" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+            <div class="postSeparator"></div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/iFrank/p/14447306.html">
+    <span>
+        c++移动构造
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：下面随笔给出c++移动构造。 在现实中有很多这样的例子，我们将钱从一个账号转移到另一个账号，将手机SIM卡转移到另一台手机，将文件从一个位置剪切到另一个位置……移动构造可以减少不必要的复制，带来性能上的提升。 C++11标准中提供了一种新的构造方法——移动构造。 C++11之前，如果要将源对象的状态        <a href="https://www.cnblogs.com/iFrank/p/14447306.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-02-25 15:44
+流星斩月
+<span data-post-id="14447306" class="post-view-count">阅读(60)</span> 
+<span data-post-id="14447306" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14447306" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14447306" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+            <div class="postSeparator"></div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/iFrank/p/14447109.html">
+    <span>
+        c++中深层复制（浅层复制运行错误）成功运行-----sample
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：下面随笔给出c++中深层复制（浅层复制运行错误）成功运行 sample。 浅层复制与深层复制 浅层复制 实现对象间数据元素的一一对应复制。 深层复制 当被复制的对象数据成员是指针类型时，不是复制该指针成员本身，而是将指针所指对象进行复制。 浅层复制-系统默认复制构造函数（运行错误） 1 //例 对象        <a href="https://www.cnblogs.com/iFrank/p/14447109.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-02-25 15:17
+流星斩月
+<span data-post-id="14447109" class="post-view-count">阅读(16)</span> 
+<span data-post-id="14447109" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14447109" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14447109" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+
+<div class="topicListFooter">
+    <div id="nav_next_page">
+        
+    <a href="https://www.cnblogs.com/iFrank/default.html?page=2">
+        下一页
+    </a>
+
+    </div>    
+</div>
+
+
+
+
+
+
+<script>
+    updatePostStats(
+        $(".post-view-count").map(function () { return this.dataset.postId }).get(),
+        function(id, count) { $(".post-view-count[data-post-id=" + id + "]").text("阅读(" + count + ")") },
+        function(id, count) { $(".post-comment-count[data-post-id=" + id + "]").text("评论(" + count + ")") },
+        function(id, count) { $(".post-digg-count[data-post-id=" + id + "]").text("推荐(" + count + ")") });
+</script>
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 流星斩月
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    <div id="page_end_html">
+        <!-- 小火箭-->
+<script src="https://blog-static.cnblogs.com/files/pythonywy/jQuery1.7.js"></script>
+<style type="text/css">
+
+    /*回到顶部*/
+    #rocket-to-top div {
+        left: 0;
+        margin: 0;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        top: 0;
+        width: 149px;
+    }
+
+    #rocket-to-top .level-2 {
+        background: url("https://images.cnblogs.com/cnblogs_com/pythonywy/1455951/o_redhuojian2.png") no-repeat scroll -149px 0 transparent;
+        display: none;
+        height: 250px;
+        opacity: 0;
+        z-index: 1;
+    }
+
+    #rocket-to-top .level-3 {
+        background: none repeat scroll 0 0 transparent;
+        display: block;
+        height: 150px;
+        z-index: 2;
+    }
+
+    #rocket-to-top .level-3:hover {
+        cursor: url(https://images.cnblogs.com/cnblogs_com/pythonywy/1516412/o_huo3.png), auto;
+    }
+
+    #rocket-to-top .level-3:active {
+        cursor: url(https://images.cnblogs.com/cnblogs_com/pythonywy/1516412/o_huo1.png), auto;
+    }
+
+    #rocket-to-top .level-3:focus {
+        cursor: url(https://images.cnblogs.com/cnblogs_com/pythonywy/1516412/o_huo2.png), auto;
+    }
+
+    #rocket-to-top {
+        background: url("https://images.cnblogs.com/cnblogs_com/pythonywy/1455951/o_redhuojian2.png") no-repeat scroll 0 0 transparent;
+        cursor: default;
+        display: block;
+        height: 250px;
+        margin: -125px 0 0;
+        overflow: hidden;
+        padding: 0;
+        position: fixed;
+        left: -40px;
+        top: 90%;
+        width: 149px;
+        z-index: 11;
+    }
+</style>
+<div style="display: none;" id="rocket-to-top">
+    <div style="opacity:0;display: block;" class="level-2"></div>
+    <div class="level-3"></div>
+</div>
+<script>
+    $(function () {
+        var e = $("#rocket-to-top"),
+            t = $(document).scrollTop(),
+            n,
+            r,
+            i = !0;
+        $(window).scroll(function () {
+            var t = $(document).scrollTop();
+            t == 0 ? e.css("background-position") == "0px 0px" ? e.fadeOut("slow") : i && (i = !1, $(".level-2").css("opacity", 1), e.delay(100).animate({
+                    marginTop: "-1000px"
+                },
+                "normal",
+                function () {
+                    e.css({
+                        "margin-top": "-125px",
+                        display: "none"
+                    }),
+                        i = !0
+                })) : e.fadeIn("slow")
+        }),
+            e.hover(function () {
+                    $(".level-2").stop(!0).animate({
+                        opacity: 1
+                    })
+                },
+                function () {
+                    $(".level-2").stop(!0).animate({
+                        opacity: 0
+                    })
+                }),
+            $(".level-3").click(function () {
+                function t() {
+                    var t = e.css("background-position");
+                    if (e.css("display") == "none" || i == 0) {
+                        clearInterval(n),
+                            e.css("background-position", "0px 0px");
+                        e.css("cursor", "url(https://images.cnblogs.com/cnblogs_com/pythonywy/1516412/o_huo1.png), auto");
+                        return
+                    }
+                    switch (t) {
+                        case "0px 0px":
+                            e.css("background-position", "-298px 0px");
+                            break;
+                        case "-298px 0px":
+                            e.css("background-position", "-447px 0px");
+                            break;
+                        case "-447px 0px":
+                            e.css("background-position", "-596px 0px");
+                            break;
+                        case "-596px 0px":
+                            e.css("background-position", "-745px 0px");
+                            break;
+                        case "-745px 0px":
+                            e.css("background-position", "-298px 0px");
+                    }
+                }
+
+                if (!i) return;
+                n = setInterval(t, 50),
+                    $("html,body").animate({scrollTop: 0}, "slow");
+            });
+    });
+</script>
+
+
+
+
+    </div>
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjvd2fQiB9K3uGcspMM8h91Ey1iftZ-yv0oevT9Gn1GnRfcxR79YWz8E1t_k3rMPAyy3hGZ1aBOyIdTAt-j96zmO5MIdl882znvNGJox2kcNUAl7R0aTkp-OFNwsCPoW7sA" />
+</body>
+</html>

@@ -1,0 +1,501 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="never" />
+    <meta name="description" content="一：背景 1. 讲故事 上个月有个老朋友找到我，说他的站点晚高峰 CPU 会突然爆高，发了两份 dump 文件过来，如下图： 又是经典的 CPU 爆高问题，到目前为止，对这种我还是有一些经验可循的。 " />
+    <meta property="og:description" content="一：背景 1. 讲故事 上个月有个老朋友找到我，说他的站点晚高峰 CPU 会突然爆高，发了两份 dump 文件过来，如下图： 又是经典的 CPU 爆高问题，到目前为止，对这种我还是有一些经验可循的。 " />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>记一次 .NET游戏站程序的 CPU 爆高分析 - 一线码农 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/imetro_hd/bundle-imetro_hd.min.css?v=FftQhR2MvKTGGXxV0VXlcGGt4XBM0_1XGJmu6kYD9bg" />
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/huangxincheng/custom.css?v=SdYXO/puoNgM6b4X1hctiyD8/bs=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/imetro_hd/bundle-imetro_hd-mobile.min.css?v=t8lZrYXGRE8kAD_d-besbRXwkXSQmMprnkoJVYlZl-g" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/huangxincheng/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/huangxincheng/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/huangxincheng/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 85195;
+        var currentBlogApp = 'huangxincheng';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'iMetro_HD';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-04-21 09:34';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="no-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/huangxincheng/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/huangxincheng/"></a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/huangxincheng/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E4%B8%80%E7%BA%BF%E7%A0%81%E5%86%9C">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/huangxincheng/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/huangxincheng/p/14683890.html">
+    <span>记一次 .NET游戏站程序的 CPU 爆高分析</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+<h2 id="一：背景">一：背景</h2>
+<h3 id="1-讲故事">1. 讲故事</h3>
+<p>上个月有个老朋友找到我，说他的站点晚高峰 CPU 会突然爆高，发了两份 dump 文件过来，如下图：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4e1d02c675e94c9292bed48e3d52b571~tplv-k3u1fbpfcp-zoom-1.image" alt="" loading="lazy"></p>
+<p>又是经典的 CPU 爆高问题，到目前为止，对这种我还是有一些经验可循的。</p>
+<ul>
+<li>抓 2-3 个 dump</li>
+</ul>
+<p>第一个：有利于算两份 dump 中的线程时间差，从而推算最耗时线程。</p>
+<p>第二个：有时候你抓的dump刚好线程都处理完了，cpu 还未真实回落，所以分析这种dump意义不大，我是吃了不少亏😂😂😂。</p>
+<ul>
+<li>优先推测是否为 GC 捣鬼</li>
+</ul>
+<p>现在的码农都精怪精怪的，基本不会傻傻的写出个死循环，绝大部分都是遇到某种 <code>资源密集型</code> 或 <code>计算密集型</code> 场景下导致非托管的 GC 出了问题。</p>
+<p>好了，有了这个先入为主的思路，接下来就可以用 windbg 去占卜了。</p>
+<h2 id="二：-windbg-分析">二： windbg 分析</h2>
+<h3 id="1-gc-捣鬼分析">1. GC 捣鬼分析</h3>
+<p>GC 捣鬼的本质是 GC 出现了回收压力，尤其是对 <code>大对象堆</code> 的分配和释放，大家应该知道 <code>大对象堆</code> 采用的是链式管理法，不到万不得已 GC 都不敢回收它，所以在它上面的分配和释放都是一种 <code>CPU密集型</code> 操作，不信你可以去 <code>StackOverflow</code> 上搜搜 LOH 和 HighCPU 的关联关系😁😁😁。</p>
+<h3 id="2-使用-x-命令搜索">2. 使用 x 命令搜索</h3>
+<p>在 windbg 中有一个快捷命令 <code>x</code> ，可用于在非托管堆上检索指定关键词，检索之前先看看这个 dump 是什么 <code>Framework</code> 版本，决定用什么关键词。</p>
+<pre><code class="language-C#">
+0:050&gt; lmv
+start    end        module name
+00b80000 00b88000   w3wp       (pdb symbols)          c:\mysymbols\w3wp.pdb\0CED8B2D5CB84AEB91307A0CE6BF528A1\w3wp.pdb
+    Loaded symbol image file: w3wp.exe
+    Image path: C:\Windows\SysWOW64\inetsrv\w3wp.exe
+    Image name: w3wp.exe
+71510000 71cc0000   clr        (pdb symbols)          c:\mysymbols\clr.pdb\9B2B2A02EC2D43899F87AC20F11B82DF2\clr.pdb
+    Loaded symbol image file: clr.dll
+    Image path: C:\Windows\Microsoft.NET\Framework\v4.0.30319\clr.dll
+    Image name: clr.dll
+    Browse all global symbols  functions  data
+    Timestamp:        Thu Sep  3 03:30:58 2020 (5F4FF2F2)
+    CheckSum:         007AC92B
+    ImageSize:        007B0000
+    File version:     4.8.4261.0
+    Product version:  4.0.30319.0
+</code></pre>
+<p>从 <code>File version</code> 上可以看出当前是基于 <code>Net Framework 4.8</code> 的，好了，用 <code>x clr!SVR::gc_heap::trigger*</code> 看看有没有触发 gc 的操作。</p>
+<pre><code class="language-C#">
+0:050&gt; x clr!SVR::gc_heap::trigger*
+71930401          clr!SVR::gc_heap::trigger_ephemeral_gc (protected: int __thiscall SVR::gc_heap::trigger_ephemeral_gc(enum gc_reason))
+71665cf9          clr!SVR::gc_heap::trigger_gc_for_alloc (protected: void __thiscall SVR::gc_heap::trigger_gc_for_alloc(int,enum gc_reason,struct SVR::GCDebugSpinLock *,bool,enum SVR::msl_take_state))
+71930a08          clr!SVR::gc_heap::trigger_full_compact_gc (protected: int __thiscall SVR::gc_heap::trigger_full_compact_gc(enum gc_reason,enum oom_reason *,bool))
+
+</code></pre>
+<p>从输出信息看，gc 果然在高速运转，开心哈，接下来看一下是哪一个线程触发了gc，可以用 <code>!eestack</code> 把所有线程的托管和非托管堆栈打出来。</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/be7c55e115184da09dfd110f013dbc00~tplv-k3u1fbpfcp-zoom-1.image" alt="" loading="lazy"></p>
+<p>从图中可以看到当前 50 号线程的 <code>GetUserLoginGameMapIds()</code> 方法进行的大对象分配 <code>try_allocate_more_space</code> 触发了 <code>clr!SVR::gc_heap::trigger_gc_for_alloc</code> GC回收操作，最后 GC 通过 <code>clr!SVR::GCHeap::GarbageCollectGeneration</code> 进行回收，既然在回收，必然有很多线程正在卡死。</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e89e7d71e04a4ef3af6d3ad324d67ee4~tplv-k3u1fbpfcp-zoom-1.image" alt="" loading="lazy"></p>
+<p>接下来再看看有几个线程正在共同努力做多 <code>GetUserLoginGameMapIds()</code> 方法。</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a4cbb9cfbffb43318fc40abe377a1ecb~tplv-k3u1fbpfcp-zoom-1.image" alt="" loading="lazy"></p>
+<p>到这里基本就能确定是 gc 捣的鬼。接下来的兴趣点就是 <code>GetUserLoginGameMapIds()</code> 到底在干嘛？</p>
+<h3 id="3-分析-getuserlogingamemapids-方法">3. 分析 GetUserLoginGameMapIds() 方法</h3>
+<p>接下来把方法的源码导出来，使用 <code>!name2ee</code> 找到其所属 module，然后通过 <code>!savemodule</code> 导出该 module 的源码。</p>
+<pre><code class="language-C#">
+0:050&gt; !name2ee *!xxx.GetUserLoginGameMapIds
+Module:      1c870580
+Assembly:    xxx.dll
+Token:       0600000b
+MethodDesc:  1c877504
+Name:        xxx.GetUserLoginGameMapIds(xxx.GetUserLoginGameMapIdsDomainInput)
+JITTED Code Address: 1d5a2030
+0:050&gt; !savemodule  1c870580 E:\dumps\6.dll
+3 sections in file
+section 0 - VA=2000, VASize=112b8, FileAddr=200, FileSize=11400
+section 1 - VA=14000, VASize=3c8, FileAddr=11600, FileSize=400
+section 2 - VA=16000, VASize=c, FileAddr=11a00, FileSize=200
+
+</code></pre>
+<p>打开导出的 <code>6.dll</code>，为了最大保护隐私，我就把字段名隐藏一下， <code>GetUserLoginGameMapIds()</code> 大体逻辑如下。</p>
+<pre><code class="language-C#">
+public GetUserLoginGameMapIdsDomainOutput GetUserLoginGameMapIds(GetUserLoginGameMapIdsDomainInput input)
+{
+	List&lt;int&gt; xxxQueryable = this._xxxRepository.Getxxx();
+	List&lt;UserLoginGameEntity&gt; list = this._userLoginGameRepository.Where((UserLoginGameEntity u) =&gt; u.xxx == input.xxx, null, "").ToList&lt;UserLoginGameEntity&gt;();
+	List&lt;int&gt; userLoginGameMapIds = (from u in list select u.xxx).ToList&lt;int&gt;();
+	IEnumerable&lt;GetUserLoginGameMapIdsDomainOutput.GetUserLoginGameMapIdsDataDomainOutput&gt; source = (from mc in (from mc in this._mapCategoryRepository.AsQueryable().ToList&lt;MapCategoryEntity&gt;()
+	where userLoginGameMapIds.Any((int mid) =&gt; mid == mc.xxx) &amp;&amp; mapIdsQueryable.Any((int xxx) =&gt; xxx == mc.xxx)
+	select mc).ToList&lt;MapCategoryEntity&gt;()
+	join u in list on mc.xxx equals u.xxx
+	select new GetUserLoginGameMapIdsDomainOutput.GetUserLoginGameMapIdsDataDomainOutput
+	{
+		xxx = mc.xxx,
+		xxx = ((u != null) ? new DateTime?(u.xxx) : null).GetValueOrDefault(DateTime.Now)
+	} into d
+	group d by d.MapId).Select(delegate(IGrouping&lt;int, GetUserLoginGameMapIdsDomainOutput.GetUserLoginGameMapIdsDataDomainOutput&gt; g)
+	{
+		GetUserLoginGameMapIdsDomainOutput.GetUserLoginGameMapIdsDataDomainOutput getUserLoginGameMapIdsDataDomainOutput = new GetUserLoginGameMapIdsDomainOutput.GetUserLoginGameMapIdsDataDomainOutput();
+		getUserLoginGameMapIdsDataDomainOutput.xxx = g.Key;
+		getUserLoginGameMapIdsDataDomainOutput.xxx = g.Max((GetUserLoginGameMapIdsDomainOutput.GetUserLoginGameMapIdsDataDomainOutput v) =&gt; v.xxxx);
+		return getUserLoginGameMapIdsDataDomainOutput;
+	});
+	return new GetUserLoginGameMapIdsDomainOutput
+	{
+		Data = source.ToList&lt;GetUserLoginGameMapIdsDomainOutput.GetUserLoginGameMapIdsDataDomainOutput&gt;()
+	};
+}
+
+</code></pre>
+<p>看的出来，这是一段EF读取DB的复杂写法，朋友说这段代码涉及到了多张表的关联操作，算是一个 <code>资源密集型</code> 的方法。</p>
+<h3 id="4-到底持有什么大对象？">4. 到底持有什么大对象？</h3>
+<p>方法逻辑看完了，接下来看下 <code>GetUserLoginGameMapIds()</code> 方法到底分配了什么大对象触发了GC，可以探究下 50 线程的调用栈，使用 <code>!clrstack -a</code> 调出所有的 <code>参数 + 局部</code> 变量。</p>
+<pre><code class="language-C#">
+0:050&gt; !clrstack -a
+OS Thread Id: 0x11a0 (50)
+Child SP       IP Call Site
+2501d350 7743c0bc [HelperMethodFrame: 2501d350] 
+2501d3dc 704fbab5 System.Collections.Generic.List`1[[System.__Canon, mscorlib]].set_Capacity(Int32)
+    PARAMETERS:
+        this (&lt;CLR reg&gt;) = 0x08053f6c
+        value = &lt;no data&gt;
+    LOCALS:
+        &lt;no data&gt;
+
+2501d3ec 704fba62 System.Collections.Generic.List`1[[System.__Canon, mscorlib]].EnsureCapacity(Int32)
+    PARAMETERS:
+        this = &lt;no data&gt;
+        min = &lt;no data&gt;
+    LOCALS:
+        &lt;no data&gt;
+
+2501d3f8 70516799 System.Collections.Generic.List`1[[System.__Canon, mscorlib]].Add(System.__Canon)
+    PARAMETERS:
+        this (&lt;CLR reg&gt;) = 0x08053f6c
+        item (&lt;CLR reg&gt;) = 0x2d7b07bc
+    LOCALS:
+        &lt;no data&gt;
+
+</code></pre>
+<p>从调用栈上看，由于 EF 的读取逻辑需要向 <code>List</code> 中添加一条记录刚好触发了List的扩容机制，就是因为这个扩容导致了GC大对象分配。</p>
+<p>那怎么看呢? 很简单，先把 <code>this (&lt;CLR reg&gt;) = 0x08053f6c</code> 中地址拿出来do一下  <code>!do 0x08053f6c</code> 调出 List。</p>
+<pre><code class="language-C#">
+0:050&gt; !do 0x08053f6c
+Name:        System.Collections.Generic.List`1[[xxx.MapCategoryEntity, xxx.Entities]]
+MethodTable: 1e81eed0
+EEClass:     70219c7c
+Size:        24(0x18) bytes
+File:        C:\Windows\Microsoft.Net\assembly\GAC_32\mscorlib\v4.0_4.0.0.0__b77a5c561934e089\mscorlib.dll
+Fields:
+      MT    Field   Offset                 Type VT     Attr    Value Name
+701546bc  40018a0        4     System.__Canon[]  0 instance 168792c0 _items
+701142a8  40018a1        c         System.Int32  1 instance    32768 _size
+701142a8  40018a2       10         System.Int32  1 instance    32768 _version
+70112734  40018a3        8        System.Object  0 instance 00000000 _syncRoot
+701546bc  40018a4        4     System.__Canon[]  0   static  &lt;no information&gt;
+
+</code></pre>
+<p>上面的 <code>_size = 32768</code> 看到了吗？ 刚好是 <code>2的15次方</code>，由于再次新增必须要扩容，List 在底层需分配一个 <code>System.__Canon[65536]</code> 的数组来存储老内容，这个数组肯定大于 <code>85000byte</code> 这个大对象的界定值啦。</p>
+<p>如果有兴趣，你可以看下 List 的扩容机制。</p>
+<pre><code class="language-C#">
+// System.Collections.Generic.List&lt;T&gt;
+private void EnsureCapacity(int min)
+{
+	if (_items.Length &lt; min)
+	{
+		int num = (_items.Length == 0) ? 4 : (_items.Length * 2);
+		if ((uint)num &gt; 2146435071u)
+		{
+			num = 2146435071;
+		}
+		if (num &lt; min)
+		{
+			num = min;
+		}
+		Capacity = num;
+	}
+}
+
+public int Capacity
+{
+
+	get
+	{
+		return _items.Length;
+	}
+	set
+	{
+		if (value &lt; _size)
+		{
+			ThrowHelper.ThrowArgumentOutOfRangeException(ExceptionArgument.value, ExceptionResource.ArgumentOutOfRange_SmallCapacity);
+		}
+		if (value == _items.Length)
+		{
+			return;
+		}
+		if (value &gt; 0)
+		{
+			T[] array = new T[value];   //这里申请了一个 65536 大小的数组
+			if (_size &gt; 0)
+			{
+				Array.Copy(_items, 0, array, 0, _size);
+			}
+			_items = array;
+		}
+		else
+		{
+			_items = _emptyArray;
+		}
+	}
+}
+
+
+</code></pre>
+<h2 id="三：总结">三：总结</h2>
+<p>知道了前因后果之后，大概提三点优化建议。</p>
+<ul>
+<li>
+<p>优化 <code>GetUserLoginGameMapIds()</code> 方法中的逻辑，这是最好的办法。</p>
+</li>
+<li>
+<p>从 dump 上看也就 <code>4核4G</code> 的小机器，提升下机器配置，或许有点用。</p>
+</li>
+</ul>
+<pre><code class="language-C#">
+0:017&gt; !cpuid
+CP  F/M/S  Manufacturer     MHz
+ 0  6,63,2  GenuineIntel    2295
+ 1  6,63,2  GenuineIntel    2295
+ 2  6,63,2  GenuineIntel    2295
+ 3  6,63,2  GenuineIntel    2295
+
+ 0:017&gt; !address -summary
+--- Protect Summary (for commit) - RgnCount ----------- Total Size -------- %ofBusy %ofTotal
+PAGE_READWRITE                          878          1eccd000 ( 492.801 MB)  29.61%   12.03%
+
+</code></pre>
+<ul>
+<li>没有特殊原因的话，用 64bit 来跑程序，打破 32bit 的 4G 空间限制，这样也可以让gc拥有更大的堆分配空间。</li>
+</ul>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d2e9cc7c25ea4ce1afc7330d6ce08f5a~tplv-k3u1fbpfcp-zoom-1.image" alt="" loading="lazy"></p>
+<p>参考网址：<a href="https://docs.microsoft.com/zh-cn/dotnet/standard/garbage-collection/fundamentals" target="_blank">https://docs.microsoft.com/zh-cn/dotnet/standard/garbage-collection/fundamentals</a></p>
+<p><strong>更多高质量干货：参见我的 GitHub: <a href="https://github.com/ctripxchuang/dotnetfly" target="_blank">dotnetfly</a></strong></p>
+<img src="https://img2020.cnblogs.com/blog/214741/202005/214741-20200522143723695-575216767.png" width="600" height="200" alt="图片名称" align="center">
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2021-04-21 09:34</span>&nbsp;
+<a href="https://www.cnblogs.com/huangxincheng/">一线码农</a>&nbsp;
+阅读(<span id="post_view_count">3868</span>)&nbsp;
+评论(<span id="post_comment_count">31</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14683890" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14683890);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 85195, cb_blogApp = 'huangxincheng', cb_blogUserGuid = '40a06552-abf8-df11-ac81-842b2b196315';
+    var cb_entryId = 14683890, cb_entryCreatedDate = '2021-04-21 09:34', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 一线码农
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjtcyuPG05ip3Jnl3OhGDak9LoAFIPvTVZ8SsPIFJfryqIIj9IjODD44w4seD-uuZksQFTsFHc8Gx1EsnVWFF6kK-6fRXz8bElz5QaS-6srdTNclt7Fajkd1z3y4zZYkVZw" />
+</body>
+</html>

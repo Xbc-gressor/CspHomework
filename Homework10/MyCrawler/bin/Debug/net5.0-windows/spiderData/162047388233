@@ -1,0 +1,670 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    
+    
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>苏小落 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/darkgreentrip/bundle-darkgreentrip.min.css?v=eoZATbPKwJCL5eWVDTQIYC6CIxJPcFz191dkzN2tSyQ" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/darkgreentrip/bundle-darkgreentrip-mobile.min.css?v=lU86o8mZVn3FOSdFt7nHKYTD8gzeKaiQIIZ6lSjEFyo" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/5201314m/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/5201314m/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/5201314m/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 329331;
+        var currentBlogApp = '5201314m';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'darkgreentrip';
+        var visitorUserId = '';
+    </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="page_begin_html">
+        <link type="text/css" rel="stylesheet" href="https://blog-static.cnblogs.com/files/5201314m/float.css">
+    </div>
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/5201314m/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/5201314m/">苏落</a>
+</h1>
+<h2>跟不上脚步强行搬砖自然略显疲惫。</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/5201314m/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E8%8B%8F%E5%B0%8F%E8%90%BD">
+联系</a></li>
+<li>
+
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+
+
+
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/5201314m/archive/2020/04/07.html">2020年4月7日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/5201314m/p/12655700.html">
+    <span>
+            <span>[置顶]</span>
+        问题
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：问题： 1.使用router-view嵌套路由时，固定的那方若数据是请求接口获取的，在其他路由组件中，需要固定那方的数据更新，应该怎么去请求它的接口？ 答：组件间通信，使用eventbus。 2.使用router路由跳转时，通过query传参，怎么传文件过去？传过去的还是正常的文件么？ 3.在dat        <a href="https://www.cnblogs.com/5201314m/p/12655700.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2020-04-07 20:19
+苏小落
+<span data-post-id="12655700" class="post-view-count">阅读(92)</span> 
+<span data-post-id="12655700" class="post-comment-count">评论(0)</span> 
+<span data-post-id="12655700" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=12655700" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/5201314m/archive/2021/04/21.html">2021年4月21日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/5201314m/p/14686469.html">
+    <span>
+        vue-cli3中热更新失效，修改完代码之后需要手动刷新页面才能看到改变，解决办法
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：在vue-cli3项目中，不知道怎么回事突然项目就不能热更新了，在本地修改完代码之后页面没有自动刷新，所以每次更改都需要手动进行刷新页面，比较耗时麻烦，之前是可以的，所以查找了下原因及解决办法。 原因暂未知。 页面效果： 1.项目无法实现热更新，在代码更改后页面未自动刷新； socket.js报错，        <a href="https://www.cnblogs.com/5201314m/p/14686469.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-21 18:55
+苏小落
+<span data-post-id="14686469" class="post-view-count">阅读(58)</span> 
+<span data-post-id="14686469" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14686469" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14686469" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/5201314m/archive/2021/04/16.html">2021年4月16日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/5201314m/p/14668365.html">
+    <span>
+        数组中的数据项包含逗号则需在首尾拼接中括号[]来区分每一项，最后数组转为字符串，以及数据恢复
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：需求： 1.获取到数据为数组，其中有的数据项中本身包含逗号，则需要将带有逗号的数据项首尾加上[]，最后数组转为字符串且以逗号拼接进行保存； 2.在回显数据时，获取到的就是传过去的数据，需要恢复为数组，且数据项中带有逗号的不需要首尾加上中括号[]，不然没法做回显； 数据显示： 1. 2. 实现代码：         <a href="https://www.cnblogs.com/5201314m/p/14668365.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-16 18:43
+苏小落
+<span data-post-id="14668365" class="post-view-count">阅读(14)</span> 
+<span data-post-id="14668365" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14668365" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14668365" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/5201314m/archive/2021/04/12.html">2021年4月12日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/5201314m/p/14649446.html">
+    <span>
+        组件之间的拖拽
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：项目中涉及到三种类型的拖拽： 1.el-tree拖拽字段至div，表格； 2.多个div之间的拖拽； 3.表格之间列的拖拽； 实现代码： 1.el-tree拖拽字段至div，表格； 1.el-tree设置字段可拖拽至外部： &lt;el-tree ref=&quot;tree&quot; @node-drag-start=&quot;        <a href="https://www.cnblogs.com/5201314m/p/14649446.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-12 18:35
+苏小落
+<span data-post-id="14649446" class="post-view-count">阅读(29)</span> 
+<span data-post-id="14649446" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14649446" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14649446" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/5201314m/archive/2021/04/09.html">2021年4月9日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/5201314m/p/14636605.html">
+    <span>
+        工作心得
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：个人在工作中总结的几点，仅供记录。 1.凡事多加考虑。 在做任何事情之前，要花时间考虑，以求全面一点，这样以后会大大减少回头重做的几率，效率更高。 2.干活之前，先把整体框架梳理出来，分块做事。 干IT毕竟不是单打独斗，不像以前上学考试，一张卷子可以哪些题会做就先做哪个，随心就行，反正只是你一个人的        <a href="https://www.cnblogs.com/5201314m/p/14636605.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-09 12:26
+苏小落
+<span data-post-id="14636605" class="post-view-count">阅读(6)</span> 
+<span data-post-id="14636605" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14636605" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14636605" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/5201314m/archive/2021/02/26.html">2021年2月26日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/5201314m/p/14452100.html">
+    <span>
+        Vue重点知识
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：Vue重点： 组件化思想； v-model双向绑定原理； 虚拟DOM及key值作用； 组件生命周期； 路由：vue-router； https://www.cnblogs.com/5201314m/p/14283738.html 数据请求：axios； 状态管理：vuex； 组件间通信； https        <a href="https://www.cnblogs.com/5201314m/p/14452100.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-02-26 14:17
+苏小落
+<span data-post-id="14452100" class="post-view-count">阅读(19)</span> 
+<span data-post-id="14452100" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14452100" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14452100" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/5201314m/archive/2021/01/15.html">2021年1月15日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/5201314m/p/14283738.html">
+    <span>
+        vue-router路由
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：vue-router主要用来控制页面在不刷新的情况下，可以通过切换路由来更改不同页面，即单页应用。 包括以下几方面重点： 1.router-link： &lt;router-link :to=&quot;about&quot;&gt;&lt;/router-link&gt; to指向跳转地址，会生成一个a标签，右键可以出现‘新窗口中打开’选项        <a href="https://www.cnblogs.com/5201314m/p/14283738.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-01-15 18:51
+苏小落
+<span data-post-id="14283738" class="post-view-count">阅读(44)</span> 
+<span data-post-id="14283738" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14283738" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14283738" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/5201314m/archive/2020/12/01.html">2020年12月1日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/5201314m/p/14069560.html">
+    <span>
+        vue-cli项目中生成免打包的配置文件，直接在配置文件中修改url地址刷新页面即可更改请求域名地址，不需重新打包
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：需求： 在打包成功之后在dist中会生成一个配置文件，配置文件中包含要请求的地址，通过直接修改配置文件中的地址即可成功修改请求地址，不需要再重新打包。 方便在不同环境下运维修改地址之后可以直接部署，避免重复打包的工作。与本地代码地址不冲突。 实现代码： 1.public文件夹下新建一个config.        <a href="https://www.cnblogs.com/5201314m/p/14069560.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2020-12-01 17:21
+苏小落
+<span data-post-id="14069560" class="post-view-count">阅读(341)</span> 
+<span data-post-id="14069560" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14069560" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14069560" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/5201314m/archive/2020/11/23.html">2020年11月23日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/5201314m/p/14025824.html">
+    <span>
+        DateTimePicker日期时间选择器中，只需要选择器，不需要输入框
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：vue的element-ui中有个日期时间选择器，有个需求就是只需要使用选择器，而不需要输入框，也就是说选择时间的触发条件是别的事件，比如点击某个按钮。 实现效果： 组件默认样式：输入框和时间选择器是绑定的，当点击输入框时，才显示时间选择器。 需求：当点击选项：自定义时间 时，显示出时间选择器，此时        <a href="https://www.cnblogs.com/5201314m/p/14025824.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2020-11-23 17:44
+苏小落
+<span data-post-id="14025824" class="post-view-count">阅读(527)</span> 
+<span data-post-id="14025824" class="post-comment-count">评论(2)</span> 
+<span data-post-id="14025824" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14025824" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/5201314m/archive/2020/11/03.html">2020年11月3日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/5201314m/p/13922250.html">
+    <span>
+        vue的组件通信，六种方式
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：vue是组件化的框架，也就是说有一个根组件，然后由根组件可以衍生出很多子组件，共同组成一个页面。此时就涉及到了组件间的通信，主要是数据的通信及方法的传递。 组件间通信有以下6种方式： 1.props/$emit; 最常用的组件通信方式，用于父子组件 2.$parent、$root/$children        <a href="https://www.cnblogs.com/5201314m/p/13922250.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2020-11-03 20:12
+苏小落
+<span data-post-id="13922250" class="post-view-count">阅读(63)</span> 
+<span data-post-id="13922250" class="post-comment-count">评论(0)</span> 
+<span data-post-id="13922250" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=13922250" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/5201314m/archive/2020/09/26.html">2020年9月26日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/5201314m/p/13736144.html">
+    <span>
+        el-form设置规则校验，在父子组件中多个表单需同时校验
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：如上： 数据源和格式化分别在不同的两个子组件中，同时引用在了父组件中，需要在父组件中点击确定按钮时，校验父组件及两个子组件中的表单是否均满足校验。 使用el-form的:rules=&quot;rules&quot;结合this.$refs[formName].validate((valid) =&gt; {}来做。 实现代        <a href="https://www.cnblogs.com/5201314m/p/13736144.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2020-09-26 18:36
+苏小落
+<span data-post-id="13736144" class="post-view-count">阅读(768)</span> 
+<span data-post-id="13736144" class="post-comment-count">评论(0)</span> 
+<span data-post-id="13736144" class="post-digg-count">推荐(1)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=13736144" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+
+<div class="topicListFooter">
+    <div id="nav_next_page">
+        
+    <a href="https://www.cnblogs.com/5201314m/default.html?page=2">
+        下一页
+    </a>
+
+    </div>    
+</div>
+
+
+
+
+
+
+<script>
+    updatePostStats(
+        $(".post-view-count").map(function () { return this.dataset.postId }).get(),
+        function(id, count) { $(".post-view-count[data-post-id=" + id + "]").text("阅读(" + count + ")") },
+        function(id, count) { $(".post-comment-count[data-post-id=" + id + "]").text("评论(" + count + ")") },
+        function(id, count) { $(".post-digg-count[data-post-id=" + id + "]").text("推荐(" + count + ")") });
+</script>
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 苏小落
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjtKBWs5ylQEdILEiDuzHo1N8EQavFhff55YAuo7esanaHuODMk75tfz8w5uhIwdirFrzWOfty9AjHI177hsJSkGnWy4WLHlBrVgL2VBAhVGuUj1ep2MjgnUNN8-FkwXdvo" />
+</body>
+</html>

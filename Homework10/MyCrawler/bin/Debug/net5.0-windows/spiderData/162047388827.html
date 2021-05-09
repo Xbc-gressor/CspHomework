@@ -1,0 +1,583 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="组网图形 大中型WLAN网络简介 本文介绍的WLAN网络是指利用频率为2.4GHz或5GHz的射频信号作为传输介质的无线局域网，相对于有线网络的铺设成本高，不便于网络调整和扩展、位置固定，移动性差等缺" />
+    <meta property="og:description" content="组网图形 大中型WLAN网络简介 本文介绍的WLAN网络是指利用频率为2.4GHz或5GHz的射频信号作为传输介质的无线局域网，相对于有线网络的铺设成本高，不便于网络调整和扩展、位置固定，移动性差等缺" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>常见大中型网络WLAN基本业务实例 - 上古南城 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/coffee/bundle-coffee.min.css?v=BgguPR_JbmA1HKLJOLqLtHq5pt8a1UlO6ibCA_xgwdI" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/coffee/bundle-coffee-mobile.min.css?v=gcYNuAuJkNMICFERxhZCtKHGitYmBYNTxm9W97H2O2g" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/zhangwencheng/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/zhangwencheng/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/zhangwencheng/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 638707;
+        var currentBlogApp = 'zhangwencheng';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'coffee';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-01-13 09:43';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="page_begin_html">
+        <script>loadPageBeginHtml();</script>
+    </div>
+    
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<a href="https://www.cnblogs.com/zhangwencheng/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>			
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/zhangwencheng/">上古南城</a>
+</h1>
+<h2>    自律，即自由！</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="navigator">
+			
+<ul id="navList">
+	<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+	<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/zhangwencheng/">
+首页</a>
+</li>
+	<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+	<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E4%B8%8A%E5%8F%A4%E5%8D%97%E5%9F%8E">
+联系</a></li>
+	<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+	<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/zhangwencheng/rss/">
+订阅</a>
+	
+<a id="blog_nav_rss_image" href="https://www.cnblogs.com/zhangwencheng/rss/">
+    <img src="/skins/coffee/images/xml.gif" alt="订阅" />
+</a></li>
+</ul>
+
+
+
+			<div class="blogStats">
+				
+				<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+				
+			</div><!--end: blogStats -->
+		</div><!--end: navigator 博客导航栏 -->
+		<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class = "postTitle">
+			
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/zhangwencheng/p/14270474.html">
+    <span>常见大中型网络WLAN基本业务实例</span>
+    
+
+
+
+</a>
+
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<p><strong>组网图形</strong></p>
+<p>　　<img src="https://img2020.cnblogs.com/blog/1080590/202101/1080590-20210113092827367-1849323465.png" alt="" loading="lazy"></p>
+<p><strong>大中型WLAN网络简介</strong></p>
+<ul>
+<li>本文介绍的WLAN网络是指利用频率为2.4GHz或5GHz的射频信号作为传输介质的无线局域网，相对于有线网络的铺设成本高，不便于网络调整和扩展、位置固定，移动性差等缺点，WLAN网络以其低廉的铺设成本、便捷的网络调整和扩展、灵活的可移动性获得了越来越广泛的应用。</li>
+</ul>
+<p><strong>组网需求</strong></p>
+<ul>
+<li>如<a>图1</a>，AC连接园区出口网关Router，并通过PoE交换机与AP连接，PoE交换机为AP供电。</li>
+<li>用户希望通过WLAN部署，提供名为“test”的无线网络方便用户随时随地接入。同时，用户希望通过路由器Router来做DHCP Server为用户提供10.10.10.0/24网段的IP地址，并在AC上对用户进行集中控制和管理。</li>
+</ul>
+<p><strong>配置思路</strong></p>
+<ul>
+<li>1.配置AP、AC和上层网络设备之间实现网络互通。</li>
+<li>2.在AC上配置基于接口的DHCP服务器为AP分配IP地址，同时配置AC作为DHCP中继，由AC连接的路由器为STA分配IP地址。</li>
+<li>3.配置WLAN基本业务，保证用户能够通过WLAN网络接入Internet。</li>
+</ul>
+<p><strong>操作步骤</strong></p>
+<ul>
+<li>1.<span><span>在AC上配置NAC模式为统一模式（缺省值，不需配置）。配置SwitchA和AC，使AP与AC之间能够传输CAPWAP报文</span></span></li>
+</ul>
+<p>　　# 配置SwitchA连接AP的接口GE0/0/1加入VLAN100（管理VLAN），SwitchA连接AC的接口GE0/0/2加入VLAN100。</p>
+<div class="cnblogs_Highlighter">
+<pre class="brush:csharp;gutter:true;">&lt;HUAWEI&gt; system-view
+[HUAWEI] sysname SwitchA
+[SwitchA] vlan batch 100
+[SwitchA] interface gigabitethernet 0/0/1
+[SwitchA-GigabitEthernet0/0/1] port link-type trunk
+[SwitchA-GigabitEthernet0/0/1] port trunk pvid vlan 100
+[SwitchA-GigabitEthernet0/0/1] port trunk allow-pass vlan 100
+[SwitchA-GigabitEthernet0/0/1] quit
+[SwitchA] interface gigabitethernet 0/0/2
+[SwitchA-GigabitEthernet0/0/2] port link-type trunk
+[SwitchA-GigabitEthernet0/0/2] port trunk allow-pass vlan 100
+[SwitchA-GigabitEthernet0/0/2] quit
+</pre>
+</div>
+<p>&nbsp;　　# 配置AC连接SwitchA的接口GE1/0/1加入VLAN100。</p>
+<div class="cnblogs_Highlighter">
+<pre class="brush:csharp;gutter:true;">[HUAWEI] sysname AC
+[AC] vlan batch 100
+[AC] interface gigabitethernet 1/0/1
+[AC-GigabitEthernet1/0/1] port link-type trunk
+[AC-GigabitEthernet1/0/1] port trunk allow-pass vlan 100
+[AC-GigabitEthernet1/0/1] quit
+</pre>
+</div>
+<ul>
+<li>&nbsp;2.<span id="dc_s_ccase_wlan_basic_0002__">配置AC与上层网络设备互通 </span></li>
+</ul>
+<p>　　# 配置VLANIF101（业务VLAN）和VLANIF102。</p>
+<div class="cnblogs_Highlighter">
+<pre class="brush:csharp;gutter:true;">[AC] vlan batch 101 102
+[AC] interface vlanif 101
+[AC-Vlanif101] ip address 10.10.10.1 24
+[AC-Vlanif101] quit
+[AC] interface vlanif 102
+[AC-Vlanif102] ip address 10.11.10.2 24
+[AC-Vlanif102] quit
+</pre>
+</div>
+<p>&nbsp;　　# 配置AC的缺省路由。</p>
+<div class="cnblogs_Highlighter">
+<pre class="brush:csharp;gutter:true;">[AC] ip route-static 0.0.0.0 0.0.0.0 10.11.10.1  //配置缺省路由指向Router
+</pre>
+</div>
+<p>&nbsp;　　# 配置AC连接Router的接口GE1/0/2加入VLAN102。</p>
+<div class="cnblogs_Highlighter">
+<pre class="brush:csharp;gutter:true;">[AC] interface gigabitethernet 1/0/2
+[AC-GigabitEthernet1/0/2] port link-type trunk
+[AC-GigabitEthernet1/0/2] port trunk allow-pass vlan 102
+[AC-GigabitEthernet1/0/2] quit
+</pre>
+</div>
+<ul>
+<li>&nbsp;3.<span id="dc_s_ccase_wlan_basic_0002__">配置AC给AP分配IP地址，Router给STA分配IP地址。 </span></li>
+</ul>
+<p>　　# 配置AC通过接口地址池为AP分配IP地址。</p>
+<div class="cnblogs_Highlighter">
+<pre class="brush:csharp;gutter:true;">[AC] dhcp enable
+[AC] interface vlanif 100
+[AC-Vlanif100] ip address 192.168.10.1 24
+[AC-Vlanif100] dhcp select interface  //配置基于接口的地址池
+[AC-Vlanif100] quit
+</pre>
+</div>
+<p>&nbsp;　　# 配置AC作为DHCP中继并使能DHCP中继探测用户表项功能。</p>
+<div class="cnblogs_Highlighter">
+<pre class="brush:csharp;gutter:true;">[AC] interface vlanif 101
+[AC-Vlanif101] dhcp select relay  //配置DHCP中继功能
+[AC-Vlanif101] dhcp relay server-ip 10.11.10.1  //配置DHCP中继所代理的DHCP服务器地址为Router上的IP地址10.11.10.1
+[AC-Vlanif101] quit
+</pre>
+</div>
+<p>&nbsp;　　# 配置Router作为DHCP服务器为STA分配IP地址。</p>
+<div class="cnblogs_Highlighter">
+<pre class="brush:csharp;gutter:true;">&lt;Huawei&gt; system-view
+[Huawei] sysname Router
+[Router] dhcp enable
+[Router] ip pool sta  //配置地址池为STA分配IP地址
+[Router-ip-pool-sta] gateway-list 10.10.10.1
+[Router-ip-pool-sta] network 10.10.10.0 mask 24
+[Router-ip-pool-sta] quit
+[Router] vlan batch 102
+[Router] interface vlanif 102
+[Router-Vlanif102] ip address 10.11.10.1 24
+[Router-Vlanif102] dhcp select global  //配置全局的地址池
+[Router-Vlanif102] quit
+[Router] interface gigabitethernet 2/0/0
+[Router-GigabitEthernet2/0/0] port link-type trunk
+[Router-GigabitEthernet2/0/0] port trunk allow-pass vlan 102
+[Router-GigabitEthernet2/0/0] quit
+[Router] ip route-static 10.10.10.0 24 10.11.10.2  //配置Router到达10.10.10.0/24网段的路由
+</pre>
+</div>
+<ul>
+<li>&nbsp;4.配置AC的系统参数</li>
+</ul>
+<p>　　# 配置AC的国家码。</p>
+<div class="cnblogs_Highlighter">
+<pre class="brush:csharp;gutter:true;">[AC] wlan ac-global country-code cn
+Warning: Modify the country code may delete configuration on those AP which use 
+the global country code and reset them, continue?[Y/N]:y
+</pre>
+</div>
+<p>&nbsp;　　# 配置AC ID和运营商标识。</p>
+<div class="cnblogs_Highlighter">
+<pre class="brush:csharp;gutter:true;">[AC] wlan ac-global ac id 1 carrier id other  //AC ID缺省为0，修改为1
+</pre>
+</div>
+<p>&nbsp;　　# 配置AC的源接口。</p>
+<div class="cnblogs_Highlighter">
+<pre class="brush:csharp;gutter:true;">[AC] wlan
+[AC-wlan-view] wlan ac source interface vlanif 100
+</pre>
+</div>
+<ul>
+<li>&nbsp;5.在AC上管理AP</li>
+</ul>
+<p>　　# 现场获取AP的MAC地址后，查看AP的设备类型ID。</p>
+<div class="cnblogs_Highlighter">
+<pre class="brush:csharp;gutter:true;">[AC-wlan-view] display ap-type all
+  All AP types information:     
+  ------------------------------------------------------------------------------
+  ID     Type                   
+  ------------------------------------------------------------------------------
+  17     AP6010SN-GN            
+  19     AP6010DN-AGN           
+  21     AP6310SN-GN            
+  23     AP6510DN-AGN           
+  25     AP6610DN-AGN           
+  27     AP7110SN-GN            
+  28     AP7110DN-AGN           
+  29     AP5010SN-GN            
+  30     AP5010DN-AGN           
+  31     AP3010DN-AGN           
+  33     AP6510DN-AGN-US        
+  34     AP6610DN-AGN-US        
+  35     AP5030DN               
+  36     AP5130DN               
+  37     AP7030DE                                                               
+  38     AP2010DN                                                               
+  39     AP8130DN                                                               
+  40     AP8030DN                                                               
+  42     AP9330DN                                                               
+  43     AP4030DN                                                               
+  44     AP4130DN                                                               
+  45     AP3030DN                                                               
+  46     AP2030DN                                                               
+  ------------------------------------------------------------------------------
+  Total number: 23
+</pre>
+</div>
+<p>&nbsp;　　# 配置AP认证模式为MAC地址认证（缺省值，不需配置）。根据查询到的AP设备类型ID，离线添加AP。假设AP的类型为AP6010DN-AGN，其MAC地址为60de-4476-e360。</p>
+<div class="cnblogs_Highlighter">
+<pre class="brush:csharp;gutter:true;">[AC-wlan-view] ap id 0 type-id 19 mac 60de-4476-e360
+[AC-wlan-ap-0] quit
+</pre>
+</div>
+<p>&nbsp;　　# 配置AP域并将AP加入到AP域。</p>
+<div class="cnblogs_Highlighter">
+<pre class="brush:csharp;gutter:true;">[AC-wlan-view] ap-region id 10  //新建AP域10
+[AC-wlan-ap-region-10] quit
+[AC-wlan-view] ap id 0
+[AC-wlan-ap-0] region-id 10  //将AP加入域10
+[AC-wlan-ap-0] quit
+</pre>
+</div>
+<p>&nbsp;　　# 将AP上电后，可以查看到AP的“AP State”字段为“normal”。</p>
+<div class="cnblogs_Highlighter">
+<pre class="brush:csharp;gutter:true;">[AC-wlan-view] display ap all 
+  All AP information:           
+  Normal[1],Fault[0],Commit-failed[0],Committing[0],Config[0],Download[0]       
+  Config-failed[0],Standby[0],Type-not-match[0],Ver-mismatch[0]            
+  ------------------------------------------------------------------------------
+  AP    AP               AP              Profile   AP              AP           
+                                         /Region                                
+  ID    Type             MAC             ID        State           Sysname      
+  ------------------------------------------------------------------------------
+  0     AP6010DN-AGN     60de-4476-e360  0/10      normal          ap-0         
+  ------------------------------------------------------------------------------
+  Total number: 1,printed: 1   
+</pre>
+</div>
+<ul>
+<li>&nbsp;6.配置WLAN业务参数</li>
+</ul>
+<p>　　# 创建名为“wmm”的WMM模板。</p>
+<div class="cnblogs_Highlighter">
+<pre class="brush:csharp;gutter:true;">[AC-wlan-view] wmm-profile name wmm id 1
+[AC-wlan-wmm-prof-wmm] quit
+</pre>
+</div>
+<p>&nbsp;　　# 创建名为“radio”的射频模板，绑定WMM模板“wmm”。</p>
+<div class="cnblogs_Highlighter">
+<pre class="brush:csharp;gutter:true;">[AC-wlan-view] radio-profile name radio id 1 
+[AC-wlan-radio-prof-radio] wmm-profile name wmm 
+[AC-wlan-radio-prof-radio] quit
+[AC-wlan-view] quit
+</pre>
+</div>
+<p>&nbsp;　　# 创建WLAN-ESS接口1。</p>
+<div class="cnblogs_Highlighter">
+<pre class="brush:csharp;gutter:true;">[AC] interface wlan-ess 1
+[AC-Wlan-Ess1] port trunk allow-pass vlan 101
+[AC-Wlan-Ess1] quit
+</pre>
+</div>
+<p>&nbsp;　　# 创建名为“security”的安全模板。</p>
+<div class="cnblogs_Highlighter">
+<pre class="brush:csharp;gutter:true;">[AC] wlan
+[AC-wlan-view] security-profile name security id 1
+[AC-wlan-sec-prof-security] security-policy wpa2  //配置安全策略为WPA2
+[AC-wlan-sec-prof-security] wpa2 authentication-method psk pass-phrase cipher huawei123 encryption-method ccmp  //配置加密方式为PSK+CCMP
+[AC-wlan-sec-prof-security] quit
+</pre>
+</div>
+<p>&nbsp;　　# 创建名为“traffic”的流量模板。</p>
+<div class="cnblogs_Highlighter">
+<pre class="brush:csharp;gutter:true;">[AC-wlan-view] traffic-profile name traffic id 1
+[AC-wlan-traffic-prof-traffic] quit
+</pre>
+</div>
+<p>&nbsp;　　# 创建名为“test”的服务集并绑定WLAN-ESS接口、安全模板和流量模板。</p>
+<div class="cnblogs_Highlighter">
+<pre class="brush:csharp;gutter:true;">[AC-wlan-view] service-set name test id 1
+[AC-wlan-service-set-test] ssid test  //配置SSID名称为test
+[AC-wlan-service-set-test] wlan-ess 1 
+[AC-wlan-service-set-test] security-profile name security
+[AC-wlan-service-set-test] traffic-profile name traffic
+[AC-wlan-service-set-test] service-vlan 101  //缺省情况下服务集的VLAN ID为1，修改服务集的VLAN ID为101
+[AC-wlan-service-set-test] forward-mode tunnel  //配置业务转发模式为隧道转发
+[AC-wlan-service-set-test] quit
+</pre>
+</div>
+<ul>
+<li>&nbsp;7.配置VAP并下发</li>
+</ul>
+<p>　　# 配置VAP。</p>
+<div class="cnblogs_Highlighter">
+<pre class="brush:csharp;gutter:true;">[AC-wlan-view] ap 0 radio 0
+[AC-wlan-radio-0/0] radio-profile name radio  //配置射频模板绑定到射频上
+[AC-wlan-radio-0/0] service-set name test  //配置服务集绑定到射频上
+[AC-wlan-radio-0/0] quit
+</pre>
+</div>
+<p>&nbsp;　　# 提交配置。</p>
+<div class="cnblogs_Highlighter">
+<pre class="brush:csharp;gutter:true;">[AC-wlan-view] commit ap 0
+Warning: Committing configuration may cause service interruption, continue?[Y/N]
+:y
+</pre>
+</div>
+<ul>
+<li>&nbsp;8.验证配置结果</li>
+</ul>
+<p>　　配置完成后，通过<strong>display vap ap 0 radio 0</strong>命令，可以查看到VAP已创建成功。</p>
+<div class="cnblogs_Highlighter">
+<pre class="brush:csharp;gutter:true;">[AC-wlan-view] display vap ap 0 radio 0
+  All VAP Information(Total-1):                                                 
+  SS: Service-set     BP: Bridge-profile     MP: Mesh-profile                   
+  ----------------------------------------------------------------------        
+  AP ID  Radio ID  SS ID  BP ID  MP ID  WLAN ID  BSSID           Type           
+  ----------------------------------------------------------------------
+  0      0         1      -      -      1        60DE-4476-E360  service        
+  ----------------------------------------------------------------------
+  Total: 1 
+</pre>
+</div>
+<p>&nbsp;　　STA搜索到名为“test”的无线网络并关联后，无线PC能够被分配相应的IP地址，用户输入预共享密钥可以访问无线网络，在AC上执行<strong>display station assoc-info</strong>命令，可以查看到用户已经接入到无线网络“test”中。</p>
+<div class="cnblogs_Highlighter">
+<pre class="brush:csharp;gutter:true;">[AC-wlan-view] display station assoc-info ap 0 radio 0
+  ------------------------------------------------------------------------------
+  STA MAC          AP ID   RADIO ID  SS ID    SSID 
+  ------------------------------------------------------------------------------
+  9021-55dc-3e17   0       0         1        test
+  ------------------------------------------------------------------------------
+  Total stations: 1
+</pre>
+</div>
+<p>&nbsp;</p>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+		</div>
+		<div class="postDesc">posted @ 
+<span id="post-date">2021-01-13 09:43</span>&nbsp;
+<a href="https://www.cnblogs.com/zhangwencheng/">上古南城</a>&nbsp;
+阅读(<span id="post_view_count">327</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14270474" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14270474);return false;">收藏</a></div>
+	</div>
+	
+	
+</div><!--end: topics 文章、评论容器-->
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 638707, cb_blogApp = 'zhangwencheng', cb_blogUserGuid = '849e6350-c8c1-e611-845c-ac853d9f53ac';
+    var cb_entryId = 14270474, cb_entryCreatedDate = '2021-01-13 09:43', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+</div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="calendar"><div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script></div>
+			
+			<DIV id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</DIV>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 上古南城
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjvDnGlCbFPBM2cKQ02vJ0cFyMpWQZiVq3o90j5RV5ZlFLZIa7F6o2ckgANqzrhFrGPX4j61pweLB2XYuSK6sdnI8JLullYWDdv_zpi_zlTxj_eLXxFU0KXsivCprIuYfLQ" />
+</body>
+</html>

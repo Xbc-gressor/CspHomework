@@ -1,0 +1,455 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="前言 一直以来对内部服务间使用RPC的方式调用都比较赞同,因为内部间没有这么多限制，最简单明了的方式就是最合适的方式。个人比较喜欢类似Dubbo的那种使用方式，采用和本地方法相同的方式，把接口层独立出" />
+    <meta property="og:description" content="前言 一直以来对内部服务间使用RPC的方式调用都比较赞同,因为内部间没有这么多限制，最简单明了的方式就是最合适的方式。个人比较喜欢类似Dubbo的那种使用方式，采用和本地方法相同的方式，把接口层独立出" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>手动造轮子——基于.NetCore的RPC框架DotNetCoreRpc - yi念之间 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/wucy/custom.css?v=Jr&#x2B;luDHHhYQVZ/m1Tbw1HfGXOlI=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/custom/bundle-custom-mobile.min.css?v=OayYBbtUbH4FYkn_bTL4VVf4DsEOiTHSWhbl11KyY6Y" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/wucy/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/wucy/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/wucy/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 605020;
+        var currentBlogApp = 'wucy';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'Custom';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2020-06-12 01:14';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="no-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="page_begin_html">
+        <div class="light-loading">
+  <div class="box">
+    <h2>加载中</h2>
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+</div>
+    </div>
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/wucy/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/wucy/">yi念之间</a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/wucy/">
+首页</a>
+</li>
+<li>
+
+
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/yi%E5%BF%B5%E4%B9%8B%E9%97%B4">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/wucy/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/wucy/p/13096515.html">
+    <span>手动造轮子——基于.NetCore的RPC框架DotNetCoreRpc</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+<h3 id="前言">前言</h3>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;一直以来对内部服务间使用RPC的方式调用都比较赞同,因为内部间没有这么多限制，最简单明了的方式就是最合适的方式。个人比较喜欢类似Dubbo的那种使用方式，采用和本地方法相同的方式，把接口层独立出来作为服务契约，为服务端提供服务，客户端也通过此契约调用服务。.Net平台上类似Dubbo这种相对比较完善的RPC框架还是比较少的，GRPC确实是一款非常优秀的RPC框架，能跨语言调用，但是每次还得编写proto文件，个人感觉还是比较麻烦的。如今服务拆分，微服务架构比较盛行的潮流下，一个简单实用的RPC框架确实可以提升很多开发效率。</p>
+<h3 id="简介">简介</h3>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;随着.Net Core逐渐成熟稳定，为我一直以来想实现的这个目标提供了便利的方式。于是利用闲暇时间本人手写了一套基于Asp.Net Core的RPC框架，算是实现了一个自己的小目标。大致的实现方式，Server端依赖Asp.Net Core，采用的是中间件的方式拦截处理请求比较方便。Client端可以是任何可承载.Net Core的宿主程序。通信方式是HTTP协议，使用的是HttpClientFactory。至于为什么使用HttpClientFactory，因为HttpClientFactory可以更轻松的实现服务发现，而且可以很好的集成Polly，很方便的实现，超时重试，熔断降级这些，给开发过程中提供了很多便利。由于本人能力有限，基于这些便利，站在巨人的肩膀上，简单的实现了一个RPC框架,项目托管在GitHub上<a href="https://github.com/softlgl/DotNetCoreRpc" target="_blank">https://github.com/softlgl/DotNetCoreRpc</a>有兴趣的可以自行查阅。</p>
+<h3 id="开发环境">开发环境</h3>
+<ul>
+    <li>Visual Studio 2019</li>
+    <li>.Net Standard 2.1</li>
+    <li>Asp.Net Core 3.1.x</li>
+</ul>
+<h3 id="使用方式">使用方式</h3>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;打开Visual Studio先新建一个RPC契约接口层，这里我起的名字叫IRpcService。然后新建一个Client层(可以是任何可承载.Net Core的宿主程序)叫ClientDemo,然后建立一个Server层(必须是Asp.Net Core项目)叫WebDemo,文末附<a href="https://files.cnblogs.com/files/wucy/DotNetCoreRpcDemo.zip" target="_blank">本文Demo连接</a>,建完这些之后项目结构如下:<br>
+<img src="https://img2020.cnblogs.com/blog/2042116/202006/2042116-20200612112429418-567271796.png" alt="" loading="lazy"></p>
+<h4 id="client端配置">Client端配置</h4>
+<p>Client端引入DotNetCoreRpc.Client包，并引入自定义的契约接口层</p>
+<pre><code>&lt;PackageReference Include="DotNetCoreRpc.Client" Version="1.0.2" /&gt;
+</code></pre>
+<p>然后可以愉快的编码了，大致编码如下</p>
+<pre><code class="language-cs">class Program
+{
+    static void Main(string[] args)
+    {
+        IServiceCollection services = new ServiceCollection();
+        //*注册DotNetCoreRpcClient核心服务
+        services.AddDotNetCoreRpcClient()
+        //*通信是基于HTTP的,内部使用的HttpClientFactory,自行注册即可
+        .AddHttpClient("WebDemo", client =&gt; { client.BaseAddress = new Uri("http://localhost:13285/"); });
+
+        IServiceProvider serviceProvider = services.BuildServiceProvider();
+        //*获取RpcClient使用这个类创建具体服务代理对象
+        RpcClient rpcClient = serviceProvider.GetRequiredService&lt;RpcClient&gt;();
+
+        //IPersonService是我引入的服务包interface，需要提供ServiceName,即AddHttpClient的名称
+        IPersonService personService = rpcClient.CreateClient&lt;IPersonService&gt;("WebDemo");
+
+        PersonDto personDto = new PersonDto
+        {
+            Id = 1,
+            Name = "yi念之间",
+            Address = "中国",
+            BirthDay = new DateTime(2000,12,12),
+            IsMarried = true,
+            Tel = 88888888888
+        };
+
+        bool addFlag = personService.Add(personDto);
+        Console.WriteLine($"添加结果=[{addFlag}]");
+
+        var person = personService.Get(personDto.Id);
+        Console.WriteLine($"获取person结果=[{person.ToJson()}]");
+
+        var persons = personService.GetAll();
+        Console.WriteLine($"获取persons结果=[{persons.ToList().ToJson()}]");
+
+        personService.Delete(person.Id);
+        Console.WriteLine($"删除完成");
+
+        Console.ReadLine();
+    }
+}
+</code></pre>
+<p>到这里Client端的代码就编写完成了</p>
+<h4 id="server端配置">Server端配置</h4>
+<p>Client端引入DotNetCoreRpc.Client包，并引入自定义的契约接口层</p>
+<pre><code>&lt;PackageReference Include="DotNetCoreRpc.Server" Version="1.0.2" /&gt;
+</code></pre>
+<p>然后编写契约接口实现类，比如我的叫PersonService</p>
+<pre><code class="language-cs">//实现契约接口IPersonService
+public class PersonService:IPersonService
+{
+    private readonly ConcurrentDictionary&lt;int, PersonDto&gt; persons = new ConcurrentDictionary&lt;int, PersonDto&gt;();
+    public bool Add(PersonDto person)
+    {
+        return persons.TryAdd(person.Id, person);
+    }
+
+    public void Delete(int id)
+    {
+        persons.Remove(id,out PersonDto person);
+    }
+
+    //自定义Filter
+    [CacheFilter(CacheTime = 500)]
+    public PersonDto Get(int id)
+    {
+        return persons.GetValueOrDefault(id);
+    }
+
+    //自定义Filter
+    [CacheFilter(CacheTime = 300)]
+    public IEnumerable&lt;PersonDto&gt; GetAll()
+    {
+        foreach (var item in persons)
+        {
+            yield return item.Value;
+        }
+    }
+}
+</code></pre>
+<p>通过上面的代码可以看出，我自定义了Filter，这里的Filter并非Asp.Net Core框架定义的Filter，而是DotNetCoreRpc框架定义的Filter,自定义Filter的方式如下</p>
+<pre><code class="language-cs">//*要继承自抽象类RpcFilterAttribute
+public class CacheFilterAttribute: RpcFilterAttribute
+{
+    public int CacheTime { get; set; }
+
+    //*支持属性注入,可以是public或者private
+    //*这里的FromServices并非Asp.Net Core命名空间下的,而是来自DotNetCoreRpc.Core命名空间
+    [FromServices]
+    private RedisConfigOptions RedisConfig { get; set; }
+
+    [FromServices]
+    public ILogger&lt;CacheFilterAttribute&gt; Logger { get; set; }
+
+    public override async Task InvokeAsync(RpcContext context, RpcRequestDelegate next)
+    {
+        Logger.LogInformation($"CacheFilterAttribute Begin,CacheTime=[{CacheTime}],Class=[{context.TargetType.FullName}],Method=[{context.Method.Name}],Params=[{JsonConvert.SerializeObject(context.Parameters)}]");
+        await next(context);
+        Logger.LogInformation($"CacheFilterAttribute End,ReturnValue=[{JsonConvert.SerializeObject(context.ReturnValue)}]");
+    }
+}
+</code></pre>
+<p>以上代码基本上完成了对服务端业务代码的操作,接下来我们来看如何在Asp.Net Core中配置使用DotNetCoreRpc。打开Startup,配置如下代码既可</p>
+<pre><code class="language-cs">public class Startup
+{
+    public void ConfigureServices(IServiceCollection services)
+    {
+        services.AddSingleton&lt;IPersonService, PersonService&gt;()
+        .AddSingleton(new RedisConfigOptions { Address = "127.0.0.1:6379", Db = 10 })
+        //*注册DotNetCoreRpcServer
+        .AddDotNetCoreRpcServer(options =&gt; {
+            //*确保添加的契约服务接口事先已经被注册到DI容器中
+
+            //添加契约接口
+            //options.AddService&lt;IPersonService&gt;();
+
+            //或添加契约接口名称以xxx为结尾的
+            //options.AddService("*Service");
+
+            //或添加具体名称为xxx的契约接口
+            //options.AddService("IPersonService");
+
+            //或扫描具体命名空间下的契约接口
+            options.AddNameSpace("IRpcService");
+
+            //可以添加全局过滤器,实现方式和CacheFilterAttribute一致
+            options.AddFilter&lt;LoggerFilterAttribute&gt;();
+        });
+    }
+
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+        //这一堆可以不要+1
+        if (env.IsDevelopment())
+        {
+            app.UseDeveloperExceptionPage();
+        }
+
+        //添加DotNetCoreRpc中间件既可
+        app.UseDotNetCoreRpc();
+
+        //这一堆可以不要+2
+        app.UseRouting();
+
+        //这一堆可以不要+3
+        app.UseEndpoints(endpoints =&gt;
+        {
+            endpoints.MapGet("/", async context =&gt;
+            {
+                await context.Response.WriteAsync("Server Start!");
+            });
+        });
+    }
+}
+</code></pre>
+<p>以上就是Server端简单的使用和配置,是不是感觉非常的Easy。附上可运行的<a href="https://files.cnblogs.com/files/wucy/DotNetCoreRpcDemo.zip" target="_blank">Demo地址</a>，具体编码可查看Demo.</p>
+<h3 id="总结">总结</h3>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;能自己实现一套RPC框架是我近期以来的一个愿望,现在可以说实现了。虽然看起来没这么高大上，但是整体还是符合RPC的思想。主要还是想自身实地的实践一下，顺便也希望能给大家提供一些简单的思路。不是说我说得一定是对的，我讲得可能很多是不对的，但是我说的东西都是我自身的体验和思考，也许能给你带来一秒钟、半秒钟的思考，亦或是哪怕你觉得我哪一句话说的有点道理，能引发你内心的感触，这就是我做这件事的意义。最后，欢迎大家评论区或<a href="https://github.com/softlgl/DotNetCoreRpc" target="_blank">本项目GitHub</a>下批评指导。<br>
+<br></p>
+<div align="center">
+  <span style="font-size: 15px">👇欢迎扫码关注我的公众号👇</span>
+  <img src="https://img2020.cnblogs.com/blog/2042116/202006/2042116-20200622133425514-1420050576.png">
+</div>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2020-06-12 13:14</span>&nbsp;
+<a href="https://www.cnblogs.com/wucy/">yi念之间</a>&nbsp;
+阅读(<span id="post_view_count">3444</span>)&nbsp;
+评论(<span id="post_comment_count">11</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=13096515" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(13096515);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 605020, cb_blogApp = 'wucy', cb_blogUserGuid = 'cbf13d4d-9981-4cce-33f2-08d7f668ab52';
+    var cb_entryId = 13096515, cb_entryCreatedDate = '2020-06-12 13:14', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 yi念之间
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjsjRLKkhsrg1gGeL3xRNxk99S0fSjc2YMhNrDbUzKvXL8_qiSBXPNqme5Db6qkFobD16NE4TIIFwShKH2HuDgN0HE1CFzzKF-y7rOwA8Bi8pbY-vh8BBYlWfniynCzEhJc" />
+</body>
+</html>

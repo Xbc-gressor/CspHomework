@@ -1,0 +1,401 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="never" />
+    <meta name="description" content="一：背景 1. 讲故事 前天有位粉丝朋友在后台留言让我帮忙看看他的 Winform程序 UI无响应 &#x2B; 410线程 到底是啥情况，如下图： 说实话，能看到这些真实案例我是特别喜欢的&amp;amp;#1285" />
+    <meta property="og:description" content="一：背景 1. 讲故事 前天有位粉丝朋友在后台留言让我帮忙看看他的 Winform程序 UI无响应 &#x2B; 410线程 到底是啥情况，如下图： 说实话，能看到这些真实案例我是特别喜欢的&amp;amp;#1285" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>又一起.NET程序挂死, 用 Windbg 抽丝剥茧式的真实案例分析 - 一线码农 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/imetro_hd/bundle-imetro_hd.min.css?v=FftQhR2MvKTGGXxV0VXlcGGt4XBM0_1XGJmu6kYD9bg" />
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/huangxincheng/custom.css?v=SdYXO/puoNgM6b4X1hctiyD8/bs=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/imetro_hd/bundle-imetro_hd-mobile.min.css?v=t8lZrYXGRE8kAD_d-besbRXwkXSQmMprnkoJVYlZl-g" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/huangxincheng/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/huangxincheng/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/huangxincheng/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 85195;
+        var currentBlogApp = 'huangxincheng';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'iMetro_HD';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-04-19 09:34';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="no-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/huangxincheng/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/huangxincheng/"></a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/huangxincheng/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E4%B8%80%E7%BA%BF%E7%A0%81%E5%86%9C">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/huangxincheng/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/huangxincheng/p/14675547.html">
+    <span>又一起.NET程序挂死, 用 Windbg 抽丝剥茧式的真实案例分析</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+<h2 id="一：背景">一：背景</h2>
+<h3 id="1-讲故事">1. 讲故事</h3>
+<p>前天有位粉丝朋友在后台留言让我帮忙看看他的 Winform程序 <code>UI无响应</code> + <code>410线程</code> 到底是啥情况，如下图：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/98ae967416314ec1a6062af30f9ea6ea~tplv-k3u1fbpfcp-zoom-1.image" alt="" loading="lazy"></p>
+<p>说实话，能看到这些真实案例我是特别喜欢的😁😁😁 ，就像医生看病，光停留在理论和那些 demo 上，那是没有前途的，如果有朋友在这块搞不定的话，我可以免费帮你解读 dump，再附送一篇博客详述。</p>
+<p>好了，言归正传，既然粉丝朋友已经提到了高达 <code>410</code> 线程，我本能反应就是要么高负载，要么野线程，后者大多是无数新出现的线程卡在某个锁上。</p>
+<p>WinForm 出现高负载的情况，我至今还是没遇到😭😭😭，如果说卡在某个锁上，基本都属于这类，有了这个先入为主的思路，接下来就可以祭出 windbg 一探究竟了。</p>
+<h2 id="二：-windbg-分析">二： windbg 分析</h2>
+<h3 id="1-查找-clr-同步块表">1. 查找 CLR 同步块表</h3>
+<p>十个人用锁，八个人会用 lock, 所以先用 <code>!syncblk</code> 看看程序的锁情况。</p>
+<pre><code class="language-C#">
+0:000&gt; !syncblk
+Index         SyncBlock MonitorHeld Recursion Owning Thread Info          SyncBlock Owner
+   76   070e5fa4           67         1 17367570 15e8 218   03e6dd68 System.IO.Ports.SerialStream
+-----------------------------
+Total           789
+CCW             39
+RCW             2
+ComClassFactory 1
+Free            535
+
+</code></pre>
+<p>我去，从卦象上来看情况很不好，我来简单分析下。</p>
+<ul>
+<li>MonitorHeld = 67</li>
+</ul>
+<p>这个 67 表示当前有 1 个线程持有锁，有 33 个线程在等待锁，肯定有朋友想问怎么算的？很简单：当一个线程持有了锁的时候 <code>MonitorHeld+1</code> ，当一个线程在等待锁的时候 <code>MonitorHeld+2</code> ，所以表达式就是:  <code>67= [1 + 66=(33*2)]</code>。</p>
+<ul>
+<li>Owning Thread Info =  17367570 15e8 218</li>
+</ul>
+<p>上面三个信息都表示当前持有线程，可以看最后的 218，它是 windbg 映射出来的线程ID，如果不信的话，可以用 !t 来一探究竟。</p>
+<pre><code class="language-C#">
+0:000&gt; !t
+ThreadCount:      315
+UnstartedThread:  0
+BackgroundThread: 302
+PendingThread:    0
+DeadThread:       0
+Hosted Runtime:   no
+                                                                         Lock  
+       ID OSID ThreadOBJ    State GC Mode     GC Alloc Context  Domain   Count Apt Exception
+   0    1  c64 00cc3de0     24220 Preemptive  042E1884:00000000 00cbc0a0 0     STA 
+ 214  240 1398 16702b90   1029220 Preemptive  00000000:00000000 00cbc0a0 0     MTA (Threadpool Worker) 
+ 215  323  b5c 12ab7260   1029220 Preemptive  00000000:00000000 00cbc0a0 0     MTA (Threadpool Worker) 
+ 216  290 1858 16c21c98   1029220 Preemptive  00000000:00000000 00cbc0a0 0     MTA (Threadpool Worker) 
+ 218  117 15e8 17367570   1029220 Preemptive  00000000:00000000 00cbc0a0 1     MTA (Threadpool Worker) 
+ ...
+
+</code></pre>
+<p>对，就是 218 这个罪魁祸首在持有了锁，导致 33 个线程在无辜的等待它。。。</p>
+<ul>
+<li>SyncBlock Owner = System.IO.Ports.SerialStream</li>
+</ul>
+<p>也许你会好奇，到底 lock 持有的是哪一个对象呢？从 <code>SyncBlock Owner</code> 上看就是 <code>SerialStream</code>， 🐂👃，原来老兄在玩串口编码，我先膜拜一下。</p>
+<h3 id="2-查看线程栈">2. 查看线程栈</h3>
+<p>知道是 218 惹的祸，接下来可以看看它的线程栈，到底都在干什么？</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c7cb25282016451b96974c39f2cf0e80~tplv-k3u1fbpfcp-zoom-1.image" alt="" loading="lazy"></p>
+<p>关于上面的调用栈，可能有些朋友看不明白，我画了一张简图：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/09297e9f5a71412d86a0e9b88c70332e~tplv-k3u1fbpfcp-zoom-1.image" alt="" loading="lazy"></p>
+<p>从图中看，来自于 ThreadPool 的线程在用户自定义的 <code>DataReceived</code> 方法上卡住了，为了方便我就用 <code>!DumpIL</code> 看看这个方法的 IL 代码。</p>
+<pre><code class="language-C#">
+0:218&gt; !name2ee *!xxx.TYAComYB.DataReceived
+Module:      03b10cc4
+Assembly:    YKit.dll
+Token:       06000108
+MethodDesc:  08533584
+Name:        xxx.TYAComYB.DataReceived(System.Object, System.IO.Ports.SerialDataReceivedEventArgs)
+JITTED Code Address: 08644dc0
+
+0:218&gt; !dumpil 08533584
+ilAddr = 05dc2dd8
+IL_0000: nop 
+IL_0001: nop 
+IL_0002: nop 
+IL_0003: ret 
+
+</code></pre>
+<p>🐂👃，这代码居然藏了钩子，用 <code>!dumpil</code> 居然看不到代码，难怪在线程栈上看到了类似混淆的方法：<code>xxx.TYAComYB.EYLlXL2bKH()</code>，不过看反汇编是没有问题的,简化如下：</p>
+<pre><code class="language-C#">
+0:218&gt; !U /d 08644edf
+08644ddd e86edaffff      call    08642850 (xxxx.com.ComPort.get_isOpen(), mdToken: 060004b6)
+08644df4 e807deffff      call    08642c00 (xxxx.YBComParam.get_DataPacketLen(), mdToken: 0600010c)
+08644dfb b92a3e136e      mov     ecx,offset mscorlib_ni!System.GC.ReRegisterForFinalize(System.Object) &lt;PERF&gt; (mscorlib_ni+0x3e2a) (6e133e2a)
+08644e00 e80fd460f8      call    00c52214 (JitHelp: CORINFO_HELP_NEWARR_1_VC)
+08644e15 e8e6ddffff      call    08642c00 (xxx.YBComParam.get_DataPacketLen(), mdToken: 0600010c)
+08644e22 e8edac4d68      call    System_ni+0x13fb14 (70b1fb14) (System.IO.Ports.SerialPort.Read(Byte[], Int32, Int32), mdToken: 06004173)
+08644e2e ff153836b103    call    dword ptr ds:[3B13638h] (xxxx.LogKit.WriteLine(System.Exception), mdToken: 06000183)
+08644e59 e8a2ddffff      call    08642c00 (xxxx.YBComParam.get_DataPacketLen(), mdToken: 0600010c)
+08644e64 ff1580355308    call    dword ptr ds:[8533580h] (xxxx.TYAComYB.EYLlXL2bKH(), mdToken: 06000107)
+08644e9b ff15a4265308    call    dword ptr ds:[85326A4h] (xxxx.YBComParam.get_DataPacketStart(), mdToken: 0600010e)
+08644ea8 e837e34e66      call    mscorlib_ni!System.Convert.ToByte(System.String, Int32) (6eb331e4)
+08644ed9 ff1580355308    call    dword ptr ds:[8533580h] (xxxx.TYAComYB.EYLlXL2bKH(), mdToken: 06000107)
+
+</code></pre>
+<p>反正做的事情挺多，我就懒得分析了。</p>
+<p>接下来看看那 33 个线程怎么就卡在 <code>SerialStream</code> 上呢？ 可以用 <code>~*e !clrstack</code> 扫一下所有的 threads，抽几个看看。</p>
+<pre><code class="language-C#">
+0:218&gt; ~*e !clrstack
+OS Thread Id: 0xc64 (0)
+Child SP       IP Call Site
+OS Thread Id: 0x13d8 (330)
+Child SP       IP Call Site
+1b1aec90 77c8016d [GCFrame: 1b1aec90] 
+1b1aee30 77c8016d [GCFrame: 1b1aee30] 
+1b1aede0 77c8016d [HelperMethodFrame: 1b1aede0] System.Threading.Monitor.ReliableEnter(System.Object, Boolean ByRef)
+1b1aee70 710d6b54 System.IO.Ports.SerialPort.CatchReceivedEvents(System.Object, System.IO.Ports.SerialDataReceivedEventArgs)
+1b1aeeac 710d9520 System.IO.Ports.SerialStream+EventLoopRunner.CallReceiveEvents(System.Object)
+1b1aeec0 6e45e356 System.Threading.QueueUserWorkItemCallback.WaitCallback_Context(System.Object)
+1b1aeec8 6e43da07 System.Threading.ExecutionContext.RunInternal(System.Threading.ExecutionContext, System.Threading.ContextCallback, System.Object, Boolean)
+1b1aef34 6e43d956 System.Threading.ExecutionContext.Run(System.Threading.ExecutionContext, System.Threading.ContextCallback, System.Object, Boolean)
+1b1aef48 6e45f120 System.Threading.QueueUserWorkItemCallback.System.Threading.IThreadPoolWorkItem.ExecuteWorkItem()
+1b1aef5c 6e45e929 System.Threading.ThreadPoolWorkQueue.Dispatch()
+1b1aefac 6e45e7d5 System.Threading._ThreadPoolWaitCallback.PerformWaitCallback()
+1b1af1d4 71382552 [DebuggerU2MCatchHandlerFrame: 1b1af1d4] 
+
+</code></pre>
+<p>我去，居然都卡在 <code>System.IO.Ports.SerialPort.CatchReceivedEvents</code> 这里了，而且还是 framework 提供的，这就很困惑了。</p>
+<h3 id="3-分析-serialport-源码">3. 分析 SerialPort 源码</h3>
+<p>要想看 SerialPort 类的源码，可以用 ILSpy，如下图所示:</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a366583fffb7436c9916abe5c8dcb873~tplv-k3u1fbpfcp-zoom-1.image" alt="" loading="lazy"></p>
+<p>看到这里，再结合我刚才画的图，思路是不是就清晰多了，究其原因就是 <code>dataReceived(this, e);</code> 触发的用户回调函数迟迟得不到结束，导致底层大量的线程在 lock 处等待。</p>
+<h2 id="三：总结">三：总结</h2>
+<p>为了理解为啥底层会创建那么多线程，我特意还查了下串口类 SerialPort，说串口发送方送过来的数据，接收方可以主动接收，可以被动接收，被动就是这种 <code>事件模式</code>，接收方收到发送方送来的数据时，操作系统会让 CLR 通过 Thread 来处理这段回调事件，所以从卦象上看就是典型的接收方处理能力不足造成的大量 lock 等待。</p>
+<p>大概提两点优化措施：</p>
+<ul>
+<li>
+<p>提升 <code>xxx.TYAComYB.DataReceived</code> 方法中业务逻辑的处理能力。</p>
+</li>
+<li>
+<p>增加蓄水池，让底层的 <code>lock (serialStream)</code> 尽快得到释放。</p>
+</li>
+</ul>
+<p><strong>更多高质量干货：参见我的 GitHub: <a href="https://github.com/ctripxchuang/dotnetfly" target="_blank">dotnetfly</a></strong></p>
+<img src="https://img2020.cnblogs.com/blog/214741/202005/214741-20200522143723695-575216767.png" width="600" height="200" alt="图片名称" align="center">
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2021-04-19 09:34</span>&nbsp;
+<a href="https://www.cnblogs.com/huangxincheng/">一线码农</a>&nbsp;
+阅读(<span id="post_view_count">4218</span>)&nbsp;
+评论(<span id="post_comment_count">27</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14675547" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14675547);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 85195, cb_blogApp = 'huangxincheng', cb_blogUserGuid = '40a06552-abf8-df11-ac81-842b2b196315';
+    var cb_entryId = 14675547, cb_entryCreatedDate = '2021-04-19 09:34', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 一线码农
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjvJrNCIkvsDd9n_HCzCzUAfNfiel2h88pFCohd7ZAWvDTi--O9ug4vhgYGhx73fWFsOV20Hac9RTwip8FjSorMHS3ae4jpw1nMwJne3r8nmena_ZDN4qmq5WdqF-LjqtCM" />
+</body>
+</html>

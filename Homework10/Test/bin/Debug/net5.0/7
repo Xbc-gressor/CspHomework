@@ -1,0 +1,153 @@
+﻿<!doctype html>
+<html xmlns:wb="http://open.weibo.com/wb">
+<head>
+<meta charset="UTF-8">
+<title>博客地图_新浪网</title>
+<meta name="keywords" content="博客地图,十周年,博客十年,新浪博客">
+<meta name="description" content="2005年至今，已有超过1.2亿用户在新浪博客这个平台记录生活、分享感悟，博友们的足迹几乎遍布世界每一个角落。十周年之际，我们正式推出“博客十年地图”，它详细记录了十年来全球博客用户的分布情况，快来看看你在哪儿吧~">
+<link href="http://sjs.sinajs.cn/products/news/activity/2015q2/blogmap/dev/css/pages.css" rel="stylesheet"/>
+<link rel="stylesheet" href="http://n2.sinaimg.cn/ent/wsy/main-nav-20150429.css" type="text/css">
+<link rel="stylesheet" type="text/css" href="http://i.sso.sina.com.cn/css/userpanel/v1/top_account_v2.css">
+<script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+
+    <!--主导航-->
+    <div class="sina15-top-bar-wrap" id="sina15-top-bar-wrap-astro">
+      <div class="sina15-top-bar-inner">
+        <div class="sina15-nav">
+          <ul class="sina15-nav-list">
+            <li class="sina15-nav-list-first"><a href="http://www.sina.com.cn/">新浪首页</a></li>
+            <li><a href="http://news.sina.com.cn/">新闻</a></li>
+            <li><a href="http://sports.sina.com.cn/">体育</a></li>
+            <li><a href="http://finance.sina.com.cn/">财经</a></li>
+            <li><a href="http://ent.sina.com.cn/">娱乐</a></li>
+            <li><a href="http://tech.sina.com.cn/">科技</a></li>
+            <li><a href="http://blog.sina.com.cn/">博客</a></li>
+            <li><a href="http://photo.sina.com.cn/">图片</a></li>
+            <li><a href="http://zhuanlan.sina.com.cn/">专栏</a></li>
+            <li class="sina15-nav-list-last" ><a href="#" class="sina15-more" data-action="dropdown" data-target="more">更多<i class="sina15-icon sina15-icon-arrows-a"></i></a></li>
+            <!--鼠标滑过更多<a>标签添加class="sina15-on"-->
+          </ul>
+          <ul id="more" class="sina15-nav-others">
+            <li><a href="http://auto.sina.com.cn/">汽车</a><a href="http://edu.sina.com.cn/">教育</a><a href="http://fashion.sina.com.cn/">时尚</a><a href="http://eladies.sina.com.cn/">女性</a><a href="http://astro.sina.com.cn/">星座</a><a href="http://health.sina.com.cn/">健康</a></li>
+            <li><a href="http://house.sina.com.cn/">房产</a><a href="http://history.sina.com.cn/">历史</a><a href="http://video.sina.com.cn/">视频</a><a href="http://collection.sina.com.cn/">收藏</a><a href="http://baby.sina.com.cn/">育儿</a><a href="http://book.sina.com.cn/">读书</a></li>
+            <li class="sina15-nav-others-last"><a href="http://fo.sina.com.cn/">佛学</a><a href="http://games.sina.com.cn/">游戏</a><a href="http://travel.sina.com.cn/">旅游</a><a href="http://mail.sina.com.cn/">邮箱</a><a href="http://news.sina.com.cn/guide/">导航</a></li>
+          </ul>
+        </div>
+        <!--通行证组件start--> 
+            <div class="sina15-client">
+            <div class="sina15-client-tl">
+                <a class="sina15-more" href="#" data-action="dropdown" data-target="mobileclient">移动客户端<i class="sina15-icon sina15-icon-arrows-a"></i></a>
+            </div>
+            <ul id="mobileclient" class="sina15-dropdown">
+                <li><a href="http://m.sina.com.cn/m/weibo.shtml" target="_blank"><i class="sina15-ico-client sina15-ico-weibo"></i>新浪微博</a></li>
+                <li><a href="http://news.sina.com.cn/m/sinanews.html" target="_blank"><i class="sina15-ico-client sina15-ico-news"></i>新浪新闻</a></li>
+                <li><a href="http://m.sina.com.cn/m/sinasports.shtml" target="_blank"><i class="sina15-ico-client sina15-ico-sports"></i>新浪体育</a></li>
+                <li><a href="http://m.sina.com.cn/m/sinaent.shtml" target="_blank"><i class="sina15-ico-client sina15-ico-ent"></i>新浪娱乐</a></li>
+                <li><a href="http://finance.sina.com.cn/mobile/comfinanceweb.shtml" target="_blank"><i class="sina15-ico-client sina15-ico-finance"></i>新浪财经</a></li>
+                <li><a href="http://video.sina.com.cn/app" target="_blank"><i class="sina15-ico-client sina15-ico-video"></i>新浪视频</a></li>
+                <li><a href="http://games.sina.com.cn/o/kb/12392.shtml" target="_blank"><i class="sina15-ico-client sina15-ico-games"></i>新浪游戏</a></li>
+                <li><a href="http://m.sina.com.cn/m/weather.shtml" target="_blank"><i class="sina15-ico-client sina15-ico-weather"></i>天气通</a></li>
+            </ul>
+        </div>
+        <div id="SI_User" class="TAP14">
+        <div class="ac-rgst"> <a href="https://login.sina.com.cn/signup/signup?entry=tech" class="msg-link" target="_blank">注册</a> </div>
+          <div class="ac-login">
+            <div class="ac-login-cnt "> <a href="#" class=""><span class="thumb"><img src="http://i.sso.sina.com.cn/images/login/thumb_default.png"></span><span class="log-links">登录</span></a> </div>
+          </div>
+        </div>
+        
+        <!--/通行证组件end--> 
+      </div>
+    </div>
+    <!--/主导航-->
+
+    <div class="map-layer map-banner">
+        <!--<a href="" class="banner-btn">十年专题页面</a>-->
+        <a href="http://blog.sina.com.cn/lm/ten" target="_blank" trace-code="15_05_01" class="banner-btn">查看个人历程</a>
+    </div>
+    <div class="map-layer map-tit">
+		<div class="wbshare">
+			<wb:share-button addition="simple" type="button" ralateUid="1231759973" default_text="博客地图——新浪博客十年注册用户分布" pic="http%3A%2F%2Fwww.sinaimg.cn%2Fblog%2F2015%2F0701%2FU11932P346DT20150701161412.png||http%3A%2F%2Fwww.sinaimg.cn%2Fblog%2F2015%2F0701%2FU11932P346DT20150701161425.png"></wb:share-button>
+		</div>
+        <h1 class="tit">新浪博客，十年注册用户量</h1>
+    </div>
+<style>
+.wbshare{width:63px;float:right;}
+</style>
+    <ul class="map-layer map-list">
+        <li><span>1000万+</span><span class="bl color1"></span></li>
+        <li><span>500万+</span><span class="bl color2"></span></li>
+        <li><span>300万+</span><span class="bl color3"></span></li>
+        <li><span>100万+</span><span class="bl color4"></span></li>
+        <li><span>50万+</span><span class="bl color5"></span></li>
+        <li><span>10万+</span><span class="bl color6"></span></li>
+        <li><span>1万+</span><span class="bl color7"></span></li>
+        <li><span>5千+</span><span class="bl color8"></span></li>
+        <li><span>1千+</span><span class="bl color9"></span></li>
+        <li><span>500+</span><span class="bl color10"></span></li>
+        <li><span>100+</span><span class="bl color11"></span></li>
+        <li><span>100-</span><span class="bl color12"></span></li>
+    </ul>
+    <div id="flash-wrap" class="map-layer map-container">
+        <div id="flash-box" style="display:none;">
+            <img src="http://sjs.sinajs.cn/products/news/activity/2015q2/blogmap/dev/images/map.png" width="1000" height="540" alt=""/>
+        </div>
+    </div>
+    
+    <!-- footer -->
+    <div class="footer" data-sudaclick="footer">
+        <p><a target="_blank" href="http://help.sina.com.cn/index.php?s=askquestion&amp;a=view">新浪BLOG意见反馈留言板</a>　电话：4006900000 提示音后按1键（按当地市话标准计费）　欢迎批评指正</p>
+        <p>
+            <a target="_blank" href="http://corp.sina.com.cn/chn/">新浪简介</a> | 
+            <a target="_blank" href="http://corp.sina.com.cn/eng/">About Sina</a> | 
+            <a target="_blank" href="http://emarketing.sina.com.cn/">广告服务</a> | 
+            <a target="_blank" href="http://www.sina.com.cn/contactus.html">联系我们</a> | 
+            <a target="_blank" href="http://corp.sina.com.cn/chn/sina_job.html">招聘信息</a> | 
+            <a target="_blank" href="http://www.sina.com.cn/intro/lawfirm.shtml">网站律师</a> | 
+            <a target="_blank" href="http://english.sina.com">SINA English</a> | 
+            <a target="_blank" href="https://login.sina.com.cn/signup/signup.php">通行证注册</a> | 
+            <a target="_blank" href="http://tech.sina.com.cn/focus/sinahelp.shtml">产品答疑</a> | 
+            <a target="_blank" href="http://blog.sina.com.cn/s/blog_4b0f52990102uw7j.html?tj=1">使用须知</a>
+        </p>
+        <p>Copyright © 1996 - 2016 SINA Corporation, All Rights Reserved</p>
+        <p>新浪公司 <a target="_blank" href="http://www.sina.com.cn/intro/copyright.shtml">版权所有</a></p>
+    </div>
+    <!-- /footer -->
+
+    <!-- jquery -->
+    <script type="text/javascript" src="http://sjs.sinajs.cn/products/news/public/jquery/jquery-1-11-1.js" charset="utf-8"></script>
+    <!-- 顶部导航js -->
+    <script type="text/javascript" src="http://n.sinaimg.cn/ent/wsy/topnav20150402.js" charset="utf-8"></script>
+    <!-- 登录顶托 js -->
+    <script type="text/javascript" src="http://i.sso.sina.com.cn/js/user_panel_new_version_v2.js" charset="utf-8"></script>
+    <script type="text/javascript">
+        ;(function(){
+            var userPanel = window.SINA_USER_PANEL;
+            var $ = userPanel.STK;
+            if(userPanel){
+                userPanel.set('outLoginLayer', {//配置登录浮层相关内容
+                    ready : function(){//登录浮层渲染成功后执行的方法，必选
+                        var loginLayer = window.SINA_OUTLOGIN_LAYER;//获取登录浮层
+                        if(loginLayer){
+                            loginLayer.set('sso', {
+                                entry : 'account'
+                            }).init();
+                        }
+                    }
+                }).set('container',{//设置登录顶托的父节点
+                    node: $.E('SI_User')
+                }).init();// 初始化登录顶托，必选
+            }
+        })();
+    </script>
+
+    <!-- sina news plugins -->
+    <script type="text/javascript" src="http://sjs.sinajs.cn/products/news/public/lib/swfobject/v1/swfobject.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="http://sjs.sinajs.cn/products/news/public/plugins/cookie/v1/cookie.min.js" charset="utf-8"></script>
+    <!-- main -->
+    <script type="text/javascript" src="http://sjs.sinajs.cn/products/news/activity/2015q2/blogmap/dev/js/page.js" charset="utf-8"></script>
+
+</body>
+</html>

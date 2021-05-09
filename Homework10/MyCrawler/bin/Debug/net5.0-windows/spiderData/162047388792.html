@@ -1,0 +1,426 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="考中: ************************************************************************************************" />
+    <meta property="og:description" content="考中: ************************************************************************************************" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>5.5总结 - gisfire& - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/xsm098/custom.css?v=4ZfpqSwCnIoEMGjYh3&#x2B;6BI&#x2B;vCW4=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/SimpleMemory/bundle-SimpleMemory-mobile.min.css" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/xsm098/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/xsm098/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/xsm098/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 588863;
+        var currentBlogApp = 'xsm098';
+        var cb_enable_mathjax = true;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'SimpleMemory';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-05-05 09:57';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+        tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processClass: 'math', processEscapes: true },
+        TeX: {
+        equationNumbers: { autoNumber: ['AMS'], useLabelIds: true },
+        extensions: ['extpfeil.js', 'mediawiki-texvc.js'],
+        Macros: {bm: "\\boldsymbol"}
+        },
+        'HTML-CSS': { linebreaks: { automatic: true } },
+        SVG: { linebreaks: { automatic: true } }
+        });
+    </script>
+    <script src="https://mathjax.cnblogs.com/2_7_5/MathJax.js?config=TeX-AMS-MML_HTMLorMML&amp;v=20200504"></script>
+    
+</head>
+<body class="no-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/xsm098/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/xsm098/">gisfire111</a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/xsm098/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/gisfire%26">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/xsm098/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/xsm098/p/14732940.html">
+    <span>5.5总结</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<p>考中:</p>
+<p>*********************************************************************************************************************************************************</p>
+<p>8点多一点，看完了前两道，没什么思路，看了一眼第三道，这么简单，绝对全场切（不是），9点多一点，写完A了，很高兴，看了看第四题，不会，打了个20的暴力，走了，到了t5,哦吼，有一道水题<span style="text-decoration: line-through">（不是）</span><span>，思考了一下，11点打完，过了第一个样例，躲不起第二个，手推了一遍，发现样例错了？？？，问了问zyz,他也错了，问了问wyd,他还没看，于是问了问jyh,他说没错，于是我认为可能是不加起点，于是重构了代码，13点过了样例还是不对？？？0分？？？于是打暴力，我*******，还是不对？？？于是去看别的题了，很好，还是都不会，看了看t2,搞了一下，感觉还行，但是不想放弃t5,于是随便写了个dp交了，才5分，也不知道哪错了，于是又打了个暴力10分，于是问zyz题意，又回去打暴力，几发WA以后，终于有了20分，太伤心了，想了想100分，发现我不会了，呜呜呜，回去看t2,只有30分钟了，好伤心，t2也来不及了，随便调了调t2的dp,还是10分，就不管了，最后10分钟，看看手机信息，就这样吧。</span></p>
+<p>总结：非常恶心的是，t5我折腾了2个多小时还是没有搞清题意，题目差评，5星差评。</p>
+<p><span>看完题面以后，一定要把所有的比较小的样例手推一遍。</span></p>
+<p><span>不会真的可以去上厕所</span></p>
+<p><span>题解:</span></p>
+<p><span>t1: 像个模拟，f[i]是1--&gt;i是否全部配对，枚举j判断</span></p>
+<p><span>l,r是否合法，考虑4种情况</span></p>
+<p><span>t2:dp</span></p>
+<p>枚举平均数x，f[i][j]就是用前i个数拼成j的方案数，f[i][j]=f[i-1][j]+f[i-1][j-i]+f[i-1][j-2*i]……+f[i-1][j-m*i],最多取m个</p>
+<p>x可以随便取，然后数字就被分成了两部分，1,2,……x-1 和 x+1,x+2……n 这些数的贡献实际上可以认为是1,2,……x-1 和 1,2……n-x，预处理一下就可以了</p>
+<p>t3:太水了</p>
+<p>t4:</p>
+<p>推一下式子+线性筛求莫比乌斯函数</p>
+<p>另一种写法，明天吧，还没写呢</p>
+<p>t5:</p>
+<p>回来填坑了</p>
+<p>先放代码，感谢对拍，感谢随机数据生成器，感谢题解，感谢ccf，感谢cctv，感谢……</p>
+<p>AC来的如此措不及防</p>
+<div class="cnblogs_code">
+<pre>#include&lt;bits/stdc++.h&gt;
+<span style="color: rgba(0, 0, 255, 1)">using</span> <span style="color: rgba(0, 0, 255, 1)">namespace</span><span style="color: rgba(0, 0, 0, 1)"> std;
+</span><span style="color: rgba(0, 0, 255, 1)">const</span> <span style="color: rgba(0, 0, 255, 1)">int</span> N=1e5+<span style="color: rgba(128, 0, 128, 1)">5</span><span style="color: rgba(0, 0, 0, 1)">;
+typedef </span><span style="color: rgba(0, 0, 255, 1)">long</span> <span style="color: rgba(0, 0, 255, 1)">long</span><span style="color: rgba(0, 0, 0, 1)"> ll;
+</span><span style="color: rgba(0, 0, 255, 1)">const</span> ll inf=<span style="color: rgba(128, 0, 128, 1)">0x3f3f3f3f3f3f3f3f</span><span style="color: rgba(0, 0, 0, 1)">;
+</span><span style="color: rgba(0, 0, 255, 1)">int</span><span style="color: rgba(0, 0, 0, 1)"> tot;
+</span><span style="color: rgba(0, 0, 255, 1)">int</span> head[N],to[N*<span style="color: rgba(128, 0, 128, 1)">2</span>],next1[N*<span style="color: rgba(128, 0, 128, 1)">2</span>],val[N*<span style="color: rgba(128, 0, 128, 1)">2</span><span style="color: rgba(0, 0, 0, 1)">];
+</span><span style="color: rgba(0, 0, 255, 1)">void</span> lian(<span style="color: rgba(0, 0, 255, 1)">int</span> x,<span style="color: rgba(0, 0, 255, 1)">int</span> y,<span style="color: rgba(0, 0, 255, 1)">int</span><span style="color: rgba(0, 0, 0, 1)"> v)
+{
+    to[</span>++tot]=<span style="color: rgba(0, 0, 0, 1)">y;
+    next1[tot]</span>=<span style="color: rgba(0, 0, 0, 1)">head[x];
+    head[x]</span>=<span style="color: rgba(0, 0, 0, 1)">tot;
+    val[tot]</span>=<span style="color: rgba(0, 0, 0, 1)">v;
+}
+</span><span style="color: rgba(0, 0, 255, 1)">int</span><span style="color: rgba(0, 0, 0, 1)"> w[N];
+</span><span style="color: rgba(0, 0, 255, 1)">int</span><span style="color: rgba(0, 0, 0, 1)"> vis[N],fq[N],siz[N],mx[N];
+</span><span style="color: rgba(0, 0, 255, 1)">int</span><span style="color: rgba(0, 0, 0, 1)"> qg[N];
+</span><span style="color: rgba(0, 0, 255, 1)">int</span> get_root(<span style="color: rgba(0, 0, 255, 1)">int</span><span style="color: rgba(0, 0, 0, 1)"> s)
+{
+    </span><span style="color: rgba(0, 0, 255, 1)">int</span> hh=<span style="color: rgba(128, 0, 128, 1)">1</span>,tt=<span style="color: rgba(128, 0, 128, 1)">1</span><span style="color: rgba(0, 0, 0, 1)">;
+    fq[s]</span>=<span style="color: rgba(128, 0, 128, 1)">0</span><span style="color: rgba(0, 0, 0, 1)">;
+    qg[</span><span style="color: rgba(128, 0, 128, 1)">1</span>]=<span style="color: rgba(0, 0, 0, 1)">s;
+    </span><span style="color: rgba(0, 0, 255, 1)">while</span>(hh&lt;=<span style="color: rgba(0, 0, 0, 1)">tt)
+    {
+        </span><span style="color: rgba(0, 0, 255, 1)">int</span> x=<span style="color: rgba(0, 0, 0, 1)">qg[hh];
+        hh</span>++<span style="color: rgba(0, 0, 0, 1)">;
+        siz[x]</span>=<span style="color: rgba(128, 0, 128, 1)">1</span>,mx[x]=<span style="color: rgba(128, 0, 128, 1)">0</span><span style="color: rgba(0, 0, 0, 1)">;
+        </span><span style="color: rgba(0, 0, 255, 1)">for</span>(<span style="color: rgba(0, 0, 255, 1)">int</span> i=head[x];i;i=<span style="color: rgba(0, 0, 0, 1)">next1[i])
+        {
+            </span><span style="color: rgba(0, 0, 255, 1)">int</span> v=<span style="color: rgba(0, 0, 0, 1)">to[i];
+            </span><span style="color: rgba(0, 0, 255, 1)">if</span>(vis[v]||v==fq[x]) <span style="color: rgba(0, 0, 255, 1)">continue</span><span style="color: rgba(0, 0, 0, 1)">;
+            fq[v]</span>=<span style="color: rgba(0, 0, 0, 1)">x;
+            qg[</span>++tt]=<span style="color: rgba(0, 0, 0, 1)">v;
+        }
+    }
+    </span><span style="color: rgba(0, 0, 255, 1)">int</span> cnt=tt,ma=tt,root=<span style="color: rgba(0, 0, 0, 1)">s;
+    </span><span style="color: rgba(0, 0, 255, 1)">while</span><span style="color: rgba(0, 0, 0, 1)">(tt)
+    {
+        </span><span style="color: rgba(0, 0, 255, 1)">int</span> x=<span style="color: rgba(0, 0, 0, 1)">qg[tt];
+        tt</span>--<span style="color: rgba(0, 0, 0, 1)">;
+        mx[x]</span>=max(mx[x],cnt-<span style="color: rgba(0, 0, 0, 1)">mx[x]);
+        </span><span style="color: rgba(0, 0, 255, 1)">if</span>(mx[x]&lt;ma) ma=mx[x],root=<span style="color: rgba(0, 0, 0, 1)">x;
+        siz[fq[x]]</span>+=<span style="color: rgba(0, 0, 0, 1)">siz[x];
+        </span><span style="color: rgba(0, 0, 255, 1)">if</span>(siz[x]&gt;mx[fq[x]]) mx[fq[x]]=<span style="color: rgba(0, 0, 0, 1)">siz[x];
+    }
+    </span><span style="color: rgba(0, 0, 255, 1)">return</span><span style="color: rgba(0, 0, 0, 1)"> root;
+}
+ll d_f[N],d_g[N];</span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">f是提供多少油，g是还需要多少油</span>
+<span style="color: rgba(0, 0, 255, 1)">int</span><span style="color: rgba(0, 0, 0, 1)"> cnt_f,cnt_g;
+</span><span style="color: rgba(0, 0, 255, 1)">void</span> dfs(<span style="color: rgba(0, 0, 255, 1)">int</span> x,<span style="color: rgba(0, 0, 255, 1)">int</span> fa,ll dist,ll f,ll g,<span style="color: rgba(0, 0, 255, 1)">int</span><span style="color: rgba(0, 0, 0, 1)"> dy)
+{
+    </span><span style="color: rgba(0, 0, 255, 1)">if</span>(f==<span style="color: rgba(128, 0, 128, 1)">0</span>) d_f[++cnt_f]=<span style="color: rgba(0, 0, 0, 1)">dist;
+    d_g[</span>++cnt_g]=-<span style="color: rgba(0, 0, 0, 1)">g;
+    </span><span style="color: rgba(0, 0, 255, 1)">for</span>(<span style="color: rgba(0, 0, 255, 1)">int</span> i=head[x];i;i=<span style="color: rgba(0, 0, 0, 1)">next1[i])
+    {
+        </span><span style="color: rgba(0, 0, 255, 1)">int</span> v=<span style="color: rgba(0, 0, 0, 1)">to[i];
+        </span><span style="color: rgba(0, 0, 255, 1)">if</span>(v==fa||vis[v]) <span style="color: rgba(0, 0, 255, 1)">continue</span>;<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">vis[v]=1</span>
+        dfs(v,x,dist-val[i]+w[v],min(0ll,f-val[i]+w[v]),min(g,dist-val[i]-<span style="color: rgba(0, 0, 0, 1)">dy),dy);
+    }</span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">f-val[i]+w[v],补了以前的空缺才能被统计,g是前缀最小值</span>
+<span style="color: rgba(0, 0, 0, 1)">}
+ll ans;
+</span><span style="color: rgba(0, 0, 255, 1)">void</span> sol(<span style="color: rgba(0, 0, 255, 1)">int</span><span style="color: rgba(0, 0, 0, 1)"> x)
+{
+    x</span>=<span style="color: rgba(0, 0, 0, 1)">get_root(x);
+    vis[x]</span>=<span style="color: rgba(128, 0, 128, 1)">1</span><span style="color: rgba(0, 0, 0, 1)">;
+    cnt_g</span>=<span style="color: rgba(128, 0, 128, 1)">0</span><span style="color: rgba(0, 0, 0, 1)">;
+    cnt_f</span>=<span style="color: rgba(128, 0, 128, 1)">1</span><span style="color: rgba(0, 0, 0, 1)">;
+    d_f[</span><span style="color: rgba(128, 0, 128, 1)">1</span>]=<span style="color: rgba(0, 0, 0, 1)">w[x];
+ </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">   cout&lt;&lt;x&lt;&lt;" "&lt;&lt;ans&lt;&lt;" ";</span>
+    <span style="color: rgba(0, 0, 255, 1)">for</span>(<span style="color: rgba(0, 0, 255, 1)">int</span> i=head[x];i;i=<span style="color: rgba(0, 0, 0, 1)">next1[i])
+    {
+        </span><span style="color: rgba(0, 0, 255, 1)">int</span> v=<span style="color: rgba(0, 0, 0, 1)">to[i];
+        </span><span style="color: rgba(0, 0, 255, 1)">if</span>(!<span style="color: rgba(0, 0, 0, 1)">vis[v])
+        {
+            </span><span style="color: rgba(0, 0, 255, 1)">int</span> lf=cnt_f+<span style="color: rgba(128, 0, 128, 1)">1</span>,lg=cnt_g+<span style="color: rgba(128, 0, 128, 1)">1</span><span style="color: rgba(0, 0, 0, 1)">;
+            dfs(v,x,w[x]</span>-val[i]+w[v],min(w[v]-val[i],<span style="color: rgba(128, 0, 128, 1)">0</span>),-<span style="color: rgba(0, 0, 0, 1)">val[i],w[x]);
+            </span><span style="color: rgba(0, 0, 255, 1)">if</span>(lf&lt;=cnt_f&amp;&amp;lg&lt;=<span style="color: rgba(0, 0, 0, 1)">cnt_g)
+            {
+                sort(d_f</span>+lf,d_f+cnt_f+<span style="color: rgba(128, 0, 128, 1)">1</span><span style="color: rgba(0, 0, 0, 1)">);
+                sort(d_g</span>+lg,d_g+cnt_g+<span style="color: rgba(128, 0, 128, 1)">1</span><span style="color: rgba(0, 0, 0, 1)">);
+                </span><span style="color: rgba(0, 0, 255, 1)">int</span> r=<span style="color: rgba(0, 0, 0, 1)">lg;
+                </span><span style="color: rgba(0, 0, 255, 1)">for</span>(<span style="color: rgba(0, 0, 255, 1)">int</span> i=lf;i&lt;=cnt_f;i++<span style="color: rgba(0, 0, 0, 1)">)
+                {
+                    </span><span style="color: rgba(0, 0, 255, 1)">while</span>(r&lt;=cnt_g&amp;&amp;d_f[i]&gt;=d_g[r]) r++<span style="color: rgba(0, 0, 0, 1)">;
+                    ans</span>-=r-<span style="color: rgba(0, 0, 0, 1)">lg;
+                }
+            }
+        }
+    }
+    sort(d_f</span>+<span style="color: rgba(128, 0, 128, 1)">1</span>,d_f+cnt_f+<span style="color: rgba(128, 0, 128, 1)">1</span><span style="color: rgba(0, 0, 0, 1)">);
+    sort(d_g</span>+<span style="color: rgba(128, 0, 128, 1)">1</span>,d_g+cnt_g+<span style="color: rgba(128, 0, 128, 1)">1</span><span style="color: rgba(0, 0, 0, 1)">);
+    </span><span style="color: rgba(0, 0, 255, 1)">int</span> r=<span style="color: rgba(128, 0, 128, 1)">1</span><span style="color: rgba(0, 0, 0, 1)">;
+    </span><span style="color: rgba(0, 0, 255, 1)">for</span>(<span style="color: rgba(0, 0, 255, 1)">int</span> i=<span style="color: rgba(128, 0, 128, 1)">1</span>;i&lt;=cnt_f;i++<span style="color: rgba(0, 0, 0, 1)">)
+    {
+        </span><span style="color: rgba(0, 0, 255, 1)">while</span>(r&lt;=cnt_g&amp;&amp;d_f[i]&gt;=d_g[r]) r++<span style="color: rgba(0, 0, 0, 1)">;
+        ans</span>+=r-<span style="color: rgba(128, 0, 128, 1)">1</span>;<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">-1</span>
+<span style="color: rgba(0, 0, 0, 1)">    }
+    ans</span>+=cnt_f-<span style="color: rgba(128, 0, 128, 1)">1</span>;<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">cnt_f-1,g的已经在它当做f的时候统计过了</span>
+    <span style="color: rgba(0, 0, 255, 1)">for</span>(<span style="color: rgba(0, 0, 255, 1)">int</span> i=head[x];i;i=<span style="color: rgba(0, 0, 0, 1)">next1[i])
+    {
+        </span><span style="color: rgba(0, 0, 255, 1)">int</span> v=<span style="color: rgba(0, 0, 0, 1)">to[i];
+        </span><span style="color: rgba(0, 0, 255, 1)">if</span>(!<span style="color: rgba(0, 0, 0, 1)">vis[v]) sol(v);
+    }
+}
+
+</span><span style="color: rgba(0, 0, 255, 1)">int</span><span style="color: rgba(0, 0, 0, 1)"> main()
+{
+    </span><span style="color: rgba(0, 0, 255, 1)">int</span><span style="color: rgba(0, 0, 0, 1)"> n;
+    cin</span>&gt;&gt;<span style="color: rgba(0, 0, 0, 1)">n;
+    </span><span style="color: rgba(0, 0, 255, 1)">for</span>(<span style="color: rgba(0, 0, 255, 1)">int</span> i=<span style="color: rgba(128, 0, 128, 1)">1</span>;i&lt;=n;i++) scanf(<span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">%d</span><span style="color: rgba(128, 0, 0, 1)">"</span>,&amp;<span style="color: rgba(0, 0, 0, 1)">w[i]);
+    </span><span style="color: rgba(0, 0, 255, 1)">int</span><span style="color: rgba(0, 0, 0, 1)"> x,y,v;
+    </span><span style="color: rgba(0, 0, 255, 1)">for</span>(<span style="color: rgba(0, 0, 255, 1)">int</span> i=<span style="color: rgba(128, 0, 128, 1)">1</span>;i&lt;=n-<span style="color: rgba(128, 0, 128, 1)">1</span>;i++<span style="color: rgba(0, 0, 0, 1)">)
+    {
+        scanf(</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">%d %d %d</span><span style="color: rgba(128, 0, 0, 1)">"</span>,&amp;x,&amp;y,&amp;<span style="color: rgba(0, 0, 0, 1)">v);
+        lian(x,y,v),lian(y,x,v);
+    }
+    sol(</span><span style="color: rgba(128, 0, 128, 1)">1</span><span style="color: rgba(0, 0, 0, 1)">);
+    cout</span>&lt;&lt;<span style="color: rgba(0, 0, 0, 1)">ans;
+    </span><span style="color: rgba(0, 0, 255, 1)">return</span> <span style="color: rgba(128, 0, 128, 1)">0</span><span style="color: rgba(0, 0, 0, 1)">;
+}</span></pre>
+</div>
+<p>&nbsp;</p>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2021-05-05 21:57</span>&nbsp;
+<a href="https://www.cnblogs.com/xsm098/">gisfire&</a>&nbsp;
+阅读(<span id="post_view_count">6</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14732940" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14732940);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 588863, cb_blogApp = 'xsm098', cb_blogUserGuid = '55594fe6-7fba-4251-7cd7-08d7cc05c0c2';
+    var cb_entryId = 14732940, cb_entryCreatedDate = '2021-05-05 21:57', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 gisfire&amp;
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    <div id="page_end_html">
+        <!--鼠标特效-->
+<script src="https://blog-static.cnblogs.com/files/zouwangblog/mouse-click.js"></script>
+<canvas width="1777" height="841" style="position: fixed; left: 0px; top: 0px; z-index: 2147483647; pointer-events: none;"></canvas>
+<!--鼠标特效 end--> 
+    </div>
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjtajvoPdCxWLgQhMdn2hkoN8P9Mg7BObHjrdWz0-WWlwF_M6lPZv3KD__ObDP6N-WJ5YEAndXib5d1ajcW32i3U2MJruezum-ljvkyRKHfxS5GXwsfZ9-KiFStMJ8hLJGU" />
+</body>
+</html>

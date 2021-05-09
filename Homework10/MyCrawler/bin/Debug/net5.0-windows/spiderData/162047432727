@@ -1,0 +1,1853 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    
+    
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>SAP梦心 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/buildtowin/bundle-buildtowin.min.css?v=Tgl1d--mRuaeqinLMFZ2zu1KEazOmNWHLTJIcXu4SXU" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/buildtowin/bundle-buildtowin-mobile.min.css?v=iPf_XHQsJ-ofZZ2RiaeMCHG0JEaMNLa9yhkUGK3xTSQ" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/saper/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/saper/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/saper/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 44834;
+        var currentBlogApp = 'saper';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'BuildtoWin';
+        var visitorUserId = '';
+    </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/saper/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/saper/">SAP梦心</a>
+</h1>
+<h2>我懂业务，我精通开发，但我更侧重管理理念和思想！
+<br>欢迎关注微信公众号：sap_gui ，与十万个顾问一起交流学习；</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/saper/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/SAP%E6%A2%A6%E5%BF%83">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/saper/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+
+
+
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/saper/archive/2021/05/07.html">2021年5月7日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/saper/p/14742967.html">
+    <span>
+        哪有那么多为什么？
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：欢迎关注微信公众号：sap_gui （ERP咨询顾问之家） 前段时间与一家企业信息总监聊天，说他们公司正在考虑升级ERP，谈到ERP的应用情况，他说华为轮值CEO徐直军曾经说过华为的信息化折腾了20多年，到了2016年才实现“流程基本贯通，账实终于相符”。 他们公司系统使用情况也不是特别理想：主数据        <a href="https://www.cnblogs.com/saper/p/14742967.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-05-07 22:30
+SAP梦心
+<span data-post-id="14742967" class="post-view-count">阅读(237)</span> 
+<span data-post-id="14742967" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14742967" class="post-digg-count">推荐(2)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14742967" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/saper/archive/2021/05/06.html">2021年5月6日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/saper/p/14734665.html">
+    <span>
+        为什么传统软件厂商都想转型做Saas？
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：欢迎关注微信公众号：sap_gui （ERP咨询顾问之家） 早些年，我工作笔记用的最多的是微软的OneNote，这东西好用不说，不仅能够存在云端，也能存放在本地。可惜到了Office2019之后，OneNote不再随Office软件包附带，而是改为了线上模式，再没法打开本地存放的笔记本。 鉴于国内微        <a href="https://www.cnblogs.com/saper/p/14734665.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-05-06 12:55
+SAP梦心
+<span data-post-id="14734665" class="post-view-count">阅读(1395)</span> 
+<span data-post-id="14734665" class="post-comment-count">评论(3)</span> 
+<span data-post-id="14734665" class="post-digg-count">推荐(2)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14734665" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/saper/archive/2021/04/30.html">2021年4月30日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/saper/p/14721647.html">
+    <span>
+        把握好集成测试大关，ERP就成功了一大半
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：欢迎关注微信公众号：sap_gui （ERP咨询顾问之家） 前段时间收到一个朋友的信息，说他们目前正在实施ERP系统，已经到了集成测试环节了，但整个测试过程下来并不是太理想，很多接口不通，功能也还在开发或修改中。 其实早些天之前我就收到他发给我的集成测试脚本，让我参考给些意见。虽然我不了解他们公司的        <a href="https://www.cnblogs.com/saper/p/14721647.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-30 12:55
+SAP梦心
+<span data-post-id="14721647" class="post-view-count">阅读(497)</span> 
+<span data-post-id="14721647" class="post-comment-count">评论(3)</span> 
+<span data-post-id="14721647" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14721647" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/saper/archive/2021/04/25.html">2021年4月25日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/saper/p/14702005.html">
+    <span>
+        这种ERP系统核查工作实际是在做无用功
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：前段时间跟朋友聊起他们公司持续了好几年的ERP核查工作，此时他正在一家分公司做核查。ERP核查工作我是知道的，一个季度一次，每个模块出一个人去子公司巡回巡查，主要核查ERP系统的使用情况。 核查工作主要有主数据的核查，单据的核查，系统操作情况核查等。在子公司核查期间还会顺便解决操作人员的操作问题等。        <a href="https://www.cnblogs.com/saper/p/14702005.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-25 20:54
+SAP梦心
+<span data-post-id="14702005" class="post-view-count">阅读(464)</span> 
+<span data-post-id="14702005" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14702005" class="post-digg-count">推荐(1)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14702005" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/saper/archive/2021/04/23.html">2021年4月23日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/saper/p/14694160.html">
+    <span>
+        别闹了，这些都不是数字化转型
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：感觉最近数字化转型是真的很火，凡是跟IT相关的公众号大多数都在谈数字化转型，当然也有可能它从来就没降温过。不管什么企业，总是要在数字化转型的池塘里探上一脚湿湿鞋，沾沾光。 也有人说，说数字化是业务驱动的，数字化的需求来自业务部门，对不起，这种说法是很片面的，是对数字化最大的误解，是狭隘的。 好吧，那        <a href="https://www.cnblogs.com/saper/p/14694160.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-23 15:43
+SAP梦心
+<span data-post-id="14694160" class="post-view-count">阅读(526)</span> 
+<span data-post-id="14694160" class="post-comment-count">评论(2)</span> 
+<span data-post-id="14694160" class="post-digg-count">推荐(6)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14694160" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/saper/archive/2021/04/16.html">2021年4月16日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/saper/p/14668596.html">
+    <span>
+        对不起，“下一代ERP”仍旧是现在的ERP
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：最近数字化转型太火了，到处都是相关数字化的网文。很多人又说在数字化转型时代，ERP早就落伍了云云，取而代之的是什么“下一代ERP”，叫什么“EBC”、“物联网ERP”、“i-ERP”、“云智慧ERP”、“NERP”、“数字ERP”等等，各种新鲜词汇层出不穷，到处在充斥着“互联网黑话”。 抱歉：在数字        <a href="https://www.cnblogs.com/saper/p/14668596.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-16 20:10
+SAP梦心
+<span data-post-id="14668596" class="post-view-count">阅读(1057)</span> 
+<span data-post-id="14668596" class="post-comment-count">评论(5)</span> 
+<span data-post-id="14668596" class="post-digg-count">推荐(8)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14668596" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+            <div class="postSeparator"></div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/saper/p/14668592.html">
+    <span>
+        这世界真小
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：今天参加公司ERP项目升级评标会，意外发现前来讲标的实施方团队里面有一个顾问恰好是之前做项目合作过的实施顾问，只不过那时候Ta是在另一家实施公司。转眼已经是好几年前了，不得不感叹这世界真小！ Ta自然没有认出我来，如果不是看到标书里Ta的项目简介，我也差点没认出Ta。在上一次的项目里，我是甲方内部顾        <a href="https://www.cnblogs.com/saper/p/14668592.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-16 20:09
+SAP梦心
+<span data-post-id="14668592" class="post-view-count">阅读(103)</span> 
+<span data-post-id="14668592" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14668592" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14668592" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/saper/archive/2021/04/01.html">2021年4月1日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/saper/p/14604712.html">
+    <span>
+        SAP S4HANA 2020 Fully-Activated Appliance 虚拟机版分享
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：花费了整整一个周末加两个晚上，终于将最新的SAP S/4HANA 2020, Fully-Activated Appliance从Amazon远程主机打包下载下来，做成VM虚拟机，对，你没看错，很多人心心念念的Fully-Activated Appliance版本，自带业务数据，简称FAA。整个过程        <a href="https://www.cnblogs.com/saper/p/14604712.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-01 08:44
+SAP梦心
+<span data-post-id="14604712" class="post-view-count">阅读(221)</span> 
+<span data-post-id="14604712" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14604712" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14604712" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/saper/archive/2021/01/03.html">2021年1月3日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/saper/p/14227421.html">
+    <span>
+        如何根据角色批量激活SAP Fiori服务
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：我们知道Fiori的角色跟ERP的角色是不通用的，即使你的账号有SAP_ALL的权限，但打开Fiori的时候一样是空的一片： 只有给账号加上fiori需要的角色，并激活相关服务才能用fiori app，否则打开Fiori apps会报错，具体错误可以通过GUI事务代码：/n/iwfnd/error_        <a href="https://www.cnblogs.com/saper/p/14227421.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-01-03 23:11
+SAP梦心
+<span data-post-id="14227421" class="post-view-count">阅读(317)</span> 
+<span data-post-id="14227421" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14227421" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14227421" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/saper/archive/2020/12/18.html">2020年12月18日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/saper/p/14157419.html">
+    <span>
+        听说特斯拉花了4个月研发出新ERP，然后很多人都疯了
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：欢迎关注微信公众号：sap_gui （ERP咨询顾问之家） 最近这件事儿在SAP圈里炒的挺火的，最主要是因为这几个关键词： 放弃SAP、4个月、自研ERP； 这则新闻一出来，很多人都兴高采烈，都要疯了，到处疾呼： “ 你看SAP这么牛逼，不也被替换了么？ 谁说自研ERP没出路，人家不也成功了？ 这是        <a href="https://www.cnblogs.com/saper/p/14157419.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2020-12-18 22:25
+SAP梦心
+<span data-post-id="14157419" class="post-view-count">阅读(2431)</span> 
+<span data-post-id="14157419" class="post-comment-count">评论(9)</span> 
+<span data-post-id="14157419" class="post-digg-count">推荐(5)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14157419" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/saper/archive/2020/11/29.html">2020年11月29日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/saper/p/14055019.html">
+    <span>
+        入职国企一周
+    </span>
+    
+
+    <img src="/images/lock.svg" class="text-tail-icon" title="密码保护" alt="密码保护" />
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+该文被密码保护。        <a href="https://www.cnblogs.com/saper/p/14055019.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2020-11-29 00:24
+SAP梦心
+<span data-post-id="14055019" class="post-view-count">阅读(2679)</span> 
+<span data-post-id="14055019" class="post-comment-count">评论(16)</span> 
+<span data-post-id="14055019" class="post-digg-count">推荐(7)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14055019" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/saper/archive/2020/11/26.html">2020年11月26日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/saper/p/14045320.html">
+    <span>
+        这些奇葩的SAP顾问们，你们摆正位置了吗
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：欢迎关注微信公众号：sap_gui （ERP咨询顾问之家） 说明：工作中碰到少见的奇葩的SAP顾问，故写下此文，请勿对号入座。 乙方顾问对于甲方而言，就好比如甲方内部顾问对业务部门，甚至可以用理发师服务顾客来比喻。我想每个人进理发店剪头发洗头，肯定不希望理发师嘲笑嫌弃自己头发脏乱长。服务好对方才是这        <a href="https://www.cnblogs.com/saper/p/14045320.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2020-11-26 23:15
+SAP梦心
+<span data-post-id="14045320" class="post-view-count">阅读(396)</span> 
+<span data-post-id="14045320" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14045320" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14045320" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/saper/archive/2020/11/08.html">2020年11月8日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/saper/p/13946481.html">
+    <span>
+        SAP S/4HANA 2020安装实录
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：欢迎关注微信公众号：sap_gui （ERP咨询顾问之家） 今天开始试着安装SAP S/4HANA 2020版本，也是目前SAP ERP最高的版本，总安装文件大小大概50GB，数据库版本必须是HANA2.0 SPS05以上，操作系统SUSE必须是15.1版本。 我是在Win10系统下安装了VMwar        <a href="https://www.cnblogs.com/saper/p/13946481.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2020-11-08 23:32
+SAP梦心
+<span data-post-id="13946481" class="post-view-count">阅读(582)</span> 
+<span data-post-id="13946481" class="post-comment-count">评论(1)</span> 
+<span data-post-id="13946481" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=13946481" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/saper/archive/2020/08/04.html">2020年8月4日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/saper/p/13435950.html">
+    <span>
+        你真的会测试吗？
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：前段时间公司在做一个专案，关于开发SAP三方交易单据联动的平台，大概功能就是系统里面两家公司交易业务里自动根据销售公司对客户的销售订单生成相应的采购订单和销售订单，包括后续交货单联动创建，开票和发票校验联动创建等。 或许你会问为何不用SAP标准的公司间销售（跨公司销售）的功能，因为公司财务觉得此标准        <a href="https://www.cnblogs.com/saper/p/13435950.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2020-08-04 21:11
+SAP梦心
+<span data-post-id="13435950" class="post-view-count">阅读(469)</span> 
+<span data-post-id="13435950" class="post-comment-count">评论(0)</span> 
+<span data-post-id="13435950" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=13435950" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/saper/archive/2020/07/13.html">2020年7月13日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/saper/p/13295283.html">
+    <span>
+        我有一个大胆的想法
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：“我有一个大胆的想法”俨然成为我的口头禅了，特别是在需求探讨和业务流程梳理上面特别有用。先当场抛出一个大胆的想法，再小心求证，不断修正，最后形成可行的方案。 三方交易平台 集团旗下很多子公司，彼此之间关联交易都是采用的自开发的三方交易平台，虽然一定程度上可以简化用户的操作，但往来单据都需要人工去触发        <a href="https://www.cnblogs.com/saper/p/13295283.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2020-07-13 19:53
+SAP梦心
+<span data-post-id="13295283" class="post-view-count">阅读(436)</span> 
+<span data-post-id="13295283" class="post-comment-count">评论(0)</span> 
+<span data-post-id="13295283" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=13295283" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/saper/archive/2020/07/11.html">2020年7月11日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/saper/p/13285835.html">
+    <span>
+        什么样的系统算是坑——后传
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：自从《什么样的系统算是坑》公众号文章发布之后，很多人留言问我接下来会怎么处理，表示会持续关注。 现在一年过去了，也许是应该好好说一下了。 艰难时刻 没错，刚接手的时候，是真的很艰难。这套系统是真的很坑，不仅用户操作繁琐，而且系统功能和数据出错率极高，运行速度很慢。曾经用JMeter做过压测，20个用        <a href="https://www.cnblogs.com/saper/p/13285835.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2020-07-11 22:21
+SAP梦心
+<span data-post-id="13285835" class="post-view-count">阅读(469)</span> 
+<span data-post-id="13285835" class="post-comment-count">评论(0)</span> 
+<span data-post-id="13285835" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=13285835" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/saper/archive/2020/07/05.html">2020年7月5日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/saper/p/13252335.html">
+    <span>
+        为什么数据备份那么重要?
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：相信IT从业者都会知道备份的重要性，小到一个PPT，一个Excel，大到信息化系统，数据库的备份。 以前我是不太重视对数据的备份的，吃过几次亏之后就学乖了。上大学的时候有一次被一个同学拷数据，直接对硬盘插拔对拷数据，但由于没有断电插拔导致硬盘里80G的资料丢失，很多照片及文档就这样灰飞烟灭。从此我学        <a href="https://www.cnblogs.com/saper/p/13252335.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2020-07-05 22:49
+SAP梦心
+<span data-post-id="13252335" class="post-view-count">阅读(772)</span> 
+<span data-post-id="13252335" class="post-comment-count">评论(4)</span> 
+<span data-post-id="13252335" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=13252335" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+            <div class="postSeparator"></div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/saper/p/13252263.html">
+    <span>
+        “SAP咨询顾问之家”公众号恢复结果
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：自从公众号被封之后，我第一时间进行申诉，不过结果可以意料到——申诉失败。 经另一个被封公众号管理员反馈的信息，此次封号是因为SAP德国总部法务部们发起的，理由是“公众号未经授权许可，在昵称、自动回复、自定义菜单、群发内容等大量使用&#39;SAP&#39;商标，并且在其提供商标类别内，容易导致用户混淆和误认，或误以        <a href="https://www.cnblogs.com/saper/p/13252263.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2020-07-05 22:34
+SAP梦心
+<span data-post-id="13252263" class="post-view-count">阅读(542)</span> 
+<span data-post-id="13252263" class="post-comment-count">评论(6)</span> 
+<span data-post-id="13252263" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=13252263" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/saper/archive/2020/07/04.html">2020年7月4日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/saper/p/13234305.html">
+    <span>
+        写在“SAP咨询顾问之家”公众号被封之后
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：一切是那么突然，那么猝不及防。 2020年6月28号11:40分，经营了3年的微信公众号“SAP咨询顾问之家”突然被封掉了：涉嫌侵犯他人合法权益？已封号至永久？该账号已注销？看得我一愣一愣的，急忙登录微信公众号查看：此时微信公众号里面的文章都已经打不开了，全部提示内容无法查看：可怜我里面112篇原创        <a href="https://www.cnblogs.com/saper/p/13234305.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2020-07-04 11:27
+SAP梦心
+<span data-post-id="13234305" class="post-view-count">阅读(529)</span> 
+<span data-post-id="13234305" class="post-comment-count">评论(0)</span> 
+<span data-post-id="13234305" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=13234305" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/saper/archive/2019/12/17.html">2019年12月17日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/saper/p/14021314.html">
+    <span>
+        入职一周
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：很意外的是我又一次跳槽了（2017.12.10），而且是在一年内经历了三家公司。相对其他同事朋友而言，频繁更换工作环境使得我的经历其实更加丰富，见识到了很多的项目，不管是烂项目也好，优秀的项目也罢，都使我眼界大开，积累不少经验和教训；同时也见识到了三家不同企业的信息化建设程度，不管是信息化沙漠也好，        <a href="https://www.cnblogs.com/saper/p/14021314.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2019-12-17 23:21
+SAP梦心
+<span data-post-id="14021314" class="post-view-count">阅读(237)</span> 
+<span data-post-id="14021314" class="post-comment-count">评论(1)</span> 
+<span data-post-id="14021314" class="post-digg-count">推荐(1)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14021314" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/saper/archive/2019/07/16.html">2019年7月16日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/saper/p/11197990.html">
+    <span>
+        SAP IDOC 通过采购订单输出消息生成销售订单
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：题记： 在网络上看到一篇类似的公众号文章，叫《通过IDoc逐步指导PO&amp;SO集成》，个人觉得整个配置过程中还是少了一些重点配置，也少了说明整个功能的核心逻辑，那么，趁着这个机会，就让我来完整说明一下吧！ 业务说明： 本功能是用在销售公司接单之后，向生产公司创建采购订单采购物料，系统通过IDOC的设置        <a href="https://www.cnblogs.com/saper/p/11197990.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2019-07-16 22:32
+SAP梦心
+<span data-post-id="11197990" class="post-view-count">阅读(1785)</span> 
+<span data-post-id="11197990" class="post-comment-count">评论(0)</span> 
+<span data-post-id="11197990" class="post-digg-count">推荐(1)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=11197990" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/saper/archive/2019/07/14.html">2019年7月14日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/saper/p/11186098.html">
+    <span>
+        我应该怎么学习SAP？
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：越来越多的人关注本公众号，在后台留言问我怎么进入SAP行业，应该怎么学习SAP，大部分都是外行想入行SAP的朋友。作为过来人，这些问题我也曾经问过别人，也走过不少弯路。但现在轮到别人问我了，为了让初学者少走弯路，根据我的经历和经验，在这里做一次统一的解答，观点不一定正确，但绝不唬人！ 1、SAP顾问        <a href="https://www.cnblogs.com/saper/p/11186098.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2019-07-14 22:11
+SAP梦心
+<span data-post-id="11186098" class="post-view-count">阅读(5598)</span> 
+<span data-post-id="11186098" class="post-comment-count">评论(0)</span> 
+<span data-post-id="11186098" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=11186098" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/saper/archive/2019/07/06.html">2019年7月6日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/saper/p/11144659.html">
+    <span>
+        SAP 销售订单交货对成本中心记账
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：销售订单发货不计入主营业务成本，而是直接接入费用科目，与成本中心挂钩的业务经常发生。不少公司只是简单地处理交货，计入主营业务成本，然后财务再手工将成本归结到相关的成本中心。其实SAP系统是支持销售订单发货过账的时候直接将成本计入成本中心的。 适用的场景可能有比如销售免费品、销售样品以及破损补发等业务        <a href="https://www.cnblogs.com/saper/p/11144659.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2019-07-06 23:22
+SAP梦心
+<span data-post-id="11144659" class="post-view-count">阅读(3438)</span> 
+<span data-post-id="11144659" class="post-comment-count">评论(0)</span> 
+<span data-post-id="11144659" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=11144659" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+            <div class="postSeparator"></div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/saper/p/11144643.html">
+    <span>
+        从华为“鸿蒙”备胎看IT项目建设
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：别误会啊，本文并不在讲大家在做IT项目建设的时候学华为做一个备胎系统，以防正主系统崩掉之后能够及时替换到备胎系统里面，不影响业务。 前段时间华为被美帝制裁，然后各家组织对华为各种限制。然而华为整体布局不受大的影响，一封“备胎转正”的公开信闹得沸沸扬扬，国人纷纷为华为的先见之名点赞。“鸿蒙系统”也随之        <a href="https://www.cnblogs.com/saper/p/11144643.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2019-07-06 23:17
+SAP梦心
+<span data-post-id="11144643" class="post-view-count">阅读(640)</span> 
+<span data-post-id="11144643" class="post-comment-count">评论(2)</span> 
+<span data-post-id="11144643" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=11144643" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/saper/archive/2019/07/03.html">2019年7月3日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/saper/p/11124244.html">
+    <span>
+        什么样的系统算是坑
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：最近很“荣幸”工作上被安排成为一个项目的主要负责人，美其名曰：项目经理。前任项目经理直到要离职的时候也基本上没有交接什么，实际上也没有什么可以交接的。临了丢给我一些项目的纸质资料。 简单跟他聊了一下这个项目的大致情况，一期只是完成蓝图规划的50%的功能就匆匆结束并验收了。虽说目前进行到二期，但实际上        <a href="https://www.cnblogs.com/saper/p/11124244.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2019-07-03 08:29
+SAP梦心
+<span data-post-id="11124244" class="post-view-count">阅读(885)</span> 
+<span data-post-id="11124244" class="post-comment-count">评论(0)</span> 
+<span data-post-id="11124244" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=11124244" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/saper/archive/2019/06/30.html">2019年6月30日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/saper/p/11110384.html">
+    <span>
+        写在Logg SAP项目上线之际
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：根据大环境大行业的惯用做法，公司建立Logg品牌是在意料之中。毫无意外的，Logg也要上到SAP系统中。 其实按它的业务模式来说上SAP系统并不困难，早在几年前就已经有做过了。无非就是接单不生产，外包给集团其他工厂生产出货而已。但又跟之前的模式有很多不同的地方，Logg是独立品牌，跟生产公司更像是O        <a href="https://www.cnblogs.com/saper/p/11110384.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2019-06-30 17:00
+SAP梦心
+<span data-post-id="11110384" class="post-view-count">阅读(644)</span> 
+<span data-post-id="11110384" class="post-comment-count">评论(0)</span> 
+<span data-post-id="11110384" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=11110384" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+            <div class="postSeparator"></div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/saper/p/11108831.html">
+    <span>
+        SAP系统邮件功能配置
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：相信SAP顾问或多或少都会接到用户要求SAP系统能够定时发送邮件的功能，定时将用户需要的信息已邮件的方式发送给固定的人员。 下面就来讲一下SAP发送邮件应该如何配置： 1、RZ10做配置： is/SMTP/virt_host_0 值： *:25; icm/server_port_1 值： PROT=        <a href="https://www.cnblogs.com/saper/p/11108831.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2019-06-30 10:04
+SAP梦心
+<span data-post-id="11108831" class="post-view-count">阅读(5260)</span> 
+<span data-post-id="11108831" class="post-comment-count">评论(0)</span> 
+<span data-post-id="11108831" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=11108831" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/saper/archive/2019/06/28.html">2019年6月28日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/saper/p/11102065.html">
+    <span>
+        警惕SAP项目被“中间商赚差价”
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：前段时间某买卖二手车的广告特别火，里面有一句话叫“没有中间商赚差价”特别有说服力。同样在做SAP项目的过程中也是要警惕各种“中间商”赚差价。 正常的SAP项目的都是甲方和乙方两边签署合同合作实施，并不会有第三方参与。甲方负责提供场地，提需求，提供关键用户和IT资源等等，乙方负责出顾问出技术。但是笔者        <a href="https://www.cnblogs.com/saper/p/11102065.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2019-06-28 12:34
+SAP梦心
+<span data-post-id="11102065" class="post-view-count">阅读(1268)</span> 
+<span data-post-id="11102065" class="post-comment-count">评论(2)</span> 
+<span data-post-id="11102065" class="post-digg-count">推荐(2)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=11102065" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/saper/archive/2019/06/26.html">2019年6月26日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/saper/p/11087842.html">
+    <span>
+        由老同事学习SAP所想到的
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：前段时间一位老同事在微信上跟我说他们公司正计划导SAP系统，但整个IT中心几乎无人使用过SAP，知道我在这行业干了多年了，所以想问我怎么开始学习。于是我约他今天出来聊聊，顺便把手里的SAP ECC EHP6版本的虚拟机拷给他自己先自学。 他们公司一直都是在用九二年版的QAD系统（美国ERP厂商），跟        <a href="https://www.cnblogs.com/saper/p/11087842.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2019-06-26 08:42
+SAP梦心
+<span data-post-id="11087842" class="post-view-count">阅读(2365)</span> 
+<span data-post-id="11087842" class="post-comment-count">评论(3)</span> 
+<span data-post-id="11087842" class="post-digg-count">推荐(2)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=11087842" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/saper/archive/2019/06/23.html">2019年6月23日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/saper/p/11074571.html">
+    <span>
+        SAP 客户信贷重建一则
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：前段时间接到业务的一个需求，需要将标准和定制业务的信贷分开。原来目前公司是将标准和定制的客户信贷金额整在一起，共用一个信贷范围。而定制业务特殊性决定了公司要收到客户全款才会接单生产并发货，而客户打预收款的时候是不分标准和定制的。 为了解决这个问题，我这边给出的方案是新建定制的信贷范围，将标准和定制分        <a href="https://www.cnblogs.com/saper/p/11074571.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2019-06-23 21:55
+SAP梦心
+<span data-post-id="11074571" class="post-view-count">阅读(1631)</span> 
+<span data-post-id="11074571" class="post-comment-count">评论(0)</span> 
+<span data-post-id="11074571" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=11074571" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/saper/archive/2018/12/18.html">2018年12月18日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/saper/p/10140736.html">
+    <span>
+        作为IT，你的价值在哪里？
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：也许最近是真的被无穷无尽的数据整理、导入、再整理、再导入给恶心到了。 业务部提交的数据只是一个非常初始的数据，IT还得在这个基础上七整八整，对导出的结果还要再做二次导入三次导入，不仅要帮业务部批导生成销售订单，连着交货、交货过账都得一并处理。十多万笔的数据要在年底之前全部导入系统中，做到分毫不差，而        <a href="https://www.cnblogs.com/saper/p/10140736.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2018-12-18 23:05
+SAP梦心
+<span data-post-id="10140736" class="post-view-count">阅读(3107)</span> 
+<span data-post-id="10140736" class="post-comment-count">评论(2)</span> 
+<span data-post-id="10140736" class="post-digg-count">推荐(5)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=10140736" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/saper/archive/2018/12/15.html">2018年12月15日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/saper/p/10125098.html">
+    <span>
+        云ERP真的靠谱吗？
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：现在几乎每个IT系统或项目都要跟云挂上钩，跟数码产品必与“智能”扯上关系一样，否则在外行甚至同行眼里就是“矮小搓”。ERP领域也悄然刮起了云端化。国内ERP产品也借此机会想弯道超车，通过云化来抢夺被SAP和Oracle占去的高端ERP市场。 云端化听多了，企业信息化决策者难免会有这样的错觉，如果不顺        <a href="https://www.cnblogs.com/saper/p/10125098.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2018-12-15 22:11
+SAP梦心
+<span data-post-id="10125098" class="post-view-count">阅读(4636)</span> 
+<span data-post-id="10125098" class="post-comment-count">评论(0)</span> 
+<span data-post-id="10125098" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=10125098" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/saper/archive/2018/12/06.html">2018年12月6日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/saper/p/10074796.html">
+    <span>
+        SAP 销售条件表增强栏位
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：有时遇到一个比较特殊的业务，比如公司间免费订单，既要让价格为0，不读取VK11里创建的价格， 又要让公司间的价格读取VK11，这实际上是有矛盾的，也就是说一个订单里面的两行，物料一样，客户一样，就会出现矛盾。 于是就可以考虑用销售订单行项目类别来做，翻看后台配置，可以发现销售订单行项目类别栏位PST        <a href="https://www.cnblogs.com/saper/p/10074796.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2018-12-06 08:33
+SAP梦心
+<span data-post-id="10074796" class="post-view-count">阅读(1523)</span> 
+<span data-post-id="10074796" class="post-comment-count">评论(0)</span> 
+<span data-post-id="10074796" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=10074796" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/saper/archive/2018/08/03.html">2018年8月3日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/saper/p/9414382.html">
+    <span>
+        ERP项目应该由谁来主导？
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：前段时间在朋友圈看到了别人分享的公众号，主要是谈ERP项目应该由谁来主导的问题。文章的观点认为应该由哪个部门主导ERP的判断标准如下： 1、应该由一个期望上进的部门主导ERP项目； 2、应该由一个有话语权的部门主导ERP项目； 听起来好像头头是道很有道理的样子，但我严重不敢苟同。且不论期望上进的部门        <a href="https://www.cnblogs.com/saper/p/9414382.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2018-08-03 15:28
+SAP梦心
+<span data-post-id="9414382" class="post-view-count">阅读(1881)</span> 
+<span data-post-id="9414382" class="post-comment-count">评论(0)</span> 
+<span data-post-id="9414382" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=9414382" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/saper/archive/2018/07/12.html">2018年7月12日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/saper/p/9302548.html">
+    <span>
+        他们是谁？
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：笔者目前所做的项目需要频繁跟供方（乙方）接触，遇到问题要协调处理的时候，经常碰到供方这样回复：不好意思，这个不是我们这个模块能处理的，这个是他们那个模块的工作，你去问他们吧。 我又想起之前听到的一个故事： 某家大楼装电梯，装完之后有一天下大雨，水流到电梯井里然后电梯发生了故障。 大楼负责人就找电梯公        <a href="https://www.cnblogs.com/saper/p/9302548.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2018-07-12 23:46
+SAP梦心
+<span data-post-id="9302548" class="post-view-count">阅读(677)</span> 
+<span data-post-id="9302548" class="post-comment-count">评论(0)</span> 
+<span data-post-id="9302548" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=9302548" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/saper/archive/2018/06/17.html">2018年6月17日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/saper/p/9191825.html">
+    <span>
+        怎么样开会才有效果？
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：SAP项目实施过程中，难免不了要开不少的会议，无论是最前期的选型，还是商谈，乃至后面上线评审都免不了将很多项目干系人聚在一起就出现的问题或大家关心的问题摆在台面上做探讨。但只要你开过大会议你就会知道很多时候开会纯粹是为了开会而开会，讨论的问题没有跟进，没有现场会议纪要，还有就是各说各的，扯到最后才发        <a href="https://www.cnblogs.com/saper/p/9191825.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2018-06-17 00:18
+SAP梦心
+<span data-post-id="9191825" class="post-view-count">阅读(1340)</span> 
+<span data-post-id="9191825" class="post-comment-count">评论(0)</span> 
+<span data-post-id="9191825" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=9191825" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/saper/archive/2018/06/05.html">2018年6月5日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/saper/p/9138075.html">
+    <span>
+        IT真的是万能的吗？
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：朋友最近郁闷了，作为企业信息化主管的他最近经常听到的一句话就是：IT是万能的，不能拒绝用户的任何需求。这句话如果是普通用户私下开玩笑说说也就罢了，但现在演变成了老板在会议场合不止一次这么说，那就让人匪夷所思了。 企业信息化部门承担着整个公司业务需求的技术落地以及实施信息化项目对公司新业务模式的支撑，        <a href="https://www.cnblogs.com/saper/p/9138075.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2018-06-05 09:25
+SAP梦心
+<span data-post-id="9138075" class="post-view-count">阅读(2692)</span> 
+<span data-post-id="9138075" class="post-comment-count">评论(12)</span> 
+<span data-post-id="9138075" class="post-digg-count">推荐(4)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=9138075" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/saper/archive/2018/06/01.html">2018年6月1日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/saper/p/9120021.html">
+    <span>
+        SAP生产机该不该开放Debuger权限
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：前段时间公司定制系统在调用SAP RFC接口的时候报错了，看错误消息一时半会儿也不知道是哪里参数数据错误，就想着进到SAP系统里面对这个接口做远程Debuger，跟踪一下参数变量的变化，结果发现根本就没有这个权限。 我记得当初入职的时候是有申请过这个权限的，包括IT总裁及公司老板在内的都同意了该申请        <a href="https://www.cnblogs.com/saper/p/9120021.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2018-06-01 08:39
+SAP梦心
+<span data-post-id="9120021" class="post-view-count">阅读(1898)</span> 
+<span data-post-id="9120021" class="post-comment-count">评论(4)</span> 
+<span data-post-id="9120021" class="post-digg-count">推荐(1)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=9120021" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/saper/archive/2018/05/29.html">2018年5月29日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/saper/p/9108471.html">
+    <span>
+        从《致加西亚的信》看项目管理
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：很多领导者或者成功学大师很喜欢在不同的场合引用《致加西亚的信》的内容，以此来激励和教育别人怎样做事才是好员工，他们对文中的主人公罗文的做事风格钦佩不已。 但我却要破一盆冷水，因为从项目管理理论上来看，罗文绝对是一个烂PM（Project Manager）。我们来回顾一下《致加西亚的信》讲的一个故事：        <a href="https://www.cnblogs.com/saper/p/9108471.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2018-05-29 23:04
+SAP梦心
+<span data-post-id="9108471" class="post-view-count">阅读(2184)</span> 
+<span data-post-id="9108471" class="post-comment-count">评论(3)</span> 
+<span data-post-id="9108471" class="post-digg-count">推荐(6)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=9108471" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/saper/archive/2018/05/27.html">2018年5月27日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/saper/p/9096661.html">
+    <span>
+        再谈ERP选型
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：这几天收到老友的消息，谈及他们公司ERP选型的结果，基本上确定了使用Oracle EBS，因此闹了接近一年的选SAP还是选Oracle的纷争落下帷幕。 这家企业我去年曾去交流过，跟他们聊了一下ERP行业的大概。因为业务升级以及公司发展的需要，需要在金蝶K3的基础上升级到更高水平的ERP系统。我只是跟        <a href="https://www.cnblogs.com/saper/p/9096661.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2018-05-27 17:27
+SAP梦心
+<span data-post-id="9096661" class="post-view-count">阅读(3518)</span> 
+<span data-post-id="9096661" class="post-comment-count">评论(1)</span> 
+<span data-post-id="9096661" class="post-digg-count">推荐(2)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=9096661" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+
+<div class="topicListFooter">
+    <div id="nav_next_page">
+        
+    <a href="https://www.cnblogs.com/saper/default.html?page=2">
+        下一页
+    </a>
+
+    </div>    
+</div>
+
+
+
+
+
+
+<script>
+    updatePostStats(
+        $(".post-view-count").map(function () { return this.dataset.postId }).get(),
+        function(id, count) { $(".post-view-count[data-post-id=" + id + "]").text("阅读(" + count + ")") },
+        function(id, count) { $(".post-comment-count[data-post-id=" + id + "]").text("评论(" + count + ")") },
+        function(id, count) { $(".post-digg-count[data-post-id=" + id + "]").text("推荐(" + count + ")") });
+</script>
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 SAP梦心
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    <div id="page_end_html">
+        <div align="center" style="margin-top:6px">鄙视一切不懂技术又装懂的小人！</div>
+<br />
+    </div>
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjtrukD4F3AoSWAXL91eOzi3SiIeavEUFfKRK0eoL_11mvrKjHb_jBhMCvmOHLycB9O3tSVAkywSDe0d2C_11btgJOJYdNlTfxxm-OTQe9ShO1UJ4d0VO_BTlLVZkDXZHtg" />
+</body>
+</html>

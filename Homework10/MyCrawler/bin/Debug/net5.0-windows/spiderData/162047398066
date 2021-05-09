@@ -1,0 +1,629 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    
+    
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>东邪独孤 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/moonlightink/bundle-moonlightink.min.css?v=iVE30sZ6vb6blzqPWbGs2kM432fxmh8k3P9XllAp48s" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/moonlightink/bundle-moonlightink-mobile.min.css?v=axcwoS9UbqWFSKj9O2YcPP0sVreDAEIZDpcqOVKt8M4" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/tcjiaan/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/tcjiaan/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/tcjiaan/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 113198;
+        var currentBlogApp = 'tcjiaan';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'MoonlightInk';
+        var visitorUserId = '';
+    </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/tcjiaan/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/tcjiaan/">老周</a>
+</h1>
+<h2>成于天性，行于自然。</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/tcjiaan/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E4%B8%9C%E9%82%AA%E7%8B%AC%E5%AD%A4">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/tcjiaan/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+
+
+
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/tcjiaan/archive/2021/05/03.html">2021年5月3日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/tcjiaan/p/14725531.html">
+    <span>
+        【.NET 与树莓派】数模转换
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="cnblogs-post-body" id="postlist_postbody_14725531">
+        正文内容加载中...
+    </div>
+    <script type="text/javascript">getBlogPostBody(14725531);</script>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-05-03 19:31
+东邪独孤
+<span data-post-id="14725531" class="post-view-count">阅读(255)</span> 
+<span data-post-id="14725531" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14725531" class="post-digg-count">推荐(3)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14725531" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/tcjiaan/archive/2021/04/22.html">2021年4月22日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/tcjiaan/p/14687788.html">
+    <span>
+        【.NET 与树莓派】九种手势识别模块（PAJ7620）
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：你要是说手势识别这玩意儿到底用处有多大，真的不好说，大不算大，小也不算小。日常生活中见得比较多的像一些小台灯、厨房开关之类，都有使用手势识别。从实用方面看，厨房里装手势开关还不错的，有时候满手都是猪油鸡油的，再用手按按开关，过不了几个月，开关按钮都变成麦牙糖了。或者干脆整个手势开水龙头也行。不过话又        <a href="https://www.cnblogs.com/tcjiaan/p/14687788.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-22 17:12
+东邪独孤
+<span data-post-id="14687788" class="post-view-count">阅读(78)</span> 
+<span data-post-id="14687788" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14687788" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14687788" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/tcjiaan/archive/2021/03/24.html">2021年3月24日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/tcjiaan/p/14572226.html">
+    <span>
+        2020 年录制的视频列表
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：【Go 讲义】函数 - 链接 【Go 讲义】格式化字符串 - 链接 【Go 讲义】读取输入文本 - 链接 【Go 讲义】字符串处理 - 链接 【Go 讲义】结构体与接口 - 链接 【Go 讲义】数组与切片 - 链接 【Go 讲义】映射与链表 - 链接 【Go 讲义】排序 - 链接 【Go 讲义】反射        <a href="https://www.cnblogs.com/tcjiaan/p/14572226.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-03-24 09:54
+东邪独孤
+<span data-post-id="14572226" class="post-view-count">阅读(31)</span> 
+<span data-post-id="14572226" class="post-comment-count">评论(1)</span> 
+<span data-post-id="14572226" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14572226" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/tcjiaan/archive/2021/03/17.html">2021年3月17日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/tcjiaan/p/14547950.html">
+    <span>
+        【.NET 与树莓派】小风扇模块
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：小风扇，其实就是一个电机（马达），然后轴子上套一个扇叶。扇叶有两叶的，也有三叶的。这种我们小时候没少玩，太阳能帽子上就有一个小风扇，骑着自行车上学，路上只要有太阳光照射到，小风扇就会转。当然还有装干电池的，天气热的时候，买一把放在课桌上，声音很小，所以老师也不会管。 现在的小风扇在供电方式上多了两种        <a href="https://www.cnblogs.com/tcjiaan/p/14547950.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-03-17 11:53
+东邪独孤
+<span data-post-id="14547950" class="post-view-count">阅读(1904)</span> 
+<span data-post-id="14547950" class="post-comment-count">评论(3)</span> 
+<span data-post-id="14547950" class="post-digg-count">推荐(17)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14547950" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/tcjiaan/archive/2021/02/19.html">2021年2月19日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/tcjiaan/p/14415377.html">
+    <span>
+        【.NET 与树莓派】控制舵机
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：不管是小马达，还是大马达，嗯，也就是电机，相信大伙伴们也不会陌生。四驱车是一种很优秀的玩具，从老周小时候就开始流行（动画片《四驱兄弟》估计很多大朋友都看过），直到现在还能看到很多卖四驱车的。为啥会想起四驱车呢？因为小时候玩四驱车让老周认识了很多奇葩马达，什么“红魔鬼”、“蓝芯”、“紫魔鬼”……也不知        <a href="https://www.cnblogs.com/tcjiaan/p/14415377.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-02-19 17:20
+东邪独孤
+<span data-post-id="14415377" class="post-view-count">阅读(784)</span> 
+<span data-post-id="14415377" class="post-comment-count">评论(2)</span> 
+<span data-post-id="14415377" class="post-digg-count">推荐(9)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14415377" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/tcjiaan/archive/2021/02/10.html">2021年2月10日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/tcjiaan/p/14395271.html">
+    <span>
+        【.NET 与树莓派】让喇叭播放音乐
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：如果你和老周一样，小时候特别喜欢搞破坏（什么电器都敢拆），那下面这样小喇叭你一定见过。 这种喇叭其实以前很多录音机都用，包括上小学时买来做英语听力的便携录音机。嗯，就是放录音带的那种，录音带也叫磁带或卡带，有两个轮子，录音机的动力转轴会带动轮子转动，然后就能听到声音了。 小时候，放学从学校走回家，途        <a href="https://www.cnblogs.com/tcjiaan/p/14395271.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-02-10 12:54
+东邪独孤
+<span data-post-id="14395271" class="post-view-count">阅读(1801)</span> 
+<span data-post-id="14395271" class="post-comment-count">评论(5)</span> 
+<span data-post-id="14395271" class="post-digg-count">推荐(17)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14395271" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/tcjiaan/archive/2021/02/09.html">2021年2月9日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/tcjiaan/p/14388434.html">
+    <span>
+        【.NET 与树莓派】PWM 调节LED小灯的亮度
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：在开始本文内容之前，老周先纠正一个错误。在上一篇中，提到过 Arduino 开发板的 Vin 引脚，文中老周说这个供电口的输入电压不能高于 5.5V。这里有错，被卖家给的使用说明忽悠了，上 Arduino 官网看了一下说明和原理图，Vin 引脚的有效电压是 7 - 12V，和DC输入口一样；输入电压        <a href="https://www.cnblogs.com/tcjiaan/p/14388434.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-02-09 09:27
+东邪独孤
+<span data-post-id="14388434" class="post-view-count">阅读(644)</span> 
+<span data-post-id="14388434" class="post-comment-count">评论(2)</span> 
+<span data-post-id="14388434" class="post-digg-count">推荐(2)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14388434" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/tcjiaan/archive/2021/01/31.html">2021年1月31日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/tcjiaan/p/14348436.html">
+    <span>
+        【.NET 与树莓派】i2c（IIC）通信
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：i2c（或IIC）协议使用两根线进行通信（不包括电源正负极），它们分别为： 1、SDA：数据线，IIC 协议允许在单根数据线上进行双向通信——这条线既可以发送数据，也可以接收数据。 2、SCL：时钟线，注意了，这个时钟线跟我们平时所说的时钟没什么关系，不要以为这根线是用来接手表的。其实，这里所说的“        <a href="https://www.cnblogs.com/tcjiaan/p/14348436.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-01-31 17:48
+东邪独孤
+<span data-post-id="14348436" class="post-view-count">阅读(541)</span> 
+<span data-post-id="14348436" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14348436" class="post-digg-count">推荐(3)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14348436" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/tcjiaan/archive/2021/01/25.html">2021年1月25日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/tcjiaan/p/14322040.html">
+    <span>
+        【.NET 与树莓派】矩阵按键
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：欢迎收看火星卫视，本期节目咱们严重探讨一下矩阵按键。 所谓矩阵按键，就是一个小键盘（其实一块PCB板），上面有几个 Key（开关），你不按下去的时候，电路是断开的，你按下去电路就会接通。至于说有多少个按钮，这个就看人家工厂怎么弄了，多见的有 3&#215;3=9个键的，有 4&#215;4=16个键的。各个按键排列成阵        <a href="https://www.cnblogs.com/tcjiaan/p/14322040.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-01-25 11:01
+东邪独孤
+<span data-post-id="14322040" class="post-view-count">阅读(577)</span> 
+<span data-post-id="14322040" class="post-comment-count">评论(2)</span> 
+<span data-post-id="14322040" class="post-digg-count">推荐(2)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14322040" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/tcjiaan/archive/2021/01/16.html">2021年1月16日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/tcjiaan/p/14282862.html">
+    <span>
+        【.NET 与树莓派】使用 GPIO 库
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：上回老周在说准备工作的时候，提到过树莓派用金属盒散热的事情。有朋友会说，加了金属盒子接线不方便，就算用了“T”形板，毕竟是把导线延长了的。其实扩展板就是把原有的引脚引出（类似于延长），有的引出后使用并联电路来“复制”出几套接口。所以你买一块插孔多的面包板，自己也可以并联出许多扩展接口来，何况树莓派好        <a href="https://www.cnblogs.com/tcjiaan/p/14282862.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-01-16 14:37
+东邪独孤
+<span data-post-id="14282862" class="post-view-count">阅读(832)</span> 
+<span data-post-id="14282862" class="post-comment-count">评论(2)</span> 
+<span data-post-id="14282862" class="post-digg-count">推荐(10)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14282862" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+
+<div class="topicListFooter">
+    <div id="nav_next_page">
+        
+    <a href="https://www.cnblogs.com/tcjiaan/default.html?page=2">
+        下一页
+    </a>
+
+    </div>    
+</div>
+
+
+
+
+
+
+<script>
+    updatePostStats(
+        $(".post-view-count").map(function () { return this.dataset.postId }).get(),
+        function(id, count) { $(".post-view-count[data-post-id=" + id + "]").text("阅读(" + count + ")") },
+        function(id, count) { $(".post-comment-count[data-post-id=" + id + "]").text("评论(" + count + ")") },
+        function(id, count) { $(".post-digg-count[data-post-id=" + id + "]").text("推荐(" + count + ")") });
+</script>
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 东邪独孤
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAju3_TILHpg7cdysef0q7li0D3oWbkSyn5H-fEuC7TrDu5s29QD-svyiytT6IKBNvgTOAWLzDy7IX_B_re7daSNZRWrLU1hvxm2XFFMoxaeu3ocb21ChyYDPfP56moYD740" />
+</body>
+</html>

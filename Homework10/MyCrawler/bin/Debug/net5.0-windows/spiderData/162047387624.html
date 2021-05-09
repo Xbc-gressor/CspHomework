@@ -1,0 +1,369 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="最近在面试的时候,遇到过两次问继承实现的几种方式,这里能我给大家列举了以下的这几种,给大家参考参考 方式一:借助构造函数实现继承 这里使用的原理就是在Child里面,把Parent的this指向改为是" />
+    <meta property="og:description" content="最近在面试的时候,遇到过两次问继承实现的几种方式,这里能我给大家列举了以下的这几种,给大家参考参考 方式一:借助构造函数实现继承 这里使用的原理就是在Child里面,把Parent的this指向改为是" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>js继承的几种方式 - Cynthia-milk - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/codinglife/bundle-codinglife.min.css?v=2uJkpdACLVfstRQ7zeCFK19brTwKuDEaNBLgKz9nm3A" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/codinglife/bundle-codinglife-mobile.min.css?v=DwDRKMd1bmjnJZ4iQqrTCO9QLlYb6OZaUAzHoHIIihg" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/cythia/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/cythia/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/cythia/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 310173;
+        var currentBlogApp = 'cythia';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'CodingLife';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2019-07-12 12:12';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/cythia/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/cythia/">Cynthia-milk</a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/cythia/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/Cynthia-milk">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/cythia/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/cythia/p/11175343.html">
+    <span>js继承的几种方式</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<p>最近在面试的时候,遇到过两次问继承实现的几种方式,这里能我给大家列举了以下的这几种,给大家参考参考</p>
+<h3>方式一:借助构造函数实现继承</h3>
+<p>这里使用的原理就是在Child里面,把Parent的this指向改为是Child的this指向,从而实现继承</p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 255, 1)">function</span><span style="color: rgba(0, 0, 0, 1)"> Parent(name){
+    </span><span style="color: rgba(0, 0, 255, 1)">this</span>.name=<span style="color: rgba(0, 0, 0, 1)">name;
+    }
+    Parent.prototype.saiHi</span>=<span style="color: rgba(0, 0, 255, 1)">function</span><span style="color: rgba(0, 0, 0, 1)">(){
+        console.log(</span>"hello"<span style="color: rgba(0, 0, 0, 1)">)
+    }
+    </span><span style="color: rgba(0, 0, 255, 1)">function</span><span style="color: rgba(0, 0, 0, 1)"> Child(name,age,gender){
+        Parent.call(</span><span style="color: rgba(0, 0, 255, 1)">this</span><span style="color: rgba(0, 0, 0, 1)">,name)
+        </span><span style="color: rgba(0, 0, 255, 1)">this</span>.age=<span style="color: rgba(0, 0, 0, 1)">age;
+        </span><span style="color: rgba(0, 0, 255, 1)">this</span>.gender=<span style="color: rgba(0, 0, 0, 1)">gender;
+    }
+    let child</span>=<span style="color: rgba(0, 0, 255, 1)">new</span> Child("王磊",20,"男"<span style="color: rgba(0, 0, 0, 1)">)
+    console.log(child.name);// 王磊
+    child.sayHi(); //<span style="color: rgba(255, 0, 0, 1)"> Uncaught TypeError:child.sayHi is not a function</span></span></pre>
+</div>
+<h4><span style="color: rgba(255, 0, 0, 1)">缺点:</span>只能解决属性的继承,使用属性的值不重复,但是父级类别的方法不能继承</h4>
+<h3>方式二:借助原型链实现继承</h3>
+<p>第二种方式就是把Child的原型改为是Parent的实例,从而实现继承</p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 255, 1)">　　　　　function</span><span style="color: rgba(0, 0, 0, 1)"> Parent(name,gender){
+            </span><span style="color: rgba(0, 0, 255, 1)">this</span>.name=<span style="color: rgba(0, 0, 0, 1)">name;
+            </span><span style="color: rgba(0, 0, 255, 1)">this</span>.gender=<span style="color: rgba(0, 0, 0, 1)">gender;
+            </span><span style="color: rgba(0, 0, 255, 1)">this</span>.list=[1,2,3<span style="color: rgba(0, 0, 0, 1)">]
+        }
+        Parent.prototype.eat</span>=<span style="color: rgba(0, 0, 255, 1)">function</span><span style="color: rgba(0, 0, 0, 1)">(){
+            console.log(</span>"晚餐时间到"<span style="color: rgba(0, 0, 0, 1)">)
+        }
+        </span><span style="color: rgba(0, 0, 255, 1)">function</span><span style="color: rgba(0, 0, 0, 1)"> Child(age){
+            </span><span style="color: rgba(0, 0, 255, 1)">this</span>.age=<span style="color: rgba(0, 0, 0, 1)">age;
+        }
+        Child.prototype</span>=<span style="color: rgba(0, 0, 255, 1)">new</span> Parent("李白","男"<span style="color: rgba(0, 0, 0, 1)">);
+        </span><span style="color: rgba(0, 0, 255, 1)">var</span> child=<span style="color: rgba(0, 0, 255, 1)">new</span> Child(20<span style="color: rgba(0, 0, 0, 1)">);
+        </span><span style="color: rgba(0, 0, 255, 1)">var</span> child2=<span style="color: rgba(0, 0, 255, 1)">new</span> Child(30<span style="color: rgba(0, 0, 0, 1)">);
+        child.eat();
+        console.log(child.list,child2.list);// [1,2,3] [1,2,3]
+        child.list.push(</span>4<span style="color: rgba(0, 0, 0, 1)">)
+        console.log(child.list);</span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> [1,2,3,4]        </span>
+        console.log(child2.list);<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> [1,2,3,4]</span></pre>
+</div>
+<h4><span style="color: rgba(255, 0, 0, 1)">缺点:</span>因为Child的原型对象都是New Parent,所以实例化出来的对象的属性都是一样的,而且Parent上面的引用类型只要有一个实例对象修改了,其他也会跟着修改.因为他们原型对象都是共用的</h4>
+<h3>方式三:组合型</h3>
+<p>方式三的话是结合了方式一和方式二来实现继承</p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 255, 1)">function</span><span style="color: rgba(0, 0, 0, 1)"> Person(school){
+            </span><span style="color: rgba(0, 0, 255, 1)">this</span>.school=<span style="color: rgba(0, 0, 0, 1)">school;
+        }
+        Person.prototype.skill</span>=<span style="color: rgba(0, 0, 255, 1)">function</span><span style="color: rgba(0, 0, 0, 1)">(){
+            console.log(</span>"学习"<span style="color: rgba(0, 0, 0, 1)">);
+        }
+        </span><span style="color: rgba(0, 0, 255, 1)">function</span><span style="color: rgba(0, 0, 0, 1)"> Student(school,name,age,gender){
+            Parent.call(</span><span style="color: rgba(0, 0, 255, 1)">this</span><span style="color: rgba(0, 0, 0, 1)">,school);
+            </span><span style="color: rgba(0, 0, 255, 1)">this</span>.name=<span style="color: rgba(0, 0, 0, 1)">name;
+            </span><span style="color: rgba(0, 0, 255, 1)">this</span>.age=<span style="color: rgba(0, 0, 0, 1)">age;
+            </span><span style="color: rgba(0, 0, 255, 1)">this</span>.gender=<span style="color: rgba(0, 0, 0, 1)">gender;
+        }
+        Student.prototype</span>=<span style="color: rgba(0, 0, 0, 1)">Person.prototype;
+        let student</span>=<span style="color: rgba(0, 0, 255, 1)">new</span> Student("广铁一中","王菲菲",14,"女"<span style="color: rgba(0, 0, 0, 1)">);
+        console.log(Student.prototype</span>===<span style="color: rgba(0, 0, 0, 1)">Person.prototype)
+        console.log(student.constructor)</span></pre>
+</div>
+<h4><span style="color: rgba(255, 0, 0, 1)">缺点:</span>父类的原型对象调用了两次,没有必要,而且student实例的构造函数是来自于Person</h4>
+<h3>方式四:组合方式优化</h3>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 255, 1)">function</span><span style="color: rgba(0, 0, 0, 1)"> Parent(name,play){
+            </span><span style="color: rgba(0, 0, 255, 1)">this</span>.name=<span style="color: rgba(0, 0, 0, 1)">name;
+            </span><span style="color: rgba(0, 0, 255, 1)">this</span>.play=<span style="color: rgba(0, 0, 0, 1)">play;
+        }
+        </span><span style="color: rgba(0, 0, 255, 1)">function</span><span style="color: rgba(0, 0, 0, 1)"> Child(name,play,age){
+            Parent.call(</span><span style="color: rgba(0, 0, 255, 1)">this</span><span style="color: rgba(0, 0, 0, 1)">,name,play);
+            </span><span style="color: rgba(0, 0, 255, 1)">this</span>.age=<span style="color: rgba(0, 0, 0, 1)">age;
+        }
+        Child.prototype</span>=<span style="color: rgba(0, 0, 0, 1)">Parent.prototype;
+        let child</span>=<span style="color: rgba(0, 0, 255, 1)">new</span> Child("张三","玩",20<span style="color: rgba(0, 0, 0, 1)">);
+        let child2</span>=<span style="color: rgba(0, 0, 255, 1)">new</span> Child("李四","吃",10<span style="color: rgba(0, 0, 0, 1)">)
+        console.log(child,child2)
+        console.log(child.prototype</span>===<span style="color: rgba(0, 0, 0, 1)">child2.prototype); true
+        console.log(child.constructor); // 构造函数指向的是Parent</span></pre>
+</div>
+<h4><span style="color: rgba(255, 0, 0, 1)">缺点:</span>child实例的构造函数来自于Parent</h4>
+<h3>方式五: 组方式优化</h3>
+<p>只是这种方式的话,你必须得理解Object.create()方法的使用,他创建的对象是在原型上面的</p>
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 255, 1)">function</span><span style="color: rgba(0, 0, 0, 1)"> Parent(name,play){
+            </span><span style="color: rgba(0, 0, 255, 1)">this</span>.name=<span style="color: rgba(0, 0, 0, 1)">name;
+            </span><span style="color: rgba(0, 0, 255, 1)">this</span>.play=<span style="color: rgba(0, 0, 0, 1)">play;
+        }
+        </span><span style="color: rgba(0, 0, 255, 1)">function</span><span style="color: rgba(0, 0, 0, 1)"> Child(name,play,age){
+            Parent.call(</span><span style="color: rgba(0, 0, 255, 1)">this</span><span style="color: rgba(0, 0, 0, 1)">,name,play);
+            </span><span style="color: rgba(0, 0, 255, 1)">this</span>.age=<span style="color: rgba(0, 0, 0, 1)">age;
+        }
+        Child.prototype</span>=Object.create(Parent.prototype);<span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> 隔离了父类和子类的构造函数,父类的添加到了__proto__属性上</span>
+        Child.prototype.constructor=<span style="color: rgba(0, 0, 0, 1)">Child
+        let child</span>=<span style="color: rgba(0, 0, 255, 1)">new</span> Child("张三","玩",20<span style="color: rgba(0, 0, 0, 1)">);
+        let child2</span>=<span style="color: rgba(0, 0, 255, 1)">new</span> Child("李四","吃",10<span style="color: rgba(0, 0, 0, 1)">)
+       
+        console.log(child.constructor)</span></pre>
+</div>
+<p>&nbsp;</p>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2019-07-12 12:12</span>&nbsp;
+<a href="https://www.cnblogs.com/cythia/">Cynthia-milk</a>&nbsp;
+阅读(<span id="post_view_count">7055</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=11175343" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(11175343);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 310173, cb_blogApp = 'cythia', cb_blogUserGuid = '4700fca4-3985-e611-845c-ac853d9f53ac';
+    var cb_entryId = 11175343, cb_entryCreatedDate = '2019-07-12 12:12', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 Cynthia-milk
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjssWeYKTHHBBvt0ax_Jx0Shca2G5AGEbnqfNNs_5u2y5drN4D5RcskgJb_vw31tW0izUt-4E6uqf12OVmkKRygQ_QZJksqzMRdmbb4wdyq0DzLzuc-X8Hz_2onpeYTBk0s" />
+</body>
+</html>

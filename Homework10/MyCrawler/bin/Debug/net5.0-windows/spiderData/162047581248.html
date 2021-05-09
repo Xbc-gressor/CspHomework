@@ -1,0 +1,600 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="前言 看到标题可能大家会有所疑问Controller和IOC能有啥羁绊，但是我还是拒绝当一个标题党的。相信有很大一部分人已经知道了这么一个结论，默认情况下ASP.NET Core的Controller" />
+    <meta property="og:description" content="前言 看到标题可能大家会有所疑问Controller和IOC能有啥羁绊，但是我还是拒绝当一个标题党的。相信有很大一部分人已经知道了这么一个结论，默认情况下ASP.NET Core的Controller" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>ASP.NET Core Controller与IOC的羁绊 - yi念之间 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/wucy/custom.css?v=Jr&#x2B;luDHHhYQVZ/m1Tbw1HfGXOlI=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/custom/bundle-custom-mobile.min.css?v=OayYBbtUbH4FYkn_bTL4VVf4DsEOiTHSWhbl11KyY6Y" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/wucy/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/wucy/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/wucy/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 605020;
+        var currentBlogApp = 'wucy';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'Custom';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-01-04 07:29';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="no-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="page_begin_html">
+        <div class="light-loading">
+  <div class="box">
+    <h2>加载中</h2>
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+</div>
+    </div>
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/wucy/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/wucy/">yi念之间</a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/wucy/">
+首页</a>
+</li>
+<li>
+
+
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/yi%E5%BF%B5%E4%B9%8B%E9%97%B4">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/wucy/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/wucy/p/14222973.html">
+    <span>ASP.NET Core Controller与IOC的羁绊</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+<h4 id="前言">前言</h4>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;看到标题可能大家会有所疑问Controller和IOC能有啥羁绊，但是我还是拒绝当一个标题党的。相信有很大一部分人已经知道了这么一个结论，默认情况下ASP.NET Core的Controller并不会托管到IOC容器中，注意关键字我说的是"默认"，首先咱们不先说为什么，如果还有不知道这个结论的同学们可以自己验证一下，验证方式也很简单，大概可以通过以下几种方式。</p>
+<h4 id="验证controller不在ioc中">验证Controller不在IOC中</h4>
+<p>首先，我们可以尝试在ServiceProvider中获取某个Controller实例，比如</p>
+<pre><code class="language-cs">public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+{
+    var productController = app.ApplicationServices.GetService&lt;ProductController&gt;();
+}
+</code></pre>
+<p>这是最直接的方式，可以在IOC容器中获取注册过的类型实例，很显然结果会为null。另一种方式，也是利用它的另一个特征，那就是通过构造注入的方式，如下所示我们在OrderController中注入ProductController,<font color="red">显然这种方式是不合理的，但是为了求证一个结果，我们这里仅做演示，强烈不建议实际开发中这么写，这是不规范也是不合理的写法</font></p>
+<pre><code class="language-cs">public class OrderController : Controller
+{
+    private readonly ProductController _productController;
+    public OrderController(ProductController productController)
+    {
+        _productController = productController;
+    }
+
+    public IActionResult Index()
+    {
+        return View();
+    }
+}
+</code></pre>
+<p>结果显然是会报一个错InvalidOperationException: Unable to resolve service for type 'ProductController' while attempting to activate 'OrderController'。原因就是因为ProductController并不在IOC容器中,所以通过注入的方式会报错。还有一种方式，可能不太常用，这个是利用注入的一个特征，可能有些同学已经了解过了，那就是通过自带的DI，即使一个类中包含多个构造函数，它也会选择最优的一个，也就是说自带的DI允许类包含多个构造函数。利用这个特征，我们可以在Controller中验证一下</p>
+<pre><code class="language-cs">public class OrderController : Controller
+{
+    private readonly IOrderService _orderService;
+    private readonly IPersonService _personService;
+
+    public OrderController(IOrderService orderService)
+    {
+        _orderService = orderService;
+    }
+
+    public OrderController(IOrderService orderService, IPersonService personService)
+    {
+        _orderService = orderService;
+        _personService = personService;
+    }
+
+    public IActionResult Index()
+    {
+        return View();
+    }
+}
+</code></pre>
+<p>我们在Controller中编写了两个构造函数，理论上来说这是符合DI特征的，运行起来测试一下，依然会报错InvalidOperationException: Multiple constructors accepting all given argument types have been found in type 'OrderController'. There should only be one applicable constructor。以上种种都是为了证实一个结论，默认情况下Controller并不会托管到IOC当中。</p>
+<h4 id="defaultcontrollerfactory源码探究">DefaultControllerFactory源码探究</h4>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;上面虽然我们看到了一些现象，能说明Controller默认情况下并不在IOC中托管，但是还没有足够的说服力，接下来我们就来查看源码,这是最有说服力的。我们找到Controller工厂注册的地方，在MvcCoreServiceCollectionExtensions扩展类中[<a href="https://github.com/dotnet/aspnetcore/blob/v5.0.1/src/Mvc/Mvc.Core/src/DependencyInjection/MvcCoreServiceCollectionExtensions.cs#L186" target="_blank">点击查看源码👈</a>]的AddMvcCoreServices方法里</p>
+<pre><code class="language-cs">//给IControllerFactory注册默认的Controller工厂类DefaultControllerFactory
+//也是Controller创建的入口
+services.TryAddSingleton&lt;IControllerFactory, DefaultControllerFactory&gt;();
+//真正创建Controller的工作类DefaultControllerActivator
+services.TryAddTransient&lt;IControllerActivator, DefaultControllerActivator&gt;();
+</code></pre>
+<p>由此我们可以得出，默认的Controller创建工厂类为DefaultControllerFactory，那么我们直接找到源码位置[<a href="https://github.com/dotnet/aspnetcore/blob/v5.0.1/src/Mvc/Mvc.Core/src/Controllers/DefaultControllerFactory.cs" target="_blank">点击查看源码👈</a>],<br>
+为了方便阅读，精简一下源码如下所示</p>
+<pre><code class="language-cs">internal class DefaultControllerFactory : IControllerFactory
+{
+    //真正创建Controller的工作者
+    private readonly IControllerActivator _controllerActivator;
+    private readonly IControllerPropertyActivator[] _propertyActivators;
+
+    public DefaultControllerFactory(
+        IControllerActivator controllerActivator,
+        IEnumerable&lt;IControllerPropertyActivator&gt; propertyActivators)
+    {
+        _controllerActivator = controllerActivator;
+        _propertyActivators = propertyActivators.ToArray();
+    }
+
+    /// &lt;summary&gt;
+    /// 创建Controller实例的方法
+    /// &lt;/summary&gt;
+    public object CreateController(ControllerContext context)
+    {
+        //创建Controller实例的具体方法(这是关键方法)
+        var controller = _controllerActivator.Create(context);
+        foreach (var propertyActivator in _propertyActivators)
+        {
+            propertyActivator.Activate(context, controller);
+        }
+        return controller;
+    }
+
+    /// &lt;summary&gt;
+    /// 释放Controller实例的方法
+    /// &lt;/summary&gt;
+    public void ReleaseController(ControllerContext context, object controller)
+    {
+        _controllerActivator.Release(context, controller);
+    }
+}
+</code></pre>
+<p>用过上面的源码可知，真正创建Controller的地方在_controllerActivator.Create方法中，通过上面的源码可知为IControllerActivator默认注册的是DefaultControllerActivator类，直接找到源码位置[<a href="https://github.com/dotnet/aspnetcore/blob/v5.0.1/src/Mvc/Mvc.Core/src/Controllers/DefaultControllerActivator.cs" target="_blank">点击查看源码👈</a>],我们继续简化一下源码如下所示</p>
+<pre><code class="language-cs">internal class DefaultControllerActivator : IControllerActivator
+{
+    private readonly ITypeActivatorCache _typeActivatorCache;
+
+    public DefaultControllerActivator(ITypeActivatorCache typeActivatorCache)
+    {
+        _typeActivatorCache = typeActivatorCache;
+    }
+
+    /// &lt;summary&gt;
+    /// Controller实例的创建方法
+    /// &lt;/summary&gt;
+    public object Create(ControllerContext controllerContext)
+    {
+        //获取Controller类型信息
+        var controllerTypeInfo = controllerContext.ActionDescriptor.ControllerTypeInfo;
+        //获取ServiceProvider
+        var serviceProvider = controllerContext.HttpContext.RequestServices;
+        //创建controller实例
+        return _typeActivatorCache.CreateInstance&lt;object&gt;(serviceProvider, controllerTypeInfo.AsType());
+    }
+
+    /// &lt;summary&gt;
+    /// 释放Controller实例
+    /// &lt;/summary&gt;
+    public void Release(ControllerContext context, object controller)
+    {
+        //如果controller实现了IDisposable接口，那么Release的时候会自动调用Controller的Dispose方法
+        //如果我们在Controller中存在需要释放或者关闭的操作，可以再Controller的Dispose方法中统一释放
+        if (controller is IDisposable disposable)
+        {
+            disposable.Dispose();
+        }
+    }
+}
+</code></pre>
+<p>通过上面的代码我们依然要继续深入到ITypeActivatorCache实现中去寻找答案，通过查看MvcCoreServiceCollectionExtensions类的AddMvcCoreServices方法源码我们可以找到如下信息</p>
+<pre><code class="language-cs">services.TryAddSingleton&lt;ITypeActivatorCache, TypeActivatorCache&gt;();
+</code></pre>
+<p>有了这个信息，我们可以直接找到TypeActivatorCache类的源码[<a href="https://github.com/dotnet/aspnetcore/blob/v5.0.1/src/Mvc/Mvc.Core/src/Infrastructure/TypeActivatorCache.cs" target="_blank">点击查看源码👈</a>]代码并不多，大致如下所示</p>
+<pre><code class="language-cs">internal class TypeActivatorCache : ITypeActivatorCache
+{
+    //创建ObjectFactory的委托
+    private readonly Func&lt;Type, ObjectFactory&gt; _createFactory =
+        (type) =&gt; ActivatorUtilities.CreateFactory(type, Type.EmptyTypes);
+    //Controller类型和对应创建Controller实例的ObjectFactory实例的缓存
+    private readonly ConcurrentDictionary&lt;Type, ObjectFactory&gt; _typeActivatorCache =
+           new ConcurrentDictionary&lt;Type, ObjectFactory&gt;();
+
+    /// &lt;summary&gt;
+    /// 真正创建实例的地方
+    /// &lt;/summary&gt;
+    public TInstance CreateInstance&lt;TInstance&gt;(
+        IServiceProvider serviceProvider,
+        Type implementationType)
+    {
+        //真正创建的操作是createFactory
+        //通过Controller类型在ConcurrentDictionary缓存中获得ObjectFactory
+        //而ObjectFactory实例由ActivatorUtilities.CreateFactory方法创建的
+        var createFactory = _typeActivatorCache.GetOrAdd(implementationType, _createFactory);
+        //返回创建实例
+        return (TInstance)createFactory(serviceProvider, arguments: null);
+    }
+}
+</code></pre>
+<p>通过上面类的代码<font color="red">我们可以清晰的得出一个结论，默认情况下Controller实例是由ObjectFactory创建出来的，而ObjectFactory实例是由ActivatorUtilities的CreateFactory创建出来,所以Controller实例每次都是由ObjectFactory创建而来，并非注册到IOC容器中。</font>并且我们还可以得到一个结论ObjectFactory应该是一个委托，我们找到ObjectFactory定义的地方[<a href="https://github.com/dotnet/aspnetcore/blob/v5.0.1/src/Shared/ActivatorUtilities/ObjectFactory.cs" target="_blank">点击查看源码👈</a>]</p>
+<pre><code class="language-cs">delegate object ObjectFactory(IServiceProvider serviceProvider, object[] arguments);
+</code></pre>
+<p>这个确实如我们猜想的那般，这个委托会通过IServiceProvider实例去构建类型的实例，通过上述源码相关的描述我们会产生一个疑问，既然Controller实例并非由IOC容器托管，它由ObjectFactory创建而来，但是ObjectFactory实例又是由ActivatorUtilities构建的，那么生产对象的核心也就在ActivatorUtilities类中，接下来我们就来探究一下ActivatorUtilities的神秘面纱。</p>
+<h4 id="activatorutilities类的探究">ActivatorUtilities类的探究</h4>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;书接上面，我们知道了ActivatorUtilities类是创建Controller实例最底层的地方，那么ActivatorUtilities到底和容器是啥关系，因为我们看到了ActivatorUtilities创建实例需要依赖ServiceProvider,一切都要从找到ActivatorUtilities类的源码开始。我们最初接触这个类的地方在于它通过CreateFactory方法创建了ObjectFactory实例，那么我们就从这个地方开始，找到源码位置[<a href="https://github.com/dotnet/aspnetcore/blob/v5.0.1/src/Shared/ActivatorUtilities/ActivatorUtilities.cs#L107" target="_blank">点击查看源码👈</a>]实现如下</p>
+<pre><code class="language-cs">public static ObjectFactory CreateFactory(Type instanceType, Type[] argumentTypes)
+{
+    //查找instanceType的构造函数
+    //找到构造信息ConstructorInfo
+    //得到给定类型与查找类型instanceType构造函数的映射关系
+    FindApplicableConstructor(instanceType, argumentTypes, out ConstructorInfo constructor, out int?[] parameterMap);
+    //构建IServiceProvider类型参数
+    var provider = Expression.Parameter(typeof(IServiceProvider), "provider");
+    //构建给定类型参数数组参数
+    var argumentArray = Expression.Parameter(typeof(object[]), "argumentArray");
+    //通过构造信息、构造参数对应关系、容器和给定类型构建表达式树Body
+    var factoryExpressionBody = BuildFactoryExpression(constructor, parameterMap, provider, argumentArray);
+    //构建lambda
+    var factoryLamda = Expression.Lambda&lt;Func&lt;IServiceProvider, object[], object&gt;&gt;(
+        factoryExpressionBody, provider, argumentArray);
+    var result = factoryLamda.Compile();
+    //返回执行结果
+    return result.Invoke;
+}
+</code></pre>
+<p>ActivatorUtilities类的CreateFactory方法代码虽然比较简单，但是它涉及到调用了其他方法，由于嵌套的比较深代码比较多，而且不是本文讲述的重点，我们就不再这里细说了，我们可以大概的描述一下它的工作流程。</p>
+<ul>
+<li>首先在给定的类型里查找到合适的构造函数，这里我们可以理解为查找Controller的构造函数。</li>
+<li>然后得到构造信息，并得到构造函数的参数与给定类型参数的对应关系</li>
+<li>通过构造信息和构造参数的对应关系，在IServiceProvider得到对应类型的实例为构造函数赋值</li>
+<li>最后经过上面的操作通过初始化指定的构造函数来创建给定Controller类型的实例</li>
+</ul>
+<p>综上述的相关步骤，我们可以得到一个结论，Controller实例的初始化是通过遍历Controller类型构造函数里的参数，然后根据构造函数每个参数的类型在IServiceProvider查找已经注册到容器中相关的类型实例，最终初始化得到的Controller实例。这就是在IServiceProvider得到需要的依赖关系，然后创建自己的实例，它内部是使用的表达式树来完成的这一切，可以理解为更高效的反射方式。<br>
+关于ActivatorUtilities类还包含了其他比较实用的方法，比如CreateInstance方法</p>
+<pre><code class="language-cs">public static T CreateInstance&lt;T&gt;(IServiceProvider provider, params object[] parameters)
+</code></pre>
+<p>它可以通过构造注入的方式创建指定类型T的实例，其中构造函数里具体的参数实例是通过在IServiceProvider实例里获取到的，比如我们我们有这么一个类</p>
+<pre><code class="language-cs">public class OrderController 
+{
+    private readonly IOrderService _orderService;
+    private readonly IPersonService _personService;
+
+    public OrderController(IOrderService orderService, IPersonService personService)
+    {
+        _orderService = orderService;
+        _personService = personService;
+    }
+}
+</code></pre>
+<p>其中它所依赖的IOrderService和IPersonService实例是注册到IOC容器中的</p>
+<pre><code class="language-cs">IServiceCollection services = new ServiceCollection()
+ .AddScoped&lt;IPersonService, PersonService&gt;()
+ .AddScoped&lt;IOrderService, OrderService&gt;();
+</code></pre>
+<p>然后你想获取到OrderController的实例，但是它只包含一个有参构造函数，但是构造函数的参数都以注册到IOC容器中。当存在这种场景你便可以通过以下方式得到你想要的类型实例，如下所示</p>
+<pre><code class="language-cs">IServiceProvider serviceProvider = services.BuildServiceProvider();
+OrderController orderController = ActivatorUtilities.CreateInstance&lt;OrderController&gt;(serviceProvider);
+</code></pre>
+<p>即使你的类型OrderController并没有注册到IOC容器中，但是它的依赖都在容器中，你也可以通过构造注入的方式得到你想要的实例。总的来说ActivatorUtilities里的方法还是比较实用的，有兴趣的同学可以自行尝试一下，也可以通过查看<a href="https://github.com/dotnet/aspnetcore/blob/v5.0.1/src/Shared/ActivatorUtilities/ActivatorUtilities.cs" target="_blank">ActivatorUtilities源码</a>的方式了解它的工作原理。</p>
+<h4 id="addcontrollersasservices方法">AddControllersAsServices方法</h4>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;上面我们主要是讲解了默认情况下Controller并不是托管到IOC容器中的，它只是表现出来的让你以为它是在IOC容器中，因为它可以通过构造函数注入相关实例，这主要是ActivatorUtilities类的功劳。说了这么多Controller实例到底可不可以注册到IOC容器中，让它成为真正受到IOC容器的托管者。要解决这个，必须要满足两点条件</p>
+<ul>
+<li>首先，需要将Controller注册到IOC容器中，但是仅仅这样还不够，因为Controller是由ControllerFactory创建而来</li>
+<li>其次，我们要改造ControllerFactory类中创建Controller实例的地方让它从容器中获取Controller实例，这样就解决了所有的问题<br>
+如果我们自己去实现将Controller托管到IOC容器中，就需要满足以上两个操作一个是要将Controller放入容器，然后让创建Controller的地方从IOC容器中直接获取Controller实例。庆幸的是，微软帮我们封装了一个相关的方法，它可以帮我们解决将Controller托管到IOC容器的问题，它的使用方法如下所示</li>
+</ul>
+<pre><code class="language-cs">services.AddMvc().AddControllersAsServices();
+//或其他方式，这取决于你构建的Web项目的用途可以是WebApi、Mvc、RazorPage等
+//services.AddMvcCore().AddControllersAsServices();
+</code></pre>
+<p>相信大家都看到了，玄机就在AddControllersAsServices方法中，但是它存在于MvcCoreMvcBuilderExtensions类和MvcCoreMvcCoreBuilderExtensions类中，不过问题不大，因为它们的代码是完全一样的。只是因为你可以通过多种方式构建Web项目比如AddMvc或者AddMvcCore，废话不多说直接上代码[<a href="https://github.com/dotnet/aspnetcore/blob/v5.0.1/src/Mvc/Mvc.Core/src/DependencyInjection/MvcCoreMvcBuilderExtensions.cs#L155" target="_blank">点击查看源码👈</a>]</p>
+<pre><code class="language-cs">public static IMvcBuilder AddControllersAsServices(this IMvcBuilder builder)
+{
+    if (builder == null)
+    {
+        throw new ArgumentNullException(nameof(builder));
+    }
+    var feature = new ControllerFeature();
+    builder.PartManager.PopulateFeature(feature);
+    //第一将Controller实例添加到IOC容器中
+    foreach (var controller in feature.Controllers.Select(c =&gt; c.AsType()))
+    {
+        //注册的生命周期是Transient
+        builder.Services.TryAddTransient(controller, controller);
+    }
+    //第二替换掉原本DefaultControllerActivator的为ServiceBasedControllerActivator
+    builder.Services.Replace(ServiceDescriptor.Transient&lt;IControllerActivator, ServiceBasedControllerActivator&gt;());
+    return builder;
+}
+</code></pre>
+<p>第一点没问题那就是将Controller实例添加到IOC容器中，第二点它替换掉了DefaultControllerActivator为为ServiceBasedControllerActivator。通过上面我们讲述的源码了解到DefaultControllerActivator是默认提供Controller实例的地方是获取Controller实例的核心所在，那么我们看看ServiceBasedControllerActivator与DefaultControllerActivator到底有何不同，直接贴出代码[<a href="https://github.com/dotnet/aspnetcore/blob/v5.0.1/src/Mvc/Mvc.Core/src/Controllers/ServiceBasedControllerActivator.cs" target="_blank">点击查看源码👈</a>]</p>
+<pre><code class="language-cs">public class ServiceBasedControllerActivator : IControllerActivator
+{
+    public object Create(ControllerContext actionContext)
+    {
+        if (actionContext == null)
+        {
+            throw new ArgumentNullException(nameof(actionContext));
+        }
+        //获取Controller类型
+        var controllerType = actionContext.ActionDescriptor.ControllerTypeInfo.AsType();
+        //通过Controller类型在容器中获取实例
+        return actionContext.HttpContext.RequestServices.GetRequiredService(controllerType);
+    }
+
+    public virtual void Release(ControllerContext context, object controller)
+    {
+    }
+}
+</code></pre>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;相信大家对上面的代码一目了然了，和我们上面描述的一样，将创建Controller实例的地方改造了在容器中获取的方式。不知道大家有没有注意到ServiceBasedControllerActivator的Release的方法居然没有实现，这并不是我没有粘贴出来，确实是没有代码，之前我们看到的DefaultControllerActivator可是有调用Controller的Disposed的方法，这里却啥也没有。相信聪明的你已经想到了，因为Controller已经托管到了IOC容器中，所以他的生命及其相关释放都是由IOC容器完成的，所以这里不需要任何操作。<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<font color="red">我们上面还看到了注册Controller实例的时候使用的是TryAddTransient方法，也就是说每次都会创建Controller实例，至于为什么，我想大概是因为每次请求其实都只会需要一个Controller实例，况且EFCore的注册方式官方建议也是Scope的，而这里的Scope正是对应的一次Controller请求。在加上自带的IOC会提升依赖类型的生命周期，如果将Controller注册为单例的话如果使用了EFCore那么它也会被提升为单例，这样会存在很大的问题。</font>也许正是基于这个原因默认才将Controller注册为Transient类型的，当然这并不代表只能注册为Transient类型的，如果你不使用类似EFCore这种需要作用域为Scope的服务的时候，而且保证使用的主键都可以使用单例的话，完全可以将Controller注册为别的生命周期，当然这种方式个人不是很建议。</p>
+<h4 id="controller结合autofac">Controller结合Autofac</h4>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;有时候大家可能会结合Autofac一起使用，Autofac确实是一款非常优秀的IOC框架，它它支持属性和构造两种方式注入，关于Autofac托管自带IOC的原理咱们在之前的文章<a href="https://www.cnblogs.com/wucy/p/13268296.html#%E5%85%B3%E4%BA%8Euseserviceproviderfactory" target="_blank">浅谈.Net Core DependencyInjection源码探究</a>中曾详细的讲解过，这里咱们就不过多的描述了，咱们今天要说的是Autofac和Controller的结合。如果你想保持和原有的IOC一致的使用习惯，即只使用构造注入的话，你只需要完成两步即可</p>
+<ul>
+<li>首先将默认的IOC容器替换为Autofac，具体操作也非常简单，如下所示</li>
+</ul>
+<pre><code class="language-cs">public static IHostBuilder CreateHostBuilder(string[] args) =&gt;
+            Host.CreateDefaultBuilder(args)
+              .ConfigureWebHostDefaults(webBuilder =&gt;
+              {
+                  webBuilder.UseStartup&lt;Startup&gt;();
+              })
+              //只需要在这里设置ServiceProviderFactory为AutofacServiceProviderFactory即可
+              .UseServiceProviderFactory(new AutofacServiceProviderFactory());
+</code></pre>
+<ul>
+<li>然后就是咱们之前说的，要将Controller放入容器中，然后修改生产Controller实例的ControllerFactory的操作为在容器中获取，当然这一步微软已经为我们封装了便捷的方法</li>
+</ul>
+<pre><code class="language-cs">services.AddMvc().AddControllersAsServices();
+</code></pre>
+<p>只需要通过上面简单得两步，既可以将Controller托管到Autofac容器中。但是，我们说过了Autofac还支持属性注入，但是默认的方式只支持构造注入的方式，那么怎么让Controller支持属性注入呢？我们还得从最根本的出发，那就是解决Controller实例存和取的问题</p>
+<ul>
+<li>首先为了让Controller托管到Autofac中并且支持属性注入，那么就只能使用Autofac的方式去注册Controller实例，具体操作是在Startup类中添加ConfigureContainer方法，然后注册Controller并声明支持属性注入</li>
+</ul>
+<pre><code class="language-cs">public void ConfigureContainer(ContainerBuilder builder)
+{
+    var controllerBaseType = typeof(ControllerBase);
+    //扫描Controller类
+    builder.RegisterAssemblyTypes(typeof(Program).Assembly)
+    .Where(t =&gt; controllerBaseType.IsAssignableFrom(t) &amp;&amp; t != controllerBaseType)
+    //属性注入
+    .PropertiesAutowired();
+}
+</code></pre>
+<ul>
+<li>其次是解决取的问题，这里我们就不需要AddControllersAsServices方法了，因为AddControllersAsServices解决了Controller实例在IOC中存和取的问题，但是这里我们只需要解决Controller取得问题说只需要使用ServiceBasedControllerActivator即可，具体操作是</li>
+</ul>
+<pre><code class="language-cs">services.Replace(ServiceDescriptor.Transient&lt;IControllerActivator, ServiceBasedControllerActivator&gt;());
+</code></pre>
+<p>仅需要在默认的状态下完成这两步，既可以解决Controller托管到Autofac中并支持属性注入的问题，这也是最合理的方式。当然如果你使用AddControllersAsServices可是可以实现相同的效果了，只不过是没必要将容器重复的放入容器中了。</p>
+<h4 id="总结">总结</h4>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;本文我们讲述了关于ASP.NET Core Controller与IOC结合的问题，我觉得这是有必要让每个人都有所了解的知识点，因为在日常的Web开发中Controller太常用了，知道这个问题可能会让大家在开发中少走一点弯路，接下来我们来总结一下本文大致讲解的内容</p>
+<ul>
+<li>首先说明了一个现象，那就是默认情况下Controller并不在IOC容器中，我们也通过几个示例验证了一下。</li>
+<li>其次讲解了默认情况下创造Controller实例真正的类ActivatorUtilities，并大致讲解了ActivatorUtilities的用途。</li>
+<li>然后我们找到了将Controller托管到IOC容器中的办法AddControllersAsServices，并探究了它的源码，了解了它的工作方式。</li>
+<li>最后我们又演示了如何使用最合理的方式将Controller结合Autofac一起使用，并且支持属性注入。</li>
+</ul>
+<p>本次讲解到这里就差不多了，希望本来就知道的同学们能加深一点了解，不知道的同学能够给你们提供一点帮助，能够在日常开发中少走一点弯路。新的一年开始了，本篇文章是我2021年的第一篇文章，新的一年感谢大家的支持。<br>
+<br></p>
+<div align="center">
+  <span style="font-size: 15px">👇欢迎扫码关注我的公众号👇</span>
+  <img src="https://img2020.cnblogs.com/blog/2042116/202006/2042116-20200622133425514-1420050576.png">
+</div>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2021-01-04 07:29</span>&nbsp;
+<a href="https://www.cnblogs.com/wucy/">yi念之间</a>&nbsp;
+阅读(<span id="post_view_count">3423</span>)&nbsp;
+评论(<span id="post_comment_count">45</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14222973" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14222973);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 605020, cb_blogApp = 'wucy', cb_blogUserGuid = 'cbf13d4d-9981-4cce-33f2-08d7f668ab52';
+    var cb_entryId = 14222973, cb_entryCreatedDate = '2021-01-04 07:29', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 yi念之间
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjuN7GZBetPxg28WuxBZH4SQw1Ut0B4rk1RfLW-A8MwL6M9kaPd4475dWzjAtn0RDC6fkLKVIY9HmQFUVF6kGPwIpZ00OAcIUKLXSaNn9giY_I40Z_tKZ6v4QzwYfSlPpyY" />
+</body>
+</html>

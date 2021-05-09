@@ -1,0 +1,384 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="never" />
+    <meta name="description" content="说明：1、第1版DSP教程发布于2014年末，纪念下：https://www.cnblogs.com/armfly/p/11274826.html2、这几年在信号处理的应用上积累了一些经验，也发现了很" />
+    <meta property="og:description" content="说明：1、第1版DSP教程发布于2014年末，纪念下：https://www.cnblogs.com/armfly/p/11274826.html2、这几年在信号处理的应用上积累了一些经验，也发现了很" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>事隔五年之后，开启第2版DSP数字信号处理和CMSIS-NN神经网络教程，同步开启三代示波器，前27章发布（2020-05-18） - 安富莱电子 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/codinglife/bundle-codinglife.min.css?v=2uJkpdACLVfstRQ7zeCFK19brTwKuDEaNBLgKz9nm3A" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/codinglife/bundle-codinglife-mobile.min.css?v=DwDRKMd1bmjnJZ4iQqrTCO9QLlYb6OZaUAzHoHIIihg" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/armfly/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/armfly/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/armfly/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 437537;
+        var currentBlogApp = 'armfly';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'CodingLife';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2019-08-01 11:57';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/armfly/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/armfly/">安富莱电子</a>
+</h1>
+<h2>论坛：www.armbbs.cn<br> 
+淘宝：https://armfly.taobao.com <br></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/armfly/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E5%AE%89%E5%AF%8C%E8%8E%B1%E7%94%B5%E5%AD%90">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/armfly/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/armfly/p/11286169.html">
+    <span>事隔五年之后，开启第2版DSP数字信号处理和CMSIS-NN神经网络教程，同步开启三代示波器，前27章发布（2020-05-18）</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<p>说明：<br>1、第1版DSP教程发布于2014年末，纪念下：https://www.cnblogs.com/armfly/p/11274826.html<br>2、这几年在信号处理的应用上积累了一些经验，也发现了很多待解决的问题，通过本次教程做个完善。<br>3、M7内核芯片的一个重要应用方向就是信号处理，而且支持双精度浮点，不搞DSP就太可惜了。同时伴随着ARM发布ARMv8.1-M架构。后面还将有支持NEON指令集的M内核芯片发布，信号处理能力将再上一个台阶。<br>4、制作教程期间将同步开启三代示波器，因为示波器的一个重要功能就是信号处理，两个同时做起到一个互补的作用。<br>5、CMSIS-NN发布有一段时间了，作为入门学习非常不错。<br>6、鉴于AC6 CLANG在浮点处理上的强劲性能，每个例子将必做一个AC6 CLANG版，而且ARM编译好的DSP库也开始直接采用CLANG。<br>7、当前单片机AI也是有一定前景的，ARM一直在大力推进，很多软件厂商和研究机构也在不断的努力。通过此贴可以了解下：单片机AI的春天真的来了，ARM最新DSP库已经支持NEON，且支持Python。</p>
+<p>后续要补充的，再添加。<br>DSP教程和三代示波器将作为下半年最最最重要的工作来做。V7板子基础的东西已经做的太多了，还剩下的就是一些模块类的应用教程，后面慢慢更新。</p>
+<p><img src="https://img2018.cnblogs.com/blog/1379107/201908/1379107-20190801235559407-273468808.png" alt=""></p>
+<p><span style="color: rgba(255, 0, 0, 1)"><strong>教程和配套例子下载：</strong></span><a href="http://www.armbbs.cn/forum.php?mod=viewthread&amp;tid=94547">http://www.armbbs.cn/forum.php?mod=viewthread&amp;tid=94547</a></p>
+<p><strong><span style="color: rgba(128, 0, 128, 1)">教程下载（2020-05-18发布V1.4版本）：</span></strong><br>
+<span style="color: rgba(128, 128, 128, 1)"><span style="color: rgba(128, 128, 128, 1)"><span style="color: rgba(128, 128, 128, 1)"><img id="aimg_BdllL" class="zoom" src="http://www.armbbs.cn/static/image/filetype/pdf.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/安富莱_STM32-V5开发板_DSP数字信号处理教程（V1.4）.pdf" target="_blank">安富莱_STM32-V5开发板_DSP数字信号处理教程（V1.4）.pdf</a><span style="color: rgba(128, 128, 128, 1)"> (22.66MB)</span><br>
+<img id="aimg_w5FL9" class="zoom" src="http://www.armbbs.cn/static/image/filetype/pdf.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/安富莱_STM32-V6开发板_DSP数字信号处理教程（V1.4）.pdf" target="_blank">安富莱_STM32-V6开发板_DSP数字信号处理教程（V1.4）.pdf</a><span style="color: rgba(128, 128, 128, 1)"> (22.71MB)</span><br>
+<img id="aimg_E5FLN" class="zoom" src="http://www.armbbs.cn/static/image/filetype/pdf.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/安富莱_STM32-V7开发板_DSP数字信号处理教程（V1.4）.pdf" target="_blank">安富莱_STM32-V7开发板_DSP数字信号处理教程（V1.4）.pdf</a><span style="color: rgba(128, 128, 128, 1)"> (25.34MB)</span></span></span></span><br>
+<br>
+<strong><span style="color: rgba(128, 0, 128, 1)">V5例程：</span></strong><br>
+<img id="aimg_UpQ5g" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V5-200_DSP程序模板（源码方式）.rar" target="_blank">V5-200_DSP程序模板（源码方式）.rar</a><span style="color: rgba(128, 128, 128, 1)"> (5.91MB)</span><br>
+<img id="aimg_SZZgy" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V5-201_DSP程序模板（库方式）.rar" target="_blank">V5-201_DSP程序模板（库方式）.rar</a><span style="color: rgba(128, 128, 128, 1)"> (5.90MB)</span><br>
+<img id="aimg_n4pG9" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V5-202_Matlab的串口通信实现.rar" target="_blank">V5-202_Matlab的串口通信实现.rar</a><span style="color: rgba(128, 128, 128, 1)"> (5.89MB)</span><br>
+<img id="aimg_p8OY9" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V5-203_Matlab串口波形刷新和数据分析m文件.rar" target="_blank">V5-203_Matlab串口波形刷新和数据分析m文件.rar</a><span style="color: rgba(128, 128, 128, 1)"> (1.77KB)</span><br>
+<img id="aimg_o8qBG" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V5-204_Matlab的WIFI通信实现.rar" target="_blank">V5-204_Matlab的WIFI通信实现.rar</a><span style="color: rgba(128, 128, 128, 1)"> (5.91MB)</span><br>
+<img id="aimg_oAFOC" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V5-205_Matlab的WIFI波形刷新和数据分析m文件.rar" target="_blank">V5-205_Matlab的WIFI波形刷新和数据分析m文件.rar</a><span style="color: rgba(128, 128, 128, 1)"> (1.57KB)</span><br>
+<img id="aimg_Z45Gz" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V5-206_DSP基础运算（绝对值，求和，乘法和点乘）.rar" target="_blank">V5-206_DSP基础运算（绝对值，求和，乘法和点乘）.rar</a><span style="color: rgba(128, 128, 128, 1)"> (5.95MB)</span><br>
+<img id="aimg_P844C" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V5-207_DSP基础运算（相反数，偏移，移位，减法和比例因子）.rar" target="_blank">V5-207_DSP基础运算（相反数，偏移，移位，减法和比例因子）.rar</a><span style="color: rgba(128, 128, 128, 1)"> (5.97MB)</span><br>
+<img id="aimg_W49gb" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V5-208_DSP快速运算（三角函数和平方根）.rar" target="_blank">V5-208_DSP快速运算（三角函数和平方根）.rar</a><span style="color: rgba(128, 128, 128, 1)"> (5.95MB)</span><br>
+<img id="aimg_oQCGO" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V5-209_DSP统计运算（最大值，最小值，平均值和功率）.rar" target="_blank">V5-209_DSP统计运算（最大值，最小值，平均值和功率）.rar</a><span style="color: rgba(128, 128, 128, 1)"> (5.96MB)</span><br>
+<img id="aimg_ucAC2" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V5-210_DSP统计运算（标准偏差，均方根和方差）.rar" target="_blank">V5-210_DSP统计运算（标准偏差，均方根和方差）.rar</a><span style="color: rgba(128, 128, 128, 1)"> (5.95MB)</span><br>
+<img id="aimg_cKozn" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V5-211_DSP功能函数（数据拷贝，数据填充和浮点转定点）.rar" target="_blank">V5-211_DSP功能函数（数据拷贝，数据填充和浮点转定点）.rar</a><span style="color: rgba(128, 128, 128, 1)"> (5.96MB)</span><br>
+<img id="aimg_x12MF" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V5-212_DSP功能函数（定点数互转）.rar" target="_blank">V5-212_DSP功能函数（定点数互转）.rar</a><span style="color: rgba(128, 128, 128, 1)"> (5.92MB)</span><br>
+<img id="aimg_hM2Ac" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V5-213_DSP控制函数（三角函数）.rar" target="_blank">V5-213_DSP控制函数（三角函数）.rar</a><span style="color: rgba(128, 128, 128, 1)"> (5.93MB)</span><br>
+<img id="aimg_eM9Nq" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V5-214_DSP复数运算（共轭，点乘和求模）.rar" target="_blank">V5-214_DSP复数运算（共轭，点乘和求模）.rar</a><span style="color: rgba(128, 128, 128, 1)"> (5.94MB)</span><br>
+<img id="aimg_oiZgQ" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V5-215_DSP复数运算（模平方，乘法和复数乘实数）.rar" target="_blank">V5-215_DSP复数运算（模平方，乘法和复数乘实数）.rar</a><span style="color: rgba(128, 128, 128, 1)"> (5.95MB)</span><br>
+<img id="aimg_aVOi7" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V5-216_DSP矩阵运算（加法，减法和逆矩阵）.rar" target="_blank">V5-216_DSP矩阵运算（加法，减法和逆矩阵）.rar</a><span style="color: rgba(128, 128, 128, 1)"> (5.94MB)</span></p>
+<p><img id="aimg_NVlvv" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V5-217_DSP矩阵运算（放缩，乘法和转置矩阵）.rar" target="_blank">V5-217_DSP矩阵运算（放缩，乘法和转置矩阵）.rar</a><span style="color: rgba(128, 128, 128, 1)"> (5.95MB)</span><br>
+<br>
+<strong><span style="color: rgba(128, 0, 128, 1)">V6例程：</span></strong><br>
+<img id="aimg_xKNYQ" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V6-200_DSP程序模板（源码方式）.rar" target="_blank">V6-200_DSP程序模板（源码方式）.rar</a><span style="color: rgba(128, 128, 128, 1)"> (5.72MB)</span><br>
+<img id="aimg_b1zPa" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V6-201_DSP程序模板（库方式）.rar" target="_blank">V6-201_DSP程序模板（库方式）.rar</a><span style="color: rgba(128, 128, 128, 1)"> (5.72MB)</span><br>
+<img id="aimg_y8vFP" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V6-202_Matlab的串口通信实现.rar" target="_blank">V6-202_Matlab的串口通信实现.rar</a><span style="color: rgba(128, 128, 128, 1)"> (5.71MB)</span><br>
+<img id="aimg_SBvVF" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V6-203_Matlab串口波形刷新和数据分析m文件.rar" target="_blank">V6-203_Matlab串口波形刷新和数据分析m文件.rar</a><span style="color: rgba(128, 128, 128, 1)"> (1.77KB)</span><br>
+<img id="aimg_RApC7" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V6-204_Matlab的WIFI通信实现.rar" target="_blank">V6-204_Matlab的WIFI通信实现.rar</a><span style="color: rgba(128, 128, 128, 1)"> (5.73MB)</span><br>
+<img id="aimg_s4V2p" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V6-205_Matlab的WIFI波形刷新和数据分析m文件.rar" target="_blank">V6-205_Matlab的WIFI波形刷新和数据分析m文件.rar</a><span style="color: rgba(128, 128, 128, 1)"> (1.57KB)</span><br>
+<img id="aimg_Rb9p8" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V6-206_DSP基础运算（绝对值，求和，乘法和点乘）.rar" target="_blank">V6-206_DSP基础运算（绝对值，求和，乘法和点乘）.rar</a><span style="color: rgba(128, 128, 128, 1)"> (5.77MB)</span><br>
+<img id="aimg_lo1oc" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V6-207_DSP基础运算（相反数，偏移，移位，减法和比例因子）.rar" target="_blank">V6-207_DSP基础运算（相反数，偏移，移位，减法和比例因子）.rar</a><span style="color: rgba(128, 128, 128, 1)"> (5.79MB)</span><br>
+<img id="aimg_UIvFc" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V6-208_DSP快速运算（三角函数和平方根）.rar" target="_blank">V6-208_DSP快速运算（三角函数和平方根）.rar</a><span style="color: rgba(128, 128, 128, 1)"> (5.76MB)</span><br>
+<img id="aimg_lQakC" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V6-209_DSP统计运算（最大值，最小值，平均值和功率）.rar" target="_blank">V6-209_DSP统计运算（最大值，最小值，平均值和功率）.rar</a><span style="color: rgba(128, 128, 128, 1)"> (5.78MB)</span><br>
+<img id="aimg_QYmg2" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V6-210_DSP统计运算（标准偏差，均方根和方差）.rar" target="_blank">V6-210_DSP统计运算（标准偏差，均方根和方差）.rar</a><span style="color: rgba(128, 128, 128, 1)"> (5.77MB)</span><br>
+<img id="aimg_SNzNb" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V6-211_DSP功能函数（数据拷贝，数据填充和浮点转定点）.rar" target="_blank">V6-211_DSP功能函数（数据拷贝，数据填充和浮点转定点）.rar</a><span style="color: rgba(128, 128, 128, 1)"> (5.78MB)</span><br>
+<img id="aimg_aoyPP" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V6-212_DSP功能函数（定点数互转）.rar" target="_blank">V6-212_DSP功能函数（定点数互转）.rar</a><span style="color: rgba(128, 128, 128, 1)"> (5.75MB)</span><br>
+<img id="aimg_LvVBc" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V6-213_DSP控制函数（三角函数）.rar" target="_blank">V6-213_DSP控制函数（三角函数）.rar</a><span style="color: rgba(128, 128, 128, 1)"> (5.75MB)</span><br>
+<img id="aimg_d1obG" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V6-214_DSP复数运算（共轭，点乘和求模）.rar" target="_blank">V6-214_DSP复数运算（共轭，点乘和求模）.rar</a><span style="color: rgba(128, 128, 128, 1)"> (5.76MB)</span><br>
+<img id="aimg_d7oKg" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V6-215_DSP复数运算（模平方，乘法和复数乘实数）.rar" target="_blank">V6-215_DSP复数运算（模平方，乘法和复数乘实数）.rar</a><span style="color: rgba(128, 128, 128, 1)"> (5.77MB)</span><br>
+<img id="aimg_U12GV" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V6-216_DSP矩阵运算（加法，减法和逆矩阵）.rar" target="_blank">V6-216_DSP矩阵运算（加法，减法和逆矩阵）.rar</a><span style="color: rgba(128, 128, 128, 1)"> (5.76MB)</span></p>
+<p><img id="aimg_jvL0P" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V6-217_DSP矩阵运算（放缩，乘法和转置矩阵）.rar" target="_blank">V6-217_DSP矩阵运算（放缩，乘法和转置矩阵）.rar</a><span style="color: rgba(128, 128, 128, 1)"> (5.77MB)</span><br>
+<br>
+<br>
+<strong><span style="color: rgba(128, 0, 128, 1)">V7例程：</span></strong><br>
+<img id="aimg_SF7Nn" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V7-200_DSP程序模板（源码方式）.rar" target="_blank">V7-200_DSP程序模板（源码方式）.rar</a><span style="color: rgba(128, 128, 128, 1)"> (9.77MB)</span><br>
+<img id="aimg_jg1MG" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V7-201_DSP程序模板（库方式）.rar" target="_blank">V7-201_DSP程序模板（库方式）.rar</a><span style="color: rgba(128, 128, 128, 1)"> (9.76MB)</span><br>
+<img id="aimg_X4C1O" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V7-202_Matlab的串口通信实现.rar" target="_blank">V7-202_Matlab的串口通信实现.rar</a><span style="color: rgba(128, 128, 128, 1)"> (9.75MB)</span><br>
+<img id="aimg_caA2g" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V7-203_Matlab串口波形刷新和数据分析m文件.rar" target="_blank">V7-203_Matlab串口波形刷新和数据分析m文件.rar</a><span style="color: rgba(128, 128, 128, 1)"> (1.77KB)</span><br>
+<img id="aimg_k741Z" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V7-204_Matlab的WIFI通信实现.rar" target="_blank">V7-204_Matlab的WIFI通信实现.rar</a><span style="color: rgba(128, 128, 128, 1)"> (9.77MB)</span><br>
+<img id="aimg_rAcb1" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V7-205_Matlab的WIFI波形刷新和数据分析m文件.rar" target="_blank">V7-205_Matlab的WIFI波形刷新和数据分析m文件.rar</a><span style="color: rgba(128, 128, 128, 1)"> (1.57KB)</span><br>
+<img id="aimg_X2cFK" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V7-206_DSP基础运算（绝对值，求和，乘法和点乘）.rar" target="_blank">V7-206_DSP基础运算（绝对值，求和，乘法和点乘）.rar</a><span style="color: rgba(128, 128, 128, 1)"> (9.82MB)</span><br>
+<img id="aimg_XV8Bk" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V7-207_DSP基础运算（相反数，偏移，移位，减法和比例因子）.rar" target="_blank">V7-207_DSP基础运算（相反数，偏移，移位，减法和比例因子）.rar</a><span style="color: rgba(128, 128, 128, 1)"> (9.84MB)</span><br>
+<img id="aimg_QG7Yc" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V7-208_DSP快速运算（三角函数和平方根）.rar" target="_blank">V7-208_DSP快速运算（三角函数和平方根）.rar</a><span style="color: rgba(128, 128, 128, 1)"> (10.52MB)</span><br>
+<img id="aimg_d2yB8" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V7-209_DSP统计运算（最大值，最小值，平均值和功率）.rar" target="_blank">V7-209_DSP统计运算（最大值，最小值，平均值和功率）.rar</a><span style="color: rgba(128, 128, 128, 1)"> (19.23MB)</span><br>
+<img id="aimg_roBFi" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V7-210_DSP统计运算（标准偏差，均方根和方差）.rar" target="_blank">V7-210_DSP统计运算（标准偏差，均方根和方差）.rar</a><span style="color: rgba(128, 128, 128, 1)"> (9.81MB)</span><br>
+<img id="aimg_GpYfz" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V7-211_DSP功能函数（数据拷贝，数据填充和浮点转定点）.rar" target="_blank">V7-211_DSP功能函数（数据拷贝，数据填充和浮点转定点）.rar</a><span style="color: rgba(128, 128, 128, 1)"> (9.83MB)</span><br>
+<img id="aimg_Fo4QF" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V7-212_DSP功能函数（定点数互转）.rar" target="_blank">V7-212_DSP功能函数（定点数互转）.rar</a><span style="color: rgba(128, 128, 128, 1)"> (9.78MB)</span><br>
+<img id="aimg_BIvOV" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V7-213_DSP控制函数（三角函数）.rar" target="_blank">V7-213_DSP控制函数（三角函数）.rar</a><span style="color: rgba(128, 128, 128, 1)"> (9.78MB)</span><br>
+<img id="aimg_nQCnB" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V7-214_DSP复数运算（共轭，点乘和求模）.rar" target="_blank">V7-214_DSP复数运算（共轭，点乘和求模）.rar</a><span style="color: rgba(128, 128, 128, 1)"> (9.80MB)</span><br>
+<img id="aimg_wc8OF" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V7-215_DSP复数运算（模平方，乘法和复数乘实数）.rar" target="_blank">V7-215_DSP复数运算（模平方，乘法和复数乘实数）.rar</a><span style="color: rgba(128, 128, 128, 1)"> (9.81MB)</span><br>
+<img id="aimg_vO8nb" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V7-216_DSP矩阵运算（加法，减法和逆矩阵）.rar" target="_blank">V7-216_DSP矩阵运算（加法，减法和逆矩阵）.rar</a><span style="color: rgba(128, 128, 128, 1)"> (9.80MB)</span></p>
+<p><span style="color: rgba(128, 128, 128, 1)"><img id="aimg_Fn0ps" class="zoom" src="http://www.armbbs.cn/static/image/filetype/zip.gif" alt="" width="32" height="32" border="0"><a href="http://www.armfly.com/armbbs/bbs/94547/V7-217_DSP矩阵运算（放缩，乘法和转置矩阵）.rar" target="_blank">V7-217_DSP矩阵运算（放缩，乘法和转置矩阵）.rar</a><span style="color: rgba(128, 128, 128, 1)"> (9.81MB)</span></span></p>
+<p>&nbsp;</p>
+<p><span style="color: rgba(255, 0, 0, 1)"><strong>目录：</strong></span></p>
+<p><img src="https://img2020.cnblogs.com/blog/1379107/202005/1379107-20200519134325362-236430046.png" alt=""></p>
+<p><img src="https://img2018.cnblogs.com/blog/1379107/201908/1379107-20190801235559407-273468808.png" alt=""></p>
+<p><span style="color: rgba(128, 0, 128, 1)"><strong>2019-07-29</strong></span><br>正式开始制作第1章</p>
+<p><span style="color: rgba(128, 0, 128, 1)"><strong>2019-08-01</strong></span></p>
+<p>发布模板<br>推荐一种非常好的新版DSP库源码移植方式，含V7，V6和V5的IAR以及MDK5的AC5和AC6版本<br>https://www.cnblogs.com/armfly/p/11283089.html</p>
+<p><strong><span style="color: rgba(128, 0, 128, 1)">2019-08-02</span></strong></p>
+<p>已经花时间实现了通过WIFI和串口方式将数据上传给Matlab并做实时的数据分析，效果如下：</p>
+<p>串口：</p>
+<p><img src="https://img2018.cnblogs.com/blog/1379107/201908/1379107-20190803011638811-445862789.gif" alt=""></p>
+<p>WIFI:</p>
+<p><img src="https://img2018.cnblogs.com/blog/1379107/201908/1379107-20190803011657032-1263180886.gif" alt=""></p>
+<p>&nbsp;</p>
+<p><strong><span style="color: rgba(255, 0, 0, 1)">2019-08-06</span></strong></p>
+<p>发布移植TI的DSP库模板：</p>
+<p>TI的32位定点DSP库IQmath在H7和F4上的移植和使用</p>
+<p><a href="https://www.cnblogs.com/armfly/p/11304364.html">https://www.cnblogs.com/armfly/p/11304364.html</a></p>
+<p>&nbsp;</p>
+<p><span style="color: rgba(255, 0, 0, 1)">2019-08-12</span><br>完成前两章<br><br><span style="color: rgba(255, 0, 0, 1)">2019-08-16</span><br>完成第3章<br><br><span style="color: rgba(255, 0, 0, 1)">2019-08-20</span><span style="color: rgba(255, 0, 0, 1)"><br></span>完成第4章<br><span style="color: rgba(255, 0, 0, 1)">2019-08-26</span><span style="color: rgba(255, 0, 0, 1)"><br></span>完成第5章<span style="color: rgba(255, 0, 0, 1)"><br></span><br><span style="color: rgba(255, 0, 0, 1)">2019-08-28</span><span style="color: rgba(255, 0, 0, 1)"><br></span>完成第6章</p>
+<p>&nbsp;<br>
+<strong><span style="color: rgba(255, 0, 0, 1)">2019-09-08</span></strong><span style="color: rgba(255, 0, 0, 1)"><br>
+</span>完成第7,8,9章</p>
+<p>&nbsp;</p>
+<p><strong><span style="color: rgba(255, 0, 0, 1)">2019-09-15</span></strong><span style="color: rgba(255, 0, 0, 1)"><br>
+</span>完成第10章</p>
+<p><br>
+<strong><span style="color: rgba(255, 0, 0, 1)">2019-10-20</span></strong><span style="color: rgba(255, 0, 0, 1)"><br>
+</span>完成第13章</p>
+<p>&nbsp;</p>
+<p><strong><span style="color: rgba(255, 0, 0, 1)">2019-12-29</span></strong><span style="color: rgba(255, 0, 0, 1)"><br>
+</span>更新至第17章</p>
+<p>&nbsp;</p>
+<p><strong><span style="color: rgba(255, 0, 0, 1)">2020-02-16</span></strong><span style="color: rgba(255, 0, 0, 1)"><br>
+</span>更新至第19章</p>
+<p>&nbsp;</p>
+<p><strong><span style="color: rgba(255, 0, 0, 1)">2020-03-22</span></strong><span style="color: rgba(255, 0, 0, 1)"><br>
+</span>更新至第21章</p>
+<p>&nbsp;</p>
+<p><strong><span style="color: rgba(255, 0, 0, 1)">2020-03-29</span></strong><span style="color: rgba(255, 0, 0, 1)"><br>
+</span>更新至第23章</p>
+<p>&nbsp;</p>
+<p><strong><span style="color: rgba(255, 0, 0, 1)">2020-04-19</span></strong><span style="color: rgba(255, 0, 0, 1)"><br>
+</span>更新至第25章</p>
+<p><br>
+<strong><span style="color: rgba(255, 0, 0, 1)">2020-05-17</span></strong><span style="color: rgba(255, 0, 0, 1)"><br>
+</span>更新至第27章</p>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2019-08-01 23:57</span>&nbsp;
+<a href="https://www.cnblogs.com/armfly/">安富莱电子</a>&nbsp;
+阅读(<span id="post_view_count">3394</span>)&nbsp;
+评论(<span id="post_comment_count">7</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=11286169" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(11286169);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 437537, cb_blogApp = 'armfly', cb_blogUserGuid = '80835c73-3654-4ddf-f20a-08d58662b770';
+    var cb_entryId = 11286169, cb_entryCreatedDate = '2019-08-01 23:57', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 安富莱电子
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjvUw6HBR3doHiK5WSzMLhERzveQOU4p20fg6IAgX2gLuyVDo_92Y4jOe1VBj-Rn3QW_F7qIBpUYmNrKfjnPX5l7O_JHeVPuUL8X11XVJ3w_3GdC8YIFSJePGQIrfPN6Bu4" />
+</body>
+</html>

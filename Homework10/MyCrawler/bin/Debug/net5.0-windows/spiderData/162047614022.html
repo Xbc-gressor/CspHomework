@@ -1,0 +1,339 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="never" />
+    <meta name="description" content="体系结构 Spring 有可能成为所有企业应用程序的一站式服务点，然而，Spring 是模块化的，允许你挑选和选择适用于你的模块，不必要把剩余部分也引入。 下面的部分对在 Spring 框架中所有可用" />
+    <meta property="og:description" content="体系结构 Spring 有可能成为所有企业应用程序的一站式服务点，然而，Spring 是模块化的，允许你挑选和选择适用于你的模块，不必要把剩余部分也引入。 下面的部分对在 Spring 框架中所有可用" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Spring概述 - 夜、微凉 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/blacksun/bundle-blacksun.min.css?v=4ejSMA0hiaprX0pQtldNC8H9i0SZp6DI04C71RcuptQ" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/blacksun/bundle-blacksun-mobile.min.css?v=fMbZtpTSrGMT1vZFqZUQ-eVksibNTsp6OHq-7KFLVh0" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/wwj1992/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/wwj1992/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/wwj1992/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 226732;
+        var currentBlogApp = 'wwj1992';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'BlackSun';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2019-04-03 08:56';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <div id="top">
+	<div>
+    <table class="HeaderTitles">
+        <tr>
+            <td>
+                <h1 class="HeaderTitle"><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/wwj1992/">夜微凉、的博客</a>
+</h1>
+                <p id="tagline"></p>
+            </td>
+        </tr>
+    </table>
+</div>
+<div>
+    <table id="HeaderBar" class="HeaderBar">
+        <tr>
+            <td class="HeaderBarTab" nowrap>
+                
+&nbsp;
+<a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+&nbsp;::
+
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/wwj1992/">
+首页</a>
+&nbsp;::
+
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+&nbsp;::
+
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E5%A4%9C%E3%80%81%E5%BE%AE%E5%87%89">
+联系</a>&nbsp;::
+
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/wwj1992/rss/">
+订阅</a>
+
+<a id="blog_nav_rss_image" href="https://www.cnblogs.com/wwj1992/rss/">
+    <img src="/skins/blacksun/images/xml.gif" alt="订阅" />
+</a>&nbsp;::
+
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+
+
+
+            </td>
+			
+            <td class="HeaderBarTabBack" nowrap width="100%">
+                <div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+            </td>
+        </tr>
+    </table>
+</div>
+</div>
+<table id="maintable">
+	<tr><td id="leftmenu">
+	
+		<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+		<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+	
+</td><td id="main">
+	<div id="post_detail">
+    <div class="post">
+        <div class="postTitle">
+            
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/wwj1992/p/10651471.html">
+    <span>Spring概述</span>
+    
+
+
+
+</a>
+
+        </div>
+	
+        <div class="postText">
+            <div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<h2>体系结构</h2>
+<p>Spring 有可能成为所有企业应用程序的一站式服务点，然而，Spring 是模块化的，允许你挑选和选择适用于你的模块，不必要把剩余部分也引入。</p>
+<p>下面的部分对在 Spring 框架中所有可用的模块给出了详细的介绍。</p>
+<p>Spring 框架提供约 20 个模块，可以根据应用程序的要求来使用。</p>
+<p><img src="https://7n.w3cschool.cn/attachments/image/wk/wkspring/arch1.png" alt="Spring 体系结构"></p>
+<h2 class="head2">核心容器</h2>
+<p>核心容器由&nbsp;<strong>spring-core，spring-beans，spring-context，spring-context-support和spring-expression</strong>（SpEL，Spring表达式语言，Spring Expression Language）等模块组成，它们的细节如下：</p>
+<ul>
+<li>
+<p><strong>spring-core</strong>模块提供了框架的基本组成部分，包括 IoC 和依赖注入功能。</p>
+</li>
+<li>
+<p><strong>spring-beans</strong>&nbsp;模块提供 BeanFactory，工厂模式的微妙实现，它移除了编码式单例的需要，并且可以把配置和依赖从实际编码逻辑中解耦。</p>
+</li>
+<li>
+<p><strong>context</strong>模块建立在由<strong>core</strong>和&nbsp;<strong>beans</strong>&nbsp;模块的基础上建立起来的，它以一种类似于JNDI注册的方式访问对象。Context模块继承自Bean模块，并且添加了国际化（比如，使用资源束）、事件传播、资源加载和透明地创建上下文（比如，通过Servelet容器）等功能。Context模块也支持Java EE的功能，比如EJB、JMX和远程调用等。<strong>ApplicationContext</strong>接口是Context模块的焦点。<strong>spring-context-support</strong>提供了对第三方库集成到Spring上下文的支持，比如缓存（EhCache, Guava, JCache）、邮件（JavaMail）、调度（CommonJ, Quartz）、模板引擎（FreeMarker, JasperReports, Velocity）等。</p>
+</li>
+<li><strong>spring-expression</strong>模块提供了强大的表达式语言，用于在运行时查询和操作对象图。它是JSP2.1规范中定义的统一表达式语言的扩展，支持set和get属性值、属性赋值、方法调用、访问数组集合及索引的内容、逻辑算术运算、命名变量、通过名字从Spring IoC容器检索对象，还支持列表的投影、选择以及聚合等。</li>
+</ul>
+<p>它们的完整依赖关系如下图所示：</p>
+<p><img src="https://7n.w3cschool.cn/attachments/image/20181023/1540290875453691.png" alt="Spring 体系结构"></p>
+<h2 class="head2">数据访问/集成</h2>
+<p>数据访问/集成层包括 JDBC，ORM，OXM，JMS 和事务处理模块，它们的细节如下：</p>
+<p><span style="color: rgba(255, 0, 0, 1)">（注：JDBC=Java Data Base Connectivity，ORM=Object Relational Mapping，OXM=Object XML Mapping，JMS=Java Message Service）</span></p>
+<ul>
+<li>
+<p><strong>JDBC</strong>&nbsp;模块提供了JDBC抽象层，它消除了冗长的JDBC编码和对数据库供应商特定错误代码的解析。</p>
+</li>
+<li>
+<p><strong>ORM</strong>&nbsp;模块提供了对流行的对象关系映射API的集成，包括JPA、JDO和Hibernate等。通过此模块可以让这些ORM框架和spring的其它功能整合，比如前面提及的事务管理。</p>
+</li>
+<li>
+<p><strong>OXM</strong>&nbsp;模块提供了对OXM实现的支持，比如JAXB、Castor、XML&nbsp;Beans、JiBX、XStream等。</p>
+</li>
+<li>
+<p><strong>JMS</strong>&nbsp;模块包含生产（produce）和消费（consume）消息的功能。从Spring&nbsp;4.1开始，集成了spring-messaging模块。。</p>
+</li>
+<li><strong>事务</strong>模块为实现特殊接口类及所有的 POJO 支持编程式和声明式事务管理。（注：编程式事务需要自己写beginTransaction()、commit()、rollback()等事务管理方法，声明式事务是通过注解或配置由spring自动处理，编程式事务粒度更细）</li>
+</ul>
+<h2 class="head2">Web</h2>
+<p>Web 层由 Web，Web-MVC，Web-Socket 和 Web-Portlet 组成，它们的细节如下：</p>
+<ul>
+<li>
+<p><strong>Web</strong>&nbsp;模块提供面向web的基本功能和面向web的应用上下文，比如多部分（multipart）文件上传功能、使用Servlet监听器初始化IoC容器等。它还包括HTTP客户端以及Spring远程调用中与web相关的部分。。</p>
+</li>
+<li>
+<p><strong>Web-MVC</strong>&nbsp;模块为web应用提供了模型视图控制（MVC）和REST&nbsp;Web服务的实现。Spring的MVC框架可以使领域模型代码和web表单完全地分离，且可以与Spring框架的其它所有功能进行集成。</p>
+</li>
+<li>
+<p><strong>Web-Socket</strong>&nbsp;模块为 WebSocket-based 提供了支持，而且在 web 应用程序中提供了客户端和服务器端之间通信的两种方式。</p>
+</li>
+<li><strong>Web-Portlet</strong>&nbsp;模块提供了用于Portlet环境的MVC实现，并反映了spring-webmvc模块的功能。</li>
+</ul>
+<h2 class="head2">其他</h2>
+<p>还有其他一些重要的模块，像&nbsp;<a href="https://www.w3cschool.cn/wkspring/izae1h9w.html" target="_blank">AOP</a>，Aspects，Instrumentation，Web 和测试模块，它们的细节如下：</p>
+<ul>
+<li>
+<p><strong>AOP</strong>&nbsp;模块提供了面向方面的编程实现，允许你定义方法拦截器和切入点对代码进行干净地解耦，从而使实现功能的代码彻底的解耦出来。使用源码级的元数据，可以用类似于.Net属性的方式合并行为信息到代码中。</p>
+</li>
+<li>
+<p><strong>Aspects</strong>&nbsp;模块提供了与&nbsp;<strong>AspectJ</strong>&nbsp;的集成，这是一个功能强大且成熟的面向切面编程（AOP）框架。</p>
+</li>
+<li>
+<p><strong>Instrumentation</strong>&nbsp;模块在一定的应用服务器中提供了类 instrumentation 的支持和类加载器的实现。</p>
+</li>
+<li>
+<p><strong>Messaging</strong>&nbsp;模块为 STOMP 提供了支持作为在应用程序中 WebSocket 子协议的使用。它也支持一个注解编程模型，它是为了选路和处理来自 WebSocket 客户端的 STOMP 信息。</p>
+</li>
+<li><strong>测试</strong>模块支持对具有 JUnit 或 TestNG 框架的 Spring 组件的测试。</li>
+</ul>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+        </div>
+	
+        <div class="postfoot">
+            posted on 
+<span id="post-date">2019-04-03 20:56</span>&nbsp;
+<a href="https://www.cnblogs.com/wwj1992/">夜、微凉</a>&nbsp;
+阅读(<span id="post_view_count">97</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=10651471" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(10651471);return false;">收藏</a>
+        </div>
+    </div>
+</div>
+
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 226732, cb_blogApp = 'wwj1992', cb_blogUserGuid = '822a8cea-54f4-e411-b908-9dcfd8948a71';
+    var cb_entryId = 10651471, cb_entryCreatedDate = '2019-04-03 20:56', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+
+
+</tr>
+</table>
+<p id="footer">
+	Copyright @
+	2021 夜、微凉
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+<BR>
+	Powered by:
+	<a href="http://scottwater.com/blog" target="_blank">.Text</a> and 
+	<a href="http://asp.net" target="_blank">ASP.NET</a>
+	<br>
+	Theme by: <a href="http://www.DotNetMonster.com" target="_blank">.NET Monster</a>
+</p>
+
+
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjue6lCvB7KDhjdI112hAuU1pboD3c5iLoU5VcnN2KxAIWvZfRDMynVrEVxNW_jjKSXGyXt4bcGC2bct3DRQXocExkeKFhpAWzqNwI7VqY0bQSRDTVms_EEpRYsxcBe-iuA" />
+</body>
+</html>

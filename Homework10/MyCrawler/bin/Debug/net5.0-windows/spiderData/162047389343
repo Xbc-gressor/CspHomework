@@ -1,0 +1,640 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    
+    
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>nSibo - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/simplememory/bundle-simplememory.min.css?v=uknaX_hejnSu-njQgx4Hj1R0JiPLwUhFPUlwWNmWyB4" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/SimpleMemory/bundle-SimpleMemory-mobile.min.css" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/chenzz/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/chenzz/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/chenzz/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 30972;
+        var currentBlogApp = 'chenzz';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'SimpleMemory';
+        var visitorUserId = '';
+    </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/chenzz/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/chenzz/">ChenZz's Blog</a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/chenzz/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/nSibo">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/chenzz/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+
+
+
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/chenzz/archive/2007/12/12.html">2007年12月12日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/chenzz/archive/2007/12/12/992623.html">
+    <span>
+            <span>[置顶]</span>
+        简单Blog程序(附源码)
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：程序使用VS2008开发,框架使用.Net 2.0,是在别人的Blog的基础上修改而来的,主要原因在使用原BLOG程序时发布网站后无法使用,后来自已在其原来的基础上换了编缉器为FckEditor,先上几张图源码:/Files/chenzz/cs_blog.zip (老版)/Files/chenzz/cs_blogV1.0.1215.0.zip(12.15号修改)去除了对程序集System.Web....        <a href="https://www.cnblogs.com/chenzz/archive/2007/12/12/992623.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2007-12-12 19:50
+nSibo
+<span data-post-id="992623" class="post-view-count">阅读(1226)</span> 
+<span data-post-id="992623" class="post-comment-count">评论(8)</span> 
+<span data-post-id="992623" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=992623" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/chenzz/archive/2008/05/01.html">2008年5月1日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/chenzz/archive/2008/05/01/1178390.html">
+    <span>
+        串口通信类(2)
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="cnblogs-post-body" id="postlist_postbody_1178390">
+        正文内容加载中...
+    </div>
+    <script type="text/javascript">getBlogPostBody(1178390);</script>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2008-05-01 08:15
+nSibo
+<span data-post-id="1178390" class="post-view-count">阅读(477)</span> 
+<span data-post-id="1178390" class="post-comment-count">评论(2)</span> 
+<span data-post-id="1178390" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=1178390" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/chenzz/archive/2008/04/19.html">2008年4月19日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/chenzz/archive/2008/04/19/1161446.html">
+    <span>
+        串口操作类
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：usingSystem;usingSystem.IO.Ports;usingSystem.Threading;namespaceTripodDemo{publicclassSerialTripo:IDisposable{privateobjectobjComm=newobject();privateSerialPortcom;privatebooldisposed=false;SerialPort...        <a href="https://www.cnblogs.com/chenzz/archive/2008/04/19/1161446.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2008-04-19 20:00
+nSibo
+<span data-post-id="1161446" class="post-view-count">阅读(220)</span> 
+<span data-post-id="1161446" class="post-comment-count">评论(0)</span> 
+<span data-post-id="1161446" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=1161446" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/chenzz/archive/2008/03/10.html">2008年3月10日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/chenzz/archive/2008/03/10/1099387.html">
+    <span>
+        Sql Server Express 2005无法使用SA用户登陆解决
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：在安装VS2008/2005(我机器上安装的VS2008)时会默认把SQL SERVER Express 2005安装上,默认安装时并没有打开远程连接及SA用户登陆功能1.无法使用SA用户登陆解决方案解决方法如下,打Microsoft Sql Server Management Studio Express,以windows验证方式登陆,打开服务器属性窗口(在数据库服务器图标上点右键选"属性"),...        <a href="https://www.cnblogs.com/chenzz/archive/2008/03/10/1099387.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2008-03-10 20:30
+nSibo
+<span data-post-id="1099387" class="post-view-count">阅读(3917)</span> 
+<span data-post-id="1099387" class="post-comment-count">评论(5)</span> 
+<span data-post-id="1099387" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=1099387" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/chenzz/archive/2008/02/29.html">2008年2月29日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/chenzz/archive/2008/02/29/1086366.html">
+    <span>
+        EntLib 3.1 显示本地时间方法
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：With this simple change in place, you can now change your TextFormatter templates to support local times. For example, I created a template that shows several timezones in different formats:Timestamp:...        <a href="https://www.cnblogs.com/chenzz/archive/2008/02/29/1086366.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2008-02-29 16:35
+nSibo
+<span data-post-id="1086366" class="post-view-count">阅读(152)</span> 
+<span data-post-id="1086366" class="post-comment-count">评论(0)</span> 
+<span data-post-id="1086366" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=1086366" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/chenzz/archive/2007/12/13.html">2007年12月13日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/chenzz/archive/2007/12/13/994255.html">
+    <span>
+        微软1G网盘注册方法
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：微软提供免费网盘，可作外链，可用迅雷。很好的存储地方。拥有1G的空间，单个文件限制大小为50MB，支持外链（需要传到Public folders里面），支持迅雷下载。经过我本人测试，下载速度还是蛮快的，能达到180k每秒..不过跟其他国内的网盘对比起来，微软这个还是很不错的，国内像live-share、mofile之类的，速度又慢、又不支持外链、还不能用下载工具下载，而且微软这个应该是很稳定的，不...        <a href="https://www.cnblogs.com/chenzz/archive/2007/12/13/994255.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2007-12-13 22:59
+nSibo
+<span data-post-id="994255" class="post-view-count">阅读(1044)</span> 
+<span data-post-id="994255" class="post-comment-count">评论(2)</span> 
+<span data-post-id="994255" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=994255" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+            <div class="postSeparator"></div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/chenzz/archive/2007/12/13/994190.html">
+    <span>
+        错误日志记录类
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：项目中经常需要使用到对软件发生错误的日志记录，关于此，很多公司及组织已经做了很多工作，比如可以使用Microsoft提供的Microsoft Enterprise Library January 2006（最新版为2007APril,但是个人现在习惯于使用2006版，版 本为2.0）中的日志记录模块或是开源项目NLOG等，这些东东一般来说功能都比较强大，但是上手可能并不是那么容易，其实一般来说我们...        <a href="https://www.cnblogs.com/chenzz/archive/2007/12/13/994190.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2007-12-13 21:56
+nSibo
+<span data-post-id="994190" class="post-view-count">阅读(758)</span> 
+<span data-post-id="994190" class="post-comment-count">评论(2)</span> 
+<span data-post-id="994190" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=994190" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+            <div class="postSeparator"></div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/chenzz/archive/2007/12/13/994160.html">
+    <span>
+        VS2008 Express Edition使用感受
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：VS2008 EXPRESS版下载到本机也有一段时间了，一直没有时间试用一下（主要是原来系统装了个VS2008 BETA2版，觉得没必要再装这个体验版的，而且也不确定这个东东是否免费），最近几天不知什么原因，电脑变得出奇的慢，启动进入系统都要5，6分钟，播放音乐时也卡，弄了好久，找不到原因，不管了，反正有GHOST备份，于是今晚我把整个系统恢复了一下，之后顺便把该装的东东都装上，包括.Net Fr...        <a href="https://www.cnblogs.com/chenzz/archive/2007/12/13/994160.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2007-12-13 21:30
+nSibo
+<span data-post-id="994160" class="post-view-count">阅读(7242)</span> 
+<span data-post-id="994160" class="post-comment-count">评论(1)</span> 
+<span data-post-id="994160" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=994160" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/chenzz/archive/2007/12/12.html">2007年12月12日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/chenzz/archive/2007/12/12/992714.html">
+    <span>
+        推荐:微软IE开发者工具条1.0正式版
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：微软2007年5月份正式发布了其IE Developer Toolbar最终正式版，支持IE6/7。微软开发者工具条可以让开发人员更为方便的分析网页结构，调整包括CSS在内的各种特定元素，帮助开发者更好地创建Web应用。 微软此次发布的1.0版相较Beta 3测试版并无新鲜元素加入，按照微软的说法，1.0版本主要改善了可靠性更适合作为一个正式版本来发布。 IEDeveloperToolba...        <a href="https://www.cnblogs.com/chenzz/archive/2007/12/12/992714.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2007-12-12 21:24
+nSibo
+<span data-post-id="992714" class="post-view-count">阅读(625)</span> 
+<span data-post-id="992714" class="post-comment-count">评论(3)</span> 
+<span data-post-id="992714" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=992714" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+            <div class="postSeparator"></div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/chenzz/archive/2007/12/12/992623.html">
+    <span>
+        简单Blog程序(附源码)
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：程序使用VS2008开发,框架使用.Net 2.0,是在别人的Blog的基础上修改而来的,主要原因在使用原BLOG程序时发布网站后无法使用,后来自已在其原来的基础上换了编缉器为FckEditor,先上几张图源码:/Files/chenzz/cs_blog.zip (老版)/Files/chenzz/cs_blogV1.0.1215.0.zip(12.15号修改)去除了对程序集System.Web....        <a href="https://www.cnblogs.com/chenzz/archive/2007/12/12/992623.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2007-12-12 19:50
+nSibo
+<span data-post-id="992623" class="post-view-count">阅读(1226)</span> 
+<span data-post-id="992623" class="post-comment-count">评论(8)</span> 
+<span data-post-id="992623" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=992623" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/chenzz/archive/2007/11/19.html">2007年11月19日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/chenzz/archive/2007/11/19/964919.html">
+    <span>
+        项目心得(代码篇)
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：1. 如果一个字符串是由多个字符串拼接(如&quot;hello&quot;+&quot;world&quot;)而成,建议使用string.Format函数实现同样功能,这样不仅可读性高,而且效率也高(特别是在组合SQL语句时,使用此方法更有利于SQL的阅读),比如下列代码: string msg = &quot;\r\n---------Log Time:&quot; + System.DateTime.Now.ToString() + ...        <a href="https://www.cnblogs.com/chenzz/archive/2007/11/19/964919.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2007-11-19 23:01
+nSibo
+<span data-post-id="964919" class="post-view-count">阅读(227)</span> 
+<span data-post-id="964919" class="post-comment-count">评论(1)</span> 
+<span data-post-id="964919" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=964919" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+
+<div class="topicListFooter">
+    <div id="nav_next_page">
+        
+    
+
+    </div>    
+</div>
+
+
+
+
+
+
+<script>
+    updatePostStats(
+        $(".post-view-count").map(function () { return this.dataset.postId }).get(),
+        function(id, count) { $(".post-view-count[data-post-id=" + id + "]").text("阅读(" + count + ")") },
+        function(id, count) { $(".post-comment-count[data-post-id=" + id + "]").text("评论(" + count + ")") },
+        function(id, count) { $(".post-digg-count[data-post-id=" + id + "]").text("推荐(" + count + ")") });
+</script>
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 nSibo
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjs7lHDzLRooQyvPV1gYBJPlf79mBzH7WORV4XhVjcMKYGoerHY-X0hKLmyGEhL5HrGzorHtGbDUskmhnXakDMP7b76-J1J-HudbeS5LmUk-4EErxMZ6lK6hZ8cyONIe8x0" />
+</body>
+</html>

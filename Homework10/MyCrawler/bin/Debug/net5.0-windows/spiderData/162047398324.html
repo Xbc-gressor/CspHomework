@@ -1,0 +1,455 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="1 配置多网卡策略路由： 1.1 场景描述： 因一些服务的需要，一块网卡不能满足于当前的需求，这时就需要为服务器新添加一块或多块网卡。当新增网卡后，新网卡默认是不能通信的，需要做一些配置 操作前须知：" />
+    <meta property="og:description" content="1 配置多网卡策略路由： 1.1 场景描述： 因一些服务的需要，一块网卡不能满足于当前的需求，这时就需要为服务器新添加一块或多块网卡。当新增网卡后，新网卡默认是不能通信的，需要做一些配置 操作前须知：" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>云主机新增网卡配置多网卡策略路由 - 记忆流年 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/coffee/bundle-coffee.min.css?v=BgguPR_JbmA1HKLJOLqLtHq5pt8a1UlO6ibCA_xgwdI" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/coffee/bundle-coffee-mobile.min.css?v=gcYNuAuJkNMICFERxhZCtKHGitYmBYNTxm9W97H2O2g" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/fengdejiyixx/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/fengdejiyixx/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/fengdejiyixx/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 395060;
+        var currentBlogApp = 'fengdejiyixx';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'coffee';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-05-08 10:55';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="page_begin_html">
+        <script>loadPageBeginHtml();</script>
+    </div>
+    
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<a href="https://www.cnblogs.com/fengdejiyixx/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>			
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/fengdejiyixx/">记忆流年</a>
+</h1>
+<h2>            Linux运维小白的成长之路，一点一滴的积累，才会有质的飞跃！</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="navigator">
+			
+<ul id="navList">
+	<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+	<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/fengdejiyixx/">
+首页</a>
+</li>
+	<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+	<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E8%AE%B0%E5%BF%86%E6%B5%81%E5%B9%B4">
+联系</a></li>
+	<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+	<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/fengdejiyixx/rss/">
+订阅</a>
+	
+<a id="blog_nav_rss_image" href="https://www.cnblogs.com/fengdejiyixx/rss/">
+    <img src="/skins/coffee/images/xml.gif" alt="订阅" />
+</a></li>
+</ul>
+
+
+
+			<div class="blogStats">
+				
+				<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+				
+			</div><!--end: blogStats -->
+		</div><!--end: navigator 博客导航栏 -->
+		<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class = "postTitle">
+			
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/fengdejiyixx/p/14743854.html">
+    <span>云主机新增网卡配置多网卡策略路由</span>
+    
+
+
+
+</a>
+
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+<p></p><div class="toc"><div class="toc-container-header">目录</div><ul><li><a href="#1--配置多网卡策略路由：">1  配置多网卡策略路由：</a><ul><li><a href="#11--场景描述：">1.1  场景描述：</a></li><li><a href="#12--可能出现的故障现象及说明：">1.2  可能出现的故障现象及说明：</a></li><li><a href="#系统版本：windows和linux">系统版本：windows和Linux</a></li><li><a href="#13--windos系统">1.3  windos系统</a><ul><li><a href="#131--操作环境：">1.3.1  操作环境：</a></li><li><a href="#132--操作步骤：">1.3.2  操作步骤：</a><ul><li><a href="#133-通过配置静态ip方法生成路由">1.3.3 通过配置静态ip方法生成路由</a></li><li><a href="#134-通过cmd命令行进行配置路由">1.3.4 通过cmd命令行进行配置路由</a></li></ul></li></ul></li><li><a href="#14--linux系统">1.4  Linux系统</a><ul><li><a href="#141--环境说明：">1.4.1  环境说明：</a></li><li><a href="#142--操作步骤：">1.4.2  操作步骤：</a><ul><li><a href="#143-网卡路由策略配置">1.4.3 网卡路由策略配置</a></li></ul></li><li><a href="#143--配置完成后检查：">1.4.3  配置完成后检查：</a></li></ul></li><li><a href="#15--centos系统etcrclocal开机启动脚本不生效怎么办？">1.5  Centos系统/etc/rc.local开机启动脚本不生效怎么办？</a><ul><li><a href="#151--问题现象">1.5.1  问题现象</a></li><li><a href="#152--根因分析">1.5.2  根因分析</a></li><li><a href="#153--处理方法1">1.5.3  处理方法1</a></li><li><a href="#154--处理方法2">1.5.4  处理方法2</a></li></ul></li></ul></li></ul></div><p></p>
+<h1 id="1--配置多网卡策略路由：">1  配置多网卡策略路由：</h1>
+<h2 id="11--场景描述：">1.1  场景描述：</h2>
+<p>因一些服务的需要，一块网卡不能满足于当前的需求，这时就需要为服务器新添加一块或多块网卡。当新增网卡后，新网卡默认是不能通信的，需要做一些配置</p>
+<p>操作前须知： 1、默认绑定多网卡的情况下，虚机只连接主网卡<br>
+2、查看虚机内网卡与控制台内网IP的对应关系</p>
+<h2 id="12--可能出现的故障现象及说明：">1.2  可能出现的故障现象及说明：</h2>
+<p>1、新增网卡后在主机内查看网卡情况，网卡会显示为未识别的网络，因为新增的网卡在系统内是没有路由条目的，需要手动为网卡添加路由信息才可以</p>
+<p>2、配置网卡文件指定某个静态IP后network服务无法启动，检查一下自己所配置的静态ip是否和vpc内给主机分配的ip是否相同，如果不同是不能使用的，在平台内修改vpc给此主机分配的ip地址或修改配置文件中的静态ip，此ip需要和平台vpc下发分配的ip保持一致才可以</p>
+<h2 id="系统版本：windows和linux">系统版本：windows和Linux</h2>
+<h2 id="13--windos系统">1.3  windos系统</h2>
+<h3 id="131--操作环境：">1.3.1  操作环境：</h3>
+<blockquote>
+<p>本机环境为： Windows2016系统（windows系统其他版本配置方法相同）<br>
+Windows推荐使用修改配置文件方法达到添加路由的目的</p>
+</blockquote>
+<h3 id="132--操作步骤：">1.3.2  操作步骤：</h3>
+<p>1、先在控制台里查看一下主机的网卡情况，两个子网是不同的网段：192.168.0.0/24和192.168.20.0网段并在vpc内查看一下自己的网段的网关是多少（如果新增网卡的网段和源网卡网段相同则只需要在主机内的网卡文件中配置静态ip/子网掩码/网关 即可，如果是不同网段也可以按此方法配置静态ip）<br>
+<img src="https://img2020.cnblogs.com/blog/1279547/202105/1279547-20210508095032874-545719843.png" alt="image" loading="lazy"></p>
+<p>2、进入主机查看，选择桌面上的网络-右键-属性-左侧选择-更改适配器设置，在这里可以看到有两个网卡，新增加的一个网卡“以太网4”，提示未识别的网络，所以此网卡肯定是不能通信的，下面使用命令窗口查看一下<br>
+<img src="https://img2020.cnblogs.com/blog/1279547/202105/1279547-20210508095059503-692906747.png" alt="image" loading="lazy"></p>
+<h4 id="133-通过配置静态ip方法生成路由">1.3.3 通过配置静态ip方法生成路由</h4>
+<p>配置为静态ip，配置方法如下</p>
+<p><img src="https://img2020.cnblogs.com/blog/1279547/202105/1279547-20210508095233510-880137306.png" alt="image" loading="lazy"></p>
+<p>根据自己的网段进行配置ip，dns配置根据自己的情况配置，网关必须配置，否则等于没配置<br>
+<img src="https://img2020.cnblogs.com/blog/1279547/202105/1279547-20210508095307442-199847459.png" alt="image" loading="lazy"></p>
+<h4 id="134-通过cmd命令行进行配置路由">1.3.4 通过cmd命令行进行配置路由</h4>
+<blockquote>
+<p>配置路由方法如下</p>
+</blockquote>
+<p>1、键盘 ”win + r键 ” 打开运行窗口输入cmd 回车（或在开始菜单中的搜索框中输入cmd）打开命令窗口</p>
+<p>2、输入route print查看系统路由，可以查看到目前只有192.168.0.0/24网段的默认路由，没有第二块网卡20.0网段的默认路由，因此第二块新增的网卡根本不知道自己出口路由是哪个，所以提示未识别，下面添加路由条目<br>
+<img src="https://img2020.cnblogs.com/blog/1279547/202105/1279547-20210508095355737-2084105089.png" alt="image" loading="lazy"></p>
+<p>3、输入命令：</p>
+<pre><code class="language-bash"># (20.1此处写的是第二块网卡所在网段的网关ip，-p的意思是永久添加,重启也不丢失)
+route add 0.0.0.0 mask 0.0.0.0 192.168.20.1 –p
+</code></pre>
+<p>4、提示操作完成后再次查看一下路由表，此时就有两个默认路由了<br>
+<img src="https://img2020.cnblogs.com/blog/1279547/202105/1279547-20210508095608549-79328220.png" alt="image" loading="lazy"></p>
+<p>添加完成后再次查看网卡的状态，第二块网卡就会被自动识别了，此时第二块新增网卡就可以正常使用了<br>
+<img src="https://img2020.cnblogs.com/blog/1279547/202105/1279547-20210508095620665-1411156649.png" alt="image" loading="lazy"></p>
+<p>下面通过第二块网卡的弹性IP远程登录，看是否正常<br>
+<img src="https://img2020.cnblogs.com/blog/1279547/202105/1279547-20210508095630472-1269858522.png" alt="image" loading="lazy"></p>
+<h2 id="14--linux系统">1.4  Linux系统</h2>
+<h3 id="141--环境说明：">1.4.1  环境说明：</h3>
+<blockquote>
+<p>本机环境为Linux系统<br>
+版本为：Centos7.6系统Ip地址：eth0: 192.168.0.181/24<br>
+eth1: 192.168.20.113/24</p>
+</blockquote>
+<h3 id="142--操作步骤：">1.4.2  操作步骤：</h3>
+<h4 id="143-网卡路由策略配置">1.4.3 网卡路由策略配置</h4>
+<p>1、先在控制台中查看一下新增网卡的网段，这两个网卡是不同的网段，第一块网卡（主网卡）是0.0网段，第二块网卡是20.0网段，并在vpc内查看一下自己的网段的网关是多少(默认都是 .1)<br>
+<img src="https://img2020.cnblogs.com/blog/1279547/202105/1279547-20210508095757475-142977921.png" alt="image" loading="lazy"></p>
+<p>进入主机内查看一下当前网卡的情况<br>
+<img src="https://img2020.cnblogs.com/blog/1279547/202105/1279547-20210508095811531-136433562.png" alt="image" loading="lazy"><br>
+先查看当前的路由条目<br>
+<img src="https://img2020.cnblogs.com/blog/1279547/202105/1279547-20210508095825023-1686709407.png" alt="image" loading="lazy"><br>
+可以使用ping命令指定网卡的内网ip进行ping外网的域名测试，可以看到目前只有eth0网卡可以访问外网，新增的eth1网卡不能访问外网，因为目前还没有配置路由条目，新增网卡默认是不能通信的<br>
+<img src="https://img2020.cnblogs.com/blog/1279547/202105/1279547-20210508095839016-714105192.png" alt="image" loading="lazy"></p>
+<blockquote>
+<p>下面进行配置路由条目</p>
+</blockquote>
+<p>1、创建两个路由表分别为 route-table1，route-table2</p>
+<pre><code class="language-bash">echo "10 route-table1" &gt;&gt; /etc/iproute2/rt_tables
+echo "20 route-table2" &gt;&gt; /etc/iproute2/rt_tables
+</code></pre>
+<p>2、创建路由规则</p>
+<blockquote>
+<p>每个网卡添加两条设置： 格式说明如下<br>
+ip route add default via 默认网关 dev 网卡名 table 路由表名称<br>
+ip rule add from 网卡的ip table 路由表名称</p>
+</blockquote>
+<pre><code class="language-bash"># 示例：via指定eth0的网关ip（根据自己的网段设置，可在控制台--VPC内查看）
+# 先添加第一个网卡的路由策略，网关是0.1
+ip route add default via  192.168.0.1 dev eth0 table route-table1
+ip rule add from 192.168.0.181 table route-table1
+# 再添加第二块网卡的路由，网关是20.1
+ip route add default via  192.168.20.1 dev eth1 table route-table2
+ip rule add from 192.168.20.113  table route-table2
+</code></pre>
+<p><strong>此时配置的只是临时生效，如果重启机器后就会丢失，先测试一下是否可以通过下面这种方式ping通外网，如果可以再配置成永久的</strong></p>
+<p>添加好后，使用ping –I + ip（第二块网卡的内网ip） + 外网域名或ip</p>
+<p>如果可以ping通说明配置正确，ping不通则说明配置有误请重新检查刚刚的配置</p>
+<p><img src="https://img2020.cnblogs.com/blog/1279547/202105/1279547-20210508101227174-632754975.png" alt="image" loading="lazy"></p>
+<p>3、把刚刚执行的路由策略添加命令添加至开机启动文件/etc/rc.local文件中（把下面的ip和路由表名替换成自己的）</p>
+<pre><code class="language-bash">echo "ip route add default via  192.168.0.1 dev eth0 table route-table1 " &gt;&gt; /etc/rc.local
+echo "ip route add default via  192.168.20.1 dev eth1 table route-table2 " &gt;&gt; /etc/rc.local
+echo "ip rule add from 192.168.0.181 table route-table1" &gt;&gt; /etc/rc.local
+echo "ip rule add from 192.168.20.113 table route-table2" &gt;&gt; /etc/rc.local
+</code></pre>
+<p>4、开机后执行的文件/etc/rc.local需要有执行权限，给文件赋予x执行权限</p>
+<pre><code class="language-bash">chmod u+x,g+x /etc/rc.d/rc.local
+</code></pre>
+<p>如配置后不生效请参考文件启动不生效处理方法</p>
+<h3 id="143--配置完成后检查：">1.4.3  配置完成后检查：</h3>
+<pre><code class="language-bash"># 检查方法，使用ping命令指定内网网卡 ping外网地址进行测试
+ping –I (新网卡内网ip） 8.8.8.8
+ping –I (新网卡内网ip)  www.baidu.com
+</code></pre>
+<p>如果ping不通百度的域名请检查下面的文件，nameserver 后ip为DNS地址，可配置为114的dns</p>
+<pre><code class="language-bash">cat  /etc/resolv.conf
+...
+nameserver 114.114.114.114
+...
+</code></pre>
+<p>如果都可以ping则没问题，如果修改后仍不通</p>
+<p><img src="https://img2020.cnblogs.com/blog/1279547/202105/1279547-20210508102758608-1357021885.png" alt="image" loading="lazy"></p>
+<h2 id="15--centos系统etcrclocal开机启动脚本不生效怎么办？">1.5  Centos系统/etc/rc.local开机启动脚本不生效怎么办？</h2>
+<h3 id="151--问题现象">1.5.1  问题现象</h3>
+<p>CentOS 7、EulerOS操作系统云服务器中，/etc/rc.local开机启动脚本不生效。</p>
+<p>本节操作以CentOS 7操作系统为例分析根因，并介绍解决方法。</p>
+<h3 id="152--根因分析">1.5.2  根因分析</h3>
+<p>出现该问题的可能原因如下：<br>
+CentOS 7中/etc/rc.d/rc.local文件没有执行权限。解决方案请参考处理方法1</p>
+<blockquote>
+<p>说明：  /etc/rc.local文件为/etc/rc.d/rc.local的软链接</p>
+</blockquote>
+<p>/etc/rc.local配置路由重启不生效的场景，是由于添加路由依赖网络服务，而在CentOS 7系统启动过程中内核读取rc.local时网络服务尚未启动，导致添加路由失败。解决方案请参考 处理方法2</p>
+<h3 id="153--处理方法1">1.5.3  处理方法1</h3>
+<p>针对/etc/rc.d/rc.local文件没有执行权限导致开机启动脚本执行失败的场景，解决方案如下。</p>
+<p>说明：</p>
+<p>CentOS7中该文件默认没有可执行权限</p>
+<p>1、查看/etc/rc.d/rc.local是否有执行权限</p>
+<pre><code class="language-bash">  ls -l /etc/rc.d/rc.local -rw-r--r-- 1 root root 473 Sep 14 02:19 /etc/rc.d/rc.local
+</code></pre>
+<p>如回显信息所示该文件没有执行权限，需要为/etc/rc.d/rc.local添加可执行权限。</p>
+<p>2、执行以下命令为/etc/rc.d/rc.local添加可执行权限</p>
+<pre><code class="language-bash">   chmod +x /etc/rc.d/rc.local
+</code></pre>
+<h3 id="154--处理方法2">1.5.4  处理方法2</h3>
+<p>方法二：/etc/rc.d/rc.local开机启动脚本由rc-local服务引导执行，可以修改在network-online.target后启动该服务。</p>
+<p>1、rc-local服务配置路径为/usr/lib/systemd/system/rc-local.service。</p>
+<p>执行以下命令，在[Unit]模块中添加或修改Requires和After项值为network-online.target</p>
+<p>修改内容如下加红字体：</p>
+<pre><code class="language-bash">  # cat /usr/lib/systemd/system/rc-local.service |grep -v "^#"
+  [Unit] Description=/etc/rc.d/rc.local Compatibility
+  ConditionFileIsExecutable=/etc/rc.d/rc.local
+  Requires=network-online.target   # 修改或添加此行
+  After=network-online.target      # 修改或添加此行
+  [Service] Type=forking 
+  ExecStart=/etc/rc.d/rc.local start
+  TimeoutSec=0
+  RemainAfterExit=yes
+</code></pre>
+<blockquote>
+<p>说明：<br>
+network-online.target是主动等待直到网络“启动”的target，其中“启动”的定义由网络管理软件定义。通常，它表示某种已配置的、可路由的IP地址。其主要目的是主动延迟服务的激活，直到建立网络为止。</p>
+</blockquote>
+<p>2、执行以下命令，确认/etc/rc.d/rc.local有执行权限。</p>
+<pre><code class="language-bash">  ls -l /etc/rc.d/rc.local
+</code></pre>
+<p>如果显示没有可执行权限，请参考 处理方法1</p>
+<p>3、通知systemd重新加载配置文件。</p>
+<pre><code class="language-bash">  systemctl daemon-reload
+</code></pre>
+<p>4、重启rc-local.service，使/etc/rc.d/rc.local脚本立即生效。</p>
+<pre><code class="language-bash">  systemctl restart rc-local.service
+</code></pre>
+
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+		</div>
+		<div class="postDesc">posted @ 
+<span id="post-date">2021-05-08 10:55</span>&nbsp;
+<a href="https://www.cnblogs.com/fengdejiyixx/">记忆流年</a>&nbsp;
+阅读(<span id="post_view_count">1</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14743854" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14743854);return false;">收藏</a></div>
+	</div>
+	
+	
+</div><!--end: topics 文章、评论容器-->
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 395060, cb_blogApp = 'fengdejiyixx', cb_blogUserGuid = 'c1814baa-99f7-41ed-c45b-08d523685c8c';
+    var cb_entryId = 14743854, cb_entryCreatedDate = '2021-05-08 10:55', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+</div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="calendar"><div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script></div>
+			
+			<DIV id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</DIV>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 记忆流年
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    <div id="page_end_html">
+        /* 看板娘 */
+<script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.0.4/lib/L2Dwidget.min.js"></script>
+<script type="text/javascript">
+L2Dwidget.init();
+</script>
+/* 粒子吸附*/
+<script id="c_n_script" src="https://blog-static.cnblogs.com/files/xiaokang01/js.js" color="194, 91, 245" opacity="1" count="200" zindex="-2">
+if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+} else {
+}
+</script>
+
+    </div>
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjuVeTLfh2DmGeP34uCtLKw69nUn85I5R2vplFba4F64j-H4sZOcyMKTN2X62SZkwtScutN79_brcXjL2X8zWpjHFE8d4CxkjqWZNbhTeKdhhljawqwOuAVZ1rCHDKAh0dM" />
+</body>
+</html>

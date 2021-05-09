@@ -1,0 +1,295 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="前几天在公司内网上看见有同事在讨论《广告算法工程师的日常》这篇文章里面提到的A、B、C三位同学在实际的晋升中谁的优势更大，其实当时举这个例子，本意只是想说明广告算法工程师在迭代优化模型的过程中，要相信" />
+    <meta property="og:description" content="前几天在公司内网上看见有同事在讨论《广告算法工程师的日常》这篇文章里面提到的A、B、C三位同学在实际的晋升中谁的优势更大，其实当时举这个例子，本意只是想说明广告算法工程师在迭代优化模型的过程中，要相信" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>转化率模型之转化数据延迟 - GeorgePig - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/simplememory/bundle-simplememory.min.css?v=uknaX_hejnSu-njQgx4Hj1R0JiPLwUhFPUlwWNmWyB4" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/SimpleMemory/bundle-SimpleMemory-mobile.min.css" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/GeorgePigX/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/GeorgePigX/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/GeorgePigX/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 670888;
+        var currentBlogApp = 'GeorgePigX';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'SimpleMemory';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-05-07 03:50';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/GeorgePigX/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/GeorgePigX/">GeorgePig</a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/GeorgePigX/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/GeorgePig">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/GeorgePigX/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/GeorgePigX/p/14741404.html">
+    <span>转化率模型之转化数据延迟</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<p>前几天在公司内网上看见有同事在讨论《<a href="http://mp.weixin.qq.com/s?__biz=MzIwNTE0NTgyMQ==&amp;mid=2247483695&amp;idx=1&amp;sn=53a8ff28b2777df0a427e4c22bcc6a8f&amp;chksm=9734129da0439b8b6f0a9f91dff729d8343d98ecb29602ad691f110846416d3afbcb5ea45834&amp;scene=21#wechat_redirect" target="_blank" data-itemshowtype="0" data-linktype="2">广告算法工程师的日常</a>》这篇文章里面提到的A、B、C三位同学在实际的晋升中谁的优势更大，其实当时举这个例子，本意只是想说明广告算法工程师在迭代优化模型的过程中，要相信数据&gt;特征&gt;算法本身，在遇到问题的时候能够优先从数据以及特征层面考虑。至于说谁在晋升中优势更大，大家仁者见仁、智者见智哈。</p>
+<p>&nbsp;</p>
+<p>好了，今天主要想和大家聊聊“刘西瓜”，话说这个刘大统领…;额，不好意思，串台了哈。言归正传，今天和大家讨论一下转化率模型中转化数据延迟的问题。这个问题无论是在浅层转化（如app安装、app激活、app注册等）或者深度转化（app付费）等场景下都是十分常见的。</p>
+<p>&nbsp;</p>
+<p>0.什么是转化数据延迟问题</p>
+<p>我们知道，在广告场景下，曝光发生后点击基本在很短时间内发生，而点击发生之后，转化有时候会有较长时间的延时，或许是几分钟，或许是几天，甚至一个月以上，所以点击率CTR的预估模型的训练数据基本是无偏的数据集，而转化率CVR预估模型的训练数据有可能是回流不完全的有偏数据，所以转化率CVR模型可能会因为转化延时问题而导致预估偏差，并且当实时更新模型时，由于实时数据中有偏样本更多，预估偏差会更严重;一般来说像前面讲到的浅层转化（app安装、激活、注册等）基本在1天内数据基本可以回传，而深度转化（app付费等）基本需要一周以上的时间回传数据。</p>
+<p>&nbsp;</p>
+<p>1.转化数据延迟问题的常见解法</p>
+<p>(1). 指数建模法，代表论文《Modeling Delayed Feedback in Display Advertising》，作者给出了一个指数分布的假设，对于未回流完全的样本，可以用指数分布进行约束；缺点是a.假设首先未必合理 b.对于有回流时间窗口的问题，需要进行时间窗的校准 c.对于大数据集是个挑战</p>
+<p>(2). bias-adjusted建模，代表论文《Display Advertising: Estimating Conversion Probability Efficiently》，该方法的收敛速度快，NLL和bias都比较低；缺点是对于大数据集是个挑战</p>
+<p>(3). 非参估计建模，代表论文《A Nonparametric Delayed Feedback Model for Conversion Rate Prediction》，该建模方式不对转化时间的分布做假设，更能模拟真实的分布；缺点是a.计算相当复杂 b.对于大数据集是个挑战</p>
+<p>&nbsp;</p>
+<p>2.我们的做法</p>
+<p>在讲我们的做法之前，大家可以回过头来看下《<a href="http://mp.weixin.qq.com/s?__biz=MzIwNTE0NTgyMQ==&amp;mid=2247483690&amp;idx=1&amp;sn=468e0a69e14ded35c7dd508ee8547f72&amp;chksm=97341298a0439b8e3f92a1e3ba6561c4b762c21f659d441d2b25c3a9ba4a5a0bd840c556cc75&amp;scene=21#wechat_redirect" target="_blank" data-itemshowtype="0" data-linktype="2">广告模型初探（三）</a>》中提到的大规模离散DNN即SDNN模型，我们的转化延时模型就是根据该框架实现的。首先给出模型整体的架构图，分为两个部分，一个部分是转化率模型，另一个部分是回流率模型。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2324504/202105/2324504-20210507154902112-1869809320.png" alt="" width="736" height="447" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>根据我们的实际业务情况，一般数据会在5天之内回流95%以上，因此我们事先设定回流时间窗口为5天，我们最终的训练策略是对于a.回流完全的样本：同时更新转化率模型以及回流率模型 b.回流不完全的样本：只更新转化率模型。举个例子最近30天的训练数据，分为25天回流完全数据+5天回流不完全数据，此时转化率模型是使用30天的数据训练，而回流率模型仅仅使用25天的数据训练，转化率模型的结果会受到5天回流不完全数据的影响，此时回流率模型会作用于转化率模型之上，起到一个校正的作用。</p>
+<p>&nbsp;</p>
+<p>在实际使用中，我们采用的是batch+delta的经典模型更新方式，即分为天级别模型训练以及小时级模型训练两块。在天级别模型训练阶段，我们每天会启动一个调度任务，生成softmax天级别回流模型（25天回流完全数据同时更新转化率模型和回流率模型，最近5天只更新转化率模型，回流率模型作用于转化率模型之上），存放在天级别hdfs的目录下；在小时级别模型训练阶段，每小时会启动一个调度任务，拉取天级别目录下面最新的模型，使用小时级的数据生成增量的模型，存放在小时级hdfs的目录下。当线上预估模块检测到小时级模型目录有模型更新时，便会自动拉取该模型推送到线上，用于线上的实时预估。</p>
+<p>&nbsp;</p>
+<p>3.小结</p>
+<p>本文主要介绍了刘西瓜（额，怎么还有call back）。本文主要给出了转化数据延时问题的定义，常见解法以及我们在实践中的做法。说到底转化数据延迟问题其实是模型的准确率与模型更新时效性的两方博弈，希望大家都能在具体的业务中找到一个平衡点。话不多说，上图</p>
+<p><img src="https://img2020.cnblogs.com/blog/2324504/202105/2324504-20210507154924840-889881143.png" alt="" width="602" height="339" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>欢迎关注微信公众号：计算广告那些事儿</p>
+<p><img src="https://img2020.cnblogs.com/blog/2324504/202105/2324504-20210507155000464-2048140707.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2021-05-07 15:50</span>&nbsp;
+<a href="https://www.cnblogs.com/GeorgePigX/">GeorgePig</a>&nbsp;
+阅读(<span id="post_view_count">156</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14741404" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14741404);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 670888, cb_blogApp = 'GeorgePigX', cb_blogUserGuid = '4bea0f3b-3ebe-4fd9-7884-08d8d71b3f30';
+    var cb_entryId = 14741404, cb_entryCreatedDate = '2021-05-07 15:50', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 GeorgePig
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjvGfFXUvh4adZg9Q2L5IXzZKuyuq9OWORyhtidYE5JJFLaKRWxUBIp-aZJS_aZa_CnAWIA1OSCAhWDjv9P6kr4VqQOgqq_NaaimAWiDvbDBmGrF2-aeLzJiqzEUNeaHlKM" />
+</body>
+</html>

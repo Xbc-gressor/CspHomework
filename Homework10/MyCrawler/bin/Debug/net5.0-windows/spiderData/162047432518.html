@@ -1,0 +1,432 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="我都知道.Properties文件一般都为配置文件。我们可以通过在.Properties文件中定义的各类属性来实现一些特定的配置。例如：语言类型的问题、cookie的问题、输出日志类型的问题、定义日志" />
+    <meta property="og:description" content="我都知道.Properties文件一般都为配置文件。我们可以通过在.Properties文件中定义的各类属性来实现一些特定的配置。例如：语言类型的问题、cookie的问题、输出日志类型的问题、定义日志" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>『动善时』JMeter基础 — 7、jmeter.properties文件常用配置 - 繁华似锦Fighting - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/liuyuelinfighting/custom.css?v=J55tLAjEZDHrJ4cToIvb4eVDvd8=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/SimpleMemory/bundle-SimpleMemory-mobile.min.css" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/liuyuelinfighting/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/liuyuelinfighting/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/liuyuelinfighting/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 271969;
+        var currentBlogApp = 'liuyuelinfighting';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'SimpleMemory';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-05-08 10:53';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="no-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="page_begin_html">
+        <script>loadPageBeginHtml();</script>
+    </div>
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/liuyuelinfighting/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/liuyuelinfighting/">繁华似锦Fighting</a>
+</h1>
+<h2>老子不老，庄子不装。</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/liuyuelinfighting/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E7%B9%81%E5%8D%8E%E4%BC%BC%E9%94%A6Fighting">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/liuyuelinfighting/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/liuyuelinfighting/p/14744044.html">
+    <span>『动善时』JMeter基础 — 7、jmeter.properties文件常用配置</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+<p></p><div class="toc"><div class="toc-container-header">目录</div><ul><li><a href="#1、默认语言设置">1、默认语言设置</a></li><li><a href="#2、配置默认编码格式">2、配置默认编码格式</a></li><li><a href="#3、gui图标放大比例设置">3、GUI图标放大比例设置</a></li><li><a href="#4、功能区工具栏图标大小设置">4、功能区工具栏图标大小设置</a></li><li><a href="#5、视图区目录树图标大小设置">5、视图区目录树图标大小设置</a></li><li><a href="#6、内容区编辑字体设置">6、内容区编辑字体设置</a></li><li><a href="#7、添加jmeter元素快捷键设置">7、添加JMeter元素快捷键设置</a></li><li><a href="#8、捕捉cookie">8、捕捉cookie</a></li><li><a href="#9、http-request-post-content-type设置">9、HTTP Request Post Content-Type设置</a></li><li><a href="#10、配置远程主机">10、配置远程主机</a></li><li><a href="#11、日志级别设置">11、日志级别设置</a></li><li><a href="#12、总结">12、总结</a></li></ul></div><p></p>
+<p>我都知道<code>.Properties</code>文件一般都为配置文件。我们可以通过在<code>.Properties</code>文件中定义的各类属性来实现一些特定的配置。例如：语言类型的问题、cookie的问题、输出日志类型的问题、定义日志级别的问题、编码问题等等。</p>
+<p>在JMeter的<code>bin</code>目录中，存在多个配置文件（5.0版本）：</p>
+<ul>
+<li><code>jmeter.properties </code></li>
+<li><code>reportgenerator.properties </code></li>
+<li><code>saveservice.properties </code></li>
+<li><code>system.properties </code></li>
+<li><code>upgrade.properties </code></li>
+<li><code>user.properties</code></li>
+</ul>
+<p>其中最重要的配置文件是<code>jmeter.properties</code>，<code>jmete.properties</code>是JMeter的核心配置项文件，是<code>JMeter-GUI</code>运行的配置说明文件。</p>
+<p><strong>JMeter配置文件官方文档</strong>：<a href="https://jmeter.apache.org/usermanual/properties_reference.html" target="_blank">https://jmeter.apache.org/usermanual/properties_reference.html</a></p>
+<p>下面对其常用的一些配置项，进行设置与说明。</p>
+<h3 id="1、默认语言设置">1、默认语言设置</h3>
+<pre><code class="language-properties"># language=en
+language=zh_CN #简体中文
+</code></pre>
+<p>功能：设置<code>JMeter-GUI</code>界面的显示语言。</p>
+<p>说明：若没有设置，则使用JVM(Java虚拟机)设置的<em>Locale</em>语言。</p>
+<p>拓展：在Linux中设置JVM的<em>Locale</em>语言：</p>
+<pre><code class="language-bash"># 查看locale
+[root@localhost ~]# locale
+LANG=zh_CN.UTF-8
+LC_CTYPE="zh_CN.UTF-8"
+LC_NUMERIC="zh_CN.UTF-8"
+LC_TIME="zh_CN.UTF-8"
+LC_COLLATE="zh_CN.UTF-8"
+LC_MONETARY="zh_CN.UTF-8"
+LC_MESSAGES="zh_CN.UTF-8"
+LC_PAPER="zh_CN.UTF-8"
+LC_NAME="zh_CN.UTF-8"
+LC_ADDRESS="zh_CN.UTF-8"
+LC_TELEPHONE="zh_CN.UTF-8"
+LC_MEASUREMENT="zh_CN.UTF-8"
+LC_IDENTIFICATION="zh_CN.UTF-8"
+LC_ALL=
+
+# 配置，内容编辑：LANG="zh_CN.UTF-8"
+[root@localhost ~]# vi /etc/sysconfig/i18n
+[root@localhost ~]# cat !$
+cat /etc/sysconfig/i18n
+LANG="zh_CN.UTF-8"
+</code></pre>
+<blockquote>
+<p>注意：此配置项只能在<code>jmeter.properties</code>文件中设置才有效。</p>
+</blockquote>
+<h3 id="2、配置默认编码格式">2、配置默认编码格式</h3>
+<pre><code class="language-properties"># sampleresult.default.encoding=ISO-8859-1
+sampleresult.default.encoding=UTF-8
+</code></pre>
+<p><code>JMeter-GUI</code>默认编码格式为<code>ISO-8859-1</code>，防止中文乱码可以改成<code>UTF-8</code>编码格式。</p>
+<h3 id="3、gui图标放大比例设置">3、GUI图标放大比例设置</h3>
+<p><code>JMeter-GUI</code>界面布局的设置，当JMeter以GUI模式运行时，窗口主要由三部分构成：<code>功能区</code>、<code>视图区</code>、<code>内容区</code>。</p>
+<p>如下图：<br>
+<img src="https://img2020.cnblogs.com/blog/909968/202105/909968-20210508104908825-881501832.png" alt="image" loading="lazy"></p>
+<p>GUI图标放大比例设置：</p>
+<pre><code class="language-properties">jmeter.hidpi.mode=true          #开启视网膜模式
+jmeter.hidpi.scale.factor=1.2   #将图标放大1.2倍
+</code></pre>
+<h3 id="4、功能区工具栏图标大小设置">4、功能区工具栏图标大小设置</h3>
+<pre><code class="language-properties"># 工具栏图标默认size: 22x22
+# 可用size选项: 22x22, 32x32, 48x48
+jmeter.toolbar.icons.size=32x32
+</code></pre>
+<h3 id="5、视图区目录树图标大小设置">5、视图区目录树图标大小设置</h3>
+<pre><code class="language-properties"># 目录树图标默认size: 19x19
+# 可用size选项: 19x19, 24x24, 32x32, 48x48
+jmeter.tree.icons.size=24x24
+</code></pre>
+<h3 id="6、内容区编辑字体设置">6、内容区编辑字体设置</h3>
+<p>调整JMeter内容区的编辑字体：</p>
+<pre><code class="language-properties"># 默认Hack字体太难看,使用经典的consolas
+# 这两个配置项必须同时设置才有效
+jsyntaxtextarea.font.family=consolas 
+jsyntaxtextarea.font.size=18  
+</code></pre>
+<h3 id="7、添加jmeter元素快捷键设置">7、添加JMeter元素快捷键设置</h3>
+<p><code>jmeter.properties</code>配置文件中，可以添加<code>JMeter-GUI</code>使用时的快捷键，最多支持10个。</p>
+<p>提示：</p>
+<ul>
+<li>在Windows系统上可以使用<code>Ctrl+0</code>至<code>Ctrl+9</code>。</li>
+<li>在macOS系统上可以使用<code>Command+0</code>至<code>Command+9</code>。</li>
+</ul>
+<pre><code class="language-properties">gui.quick_0=ThreadGroupGui     #新增线程组
+gui.quick_1=HttpTestSampleGui  #新增HTTP取样器
+gui.quick_2=RegexExtractorGui  #新增正则表达式提取器
+gui.quick_3=AssertionGui       #新增响应断言
+gui.quick_4=ConstantTimerGui   #新增常量定时器
+gui.quick_5=TestActionGui      #新增测试活动
+gui.quick_6=JSR223PostProcessor  #新增JSR223 后置处理程序
+gui.quick_7=JSR223PreProcessor   #新增JSR223 预处理程序
+gui.quick_8=DebugSampler         #新增调试取样器
+gui.quick_9=ViewResultsFullVisualizer #新增察看结果树
+</code></pre>
+<h3 id="8、捕捉cookie">8、捕捉cookie</h3>
+<p>将Cookie存储为变量：</p>
+<pre><code class="language-properties"># CookieManager.save.cookies=false  # 默认
+CookieManager.save.cookies=true  # 将cookie存储为变量
+</code></pre>
+<h3 id="9、http-request-post-content-type设置">9、HTTP Request Post Content-Type设置</h3>
+<p>在使用<code>JMeter-GUI</code>发送Post请求的时候，若不自己手动添加<code>Content-Type</code>属性内容，默认则不会添加<code>Content-type</code>的相关信息。</p>
+<pre><code class="language-properties"># Should JMeter add to POST request content-type header if missing:
+# Content-Type: application/x-www-form-urlencoded
+# Was true before version 5.0
+post_add_content_type_if_missing=true
+</code></pre>
+<blockquote>
+<p>说明：</p>
+<p>此配置项在JMeter5.0以前默认值为True，在5.0以及之后的版本默认值为False。</p>
+<p>故在5.0以后的版本中发送POST请求时，将参数放在<code>body data</code>（消息体数据）中，且没有设置<code>Content-Type</code>时，默认会将<code>Content-Type</code>的值设置为<code>text/plain</code>，而不是<code>application/x-www-form-urlencoded</code>。</p>
+</blockquote>
+<p><strong>通过查看JMeter官方文档和自己的实操，我的理解是</strong>：</p>
+<p><code>post_add_content_type_if_missing=true</code>配置项，在POST请求时，如果<code>Content-Type</code>属性缺失，会自动补全<code>Content-Type: application/x-www-form-urlencoded</code>。</p>
+<p>但是经过我的操作，发现配置了<code>post_add_content_type_if_missing=true</code>，在<code>body data</code>（消息体数据）填写了Json数据，发送请求之后，<code>Content-Type</code>的值依然为<code>text/plain</code>，不知道该配置项是何用处。</p>
+<p>所以在之后的实践操作时，如果在<code>body data</code>（消息体数据）中填写纯文本数据时，还是要依照接口文档中的要求，手动添加一个<strong>HTTP信息头管理器</strong>（配置元件），里面手动配置对应的<code>Content-Type</code>值，这样操作更为稳妥。</p>
+<p>如果文档中没有标注，可以按常见的媒体格式类型填写，如下：</p>
+<ul>
+<li><code>text/html</code> ： HTML格式。</li>
+<li><code>text/plain</code> ：纯文本格式。</li>
+<li><code>text/xml</code> ： XML格式。</li>
+<li><code>application/json</code>： JSON数据格式。</li>
+<li><code>image/jpeg</code> ：jpg图片格式。</li>
+</ul>
+<p>（还有很多，可以自行扩展。）</p>
+<h3 id="10、配置远程主机">10、配置远程主机</h3>
+<p>我们需要找到<code>remote_hosts</code>属性，然后按照<code>负载机ip地址:端口号</code>的形式进行配置。</p>
+<p>可以配置多个远程主机，中间用<code>,</code>分隔开，注意全部为英文符号。</p>
+<pre><code class="language-properties">remote_hosts=127.0.0.1:8999
+</code></pre>
+<h3 id="11、日志级别设置">11、日志级别设置</h3>
+<p>从JMeter3.2开始，日志级别不再在<code>jmeter.properties</code>中设置，而是通过<code>log4j2.xml</code>配置文件中，设置日志级别。</p>
+<pre><code class="language-xml">  &lt;Root level="info"&gt;
+    &lt;AppenderRef ref="jmeter-log" /&gt;
+    &lt;AppenderRef ref="gui-log-event" /&gt;
+  &lt;/Root&gt;
+</code></pre>
+<p>将<code>level</code>的值改为对应的日志级别，默认为<code>info</code>，也可以在GUI界面临时设置日志级别。</p>
+<p><code>log4j2</code>定义了8个级别的日志，优先级从高到低依次为：</p>
+<p><code>OFF &gt; FATAL &gt; ERROR &gt; WARN &gt; INFO &gt; DEBUG &gt; TRACE &gt; ALL</code>。</p>
+<ul>
+<li><code>OFF</code>：用于关闭所有日志记录。</li>
+<li><code>FATAL</code>：指出每个严重的错误事件将会导致应用程序的退出。</li>
+<li><code>ERROR</code>：指出虽然发生错误事件，但仍然不影响系统的继续运行。</li>
+<li><code>WARN</code>：表明会出现潜在错误的情形。</li>
+<li><code>INFO</code>：消息在粗粒度级别上突出强调应用程序的运行过程。</li>
+<li><code>DEBUG</code>：指出细粒度信息事件对调试应用程序是非常有帮助的。</li>
+<li><code>TRACE</code>：追踪日志。</li>
+<li><code>ALL</code>：用于打开所有日志记录。</li>
+</ul>
+<h3 id="12、总结">12、总结</h3>
+<p><strong>官方建议</strong>：将需要修改的属性值，复制粘贴到同目录下的<code>user.properties </code>配置文件中，而不要直接在<code>jmeter.properties</code>配置文件中编辑。</p>
+<p><strong>好处：</strong>当JMeter升级时，可以避免修改的选项需要重新应用。</p>
+<p><code>jmeter.properties</code>配置文件内容如下：<br>
+<img src="https://img2020.cnblogs.com/blog/909968/202105/909968-20210508105112565-53634860.png" alt="image" loading="lazy"></p>
+<p>意思表示：JMeter自动加载其他配置文件中的属性。</p>
+<blockquote>
+<p>参考：<a href="https://zhuanlan.zhihu.com/p/92582351" target="_blank">https://zhuanlan.zhihu.com/p/92582351</a></p>
+</blockquote>
+
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2021-05-08 10:53</span>&nbsp;
+<a href="https://www.cnblogs.com/liuyuelinfighting/">繁华似锦Fighting</a>&nbsp;
+阅读(<span id="post_view_count">38</span>)&nbsp;
+评论(<span id="post_comment_count">1</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14744044" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14744044);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 271969, cb_blogApp = 'liuyuelinfighting', cb_blogUserGuid = 'f205ded5-70e6-e511-9fc1-ac853d9f53cc';
+    var cb_entryId = 14744044, cb_entryCreatedDate = '2021-05-08 10:53', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 繁华似锦Fighting
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    <div id="page_end_html">
+        
+
+    </div>
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjtzRXexZ6uGMSQMQK8iGUXfskTpBfiXP1sJPPWC2-5QgQ8TUzqxrRj8X6Hmunve5N1SJ1im34lff02NsN7qJQe077vFYbR4Q8uFiMmfw_f11-Ot0WaFlPH1rn4ugFo1e_U" />
+</body>
+</html>

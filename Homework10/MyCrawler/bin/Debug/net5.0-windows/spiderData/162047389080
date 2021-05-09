@@ -1,0 +1,589 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    
+    
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>北孤清茶。 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/darkgreentrip/bundle-darkgreentrip.min.css?v=eoZATbPKwJCL5eWVDTQIYC6CIxJPcFz191dkzN2tSyQ" />
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/lthlsy/custom.css?v=SNQDU1LfckQ6qBUZI1fYImARR/E=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/darkgreentrip/bundle-darkgreentrip-mobile.min.css?v=lU86o8mZVn3FOSdFt7nHKYTD8gzeKaiQIIZ6lSjEFyo" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/lthlsy/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/lthlsy/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/lthlsy/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 649907;
+        var currentBlogApp = 'lthlsy';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'darkgreentrip';
+        var visitorUserId = '';
+    </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="no-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="page_begin_html">
+        <div class="Snow">
+    <canvas id="Snow"></canvas>
+</div>
+<script src="https://files.cnblogs.com/files/cn-suqingnian/snow.js" defer></script>
+
+<div>
+<a href="http://github.com" target="_blank" style="position: absolute;right: 0;  top: 0; z-index: 100;">
+    <img src="https://www.cnblogs.com/images/cnblogs_com/enjoy233/1389971/o_git-right-link.gif" alt="Fork me on github">
+</a>
+</div>
+
+<style>
+#back-top {
+     position: fixed;
+     bottom: 10px;
+     right: 5px;
+     z-index: 99;
+}
+#back-top span {
+     width: 50px;
+     height: 64px;
+     display: block;
+     background:url(http://images.cnblogs.com/cnblogs_com/seanshao/855033/o_rocket.png) no-repeat center center;
+}
+#back-top a{outline:none}
+</style>
+<script type="text/javascript">
+$(function() {
+	// hide #back-top first
+	$("#back-top").hide();
+	// fade in #back-top
+	$(window).scroll(function() {
+		if ($(this).scrollTop() > 500) {
+			$('#back-top').fadeIn();
+		} else {
+			$('#back-top').fadeOut();
+		}
+	});
+	// scroll body to 0px on click
+	$('#back-top a').click(function() {
+		$('body,html').animate({
+			scrollTop: 0
+		}, 800);
+		return false;
+	});
+});
+</script>
+<p id="back-top" style="display:none"><a href="#top"><span></span></a></p>
+
+<script>
+(function($){$.fn.snow=function(options){var $flake=$('<div id="flake" />').css({'position':'absolute','top':'-50px'}).html('&#10052;'),documentHeight=$(document).height(),documentWidth=$(document).width(),defaults={minSize:10,maxSize:20,newOn:500,flakeColor:"#FFFFFF"},options=$.extend({},defaults,options);var interval=setInterval(function(){var startPositionLeft=Math.random()*documentWidth-100,startOpacity=0.5+Math.random(),sizeFlake=options.minSize+Math.random()*options.maxSize,endPositionTop=documentHeight-40,endPositionLeft=startPositionLeft-100+Math.random()*200,durationFall=documentHeight*10+Math.random()*5000;$flake.clone().appendTo('body').css({left:startPositionLeft,opacity:startOpacity,'font-size':sizeFlake,color:options.flakeColor}).animate({top:endPositionTop,left:endPositionLeft,opacity:0.2},durationFall,'linear',function(){$(this).remove()});},options.newOn);};})(jQuery);
+$.fn.snow({ minSize: 5, maxSize: 50, newOn: 1000, flakeColor: '#FFF' });
+</script>
+
+
+    </div>
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/lthlsy/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/lthlsy/">北孤清茶。</a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/lthlsy/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E5%8C%97%E5%AD%A4%E6%B8%85%E8%8C%B6%E3%80%82">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/lthlsy/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+
+
+
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/lthlsy/archive/2021/02/04.html">2021年2月4日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/lthlsy/p/14373240.html">
+    <span>
+        [极客大挑战 2019]Http 1
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：解题过程 打开靶机： 没有什么发现，找一下代码源，有点多，但是仔细找回发现一个secret.php 打开查看： 他说我不是从上面那个网站来的，联想到报文header中的Referer。 HTTP Referer是header的一部分，当浏览器向web服务器发送请求的时候，一般会带上Referer，告        <a href="https://www.cnblogs.com/lthlsy/p/14373240.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-02-04 16:13
+北孤清茶。
+<span data-post-id="14373240" class="post-view-count">阅读(28)</span> 
+<span data-post-id="14373240" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14373240" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14373240" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+            <div class="postSeparator"></div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/lthlsy/p/14371310.html">
+    <span>
+        BUUCTF | [RoarCTF 2019]Easy Calc 
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：解题过程 打开靶机，原以为是注入，尝试注入后无果后，查看代码源发现两处有用的信息。 先将calc.php输入url栏里打开，查看： WAF源码，分析代码： 需要传入变量num的值 设置了一系列黑名单的值 如果传入的变量num中有黑名单包括的符号，将终止程序 否则将输出num的内容 假如waf不允许n        <a href="https://www.cnblogs.com/lthlsy/p/14371310.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-02-04 10:45
+北孤清茶。
+<span data-post-id="14371310" class="post-view-count">阅读(19)</span> 
+<span data-post-id="14371310" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14371310" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14371310" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/lthlsy/archive/2021/01/24.html">2021年1月24日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/lthlsy/p/14322272.html">
+    <span>
+        BUUCTF ——随便注
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：BUUCTF-[强网杯 2019]随便注 知识点1：层叠注入 层叠注入与之前写的SQL注入的整数注入和字符注入相似，但也有不少的区别。 层叠注入的定义：&#160;Stacked injections(堆叠注入)从名词的含义就可以看到应该是一堆&#160;sql&#160;语句(多条)一起执行,而在真实的运用中也是这样的,&#160;我们        <a href="https://www.cnblogs.com/lthlsy/p/14322272.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-01-24 20:57
+北孤清茶。
+<span data-post-id="14322272" class="post-view-count">阅读(44)</span> 
+<span data-post-id="14322272" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14322272" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14322272" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/lthlsy/archive/2020/12/16.html">2020年12月16日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/lthlsy/p/14144956.html">
+    <span>
+        攻防世界web高手进阶区——PHP2
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：攻防世界web高手进阶区——PHP2 思路：phps源码泄露，url二次解码 writeup 知道了题目是写关于PHP的内容，那么肯定少不了代码审计，我们打开靶机后按F12查看代码源，并没有什么发现。扫描目录后发现存在phps 源码泄露（这个我没有搞懂得看wp）。所以要在URL后加个 /index.        <a href="https://www.cnblogs.com/lthlsy/p/14144956.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2020-12-16 17:10
+北孤清茶。
+<span data-post-id="14144956" class="post-view-count">阅读(57)</span> 
+<span data-post-id="14144956" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14144956" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14144956" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/lthlsy/archive/2020/12/15.html">2020年12月15日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/lthlsy/p/14139856.html">
+    <span>
+        关于指针的函数
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：////////////// 指针简介 ////////////////////////////////// 指针是Ｃ语言中广泛使用的一种数据类型。 运用指针编程是Ｃ语言最主要的风格之一。利用指针变量可以表示各种数据结构； 能很方便地使用数组和字符串； 并能象汇编语言一样处理内存地址，从而编出精练而        <a href="https://www.cnblogs.com/lthlsy/p/14139856.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2020-12-15 17:20
+北孤清茶。
+<span data-post-id="14139856" class="post-view-count">阅读(10)</span> 
+<span data-post-id="14139856" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14139856" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14139856" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+            <div class="postSeparator"></div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/lthlsy/p/14139836.html">
+    <span>
+        关于指针的使用示例
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：指针（指针与数组，指针与字符串，指针数组） 掌握指针、地址和数组间的关系； 掌握通过指针操作数组元素的方法； 掌握数组名作为函数参数的编程方法； 掌握指针、地址和字符串间的关系； 掌握通过指针操作字符串的方法。 编程示例和提示 编程规范 容易出现的错误 单步调试程序 编程题 什么是指针？下面通过3个        <a href="https://www.cnblogs.com/lthlsy/p/14139836.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2020-12-15 17:16
+北孤清茶。
+<span data-post-id="14139836" class="post-view-count">阅读(56)</span> 
+<span data-post-id="14139836" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14139836" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14139836" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+
+<div class="topicListFooter">
+    <div id="nav_next_page">
+        
+    
+
+    </div>    
+</div>
+
+
+
+
+
+
+<script>
+    updatePostStats(
+        $(".post-view-count").map(function () { return this.dataset.postId }).get(),
+        function(id, count) { $(".post-view-count[data-post-id=" + id + "]").text("阅读(" + count + ")") },
+        function(id, count) { $(".post-comment-count[data-post-id=" + id + "]").text("评论(" + count + ")") },
+        function(id, count) { $(".post-digg-count[data-post-id=" + id + "]").text("推荐(" + count + ")") });
+</script>
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 北孤清茶。
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    <div id="page_end_html">
+        
+<script type="text/javascript">
+/* 鼠标特效 */
+var a_idx = 0;
+jQuery(document).ready(function($) {
+    $("body").click(function(e) {
+        var a = new Array("❤欢迎❤","❤光临❤","❤北孤❤","❤清茶❤","❤的❤","❤博客园❤","❤小白❤","❤一个❤","❤请多多❤","❤包含❤");
+        var $i = $("<span></span>").text(a[a_idx]);
+        a_idx = (a_idx + 1) % a.length;
+        var x = e.pageX,
+        y = e.pageY;
+        $i.css({
+            "z-index": 999999999999999999999999999999999999999999999999999999999999999999999,
+            "top": y - 20,
+            "left": x,
+            "position": "absolute",
+            "font-weight": "bold",
+            "color": "rgb("+~~(255*Math.random())+","+~~(255*Math.random())+","+~~(255*Math.random())+")"
+        });
+        $("body").append($i);
+        $i.animate({
+            "top": y - 180,
+            "opacity": 0
+        },
+        1500,
+        function() {
+            $i.remove();
+        });
+    });
+});
+</script>
+
+
+<script src="https://blog-static.cnblogs.com/files/yjlblog/cursor-effects.js"></script>
+ <canvas width="1366" height="662" style="position: fixed; left: 0px; top: 0px; z-index: 2147483647; pointer-events: none;"></canvas>
+
+<div class="Snow">
+    <canvas id="Snow"></canvas>
+</div>
+<script src="https://files.cnblogs.com/files/cn-suqingnian/snow.js"></script>
+
+<!-- 更新导航栏的菜单-->
+<script>
+    $(function(){
+            $("#navigator").append('<div id="shwtop" >    <ul style="margin-left:5px;margin-right: 5px;">       <div class="dropdown">            <a href="#" class="dropbtn">后台管理</a>            <div class="dropdown-content">                <!-- <a class="menu" href="这里是你文章或随笔分类的链接地址，自己修改下面同理"> 这里更改下拉具体内容 </a> -->                <a class="menu" href="http://i.cnblogs.com/Configure.aspx"  target="_blank">GUI配置</a>                <a class="menu" href="http://i.cnblogs.com/posts" target="_blank">博文列表</a>                <a class="menu" href="http://wz.cnblogs.com/" target="_blank">收藏</a>                               <a class="menu" href="http://i.cnblogs.com/Files.aspx" target="_blank">文件</a>   <a class="menu" href="https://i.cnblogs.com/EditGalleries.aspx" target="_blank">相册</a>          </div>        </div>    </ul></div>');
+
+        $("#navList").append('<li id="nav_home"><a id="enjoy233" rel="nofollow" href="https://ing.cnblogs.com/" target="_blank" title="进入我的闪存">闪存</a></li>');
+        $("#navList").append('<li id="nav_follow"><a id="enjoy233" rel="nofollow" href="http://home.cnblogs.com/followees/" target="_blank" title="进入我的关注">我关注</a></li>');          
+
+        $('#navList')[0].children["nav_contact"].innerHTML='<a id="nav_contact" class="menu" rel="nofollow" href="https://msg.cnblogs.com/send/Enjoy233">私信</a>';
+        $('#navList')[0].children["nav_rss"].innerHTML='<a id="nav_rss" class="menu" rel="nofollow" href="https://www.cnblogs.com/enjoy233/rss">RSS订阅</a>';
+
+            //加载图片
+            var ponum1 = $(".postTitle").length;
+            var ponum2 = $(".entrylistPosttitle").length;
+            if(ponum1!=0)
+                articleimg(ponum1);
+            if(ponum2!=0)
+                entrylistarticleimg(ponum2);
+        });
+</script>
+
+<script>
+(function($){$.fn.snow=function(options){var $flake=$('<div id="flake" />').css({'position':'absolute','top':'-50px'}).html('&#10052;'),documentHeight=$(document).height(),documentWidth=$(document).width(),defaults={minSize:10,maxSize:20,newOn:500,flakeColor:"#FFFFFF"},options=$.extend({},defaults,options);var interval=setInterval(function(){var startPositionLeft=Math.random()*documentWidth-100,startOpacity=0.5+Math.random(),sizeFlake=options.minSize+Math.random()*options.maxSize,endPositionTop=documentHeight-40,endPositionLeft=startPositionLeft-100+Math.random()*200,durationFall=documentHeight*10+Math.random()*5000;$flake.clone().appendTo('body').css({left:startPositionLeft,opacity:startOpacity,'font-size':sizeFlake,color:options.flakeColor}).animate({top:endPositionTop,left:endPositionLeft,opacity:0.2},durationFall,'linear',function(){$(this).remove()});},options.newOn);};})(jQuery);
+$.fn.snow({ minSize: 5, maxSize: 50, newOn: 1000, flakeColor: '#FFF' });
+</script>
+
+
+
+<script>
+document.addEventListener('visibilitychange', function (){
+    if (document.visibilityState == 'hidden') {
+        normal_title=document.title;
+        document.title = '回北孤清茶这(σ｀д′)σ';
+    } else {
+        document.title=normal_title;
+    }
+});
+</script>
+
+<div class="scrollBtn" id="scrollBtn">
+    <ul class="clearfix">
+        <li class="sB-home">
+            <a href="http://www.cnblogs.com/liyunhua" class="ff-t" title="首页"></a>
+        </li>
+        <li class="sB-comment">
+            <a href="#blog-comments-placeholder" onclick="$('#tbCommentBody').focus();" class="ff-t" title="添加评论"></a>
+        </li>
+        <li class="sB-share"><a onclick="if(cb_entryId !=undefined){AddToWz(cb_entryId)}" href="javascript:void(0);" title="收藏"></a></li>
+        <li class="sB-goTop" id="goTop" style="display: list-item;">
+            <a href="#top" title="回顶部"></a>
+        </li>
+    </ul>
+</div>
+    </div>
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjvj04dxAiXq-MKJa6LQUPITQMZ-qi7sKSMBHyV6T1F7R7YsT9XtPM3KUOUW49Tg2Qsv-1zdYjOLDxC8kFBzB0_ouvlfuAbgkLGmeGGU6RgAfhv5AuNRXyV34fYcXa9JlBE" />
+</body>
+</html>

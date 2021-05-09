@@ -1,0 +1,42 @@
+﻿
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <meta charset="utf-8" />
+    <title>博文阅读密码验证 - 博客园</title>
+    <style>
+        body {
+            font-family: Verdana,Arial,Helvetica,sans-serif;
+        }
+    </style>
+    <script>
+        function enterSubmit(event) {
+            if (event.keyCode == 13) {
+                document.getElementById("btn_submit").focus();
+                return false;
+            }
+        }
+        function check() {
+            if (document.getElementById("tb_password").value.length == 0) {
+                alert("请输入您的密码！");
+                return false;
+            }
+            return true;
+        }
+    </script> 
+</head>
+<body>
+<form method="post" action="/MrZivChu/protected/p/cppBase.html" onsubmit="return check()">
+    <div style="margin-top:50px">
+        <div style="width:300px;margin:0 auto;">
+            <div>请输入博文的阅读密码: </div>
+            <div><input id="tb_password" style="width:200px" onkeydown="enterSubmit(event);" type="password" name="Password" /></div>
+            <div>
+                <input type="submit" id="btn_submit" value="确定" />
+                <span style="font-size: 12px; color:red" class="field-validation-valid" data-valmsg-for="Password" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+    </div>
+</form>
+</body>
+</html>

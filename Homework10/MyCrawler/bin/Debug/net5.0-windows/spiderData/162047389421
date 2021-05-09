@@ -1,0 +1,618 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    
+    
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>菅兮徽音 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/simplememory/bundle-simplememory.min.css?v=uknaX_hejnSu-njQgx4Hj1R0JiPLwUhFPUlwWNmWyB4" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/SimpleMemory/bundle-SimpleMemory-mobile.min.css" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/augenstern/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/augenstern/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/augenstern/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 584961;
+        var currentBlogApp = 'augenstern';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'SimpleMemory';
+        var visitorUserId = '';
+    </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/augenstern/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/augenstern/">菅兮徽音</a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/augenstern/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E8%8F%85%E5%85%AE%E5%BE%BD%E9%9F%B3">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/augenstern/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+
+
+
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/augenstern/archive/2021/04/26.html">2021年4月26日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/augenstern/p/14706116.html">
+    <span>
+        前端 Day4（Bom&amp;Dom）
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：DOM入门 功能：控制html文档的内容 js可以根据id获取对象（任何标签），然后去改变该对象的属性。 事件就是标签的属性的一种（这里用到的是单机onclick）。这里做的就是获取到该对象后，改变对象的onclick属性值为我们想做的操作。当然，复杂的操作一般先封装在函数中，然后调用即可。 逻辑：        <a href="https://www.cnblogs.com/augenstern/p/14706116.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-26 19:19
+菅兮徽音
+<span data-post-id="14706116" class="post-view-count">阅读(5)</span> 
+<span data-post-id="14706116" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14706116" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14706116" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+            <div class="postSeparator"></div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/augenstern/p/14705924.html">
+    <span>
+        前端 Day3（JS）
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：JavaScript 概念：&#160;一门客户端脚本语言 基本语法 1. 与html结合方式 1. 内部JS： 定义&lt;script&gt;&lt;/script&gt;，标签体内容就是js代码 2. 外部JS： 定义&lt;script src=&quot;xxx&quot;&gt;&lt;/script&gt;，通过src属性引入外部的js文件 2. 数据类型 原始        <a href="https://www.cnblogs.com/augenstern/p/14705924.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-26 18:21
+菅兮徽音
+<span data-post-id="14705924" class="post-view-count">阅读(7)</span> 
+<span data-post-id="14705924" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14705924" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14705924" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/augenstern/archive/2021/04/25.html">2021年4月25日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/augenstern/p/14700844.html">
+    <span>
+        前端 Day2（CSS）
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：CSS 作用：页面美化和布局控制 概念： Cascading Style Sheets 层叠样式表 形象地说：就相当于样式模板（博客皮肤），做到皮肤与内容解耦。 先复习一下div标签:围堵标签，每一个div占满一整行。&lt;div&gt;&lt;/div&gt; CSS的使用：CSS与html结合方式 1. 内联样式（不        <a href="https://www.cnblogs.com/augenstern/p/14700844.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-25 16:27
+菅兮徽音
+<span data-post-id="14700844" class="post-view-count">阅读(9)</span> 
+<span data-post-id="14700844" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14700844" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14700844" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/augenstern/archive/2021/04/23.html">2021年4月23日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/augenstern/p/14694517.html">
+    <span>
+        前端 Day1（html）
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：前端之前已学一部分，这里主要作复习和补充 传送门 重点做三个案例来熟悉html： 1.文本标签练习： 效果图： &lt;!DOCTYPE html&gt; &lt;html lang=&quot;ch&quot;&gt; &lt;head&gt; &lt;meta charset=&quot;UTF-8&quot;&gt; &lt;title&gt;黑马旅游网&lt;/title&gt; &lt;/head&gt; &lt;b        <a href="https://www.cnblogs.com/augenstern/p/14694517.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-23 16:36
+菅兮徽音
+<span data-post-id="14694517" class="post-view-count">阅读(7)</span> 
+<span data-post-id="14694517" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14694517" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14694517" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/augenstern/archive/2021/04/14.html">2021年4月14日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/augenstern/p/14659427.html">
+    <span>
+        Oracle Day5
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：P44 存储函数 与存储过程类似，功能没有存储过程强大。把输出参数以return的形式展现。 快速生成小技巧：在function文件夹右键new，输出函数名和参数等信息即可快速生成一个函数框架（存储过程也可） 简单举个例子： create or replace trigger valid_Inser        <a href="https://www.cnblogs.com/augenstern/p/14659427.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-14 18:51
+菅兮徽音
+<span data-post-id="14659427" class="post-view-count">阅读(6)</span> 
+<span data-post-id="14659427" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14659427" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14659427" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/augenstern/archive/2021/04/13.html">2021年4月13日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/augenstern/p/14653683.html">
+    <span>
+        Oracle Day4
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：P34 序列 序列主要用作为表做自增。 创建一个序列，查询该序列的下一个值： 查询序列的当前值： 序列的使用：（常用） 在往表格中插入数据时，可以用序列的nextval填入主键，就可以利用它自增的特性了。 P35 索引 索引用于加速数据存取。 但是索引不是越多越好，因为会耗费大量的资源。 其实每张带        <a href="https://www.cnblogs.com/augenstern/p/14653683.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-13 15:59
+菅兮徽音
+<span data-post-id="14653683" class="post-view-count">阅读(7)</span> 
+<span data-post-id="14653683" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14653683" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14653683" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/augenstern/archive/2021/04/08.html">2021年4月8日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/augenstern/p/14633743.html">
+    <span>
+        Oracle Day3
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：P24 Oracle并集union和union all union指对两个结果集作并集，重复行只显示一次 union all也是作并集，但是不去重 合并的时候可以指定select哪集列，查询结果会按照你指定的顺序来，只要数据类型相同，列数相同，就可以合并，所以自己一定要注意写明正确的顺序。 P25         <a href="https://www.cnblogs.com/augenstern/p/14633743.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-08 18:16
+菅兮徽音
+<span data-post-id="14633743" class="post-view-count">阅读(7)</span> 
+<span data-post-id="14633743" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14633743" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14633743" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/augenstern/archive/2021/03/29.html">2021年3月29日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/augenstern/p/14592851.html">
+    <span>
+        Oracle Day2
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：p14&amp;p15 多表联合查询 先看一个简单的多表查询的例子 注意起别名，这里为了防止笛卡尔积，增加了筛选条件deptno。 做两个练习： 1.查出雇员的编号，姓名，部门的编号，名称，地址。 2.查询出每个员工的上级领导 3.在2的基础上，查询员工的部门名称 关联三张表，写明约束条件即可 4.查询每名        <a href="https://www.cnblogs.com/augenstern/p/14592851.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-03-29 16:07
+菅兮徽音
+<span data-post-id="14592851" class="post-view-count">阅读(5)</span> 
+<span data-post-id="14592851" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14592851" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14592851" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/augenstern/archive/2021/03/24.html">2021年3月24日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/augenstern/p/14571825.html">
+    <span>
+        Oracle Day1
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：没有计划就没有动力，我决定花5天学完这个Oracle课程，大家监督我吧！！！ 附上链接：https://www.bilibili.com/video/BV1AE411p79z 这个课程是我在b站经过多维度比较选出的一个最好的Oralce教程了。 第一天计划（3月24日）：p4 Oralce基本概念~        <a href="https://www.cnblogs.com/augenstern/p/14571825.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-03-24 00:01
+菅兮徽音
+<span data-post-id="14571825" class="post-view-count">阅读(4)</span> 
+<span data-post-id="14571825" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14571825" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14571825" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/augenstern/archive/2021/02/25.html">2021年2月25日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/augenstern/p/14449716.html">
+    <span>
+        Oracle&amp;PLSQL Developer环境安装
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：第一步：下载Oracle11g 链接：https://pan.baidu.com/s/18lYrkqqHG8u4aDdQekHc3g提取码：fg2v 第二步：安装Oracle11g 按照顺序安装即可，密码不符合标准不要紧。 最后记得设置口令：sys，system以及scott 第三步：下载PLSQL        <a href="https://www.cnblogs.com/augenstern/p/14449716.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-02-25 22:26
+菅兮徽音
+<span data-post-id="14449716" class="post-view-count">阅读(5)</span> 
+<span data-post-id="14449716" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14449716" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14449716" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+
+<div class="topicListFooter">
+    <div id="nav_next_page">
+        
+    <a href="https://www.cnblogs.com/augenstern/default.html?page=2">
+        下一页
+    </a>
+
+    </div>    
+</div>
+
+
+
+
+
+
+<script>
+    updatePostStats(
+        $(".post-view-count").map(function () { return this.dataset.postId }).get(),
+        function(id, count) { $(".post-view-count[data-post-id=" + id + "]").text("阅读(" + count + ")") },
+        function(id, count) { $(".post-comment-count[data-post-id=" + id + "]").text("评论(" + count + ")") },
+        function(id, count) { $(".post-digg-count[data-post-id=" + id + "]").text("推荐(" + count + ")") });
+</script>
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 菅兮徽音
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjupm2IVlqfJpxx_waoF9U_2WjsI0vB8PVIemeGneQRbs7Zsz7ClGpF3X54CbomWOfeFycm7SY-DO-PTV5c0QJvaO9Lf-fGtndcNIJ0mTn27SBgb11TcBGSMvUk1TckmckY" />
+</body>
+</html>

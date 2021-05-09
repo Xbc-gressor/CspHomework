@@ -1,0 +1,1048 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="never" />
+    <meta name="description" content="单链表 单链表中节点的定义 typedef struct LNode{ int data;//数据域 struct LNode *next;//定义一个同类型的指针，指向该节点的后继节点 }LNode" />
+    <meta property="og:description" content="单链表 单链表中节点的定义 typedef struct LNode{ int data;//数据域 struct LNode *next;//定义一个同类型的指针，指向该节点的后继节点 }LNode" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>RE.从单链表开始的数据结构生活（bushi - 扇与她尽失 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/chelsea0901/custom.css?v=bhEIaj3ablzwUs&#x2B;svYYRmGxN6uA=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/SimpleMemory/bundle-SimpleMemory-mobile.min.css" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/chelsea0901/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/chelsea0901/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/chelsea0901/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 657317;
+        var currentBlogApp = 'chelsea0901';
+        var cb_enable_mathjax = true;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'SimpleMemory';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-04-20 09:20';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+        tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processClass: 'math', processEscapes: true },
+        TeX: {
+        equationNumbers: { autoNumber: ['AMS'], useLabelIds: true },
+        extensions: ['extpfeil.js', 'mediawiki-texvc.js'],
+        Macros: {bm: "\\boldsymbol"}
+        },
+        'HTML-CSS': { linebreaks: { automatic: true } },
+        SVG: { linebreaks: { automatic: true } }
+        });
+    </script>
+    <script src="https://mathjax.cnblogs.com/2_7_5/MathJax.js?config=TeX-AMS-MML_HTMLorMML&amp;v=20200504"></script>
+    
+</head>
+<body class="no-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="page_begin_html">
+        <script>loadPageBeginHtml();</script>
+    </div>
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/chelsea0901/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/chelsea0901/">蓝冉</a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/chelsea0901/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E6%89%87%E4%B8%8E%E5%A5%B9%E5%B0%BD%E5%A4%B1">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/chelsea0901/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/chelsea0901/p/14682929.html">
+    <span>RE.从单链表开始的数据结构生活（bushi</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+<h2 id="单链表">单链表</h2>
+<h3 id="单链表中节点的定义">单链表中节点的定义</h3>
+<pre><code class="language-cpp">typedef struct LNode{
+  int data;//数据域
+  struct LNode *next;//定义一个同类型的指针，指向该节点的后继节点
+}LNode, *Linklist;
+</code></pre>
+<blockquote>
+<p>LNode是一个数据节点，而单链表是用指针将许多数据节点连接起来的一个线性表</p>
+</blockquote>
+<p>最开始看单链表代码的时候，我就一直有一个非常非常大的疑问，这个疑问就是：LNode和LinkList到底有什么区别，什么时候要加 * ，什么时候不加 *等等问题， 但这些问题几乎没人人解答，就一直卡着我，导致我特别抵触单链表，看见漫天的指针就烦，也就一直没提起兴趣写链表，但现在可能是代码看多了，发现这玩意也没有那么难搞</p>
+<blockquote>
+<p>我们定义单链表的时候，可以有两种定义方法：LNode *L，或者是LinkList L；通常来说是用的第二种，为什么呢？首先，我要说的是，我们定义的链表为L，这个L其实是一个LNode类型的指针，是整个链表的头节点，我们一旦有了这个头节点，就可以对这个链表进行一系列操作</p>
+<p>而这个链表的头节点，他是一个节点而不是一个表；所以就有了第一个定义方法，LNode *L，但这样总的看起来就没有个像表的样子，给人一种很low的感觉，所以所以我们就定一个LNode形的指针为LinkList，这样以后一旦我们需要定义一个单链表，也就是只需要直接 LinkList L一下即可，现在你看这个LinkList是不是有内味了(&gt;_&lt;)</p>
+</blockquote>
+<blockquote>
+<p>而为什么要在LinkList前面加个 * 呢，我认为是这样滴：把这个LinkList定义为一个节点类型的指针，是为了之后对函数穿参数时，进行链表的修改，因为你如果是在主函数里面创建的链表，你想要利用函数改变其数据，就必须传链表的地址进去，不然是改变不了链表的数据滴</p>
+</blockquote>
+<h3 id="初始化带头节点的链表">初始化带头节点的链表</h3>
+<pre><code class="language-cpp">void InitLinkList(LinkList &amp;L){
+  L = (LinkList)malloc(sizeof(LNode));//这个头节点本质上还是个节点，所以创建空间的时候还是要创建LNode大小的空间
+  L-&gt;next = NULL;//别忘了让头指针next指向NULL，不然就成了野指针
+}
+</code></pre>
+<h3 id="头插法创建单链表">头插法创建单链表</h3>
+<pre><code class="language-cpp">void HeadInsert_LinkList(LinkList &amp;L, int n){//头插法
+    LNode *s;//辅助指针，用来申请新的空间，并将输入的数据存进链表
+    for(int i = 1; i &lt;= n; ++i){
+        s = (LNode*)malloc(sizeof(LNode));//申请一个LNode节点的空间
+        cin&gt;&gt;s-&gt;data;//输入数据域
+        s-&gt;next = L-&gt;next;//将头结点的next指针指向的点赋给s的next指针，就类似于你要插队，就先要先把脚插进去，人才能进去
+        L-&gt;next = s;//再把s指针便成头节点后的第一个数据，也就是相当于把人的身体塞进去辽
+    }
+}
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/cee53c1b5c1e121a306ace1e19d3b1e7.png" alt="img" loading="lazy"></p>
+<blockquote>
+<p>利用头插法建立单链表，输入的数据的顺序与生成的链表中的元素的顺序相反。每个节点插入的时间复杂度为O(1)，总时间复杂度为O(n)。</p>
+</blockquote>
+<h3 id="尾插法建立单链表">尾插法建立单链表</h3>
+<pre><code class="language-cpp">void RailInsert_LinkList(LinkList &amp;L, int n){//尾插法
+    LNode *s, *r;//s还是和头插一样，r用于始终指向尾节点，这样可以避免每一次尾插都得循环跑到最后一个位置再插
+    r = L;//因为是从无到有，所以先让尾指针指向头指针
+    for(int i = 1; i &lt;= n; ++i){
+        s = (LNode*)malloc(sizeof(LNode));//开辟空间
+        cin&gt;&gt;s-&gt;data;//输入数据域
+        r-&gt;next = s;//r代表的是目前的尾节点，s是新来的节点，尾插自然让之前的尾节点（r）的next指向新的尾节点（s）
+        r = s;//尾节点改变了，自然要让s变成尾节点
+    }
+    r-&gt;next = NULL;//注意要给尾节点的next赋NULL，不然你要是以后循环就找不到循环结束条件了
+}
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/2dee0a6a4a1f86f54cb6b8a649115c8f.png" alt="img" loading="lazy"></p>
+<blockquote>
+<p>尾插法建立单链表，输入的数据的顺序与生成的链表中的元素的顺序相同。每个结点插入的时间复杂度为O(1)，总时间复杂度为O(n)。</p>
+</blockquote>
+<h3 id="在单链表中插入一个结点">在单链表中插入一个结点</h3>
+<pre><code class="language-cpp">void Insert_LinkList(LinkList &amp;L, int location, int elem){
+    LNode *p, *s;//p用于遍历单链表，s用于存储插入的数据elem
+    p = L;//p初始指向头节点
+    int j = 1;//计数，用来找到需要插入的位置location,且这里一定要是1，不然就会变成插在pos后面了
+    while (p != NULL &amp;&amp; j &lt; location) {//p不能出链表外，且j小于location的值
+        p = p-&gt;next;
+        ++j;
+    }
+    s = (LNode*)malloc(sizeof(LNode));//申请空间
+    s-&gt;data = elem;//赋值
+    s-&gt;next = p-&gt;next;//因为p的位置其实是location-1，p的下一个才是需要插入的地方，所以我们就把p-&gt;next的值赋值给s的next，和上面说的一样，先把脚伸进去
+    p-&gt;next = s;//再把身体塞进去，也就是让前一个节点（p）指向新插入的节点（s）
+}
+</code></pre>
+<h3 id="在单链表中删除一个节点">在单链表中删除一个节点</h3>
+<pre><code class="language-cpp">void Delet_LinkList(LinkList &amp;L, int pos){
+    LNode *s, *p;//p指向pos前一个位置， s指向pos的位置
+    p = L;//将p赋值为L
+    int j = 1;//计数，一定是赋值为1
+    while (p!=NULL &amp;&amp; j &lt; pos) {
+        ++j;
+        p = p-&gt;next;
+    }
+    s = p-&gt;next;//s指向的是pos
+    p-&gt;next = s-&gt;next;//s-&gt;next指向的是pos后面的位置，将pos后面的点接到pos前面的节点去，就相当于删掉了pos这个节点
+}
+</code></pre>
+<h3 id="按顺序打印单链表">按顺序打印单链表</h3>
+<pre><code class="language-cpp">void Print_LinkList(LinkList L){
+    LNode* p = L-&gt;next;//用于遍历链表，注意是指向L-&gt;next
+    while (p != NULL) {
+        cout&lt;&lt;p-&gt;data&lt;&lt;' ';
+        p = p-&gt;next;
+    }
+    cout&lt;&lt;endl;
+}
+</code></pre>
+<h3 id="测试代码">测试代码</h3>
+<pre><code class="language-cpp">#include &lt;cstdio&gt;
+#include &lt;cstring&gt;
+#include &lt;string&gt;
+#include &lt;cmath&gt;
+#include &lt;iostream&gt;
+#include &lt;algorithm&gt;
+#include &lt;vector&gt;
+#include &lt;stack&gt;
+#include &lt;queue&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;sstream&gt;
+#include &lt;map&gt;
+#include &lt;set&gt;
+using  namespace std;
+#define inf 0x3f3f3f3f
+#define MAX 10000 + 50
+#define endl '\n'
+//#define mod 1000000007
+//const int mod = 1e9 + 7;
+#define io ios::sync_with_stdio(false); cin.tie(0); cout.tie(0)
+#define mem(a,b) memset((a),(b),sizeof(a))
+typedef  long long ll ;
+//不开longlong见祖宗！
+inline int IntRead(){char ch = getchar();int s = 0, w = 1;while(ch &lt; '0' || ch &gt; '9'){if(ch == '-') w = -1;ch = getchar();}while(ch &gt;= '0' &amp;&amp; ch &lt;= '9'){s = s * 10 + ch - '0';ch = getchar();}return s * w;}
+
+typedef struct LNode{
+    int data;
+    struct LNode *next;
+}LNode, *LinkList;
+
+void InitLinkList(LinkList &amp;L){//生成带头结点的单链表L
+    L = (LinkList)malloc(sizeof(LNode));
+    L-&gt;next = NULL;//千万别忘了让头节点的next指向空
+}
+
+void HeadInsert_LinkList(LinkList &amp;L, int n){//头插法
+    LNode *s;//辅助指针，用来申请新的空间，并将输入的数据存进链表
+    for(int i = 1; i &lt;= n; ++i){
+        s = (LNode*)malloc(sizeof(LNode));//申请一个LNode节点的空间
+        cin&gt;&gt;s-&gt;data;//输入数据域
+        s-&gt;next = L-&gt;next;//将头结点的next指针指向的点赋给s的next指针，就类似于你涉足两个人之间，要先把脚插进去，人才能进去
+        L-&gt;next = s;//再把s指针便成头节点后的第一个数据，也就是相当于把人的身体塞进去辽
+    }
+}
+
+void RailInsert_LinkList(LinkList &amp;L, int n){//尾插法
+    LNode *s, *r;//s还是和头插一样，r用于始终指向尾节点，这样可以避免每一次尾插都得循环跑到最后一个位置再插
+    r = L;//因为是从无到有，所以先让尾指针指向头指针
+    for(int i = 1; i &lt;= n; ++i){
+        s = (LNode*)malloc(sizeof(LNode));//开辟空间
+        cin&gt;&gt;s-&gt;data;//输入数据域
+        r-&gt;next = s;//r代表的是目前的尾节点，s是新来的节点，尾插自然让之前的尾节点（r）的next指向新的尾节点（s）
+        r = s;//尾节点改变了，自然要让s变成尾节点
+    }
+    r-&gt;next = NULL;//注意要给尾节点的next赋NULL，不然你要是以后循环就找不到循环结束条件了
+}
+
+void Insert_LinkList(LinkList &amp;L, int location, int elem){
+    LNode *p, *s;//p用于遍历单链表，s用于存储插入的数据elem
+    p = L;//p初始指向头节点
+    int j = 1;//计数，用来找到需要插入的位置location,且这里一定要是1，不然就会变成插在pos后面了
+    while (p != NULL &amp;&amp; j &lt; location) {//p不能出链表外，且j小于location的值
+        p = p-&gt;next;
+        ++j;
+    }
+    s = (LNode*)malloc(sizeof(LNode));//申请空间
+    s-&gt;data = elem;//赋值
+    s-&gt;next = p-&gt;next;//因为p的位置其实是location-1，p的下一个才是需要插入的地方，所以我们就把p-&gt;next的值赋值给s的next，和上面说的一样，先把脚伸进去
+    p-&gt;next = s;//再把身体塞进去，也就是让前一个节点（p）指向新插入的节点（s）
+}
+
+void Print_LinkList(LinkList L){
+    LNode* p = L-&gt;next;//用于遍历链表，注意是指向L-&gt;next
+    while (p != NULL) {
+        cout&lt;&lt;p-&gt;data&lt;&lt;' ';
+        p = p-&gt;next;
+    }
+    cout&lt;&lt;endl;
+}
+
+int main(){
+    LinkList L;//创建以L为头节点的链表
+    InitLinkList(L);
+
+    int n;
+    cin&gt;&gt;n;
+    HeadInsert_LinkList(L, n);//头插法建立n个数的链表
+    Print_LinkList(L);
+
+    InitLinkList(L);
+    RailInsert_LinkList(L, n);//尾插法建立n个数的链表
+    Print_LinkList(L);
+
+    int pos, elem;
+    cin&gt;&gt;pos&gt;&gt;elem;
+    Insert_LinkList(L, pos, elem);//在pos的位置插入elem
+    Print_LinkList(L);
+  
+    return 0;
+}
+</code></pre>
+<h2 id="双向链表">双向链表</h2>
+<h3 id="简单介绍：">简单介绍：</h3>
+<blockquote>
+<p>我们把用链表比作下棋，单链表就是老实人，只能一步步的下，发现哪一步下错了，是没法悔棋的，只能从头再来</p>
+<p>而双向链表就像是个开脚本的小猴子，发现自己前面有哪一步下错了，就可以无限悔棋去更正……</p>
+</blockquote>
+<h3 id="双向链表的定义：">双向链表的定义：</h3>
+<pre><code class="language-cpp">typedef struct LNode{
+    int val;//值
+    struct LNode *next, *pre;//每个节点都有next指针和pre指针，next指针指向下一个节点，pre指针指向上一个节点
+}LNode, *De_LinkList;
+</code></pre>
+<h3 id="初始化">初始化</h3>
+<pre><code class="language-cpp">void Init_De_LinkList(De_LinkList &amp;L){//
+    L = (De_LinkList)malloc(sizeof(LNode));
+    L-&gt;next = NULL;
+    L-&gt;pre = NULL;
+}
+//初始化其实初始化的是头节点，是可以放在创建函数里面的，不过我喜欢将其重新定义为一个函数（好歹也是链表的大哥大，不得给它个面子嘛
+</code></pre>
+<h3 id="头插法创建双向链表">头插法创建双向链表</h3>
+<blockquote>
+<p>头插法的关键是头不存储信息，让每一个新来的节点都插到头的后面去</p>
+<p>看图我们可以知道，对于新来的节点cnt，需要先让cnt的next指针指向nex去（相当于上面单链表中说的先把脚伸进去），再让nex的pre指针指向cnt，再让cnt的pre指针指向头节点pr，最后再让pr的next指针指向cnt即可</p>
+<p>需要注意的是，pr = L, nex = pr - next，而在输入第一个数时，nex就是NULL，需要进行单独处理，不能放在后面的循环取pre，因为NULL哪里有pre</p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20210420211519345.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl81MTIxNjU1Mw==,size_16,color_FFFFFF,t_70" alt="[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-EuiVwiIm-1618924434677)(/Users/chelsea/Library/Application Support/typora-user-images/image-20210419164001353.png)]" loading="lazy"></p>
+<pre><code class="language-cpp">void HeadCreat_De_LinkList(De_LinkList &amp;L, int len){
+    LNode *pr, *cnt, *nex;//pr是前一个节点，也就是头节点，cnt是新来的节点，nex是头节点后面的节点
+    pr = L;
+    cnt = (LNode*)malloc(sizeof(LNode));
+    cin&gt;&gt;cnt-&gt;val;//输入新节点的值
+    cnt-&gt;next = NULL;//对一个点进行特殊处理，他后面是没有元素的，所以给next赋值为NULL
+    cnt-&gt;pre = L;//赋pre为头指针
+    L-&gt;next = cnt;//更新头指针的next指针
+//用s保存cnt，就是第一个输入的元素，也就是链表的尾节点，便于倒序输出
+//LNode *s;
+//s = cnt;
+    for(int i = 2; i &lt;= len; ++i){//循环从2开始
+        cnt = (LNode*)malloc(sizeof(LNode));//开辟空间
+        cin&gt;&gt;cnt-&gt;val;//输入数据
+      //给pr和nex赋值
+        pr = L;
+      	nex = L-&gt;next;
+      //再就是四步曲，见图上面的文字
+        cnt-&gt;next = nex;、
+        nex-&gt;pre = cnt;
+        cnt-&gt;pre = pr;
+        pr-&gt;next = cnt;
+    }
+//从后往前输出，用于检查pre是否好用
+//  while (s-&gt;pre != NULL) {
+//        cout&lt;&lt;s-&gt;val&lt;&lt;' ';
+//        s = s-&gt;pre;
+//    }
+//    cout&lt;&lt;endl;
+}
+</code></pre>
+<h3 id="尾插法创建双向链表">尾插法创建双向链表</h3>
+<blockquote>
+<p>尾插法比头插法容易实现，他不需要pre，nex，只需要一个链表的尾节点tail，然后对每个新来的点，直接插到tail后面去即可</p>
+</blockquote>
+<pre><code class="language-cpp">void TailCreat_De_LinkList(De_LinkList &amp;L, int len){
+    LNode *s, *tail;//s是辅助节点，用来存新来的节点，tail是链表的尾节点
+    tail = L;//最开始的时候尾节点就是头节点
+    for(int i = 1; i &lt;= len; ++i){
+        s = (LNode*)malloc(sizeof(LNode));//申请空间
+        cin&gt;&gt;s-&gt;val;//输入值
+        tail-&gt;next = s;//直接让尾节点的next指向新节点
+        s-&gt;pre = tail;//让新节点的pre指向尾节点
+        tail = s;//因为是尾插，所以尾节点改变了，就要时时更新
+    }
+    tail-&gt;next = NULL;
+//下面是检测代码，是从后往前遍历，证明pre是可以用滴
+//    while (tail-&gt;pre != NULL) {
+//        cout&lt;&lt;tail-&gt;val&lt;&lt;' ';
+//        tail = tail-&gt;pre;
+//    }
+//    cout&lt;&lt;endl;
+}
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20210420211506646.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl81MTIxNjU1Mw==,size_16,color_FFFFFF,t_70" alt="[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-2JPuWf9L-1618924434678)(/Users/chelsea/Library/Application Support/typora-user-images/image-20210419175026336.png)]" loading="lazy"></p>
+<h3 id="插入元素">插入元素</h3>
+<pre><code class="language-cpp">void Insert_De_LinkList(De_LinkList &amp;L, int pos, int val){
+    LNode *pr, *cnt, *nex;//和头插法一样
+    pr = L;
+    int j = 1;
+    while (pr != NULL &amp;&amp; j &lt; pos) {//找到pos前一个位置
+        pr = pr-&gt;next;
+        ++j;
+    }
+    nex = pr-&gt;next;//nex是pos节点
+    cnt = (LNode*)malloc(sizeof(LNode));//开辟空间
+    cnt-&gt;val = val;//赋新节点值
+  //四步走，见头插法
+    cnt-&gt;next = nex;
+    nex-&gt;pre = cnt;
+    cnt-&gt;pre = pr;
+    pr-&gt;next = cnt;   
+}
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20210420211456670.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl81MTIxNjU1Mw==,size_16,color_FFFFFF,t_70" alt="[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-nFDtWjD4-1618924434678)(/Users/chelsea/Library/Application Support/typora-user-images/image-20210419180526630.png)]" loading="lazy"></p>
+<h3 id="删除元素">删除元素</h3>
+<pre><code class="language-cpp">void Delet_De_LinkList(De_LinkList &amp;L, int pos){
+    LNode *cnt, *pr, *nex;//和头插法差不多
+    pr = L;
+    int j = 1;
+    while (pr != NULL &amp;&amp; j &lt; pos) {//pr指向pos的前一个节点
+        ++j;
+        pr = pr-&gt;next;
+    }
+    cnt = pr-&gt;next;//cnt指向pos节点
+    nex = cnt-&gt;next;//nex指向pos的下一个节点
+    if(nex != NULL){//如果删除的不是最后一个元素
+        pr-&gt;next = nex;//让pr的next指向nex，也就是让pos前节点的next指向pos的后节点
+        nex-&gt;pre = pr;//让nex的pre节点指向pr，也就是让pos的后节点的pre指向pos的前节点
+    }
+    else {//如果是最后一个元素，那么nex就是NULL，此时只需要让pr的next指针指向NULL即可
+        pr-&gt;next = nex;
+    }
+}
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/2021042021143846.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl81MTIxNjU1Mw==,size_16,color_FFFFFF,t_70" alt="[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-Z8bL0Np3-1618924434679)(/Users/chelsea/Library/Application Support/typora-user-images/image-20210419180845392.png)]" loading="lazy"></p>
+<h3 id="打印列表">打印列表</h3>
+<pre><code class="language-cpp">void Print_De_LinkList(De_LinkList L){
+    LNode *p;
+    p = L -&gt;next;
+    while (p !=NULL) {
+        cout&lt;&lt;p-&gt;val&lt;&lt;' ';
+        p = p-&gt;next;
+    }
+    cout&lt;&lt;endl;
+}
+</code></pre>
+<h3 id="代码总览">代码总览</h3>
+<pre><code class="language-cpp">#include &lt;cstdio&gt;
+#include &lt;cstring&gt;
+#include &lt;string&gt;
+#include &lt;cmath&gt;
+#include &lt;iostream&gt;
+#include &lt;algorithm&gt;
+#include &lt;vector&gt;
+#include &lt;stack&gt;
+#include &lt;queue&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;sstream&gt;
+#include &lt;map&gt;
+#include &lt;set&gt;
+using  namespace std;
+#define inf 0x3f3f3f3f
+#define MAX 10000 + 50
+#define endl '\n'
+//#define mod 1000000007
+//const int mod = 1e9 + 7;
+#define io ios::sync_with_stdio(false); cin.tie(0); cout.tie(0)
+#define mem(a,b) memset((a),(b),sizeof(a))
+typedef  long long ll ;
+//不开longlong见祖宗！
+inline int IntRead(){char ch = getchar();int s = 0, w = 1;while(ch &lt; '0' || ch &gt; '9'){if(ch == '-') w = -1;ch = getchar();}while(ch &gt;= '0' &amp;&amp; ch &lt;= '9'){s = s * 10 + ch - '0';ch = getchar();}return s * w;}
+
+typedef struct LNode{
+    int val;
+    struct LNode *next, *pre;
+}LNode, *De_LinkList;
+
+void Init_De_LinkList(De_LinkList &amp;L){
+    L = (De_LinkList)malloc(sizeof(LNode));
+    L-&gt;next = NULL;
+    L-&gt;pre = NULL;
+}
+
+void HeadCreat_De_LinkList(De_LinkList &amp;L, int len){
+    LNode *pr, *cnt, *nex, *s;
+    pr = L;
+    cnt = (LNode*)malloc(sizeof(LNode));
+    cin&gt;&gt;cnt-&gt;val;
+    cnt-&gt;next = NULL;
+    cnt-&gt;pre = L;
+    L-&gt;next = cnt;
+    s = cnt;
+    for(int i = 2; i &lt;= len; ++i){
+        cnt = (LNode*)malloc(sizeof(LNode));
+        cin&gt;&gt;cnt-&gt;val;
+        pr = L;nex = L-&gt;next;
+        cnt-&gt;next = nex;
+        nex-&gt;pre = cnt;
+        cnt-&gt;pre = pr;
+        pr-&gt;next = cnt;
+    }
+//    while (s-&gt;pre != NULL) {
+//        cout&lt;&lt;s-&gt;val&lt;&lt;' ';
+//        s = s-&gt;pre;
+//    }
+//    cout&lt;&lt;endl;
+}
+
+void TailCreat_De_LinkList(De_LinkList &amp;L, int len){
+    LNode *s, *tail;
+    tail = L;
+    for(int i = 1; i &lt;= len; ++i){
+        s = (LNode*)malloc(sizeof(LNode));
+        cin&gt;&gt;s-&gt;val;
+        tail-&gt;next = s;
+        s-&gt;pre = tail;
+        tail = s;
+    }
+    tail-&gt;next = NULL;
+//    while (tail-&gt;pre != NULL) {
+//        cout&lt;&lt;tail-&gt;val&lt;&lt;' ';
+//        tail = tail-&gt;pre;
+//    }
+//    cout&lt;&lt;endl;
+}
+
+void Insert_De_LinkList(De_LinkList &amp;L, int pos, int val){
+    LNode *pr, *cnt, *nex;
+    pr = L;
+    int j = 1;
+    while (pr != NULL &amp;&amp; j &lt; pos) {
+        pr = pr-&gt;next;
+        ++j;
+    }
+    nex = pr-&gt;next;
+    cnt = (LNode*)malloc(sizeof(LNode));
+    cnt-&gt;val = val;
+    cnt-&gt;next = nex;
+    nex-&gt;pre = cnt;
+    cnt-&gt;pre = pr;
+    pr-&gt;next = cnt;
+
+}
+
+void Delet_De_LinkList(De_LinkList &amp;L, int pos){
+    LNode *cnt, *pr, *nex;
+    pr = L;
+    int j = 1;
+    while (pr != NULL &amp;&amp; j &lt; pos) {
+        ++j;
+        pr = pr-&gt;next;
+    }
+    cnt = pr-&gt;next;
+    nex = cnt-&gt;next;
+    if(nex != NULL){
+        pr-&gt;next = nex;
+        nex-&gt;pre = pr;
+    }
+    else {
+        pr-&gt;next = nex;
+    }
+}
+
+void Print_De_LinkList(De_LinkList L){
+    LNode *p;
+    p = L -&gt;next;
+    while (p !=NULL) {
+        cout&lt;&lt;p-&gt;val&lt;&lt;' ';
+        p = p-&gt;next;
+    }
+    cout&lt;&lt;endl;
+}
+
+
+
+int main(){
+    int n;
+    De_LinkList L;
+
+    cin&gt;&gt;n;
+    Init_De_LinkList(L);
+    HeadCreat_De_LinkList(L, n);
+    Print_De_LinkList(L);
+    
+    cin&gt;&gt;n;
+    Init_De_LinkList(L);
+    TailCreat_De_LinkList(L, n);
+    Print_De_LinkList(L);
+    
+    int pos, val;
+    cin&gt;&gt;pos&gt;&gt;val;
+    Insert_De_LinkList(L, pos, val);
+    Print_De_LinkList(L);
+    
+    cin&gt;&gt;pos;
+    Delet_De_LinkList(L, pos);
+    Print_De_LinkList(L);
+    return 0;
+}
+</code></pre>
+<h2 id="循环链表">循环链表</h2>
+<blockquote>
+<p>循环链表和链表差不多，只需要将尾节点指向头节点即可，这里我通过实现约瑟夫环和抓兔子这个两个经典的循环链表问题来展示循环链表是如何实现的</p>
+</blockquote>
+<h3 id="约瑟夫环问题：">约瑟夫环问题：</h3>
+<p>设有n个人围坐在圆桌周围，现从某个位置m(1≤m≤n)上的人开始报数，报数到k的人就站出来。下一个人，即原来的第k+1个位置上的人，又从1开始报数，再报数到k的人站出来。依次重复下去，直到全部的人都站出来为止。试设计一个程序求出这n个人的出列顺序。</p>
+<blockquote>
+<p>因为此问题需要不断循环链表，并利用点的位置，所以头节点很碍事，索性就不要原来那种没有值的头节点，让第一个有值的节点成为头节点</p>
+<p>采用尾插法</p>
+</blockquote>
+<pre><code class="language-cpp">#include &lt;cstdio&gt;
+#include &lt;cstring&gt;
+#include &lt;string&gt;
+#include &lt;cmath&gt;
+#include &lt;iostream&gt;
+#include &lt;algorithm&gt;
+#include &lt;vector&gt;
+#include &lt;stack&gt;
+#include &lt;queue&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;sstream&gt;
+#include &lt;map&gt;
+#include &lt;set&gt;
+using  namespace std;
+#define inf 0x3f3f3f3f
+#define MAX 10000 + 50
+#define endl '\n'
+//#define mod 1000000007
+//const int mod = 1e9 + 7;
+#define io ios::sync_with_stdio(false); cin.tie(0); cout.tie(0)
+#define mem(a,b) memset((a),(b),sizeof(a))
+typedef  long long ll ;
+//不开longlong见祖宗！
+inline int IntRead(){char ch = getchar();int s = 0, w = 1;while(ch &lt; '0' || ch &gt; '9'){if(ch == '-') w = -1;ch = getchar();}while(ch &gt;= '0' &amp;&amp; ch &lt;= '9'){s = s * 10 + ch - '0';ch = getchar();}return s * w;}
+
+typedef struct LNode {
+    int data;
+    struct LNode *next;
+}LNode, *CLinkList;
+
+void Init_CLinkList(CLinkList &amp;L){//初始化
+    L = (CLinkList)malloc(sizeof(LNode));
+    L-&gt;next = L;
+}
+
+void Tail_CLinkList(CLinkList &amp;L, int len){//无头节点的尾插法
+    LNode *s, *tail;//辅助节点
+    L-&gt;data = 1;//对头节点单独处理
+    L-&gt;next = L;//next指针指向本身，形成循环，
+    tail = L;
+    for(int i = 2; i &lt;= len; ++i){
+        s = (LNode*)malloc(sizeof(LNode));
+        s-&gt;data = i;//按题意赋值
+        s-&gt;next = L;//尾插法，故让输入的节点的next指向第一个节点
+        tail-&gt;next = s;//原来的尾节点指向新来的节点
+        tail = s;//将新来的节点变成尾节点
+    }
+}
+
+void Prinit_CLinkList(CLinkList L){//打印循环链表
+    LNode *s = L -&gt;next ;
+    cout&lt;&lt;L-&gt;data&lt;&lt;' ';//先输出头节点，不然下面的循环的条件就写不了
+    while (s != L){//循环结束条件都是根据你的链表的写法而定的
+        cout&lt;&lt;s-&gt;data&lt;&lt;' ';
+        s = s-&gt;next;
+    }
+    cout&lt;&lt;endl;
+}
+
+void YSF(CLinkList &amp;L, int n, int m, int k){//约瑟夫环
+    int j = 1;//计数，找到m-1的位置
+    LNode *s, *p;//辅助节点，s用于约瑟夫环的循环，p用于找m节点的位置
+    if(m == 1){//如果m=1，也就是第一个位置，就直接让p=L，不然也是下面的循环条件没法写
+        p = L;
+    }
+    else p = L-&gt;next;
+    while (j &lt; m &amp;&amp; p != L) {//找到位置m，此时p节点就是m的位置
+        ++j;
+        p = p-&gt;next;
+    }
+    cout&lt;&lt;"链表为 ";
+    Prinit_CLinkList(L);
+    cout&lt;&lt;"起点为 "&lt;&lt;p-&gt;data&lt;&lt;endl;//输出起点
+    s = p;
+    cout&lt;&lt;"出队顺序为：";
+    while (s-&gt;next != s) {//当链表只剩下一个节点时结束循环，此时s节点的next指向他本身，这就是结束条件
+        int sum = 1;//计数，看看到没到k
+        while (sum &lt; k - 1) {//结束之时，sum=k-1，s节点是需要删除的节点的前一个节点
+            ++sum;
+            s = s-&gt;next;
+        }
+        p = s-&gt;next;//p就是我们要删掉的节点
+        cout&lt;&lt;p-&gt;data&lt;&lt;" -&gt; ";//输出p的值
+        s-&gt;next = p-&gt;next;//删掉p
+        s = s-&gt;next;
+    }
+    cout&lt;&lt;s-&gt;data&lt;&lt;endl;//输出最后一个元素
+}
+
+int main(){
+    CLinkList L;
+    Init_CLinkList(L);
+    int n, m, k;
+    cin&gt;&gt;n;
+    Tail_CLinkList(L, n);
+    cin&gt;&gt;m&gt;&gt;k;
+    YSF(L, n, m, k);
+ 		return 0;  
+}
+</code></pre>
+<h3 id="抓兔子">抓兔子</h3>
+<p>围绕着山顶有10个圆形排列的洞,互利要吃兔子,兔子说:”可以,但必须找到我,我就藏于这10个洞中,你先到1号洞找,第二次隔1个洞(即3号洞)找,第二次隔2个洞(即6号洞)找,以后如此类推,次数不限.”但狐狸从早到晚进进出出了1000次,仍没有找到兔子.问:兔子究竟藏在那个洞里，</p>
+<blockquote>
+<p>同样是循环对列，操作和上面差不多都</p>
+</blockquote>
+<pre><code class="language-cpp">#include &lt;cstdio&gt;
+#include &lt;cstring&gt;
+#include &lt;string&gt;
+#include &lt;cmath&gt;
+#include &lt;iostream&gt;
+#include &lt;algorithm&gt;
+#include &lt;vector&gt;
+#include &lt;stack&gt;
+#include &lt;queue&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;sstream&gt;
+#include &lt;map&gt;
+#include &lt;set&gt;
+using  namespace std;
+#define inf 0x3f3f3f3f
+#define MAX 10000 + 50
+#define endl '\n'
+//#define mod 1000000007
+//const int mod = 1e9 + 7;
+#define io ios::sync_with_stdio(false); cin.tie(0); cout.tie(0)
+#define mem(a,b) memset((a),(b),sizeof(a))
+typedef  long long ll ;
+//不开longlong见祖宗！
+inline int IntRead(){char ch = getchar();int s = 0, w = 1;while(ch &lt; '0' || ch &gt; '9'){if(ch == '-') w = -1;ch = getchar();}while(ch &gt;= '0' &amp;&amp; ch &lt;= '9'){s = s * 10 + ch - '0';ch = getchar();}return s * w;}
+typedef struct LNode{
+    int data;
+    struct LNode *next;
+}LNode, *CLinkList;
+
+void Init_CLinkList(CLinkList &amp;L){//同样是初始化
+    L = (CLinkList)malloc(sizeof(LNode));
+    L-&gt;next = L;
+}
+
+void TailCreat_CLinkList(CLinkList &amp;L, int n){//同样的尾插法建立循环链表
+    L-&gt;data = 1;//先特殊处理第一个节点
+    LNode *s, *tail;
+    tail = L;//因为只有一个节点，所以即是头节点又是尾节点
+    for(int i = 2; i &lt;= n; ++i){
+        s = (LNode*)malloc(sizeof(LNode));
+        s-&gt;data = i;
+        tail-&gt;next = s;
+        s-&gt;next = L;
+        tail = s;
+    }
+}
+
+void Print_CLinkList(CLinkList &amp;L){//打印链表，同上
+    LNode *s;
+    s = L;
+    cout&lt;&lt;s-&gt;data&lt;&lt;' ';
+    s = L-&gt;next;
+    while (s != L) {
+        cout&lt;&lt;s-&gt;data&lt;&lt;' ';
+        s = s-&gt;next;
+    }
+    cout&lt;&lt;endl;
+}
+
+void f(CLinkList L,int n, int k){//开始抓兔子辽
+    bool vis[n + 1];//标记数组，用力记录这个点有没有来过
+    mem(vis, 0);//清0是个好习惯
+    int num = 1, pos = 1, cnt = 2;//num表示本次需要在第几个坑（即1，3，6，10等等），pos是当前的位置，cnt表示每次num找到后需要重新增加的值
+    cout&lt;&lt;"链表为： ";
+    Print_CLinkList(L);//打印链表
+    cout&lt;&lt;"抓兔子的过程为：";
+
+    LNode *s;
+    s = L;
+    while (k--) {//找k此
+        while (pos &lt; num) {//找到num的位置
+            ++pos;
+            s = s-&gt;next;
+        }
+        cout&lt;&lt;s-&gt;data&lt;&lt;" -&gt; ";
+        vis[s-&gt;data] = 1;//标记这个点已经来过
+        num += cnt;//更新num值
+        ++cnt;//更新cnt值
+    }
+    cout&lt;&lt;"兔子可能的藏身之处 ";
+    for(int i = 1; i &lt;= n; ++i){
+        if(!vis[i])cout&lt;&lt;i&lt;&lt;' ';//没标记过即没来过
+    }
+}
+
+int main(){
+    int n, k;
+    cin&gt;&gt;n&gt;&gt;k;
+    CLinkList L;
+    Init_CLinkList(L);
+    TailCreat_CLinkList(L, n);
+    f(L, n, k);
+    return 0;
+}
+
+</code></pre>
+<h2 id="总结：">总结：</h2>
+<p>链表其实没那么难搞，写来写去就那几个函数，搞明白next、pre、边界等小地方就没问题辽，最重要的是要搞清楚单链表的各种操作，多码几遍，然后你就会发现其他的什么双向链表、循环链表、循环双向链表等等都是小儿科o(︶︿︶)o</p>
+<p><img src="https://img-blog.csdnimg.cn/20210420211409396.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl81MTIxNjU1Mw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" loading="lazy"></p>
+
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2021-04-20 21:20</span>&nbsp;
+<a href="https://www.cnblogs.com/chelsea0901/">扇与她尽失</a>&nbsp;
+阅读(<span id="post_view_count">81</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14682929" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14682929);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 657317, cb_blogApp = 'chelsea0901', cb_blogUserGuid = '8de1662f-760c-4679-5c38-08d89a71b89c';
+    var cb_entryId = 14682929, cb_entryCreatedDate = '2021-04-20 21:20', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 扇与她尽失
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    <div id="page_end_html">
+        <script type="text/javascript">
+/* 鼠标特效 */
+var a_idx = 0;
+jQuery(document).ready(function($) {
+    $("body").click(function(e) {
+        var a = new Array("自古表白多白表 ","从来姻缘没原因","笑叹少年多年少","哪知自负终负自","悠长情书难书情","惨遭拒绝成绝句","纵使往事皆失望","他朝逢春沐春风","不惧历练结连理","一旦爱久忘旧爱","I miss you","I miss you","我 爱 你");
+        var $i = $("<span></span>").text(a[a_idx]);
+        a_idx = (a_idx + 1) % a.length;
+        var x = e.pageX,
+        y = e.pageY;
+        $i.css({
+            "z-index": 999999999999999999999999999999999999999999999999999999999999999999999,
+            "top": y - 20,
+            "left": x,
+            "position": "absolute",
+            "font-weight": "bold",
+            "color": "rgb("+~~(255*Math.random())+","+~~(255*Math.random())+","+~~(255*Math.random())+")"
+        });
+        $("body").append($i);
+        $i.animate({
+            "top": y - 180,
+            "opacity": 0
+        },
+        1500,
+        function() {
+            $i.remove();
+        });
+    });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+/* 设置签名格式 定制css样式 */
+#MySignature {
+    display: none;
+    background-color: #B2E866;
+    border-radius: 10px;
+    box-shadow: 1px 1px 1px #6B6B6B;
+    padding: 10px;
+    line-height: 1.5;
+    text-shadow: 1px 1px 1px #FFF;
+    font-size: 16px;
+    font-family: 'Microsoft Yahei';
+}
+
+<link rel="stylesheet" type="text/css" href="https://blog-static.cnblogs.com/files/cyuanwu/waifu.css"/>
+<link rel="stylesheet" type="text/css" href="https://blog-static.cnblogs.com/files/cyuanwu/flat-ui.min.css"/>
+ 
+<div class="waifu">　　<div class="waifu-tips"></div>　　<canvas id="live2d" width="280" height="250" class="live2d"></canvas>　　<div class="waifu-tool">　　　　<span class="fui-home"></span>　　　　<span class="fui-chat"></span>　　　　<span class="fui-eye"></span>　　　　<span class="fui-user"></span>　　　　<span class="fui-photo"></span>　　　　<span class="fui-info-circle"></span>　　　　<span class="fui-cross"></span>　　</div></div>
+        
+<script src="https://blog-static.cnblogs.com/files/cyuanwu/waifu-tips.js"></script>
+<script src="https://blog-static.cnblogs.com/files/cyuanwu/live2d.js"></script>
+<script type="text/javascript">initModel()</script>
+<script id="c_n_script" src="https://blog-static.cnblogs.com/files/xiaokang01/js.js" color="240,230,140" opacity="1" count="75" zindex="-2">
+if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+
+} else {
+       
+}
+</script>
+    </div>
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjuJu9vvjRXgvVUsrc9ksPvkToOXoy7NElvapgHK0dwOXsA_dbCNAhAiTwqNFuDSTxjt1RaOYrPPncllXrhmRz-1tgf0BGbSMAJv5FdGRau8CLsEcqgMJif2UR78rahkf1U" />
+</body>
+</html>

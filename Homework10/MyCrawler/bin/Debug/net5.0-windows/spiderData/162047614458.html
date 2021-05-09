@@ -1,0 +1,325 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="一、是什么 HMR全称&amp;#160;Hot Module Replacement，可以理解为模块热替换，指在应用程序运行过程中，替换、添加、删除模块，而无需重新刷新整个应用 例如，我们在应用运行过程中修" />
+    <meta property="og:description" content="一、是什么 HMR全称&amp;#160;Hot Module Replacement，可以理解为模块热替换，指在应用程序运行过程中，替换、添加、删除模块，而无需重新刷新整个应用 例如，我们在应用运行过程中修" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Webpack的热更新是如何做到的？原理是什么？ - 喆星高照 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/uandme/bundle-uandme.min.css?v=jUCkW0CHDR_nxV_TGKIwGovZiujkXcrNpbqHir57_ew" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/uandme/bundle-uandme-mobile.min.css?v=iPf_XHQsJ-ofZZ2RiaeMCHG0JEaMNLa9yhkUGK3xTSQ" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/houxianzhou/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/houxianzhou/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/houxianzhou/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 615178;
+        var currentBlogApp = 'houxianzhou';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'UandMe';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-05-08 09:30';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <div id="banner">
+<!--done-->
+<div class="header">
+	<div class="headerText">
+		<a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/houxianzhou/">喆星高照</a>
+<br>
+		<div class="headerDis"></div>
+	</div>
+</div>
+
+</div>
+<div id="main">
+	<div id="right">
+		<div id="right_content">
+			<DIV id="mystats">
+				
+					<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+				
+			</DIV>
+			<div id="mylinks">
+				
+
+<a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+&nbsp;&nbsp;
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/houxianzhou/">
+首页</a>
+&nbsp;&nbsp;
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+&nbsp;&nbsp;
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E5%96%86%E6%98%9F%E9%AB%98%E7%85%A7">
+联系</a>&nbsp;&nbsp;
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+&nbsp;&nbsp;
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/houxianzhou/rss/">
+订阅</a>&nbsp;
+<a id="blog_nav_rss_image" href="https://www.cnblogs.com/houxianzhou/rss/">
+    <img src="/skins/uandme/images/xml.gif" alt="订阅" />
+</a>
+
+
+			</div>
+			<div id="topics">
+				<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class = "postTitle">
+			
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/houxianzhou/p/14743614.html">
+    <span>Webpack的热更新是如何做到的？原理是什么？</span>
+    
+
+
+
+</a>
+
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<p><img src="https://img2020.cnblogs.com/blog/1161361/202105/1161361-20210508092748136-1968155560.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2 data-tool="mdnice编辑器">一、是什么</h2>
+<p data-tool="mdnice编辑器"><code>HMR</code>全称&nbsp;<code>Hot Module Replacement</code>，可以理解为模块热替换，指在应用程序运行过程中，替换、添加、删除模块，而无需重新刷新整个应用</p>
+<p data-tool="mdnice编辑器">例如，我们在应用运行过程中修改了某个模块，通过自动刷新会导致整个应用的整体刷新，那页面中的状态信息都会丢失</p>
+<p data-tool="mdnice编辑器">如果使用的是&nbsp;<code>HMR</code>，就可以实现只将修改的模块实时替换至应用中，不必完全刷新整个应用</p>
+<p data-tool="mdnice编辑器">在<code>webpack</code>中配置开启热模块也非常的简单，如下代码：</p>
+<pre data-tool="mdnice编辑器"><code>const&nbsp;webpack&nbsp;=&nbsp;require('webpack')<br>module.exports&nbsp;=&nbsp;{<br>&nbsp;&nbsp;//&nbsp;...<br>&nbsp;&nbsp;devServer:&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;开启&nbsp;HMR&nbsp;特性<br>&nbsp;&nbsp;&nbsp;&nbsp;hot:&nbsp;true<br>&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;hotOnly:&nbsp;true<br>&nbsp;&nbsp;}<br>}<br></code></pre>
+<p data-tool="mdnice编辑器">通过上述这种配置，如果我们修改并保存<code>css</code>文件，确实能够以不刷新的形式更新到页面中</p>
+<p data-tool="mdnice编辑器">但是，当我们修改并保存<code>js</code>文件之后，页面依旧自动刷新了，这里并没有触发热模块</p>
+<p data-tool="mdnice编辑器">所以，<code>HMR</code>并不像&nbsp;<code>Webpack</code>&nbsp;的其他特性一样可以开箱即用，需要有一些额外的操作</p>
+<p data-tool="mdnice编辑器">我们需要去指定哪些模块发生更新时进行<code>HRM</code>，如下代码：</p>
+<pre data-tool="mdnice编辑器"><code>if(module.hot){<br>&nbsp;&nbsp;&nbsp;&nbsp;module.hot.accept('./util.js',()=&gt;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.log("util.js更新了")<br>&nbsp;&nbsp;&nbsp;&nbsp;})<br>}<br></code></pre>
+<h2 data-tool="mdnice编辑器">二、实现原理</h2>
+<p data-tool="mdnice编辑器">首先来看看一张图，如下：</p>
+<p><img src="https://img2020.cnblogs.com/blog/1161361/202105/1161361-20210508092911703-829570304.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<ul class="list-paddingleft-2" data-tool="mdnice编辑器">
+<li>Webpack Compile：将 JS 源代码编译成 bundle.js</li>
+<li>HMR Server：用来将热更新的文件输出给 HMR Runtime</li>
+<li>Bundle Server：静态资源文件服务器，提供文件访问路径</li>
+<li>HMR Runtime：socket服务器，会被注入到浏览器，更新文件的变化</li>
+<li>bundle.js：构建输出的文件</li>
+<li>在HMR Runtime 和 HMR Server之间建立 websocket，即图上4号线，用于实时更新文件变化</li>
+</ul>
+<p data-tool="mdnice编辑器">上面图中，可以分成两个阶段：</p>
+<ul class="list-paddingleft-2" data-tool="mdnice编辑器">
+<li>启动阶段为上图 1 - 2 - A - B</li>
+</ul>
+<p data-tool="mdnice编辑器">在编写未经过<code>webpack</code>打包的源代码后，<code>Webpack Compile</code>&nbsp;将源代码和&nbsp;<code>HMR Runtime</code>&nbsp;一起编译成&nbsp;<code>bundle</code>文件，传输给<code>Bundle Server</code>&nbsp;静态资源服务器</p>
+<ul class="list-paddingleft-2" data-tool="mdnice编辑器">
+<li>更新阶段为上图 1 - 2 - 3 - 4</li>
+</ul>
+<p data-tool="mdnice编辑器">当某一个文件或者模块发生变化时，<code>webpack</code>监听到文件变化对文件重新编译打包，编译生成唯一的<code>hash</code>值，这个<code>hash</code>值用来作为下一次热更新的标识</p>
+<p data-tool="mdnice编辑器">根据变化的内容生成两个补丁文件：<code>manifest</code>（包含了&nbsp;<code>hash</code>&nbsp;和&nbsp;<code>chundId</code>，用来说明变化的内容）和<code>chunk.js</code>&nbsp;模块</p>
+<p data-tool="mdnice编辑器">由于<code>socket</code>服务器在<code>HMR Runtime</code>&nbsp;和&nbsp;<code>HMR Server</code>之间建立&nbsp;<code>websocket</code>链接，当文件发生改动的时候，服务端会向浏览器推送一条消息，消息包含文件改动后生成的<code>hash</code>值，如下图的<code>h</code>属性，作为下一次热更新的标识</p>
+<p><img src="https://img2020.cnblogs.com/blog/1161361/202105/1161361-20210508092858326-1610213185.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p data-tool="mdnice编辑器">在浏览器接受到这条消息之前，浏览器已经在上一次<code>socket</code>&nbsp;消息中已经记住了此时的<code>hash</code>&nbsp;标识，这时候我们会创建一个&nbsp;<code>ajax</code>&nbsp;去服务端请求获取到变化内容的&nbsp;<code>manifest</code>&nbsp;文件</p>
+<p data-tool="mdnice编辑器"><code>mainfest</code>文件包含重新<code>build</code>生成的<code>hash</code>值，以及变化的模块，对应上图的<code>c</code>属性</p>
+<p data-tool="mdnice编辑器">浏览器根据&nbsp;<code>manifest</code>&nbsp;文件获取模块变化的内容，从而触发<code>render</code>流程，实现局部模块更新</p>
+<p><img src="https://img2020.cnblogs.com/blog/1161361/202105/1161361-20210508092848036-426016786.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2 data-tool="mdnice编辑器">三、总结</h2>
+<p data-tool="mdnice编辑器">关于<code>webpack</code>热模块更新的总结如下：</p>
+<ul class="list-paddingleft-2" data-tool="mdnice编辑器">
+<li>通过<code>webpack-dev-server</code>创建两个服务器：提供静态资源的服务（express）和Socket服务</li>
+<li>express server 负责直接提供静态资源的服务（打包后的资源直接被浏览器请求和解析）</li>
+<li>socket server 是一个 websocket 的长连接，双方可以通信</li>
+<li>当 socket server 监听到对应的模块发生变化时，会生成两个文件.json（manifest文件）和.js文件（update chunk）</li>
+<li>通过长连接，socket server 可以直接将这两个文件主动发送给客户端（浏览器）</li>
+<li>浏览器拿到两个新的文件后，通过HMR runtime机制，加载这两个文件，并且针对修改的模块进行更新</li>
+</ul>
+<h2 data-tool="mdnice编辑器">参考文献</h2>
+<ul class="list-paddingleft-2" data-tool="mdnice编辑器">
+<li>https://mp.weixin.qq.com/s?__biz=MzU1OTgxNDQ1Nw==&amp;mid=2247487323&amp;idx=1&amp;sn=2ed2873cafb8b45062ca83922b38e866&amp;chksm=fc10cd0dcb67441befcd19a1fb81fa6c11b3202532479998b3c51829c2c6c7e836f9d4a2ef47&amp;scene=178&amp;cur_album_id=1842744101150982149#rd</li>
+</ul>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+		</div>
+		<div class="postDesc">posted @ 
+<span id="post-date">2021-05-08 09:30</span>&nbsp;
+<a href="https://www.cnblogs.com/houxianzhou/">喆星高照</a>&nbsp;
+阅读(<span id="post_view_count">0</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14743614" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14743614);return false;">收藏</a></div>
+	</div>
+	
+	
+</div><!--end: topics 文章、评论容器-->
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 615178, cb_blogApp = 'houxianzhou', cb_blogUserGuid = 'c6bd7652-0533-e711-9fc1-ac853d9f53cc';
+    var cb_entryId = 14743614, cb_entryCreatedDate = '2021-05-08 09:30', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+</div>
+
+
+			</div>
+			<div id="footer">
+				<!--done-->
+Copyright &copy; 2021 喆星高照
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+			</div>
+		</div>
+	</div>
+	<div id="left">
+		<div id="left_content">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="calendar"><div id="calendar"><div id="blog-calendar" style="display:none"></div></div>                
+                    <script>loadBlogDefaultCalendar();</script></div>
+			
+				<DIV id="leftcontentcontainer">
+					<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+				</DIV>
+			
+		</div>
+	</div>
+	<div class="clear"></div>
+</div>
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjvj3KO2y1INYzhkMDqwDTu9Q9z6HdLR31UoYMP4AYI2xYlRVFT_y3FaYjV_Q4kPvo9Bz7jKJcF_sZ2wip-DuUD6X8zDeKTd9be0q7uPhI3LnSS7xxRI2ljGK-qbdbAQYig" />
+</body>
+</html>

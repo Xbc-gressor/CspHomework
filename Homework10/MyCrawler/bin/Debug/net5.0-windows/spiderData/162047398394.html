@@ -1,0 +1,660 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="事件的前身是消息（Message）。路由事件与直接事件的区别在于：直接事件激发时，发送者直接将消息通过事件订阅交送给事件响应者，事件响应者使用其事件处理器方法对事件的发生做出响应、驱动程序逻辑按客户需" />
+    <meta property="og:description" content="事件的前身是消息（Message）。路由事件与直接事件的区别在于：直接事件激发时，发送者直接将消息通过事件订阅交送给事件响应者，事件响应者使用其事件处理器方法对事件的发生做出响应、驱动程序逻辑按客户需" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>WPF之事件 - time-flies - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/timefiles/custom.css?v=6rPjVzQKQRAVz3izjo1zeU0LXtw=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/custom/bundle-custom-mobile.min.css?v=OayYBbtUbH4FYkn_bTL4VVf4DsEOiTHSWhbl11KyY6Y" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/timefiles/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/timefiles/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/timefiles/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 564602;
+        var currentBlogApp = 'timefiles';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'Custom';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-02-23 11:56';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="no-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="page_begin_html">
+        <script>loadPageBeginHtml();</script>
+    </div>
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/timefiles/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/timefiles/">time-flies的博客</a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li>
+</li>
+<li>
+
+</li>
+<li>
+
+
+</li>
+<li>
+</li>
+<li>
+
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/timefiles/p/WpfEvents.html">
+    <span>WPF之事件</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                    <div id="cnblogs_post_description" style="display: none">
+        事件的前身是消息（Message）。路由事件与直接事件的区别在于：直接事件激发时，发送者直接将消息通过事件订阅交送给事件响应者，事件响应者使用其事件处理器方法对事件的发生做出响应、驱动程序逻辑按客户需求运行；路由事件的事件拥有者和事件响应者之间则没有直接显式的订阅关系，事件的拥有者只负责激发事件，事件将由谁响应它并不知道，事件的响应者则安装有事件侦听器，针对某类事件进行侦听，当有此类事件传递至此时事件响应者就使用事件处理器来响应事件并决定事件是否可以继续传递。
+    </div>
+<div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+<p></p><div class="toc"><div class="toc-container-header">目录</div><ul><li><a href="#wpf的树形结构">WPF的树形结构</a></li><li><a href="#事件">事件</a></li><li><a href="#路由事件">路由事件</a><ul><li><a href="#使用wpf内置路由事件">使用WPF内置路由事件</a></li><li><a href="#自定义路由事件">自定义路由事件</a><ul><li><a href="#buttonbase类的click路由事件">ButtonBase类的Click路由事件</a></li><li><a href="#创建一个路由事件">创建一个路由事件</a></li><li><a href="#routedeventargs的source与originalsource">RoutedEventArgs的Source与OriginalSource</a></li></ul></li><li><a href="#附加事件">附加事件</a><ul><li><a href="#不使用clr属性作为包装器">不使用CLR属性作为包装器</a></li><li><a href="#使用clr属性作为包装器">使用CLR属性作为包装器</a></li></ul></li></ul></li></ul></div><p></p>
+<blockquote>
+<p>就像属性系统在WPF中得到升级、进化为依赖属性一样，<strong>事件系统在WPF中也被升级一进化成为路由事件（Routed Event），并在其基础上衍生出命令传递机制</strong>。</p>
+</blockquote>
+<h1 id="wpf的树形结构">WPF的树形结构</h1>
+<p>WPF中有两种“树”：一种叫<strong>逻辑树（Logical Tree）</strong>；一种叫<strong>可视元素树（Visual Tree）</strong>。<br>
+前面见到的所有树形结构都是Logical Tree，Logical Tree最显著的特点就是它完全由布局组件和控件构成（包括列表类控件中的条目元素），它的每个结点不是布局组件就是控件。<br>
+每个WPF控件本身也是一棵由更细微级别的组件（它们不是控件，而是一些可视化组件，派生自Visual类）组成的树，使用<strong>Blend</strong>可以解剖并观察一个控件的模板（Template）是怎样的，可以把Template理解为控件的骨架。<strong>把Logical Tree延伸至Template组件级别，得到的就是Visual Tree</strong>。</p>
+<p><em>注：如果你的程序需要借助Visual Tree来完成一些与业务逻辑（而不是纯表现逻辑）相关的功能，多半是由程序设计不良而造成的，请重新考虑逻辑、功能和数据类型方面的设计。</em></p>
+<p>如果想在Logical Tree 上导航或查找元素，可以借助<strong>LogicalTreeHelper</strong>类的static方法来实现：</p>
+<ul>
+<li><strong>BringIntoView</strong>：把选定元素带进用户可视区域，经常用于可滚动的视图。</li>
+<li><strong>FindLogicalNode</strong>：按给定名称（Name属性值）查找元素，包括子级树上的元素。</li>
+<li><strong>GetChildren</strong>：获取所有直接子级元素。</li>
+<li><strong>GetParent</strong>：获取直接父级元素。</li>
+</ul>
+<p>如果想在Visual Tree 上导航或查找元素，则可借助<strong>VisualTreeHelper</strong>类的static方法来实现。</p>
+<h1 id="事件">事件</h1>
+<p><strong>事件的前身是消息（Message）</strong>。消息本质就是一条数据，这条数据里记载着消息的类别，必要的时候还记载一些消息参数（如WM_LBUTTONDOWN消息所携带的参数——鼠标单击处的X、Y坐标），也有些消息是不用携带参数的（如按钮被单击的消息——程序员并不关心鼠标点在按钮的哪个位置上了）。<br>
+随着微软面向对象开发平台日趋成熟，微软把消息机制封装成了更容易让人理解的事件模型。<strong>事件模型隐藏了消息机制的很多细节，消息驱动机制在事件模型中被简化为3个关键点</strong>：</p>
+<ul>
+<li><strong>事件的拥有者</strong>：即消息的发送者。事件的宿主可以在某些条件下激发它拥有的事件，即事件被触发。事件被触发则消息被发送。</li>
+<li><strong>事件的响应者</strong>：即消息的接收者、处理者。事件接收者使用其事件处理器（Event Handler）对事件做出响应。</li>
+<li><strong>事件的订阅关系</strong>：事件的拥有者可以随时激发事件，但事件发生后会不会得到响应要看有没有事件的响应者（事件是否被关注）。</li>
+</ul>
+<p>事件的响应者通过订阅关系直接关联在事件拥有者的事件上，为了与WPF的路由事件模型区分开，把这种事件模型称为<strong>直接事件模型或者CLR事件模型</strong>。在CLR直接事件模型中，事件的拥有者就是消息的发送者（sender）。</p>
+<blockquote>
+<p>只要支持事件的委托与影响事件的方法在签名上保持一致（即参数列表和返回值一致），则一个事件可以由多个事件处理器来响应（多播事件）、一个事件处理器也可以用来响应多个事件。</p>
+</blockquote>
+<p>直接事件模型并不完美——事件的响应者与事件拥有者之间必须建立事件订阅这个“专线联系”，至少有两个弊端：</p>
+<ul>
+<li>每对消息是“发送一响应”关系，必须建立显式的点对点订阅关系。</li>
+<li>事件的宿主必须能够直接访问事件的响应者，不然无法建立订阅关系。</li>
+</ul>
+<p>直接事件模型的弱点会在下面两种情况中显露出来：</p>
+<ul>
+<li>程序运行期在容器中动态生成一组相同控件，每个控件的同一个事件都使用同一个事件处理器来响应，<strong>在动态生成控件的同时就需要显式书写事件订阅代码</strong>。</li>
+<li>用户控件的内部事件不能被外界所订阅，必须为用户控件定义新的事件用以向外界暴露内部事件，<strong>如果想让很外层的容器订阅深层控件的某个事件就需要为每一层组件定义用于暴露内部事件的事件、形成事件链</strong>。</li>
+</ul>
+<h1 id="路由事件">路由事件</h1>
+<p><strong>路由（Roule）</strong>：起点与终点间有若干个中转站，从起点出发后经过每个中转站时要做出选择，最终以正确（比如最短或者最快）的路径到达终点。</p>
+<p>从Windows AP1开发到传统的.NE开发，消息的传递（或者说事件的激发与响应）都是<strong>直接模式</strong>的，即<strong>消息直接由发送者交给接收者</strong>（或者说事件宿主发生的事件直接由事件响应者的事件处理器来处理）。<br>
+<strong>WPF把这种直接消息模型升级为可传递的消息模型</strong>——WPF的UI是由布局组件和控件构最的树形结构，当这棵树上的某个结点激发出某个事件时，程序员可以选择以传统的直接事件模式让响应者来响应之，也可以让这个事件在UI组件树沿着一定的方向传递且路过多个中转结点，并在这个路由过程中被恰当地处理。</p>
+<p>路由事件与直接事件的区别在于：</p>
+<ul>
+<li>直接事件激发时，发送者直接将消息通过事件订阅交送给事件响应者，事件响应者使用其事件处理器方法对事件的发生做出响应、驱动程序逻辑按客户需求运行；</li>
+<li><strong>路由事件的事件拥有者和事件响应者之间则没有直接显式的订阅关系</strong>，事件的拥有者只负责激发事件，事件将由谁响应它并不知道，事件的响应者则安装有事件侦听器，针对某类事件进行侦听，当有此类事件传递至此时事件响应者就使用事件处理器来响应事件并决定事件是否可以继续传递。</li>
+</ul>
+<p>尽管WPF推出了路由事件机制，但它仍然支持传统的直接事件模型。</p>
+<p><em>注：WPF的UI可以表示为Logical Tree和Visual Tree，<strong>当一个路由事件被激发后是沿着Visual Tree传递的——只有这样，“藏”在Template里的控件才能把消息送出来</strong>。</em></p>
+<h2 id="使用wpf内置路由事件">使用WPF内置路由事件</h2>
+<p>WPF系统中的大多数事件都是可路由事件，以Button的Click事件来说明路由事件的使用，XAML代码如下：</p>
+<pre><code class="language-xml">&lt;Grid x:Name="gridRoot" Background="Lime"&gt;
+    &lt;Grid x:Name="gridA" Margin="10" Background="Blue"&gt;
+        &lt;Grid.ColumnDefinitions&gt;
+            &lt;ColumnDefinition/&gt;
+            &lt;ColumnDefinition/&gt;
+        &lt;/Grid.ColumnDefinitions&gt;
+        &lt;Canvas x:Name="canvasLeft" Grid.Column="0" Background="Red" Margin="10"&gt;
+            &lt;Button x:Name="buttonLeft" Content="Left" Width="40" Height="100" Margin="10"/&gt;
+        &lt;/Canvas&gt;
+        &lt;Canvas x:Name="canvasRight" Grid.Column="1" Background="Yellow" Margin="10"&gt;
+            &lt;Button x:Name="butonRight" Content="Right" Width="40" Height="100" Margin="10"/&gt;
+        &lt;/Canvas&gt;
+    &lt;/Grid&gt;
+&lt;/Grid&gt;
+</code></pre>
+<p>下面为gridRoot安装针对Button.Click事件的侦听器，C#代码如下：</p>
+<pre><code class="language-csharp">//AddHandler方法源自UIElement类，所有UI控件都具有这个方法
+this.gridRoot.AddHandler(Button.ClickEvent, new RoutedEventHandler(this.ButtonClicked));
+</code></pre>
+<blockquote>
+<p>WPF的事件系统也使用了与属性系统类似的“静态字段一包装器”的策略，<strong>路由事件本身是一个RoutedEvent 类型的静态成员变量（Button.ClickEvent），Button还有一个与之对应的Click事件（CLR包装）专门用于对外界暴露这个事件</strong>。效仿依赖属性，把路由事件的CLR包装称为“<strong>CLR事件</strong>”。就像每个依赖属性拥有自己的CLR属性包装一样，每个路由事件都拥有自己的CLR事件。</p>
+</blockquote>
+<p>在XAML里也可以完成，代码如下：</p>
+<pre><code class="language-xml">&lt;Grid x:Name="gridRoot" Background="Lime" ButtonBase.Click="ButtonClicked"&gt;
+     &lt;!--原有内容--&gt;   
+&lt;/Grid&gt;
+</code></pre>
+<p><strong>建议使用ButtonBase.Click而不是Button.Click，因为ClickEvent这个路由事件是ButonBase类的静态成员变量（Button类是通过继承获得它的），而XAML编辑器只认得包含ClickEvent字段定义的类。</strong></p>
+<p>上面的代码让最外层的Grid（gridRoot）能够捕捉到从内部“飘”出来的按钮单击事件，捕捉到后会用this.ButonClicked方法来进行响应处理，ButtonClicked方法代码如下：</p>
+<pre><code class="language-csharp">private void ButtonClicked(object sender,RoutedEventArgs e)
+{
+    MessageBox.Show((e.OriginalSource as FrameworkElement).Name);
+}
+</code></pre>
+<p>传入ButtonClicked方法的参数sender实际上是gridRoot而不是被单击的Button，如果想查看事件的源头（最初发起者）可使用e.OriginalSource，使用它的时候需要使用as/is操作符或者强制类型转换把它识别/转换为正确的类型。</p>
+<p>运行程序并单击右边的按钮，效果如下：<br>
+<img src="https://img2020.cnblogs.com/blog/1495663/202102/1495663-20210223225219801-836807360.png" alt="" loading="lazy"></p>
+<h2 id="自定义路由事件">自定义路由事件</h2>
+<p>创建自定义路由事件大体可以分为三个步骤：</p>
+<ul>
+<li>声明并注册路由事件。</li>
+<li>为路由事件添加CLR事件包装。</li>
+<li>创建可以激发路由事件的方法。</li>
+</ul>
+<h3 id="buttonbase类的click路由事件">ButtonBase类的Click路由事件</h3>
+<p>下面以从ButtonBase类中抽取出的代码为例来展示这3个步骤，此处对代码做了些简化：</p>
+<pre><code class="language-csharp">public abstract class ButtonBase : ContentControl,ICommandSource
+{
+    //声明并注册路由事件
+    public static readonly RoutedEvent ClickEvent = EventManager.RegisterRoutedEvent
+        ("Click", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(ButtonBase));
+
+    //为路由事件添加CLR事件包装器
+    public event RoutedEventHandler Click
+    {
+        add { this.AddHandler(ClickEvent, value); }
+        remove { this.RemoveHandler(ClickEvent, value);}
+    }
+
+    //激发路由事件的方法。此方法在用户单击鼠标时会被Windows系统调用
+    protected virtual void OnClick() 
+    {
+        RoutedEventArgs newEvent = new RoutedEventArgs(ButtonBase.ClickEvent,this);
+        this.RaiseEvent(newEvent);
+        //..
+    }
+
+    //..
+}
+</code></pre>
+<p><strong>定义路由事件</strong>：为类声明一个由public static readonly修饰的RoutedEvent 类型字段，然后使用EventManager类的RegisterRoutedEvent方法进行注册。</p>
+<p><strong>为路由事件添加CLR事件包装</strong>：与使用CLR属性包装依赖属性的代码格式非常相近，只是关键字get和set被替换为add和remove：</p>
+<ul>
+<li>当使用操作符（+=）添加对路由事件的侦听处理时，add分支的代码会被调用。</li>
+<li>当使用操作符（-=）移除对此事件的侦听处理时，remove分支的代码会被调用。<br>
+<em>注：CLR事件只是“看上去像”一个直接事件，<strong>本质上不过是在当前元素（路由的第一站）上调用AddHandler和RemoveHandler而已</strong>，XAML编辑器也是靠这个CLR事件包装器来产生自动提示。</em></li>
+</ul>
+<p><strong>激发路由事件</strong>：首先创建需要让事件携带的消息（RoutedEventArgs类的实例）并把它与路由事件关联，然后调用元素的RaiseEvent方法（继承自UIElement类）把事件发送出去。<br>
+<em>注：传统直接事件的激发是通过调用CLR事件的Invoke方法实现的，而<strong>路由事件的激发与作为其包装器的CLR事件毫不相干</strong>。</em></p>
+<p><strong>EventManager.RegisterRoutedEvent</strong>方法的四个参数：</p>
+<ul>
+<li>第一个参数：为string类型，被称为<strong>路由事件的名称</strong>，这个字符串应该与RoutedEvent变量的前缀和CLR事件包装器的名称一致，字符串不能为空（需要使用这个字符串去生成用于注册路由事件的Hash Code）。</li>
+<li>第二个参数：称为<strong>路由事件的策略</strong>，是一个RoutingStrategy枚举值。</li>
+<li>第三个参数：用于指定<strong>事件处理器的类型</strong>，事件处理器的返回值类型和参数列表必须与此参数指定的委托保持一致，不然会导致在编译时抛出异常。</li>
+<li>第四个参数：用于指明<strong>路由事件的宿主（拥有者）</strong>是哪个类型，这个类型和第一个参数共同参与一些底层算法且产生这个路由事件的Hash Code并被注册到程序的路由事件列表中。</li>
+</ul>
+<p>WPF路由事件有3种路由策略，即<strong>RoutingStrategy枚举</strong>有三个值：</p>
+<ul>
+<li><strong>Bubble（冒泡式）</strong>：路由事件由事件的激发者出发向它的上级容器一层一层路由，直至最外层容器（Window或者Page）。</li>
+<li><strong>Tunnel（隧道式）</strong>：事件的路由方向正好与Bubble策略相反，是由UI树的树根向事件激发控件移动。</li>
+<li><strong>Direct（直达式）</strong>：模仿CLR直接事件，直接将事件消息送达事件处理器。</li>
+</ul>
+<h3 id="创建一个路由事件">创建一个路由事件</h3>
+<p>下面创建一个路由事件，用途是报告事件发生的时间。创建一个RoutedEventArgs类的派生类，并为其添加ClickTime属性：</p>
+<pre><code class="language-csharp">//用于承载时间消息的事件参数
+class ReportTimeEventArgs : RoutedEventArgs
+{
+    public ReportTimeEventArgs(RoutedEvent routedEvent, object source)
+        : base(routedEvent, source) { }
+
+    public DateTime ClickTime { get; set; }
+}
+</code></pre>
+<p>再创建一个Button类的派生类并按前述步骤为其添加路由事件：</p>
+<pre><code class="language-csharp">class TimeButton : Button 
+{
+    //声明和注册路由事件
+    public static readonly RoutedEvent ReportTimeEvent = EventManager.RegisterRoutedEvent
+        ("ReportTime",RoutingStrategy.Bubble,typeof(EventHandler&lt;ReportTimeEventArgs&gt;),typeof(TimeButton));
+    //CLR事件包装器
+    public event RoutedEventHandler ReportTime
+    {
+        add { this.AddHandler(ReportTimeEvent, value); }
+        remove { this.RemoveHandler(ReportTimeEvent, value); } 
+    }
+    //激发路由事件，借用Click事件的激发方法
+    protected override void OnClick()
+    {
+        base.OnClick(); //保证Button原有功能正常使用、Click事件能被激发
+
+        ReportTimeEventArgs args = new ReportTimeEventArgs(ReportTimeEvent, this);
+        args.ClickTime = DateTime.Now;
+        this.RaiseEvent(args);
+    }
+}
+</code></pre>
+<p>程序的界面XAML代码如下：</p>
+<pre><code class="language-xml">&lt;!--省略Window的部分代码--&gt;
+&lt;Window x:Name="windows_1" local:TimeButton.ReportTime="ReportTimeHandler"&gt;
+    &lt;Grid x:Name="grid_1" local:TimeButton.ReportTime="ReportTimeHandler"&gt;
+        &lt;Grid x:Name="grid_2" local:TimeButton.ReportTime="ReportTimeHandler"&gt;
+            &lt;Grid x:Name="grid_3" local:TimeButton.ReportTime="ReportTimeHandler"&gt;
+                &lt;StackPanel x:Name="stackPanel_1" local:TimeButton.ReportTime="ReportTimeHandler"&gt;
+                    &lt;ListBox x:Name="listBox"/&gt;
+                    &lt;local:TimeButton x:Name="timeButton" Width="80" Height="80" Content="报时" local:TimeButton.ReportTime="ReportTimeHandler"/&gt;
+                &lt;/StackPanel&gt;
+            &lt;/Grid&gt;
+        &lt;/Grid&gt;
+    &lt;/Grid&gt;
+&lt;/Window&gt;
+</code></pre>
+<p>ReportTimeHandler的代码如下：</p>
+<pre><code class="language-csharp">//ReportTimeEvent 路由事件处理器
+private void ReportTimeHandler(object sender, ReportTimeEventArgs e) 
+{
+
+    FrameworkElement element = sender as FrameworkElement;
+    string timeStr = e.ClickTime.ToLongTimeString();
+    string content = string.Format("{0}到达{1}", timeStr, element.Name);
+    this.listBox.Items.Add(content);
+}
+</code></pre>
+<p>效果如下：<br>
+<img src="https://img2020.cnblogs.com/blog/1495663/202102/1495663-20210223232439935-854479315.png" alt="" loading="lazy"></p>
+<p>为TimeButton注册ReportTimeEvent时使用的是Bubble策略，所以事件是沿这样的路径由内向外传递的：TimeButton→StackPanel→Grid→Grid→Grid→Window。<br>
+如果把TimeReportEvent的策略改为Tunnel，则正好与Bubble策略相反，Tunnel策略使事件沿着从外向内的路径传递：Window→Grid→Grid→Grid→StackPanel→TimeButton。</p>
+<p>路由事件携带的事件参数必须是RoutedEventArgs类或其派生类的实例，RoutedEventArgs类具有一个bool类型属性Handled，一旦这个属性被设置为true，就表示路由事件“已经被处理”了（Handle有“处理”、“搞定”的意思），那么路由事件也就不必再往下传递了。<br>
+如果把上面的ReportTimeEvent处理器修改为这样：</p>
+<pre><code class="language-csharp">//ReportTimeEvent 路由事件处理器
+private void ReportTimeHandler(object sender, ReportTimeEventArgs e) 
+{
+
+    FrameworkElement element = sender as FrameworkElement;
+    string timeStr = e.ClickTime.ToLongTimeString();
+    string content = string.Format("{0}到达{1}", timeStr, element.Name);
+    this.listBox.Items.Add(content);
+
+    if (element == this.grid_2)
+    {
+        e.Handled = true;
+    }
+}
+</code></pre>
+<p>效果如下：<br>
+<img src="https://img2020.cnblogs.com/blog/1495663/202102/1495663-20210223232509695-1060306983.png" alt="" loading="lazy"></p>
+<p>e.Handled被设置为true，无论是Bubble策略还是Tunnel策略，路由事件在经过grid_2后就被处理了、不再向下传递。</p>
+<p>路由事件将程序中的组件进一步解耦（比用直接事件传递消息还要松散），需要注意的是：</p>
+<ul>
+<li>很多类的事件都是路由事件，如TextBox类的TextChanged 事件、Binding类的SourceU/pdated事件等，不要墨守传统NET编程带来的习惯，<strong>活用路由事件</strong>。</li>
+<li><strong>路由事件虽好，但也不要滥用</strong>，如让窗体捕捉并处理所有Button的Click 事件。正确的办法是，<strong>事件该由谁来描捉处理，待到这个地方时就应该处理掉</strong>。</li>
+</ul>
+<h3 id="routedeventargs的source与originalsource">RoutedEventArgs的Source与OriginalSource</h3>
+<p>路由事件是沿着VisualTree传递的，<strong>VisualTree与LogicalTree的区别就在于：LogicalTree的叶子结点是构成用户界面的控件，而VisualTree要连控件中的细微结构也算上</strong>。</p>
+<p>路由事件的消息包含在RoutedEventArgs实例中，Source和OriginalSource都表示路由事件传递的起点（即事件消息的源头），区别在于：</p>
+<ul>
+<li><strong>Source表示的是LogicalTree上的消息源头</strong>。</li>
+<li><strong>OriginalSource则表示VisualfTree上的源头</strong>。</li>
+</ul>
+<p>创建了一个名为MyUserControl的UserControl，XAML代码如下（没有C#逻辑代码）：</p>
+<pre><code class="language-xml">&lt;!--省略UserControl部分代码--&gt;
+&lt;Grid&gt;
+    &lt;Border BorderBrush="Orange" BorderThickness="3" CornerRadius="5"&gt;
+        &lt;Button x:Name="innerButon" Width="80" Height="80" Content="OK"/&gt;
+    &lt;/Border&gt;
+&lt;/Grid&gt;
+</code></pre>
+<p>把这个UserControl添加到主窗体中：</p>
+<pre><code class="language-xml">&lt;Grid&gt;
+    &lt;local:MyUserControl x:Name="myUserControl" Margin="10"/&gt;
+&lt;/Grid&gt;
+</code></pre>
+<p>在后台代码中为主窗体添加对Button.Click路由事件的侦听：</p>
+<pre><code class="language-csharp">public MainWindow()
+{
+    InitializeComponent();
+
+    //为主窗体添加对Button.Click事件的侦听
+    this.AddHandler(Button.ClickEvent,new RoutedEventHandler(this.Button_Click));
+}
+
+//路由事件处理器
+private void Button_Click(object sender, RoutedEventArgs e) 
+{
+    string strOriginalSource = string.Format("VisualTree start point:{0},type is {1}",
+        (e.OriginalSource as FrameworkElement).Name,e.OriginalSource.GetType().Name);
+    string strSource = string.Format("LogicalTree start point:{0},type is {1}",
+        (e.Source as FrameworkElement).Name, e.Source.GetType().Name); 
+    MessageBox.Show(strOriginalSource + "\r\n" + strSource);
+}
+</code></pre>
+<p>效果如下：<br>
+<img src="https://img2020.cnblogs.com/blog/1495663/202102/1495663-20210223233646272-403091784.png" alt="" loading="lazy"></p>
+<p>Button.Click 路由事件是从MyUserControl的innerButton 发出来的，主窗体中myUserControl是LogicalTree的末端结点，而窗体的VisualTree则包含了myUserControl的内部结构，所以e.Source是myUserControl、e.OriginalSource是innerButton。</p>
+<h2 id="附加事件">附加事件</h2>
+<p>在WPF事件系统中还有一种事件被称为<strong>附加事件（Attached Event）</strong>，它就是路由事件。拥有附加事件的类有：</p>
+<ul>
+<li><strong>Binding类</strong>：SourceUpdated事件、TargetUpdated事件。</li>
+<li><strong>Mouse类</strong>：MouseEnter 事件、MouseLeave 事件、MouseDown事件、MouseUp事件等。</li>
+<li><strong>Keyboard类</strong>：KeyDown事件、KeyUp事件等。</li>
+</ul>
+<p>对比一下那些拥有路由事件的类，<strong>路由事件的宿主都是些拥有可视化实体的界面元素，而附加事件则不具备显示在用户界面上的能力</strong>。</p>
+<h3 id="不使用clr属性作为包装器">不使用CLR属性作为包装器</h3>
+<p>设计一个名为Student的类，如果Student实例的Name属性值发生了变化就激发一个路由事件，使用界面元素来捕捉这个事件。这个类的代码如下：</p>
+<pre><code class="language-csharp">public class Student
+{
+    //声明并定义路由事件
+    public static readonly RoutedEvent NameChangedEvent = EventManager.RegisterRoutedEvent
+        ("NameChanged", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(Student));
+   
+    public int Id { get; set; }
+    public string Name { get; set; }
+}
+</code></pre>
+<p>设计一个简单的界面：</p>
+<pre><code class="language-xml">&lt;Grid x:Name="gridMain"&gt;
+    &lt;Button x:Name="button1" Content="OK" Width="80" Height="80" Click="Button_Click"/&gt;
+&lt;/Grid&gt;
+</code></pre>
+<p>后台代码如下：</p>
+<pre><code class="language-csharp">public MainWindow()
+{
+    InitializeComponent();
+    // 为外层Grid添加路由事件侦听器
+    this.gridMain.AddHandler(Student.NameChangedEvent, new RoutedEventHandler(this.StudentNameChangedHandler));
+}
+
+//Click 事件处理器
+private void Button_Click(object sender,RoutedEventArgs e)
+{
+    Student stu = new Student(){ Id = 101,Name = "Tim"}; 
+    stu.Name = "Tom";
+    //准备事件消息并发送路由事件
+    RoutedEventArgs arg = new RoutedEventArgs(Student.NameChangedEvent, stu); 
+    this.button1.RaiseEvent(arg);
+}
+
+//Grid 捕捉到NameChangedEvent后的处理器
+private void StudentNameChangedHandler(object sender, RoutedEventArgs e)
+{
+    MessageBox.Show((e.OriginalSource as Student).Id.ToString());
+}    
+</code></pre>
+<p><em>注：因为Student不是UIElement的派生类，所以它不具有RaiseEvent这个方法，<strong>为了发送路由事件就不得不“借用”一下Button的RaiseEvent方法了</strong>。</em></p>
+<p>运行程序并单击按钮，效果如下：<br>
+<img src="https://img2020.cnblogs.com/blog/1495663/202102/1495663-20210223234855000-1523881238.png" alt="" loading="lazy"></p>
+<p>Student类并非派生自UIElement，因此亦不具备AddHandler和RemoveHandler这两个方法，所以不能使用CLR属性作为包装器（因为CLR属性包装器的add和remove分支分别调用当前对象的AddHandler和RemoveHandler）。</p>
+<h3 id="使用clr属性作为包装器">使用CLR属性作为包装器</h3>
+<p>微软的官方文档约定要为附加事件添加一个CLR包装以便XAML编辑器识别并进行智能提示：</p>
+<ul>
+<li>为目标UI元素添加附加事件侦听器的包装器是一个名为Add*Handler的public static方法，星号代表事件名称（与注册事件时的名称一致）。</li>
+<li>解除UI元素对附加事件侦听的包装器是名为Remove<em>Handler的public static方法，星号亦为事件名称，参数与Add</em>Handler一致。</li>
+<li>Add<em>Handler与Remove</em>Handler的参数一致，接收两个参数：第一个参数是事件的侦听者（类型为DependencyObject），第二个参数为事件的处理器（RoutedEventHandler委托类型）。</li>
+</ul>
+<p>按照规范，Student类被升级为这样：</p>
+<pre><code class="language-csharp">public class Student
+{
+    //声明并定义路由事件
+    public static readonly RoutedEvent NameChangedEvent = EventManager.RegisterRoutedEvent
+        ("NameChanged", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(Student));
+
+    //为界面元素添加路由事件侦听
+    public static void AddNameChangedHandler(DependencyObject d,RoutedEventHandler h)
+    {
+        UIElement e = d as UIElement; 
+        if (e!= null)
+        {
+            e.AddHandler(Student.NameChangedEvent, h);
+        }
+    }
+
+    //移除侦听
+    public static void RemoveNameChangedHandler(DependencyObject d, RoutedEventHandler h)
+    {
+        UIElement e = d as UIElement;
+        if (e != null)
+        {
+            e.RemoveHandler(Student.NameChangedEvent, h);
+        }
+    }
+
+    public int Id { get; set; }
+    public string Name { get; set; }
+}
+</code></pre>
+<p>原来的代码只有添加事件侦听一处需要改动：</p>
+<pre><code class="language-csharp">//为外层Grid添加路由事件侦听器
+Student.AddNameChangedHandler(this.gridMain, new RoutedEventHandler(this.StudentNameChangedHandler));
+</code></pre>
+<p><strong>UIElement类是路由事件宿主与附加事件宿主的分水岭</strong>，因为从UIElement类开始才具备了在界面上显示的能力且RaiseEvent、AddHandler和RemoveHandler这些方法也定义在UIElement类中。</p>
+<p><strong>附加事件只能算是路由事件的一种用法而非一个新概念</strong>，如果在一个非UIElement派生类中注册了路由事件，则这个类的实例既不能自己激发（Raise）此路由事件也无法自己侦听此路由事件，只能把这个事件的激发“附着”在某个具有RaiseEvent方法的对象上，借助这个对象的RaiseEvent方法把事件发送出去；事件的侦听任务也只能交给别的对象去做。</p>
+<p>使用附加事件时需注意：</p>
+<ul>
+<li>路由事件路由时的第一站就是事件的激发者，<strong>附加事件路由的第一站是激发它的元素</strong>。</li>
+<li>实际上<strong>很少会把附加事件定义在Student这种与业务逻辑相关的类中</strong>，一般都是定义在像Binding、Mouse、Keyboard这种全局的Helper类中。</li>
+</ul>
+
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2021-02-23 23:56</span>&nbsp;
+<a href="https://www.cnblogs.com/timefiles/">time-flies</a>&nbsp;
+阅读(<span id="post_view_count">111</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14433341" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14433341);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 564602, cb_blogApp = 'timefiles', cb_blogUserGuid = '37aa4b1e-d0f1-4774-9834-08d61f4d33d3';
+    var cb_entryId = 14433341, cb_entryCreatedDate = '2021-02-23 23:56', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 time-flies
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    <div id="page_end_html">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://blog-static.cnblogs.com/files/timefiles/spig_wm.js"></script>
+<!--博客精灵 start*-->
+<div id="spig" class="spig">
+    <div id="message">……</div>
+    <div id="mumu" class="mumu"></div>
+</div>
+
+<script type="text/javascript">
+var isindex=true;
+var title="";
+var visitor="臭DD";
+</script>
+<!--精灵end*-->
+    </div>
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjs05AYb6hA7Gbw3PeiH4ltrp28Mstr76I06ZNVulvy43v-ydvzzCnp0wcniDQhYL-2caVbCDGN0PmBjBcim2dHsKt2JEsWhDCM3uGI0KbDQbHlk7w8M0Vrkt5I29NNd9qY" />
+</body>
+</html>

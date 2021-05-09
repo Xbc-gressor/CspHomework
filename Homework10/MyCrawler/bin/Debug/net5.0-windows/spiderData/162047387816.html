@@ -1,0 +1,433 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="一：背景 1. 前言 大概有2个月没写博客了，不是不想写哈&amp;amp;#128556;，关注公号的朋友应该知道我这两个月一直都在翻译文章，前前后后大概100篇左右吧，前几天看公号的 常读用户 降了好几十" />
+    <meta property="og:description" content="一：背景 1. 前言 大概有2个月没写博客了，不是不想写哈&amp;amp;#128556;，关注公号的朋友应该知道我这两个月一直都在翻译文章，前前后后大概100篇左右吧，前几天看公号的 常读用户 降了好几十" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>再记一次 应用服务器 CPU 暴高事故分析 - 一线码农 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/imetro_hd/bundle-imetro_hd.min.css?v=FftQhR2MvKTGGXxV0VXlcGGt4XBM0_1XGJmu6kYD9bg" />
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/huangxincheng/custom.css?v=SdYXO/puoNgM6b4X1hctiyD8/bs=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/imetro_hd/bundle-imetro_hd-mobile.min.css?v=t8lZrYXGRE8kAD_d-besbRXwkXSQmMprnkoJVYlZl-g" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/huangxincheng/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/huangxincheng/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/huangxincheng/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 85195;
+        var currentBlogApp = 'huangxincheng';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'iMetro_HD';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-02-08 11:53';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="no-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/huangxincheng/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/huangxincheng/"></a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/huangxincheng/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E4%B8%80%E7%BA%BF%E7%A0%81%E5%86%9C">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/huangxincheng/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/huangxincheng/p/14388296.html">
+    <span>再记一次 应用服务器 CPU 暴高事故分析</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+<h2 id="一：背景">一：背景</h2>
+<h3 id="1-前言">1. 前言</h3>
+<p>大概有2个月没写博客了，不是不想写哈😬，关注公号的朋友应该知道我这两个月一直都在翻译文章，前前后后大概100篇左右吧，前几天看公号的 <code>常读用户</code> 降了好几十，心疼哈，还得回过神来继续写！</p>
+<h3 id="2-讲故事">2. 讲故事</h3>
+<p>上周给 <code>武汉同济</code> 做项目升级，本以为一切顺利，结果捅娄子了，第二天上午高峰期运维说生产上两台 应用服务器 cpu 被打满，影响到所有客户使用，造成了大面积瘫痪，真尬尴，得先让运维抓一个 dump 下来再重启网站，还好，老板人可以，没有问责 😄。</p>
+<h2 id="二：cpu-爆高问题分析">二：CPU 爆高问题分析</h2>
+<h3 id="1-找思路">1. 找思路</h3>
+<p>分析 dump，没什么比 windbg 更专业了，不过分析 dump 我还是比较拿手的，那怎么分析呢？ 最简单粗暴的做法就是看每一个线程当时都在做什么，进而推测一下就 <code>八九不离十</code> 了。</p>
+<h3 id="2-查看所有线程栈">2. 查看所有线程栈</h3>
+<p>首先用 <code>!t</code> 和 <code>!tp</code> 看一下当前程序的 <code>线程</code> 和 <code>线程池</code> 的整体概况。</p>
+<pre><code class="language-C#">
+0:000&gt; !t
+ThreadCount:      60
+UnstartedThread:  0
+BackgroundThread: 38
+PendingThread:    0
+DeadThread:       22
+Hosted Runtime:   no
+                                                                         Lock  
+       ID OSID ThreadOBJ    State GC Mode     GC Alloc Context  Domain   Count Apt Exception
+  11    1 2c24 02487038     28220 Preemptive  00000000:00000000 010df4f8 0     Ukn 
+  28    2 2ca0 024bad90     2b220 Preemptive  00000000:00000000 010df4f8 0     MTA (Finalizer) 
+  30    3 2d04 024f1450   102a220 Preemptive  00000000:00000000 010df4f8 0     MTA (Threadpool Worker) 
+  31    4 2054 024fb188     21220 Preemptive  00000000:00000000 010df4f8 0     Ukn 
+  32    6 1128 02574400   1020220 Preemptive  00000000:00000000 010df4f8 0     Ukn (Threadpool Worker) 
+   2    5 27ac 02520da8     20220 Preemptive  00000000:00000000 010df4f8 0     Ukn 
+  35   17 2c44 1cc362c8   202b220 Preemptive  00000000:00000000 024fa838 1     MTA 
+  36   20 1740 1cccc748     21220 Preemptive  00000000:00000000 010df4f8 0     Ukn 
+  37   21 16c4 1cc08240     21220 Preemptive  00000000:00000000 010df4f8 0     Ukn 
+  38   22 16a8 1ccd28b8     21220 Preemptive  00000000:00000000 010df4f8 0     Ukn 
+
+....
+
+0:000&gt; !tp
+CPU utilization: 97%
+Worker Thread: Total: 21 Running: 21 Idle: 0 MaxLimit: 8191 MinLimit: 8
+Work Request in Queue: 23
+    Unknown Function: 6d92a17f  Context: 0109b5f0
+    Unknown Function: 6d92a17f  Context: 0107ed90
+    Unknown Function: 6d92a17f  Context: 0104e750
+    Unknown Function: 6d92a17f  Context: 010a0200
+    AsyncTimerCallbackCompletion TimerInfo@207f8008
+    AsyncTimerCallbackCompletion TimerInfo@0251b418
+    Unknown Function: 6d92a17f  Context: 01096c78
+    Unknown Function: 6d92a17f  Context: 01081398
+    AsyncTimerCallbackCompletion TimerInfo@024d0120
+    Unknown Function: 6d92a17f  Context: 010a9a20
+    Unknown Function: 6d92a17f  Context: 01057950
+    Unknown Function: 6d92a17f  Context: 0104c2d0
+    Unknown Function: 6d92a17f  Context: 010943d8
+    Unknown Function: 6d92a17f  Context: 0107a180
+    Unknown Function: 6d92a17f  Context: 010a7418
+    Unknown Function: 6d92a17f  Context: 010839a0
+    Unknown Function: 6d92a17f  Context: 010678d0
+    Unknown Function: 6d92a17f  Context: 010a2808
+    Unknown Function: 6d92a17f  Context: 0105c250
+    Unknown Function: 6d92a17f  Context: 0108abb8
+    Unknown Function: 6d92a17f  Context: 0108f7c8
+    Unknown Function: 6d92a17f  Context: 0108d1c0
+    Unknown Function: 6d92a17f  Context: 20896498
+--------------------------------------
+Number of Timers: 0
+--------------------------------------
+Completion Port Thread:Total: 1 Free: 1 MaxFree: 16 CurrentLimit: 1 MaxLimit: 1000 MinLimit: 8
+
+
+</code></pre>
+<p>从上面的输出大概可以看到如下几点信息：</p>
+<ul>
+<li>
+<p>当前程序有 60 个线程。</p>
+</li>
+<li>
+<p>当前 CPU 利用率为 97%，爆高无疑。</p>
+</li>
+<li>
+<p>线程池中有21个线程全部打满，还有23个任务在 <code>任务队列</code> 中排队等待处理。</p>
+</li>
+</ul>
+<p>总的来看，系统已经高负荷，不堪重负了，接下来的一个疑问就来了，所有的线程都被打满而且线程池中还有大量等待处理的任务在排队，现有的线程都在干嘛呢？难道不处理吗？</p>
+<h3 id="2-查看所有线程的托管线程栈">2. 查看所有线程的托管线程栈</h3>
+<p>既然现存的有 60 个线程，那我就使用 <code>~ *e !clrstack</code> 命令看看所有的线程都在干嘛？</p>
+<pre><code class="language-C#">
+0:000&gt; ~ *e !clrstack
+OS Thread Id: 0x8d8 (44)
+Child SP       IP Call Site
+1ad8d750 7759f901 [InlinedCallFrame: 1ad8d750] 
+1ad8d74c 71e1a9ea DomainNeutralILStubClass.IL_STUB_PInvoke(IntPtr, IntPtr, System.String, System.String, Int32, Int32, System.String, Int32, Int32, Int32)
+1ad8d750 71d52f0b [InlinedCallFrame: 1ad8d750] System.Globalization.CompareInfo.InternalCompareString(IntPtr, IntPtr, System.String, System.String, Int32, Int32, System.String, Int32, Int32, Int32)
+1ad8d7b4 71d52f0b System.Globalization.CompareInfo.Compare(System.String, Int32, Int32, System.String, Int32, Int32, System.Globalization.CompareOptions)
+1ad8d7e0 71e16ab9 System.String.Compare(System.String, Int32, System.String, Int32, Int32, System.Globalization.CultureInfo, System.Globalization.CompareOptions)
+1ad8d810 71d51c8e System.Globalization.DateTimeFormatInfo.Tokenize(System.TokenType, System.TokenType ByRef, Int32 ByRef, System.__DTString ByRef)
+1ad8d86c 71d51a92 System.__DTString.GetSeparatorToken(System.Globalization.DateTimeFormatInfo, Int32 ByRef, Char ByRef)
+1ad8d88c 71d513c4 System.DateTimeParse.Lex(DS, System.__DTString ByRef, System.DateTimeToken ByRef, System.DateTimeRawInfo ByRef, System.DateTimeResult ByRef, System.Globalization.DateTimeFormatInfo ByRef, System.Globalization.DateTimeStyles)
+1ad8d8dc 71d50b59 System.DateTimeParse.TryParse(System.String, System.Globalization.DateTimeFormatInfo, System.Globalization.DateTimeStyles, System.DateTimeResult ByRef)
+1ad8d974 71dfce8b System.DateTimeParse.Parse(System.String, System.Globalization.DateTimeFormatInfo, System.Globalization.DateTimeStyles)
+1ad8d9d8 7243c9bc System.Convert.ToDateTime(System.String, System.IFormatProvider)
+1ad8d9f8 724369b1 System.String.System.IConvertible.ToDateTime(System.IFormatProvider)
+1ad8da00 7243c8a2 System.Convert.ToDateTime(System.Object)
+
+</code></pre>
+<p>由于输出的太多，这里就简略输出了，不过我大体罗列了一下线程大概都在做什么事情。</p>
+<ul>
+<li>有 9 个线程正在执行 <code>GetAllByCondition()</code> 方法</li>
+</ul>
+<p><img src="https://img2020.cnblogs.com/other/214741/202102/214741-20210208115323795-251715896.png" alt="" loading="lazy"></p>
+<ul>
+<li>有 4 个线程正在执行 <code>GetDayInvoice()</code> 方法</li>
+</ul>
+<p><img src="https://img2020.cnblogs.com/other/214741/202102/214741-20210208115323983-240438642.png" alt="" loading="lazy"></p>
+<p><code>9 + 4</code> 个线程都在搞这两个方法，这就比较可疑了，不过从各个线程的栈顶上看并没有类似 <code>wait</code> 关键词，这就意味着大家不是在争抢锁啥的，那问题在哪里呢？</p>
+<p>继续分析这两个方法到底在数据库中读了什么？ 通过 <code>!dso</code> 抓取 <code>GetDayInvoice()</code> 方法中的 sql，这里我就模糊一下了哈，windbg命令大概如下：</p>
+<pre><code class="language-C#">
+0:000&gt; ~45s
+eax=1c06a5c8 ebx=00000000 ecx=59002090 edx=59002090 esi=000003d4 edi=00000000
+eip=7759f901 esp=1d95cfa8 ebp=1d95d014 iopl=0         nv up ei pl zr na pe nc
+cs=0023  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00000246
+ntdll!NtWaitForSingleObject+0x15:
+7759f901 83c404          add     esp,4
+0:045&gt; !dso
+OS Thread Id: 0x2a04 (45)
+ESP/REG  Object   Name
+1D95D6D0 aaaac9f4 System.String    SELECT xxxxxx FROM xxxx as v WITH(NOLOCK) left join xxx as cr WITH(NOLOCK) on v.xxx=cr.xxx left join xxx  as crr WITH(NOLOCK) on cr.PID=crr.ID  WHERE xxx IN (SELECT DISTINCT xxx FROM xxxx WITH(NOLOCK) WHERE (SendTime&gt;='2021-01-21 14:30:39' OR  xxx&gt;='2021-01-21 14:30:39' OR xxx&gt;='2021-01-21 14:30:39')  AND ((InvoiceType  =1 and( IsRepeat=0 or IsRepeat is null ))  OR xxx IN(16,15))  )  
+
+</code></pre>
+<p>然后让运维查了下，这条sql大概有 <code>13w</code> 的记录，我第一反应就是查这么大的数据是不是有毛病撒，问了下懂业务的老大，这一块原来是做 <code>初始化同步</code>, 而且这块好久都没人动过，言外之意原来也是这么查的，一点毛病也没有呀，我去，说的也是哈，为啥以前没问题呢？？？</p>
+<h2 id="3-查看托管堆">3. 查看托管堆</h2>
+<p>既然一条sql查了 13w 条数据，刚才是 4个线程在执行 <code>GetDayInvoice()</code>，也就意味着有 52w 条数据正在从 sqlserver 中获取，接下来我的本能反应就是看看托管堆，使用 <code>!dumpheap -stat</code> 就可以了,如下代码所示：</p>
+<pre><code class="language-C#">
+0:045&gt; !dumpheap -stat
+The garbage collector data structures are not in a valid state for traversal.
+It is either in the "plan phase," where objects are being moved around, or
+we are at the initialization or shutdown of the gc heap. Commands related to 
+displaying, finding or traversing objects as well as gc heap segments may not 
+work properly. !dumpheap and !verifyheap may incorrectly complain of heap 
+consistency errors.
+Object &lt;exec cmd="!ListNearObj /d 02881000"&gt;02881000&lt;/exec&gt; has an invalid method table.
+
+</code></pre>
+<p>我去，有点尴尬，居然报错了，先擦擦头上的汗，这句话： <code>The garbage collector data structures are not in a valid state for traversal</code> 引起了我的警觉，当前托管堆是无效状态，gc被触发了。。。当前还是 <code>plan phase</code> 状态，是不是 gc 导致了 cpu 爆高呢？</p>
+<h3 id="4-零碎信息整合">4. 零碎信息整合</h3>
+<p>通过上面这些零碎的信息，不知道大家可整明白了，让我来说的话，简而言之： <code>GetDayInvoice()</code> 读了大量数据，导致gc频繁回收，进而导致 cpu 爆高，这里有几个概念需要大家了解下：</p>
+<ul>
+<li>
+<p>这个程序是 32bit，意味着最大只能吃 4G 内存。</p>
+</li>
+<li>
+<p>32bit 的临时代（ 0+1 代） 大概 几十M 的空间。</p>
+</li>
+<li>
+<p>IIS 是 <code>服务器模式</code> 的GC，意味着当前的托管线程会临时充当 GC 回收线程。</p>
+</li>
+</ul>
+<p>尤其是上面第三个概念，既然当前gc被触发了，也就意味着托管线程被临时给 GC 征用了，那我可以看下是否真的是这样，可以用 <code>~ *e !dumpstack</code> 查看所有线程的托管和非托管的所有栈信息，如下图所示：</p>
+<p><img src="https://img2020.cnblogs.com/other/214741/202102/214741-20210208115324177-1859048685.png" alt="" loading="lazy"></p>
+<p>可以清晰的看到，调用 <code>GetDayInvoice()</code> 的线程在 CLR 层面触发了 gc，而此时 gc 想调用 <code>try_allocate_more_space</code> 来给自己分配更多的空间，而且 <code>wait_for_gc_done</code> 也表示它在等待其他gc线程处理完成，所以就卡死在这里了。</p>
+<p>如果不信的话，还可以继续观察其他线程的非托管堆栈，如下图所示：</p>
+<p><img src="https://img2020.cnblogs.com/other/214741/202102/214741-20210208115324344-1308446289.png" alt="" loading="lazy"></p>
+<p>从 <code>clr!SVR::GCHeap::WaitUntilGCComplete+0x35, calling clr!CLREventBase::WaitEx</code> 可以看出，都是在等待 GC 完成，导致 CPU 爆高。</p>
+<h3 id="5-找到问题根源">5. 找到问题根源</h3>
+<p>汇总一下就是：这次 cpu 爆高是因为 32bit 程序只能吃 4G 内存，而程序需要同步大量的数据，导致内存被打满，gc无法分配更多的内存让程序使用，gc的机制让 cpu 打的满满的，知道问题之后，解决办法很简单，将 iis 的 <code>应用程序域</code> 的配置 <code>启用32bit应用程序</code> 改成 False 即可，这样程序就可以以 64bit 方式运行，如下图所示：</p>
+<img src="https://img2020.cnblogs.com/other/214741/202102/214741-20210208115324489-612657256.png" style="height: 400px" alt="图片名称" align="center">
+<h2 id="三：总结">三：总结</h2>
+<p>很显然这次事件是因为管理混乱造成的，因为历史遗留问题，有些网站必须用 32 bit 运行，有些必须用 64 bit 运行，据运维说，目前服务器存在不能建过多的应用程序域，导致多个网站公用一个程序域，表面上是运维弄错应用程序域，根子上还是没有彻底改造的决心！</p>
+<p><strong>更多高质量干货：参见我的 GitHub: <a href="https://github.com/ctripxchuang/dotnetfly" target="_blank">dotnetfly</a></strong></p>
+<img src="https://img2020.cnblogs.com/blog/214741/202005/214741-20200522143723695-575216767.png" width="600" height="200" alt="图片名称" align="center">
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2021-02-08 11:53</span>&nbsp;
+<a href="https://www.cnblogs.com/huangxincheng/">一线码农</a>&nbsp;
+阅读(<span id="post_view_count">3780</span>)&nbsp;
+评论(<span id="post_comment_count">17</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14388296" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14388296);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 85195, cb_blogApp = 'huangxincheng', cb_blogUserGuid = '40a06552-abf8-df11-ac81-842b2b196315';
+    var cb_entryId = 14388296, cb_entryCreatedDate = '2021-02-08 11:53', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 一线码农
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjuyhjU6MpUx0r-3KqG0hxFKK26Mx1blspECNynbVC9vMlV4gfVmxrHaCH7KvZfM7gHCO0uiQtI5JdHICRd5HHalhVO17ymrZRYXTRpShTVd8vkClpORCgRJB1EcCK4tzDU" />
+</body>
+</html>

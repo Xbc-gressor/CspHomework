@@ -1,0 +1,628 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    
+    
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>阿里云视频云 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/blacklowkey/bundle-blacklowkey.min.css?v=1gj9-XJKL9BZFkjdvROYQPiPWjQXk-hsXXZGtqkfaSc" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/blacklowkey/bundle-blacklowkey-mobile.min.css?v=zrVn_w7PYXoSvEFaixHbQGlNNXNZ3h27-9PpkXZLYns" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/VideoCloudTech/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/VideoCloudTech/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/VideoCloudTech/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 643827;
+        var currentBlogApp = 'VideoCloudTech';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'BlackLowKey';
+        var visitorUserId = '';
+    </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/VideoCloudTech/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/VideoCloudTech/">阿里云视频云</a>
+</h1>
+<h2>「视频云技术」你最值得关注的音视频技术公众号，每周推送来自阿里云一线的实践技术文章，在这里与音视频领域一流工程师交流切磋。公众号后台回复【技术】可加入阿里云视频云技术交流群，和作者一起探讨音视频技术，获取更多行业最新信息。</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/VideoCloudTech/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E9%98%BF%E9%87%8C%E4%BA%91%E8%A7%86%E9%A2%91%E4%BA%91">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/VideoCloudTech/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+
+
+
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/VideoCloudTech/archive/2021/05/08.html">2021年5月8日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/VideoCloudTech/p/14744210.html">
+    <span>
+        详解 WebRTC 传输安全机制：一文读懂 DTLS 协议
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：作者｜进学 审校｜泰一 DTLS (Datagram Transport Layer Security) 基于 UDP 场景下数据包可能丢失或重新排序的现实情况下，为 UDP 定制和改进的 TLS 协议。在 WebRTC 中使用 DTLS 的地方包括两部分：协商和管理 SRTP 密钥和为 DataC        <a href="https://www.cnblogs.com/VideoCloudTech/p/14744210.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-05-08 11:22
+阿里云视频云
+<span data-post-id="14744210" class="post-view-count">阅读(1)</span> 
+<span data-post-id="14744210" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14744210" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14744210" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/VideoCloudTech/archive/2021/04/28.html">2021年4月28日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/VideoCloudTech/p/14714060.html">
+    <span>
+        阿里云 RTC QoS 弱网对抗之 LTR 及其硬件解码支持
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：LTR 弱网对抗由于需要解码器的反馈，因此用硬件解码器实现时需要做一些特殊处理。另外，一些硬件解码器对 LTR 的实现不是特别完善，会导致出现解码错误。本文为 QoS 弱网优化系列的第三篇，将为您详解阿里云 RTC QoS 策略中的 LTR 抗弱网原理与实现硬解 LTR 时遇到的坑及其相应解法。 作        <a href="https://www.cnblogs.com/VideoCloudTech/p/14714060.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-28 14:45
+阿里云视频云
+<span data-post-id="14714060" class="post-view-count">阅读(152)</span> 
+<span data-post-id="14714060" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14714060" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14714060" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/VideoCloudTech/archive/2021/04/25.html">2021年4月25日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/VideoCloudTech/p/14699594.html">
+    <span>
+        扩展 GRTN：云原生趋势下的 RTC 架构演进
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：在 2021 LiveVideoStackCon 音视频技术大会上海站，聚焦 “轻端重云和边缘架构新模式” 专场，阿里云视频云的 RTC 传输专家杨成立（忘篱）带来 “基于边缘云原生的 RTC 服务架构演进” 的主题演讲，与行业伙伴分享视频云在 RTC 服务架构演进之路上的挑战和经验，以下为完整的演        <a href="https://www.cnblogs.com/VideoCloudTech/p/14699594.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-25 11:19
+阿里云视频云
+<span data-post-id="14699594" class="post-view-count">阅读(130)</span> 
+<span data-post-id="14699594" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14699594" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14699594" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/VideoCloudTech/archive/2021/04/22.html">2021年4月22日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/VideoCloudTech/p/14688341.html">
+    <span>
+        亮相 LiveVideoStackCon，透析阿里云窄带高清的现在与未来
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：2021.4.16-4.17，阿里云视频云亮相 LiveVideoStackCon 音视频技术大会上海站，带来三场不同视角的主题演讲，并与众多行业伙伴一同交流。在 “编解码的新挑战与新机会” 专场，视频云的资深技术专家深度分享了 “窄带高清” 技术演进思路。 窄带高清是一套以人眼的主观感受最优为基准        <a href="https://www.cnblogs.com/VideoCloudTech/p/14688341.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-22 10:32
+阿里云视频云
+<span data-post-id="14688341" class="post-view-count">阅读(85)</span> 
+<span data-post-id="14688341" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14688341" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14688341" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/VideoCloudTech/archive/2021/04/21.html">2021年4月21日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/VideoCloudTech/p/14684493.html">
+    <span>
+        别再问我 2050 可以干什么，Make a Movie in a Day!
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：2050 的每个年青人都是新物种。越是不可能见面的人见了面，就越会有奇迹发生，2050 努力让年青人见上另一位年青人，激发新的创造力。一起来 2050 看看？ 2050 是什么？ 2050 大会是由阿里云创始人王坚博士和自愿者们共同发起的年青人团聚大会。从 2018 到 2050，我们期待更多年青人        <a href="https://www.cnblogs.com/VideoCloudTech/p/14684493.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-21 11:27
+阿里云视频云
+<span data-post-id="14684493" class="post-view-count">阅读(13)</span> 
+<span data-post-id="14684493" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14684493" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14684493" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/VideoCloudTech/archive/2021/04/20.html">2021年4月20日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/VideoCloudTech/p/14681235.html">
+    <span>
+        会议更流畅，表情更生动！视频生成编码 VS 国际最新 VVC 标准
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：阿里云视频云的标准与实现团队与香港城市大学联合开发了基于 AI 生成的人脸视频压缩体系，相比于 VVC 标准，两者质量相当时可以取得 40%-65% 的码率节省，旨在用最前沿的技术，普惠视频通话、视频会议、在线教育等重要应用领域。 作者｜王钊 、叶琰、王诗淇 审校｜ 泰一 https://v.you        <a href="https://www.cnblogs.com/VideoCloudTech/p/14681235.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-20 15:24
+阿里云视频云
+<span data-post-id="14681235" class="post-view-count">阅读(125)</span> 
+<span data-post-id="14681235" class="post-comment-count">评论(1)</span> 
+<span data-post-id="14681235" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14681235" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/VideoCloudTech/archive/2021/04/15.html">2021年4月15日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/VideoCloudTech/p/14662414.html">
+    <span>
+        如何用 Electron + WebRTC 开发一个跨平台的视频会议应用
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：在搭建在线教育、医疗、视频会议等场景时，很多中小型公司常常面临 PC 客户端和 Web 端二选一的抉择。Electron 技术的出现解决了这一难题，只需前端开发就能完成一个跨平台的 PC 端应用。本文主要介绍使用 Electron + WebRTC 搭建跨平台的视频会议应用的技术方案。 作者｜ 峻崎        <a href="https://www.cnblogs.com/VideoCloudTech/p/14662414.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-15 14:45
+阿里云视频云
+<span data-post-id="14662414" class="post-view-count">阅读(581)</span> 
+<span data-post-id="14662414" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14662414" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14662414" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/VideoCloudTech/archive/2021/04/14.html">2021年4月14日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/VideoCloudTech/p/14658435.html">
+    <span>
+        理论 + 标准 + 工程 —— 阿里云视频云编码优化的思考与发现
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：阿里云智能视频云 资深技术专家王豪（天野） 2010 年毕业于华中科技大学，此后投身多媒体方向的技术开发，从流媒体、视频编码、视频处理到质量评价均有涉及，并从零开始打造了一款广泛商用的视频编码器及其前后处理系统。加入阿里云视频云后，负责视频编码与增强算法，团队聚焦在视频编码、视频前后处理以及质量评价        <a href="https://www.cnblogs.com/VideoCloudTech/p/14658435.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-14 16:09
+阿里云视频云
+<span data-post-id="14658435" class="post-view-count">阅读(24)</span> 
+<span data-post-id="14658435" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14658435" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14658435" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/VideoCloudTech/archive/2021/04/13.html">2021年4月13日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/VideoCloudTech/p/14653167.html">
+    <span>
+        4.16-17 | 阿里云技术大咖分享新内容新交互时代下的新技术、新机会
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：随着 5G、云计算、人工智能的高速发展，视频泛在化景象顺势而来，人与人、人与物、人与社会之间的内容表达形态、信息交互方式在迅速更迭。 阿里云视频云一直在关注和推动这样的新内容新交互时代。在此时代背景下，视频云所打造的音视频数智化能力，在不断延展新技术、创造新机会，并不断重构众多行业和缔造新的物种。         <a href="https://www.cnblogs.com/VideoCloudTech/p/14653167.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-13 14:47
+阿里云视频云
+<span data-post-id="14653167" class="post-view-count">阅读(28)</span> 
+<span data-post-id="14653167" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14653167" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14653167" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/VideoCloudTech/archive/2021/04/12.html">2021年4月12日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/VideoCloudTech/p/14648326.html">
+    <span>
+        视频云全球创新挑战赛 — 视频目标分割经典算法解析
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：视频云大赛——优酷 MEDIA AI 算法挑战赛冠军方案分享 视频目标分割是目前视频算法领域的前沿话题，越来越多的应用在了各个行业场景里。本次由英特尔与阿里云联合举办、与优酷战略合作的 “新内容 新交互 “全球视频云创新挑战赛算法赛道，也将目光聚焦于这一个领域。大赛自开赛以来，已经吸引了 2000         <a href="https://www.cnblogs.com/VideoCloudTech/p/14648326.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-12 15:43
+阿里云视频云
+<span data-post-id="14648326" class="post-view-count">阅读(15)</span> 
+<span data-post-id="14648326" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14648326" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14648326" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+
+<div class="topicListFooter">
+    <div id="nav_next_page">
+        
+    <a href="https://www.cnblogs.com/VideoCloudTech/default.html?page=2">
+        下一页
+    </a>
+
+    </div>    
+</div>
+
+
+
+
+
+
+<script>
+    updatePostStats(
+        $(".post-view-count").map(function () { return this.dataset.postId }).get(),
+        function(id, count) { $(".post-view-count[data-post-id=" + id + "]").text("阅读(" + count + ")") },
+        function(id, count) { $(".post-comment-count[data-post-id=" + id + "]").text("评论(" + count + ")") },
+        function(id, count) { $(".post-digg-count[data-post-id=" + id + "]").text("推荐(" + count + ")") });
+</script>
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 阿里云视频云
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjtl8uHUY4k59KIVrxpeyZevAHk4MdTM8hKD6_oGGv9u_nJTMSTzFjkbR8aauBh_FidFTtFJt9p1XBoZxbtKBhQqhj94_70NGkh_AGexv1PfYMyLsKhuXtn62DE6lFykv1I" />
+</body>
+</html>

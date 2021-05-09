@@ -1,0 +1,405 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="介绍 不要依赖于具体的实现，应该依赖于抽象，高层模块不应该依赖于底层模块，二者应该依赖于抽象。简单的说就是为了更好的解耦。而控制反转(Ioc)就是这样的原则的其中一个实现思路, 这个思路的其中一种实现" />
+    <meta property="og:description" content="介绍 不要依赖于具体的实现，应该依赖于抽象，高层模块不应该依赖于底层模块，二者应该依赖于抽象。简单的说就是为了更好的解耦。而控制反转(Ioc)就是这样的原则的其中一个实现思路, 这个思路的其中一种实现" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>.NET之默认依赖注入 - AZRNG - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/codinglife/bundle-codinglife.min.css?v=2uJkpdACLVfstRQ7zeCFK19brTwKuDEaNBLgKz9nm3A" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/codinglife/bundle-codinglife-mobile.min.css?v=DwDRKMd1bmjnJZ4iQqrTCO9QLlYb6OZaUAzHoHIIihg" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/azrng/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/azrng/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/azrng/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 418143;
+        var currentBlogApp = 'azrng';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'CodingLife';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-05-08 09:54';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="page_begin_html">
+        <link rel="stylesheet" type="text/css" href="https://files.cnblogs.com/files/kousak/waifu.css">   
+ <link rel="stylesheet" type="text/css" href="https://files.cnblogs.com/files/kousak/waifu.css">
+ 
+  <div class="waifu" id="waifu"> <div class="waifu-tips" style="opacity: 1"></div>  <div class="waifu-tool"> <span class="fui-home"></span> <span class="fui-chat"></span> <span class="fui-eye"></span> <span class="fui-user"></span> <span class="fui-photo"></span> <span class="fui-info-circle"></span> <span class="fui-cross"></span> </div> </div> 
+   <link rel="stylesheet" type="text/css" href="https://files.cnblogs.com/files/yjlblog/flat-ui.min.css">
+    </div>
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/azrng/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/azrng/">AZRNG</a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/azrng/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/AZRNG">
+联系</a></li>
+<li>
+
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/azrng/p/14743716.html">
+    <span>.NET之默认依赖注入</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+<h1 id="介绍">介绍</h1>
+<p>不要依赖于具体的实现，应该依赖于抽象，高层模块不应该依赖于底层模块，二者应该依赖于抽象。简单的说就是为了更好的解耦。而控制反转(Ioc)就是这样的原则的其中一个实现思路, 这个思路的其中一种实现方式就是依赖注入(DI)。ASP.NET Core内置有对依赖注入(DI)的支持，开发者只需要定义好接口后，在Startup.cs的ConfigureServices方法里使用对应生命周期的绑定方法即可。</p>
+<blockquote>
+<p>只要是用new实例化的都是存在依赖的。</p>
+</blockquote>
+<h1 id="生命周期">生命周期</h1>
+<p>AddSingleton→AddTransient→AddScoped</p>
+<h2 id="singleton单例">Singleton(单例)</h2>
+<p>服务在第一次请求时被创建（或者当我们在ConfigureServices中指定创建某一实例并运行方法），其后的每次请求将沿用已创建服务。如果开发者的应用需要单例服务情景，请设计成允许服务容器来对服务生命周期进行操作，而不是手动实现单例设计模式然后由开发者在自定义类中进行操作。</p>
+<p><img src="https://img2020.cnblogs.com/blog/1350373/202105/1350373-20210508095030701-1892932293.png" alt="image" loading="lazy"></p>
+<blockquote>
+<p>图片来源自：<a href="https://blog.csdn.net/weixin_47498376/article/details/116177389" target="_blank">https://blog.csdn.net/weixin_47498376/article/details/116177389</a></p>
+</blockquote>
+<pre><code>services.AddSingleton&lt;IApplicationService,ApplicationService&gt;
+</code></pre>
+<blockquote>
+<p>比如某些公共类等</p>
+</blockquote>
+<h2 id="scoped作用域">Scoped(作用域)</h2>
+<p>一次请求开始到请求结束 ，这次请求中获取的对象都是同一个</p>
+<p><img src="https://img2020.cnblogs.com/blog/1350373/202105/1350373-20210508095051616-692500720.png" alt="image" loading="lazy"></p>
+<blockquote>
+<p>图片来源自：<a href="https://blog.csdn.net/weixin_47498376/article/details/116177389" target="_blank">https://blog.csdn.net/weixin_47498376/article/details/116177389</a></p>
+</blockquote>
+<pre><code>services.AddScoped&lt;IApplicationService,ApplicationService&gt;
+</code></pre>
+<blockquote>
+<p>如果该service在一个请求过程中多次被用到，并且可能共享其中的字段或者属性，那么就使用scoped，例如httpcontext （感谢群里老哥的帮助）</p>
+</blockquote>
+<h2 id="transient瞬时">Transient(瞬时)</h2>
+<p>每一次获取的对象都不是同一个，它最好被用于轻量级无状态服务（如我们的Repository和ApplicationService服务）</p>
+<p><img src="https://img2020.cnblogs.com/blog/1350373/202105/1350373-20210508095102571-1195164261.png" alt="image" loading="lazy"></p>
+<blockquote>
+<p>图片来源自：<a href="https://blog.csdn.net/weixin_47498376/article/details/116177389" target="_blank">https://blog.csdn.net/weixin_47498376/article/details/116177389</a></p>
+</blockquote>
+<pre><code>services.AddTransient&lt;IApplicationService,ApplicationService&gt;
+</code></pre>
+<blockquote>
+<p>如果该service在一次请求中只使用一次，那么就注册Transient就好了。</p>
+</blockquote>
+<h1 id="注入方式">注入方式</h1>
+<pre><code>    /// &lt;summary&gt;
+    /// 用户接口
+    /// &lt;/summary&gt;
+    public interface IUserService
+    {
+        string GetName();
+    }
+
+    /// &lt;summary&gt;
+    /// 用户实现
+    /// &lt;/summary&gt;
+    public class UserService : IUserService
+    {
+        public string GetName()
+        {
+            return "AZRNG";
+        }
+    }
+</code></pre>
+<blockquote>
+<p>需要在ConfigureServices方法进行注入</p>
+</blockquote>
+<h2 id="构造函数注入">构造函数注入</h2>
+<p>服务作为构造函数参数添加，并且运行时从服务容器中解析服务。</p>
+<pre><code>        private readonly IUserService _userService;
+
+        public UserController(IUserService userService)
+        {
+            _userService = userService;
+        }
+
+        [HttpGet]
+        public ActionResult GetName()
+        {
+            return Ok(_userService.GetName());
+        }
+</code></pre>
+<h2 id="fromservices操作注入">FromServices操作注入</h2>
+<pre><code>        [HttpGet]
+        public ActionResult GetName([FromServices] IUserService _userService)
+        {
+            return Ok(_userService.GetName());
+        }
+</code></pre>
+<h1 id="核心">核心</h1>
+<p>在.NET Core中DI的核心分为两个组件：IServiceCollection和 IServiceProvider。</p>
+<ul>
+<li>IServiceCollection负责注册</li>
+<li>IServiceProvider负责提供实例</li>
+</ul>
+<pre><code>public void ConfigureServices(IServiceCollection services)
+{
+    //将服务生命期的范围限定为单个请求的生命期
+    services.AddTransient&lt;IUserService, UserService&gt;();
+}
+</code></pre>
+<h2 id="获取服务">获取服务</h2>
+<pre><code>        private readonly IUserService _userService;
+        public HomeController(IUserService userService)
+        {
+            _userService = userService;
+        }
+
+        public IActionResult Index()
+        {
+            var info = _userService.GetInfo();
+            return View();
+        }
+</code></pre>
+<h2 id="iserviceprovider获取">IServiceProvider获取</h2>
+<pre><code>        private readonly IServiceProvider _service;
+        public UserController(IServiceProvider service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        public ActionResult GetName()
+        {
+            var _userService = (IUserService)_service.GetService(typeof(IUserService));
+            return Ok(_userService.GetName());
+        }
+</code></pre>
+<h2 id="statrup中获取服务">statrup中获取服务</h2>
+<pre><code>var provider = services.BuildServiceProvider();
+var userserivce = provider.GetService&lt;IUserService&gt;();
+//或
+var userservice2 = provider.GetRequiredService&lt;IUserService&gt;();
+</code></pre>
+<h1 id="微信公众号">微信公众号</h1>
+<p><img src="https://img2020.cnblogs.com/blog/1350373/202105/1350373-20210504102816511-1607089610.jpg" alt="" loading="lazy"></p>
+
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2021-05-08 09:54</span>&nbsp;
+<a href="https://www.cnblogs.com/azrng/">AZRNG</a>&nbsp;
+阅读(<span id="post_view_count">45</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14743716" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14743716);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 418143, cb_blogApp = 'azrng', cb_blogUserGuid = '0a354e27-ba59-4278-95d4-08d5866282ce';
+    var cb_entryId = 14743716, cb_entryCreatedDate = '2021-05-08 09:54', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 AZRNG
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjvYe0yvIzt8RhSnHVDPCE5p5wWPMRZapwNcPsA6eY2MEcaTq7EsgN9XVViETYTQ3jiC_QeR4MAeq3ivQ21k8yULEXOf-uVljJlN3jghN_0k7Gf11uhgVZ7SKkJYlhgxVVc" />
+</body>
+</html>

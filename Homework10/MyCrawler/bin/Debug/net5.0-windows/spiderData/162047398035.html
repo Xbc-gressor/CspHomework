@@ -1,0 +1,447 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="不管是小马达，还是大马达，嗯，也就是电机，相信大伙伴们也不会陌生。四驱车是一种很优秀的玩具，从老周小时候就开始流行（动画片《四驱兄弟》估计很多大朋友都看过），直到现在还能看到很多卖四驱车的。为啥会想起" />
+    <meta property="og:description" content="不管是小马达，还是大马达，嗯，也就是电机，相信大伙伴们也不会陌生。四驱车是一种很优秀的玩具，从老周小时候就开始流行（动画片《四驱兄弟》估计很多大朋友都看过），直到现在还能看到很多卖四驱车的。为啥会想起" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>【.NET 与树莓派】控制舵机 - 东邪独孤 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/moonlightink/bundle-moonlightink.min.css?v=iVE30sZ6vb6blzqPWbGs2kM432fxmh8k3P9XllAp48s" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/moonlightink/bundle-moonlightink-mobile.min.css?v=axcwoS9UbqWFSKj9O2YcPP0sVreDAEIZDpcqOVKt8M4" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/tcjiaan/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/tcjiaan/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/tcjiaan/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 113198;
+        var currentBlogApp = 'tcjiaan';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'MoonlightInk';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-02-19 05:20';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/tcjiaan/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/tcjiaan/">老周</a>
+</h1>
+<h2>成于天性，行于自然。</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/tcjiaan/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E4%B8%9C%E9%82%AA%E7%8B%AC%E5%AD%A4">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/tcjiaan/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/tcjiaan/p/14415377.html">
+    <span>【.NET 与树莓派】控制舵机</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<p>不管是小马达，还是大马达，嗯，也就是电机，相信大伙伴们也不会陌生。四驱车是一种很优秀的玩具，从老周小时候就开始流行（动画片《四驱兄弟》估计很多大朋友都看过），直到现在还能看到很多卖四驱车的。为啥会想起四驱车呢？因为小时候玩四驱车让老周认识了很多奇葩马达，什么“红魔鬼”、“蓝芯”、“紫魔鬼”……也不知道是什么逻辑的命名方式，反正那时候大家都这么叫。</p>
+<p>这些马达的结构有一个转轴，绕有红色或橙色的线圈（记忆中是这些颜色），有四块磁铁。金属外壳，上部开有两个散热孔。整体形状有圆的也有扁的，许多遥控车的马达是圆的。还有一马达像个竹筒似的，一些太阳帽小风扇里面有。</p>
+<p>一般的马达的特点，就是一通电就往一个方向转（正负接反它就反向转），但舵机比普通马达更好玩。360度的舵机与一般马达相似，加电后会往一个方向转动，信号线控制其转动方向和转速；不过我们常说的舵机一般是指 180 度的舵机，这种舵机可以通过信号线让它转动一定的角度，当到达指定的角度后舵机会停下来。</p>
+<p>180 度舵机可以：</p>
+<p><span style="color: rgba(0, 0, 128, 1)">1、机器人各个关节的运动，可模拟人的关节活动。因为程序可以控制舵机转到指定的角度。</span></p>
+<p><span style="color: rgba(0, 0, 128, 1)">2、遥控小车可以用舵机来拐弯。</span></p>
+<p><span style="color: rgba(0, 0, 128, 1)">3、机械臂 / 机械爪。</span></p>
+<p><span style="color: rgba(0, 0, 128, 1)">4、制作可以转动的摄像头。</span></p>
+<p><span style="color: rgba(0, 0, 128, 1)">5、3D 打印的零部件。</span></p>
+<p><span style="color: rgba(0, 0, 128, 1)">……</span></p>
+<p>只要需要控制转动方向的，都用得上。</p>
+<p>&nbsp;</p>
+<p>舵机依据其工作负荷以及扭力可以有很多种，咱们用来开发做实验的，最好选 9 克舵机。尽管这种舵机力气不大，但是开发板可以直接供电，不用外加电源补电。就是这种，蓝色透明外壳的。</p>
+<p><img src="https://img2020.cnblogs.com/blog/367389/202102/367389-20210219111821188-416972003.png" width="300" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;正因为外壳是透明的，所以你能看到里面有什么。当然了，你如果像老周这样喜欢搞破坏的，可以把拆开玩玩。</p>
+<p><img src="https://img2020.cnblogs.com/blog/367389/202102/367389-20210219112216177-260571821.png" width="300" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;拆的时候最好戴个手套，毕竟这是电机，你拆过就知道，里面有很多润滑油的。装回去的时候要注意那几个减速齿轮，有的大伙伴一时冲动拆了，然后装不回去。虽然这种舵机一般几块钱一个，但你也不能这么浪费。</p>
+<p><img src="https://img2020.cnblogs.com/blog/367389/202102/367389-20210219112509003-1189731487.png" width="450" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;舵机里面主要这几个部件：</p>
+<p><span style="color: rgba(0, 0, 128, 1)">1、马达。这个肯定有的，不然怎么转。</span></p>
+<p><span style="color: rgba(0, 0, 128, 1)">2、电位器。不同角度会改变不同的电阻值，使控制板能驱动马达转多少圈。</span></p>
+<p><span style="color: rgba(0, 0, 128, 1)">3、控制板。</span></p>
+<p><span style="color: rgba(0, 0, 128, 1)">4、N 个减速齿轮。</span></p>
+<p>&nbsp;</p>
+<p>上面只是了解一下舵机，接下来看重点——怎么控制角度。一般的教程会跟你说，通过 PWM 设置不同占空比来控制舵机转动角度。这并不算错，因为控制舵机确实是用 PWM 实现的。不过，这样说其实不准确。实际上，让舵机转动多少度是通过<span style="text-decoration: underline"><em><strong>高电平的持续时间</strong></em></span>来控制的。</p>
+<p>通常情况下，控制脉冲的周期时长是 20 毫秒，即 20000 微秒。故用PWM时，频率设定 50 Hz（1 / 0.02秒 = 50 Hz）。舵机识别高电平的时间范围为 0.5 ms 到 2.5 ms，即 500 us 到 2500 us。下图是老周盗来的动图。</p>
+<p><img src="https://img2020.cnblogs.com/blog/367389/202102/367389-20210219113828287-755898283.gif" alt="" loading="lazy"></p>
+<p>这就是为什么PWM能控制舵机的原因，在 0.5ms 之前的时间舵机不关心，所以这段时间无论输出信号是高电平还是低电平都可以，因此关注的核心变为<em><strong>高电平什么时候关闭</strong></em>（变为低电平）。</p>
+<p><img src="https://img2020.cnblogs.com/blog/367389/202102/367389-20210219114716477-1994964666.png" width="300" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;如上图，如果高电平持续到 0.5 毫秒时变为低电平，则舵机旋转至 0 度。</p>
+<p>&nbsp;</p>
+<p><img src="https://img2020.cnblogs.com/blog/367389/202102/367389-20210219115112591-1013809658.png" width="300" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;如果高电平在 1.5 毫秒时关闭，则舵机旋转到 90 度。</p>
+<p>&nbsp;</p>
+<p><img src="https://img2020.cnblogs.com/blog/367389/202102/367389-20210219115451044-1999646114.png" width="300" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;如果高电平在 2.5 毫秒时关闭，舵机旋转至 180 度。</p>
+<p>&nbsp;</p>
+<p>综上所述，将控制舵机的信号换算为PWM的占空比，需要准备以下条件：</p>
+<p><span style="color: rgba(0, 51, 102, 1)">1、周期时间长度，一般为 20000 us，换算为PWM频率为 50Hz。</span></p>
+<p><span style="color: rgba(0, 51, 102, 1)">2、高电平有效的持续时间，一般值为：min = 500us，max = 2500us。</span></p>
+<p><span style="color: rgba(0, 51, 102, 1)">3、500 - 2500 us，其时间段为 2500-500 = 2000us，用180度平分这2000微秒，即每一度角对应的时间为 2000 / 180 ≈ 11.11 us / deg。</span></p>
+<p>综合一下，占空比可这样算：</p>
+<p>假设要旋转 90 度，即占空比：</p>
+<p>&nbsp;<img src="https://img2020.cnblogs.com/blog/367389/202102/367389-20210219122108570-65292923.png" alt="" width="297" height="44" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;把公式翻译成中文，就是这样</p>
+<p><img src="https://img2020.cnblogs.com/blog/367389/202102/367389-20210219122617902-1383636940.png" width="600" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>有了上面的基础，写代码就好办了。这里老周写了一个测试程序，这个命令行程序可以通过输入命令来修改参数，这样方便大家做实验。命令帮助信息如下：</p>
+<div class="cnblogs_code">
+<pre>        <span style="color: rgba(0, 0, 255, 1)">using</span> <span style="color: rgba(0, 0, 255, 1)">static</span><span style="color: rgba(0, 0, 0, 1)"> System.Console;
+
+        </span><span style="color: rgba(0, 0, 255, 1)">static</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> ShowHelps()
+        {
+            WriteLine(</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">{0,-15}{1}</span><span style="color: rgba(128, 0, 0, 1)">"</span>, <span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">h</span><span style="color: rgba(128, 0, 0, 1)">"</span>, <span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">显示帮助信息</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">);
+            WriteLine(</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">{0,-15}{1}</span><span style="color: rgba(128, 0, 0, 1)">"</span>, <span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">x</span><span style="color: rgba(128, 0, 0, 1)">"</span>, <span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">退出</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">);
+            WriteLine(</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">{0,-15}{1}</span><span style="color: rgba(128, 0, 0, 1)">"</span>, <span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">d n</span><span style="color: rgba(128, 0, 0, 1)">"</span>, <span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">设置周期（微秒）</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">);
+            WriteLine(</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">{0,-15}{1}</span><span style="color: rgba(128, 0, 0, 1)">"</span>, <span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">t n</span><span style="color: rgba(128, 0, 0, 1)">"</span>, <span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">高电平起始时间（微秒）</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">);
+            WriteLine(</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">{0,-15}{1}</span><span style="color: rgba(128, 0, 0, 1)">"</span>, <span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">p n</span><span style="color: rgba(128, 0, 0, 1)">"</span>, <span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">高电平结束时间（微秒）</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">);
+            WriteLine(</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">{0,-15}{1}</span><span style="color: rgba(128, 0, 0, 1)">"</span>, <span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">a n</span><span style="color: rgba(128, 0, 0, 1)">"</span>, <span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">角度</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">);
+            WriteLine(</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">{0,-15}{1}</span><span style="color: rgba(128, 0, 0, 1)">"</span>, <span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">o</span><span style="color: rgba(128, 0, 0, 1)">"</span>, <span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">发送脉冲信号</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">);
+            WriteLine(</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">{0,-15}{1}</span><span style="color: rgba(128, 0, 0, 1)">"</span>, <span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">s</span><span style="color: rgba(128, 0, 0, 1)">"</span>, <span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">停止脉冲</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">);
+            WriteLine();
+        }
+        </span></pre>
+</div>
+<p>下面的代码是计算 1 度角对应的时间长度（微秒）。</p>
+<div class="cnblogs_code">
+<pre>        <span style="color: rgba(0, 0, 255, 1)">static</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> ComputeMicroToAngle()
+        {
+            microForAngle </span>= (maxMicrosec - minMicrosec) / <span style="color: rgba(128, 0, 128, 1)">180.0d</span><span style="color: rgba(0, 0, 0, 1)">;
+        }</span></pre>
+</div>
+<p>minMicrosec 是高电平持续的最小时间：500us；maxMicrosec 是高电平持续的最大时间：2500us。</p>
+<p>这几个变量的声明如下：</p>
+<div class="cnblogs_code">
+<pre>        <span style="color: rgba(128, 128, 128, 1)">///</span> <span style="color: rgba(128, 128, 128, 1)">&lt;summary&gt;</span>
+        <span style="color: rgba(128, 128, 128, 1)">///</span><span style="color: rgba(0, 128, 0, 1)"> 高电平持续的最小时间，一般为 500us
+        </span><span style="color: rgba(128, 128, 128, 1)">///</span> <span style="color: rgba(128, 128, 128, 1)">&lt;/summary&gt;</span>
+        <span style="color: rgba(0, 0, 255, 1)">static</span> <span style="color: rgba(0, 0, 255, 1)">int</span> minMicrosec = <span style="color: rgba(128, 0, 128, 1)">500</span><span style="color: rgba(0, 0, 0, 1)">;
+
+        </span><span style="color: rgba(128, 128, 128, 1)">///</span> <span style="color: rgba(128, 128, 128, 1)">&lt;summary&gt;</span>
+        <span style="color: rgba(128, 128, 128, 1)">///</span><span style="color: rgba(0, 128, 0, 1)"> 高电平持续的最大时间，一般为 2500us
+        </span><span style="color: rgba(128, 128, 128, 1)">///</span> <span style="color: rgba(128, 128, 128, 1)">&lt;/summary&gt;</span>
+        <span style="color: rgba(0, 0, 255, 1)">static</span> <span style="color: rgba(0, 0, 255, 1)">int</span> maxMicrosec = <span style="color: rgba(128, 0, 128, 1)">2500</span><span style="color: rgba(0, 0, 0, 1)">;
+
+        </span><span style="color: rgba(128, 128, 128, 1)">///</span> <span style="color: rgba(128, 128, 128, 1)">&lt;summary&gt;</span>
+        <span style="color: rgba(128, 128, 128, 1)">///</span><span style="color: rgba(0, 128, 0, 1)"> 一度角对应的持续时间，单位为微秒（us）
+        </span><span style="color: rgba(128, 128, 128, 1)">///</span> <span style="color: rgba(128, 128, 128, 1)">&lt;/summary&gt;</span>
+        <span style="color: rgba(0, 0, 255, 1)">static</span> <span style="color: rgba(0, 0, 255, 1)">double</span> microForAngle = 0d;</pre>
+</div>
+<p>&nbsp;</p>
+<p>主体代码如下，其余的可以下载源代码查看。</p>
+<div class="cnblogs_code">
+<pre>            <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> 创建PWM通道实例</span>
+            PwmChannel ch = PwmChannel.Create(<span style="color: rgba(128, 0, 128, 1)">0</span>, <span style="color: rgba(128, 0, 128, 1)">0</span><span style="color: rgba(0, 0, 0, 1)">);
+            ShowHelps(); </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">运行后打印一次帮助信息</span>
+            <span style="color: rgba(0, 0, 255, 1)">bool</span> working = <span style="color: rgba(0, 0, 255, 1)">true</span>; <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">用来跳出循环的标志变量</span>
+            <span style="color: rgba(0, 0, 255, 1)">while</span><span style="color: rgba(0, 0, 0, 1)">(working)
+            {
+                Write(</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">&gt;&gt;&gt;</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">);
+                </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> 读取键盘输入的一行文本</span>
+                <span style="color: rgba(0, 0, 255, 1)">string</span> line =<span style="color: rgba(0, 0, 0, 1)"> ReadLine();
+                </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> 读取第一个字符</span>
+                <span style="color: rgba(0, 0, 255, 1)">char</span> first = line[<span style="color: rgba(128, 0, 128, 1)">0</span><span style="color: rgba(0, 0, 0, 1)">];
+                </span><span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)"> 分析命令</span>
+                <span style="color: rgba(0, 0, 255, 1)">switch</span><span style="color: rgba(0, 0, 0, 1)">(first)
+                {
+                    </span><span style="color: rgba(0, 0, 255, 1)">case</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">h</span><span style="color: rgba(128, 0, 0, 1)">'</span>: <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">显示帮助信息</span>
+<span style="color: rgba(0, 0, 0, 1)">                        ShowHelps();
+                        </span><span style="color: rgba(0, 0, 255, 1)">break</span><span style="color: rgba(0, 0, 0, 1)">;
+                    </span><span style="color: rgba(0, 0, 255, 1)">case</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">x</span><span style="color: rgba(128, 0, 0, 1)">'</span>: <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">跳出循环，退出程序</span>
+                        working = <span style="color: rgba(0, 0, 255, 1)">false</span><span style="color: rgba(0, 0, 0, 1)">;
+                        </span><span style="color: rgba(0, 0, 255, 1)">break</span><span style="color: rgba(0, 0, 0, 1)">;
+                    </span><span style="color: rgba(0, 0, 255, 1)">case</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">d</span><span style="color: rgba(128, 0, 0, 1)">'</span>: <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">设置周期，一般是20000us</span>
+                        ch.Frequency = ParseFreq(line[<span style="color: rgba(128, 0, 128, 1)">1</span><span style="color: rgba(0, 0, 0, 1)">..].Trim());
+                        </span><span style="color: rgba(0, 0, 255, 1)">break</span><span style="color: rgba(0, 0, 0, 1)">;
+                    </span><span style="color: rgba(0, 0, 255, 1)">case</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">t</span><span style="color: rgba(128, 0, 0, 1)">'</span>: <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">设置高电平持续的最小时间</span>
+                        ParseMinMicrosecond(line[<span style="color: rgba(128, 0, 128, 1)">1</span><span style="color: rgba(0, 0, 0, 1)">..].Trim());
+                        ComputeMicroToAngle();
+                        </span><span style="color: rgba(0, 0, 255, 1)">break</span><span style="color: rgba(0, 0, 0, 1)">;
+                    </span><span style="color: rgba(0, 0, 255, 1)">case</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">p</span><span style="color: rgba(128, 0, 0, 1)">'</span>: <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">设置高电平持续的最大时间</span>
+                        ParseMaxMicrosecond(line[<span style="color: rgba(128, 0, 128, 1)">1</span><span style="color: rgba(0, 0, 0, 1)">..].Trim());
+                        ComputeMicroToAngle();
+                        </span><span style="color: rgba(0, 0, 255, 1)">break</span><span style="color: rgba(0, 0, 0, 1)">;
+                    </span><span style="color: rgba(0, 0, 255, 1)">case</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">a</span><span style="color: rgba(128, 0, 0, 1)">'</span>: <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">设置要旋转的角度</span>
+                        <span style="color: rgba(0, 0, 255, 1)">double</span> angle = ParseAngle(line[<span style="color: rgba(128, 0, 128, 1)">1</span><span style="color: rgba(0, 0, 0, 1)">..].Trim());
+                        ch.DutyCycle </span>=<span style="color: rgba(0, 0, 0, 1)"> ComputeDuty(angle, ch.Frequency);
+                        </span><span style="color: rgba(0, 0, 255, 1)">break</span><span style="color: rgba(0, 0, 0, 1)">;
+                    </span><span style="color: rgba(0, 0, 255, 1)">case</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">o</span><span style="color: rgba(128, 0, 0, 1)">'</span>: <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">开始发送脉冲</span>
+<span style="color: rgba(0, 0, 0, 1)">                        ch.Start();
+                        </span><span style="color: rgba(0, 0, 255, 1)">break</span><span style="color: rgba(0, 0, 0, 1)">;
+                    </span><span style="color: rgba(0, 0, 255, 1)">case</span> <span style="color: rgba(128, 0, 0, 1)">'</span><span style="color: rgba(128, 0, 0, 1)">s</span><span style="color: rgba(128, 0, 0, 1)">'</span>: <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">停止发送脉冲</span>
+<span style="color: rgba(0, 0, 0, 1)">                        ch.Stop();
+                        </span><span style="color: rgba(0, 0, 255, 1)">break</span><span style="color: rgba(0, 0, 0, 1)">;
+                    </span><span style="color: rgba(0, 0, 255, 1)">default</span><span style="color: rgba(0, 0, 0, 1)">:
+                        WriteLine(</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(128, 0, 0, 1)">&lt;&lt;&lt; 无效命令</span><span style="color: rgba(128, 0, 0, 1)">"</span><span style="color: rgba(0, 0, 0, 1)">);
+                        </span><span style="color: rgba(0, 0, 255, 1)">break</span><span style="color: rgba(0, 0, 0, 1)">;
+                }
+            }
+            ch.Dispose();</span></pre>
+</div>
+<p>&nbsp;</p>
+<p>编译，发布，上传到树莓派。注意舵机有三条线：</p>
+<p>1、红线（一般在中间），接树莓派 5V 引脚（供电正极）。</p>
+<p>2、黑线或棕色线，接树莓派任意一个 GND 引脚（供电负极）。</p>
+<p>3、黄色（有的是白色）是信号线，用来控制舵机，接树莓派的 GPIO 18，这个是树莓派全系列通用的默认 PWM 引脚。</p>
+<p>&nbsp;</p>
+<p>运行程序，第一步，输入 d 20000，设定周期（为了统一，所有时间参数都是以微秒为单位）。</p>
+<p><img src="https://img2020.cnblogs.com/blog/367389/202102/367389-20210219125018793-880257455.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;输入 t 500 设置高电平控制角度的起始时间，就是持续最小值，取500。</p>
+<p><img src="https://img2020.cnblogs.com/blog/367389/202102/367389-20210219125141013-75846410.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;输入 p 2500，设置高电平的结束时间，即持续的最大值，一般取 2500。</p>
+<p><img src="https://img2020.cnblogs.com/blog/367389/202102/367389-20210219125252566-544708083.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;输入小写字母 o，开始PWM。</p>
+<p><img src="https://img2020.cnblogs.com/blog/367389/202102/367389-20210219125341028-1546176122.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;输入 a 120，旋转至 120 度。</p>
+<p><img src="https://img2020.cnblogs.com/blog/367389/202102/367389-20210219125418693-1220379202.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>输入 a 30 ，旋转至 30 度。</p>
+<p><img src="https://img2020.cnblogs.com/blog/367389/202102/367389-20210219125500209-1036053984.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;输入小写字母 s ，停止PWM信号，输入 x 退出。</p>
+<p>&nbsp;</p>
+<p>看看效果。</p>
+<p><img src="https://img2020.cnblogs.com/blog/367389/202102/367389-20210219171735712-312369924.gif" width="400" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>相关源代码，请<a href="https://files.cnblogs.com/files/tcjiaan/svosam.zip" target="_blank">点这里下载</a></p>
+<p>&nbsp;</p>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2021-02-19 17:20</span>&nbsp;
+<a href="https://www.cnblogs.com/tcjiaan/">东邪独孤</a>&nbsp;
+阅读(<span id="post_view_count">782</span>)&nbsp;
+评论(<span id="post_comment_count">2</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14415377" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14415377);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 113198, cb_blogApp = 'tcjiaan', cb_blogUserGuid = '9874e16f-6837-e111-b988-842b2b196315';
+    var cb_entryId = 14415377, cb_entryCreatedDate = '2021-02-19 17:20', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 东邪独孤
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjsin8MaFNnOUZoYprmN4pKbyj0cpYrrcgXP04kpZ0iEByKFhwidN_Fod5fSYXRlCvPftB6EG9IFhU3imrwYU0RO4MYL6v0Wukrvit1O2DGERRS7Zx4jqGiE8rBdwc7ODi0" />
+</body>
+</html>

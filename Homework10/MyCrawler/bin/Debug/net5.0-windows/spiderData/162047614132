@@ -1,0 +1,1282 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    
+    
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>编程我的一切 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/simplememory/bundle-simplememory.min.css?v=uknaX_hejnSu-njQgx4Hj1R0JiPLwUhFPUlwWNmWyB4" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/SimpleMemory/bundle-SimpleMemory-mobile.min.css" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/qishun/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/qishun/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/qishun/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 298429;
+        var currentBlogApp = 'qishun';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'SimpleMemory';
+        var visitorUserId = '';
+    </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/qishun/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/qishun/">独自等待</a>
+</h1>
+<h2>专注于网站建设技术，asp.net，web前端，网站设计</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/qishun/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E7%BC%96%E7%A8%8B%E6%88%91%E7%9A%84%E4%B8%80%E5%88%87">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/qishun/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+
+
+
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/qishun/archive/2021/05/08.html">2021年5月8日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/qishun/p/14744068.html">
+    <span>
+        Windows 左ctrl和左alt键互换
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：reg代码 Windows Registry Editor Version 5.00 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Keyboard Layout] &quot;Scancode Map&quot;=hex:00,00,00,00,00,00,        <a href="https://www.cnblogs.com/qishun/p/14744068.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-05-08 10:57
+编程我的一切
+<span data-post-id="14744068" class="post-view-count">阅读(0)</span> 
+<span data-post-id="14744068" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14744068" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14744068" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/qishun/archive/2021/02/28.html">2021年2月28日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/qishun/p/14458213.html">
+    <span>
+        Bootstrap下拉菜单、按钮式下拉菜单
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：1. 概述 下拉菜单使用频率也是比较高的，比较常见的使用场景是在导航菜单栏，某个主菜单含有下拉的子菜单。 Bootstrap为下拉菜单提供了两种实现方式，即普通的下拉菜单还有按钮式的下拉菜单。我们先看一张图观察下，从图中可以看出，普通下拉菜单和按钮式下拉菜单的样式基本相同，唯一比较明显的区别是：普通        <a href="https://www.cnblogs.com/qishun/p/14458213.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-02-28 10:04
+编程我的一切
+<span data-post-id="14458213" class="post-view-count">阅读(224)</span> 
+<span data-post-id="14458213" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14458213" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14458213" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/qishun/archive/2021/02/18.html">2021年2月18日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/qishun/p/14413878.html">
+    <span>
+        SSM三大框架的运行流程、原理、核心技术详解
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：一、Spring部分 1、Spring的运行流程 &#183;第一步：加载配置文件ApplicationContext ac = new ClassPathXmlApplicationContext(&quot;beans.xml&quot;); ，ApplicationContext接口，它由BeanFactory接口派生而来        <a href="https://www.cnblogs.com/qishun/p/14413878.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-02-18 22:41
+编程我的一切
+<span data-post-id="14413878" class="post-view-count">阅读(44)</span> 
+<span data-post-id="14413878" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14413878" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14413878" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+            <div class="postSeparator"></div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/qishun/p/14411861.html">
+    <span>
+        app启动速度怎么提升？
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：简介：&#160;APP 启动速度的重要性不言而喻。高德地图是一个有着上亿用户的超级 APP，本文从唤端技术、H5 启动页、下载速度、APP加载、线程调度和任务编排等方面，详解相关技术原理和实现方案，分享高德在启动优化上用到的手段和思考，希望对同学们有所启发。 一 通过 Universal Links 和 A        <a href="https://www.cnblogs.com/qishun/p/14411861.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-02-18 15:03
+编程我的一切
+<span data-post-id="14411861" class="post-view-count">阅读(52)</span> 
+<span data-post-id="14411861" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14411861" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14411861" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/qishun/archive/2021/02/17.html">2021年2月17日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/qishun/p/14409713.html">
+    <span>
+        canvas画布基本知识点总结
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：HTML5的canvas元素使用JavaScript画图； &lt;canvas width=&quot;600&quot; height=&quot;400&quot;&gt; &lt;/canvas&gt; canvas画图的基本框架 画布默认背景颜色为白色，大小为300*150； 若要设置画布大小，不建议在style的样式设置尺寸,效果相当于将原本300*        <a href="https://www.cnblogs.com/qishun/p/14409713.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-02-17 20:47
+编程我的一切
+<span data-post-id="14409713" class="post-view-count">阅读(157)</span> 
+<span data-post-id="14409713" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14409713" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14409713" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/qishun/archive/2021/02/10.html">2021年2月10日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/qishun/p/14396784.html">
+    <span>
+        SSM框架整合（Spring + SpringMVC + MyBatis）
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：搭建环境 使用Spring（业务层）整合其他的框架SpringMVC（表现层）和MyBatis（持久层） Spring框架 创建数据库表 CREATE DATABASE ssm; USE ssm; CREATE TABLE account( id INT PRIMARY KEY AUTO_INCRE        <a href="https://www.cnblogs.com/qishun/p/14396784.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-02-10 22:05
+编程我的一切
+<span data-post-id="14396784" class="post-view-count">阅读(46)</span> 
+<span data-post-id="14396784" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14396784" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14396784" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/qishun/archive/2021/02/09.html">2021年2月9日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/qishun/p/14393409.html">
+    <span>
+        Lambda入门
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：本文是Lambda的入门文章。主要向读者介绍Lambda的基本概念和写法。主要面向的读者是Java新手。 主要内容： Lambda到底是什么东西？ 怎么通过Lambda简化代码？ 背景知识：其中在逐步推导Lambda表达式时，需要用到并发编程中的Runnable接口。 目录 什么是Lambda 第一        <a href="https://www.cnblogs.com/qishun/p/14393409.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-02-09 16:39
+编程我的一切
+<span data-post-id="14393409" class="post-view-count">阅读(19)</span> 
+<span data-post-id="14393409" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14393409" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14393409" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+            <div class="postSeparator"></div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/qishun/p/14393104.html">
+    <span>
+        Spring boot+CXF开发WebService Demo
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：目录 一、本次开发除了用到spring boot基础jar包外，还用到了cxf相关jar包： 二、首先我们创建一个实体类，内容是关于用户信息的查询和记录： 三、接下来我们创建接口类： 四、有了接口类，那么接下来我们对接口进行实现，也就是接口实现类（也就是业务类）代码： 五、（发布服务）接口类，业务类        <a href="https://www.cnblogs.com/qishun/p/14393104.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-02-09 15:27
+编程我的一切
+<span data-post-id="14393104" class="post-view-count">阅读(34)</span> 
+<span data-post-id="14393104" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14393104" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14393104" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+            <div class="postSeparator"></div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/qishun/p/14392003.html">
+    <span>
+        HTML5中的Web Notification桌面通知
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：一、传统的通知实现 通知可以说是web中比较常见且重要的功能，私信、在线提问、或者一些在线即时通讯工具我们总是希望第一时间知道对方有了新的反馈，这个时候，就需要页面给予即使的通知。 在以前，我们的通知实现主要是通过闪烁页面的标题内容来实现，实现原理其实很简单，就是定时器不断修改document.ti        <a href="https://www.cnblogs.com/qishun/p/14392003.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-02-09 10:12
+编程我的一切
+<span data-post-id="14392003" class="post-view-count">阅读(47)</span> 
+<span data-post-id="14392003" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14392003" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14392003" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+            <div class="postSeparator"></div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/qishun/p/14391845.html">
+    <span>
+        Open3d之交互式可视化
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：本篇教程介绍了Open3D的可视化窗口的交互功能。 # -*- coding:utf-8 -*- import copy import numpy as np import open3d as o3d def demo_crop_geometry(): print(&quot;手动几何裁剪演示&quot;) print        <a href="https://www.cnblogs.com/qishun/p/14391845.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-02-09 09:32
+编程我的一切
+<span data-post-id="14391845" class="post-view-count">阅读(78)</span> 
+<span data-post-id="14391845" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14391845" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14391845" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/qishun/archive/2021/02/08.html">2021年2月8日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/qishun/p/14389631.html">
+    <span>
+        行为识别TSM训练ucf101数据集
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：序言 最近有个行为检测的需求，打算用行为识别做，纯小白入这个方向，啃了两周的TSM原理和源码，训练好自己的数据集后，发现好像没法应用到自己的需求场景？？玛德！算了，还是要记录一下。原理就没别要讲了，网上很多，感兴趣的可以自己去搜。 一、数据准备 首先把代码git下来temporal-shift-mo        <a href="https://www.cnblogs.com/qishun/p/14389631.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-02-08 17:13
+编程我的一切
+<span data-post-id="14389631" class="post-view-count">阅读(47)</span> 
+<span data-post-id="14389631" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14389631" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14389631" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/qishun/archive/2021/02/06.html">2021年2月6日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/qishun/p/14383338.html">
+    <span>
+        Python3列表、元组及之间的区别和转换
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：文章目录 1. 列表(list) 1.1 列表创建、切片、删除、检索 1.2 列表常用函数 2. 元组(tuple) 3. 列表与元组区别及转换 1. 列表(list) 1.1 列表创建、切片、删除、检索 是Python的内置数据类型，是一个元素的有序集合 一个列表中的数据类型可以不相同 列表中的每        <a href="https://www.cnblogs.com/qishun/p/14383338.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-02-06 22:30
+编程我的一切
+<span data-post-id="14383338" class="post-view-count">阅读(34)</span> 
+<span data-post-id="14383338" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14383338" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14383338" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/qishun/archive/2021/01/29.html">2021年1月29日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/qishun/p/14347381.html">
+    <span>
+        Java 字符串简介
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：从概念上讲，Java 字符串就是 Unicode 字符序列。Java 没有内置的字符串类型，而是在标准 Java 类库中提供了一个预定义类，很自然地叫做 String。每个用双引号括起来的字符串都是 String 类的一个实例： String e = &quot;&quot;; // 空字符串 String greet        <a href="https://www.cnblogs.com/qishun/p/14347381.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-01-29 22:21
+编程我的一切
+<span data-post-id="14347381" class="post-view-count">阅读(56)</span> 
+<span data-post-id="14347381" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14347381" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14347381" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/qishun/archive/2021/01/28.html">2021年1月28日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/qishun/p/14342483.html">
+    <span>
+        Shell从入门到精通
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：熟悉基本shell操作不仅是运维的基本功，对于开发来说也是多多益善，我在学习的过程中，总结了十个练手的小demo，并附上涉及的知识点，仅供娱乐。 1. 多线程ping监控，检查同一网段的IP是否连通 Linux 系统中有一个特殊的设备/dev/null，这是一个黑洞。无论往该文件中写入多少数据，都会        <a href="https://www.cnblogs.com/qishun/p/14342483.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-01-28 23:00
+编程我的一切
+<span data-post-id="14342483" class="post-view-count">阅读(528)</span> 
+<span data-post-id="14342483" class="post-comment-count">评论(1)</span> 
+<span data-post-id="14342483" class="post-digg-count">推荐(2)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14342483" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+            <div class="postSeparator"></div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/qishun/p/14342023.html">
+    <span>
+        基于go-cqhttp实现QQ机器人
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：本篇文章记录一下自己在编写QQ机器人的时候所遇到的一些问题和核心功能的实现。 QQ机器人RabbitBot采用python编写，由于是个人学习使用，故目前不会开源完整代码，只会放出核心代码供学习参考。 使用的go-cqhttp项目：https://github.com/Mrs4s/go-cqhttp        <a href="https://www.cnblogs.com/qishun/p/14342023.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-01-28 21:11
+编程我的一切
+<span data-post-id="14342023" class="post-view-count">阅读(196)</span> 
+<span data-post-id="14342023" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14342023" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14342023" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+            <div class="postSeparator"></div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/qishun/p/14337879.html">
+    <span>
+         Soul 网关 Nacos 数据同步源码解析
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：学习目标： 学习Soul 网关 Nacos 数据同步源码解析 学习内容： 环境配置 Soul 网关 Nacos 数据同步基本概念 源码分析 学习时间：2020年1月28号 早7点 学习产出： 环境配置： 引入依赖在 soul-bootstrap 项目的 pom.xml 文件中引入了 soul-spr        <a href="https://www.cnblogs.com/qishun/p/14337879.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-01-28 07:35
+编程我的一切
+<span data-post-id="14337879" class="post-view-count">阅读(100)</span> 
+<span data-post-id="14337879" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14337879" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14337879" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/qishun/archive/2021/01/27.html">2021年1月27日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/qishun/p/14333337.html">
+    <span>
+        Spring Cloud之Commons如何通过配置文件配置服务实例？
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：Spring Cloud Commons 主要包括如下模块的接口和默认实现： 其中的限流策略以及重试策略是没有天然带的，但是其他模块的实现一般会带上这些功能。我们先从服务发现相关接口开始分析 服务发现相关 核心接口DiscoveryClient DiscoveryClient public inte        <a href="https://www.cnblogs.com/qishun/p/14333337.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-01-27 09:19
+编程我的一切
+<span data-post-id="14333337" class="post-view-count">阅读(17)</span> 
+<span data-post-id="14333337" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14333337" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14333337" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+            <div class="postSeparator"></div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/qishun/p/14333329.html">
+    <span>
+         SQL慢查询经历与解决方案
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：一、问题背景 现网出现慢查询，在500万数量级的情况下，单表查询速度在30多秒，需要对sql进行优化，sql如下： 我在测试环境构造了500万条数据，模拟了这个慢查询。 简单来说，就是查询一定条件下，都有哪些用户的，很简单的sql，可以看到，查询耗时为37秒。 说一下app_account字段的分布        <a href="https://www.cnblogs.com/qishun/p/14333329.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-01-27 09:16
+编程我的一切
+<span data-post-id="14333329" class="post-view-count">阅读(50)</span> 
+<span data-post-id="14333329" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14333329" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14333329" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/qishun/archive/2021/01/26.html">2021年1月26日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/qishun/p/14329719.html">
+    <span>
+        如何处理线程死锁
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：在上一篇文章中，我们用 Account.class 作为互斥锁，来解决银行间的转账问题，虽然这个方案不存在并发问题，但是所有的账户的转账都是串行的，例如账户 A 转账户 B、账户 C 转账户 D 这两个转账操作现实世界里是可以并行的，但是在这个方案里却被串行化了，这样的话，性能太差。 那下面我们就尝        <a href="https://www.cnblogs.com/qishun/p/14329719.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-01-26 12:56
+编程我的一切
+<span data-post-id="14329719" class="post-view-count">阅读(54)</span> 
+<span data-post-id="14329719" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14329719" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14329719" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/qishun/archive/2021/01/24.html">2021年1月24日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/qishun/p/14320486.html">
+    <span>
+        阅读lodash源码之旅数组方法篇-compact和concat
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：鲁迅说过：只有阅读过优秀库源码的人，才能配的上是真正的勇士。 compact 创建一个新数组，包含原数组中所有的非假值元素。例如false, null,0, “”, undefined, 和 NaN 都是被认为是“假值”。 注意以上的描述并不包括[],{}因为在js中，这个两个会进行隐式转换会把这两        <a href="https://www.cnblogs.com/qishun/p/14320486.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-01-24 12:16
+编程我的一切
+<span data-post-id="14320486" class="post-view-count">阅读(113)</span> 
+<span data-post-id="14320486" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14320486" class="post-digg-count">推荐(1)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14320486" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/qishun/archive/2021/01/23.html">2021年1月23日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/qishun/p/14316544.html">
+    <span>
+        Hadoop2.7.7阿里云安装部署
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：阿里云的网络环境不需要我们配置，如果是在自己电脑上的虚拟机，虚拟机的安装步骤可以百度。这里是单机版的安装（也有集群模式的介绍）使用Xshell连接阿里云主机，用命令将自己下载好的安装包上传到服务器 # 先安装程序，方便后面使用 [root@fda ~]# yum -y install lrzsz #        <a href="https://www.cnblogs.com/qishun/p/14316544.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-01-23 09:44
+编程我的一切
+<span data-post-id="14316544" class="post-view-count">阅读(141)</span> 
+<span data-post-id="14316544" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14316544" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14316544" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/qishun/archive/2021/01/21.html">2021年1月21日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/qishun/p/14310916.html">
+    <span>
+        部署负载均衡：LVS-DR群集（直连路由模式）
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：部署负载均衡：LVS-DR群集（直连路由模式） 文章目录 部署负载均衡：LVS-DR群集（直连路由模式） 一、LVS-DR数据包流向分析 二、LVS-DR中的ARP问题 三、LVS 负载均衡群集-DR模式 1.数据包流量分析 2.DR 模式的特点 四、LVS-DR负载均衡集群部署步骤 1、配置负载调        <a href="https://www.cnblogs.com/qishun/p/14310916.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-01-21 22:28
+编程我的一切
+<span data-post-id="14310916" class="post-view-count">阅读(27)</span> 
+<span data-post-id="14310916" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14310916" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14310916" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+            <div class="postSeparator"></div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/qishun/p/14310909.html">
+    <span>
+        Linux操作系统相关资料
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：玩转Linux操作系统 操作系统发展史 只有硬件没有软件的计算机系统被称之为“裸机”，我们很难用“裸机”来完成计算机日常的工作（如存储和运算），所以必须用特定的软件来控制硬件的工作。最靠近计算机硬件的软件是系统软件，其中最为重要的就是“操作系统”。“操作系统”是控制和管理整个计算机硬件和软件资源、实        <a href="https://www.cnblogs.com/qishun/p/14310909.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-01-21 22:26
+编程我的一切
+<span data-post-id="14310909" class="post-view-count">阅读(44)</span> 
+<span data-post-id="14310909" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14310909" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14310909" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+            <div class="postSeparator"></div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/qishun/p/14308760.html">
+    <span>
+        关于多线程、线程池、线程安全问题
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：多线程 1、基础概念 1.1 多线程技术 从软件或者硬件上实现同时执行多个任务 具有多线程能拦的计算机因有硬件支持而能够在同一时间执行多个线程 多线程编程常常也将其称之为并发编程 1.2 并发和并行 并行 在同一时刻，有多个指令在多个CPU上同时进行 并发 在同一时刻，有多个指令在单个CPU上交替进        <a href="https://www.cnblogs.com/qishun/p/14308760.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-01-21 16:28
+编程我的一切
+<span data-post-id="14308760" class="post-view-count">阅读(140)</span> 
+<span data-post-id="14308760" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14308760" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14308760" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/qishun/archive/2019/09/23.html">2019年9月23日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/qishun/p/xtreme.html">
+    <span>
+        发现一个好的后台模板 xtreme admin
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：xtreme admin 后台模板        <a href="https://www.cnblogs.com/qishun/p/xtreme.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2019-09-23 12:07
+编程我的一切
+<span data-post-id="11571622" class="post-view-count">阅读(794)</span> 
+<span data-post-id="11571622" class="post-comment-count">评论(0)</span> 
+<span data-post-id="11571622" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=11571622" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/qishun/archive/2016/08/09.html">2016年8月9日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/qishun/p/5754995.html">
+    <span>
+        C#微信开发回复信息
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：using System;using System.Collections.Generic;using System.IO;using System.Linq;using System.Web;using System.Web.Security;using System.Xml;namespace         <a href="https://www.cnblogs.com/qishun/p/5754995.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2016-08-09 23:17
+编程我的一切
+<span data-post-id="5754995" class="post-view-count">阅读(1036)</span> 
+<span data-post-id="5754995" class="post-comment-count">评论(0)</span> 
+<span data-post-id="5754995" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=5754995" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/qishun/archive/2016/08/07.html">2016年8月7日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/qishun/p/5746974.html">
+    <span>
+        网站的容错性设计原则
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：互联网技术的飙升，网络技术的大量使用，郑州网站建设公司的职责也变得非常的高大上和沉重。如今市场上越来越多的B2C和C2C产品的用户体验越来越重要了，但是站在用户的角度上面，并不是每次搜索都是对的，我们在搜索浏览器的时候会因为各种原因都会有错误的搜索！那么我们应该怎么相应用户的错误兼容性呢？ 现在，错        <a href="https://www.cnblogs.com/qishun/p/5746974.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2016-08-07 19:54
+编程我的一切
+<span data-post-id="5746974" class="post-view-count">阅读(273)</span> 
+<span data-post-id="5746974" class="post-comment-count">评论(0)</span> 
+<span data-post-id="5746974" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=5746974" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+            <div class="postSeparator"></div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/qishun/p/5746899.html">
+    <span>
+        C#实现百度ping功能
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：网站优化必做的事情之一，百度ping，主动推送给百度 文章添加时调用百度推送方法 common类库增加百度ping方法        <a href="https://www.cnblogs.com/qishun/p/5746899.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2016-08-07 19:12
+编程我的一切
+<span data-post-id="5746899" class="post-view-count">阅读(1262)</span> 
+<span data-post-id="5746899" class="post-comment-count">评论(1)</span> 
+<span data-post-id="5746899" class="post-digg-count">推荐(1)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=5746899" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+
+<div class="topicListFooter">
+    <div id="nav_next_page">
+        
+    
+
+    </div>    
+</div>
+
+
+
+
+
+
+<script>
+    updatePostStats(
+        $(".post-view-count").map(function () { return this.dataset.postId }).get(),
+        function(id, count) { $(".post-view-count[data-post-id=" + id + "]").text("阅读(" + count + ")") },
+        function(id, count) { $(".post-comment-count[data-post-id=" + id + "]").text("评论(" + count + ")") },
+        function(id, count) { $(".post-digg-count[data-post-id=" + id + "]").text("推荐(" + count + ")") });
+</script>
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 编程我的一切
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjuBs6GnDpajnkexMM65EXSBci0zzS6n0p6uSu97YYTYKmMjfljFmjdw1wmRn8S6qnc-3O8B7pK8d3MRxnY3FPLGQ4xipJolF9JLEbglOLnAMXMdyrGbjGKEvlIvDNxapOM" />
+</body>
+</html>

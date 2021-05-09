@@ -1,0 +1,557 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="never" />
+    <meta name="description" content="一：背景 1. 讲故事 这篇文章起源于 搬砖队大佬 的精彩文章 WinDBg定位asp.net mvc项目异常崩溃源码位置 ，写的非常好，不过美中不足的是通览全文之后，总觉得有那么一点不过瘾，就是没有" />
+    <meta property="og:description" content="一：背景 1. 讲故事 这篇文章起源于 搬砖队大佬 的精彩文章 WinDBg定位asp.net mvc项目异常崩溃源码位置 ，写的非常好，不过美中不足的是通览全文之后，总觉得有那么一点不过瘾，就是没有" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>记一次 .NET 某教育系统API 异常崩溃分析 - 一线码农 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/imetro_hd/bundle-imetro_hd.min.css?v=FftQhR2MvKTGGXxV0VXlcGGt4XBM0_1XGJmu6kYD9bg" />
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/huangxincheng/custom.css?v=SdYXO/puoNgM6b4X1hctiyD8/bs=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/imetro_hd/bundle-imetro_hd-mobile.min.css?v=t8lZrYXGRE8kAD_d-besbRXwkXSQmMprnkoJVYlZl-g" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/huangxincheng/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/huangxincheng/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/huangxincheng/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 85195;
+        var currentBlogApp = 'huangxincheng';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'iMetro_HD';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-05-03 01:35';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="no-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/huangxincheng/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/huangxincheng/"></a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/huangxincheng/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E4%B8%80%E7%BA%BF%E7%A0%81%E5%86%9C">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/huangxincheng/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/huangxincheng/p/14727348.html">
+    <span>记一次 .NET 某教育系统API 异常崩溃分析</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+<h2 id="一：背景">一：背景</h2>
+<h3 id="1-讲故事">1. 讲故事</h3>
+<p>这篇文章起源于 <code>搬砖队大佬</code> 的精彩文章 <a href="https://mp.weixin.qq.com/s?__biz=MjM5MzI5Mzg1OA==&amp;mid=2247489809&amp;idx=1&amp;sn=542742372e685e81beb87d6c7c6f9d9a&amp;chksm=a6986a5c91efe34a298d2c74df70913299af5a081a970cfb32215d1f45e790ea5231db8b359f&amp;token=1082083181&amp;lang=zh_CN#rd" target="_blank">WinDBg定位asp.net mvc项目异常崩溃源码位置</a> ，写的非常好，不过美中不足的是通览全文之后，总觉得有那么一点不过瘾，就是没有把当时抛异常前的参数给找出来。。。这一篇我就试着弥补这个遗憾😁😁😁。</p>
+<p>为了能够让文章行云流水，我就按照自己的侦察思路吧，首先看一下现状：iis上的应用程序崩溃, catch 不到错误，windows日志中只记录了一个 <code>AccessViolationException</code> 异常，如何分析？</p>
+<p>说实话我也是第一次在托管语言 C# 中遇到这种异常，够奇葩，先看看 MSDN 上的解释。</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e636184f0e2b4e1b8989a019333e6580~tplv-k3u1fbpfcp-zoom-1.image" alt="" loading="lazy"></p>
+<p>好了，先不管奇葩不奇葩，反正有了一份 <code>dump + AccessViolationException</code>，还是可以挖一挖的，老规矩，上windbg说话。</p>
+<h2 id="二：-windbg-分析">二： windbg 分析</h2>
+<h3 id="1-寻找异常的线程">1. 寻找异常的线程</h3>
+<p>如果是在 <code>异常崩溃</code> 的时候抓的dump，一般来说这个异常会挂在这个执行线程上，不相信的话，可以看看dump。</p>
+<pre><code class="language-C#">
+0:0:037&gt; !t
+ThreadCount:      9
+UnstartedThread:  0
+BackgroundThread: 9
+PendingThread:    0
+DeadThread:       0
+Hosted Runtime:   no
+                                                                         Lock  
+       ID OSID ThreadOBJ    State GC Mode     GC Alloc Context  Domain   Count Apt Exception
+   8    1 2188 019da830     28220 Preemptive  10C08398:00000000 01a02bd8 0     Ukn 
+  29    2 36b8 025d7738     2b220 Preemptive  00000000:00000000 01a02bd8 0     MTA (Finalizer) 
+  31    3 1c6c 0260b568   102a220 Preemptive  00000000:00000000 01a02bd8 0     MTA (Threadpool Worker) 
+  32    4 315c 02616678     21220 Preemptive  00000000:00000000 01a02bd8 0     Ukn 
+  34    6 31c0 026180e0   1020220 Preemptive  00000000:00000000 01a02bd8 0     Ukn (Threadpool Worker) 
+  35    7 1274 02618628   1029220 Preemptive  069745A0:00000000 01a02bd8 0     MTA (Threadpool Worker) 
+  37    8 2484 02617108   1029220 Preemptive  0EBFFB18:00000000 01a02bd8 0     MTA (Threadpool Worker) System.AccessViolationException 0ebee9dc
+  38    9 2234 026156a0   1029220 Preemptive  0AAED5CC:00000000 01a02bd8 0     MTA (Threadpool Worker) 
+  39   10 3858 02617b98   1029220 Preemptive  0CB7BEE0:00000000 01a02bd8 0     MTA (Threadpool Worker) 
+
+</code></pre>
+<p>上面的第<code>37号</code>线程清楚的记录了异常 <code>System.AccessViolationException</code>，后面还跟了一个异常对象的地址 <code>0ebee9dc</code> ，接下来就可以用 <code>!do</code> 给打印出来。</p>
+<pre><code class="language-C#">
+0:0:037&gt; !do 0ebee9dc
+Name:        System.AccessViolationException
+MethodTable: 6fc1bf4c
+EEClass:     6f926bec
+Size:        96(0x60) bytes
+File:        C:\Windows\Microsoft.Net\assembly\GAC_32\mscorlib\v4.0_4.0.0.0__b77a5c561934e089\mscorlib.dll
+Fields:
+      MT    Field   Offset                 Type VT     Attr    Value Name
+6fc146a4  4000005       10        System.String  0 instance 0ebf02f0 _message
+6fc1be98  4000006       14 ...tions.IDictionary  0 instance 00000000 _data
+6fc146a4  400000c       2c        System.String  0 instance 0ebfd24c _remoteStackTraceString
+
+</code></pre>
+<p>这个 Exception 上面有很多的属性，比如最后一行的 <code>_remoteStackTraceString</code> 显示的就是异常堆栈信息，接下来我再给 do 一下。</p>
+<pre><code class="language-C#">
+0:0:037&gt; !do 0ebfd24c
+Name:        System.String
+MethodTable: 6fc146a4
+EEClass:     6f8138f0
+Size:        10444(0x28cc) bytes
+File:        C:\Windows\Microsoft.Net\assembly\GAC_32\mscorlib\v4.0_4.0.0.0__b77a5c561934e089\mscorlib.dll
+String:         在 System.Data.Common.UnsafeNativeMethods.ICommandText.Execute(IntPtr pUnkOuter, Guid&amp; riid, tagDBPARAMS pDBParams, IntPtr&amp; pcRowsAffected, Object&amp; ppRowset)
+   在 System.Data.OleDb.OleDbCommand.ExecuteCommandTextForMultpleResults(tagDBPARAMS dbParams, Object&amp; executeResult)
+   在 System.Data.OleDb.OleDbCommand.ExecuteCommandText(Object&amp; executeResult)
+   在 System.Data.OleDb.OleDbCommand.ExecuteCommand(CommandBehavior behavior, Object&amp; executeResult)
+   在 System.Data.OleDb.OleDbCommand.ExecuteReaderInternal(CommandBehavior behavior, String method)
+   在 System.Data.OleDb.OleDbCommand.ExecuteNonQuery()
+   在 xxx.Model.xxx.getOneData(OleDbCommand comm)
+   在 xxx.Model.xxx.getOtherDataSource(List`1 keys, Dictionary`2 data)
+   在 xxx.Controllers.xxxOtherController.Post(JObject json)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.&lt;&gt;c__DisplayClass10.&lt;GetExecutor&gt;b__9(Object instance, Object[] methodParameters)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.Execute(Object instance, Object[] arguments)
+   在 System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ExecuteAsync(HttpControllerContext controllerContext, IDictionary`2 arguments, CancellationToken cancellationToken)
+
+</code></pre>
+<p>我去，原来是执行数据库的时候抛出的 <code>AccessViolationException</code>，哈哈，有点意思，究竟是个什么样的神操作能搞出这个异常？ 好，接下来我就来挖一下 <code>getOneData()</code> 方法到底干了什么？</p>
+<h3 id="2寻找问题代码-getonedata">2.寻找问题代码 getOneData()</h3>
+<p>要想找到 <code>getOneData()</code> 的源码，还是老规矩，使用 <code>!name2ee + !savemodule</code> 导出。</p>
+<pre><code class="language-C#">
+0:0:037&gt; !name2ee *!xxx.Model.xxx.getOneData
+--------------------------------------
+Module:      1b9679c0
+Assembly:    xxx.dll
+Token:       06000813
+MethodDesc:  0149faec
+Name:        xxx.Model.xxx.getOneData(System.Data.OleDb.OleDbCommand)
+JITTED Code Address: 1ede0050
+--------------------------------------
+
+0:0:037&gt; !savemodule 1b9679c0 E:\dumps\2.dll
+3 sections in file
+section 0 - VA=2000, VASize=d8d74, FileAddr=200, FileSize=d8e00
+section 1 - VA=dc000, VASize=318, FileAddr=d9000, FileSize=400
+section 2 - VA=de000, VASize=c, FileAddr=d9400, FileSize=200
+
+</code></pre>
+<p>有了 <code>2.dll</code> ，接下来就可以用 ILSPY 看一看源码。</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e5a8ff33b0d043c2bbfaba4b98964fb4~tplv-k3u1fbpfcp-zoom-1.image" alt="" loading="lazy"></p>
+<p>从源码上看也都是一些中规中矩的操作，没啥特别的地方，既然写法上没问题，我也只能怀疑是某些数据方面出了问题，接下来准备挖一挖 <code>OleDbCommand</code>。</p>
+<h3 id="3-从线程栈上提取-oledbcommand-对象">3. 从线程栈上提取 OleDbCommand 对象</h3>
+<p>玩过 ADO.NET 的都知道，最后的 <code>sql + parameters</code> 都是藏在 OleDbCommand 上的，参考代码如下：</p>
+<pre><code class="language-C#">
+public sealed class OleDbCommand : DbCommand, ICloneable, IDbCommand, IDisposable
+{
+    public override string CommandText { get; set; }
+
+    public new OleDbParameterCollection Parameters
+    {
+        get
+        {
+            OleDbParameterCollection oleDbParameterCollection = _parameters;
+            if (oleDbParameterCollection == null)
+            {
+                oleDbParameterCollection = (_parameters = new OleDbParameterCollection());
+            }
+            return oleDbParameterCollection;
+        }
+    }
+}
+
+</code></pre>
+<p>所以目标很明确，就是把 <code>CommandText + Parameters</code> 给挖出来，说干就干，用 <code>!clrstack -a</code> 提取线程栈上的所有参数，如下图所示:</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/66843393d6064dcca409042f3a248149~tplv-k3u1fbpfcp-zoom-1.image" alt="" loading="lazy"></p>
+<p>真是悲剧，由于异常的抛出捣毁了线程调用栈，尼玛，也就是说调用栈上的 <code>局部变量 + 方法参数</code> 都被销毁了，这该如何是好呀？好想哭😭😭😭。</p>
+<p>在迷茫了一段时间后，突然灵光一现，对，虽然调用栈被捣毁了，但 <code>OleDbCommand</code> 是引用类型啊，栈地址没了就没了，OleDbCommand 本尊肯定还是在热乎的 gen0 上，毕竟也是刚抛出来的异常，这时候 GC 还在打呼噜，肯定不会回收它的，哈哈，突然又充满能量了。</p>
+<h3 id="4-从托管堆中寻找-oledbcommand">4. 从托管堆中寻找 OleDbCommand</h3>
+<p>要想在托管堆上找 OleDbCommand 的话，使用如下命令： <code>!dumpheap -type OleDbCommand</code> 即可。</p>
+<pre><code class="language-C#">
+||0:0:037&gt; !dumpheap -type OleDbCommand 
+ Address       MT     Size
+02a8393c 6c74a6a8       84     
+02bc280c 6c74a6a8       84     
+02bd98dc 6c74a6a8       84     
+02be1d74 6c74a6a8       84     
+02be3c68 6c74a6a8       84     
+02be5b3c 6c74a6a8       84     
+0696f978 6c74a6a8       84     
+0a94ea54 6c74a6a8       84     
+0a9678b8 6c74a6a8       84     
+0a96a5a0 6c74a6a8       84     
+0aabefe4 6c74a6a8       84     
+0eb10e08 6c74a6a8       84     
+
+Statistics:
+      MT    Count    TotalSize Class Name
+6c74a6a8       12         1008 System.Data.OleDb.OleDbCommand
+Total 12 objects
+
+</code></pre>
+<p>还不错，托管堆上只有 12 个 OleDbCommand，说明这程序也是刚起来没溜两圈就挂掉了，接下来要做的事就是逐个排查里面的 <code>Sql + Parameter</code> 是否有异常，用人肉去检查，能把眼睛给弄瞎，所以得把这脏活累活留给 <code>script</code> 去实现，为此我花了一个小时写了一个脚本，都差点写睡着了😪😪😪。</p>
+<pre><code class="language-js">
+"use strict";
+
+function initializeScript() {
+    return [new host.apiVersionSupport(1, 7)];
+}
+
+function invokeScript() {
+
+    //获取所有 oledbComamand 对象
+    var output = exec("!dumpheap -type System.Data.OleDb.OleDbCommand -short");
+    for (var line of output) {
+        showOleDb(line);
+        log("------------------------------------------------------------------------");
+    }
+}
+
+//遍历oledb
+function showOleDb(oledb) {
+
+    log("oledb:       " + oledb);
+    showsql(oledb);
+    showparameters(oledb);
+}
+
+//show sql
+function showsql(oledb) {
+    var command = "!do -nofields poi(" + oledb + "+0x10)";
+    var output = exec(command).Skip(5);
+    for (var line of output) {
+        log(line);
+    }
+}
+
+//show parameters
+function showparameters(oledb) {
+
+    var address = "poi(poi(poi(" + oledb + "+0x1c)+0x8)+0x4)"
+    var arrlen = "poi(" + address + "+0x4)";
+
+    var command = "!da -nofields -details " + address;
+    //var str = "";
+    var output = exec(command).Where(k =&gt; k.indexOf("[") == 0).Select(k =&gt; k.split(' ')[1])
+        .Where(k =&gt; k != "null").Select(k =&gt; k);
+
+    for (var line of output) {
+        var name = showparamname(line);
+        var value = showparamvalue(line);
+
+        log(name + " -&gt; " + value);
+    }
+}
+
+//show parametername
+function showparamname(param) {
+    var command = "!do -nofields poi(" + param + "+0xc)";
+
+    var output = exec(command);
+
+    output = output.Skip(5).First().replace("String:      ", "");
+
+    return output;
+}
+
+//show paramtervalue
+function showparamvalue(param, offset) {
+
+    //第一步: 判断是否为引用类型
+    var address = "poi(" + param + "+0x14)";
+
+    var isGtZero = parseInt(exec(".printf \"%d\"," + address).First()) &gt; 0;
+    if (!isGtZero) return "0";
+
+    var command = "!do -nofields " + address;
+
+    var output = exec(command);
+
+    //第二步: 判断是否为 System.DateTime
+    var isDateTime = output.First().indexOf("System.DateTime") &gt; -1;
+
+    if (isDateTime) return getFormatDate(address);
+
+    output = output.Skip(5).First().replace("String:      ", "");
+
+    return output;
+}
+
+function getFormatDate(address) {
+
+    //16hex
+    var dtstr = ".printf \"%02X%02X\",poi(" + address + "+0x8),poi(" + address + "+0x4);";
+
+    //10hex
+    var num = parseInt("0x" + exec(dtstr).First(), 16);
+
+    var command = "!filetime ((0n" + num + " &amp; 0x3fffffffffffffff) - 0n504911519999995142)";
+
+    var time = exec(command).First().split("(")[0].trim();
+
+    return time;
+}
+
+function log(instr) {
+    host.diagnostics.debugLog("\n" + instr + "\n");
+}
+
+function exec(str) {
+    return host.namespace.Debugger.Utility.Control.ExecuteCommand(str);
+}
+
+</code></pre>
+<p>简单说一下，上面的 <code>poi</code> 表示取地址上的值，这个值可能是数字，也可能是引用地址，接下来把脚本跑起来, 由于这信息太敏感了，只能虚拟化了哈。</p>
+<pre><code class="language-C#">
+------------------------------------------------------------------------
+
+oledb:       0eb10e08
+
+String:      update xxx  set a=:a, b=:b, c=:c where info_id = :info_id
+
+a -&gt; 'xxx'
+
+b -&gt; 'yyy'
+
+c -&gt; File:        C:\Windows\Microsoft.NET\Framework\v4.0.30319\Temporary ASP.NET Files\collegeappxy\e05a2cb1\4405de9e\assembly\dl3\d914f432\c1375f08_c05cd201\Newtonsoft.Json.dll
+
+info_id -&gt; 1
+
+</code></pre>
+<p>在 1s 的等待后，终于发现上面这条 sql 的参数化 c 出了问题，因为它是一个 <code>Newtonsoft.Json.dll</code> 的 File，真奇葩，稍微修改一下脚本把这个参数的 address 找出来。</p>
+<pre><code class="language-C#">
+||0:0:037&gt; !do -nofields poi(0eb9ba40+0x14)
+Name:        Newtonsoft.Json.Linq.JObject
+MethodTable: 1c600d98
+EEClass:     1c5f31d0
+CCW:         1bbd0020
+Size:        68(0x44) bytes
+File:        C:\Windows\Microsoft.NET\Framework\v4.0.30319\Temporary ASP.NET Files\collegeappxy\e05a2cb1\4405de9e\assembly\dl3\d914f432\c1375f08_c05cd201\Newtonsoft.Json.dll
+
+</code></pre>
+<p>到此基本确定是因为把 <code>JObject</code> 放入了参数化导致了异常的发生，为此我还特意查了下 <code>JObject</code> ，一个挺有意思的玩意，将它 ToString() 之后居然是以格式化方式显示的，如下图所示：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/fa0ad390387246e1914dfbf5304eef4b~tplv-k3u1fbpfcp-zoom-1.image" alt="" loading="lazy"></p>
+<p>如果想要去掉这种格式化，需要在 ToString() 中配一个 None 枚举，哈哈，就是这么出乎意料 😓😓😓 。</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a8dd1b9079244a2c92864d40ead371f7~tplv-k3u1fbpfcp-zoom-1.image" alt="" loading="lazy"></p>
+<h2 id="三：总结">三：总结</h2>
+<p>总的来说，我觉得这是 OleDbCommand 的一个bug，既然是做参数化，就算我把 💩 投下去了，你也要给我正确入库，不是嘛？ 其次从分析结果看，知道了这种异常的调用堆栈，解决起来也是非常容易的，使用日志记录下当时的 <code>OleDbCommand</code> 就可以了，使用 script 暴力搜索那也是万不得已的事情😓😓😓， 最后感谢 <code>搬砖队大佬</code> 的精彩文章和dump。</p>
+<p><strong>更多高质量干货：参见我的 GitHub: <a href="https://github.com/ctripxchuang/dotnetfly" target="_blank">dotnetfly</a></strong></p>
+<img src="https://img2020.cnblogs.com/blog/214741/202005/214741-20200522143723695-575216767.png" width="600" height="200" alt="图片名称" align="center">
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2021-05-03 13:35</span>&nbsp;
+<a href="https://www.cnblogs.com/huangxincheng/">一线码农</a>&nbsp;
+阅读(<span id="post_view_count">2422</span>)&nbsp;
+评论(<span id="post_comment_count">10</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14727348" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14727348);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 85195, cb_blogApp = 'huangxincheng', cb_blogUserGuid = '40a06552-abf8-df11-ac81-842b2b196315';
+    var cb_entryId = 14727348, cb_entryCreatedDate = '2021-05-03 13:35', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 一线码农
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjtAVToqasN8LtRakojmLXpSpbaR_RMgLxvgpbc8YZG7SsUL6LkbeQz856YXObYTMJQtmsX65dmQJu4ohejLKGGYN8kpdlBjgjNdmx1DExfKM2k8M0diU0ThUOwDRYqFFj4" />
+</body>
+</html>

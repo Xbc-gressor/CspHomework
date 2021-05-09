@@ -1,0 +1,681 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    
+    
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>戈小戈 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/darkgreentrip/bundle-darkgreentrip.min.css?v=eoZATbPKwJCL5eWVDTQIYC6CIxJPcFz191dkzN2tSyQ" />
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/wsgxg/custom.css?v=Kdthl1fWC1HIQ6MyUGn7bh9ug7I=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/darkgreentrip/bundle-darkgreentrip-mobile.min.css?v=lU86o8mZVn3FOSdFt7nHKYTD8gzeKaiQIIZ6lSjEFyo" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/wsgxg/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/wsgxg/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/wsgxg/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 587325;
+        var currentBlogApp = 'wsgxg';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'darkgreentrip';
+        var visitorUserId = '';
+    </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="no-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="page_begin_html">
+        <script>loadPageBeginHtml();</script>
+    </div>
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/wsgxg/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/wsgxg/">GXG</a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/wsgxg/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E6%88%88%E5%B0%8F%E6%88%88">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/wsgxg/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+
+
+
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/wsgxg/archive/2021/05/05.html">2021年5月5日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/wsgxg/p/14731858.html">
+    <span>
+        HTML+CSS+JS制作一个蓝色简约动态时钟
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：<img src="https://img2020.cnblogs.com/blog/1975550/202105/1975550-20210505152019976-408648339.png" class="desc_img">HTML+CSS+JS制作一个蓝色简约动态时钟——借鉴网络代码加以改进后的效果        <a href="https://www.cnblogs.com/wsgxg/p/14731858.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-05-05 15:32
+戈小戈
+<span data-post-id="14731858" class="post-view-count">阅读(4)</span> 
+<span data-post-id="14731858" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14731858" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14731858" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/wsgxg/archive/2021/05/03.html">2021年5月3日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/wsgxg/p/14728503.html">
+    <span>
+        UOS/deepin去掉谷歌浏览器、火狐浏览器的标题栏——顶部宽宽的横框
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：<img src="https://img2020.cnblogs.com/blog/1975550/202105/1975550-20210503231013896-1342309895.png" class="desc_img">UOS/deepin去掉谷歌浏览器、火狐浏览器的标题栏——顶部宽宽的横框        <a href="https://www.cnblogs.com/wsgxg/p/14728503.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-05-03 23:16
+戈小戈
+<span data-post-id="14728503" class="post-view-count">阅读(5)</span> 
+<span data-post-id="14728503" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14728503" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14728503" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/wsgxg/archive/2021/05/02.html">2021年5月2日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/wsgxg/p/14726694.html">
+    <span>
+        UOS/deepin添加喜爱的光标主题
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：<img src="https://img2020.cnblogs.com/blog/1975550/202105/1975550-20210502223003227-445296706.png" class="desc_img">UOS/deepin添加喜爱的光标主题        <a href="https://www.cnblogs.com/wsgxg/p/14726694.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-05-02 22:42
+戈小戈
+<span data-post-id="14726694" class="post-view-count">阅读(5)</span> 
+<span data-post-id="14726694" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14726694" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14726694" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+            <div class="postSeparator"></div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/wsgxg/p/14726596.html">
+    <span>
+        UOS/deepin/ubuntu命令安装时提示依赖不满足，怎么解决
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：<img src="https://img2020.cnblogs.com/blog/1975550/202105/1975550-20210502214908770-1699095206.svg" class="desc_img">UOS/deepin/ubuntu命令安装时提示依赖不满足，怎么解决
+导语：必须确保软件源是正确能用的，ubuntu可能需要换成国内源。
+1. sudo apt-get install 软件名称`这里会提示“有未能满足的依赖关系“。
+2. sudo apt-get -f install  这个命令会针对当前不满足的依赖关系，下载正确版本的依赖库。
+3. sudo apt-get install 软件名称  这一步就会正确安装软件了。        <a href="https://www.cnblogs.com/wsgxg/p/14726596.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-05-02 21:50
+戈小戈
+<span data-post-id="14726596" class="post-view-count">阅读(7)</span> 
+<span data-post-id="14726596" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14726596" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14726596" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/wsgxg/archive/2021/04/28.html">2021年4月28日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/wsgxg/p/14715864.html">
+    <span>
+        UOS家庭版添加右下角个性化水印
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：https://img2020.cnblogs.com/blog/1975550/202104/1975550-20210428212114304-1040571420.pngUOS家庭版添加右下角个性化水印
+最近UOS推出了家庭版，但是我发现在系统激活后，貌似右下角的水印会自动消失，那我自己替换的个性水印岂不是也没了。
+研究了一下，发现是在`/usr/share/deepin/dde-desktop-watermask.json`中的`"maskLogoUri" : "/usr/share/deepin/uos_logo.svg",`水印路径没了，我赶忙加上了，再改改宽、高，效果又恢复了。        <a href="https://www.cnblogs.com/wsgxg/p/14715864.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-28 21:22
+戈小戈
+<span data-post-id="14715864" class="post-view-count">阅读(13)</span> 
+<span data-post-id="14715864" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14715864" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14715864" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/wsgxg/archive/2021/04/27.html">2021年4月27日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/wsgxg/p/14711359.html">
+    <span>
+        分享UOS的自带壁纸
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：<img src="https://img2020.cnblogs.com/blog/1975550/202105/1975550-20210501211814902-311914211.jpg" class="desc_img">分享UOS的自带壁纸        <a href="https://www.cnblogs.com/wsgxg/p/14711359.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-27 23:18
+戈小戈
+<span data-post-id="14711359" class="post-view-count">阅读(4)</span> 
+<span data-post-id="14711359" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14711359" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14711359" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/wsgxg/archive/2021/04/23.html">2021年4月23日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/wsgxg/p/14695879.html">
+    <span>
+        网络编程：实现多进程并发回声服务器端/客户端
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：<img src="https://img2020.cnblogs.com/blog/1975550/202104/1975550-20210423225039598-1978824430.png" class="desc_img">网络编程：实现多进程并发回声服务器端/客户端  一、实验目的
+1. 学习进程的创建、销毁过程。掌握利用信号处理技术sigaction消灭僵尸进程的方法。
+2. 在Linux操作系统上编写并发服务器端/客户端。让服务器端以多进程方式为多个客户端同时提供回声服务。
+二、实验内容
+1、在Linux操作系统上编写程序，实现基于多进程的并发回声服务器端：
+（1）改进实验三中实现的迭代服务器端程序。通过为每一个客户端创建进程的方式，同时为多个客户端提供回声服务。
+（2）客户端接收用户输入的字符串并发送到服务器端，一直到用户输入字符 ”Q”/”q” 为止。
+（3）启动服务器后创建两个以上客户端并建立连接，验证服务器端可以同时为不同的客户端提供回声服务。
+2、回声客户端采用I/O程序分割方法，发送的消息记录到文件中        <a href="https://www.cnblogs.com/wsgxg/p/14695879.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-23 22:55
+戈小戈
+<span data-post-id="14695879" class="post-view-count">阅读(13)</span> 
+<span data-post-id="14695879" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14695879" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14695879" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/wsgxg/archive/2021/04/18.html">2021年4月18日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/wsgxg/p/14674221.html">
+    <span>
+        Linux终端Shell常用命令
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：Linux终端Shell常用命令        <a href="https://www.cnblogs.com/wsgxg/p/14674221.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-18 18:42
+戈小戈
+<span data-post-id="14674221" class="post-view-count">阅读(12)</span> 
+<span data-post-id="14674221" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14674221" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14674221" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/wsgxg/archive/2021/04/17.html">2021年4月17日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/wsgxg/p/14672378.html">
+    <span>
+        UOS/deepin添加/更换flash
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：<img src="https://img2020.cnblogs.com/blog/1975550/202104/1975550-20210417221705031-1355488372.png" class="desc_img">UOS/deepin自带的浏览器添加/更换flash
+下载Flash：
+1. 打开[Flash中国官网](https://www.flash.cn/ "Flash中国官网")
+2. 选择版本（.tar.gz）        <a href="https://www.cnblogs.com/wsgxg/p/14672378.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-17 22:29
+戈小戈
+<span data-post-id="14672378" class="post-view-count">阅读(23)</span> 
+<span data-post-id="14672378" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14672378" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14672378" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+            <div class="postSeparator"></div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/wsgxg/p/14672302.html">
+    <span>
+        UOS/deepin改变开机动画(deepin没试过)
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：UOS/deepin改变开机动画(deepin没试过) 导语：UOS/deepin开机时有着渐变的动画效果，UOS的是“统信UOS”，deepin的是“Deepin”，个人觉得并不太好看，那怎么替换呢？ 1. UOS/deepin的开机动画方案是Plymouth，具体原理可以看开机动画plymouth相关原理        <a href="https://www.cnblogs.com/wsgxg/p/14672302.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-04-17 22:04
+戈小戈
+<span data-post-id="14672302" class="post-view-count">阅读(26)</span> 
+<span data-post-id="14672302" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14672302" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14672302" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+
+<div class="topicListFooter">
+    <div id="nav_next_page">
+        
+    <a href="https://www.cnblogs.com/wsgxg/default.html?page=2">
+        下一页
+    </a>
+
+    </div>    
+</div>
+
+
+
+
+
+
+<script>
+    updatePostStats(
+        $(".post-view-count").map(function () { return this.dataset.postId }).get(),
+        function(id, count) { $(".post-view-count[data-post-id=" + id + "]").text("阅读(" + count + ")") },
+        function(id, count) { $(".post-comment-count[data-post-id=" + id + "]").text("评论(" + count + ")") },
+        function(id, count) { $(".post-digg-count[data-post-id=" + id + "]").text("推荐(" + count + ")") });
+</script>
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 戈小戈
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    <div id="page_end_html">
+        <script type="text/javascript" language="javascript">
+　　//Setting ico for cnblogs
+　　var linkObject = document.createElement('link');
+　　linkObject.rel = "shortcut icon";
+　　linkObject.href = "https://blog-static.cnblogs.com/files/wsgxg/%E5%A4%B4%E5%83%8F.ico";
+　　document.getElementsByTagName("head")[0].appendChild(linkObject);
+</script>
+<script type="text/javascript" language="javascript"> 
+  var a_idx = 0; 
+const 前颜色码库 = new Array('00', '11', '22', '1', '44', '55', '66', '77', '88', '99',
+                    'aa', 'bb', 'cc', 'dd', 'ee', 'ff');
+                const 中颜色码库 = new Array('00', '11', '22', '33', '44', '55', '66', '77', '88', '99',
+                    'aa', 'bb', 'cc', 'dd', 'ee', 'ff');
+                const 后颜色码库 = new Array('00', '11', '22', '33', '44', '55', '66', '77', '88', '99',
+                    'aa', 'bb', 'cc', 'dd', 'ee', 'ff');
+var 前颜色码 ;var 中颜色码;var 后颜色码;
+var timer = setInterval(function(){
+
+                 前颜色码 = Math.floor(Math.random() * 前颜色码库.length);
+                 中颜色码 = Math.floor(Math.random() * 中颜色码库.length);
+                 后颜色码 = Math.floor(Math.random() * 后颜色码库.length);
+ },150)
+  jQuery(document).ready(function($) { 
+      $("body").click(function(e) { 
+          var a = new Array("戈小戈","^_^","^O^ ","\(^o^)/","o(*￣︶￣*)o","n(*≧▽≦*)n","(づ｡◕‿‿◕｡)づ","(✿◡‿◡)","(*^__^*) ","~\(≧▽≦)/~","顶！d=====(￣▽￣*)b","o(^▽^)o","(　ﾟ∀ﾟ) ﾉ♡"); 
+          var $i = $("<span/>").text(a[a_idx]); 
+          a_idx = (a_idx + 1) % a.length; 
+          var x = e.pageX, 
+         y = e.pageY; 
+         $i.css({ 
+             "z-index": 999999999999999999999999999999999999999999999999999999999999999999999, 
+            "top": y - 20, 
+            "left": x, 
+             "position": "absolute", 
+            "font-weight": "bold", 
+             "color": "#" + 前颜色码库[前颜色码] + 中颜色码库[中颜色码] + 后颜色码库[后颜色码]
+         }); 
+         $("body").append($i); 
+         $i.animate({ 
+             "top": y - 180, 
+             "opacity": 0 
+         }, 
+         1500, 
+         function() { 
+             $i.remove(); 
+         }); 
+     }); 
+ });
+ </script>
+<!--引入复制代码的JS-->
+<script src="https://blog-static.cnblogs.com/files/wsgxg/clipboard.min.js"></script>
+<script src="https://blog-static.cnblogs.com/files/wsgxg/cp.js"></script>
+
+    </div>
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjuX9gKpSlU5nQn4zFsh2Z4SC3wG0BXasFAakrtFOWMHuQI8oz8ZOouf9rBuTPCaciZDKIoEyRtnomD4XiUpQIlw-bwgfVBjUiyUAkXn-8AE5MWh9V2DMn1ZHkwrMng3wac" />
+</body>
+</html>

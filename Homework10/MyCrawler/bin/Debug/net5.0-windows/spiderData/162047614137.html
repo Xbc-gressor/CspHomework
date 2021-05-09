@@ -1,0 +1,912 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="前言 相信大家在使用ASP.NET Core进行开发的时候，肯定会涉及到读取Request.Body的场景，毕竟我们大部分的POST请求都是将数据存放到Http的Body当中。因为笔者日常开发所使用的" />
+    <meta property="og:description" content="前言 相信大家在使用ASP.NET Core进行开发的时候，肯定会涉及到读取Request.Body的场景，毕竟我们大部分的POST请求都是将数据存放到Http的Body当中。因为笔者日常开发所使用的" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>深入探究ASP.NET Core读取Request.Body的正确方式 - yi念之间 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/wucy/custom.css?v=Jr&#x2B;luDHHhYQVZ/m1Tbw1HfGXOlI=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/custom/bundle-custom-mobile.min.css?v=OayYBbtUbH4FYkn_bTL4VVf4DsEOiTHSWhbl11KyY6Y" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/wucy/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/wucy/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/wucy/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 605020;
+        var currentBlogApp = 'wucy';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'Custom';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-05-06 09:03';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="no-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="page_begin_html">
+        <div class="light-loading">
+  <div class="box">
+    <h2>加载中</h2>
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+</div>
+    </div>
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/wucy/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/wucy/">yi念之间</a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/wucy/">
+首页</a>
+</li>
+<li>
+
+
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/yi%E5%BF%B5%E4%B9%8B%E9%97%B4">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/wucy/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/wucy/p/14699717.html">
+    <span>深入探究ASP.NET Core读取Request.Body的正确方式</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+<h4 id="前言">前言</h4>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;相信大家在使用ASP.NET Core进行开发的时候，肯定会涉及到读取Request.Body的场景，毕竟我们大部分的POST请求都是将数据存放到Http的Body当中。因为笔者日常开发所使用的主要也是ASP.NET Core所以笔者也遇到这这种场景，关于本篇文章所套路的内容，来自于在开发过程中我遇到的关于Request.Body的读取问题。在之前的使用的时候，基本上都是借助搜索引擎搜索的答案，并没有太关注这个，发现自己理解的和正确的使用之间存在很大的误区。故有感而发，便写下此文，以作记录。学无止境，愿与君共勉。</p>
+<h4 id="常用读取方式">常用读取方式</h4>
+<p>当我们要读取Request Body的时候，相信大家第一直觉和笔者是一样的，这有啥难的，直接几行代码写完，这里我们模拟在Filter中读取Request Body，在Action或Middleware或其他地方读取类似，有Request的地方就有Body，如下所示</p>
+<pre><code class="language-cs">public override void OnActionExecuting(ActionExecutingContext context)
+{
+    //在ASP.NET Core中Request Body是Stream的形式
+    StreamReader stream = new StreamReader(context.HttpContext.Request.Body);
+    string body = stream.ReadToEnd();
+    _logger.LogDebug("body content:" + body);
+    base.OnActionExecuting(context);
+}
+</code></pre>
+<p>写完之后，也没多想，毕竟这么常规的操作，信心满满，运行起来调试一把，发现直接报一个这个错<code>System.InvalidOperationException: Synchronous operations are disallowed. Call ReadAsync or set AllowSynchronousIO to true instead.</code>大致的意思就是同步操作不被允许，请使用ReadAsync的方式或设置AllowSynchronousIO为true。虽然没说怎么设置AllowSynchronousIO，不过我们借助搜索引擎是我们最大的强项。</p>
+<h5 id="同步读取">同步读取</h5>
+<p>首先我们来看设置<code>AllowSynchronousIO</code>为<code>true</code>的方式，看名字也知道是允许同步IO，设置方式大致有两种，待会我们会通过源码来探究一下它们直接有何不同，我们先来看一下如何设置<code>AllowSynchronousIO</code>的值。第一种方式是在<code>ConfigureServices</code>中配置，操作如下</p>
+<pre><code class="language-cs">services.Configure&lt;KestrelServerOptions&gt;(options =&gt;
+{
+    options.AllowSynchronousIO = true;
+});
+</code></pre>
+<p>这种方式和在配置文件中配置Kestrel选项配置是一样的只是方式不同，设置完之后即可，运行不在报错。还有一种方式，可以不用在<code>ConfigureServices</code>中设置，通过<code>IHttpBodyControlFeature</code>的方式设置，具体如下</p>
+<pre><code class="language-cs">public override void OnActionExecuting(ActionExecutingContext context)
+{
+    var syncIOFeature = context.HttpContext.Features.Get&lt;IHttpBodyControlFeature&gt;();
+    if (syncIOFeature != null)
+    {
+        syncIOFeature.AllowSynchronousIO = true;
+    }
+    StreamReader stream = new StreamReader(context.HttpContext.Request.Body);
+    string body = stream.ReadToEnd();
+    _logger.LogDebug("body content:" + body);
+    base.OnActionExecuting(context);
+}
+</code></pre>
+<p>这种方式同样有效，通过这种方式操作，不需要每次读取Body的时候都去设置，只要在准备读取Body之前设置一次即可。这两种方式都是去设置<code>AllowSynchronousIO</code>为<code>true</code>，但是我们需要思考一点，微软为何设置<code>AllowSynchronousIO</code>默认为<code>false</code>，说明微软并不希望我们去同步读取Body。通过查找资料得出了这么一个结论</p>
+<blockquote>
+<p>Kestrel：默认情况下禁用 AllowSynchronousIO（同步IO），线程不足会导致应用崩溃，而同步I/O API（例如HttpRequest.Body.Read）是导致线程不足的常见原因。</p>
+</blockquote>
+<p>由此可以知道，这种方式虽然能解决问题，但是性能并不是不好，微软也不建议这么操作，当程序流量比较大的时候，很容易导致程序不稳定甚至崩溃。</p>
+<h5 id="异步读取">异步读取</h5>
+<p>通过上面我们了解到微软并不希望我们通过设置<code>AllowSynchronousIO</code>的方式去操作，因为会影响性能。那我们可以使用异步的方式去读取，这里所说的异步方式其实就是使用Stream自带的异步方法去读取，如下所示</p>
+<pre><code class="language-cs">public override void OnActionExecuting(ActionExecutingContext context)
+{
+    StreamReader stream = new StreamReader(context.HttpContext.Request.Body);
+    string body = stream.ReadToEndAsync().GetAwaiter().GetResult();
+    _logger.LogDebug("body content:" + body);
+    base.OnActionExecuting(context);
+}
+</code></pre>
+<p>就这么简单，不需要额外设置其他的东西，仅仅通过<code>ReadToEndAsync</code>的异步方法去操作。ASP.NET Core中许多操作都是异步操作，甚至是过滤器或中间件都可以直接返回Task类型的方法，因此我们可以直接使用异步操作</p>
+<pre><code class="language-cs">public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+{
+    StreamReader stream = new StreamReader(context.HttpContext.Request.Body);
+    string body = await stream.ReadToEndAsync();
+    _logger.LogDebug("body content:" + body);
+    await next();
+}
+</code></pre>
+<p>这两种方式的操作优点是不需要额外设置别的，只是通过异步方法读取即可，也是我们比较推荐的做法。比较神奇的是我们只是将<code>StreamReader</code>的<code>ReadToEnd</code>替换成<code>ReadToEndAsync</code>方法就皆大欢喜了，有没有感觉到比较神奇。当我们感到神奇的时候，是因为我们对它还不够了解，接下来我们就通过源码的方式，一步一步的揭开它神秘的面纱。</p>
+<h5 id="重复读取">重复读取</h5>
+<p>上面我们演示了使用同步方式和异步方式读取RequestBody，但是这样真的就可以了吗？其实并不行，这种方式每次请求只能读取一次正确的Body结果，如果继续对RequestBody这个Stream进行读取，将读取不到任何内容，首先来举个例子</p>
+<pre><code class="language-cs">public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+{
+    StreamReader stream = new StreamReader(context.HttpContext.Request.Body);
+    string body = await stream.ReadToEndAsync();
+    _logger.LogDebug("body content:" + body);
+
+    StreamReader stream2 = new StreamReader(context.HttpContext.Request.Body);
+    string body2 = await stream2.ReadToEndAsync();
+    _logger.LogDebug("body2 content:" + body2);
+
+    await next();
+}
+</code></pre>
+<p>上面的例子中body里有正确的RequestBody的结果，但是body2中是空字符串。这个情况是比较糟糕的，为啥这么说呢？如果你是在Middleware中读取的RequestBody，而这个中间件的执行是在模型绑定之前，那么将会导致模型绑定失败，因为模型绑定有的时候也需要读取RequestBody获取http请求内容。至于为什么会这样相信大家也有了一定的了解，因为我们在读取完Stream之后，此时的Stream指针位置已经在Stream的结尾处，即Position此时不为0，而Stream读取正是依赖Position来标记外部读取Stream到啥位置，所以我们再次读取的时候会从结尾开始读，也就读取不到任何信息了。所以我们要想重复读取RequestBody那么就要再次读取之前重置RequestBody的Position为0，如下所示</p>
+<pre><code class="language-cs">public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+{
+    StreamReader stream = new StreamReader(context.HttpContext.Request.Body);
+    string body = await stream.ReadToEndAsync();
+    _logger.LogDebug("body content:" + body);
+
+    //或者使用重置Position的方式 context.HttpContext.Request.Body.Position = 0;
+    //如果你确定上次读取完之后已经重置了Position那么这一句可以省略
+    context.HttpContext.Request.Body.Seek(0, SeekOrigin.Begin);
+    StreamReader stream2 = new StreamReader(context.HttpContext.Request.Body);
+    string body2 = await stream2.ReadToEndAsync();
+    //用完了我们尽量也重置一下，自己的坑自己填
+    context.HttpContext.Request.Body.Seek(0, SeekOrigin.Begin);
+    _logger.LogDebug("body2 content:" + body2);
+
+    await next();
+}
+</code></pre>
+<p>写完之后，开开心心的运行起来看一下效果，发现报了一个错<code>System.NotSupportedException: Specified method is not supported.at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpRequestStream.Seek(Int64 offset, SeekOrigin origin)</code>大致可以理解起来不支持这个操作，至于为啥，一会解析源码的时候咱们一起看一下。说了这么多，那到底该如何解决呢？也很简单，微软知道自己刨下了坑，自然给我们提供了解决办法，用起来也很简单就是加EnableBuffering</p>
+<pre><code class="language-cs">public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+{
+    //操作Request.Body之前加上EnableBuffering即可
+    context.HttpContext.Request.EnableBuffering();
+
+    StreamReader stream = new StreamReader(context.HttpContext.Request.Body);
+    string body = await stream.ReadToEndAsync();
+    _logger.LogDebug("body content:" + body);
+
+    context.HttpContext.Request.Body.Seek(0, SeekOrigin.Begin);
+    StreamReader stream2 = new StreamReader(context.HttpContext.Request.Body);
+    //注意这里！！！我已经使用了同步读取的方式
+    string body2 = stream2.ReadToEnd();
+    context.HttpContext.Request.Body.Seek(0, SeekOrigin.Begin);
+    _logger.LogDebug("body2 content:" + body2);
+
+    await next();
+}
+</code></pre>
+<p>通过添加<code>Request.EnableBuffering()</code>我们就可以重复的读取RequestBody了，看名字我们可以大概的猜出来，他是和缓存RequestBody有关，需要注意的是<code>Request.EnableBuffering()</code>要加在准备读取RequestBody之前才有效果，否则将无效，而且<code>每次请求只需要添加一次即可</code>。而且大家看到了我第二次读取Body的时候使用了同步的方式去读取的RequestBody，是不是很神奇，待会的时候我们会从源码的角度分析这个问题。</p>
+<h4 id="源码探究">源码探究</h4>
+<p>上面我们看到了通过<code>StreamReader</code>的<code>ReadToEnd</code>同步读取Request.Body需要设置<code>AllowSynchronousIO</code>为<code>true</code>才能操作，但是使用<code>StreamReader</code>的<code>ReadToEndAsync</code>方法却可以直接操作。</p>
+<h5 id="streamreader和stream的关系">StreamReader和Stream的关系</h5>
+<p>我们看到了都是通过操作<code>StreamReader</code>的方法即可，那关我Request.Body啥事，别急咱们先看一看这里的操作，首先来大致看下<code>ReadToEnd</code>的实现了解一下<code>StreamReader</code>到底和Stream有啥关联，找到ReadToEnd方法[<a href="https://github.com/dotnet/runtime/blob/v5.0.5/src/libraries/System.Private.CoreLib/src/System/IO/StreamReader.cs#L393" target="_blank">点击查看源码👈</a>]</p>
+<pre><code class="language-cs">public override string ReadToEnd()
+{
+    ThrowIfDisposed();
+    CheckAsyncTaskInProgress();
+    // 调用ReadBuffer，然后从charBuffer中提取数据。 
+    StringBuilder sb = new StringBuilder(_charLen - _charPos);
+    do
+    {
+        //循环拼接读取内容
+        sb.Append(_charBuffer, _charPos, _charLen - _charPos);
+        _charPos = _charLen; 
+        //读取buffer，这是核心操作
+        ReadBuffer();
+    } while (_charLen &gt; 0);
+    //返回读取内容
+    return sb.ToString();
+}
+</code></pre>
+<p>通过这段源码我们了解到了这么个信息，一个是<code>StreamReader</code>的<code>ReadToEnd</code>其实本质是通过循环读取ReadBuffer然后通过StringBuilder去拼接读取的内容，核心是读取ReadBuffer方法，由于代码比较多，我们找到大致呈现一下核心操作[<a href="https://github.com/dotnet/runtime/blob/v5.0.5/src/libraries/System.Private.CoreLib/src/System/IO/StreamReader.cs#L576" target="_blank">点击查看源码👈</a>]</p>
+<pre><code class="language-cs">if (_checkPreamble)
+{
+    //通过这里我们可以知道本质就是使用要读取的Stream里的Read方法
+    int len = _stream.Read(_byteBuffer, _bytePos, _byteBuffer.Length - _bytePos);
+    if (len == 0)
+    {
+        if (_byteLen &gt; 0)
+        {
+            _charLen += _decoder.GetChars(_byteBuffer, 0, _byteLen, _charBuffer, _charLen);
+            _bytePos = _byteLen = 0;
+        }
+        return _charLen;
+    }
+    _byteLen += len;
+}
+else
+{
+    //通过这里我们可以知道本质就是使用要读取的Stream里的Read方法
+    _byteLen = _stream.Read(_byteBuffer, 0, _byteBuffer.Length);
+    if (_byteLen == 0) 
+    {
+        return _charLen;
+    }
+}
+</code></pre>
+<p>通过上面的代码我们可以了解到<code>StreamReader</code>其实是工具类，只是封装了对Stream的原始操作，简化我们的代码<code>ReadToEnd</code>方法本质是读取<code>Stream的Read</code>方法。接下来我们看一下<code>ReadToEndAsync</code>方法的具体实现[<a href="https://github.com/dotnet/runtime/blob/v5.0.5/src/libraries/System.Private.CoreLib/src/System/IO/StreamReader.cs#L898" target="_blank">点击查看源码👈</a>]</p>
+<pre><code class="language-cs">public override Task&lt;string&gt; ReadToEndAsync()
+{
+    if (GetType() != typeof(StreamReader))
+    {
+        return base.ReadToEndAsync();
+    }
+    ThrowIfDisposed();
+    CheckAsyncTaskInProgress();
+    //本质是ReadToEndAsyncInternal方法
+    Task&lt;string&gt; task = ReadToEndAsyncInternal();
+    _asyncReadTask = task;
+
+    return task;
+}
+
+private async Task&lt;string&gt; ReadToEndAsyncInternal()
+{
+    //也是循环拼接读取的内容
+    StringBuilder sb = new StringBuilder(_charLen - _charPos);
+    do
+    {
+        int tmpCharPos = _charPos;
+        sb.Append(_charBuffer, tmpCharPos, _charLen - tmpCharPos);
+        _charPos = _charLen; 
+        //核心操作是ReadBufferAsync方法
+        await ReadBufferAsync(CancellationToken.None).ConfigureAwait(false);
+    } while (_charLen &gt; 0);
+    return sb.ToString();
+}
+</code></pre>
+<p>通过这个我们可以看到核心操作是<code>ReadBufferAsync</code>方法，代码比较多我们同样看一下核心实现[<a href="https://github.com/dotnet/runtime/blob/v5.0.5/src/libraries/System.Private.CoreLib/src/System/IO/StreamReader.cs#L1222" target="_blank">点击查看源码👈</a>]</p>
+<pre><code class="language-cs">byte[] tmpByteBuffer = _byteBuffer;
+//Stream赋值给tmpStream 
+Stream tmpStream = _stream;
+if (_checkPreamble)
+{
+    int tmpBytePos = _bytePos;
+    //本质是调用Stream的ReadAsync方法
+    int len = await tmpStream.ReadAsync(new Memory&lt;byte&gt;(tmpByteBuffer, tmpBytePos, tmpByteBuffer.Length - tmpBytePos), cancellationToken).ConfigureAwait(false);
+    if (len == 0)
+    {
+        if (_byteLen &gt; 0)
+        {
+            _charLen += _decoder.GetChars(tmpByteBuffer, 0, _byteLen, _charBuffer, _charLen);
+            _bytePos = 0; _byteLen = 0;
+        }
+        return _charLen;
+    }
+    _byteLen += len;
+}
+else
+{
+    //本质是调用Stream的ReadAsync方法
+    _byteLen = await tmpStream.ReadAsync(new Memory&lt;byte&gt;(tmpByteBuffer), cancellationToken).ConfigureAwait(false);
+    if (_byteLen == 0) 
+    {
+        return _charLen;
+    }
+}
+</code></pre>
+<p>通过上面代码我可以了解到StreamReader的本质就是读取Stream的包装，核心方法还是来自Stream本身。我们之所以大致介绍了StreamReader类，就是为了给大家呈现出StreamReader和Stream的关系，否则怕大家误解这波操作是StreamReader的里的实现，而不是Request.Body的问题，其实并不是这样的所有的一切都是指向Stream的<code>Request的Body就是Stream</code>这个大家可以自己查看一下，了解到这一步我们就可以继续了。</p>
+<h5 id="httprequest的body">HttpRequest的Body</h5>
+<p>上面我们说到了Request的Body本质就是Stream，Stream本身是抽象类，所以Request.Body是Stream的实现类。默认情况下Request.Body的是HttpRequestStream的实例[<a href="https://github.com/dotnet/aspnetcore/blob/v5.0.5/src/Servers/Kestrel/Core/src/Internal/Http/HttpRequestStream.cs" target="_blank">点击查看源码👈</a>]，我们这里说了是默认，因为它是可以改变的，我们一会再说。我们从上面StreamReader的结论中得到ReadToEnd本质还是调用的Stream的Read方法，即这里的HttpRequestStream的Read方法，我们来看一下具体实现[<a href="https://github.com/dotnet/aspnetcore/blob/v5.0.5/src/Servers/Kestrel/Core/src/Internal/Http/HttpRequestStream.cs#L55" target="_blank">点击查看源码👈</a>]</p>
+<pre><code class="language-cs">public override int Read(byte[] buffer, int offset, int count)
+{
+    //知道同步读取Body为啥报错了吧
+    if (!_bodyControl.AllowSynchronousIO)
+    {
+        throw new InvalidOperationException(CoreStrings.SynchronousReadsDisallowed);
+    }
+    //本质是调用ReadAsync
+    return ReadAsync(buffer, offset, count).GetAwaiter().GetResult();
+}
+</code></pre>
+<p>通过这段代码我们就可以知道了为啥在不设置AllowSynchronousIO为true的情下读取Body会抛出异常了吧，这个是程序级别的控制，而且我们还了解到Read的本质还是在调用ReadAsync异步方法</p>
+<pre><code class="language-cs">public override ValueTask&lt;int&gt; ReadAsync(Memory&lt;byte&gt; destination, CancellationToken cancellationToken = default)
+{
+    return ReadAsyncWrapper(destination, cancellationToken);
+}
+</code></pre>
+<p>ReadAsync本身并无特殊限制，所以直接操作ReadAsync不会存在类似Read的异常。</p>
+<blockquote>
+<p>通过这个我们得出了结论Request.Body即HttpRequestStream的同步读取Read会抛出异常，而异步读取ReadAsync并不会抛出异常只和HttpRequestStream的Read方法本身存在判断AllowSynchronousIO的值有关系。</p>
+</blockquote>
+<h5 id="allowsynchronousio本质来源">AllowSynchronousIO本质来源</h5>
+<p>通过HttpRequestStream的Read方法我们可以知道AllowSynchronousIO控制了同步读取的方式。而且我们还了解到了AllowSynchronousIO有几种不同方式的去配置，接下来我们来大致看下几种方式的本质是哪一种。通过HttpRequestStream我们知道Read方法中的AllowSynchronousIO的属性是来自<code>IHttpBodyControlFeature</code>也就是我们上面介绍的第二种配置方式</p>
+<pre><code class="language-cs">private readonly HttpRequestPipeReader _pipeReader;
+private readonly IHttpBodyControlFeature _bodyControl;
+public HttpRequestStream(IHttpBodyControlFeature bodyControl, HttpRequestPipeReader pipeReader)
+{
+    _bodyControl = bodyControl;
+    _pipeReader = pipeReader;
+}
+</code></pre>
+<p>那么它和<code>KestrelServerOptions</code>肯定是有关系的，因为我们只配置KestrelServerOptions的是HttpRequestStream的Read是不报异常的，而HttpRequestStream的Read只依赖了IHttpBodyControlFeature的AllowSynchronousIO属性。Kestrel中HttpRequestStream初始化的地方在BodyControl[<a href="https://github.com/dotnet/aspnetcore/blob/v5.0.5/src/Servers/Kestrel/Core/src/Internal/Infrastructure/BodyControl.cs" target="_blank">点击查看源码👈</a>]</p>
+<pre><code class="language-cs">private readonly HttpRequestStream _request;
+public BodyControl(IHttpBodyControlFeature bodyControl, IHttpResponseControl responseControl)
+{
+    _request = new HttpRequestStream(bodyControl, _requestReader);
+}
+</code></pre>
+<p>而初始化BodyControl的地方在HttpProtocol中,我们找到初始化BodyControl的InitializeBodyControl方法[<a href="https://github.com/dotnet/aspnetcore/blob/v5.0.5/src/Servers/Kestrel/Core/src/Internal/Http/HttpProtocol.cs#L315" target="_blank">点击查看源码👈</a>]</p>
+<pre><code class="language-cs">public void InitializeBodyControl(MessageBody messageBody)
+{
+    if (_bodyControl == null)
+    {
+        //这里传递的是bodyControl传递的是this
+        _bodyControl = new BodyControl(bodyControl: this, this);
+    }
+    (RequestBody, ResponseBody, RequestBodyPipeReader, ResponseBodyPipeWriter) = _bodyControl.Start(messageBody);
+    _requestStreamInternal = RequestBody;
+    _responseStreamInternal = ResponseBody;
+}
+</code></pre>
+<p>这里我们可以看的到初始化IHttpBodyControlFeature既然传递的是this，也就是HttpProtocol当前实例。也就是说HttpProtocol是实现了IHttpBodyControlFeature接口，HttpProtocol本身是partial的，我们在其中一个分布类HttpProtocol.FeatureCollection中看到了实现关系<br>
+[<a href="https://github.com/dotnet/aspnetcore/blob/v5.0.5/src/Servers/Kestrel/Core/src/Internal/Http/HttpProtocol.FeatureCollection.cs" target="_blank">点击查看源码👈</a>]</p>
+<pre><code class="language-cs">internal partial class HttpProtocol : IHttpRequestFeature, 
+ IHttpRequestBodyDetectionFeature, 
+ IHttpResponseFeature, 
+ IHttpResponseBodyFeature, 
+ IRequestBodyPipeFeature, 
+ IHttpUpgradeFeature, 
+ IHttpConnectionFeature, 
+ IHttpRequestLifetimeFeature, 
+ IHttpRequestIdentifierFeature, 
+ IHttpRequestTrailersFeature, 
+ IHttpBodyControlFeature, 
+ IHttpMaxRequestBodySizeFeature, 
+ IEndpointFeature, 
+ IRouteValuesFeature 
+ { 
+     bool IHttpBodyControlFeature.AllowSynchronousIO 
+     { 
+         get =&gt; AllowSynchronousIO; 
+         set =&gt; AllowSynchronousIO = value; 
+     } 
+ }
+</code></pre>
+<p>通过这个可以看出HttpProtocol确实实现了IHttpBodyControlFeature接口，接下来我们找到初始化AllowSynchronousIO的地方，找到了<code>AllowSynchronousIO = ServerOptions.AllowSynchronousIO;</code>这段代码说明来自于ServerOptions这个属性，找到初始化ServerOptions的地方[<a href="https://github.com/dotnet/aspnetcore/blob/v5.0.5/src/Servers/Kestrel/Core/src/Internal/Http/HttpProtocol.cs#L82" target="_blank">点击查看源码👈</a>]</p>
+<pre><code class="language-cs">private HttpConnectionContext _context;
+//ServiceContext初始化来自HttpConnectionContext 
+public ServiceContext ServiceContext =&gt; _context.ServiceContext;
+protected KestrelServerOptions ServerOptions { get; set; } = default!;
+public void Initialize(HttpConnectionContext context)
+{
+    _context = context;
+    //来自ServiceContext
+    ServerOptions = ServiceContext.ServerOptions;
+    Reset();
+    HttpResponseControl = this;
+}
+</code></pre>
+<p>通过这个我们知道ServerOptions来自于ServiceContext的ServerOptions属性，我们找到给ServiceContext赋值的地方，在KestrelServerImpl的CreateServiceContext方法里[<a href="https://github.com/dotnet/aspnetcore/blob/v5.0.5/src/Servers/Kestrel/Core/src/Internal/KestrelServerImpl.cs#L92" target="_blank">点击查看源码👈</a>]精简一下逻辑，抽出来核心内容大致实现如下</p>
+<pre><code class="language-cs">public KestrelServerImpl(
+   IOptions&lt;KestrelServerOptions&gt; options,
+   IEnumerable&lt;IConnectionListenerFactory&gt; transportFactories,
+   ILoggerFactory loggerFactory)     
+   //注入进来的IOptions&lt;KestrelServerOptions&gt;调用了CreateServiceContext
+   : this(transportFactories, null, CreateServiceContext(options, loggerFactory))
+{
+}
+
+private static ServiceContext CreateServiceContext(IOptions&lt;KestrelServerOptions&gt; options, ILoggerFactory loggerFactory)
+{
+    //值来自于IOptions&lt;KestrelServerOptions&gt; 
+    var serverOptions = options.Value ?? new KestrelServerOptions();
+    return new ServiceContext
+    {
+        Log = trace,
+        HttpParser = new HttpParser&lt;Http1ParsingHandler&gt;(trace.IsEnabled(LogLevel.Information)),
+        Scheduler = PipeScheduler.ThreadPool,
+        SystemClock = heartbeatManager,
+        DateHeaderValueManager = dateHeaderValueManager,
+        ConnectionManager = connectionManager,
+        Heartbeat = heartbeat,
+        //赋值操作
+        ServerOptions = serverOptions,
+    };
+}
+</code></pre>
+<p>通过上面的代码我们可以看到如果配置了KestrelServerOptions那么ServiceContext的ServerOptions属性就来自于KestrelServerOptions，即我们通过<code>services.Configure&lt;KestrelServerOptions&gt;()</code>配置的值，总之得到了这么一个结论</p>
+<blockquote>
+<p>如果配置了KestrelServerOptions即services.Configure<kestrelserveroptions>()，那么AllowSynchronousIO来自于KestrelServerOptions。即IHttpBodyControlFeature的AllowSynchronousIO属性来自于KestrelServerOptions。如果没有配置，那么直接通过修改IHttpBodyControlFeature实例的<br>
+AllowSynchronousIO属性能得到相同的效果，毕竟HttpRequestStream是直接依赖的IHttpBodyControlFeature实例。</kestrelserveroptions></p>
+</blockquote>
+<h5 id="enablebuffering神奇的背后">EnableBuffering神奇的背后</h5>
+<p>我们在上面的示例中看到了，如果不添加EnableBuffering的话直接设置RequestBody的Position会报NotSupportedException这么一个错误，而且加了它之后我居然可以直接使用同步的方式去读取RequestBody，首先我们来看一下为啥会报错，我们从上面的错误了解到错误来自于HttpRequestStream这个类[<a href="https://github.com/dotnet/aspnetcore/blob/v5.0.5/src/Servers/Kestrel/Core/src/Internal/Http/HttpRequestStream.cs" target="_blank">点击查看源码👈</a>]，上面我们也说了这个类继承了Stream抽象类,通过源码我们可以看到如下相关代码</p>
+<pre><code class="language-cs">//不能使用Seek操作
+public override bool CanSeek =&gt; false;
+//允许读
+public override bool CanRead =&gt; true;
+//不允许写
+public override bool CanWrite =&gt; false;
+//不能获取长度
+public override long Length =&gt; throw new NotSupportedException();
+//不能读写Position
+public override long Position
+{
+    get =&gt; throw new NotSupportedException();
+    set =&gt; throw new NotSupportedException();
+}
+//不能使用Seek方法
+public override long Seek(long offset, SeekOrigin origin)
+{
+    throw new NotSupportedException();
+}
+</code></pre>
+<p>相信通过这些我们可以清楚的看到针对HttpRequestStream的设置或者写相关的操作是不被允许的，这也是为啥我们上面直接通过Seek设置Position的时候为啥会报错，还有一些其他操作的限制，总之默认是不希望我们对HttpRequestStream做过多的操作，特别是设置或者写相关的操作。但是我们使用EnableBuffering的时候却没有这些问题，究竟是为什么?接下来我们要揭开它的什么面纱了。首先我们从<code>Request.EnableBuffering()</code>这个方法入手，找到源码位置在HttpRequestRewindExtensions扩展类中[<a href="https://github.com/dotnet/aspnetcore/blob/v5.0.5/src/Http/Http/src/Extensions/HttpRequestRewindExtensions.cs" target="_blank">点击查看源码👈</a>]，我们从最简单的无参方法开始看到如下定义</p>
+<pre><code class="language-cs">/// &lt;summary&gt;
+/// 确保Request.Body可以被多次读取
+/// &lt;/summary&gt;
+/// &lt;param name="request"&gt;&lt;/param&gt;
+public static void EnableBuffering(this HttpRequest request)
+{
+    BufferingHelper.EnableRewind(request);
+}
+</code></pre>
+<p>上面的方法是最简单的形式，还有一个EnableBuffering的扩展方法是参数最全的扩展方法，这个方法可以控制读取的大小和控制是否存储到磁盘的限定大小</p>
+<pre><code class="language-cs">/// &lt;summary&gt;
+/// 确保Request.Body可以被多次读取
+/// &lt;/summary&gt;
+/// &lt;param name="request"&gt;&lt;/param&gt;
+/// &lt;param name="bufferThreshold"&gt;内存中用于缓冲流的最大大小（字节）。较大的请求主体被写入磁盘。&lt;/param&gt;
+/// &lt;param name="bufferLimit"&gt;请求正文的最大大小（字节）。尝试读取超过此限制将导致异常&lt;/param&gt;
+public static void EnableBuffering(this HttpRequest request, int bufferThreshold, long bufferLimit)
+{
+    BufferingHelper.EnableRewind(request, bufferThreshold, bufferLimit);
+}
+</code></pre>
+<p>无论那种形式，最终都是在调用<code>BufferingHelper.EnableRewind</code>这个方法，话不多说直接找到BufferingHelper这个类，找到类的位置[<a href="https://github.com/dotnet/aspnetcore/blob/v5.0.5/src/Http/Http/src/Internal/BufferingHelper.cs" target="_blank">点击查看源码👈</a>]代码不多而且比较简洁，咱们就把EnableRewind的实现粘贴出来</p>
+<pre><code class="language-cs">//默认内存中可缓存的大小为30K,超过这个大小将会被存储到磁盘
+internal const int DefaultBufferThreshold = 1024 * 30;
+
+/// &lt;summary&gt;
+/// 这个方法也是HttpRequest扩展方法
+/// &lt;/summary&gt;
+/// &lt;returns&gt;&lt;/returns&gt;
+public static HttpRequest EnableRewind(this HttpRequest request, int bufferThreshold = DefaultBufferThreshold, long? bufferLimit = null)
+{
+    if (request == null)
+    {
+        throw new ArgumentNullException(nameof(request));
+    }
+    //先获取Request Body
+    var body = request.Body;
+    //默认情况Body是HttpRequestStream这个类CanSeek是false所以肯定会执行到if逻辑里面
+    if (!body.CanSeek)
+    {
+        //实例化了FileBufferingReadStream这个类，看来这是关键所在
+        var fileStream = new FileBufferingReadStream(body, bufferThreshold,bufferLimit,AspNetCoreTempDirectory.TempDirectoryFactory);
+        //赋值给Body，也就是说开启了EnableBuffering之后Request.Body类型将会是FileBufferingReadStream
+        request.Body = fileStream;
+        //这里要把fileStream注册给Response便于释放
+        request.HttpContext.Response.RegisterForDispose(fileStream);
+    }
+    return request;
+}
+</code></pre>
+<p>从上面这段源码实现中我们可以大致得到两个结论</p>
+<ul>
+<li>BufferingHelper的EnableRewind方法也是HttpRequest的扩展方法，可以直接通过<code>Request.EnableRewind</code>的形式调用，效果等同于调用<code>Request.EnableBuffering</code>因为EnableBuffering也是调用的EnableRewind</li>
+<li>启用了EnableBuffering这个操作之后实际上会使用FileBufferingReadStream替换掉默认的HttpRequestStream，所以后续处理RequestBody的操作将会是FileBufferingReadStream实例</li>
+</ul>
+<p>通过上面的分析我们也清楚的看到了，核心操作在于<code>FileBufferingReadStream</code>这个类，而且从名字也能看出来它肯定是也继承了Stream抽象类，那还等啥直接找到FileBufferingReadStream的实现[<a href="https://github.com/dotnet/aspnetcore/blob/v5.0.5/src/Http/WebUtilities/src/FileBufferingReadStream.cs" target="_blank">点击查看源码👈</a>]，首先来看他类的定义</p>
+<pre><code class="language-cs">public class FileBufferingReadStream : Stream
+{
+}
+</code></pre>
+<p>毋庸置疑确实是继承自Steam类，我们上面也看到了使用了Request.EnableBuffering之后就可以设置和重复读取RequestBody，说明进行了一些重写操作，具体我们来看一下</p>
+<pre><code class="language-cs">/// &lt;summary&gt;
+/// 允许读
+/// &lt;/summary&gt;
+public override bool CanRead
+{
+    get { return true; }
+}
+/// &lt;summary&gt;
+/// 允许Seek
+/// &lt;/summary&gt;
+public override bool CanSeek
+{
+    get { return true; }
+}
+/// &lt;summary&gt;
+/// 不允许写
+/// &lt;/summary&gt;
+public override bool CanWrite
+{
+    get { return false; }
+}
+/// &lt;summary&gt;
+/// 可以获取长度
+/// &lt;/summary&gt;
+public override long Length
+{
+    get { return _buffer.Length; }
+}
+/// &lt;summary&gt;
+/// 可以读写Position
+/// &lt;/summary&gt;
+public override long Position
+{
+    get { return _buffer.Position; }
+    set
+    {
+        ThrowIfDisposed();
+        _buffer.Position = value;
+    }
+}
+
+public override long Seek(long offset, SeekOrigin origin)
+{
+    //如果Body已释放则异常
+    ThrowIfDisposed();
+    //特殊情况抛出异常
+    //_completelyBuffered代表是否完全缓存一定是在原始的HttpRequestStream读取完成后才置为true
+    //出现没读取完成但是原始位置信息和当前位置信息不一致则直接抛出异常
+    if (!_completelyBuffered &amp;&amp; origin == SeekOrigin.End)
+    {
+        throw new NotSupportedException("The content has not been fully buffered yet.");
+    }
+    else if (!_completelyBuffered &amp;&amp; origin == SeekOrigin.Current &amp;&amp; offset + Position &gt; Length)
+    {
+        throw new NotSupportedException("The content has not been fully buffered yet.");
+    }
+    else if (!_completelyBuffered &amp;&amp; origin == SeekOrigin.Begin &amp;&amp; offset &gt; Length)
+    {
+        throw new NotSupportedException("The content has not been fully buffered yet.");
+    }
+    //充值buffer的Seek
+    return _buffer.Seek(offset, origin);
+}
+</code></pre>
+<p>因为重写了一些关键设置，所以我们可以设置一些流相关的操作。从Seek方法中我们看到了两个比较重要的参数<code>_completelyBuffered</code>和<code>_buffer</code>，_completelyBuffered用来判断原始的HttpRequestStream是否读取完成，因为FileBufferingReadStream归根结底还是先读取了HttpRequestStream的内容。_buffer正是承载从HttpRequestStream读取的内容,我们大致抽离一下逻辑看一下，切记这不是全部逻辑，是抽离出来的大致思想</p>
+<pre><code class="language-cs">private readonly ArrayPool&lt;byte&gt; _bytePool;
+private const int _maxRentedBufferSize = 1024 * 1024; //1MB
+private Stream _buffer;
+public FileBufferingReadStream(int memoryThreshold)
+{
+    //即使我们设置memoryThreshold那么它最大也不能超过1MB否则也会存储在磁盘上
+    if (memoryThreshold &lt;= _maxRentedBufferSize)
+    {
+        _rentedBuffer = bytePool.Rent(memoryThreshold);
+        _buffer = new MemoryStream(_rentedBuffer);
+        _buffer.SetLength(0);
+    }
+    else
+    {
+        //超过1M将缓存到磁盘所以仅仅初始化
+        _buffer = new MemoryStream();
+    }
+}
+</code></pre>
+<p>这些都是一些初始化的操作，核心操作当然还是在FileBufferingReadStream的Read方法里，因为真正读取的地方就在这，我们找到Read方法位置[<a href="https://github.com/dotnet/aspnetcore/blob/v5.0.5/src/Http/WebUtilities/src/FileBufferingReadStream.cs#L212" target="_blank">点击查看源码👈</a>]</p>
+<pre><code class="language-cs">private readonly Stream _inner;
+public FileBufferingReadStream(Stream inner)
+{
+    //接收原始的Request.Body
+    _inner = inner;
+}
+public override int Read(Span&lt;byte&gt; buffer)
+{
+    ThrowIfDisposed();
+
+    //如果读取完成过则直接在buffer中获取信息直接返回
+    if (_buffer.Position &lt; _buffer.Length || _completelyBuffered)
+    {
+        return _buffer.Read(buffer);
+    }
+
+    //未读取完成才会走到这里
+    //_inner正是接收的原始的RequestBody
+    //读取的RequestBody放入buffer中
+    var read = _inner.Read(buffer);
+    //超过设定的长度则会抛出异常
+    if (_bufferLimit.HasValue &amp;&amp; _bufferLimit - read &lt; _buffer.Length)
+    {
+        throw new IOException("Buffer limit exceeded.");
+    }
+    //如果设定存储在内存中并且Body长度大于设定的可存储在内存中的长度,则存储到磁盘中
+    if (_inMemory &amp;&amp; _memoryThreshold - read &lt; _buffer.Length)
+    {
+        _inMemory = false;
+        //缓存原始的Body流
+        var oldBuffer = _buffer;
+        //创建缓存文件
+        _buffer = CreateTempFile();
+        //超过内存存储限制，但是还未写入过临时文件
+        if (_rentedBuffer == null)
+        {
+            oldBuffer.Position = 0;
+            var rentedBuffer = _bytePool.Rent(Math.Min((int)oldBuffer.Length, _maxRentedBufferSize));
+            try
+            {
+                //将Body流读取到缓存文件流中
+                var copyRead = oldBuffer.Read(rentedBuffer);
+                //判断是否读取到结尾
+                while (copyRead &gt; 0)
+                {
+                    //将oldBuffer写入到缓存文件流_buffer当中
+                    _buffer.Write(rentedBuffer.AsSpan(0, copyRead));
+                    copyRead = oldBuffer.Read(rentedBuffer);
+                }
+            }
+            finally
+            {
+                //读取完成之后归还临时缓冲区到ArrayPool中
+                _bytePool.Return(rentedBuffer);
+            }
+        }
+        else
+        {
+            
+            _buffer.Write(_rentedBuffer.AsSpan(0, (int)oldBuffer.Length));
+            _bytePool.Return(_rentedBuffer);
+            _rentedBuffer = null;
+        }
+    }
+
+    //如果读取RequestBody未到结尾,则一直写入到缓存区
+    if (read &gt; 0)
+    {
+        _buffer.Write(buffer.Slice(0, read));
+    }
+    else
+    {
+        //如果已经读取RequestBody完毕，也就是写入到缓存完毕则更新_completelyBuffered
+        //标记为以全部读取RequestBody完成，后续在读取RequestBody则直接在_buffer中读取
+        _completelyBuffered = true;
+    }
+    //返回读取的byte个数用于外部StreamReader判断读取是否完成
+    return read;
+}
+</code></pre>
+<p>代码比较多看着也比较复杂，其实核心思路还是比较清晰的，我们来大致的总结一下</p>
+<ul>
+<li>首先判断是否完全的读取过原始的RequestBody,如果完全完整的读取过RequestBody则直接在缓冲区中获取返回</li>
+<li>如果RequestBody长度大于设定的内存存储限定，则将缓冲写入磁盘临时文件中</li>
+<li>如果是首次读取或为完全完整的读取完成RequestBody，那么将RequestBody的内容写入到缓冲区，知道读取完成</li>
+</ul>
+<p>其中CreateTempFile这是创建临时文件的操作流，目的是为了将RequestBody的信息写入到临时文件中。可以指定临时文件的地址，若如果不指定则使用系统默认目录，它的实现如下[<a href="https://github.com/dotnet/aspnetcore/blob/v5.0.5/src/Http/WebUtilities/src/FileBufferingReadStream.cs#L198" target="_blank">点击查看源码👈</a>]</p>
+<pre><code class="language-cs">private Stream CreateTempFile()
+{
+    //判断是否制定过缓存目录，没有的话则使用系统临时文件目录
+    if (_tempFileDirectory == null)
+    {
+        Debug.Assert(_tempFileDirectoryAccessor != null);
+        _tempFileDirectory = _tempFileDirectoryAccessor();
+        Debug.Assert(_tempFileDirectory != null);
+    }
+    //临时文件的完整路径
+    _tempFileName = Path.Combine(_tempFileDirectory, "ASPNETCORE_" + Guid.NewGuid().ToString() + ".tmp");
+    //返回临时文件的操作流
+    return new FileStream(_tempFileName, FileMode.Create, FileAccess.ReadWrite, FileShare.Delete, 1024 * 16,
+        FileOptions.Asynchronous | FileOptions.DeleteOnClose | FileOptions.SequentialScan);
+}
+</code></pre>
+<p>我们上面分析了FileBufferingReadStream的Read方法这个方法是同步读取的方法可供StreamReader的ReadToEnd方法使用，当然它还存在一个异步读取方法ReadAsync供StreamReader的ReadToEndAsync方法使用。这两个方法的实现逻辑是完全一致的，只是读取和写入操作都是异步的操作，这里咱们就不介绍那个方法了，有兴趣的同学可以自行了解一下<code>ReadAsync</code>方法的实现[<a href="https://github.com/dotnet/aspnetcore/blob/v5.0.5/src/Http/WebUtilities/src/FileBufferingReadStream.cs#L285" target="_blank">点击查看源码👈</a>]</p>
+<blockquote>
+<p>当开启EnableBuffering的时候，无论首次读取是设置了AllowSynchronousIO为true的ReadToEnd同步读取方式，还是直接使用ReadToEndAsync的异步读取方式，那么再次使用ReadToEnd同步方式去读取Request.Body也便无需去设置AllowSynchronousIO为true。因为默认的Request.Body已经由HttpRequestStream实例替换为FileBufferingReadStream实例，而FileBufferingReadStream重写了Read和ReadAsync方法，并不存在不允许同步读取的限制。</p>
+</blockquote>
+<h4 id="总结">总结</h4>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;本篇文章篇幅比较多，如果你想深入的研究相关逻辑，希望本文能给你带来一些阅读源码的指导。为了防止大家深入文章当中而忘记了具体的流程逻辑，在这里我们就大致的总结一下关于正确读取RequestBody的全部结论</p>
+<ul>
+<li>首先关于同步读取<code>Request.Body</code>由于默认的RequestBody的实现是HttpRequestStream，但是HttpRequestStream在重写Read方法的时候会判断是否开启AllowSynchronousIO，如果未开启则直接抛出异常。但是HttpRequestStream的ReadAsync方法并无这种限制，所以使用异步方式的读取RequestBody并无异常。</li>
+<li>虽然通过设置<code>AllowSynchronousIO</code>或使用<code>ReadAsync</code>的方式我们可以读取RequestBody，但是RequestBody无法重复读取，这是因为HttpRequestStream的Position和Seek都是不允许进行修改操作的，设置了会直接抛出异常。为了可以重复读取，我们引入了Request的扩展方法<code>EnableBuffering</code>通过这个方法我们可以重置读取位置来实现RequestBody的重复读取。</li>
+<li>关于开启<code>EnableBuffering</code>方法每次请求设置一次即可，即在准备读取RequestBody之前设置。其本质其实是使用<code>FileBufferingReadStream</code>代替默认RequestBody的默认类型HttpRequestStream，这样我们在一次Http请求中操作Body的时候其实是操作FileBufferingReadStream，这个类重写Stream的时候Position和Seek都是可以设置的，这样我们就实现了重复读取。</li>
+<li><code>FileBufferingReadStream</code>带给我们的不仅仅是可重复读取，还增加了对RequestBody的缓存功能，使得我们在一次请求中重复读取RequestBody的时候可以在Buffer里直接获取缓存内容而Buffer本身是一个MemoryStream。<font color="red">当然我们也可以自己实现一套逻辑来替换Body，只要我们重写的时候让这个Stream支持重置读取位置即可。</font></li>
+</ul>
+<p>以上就是本次笔者对关于如何更好的方式操作<code>Request.Body</code>的理解，关于讲解内容笔者深知自己能力有限，理解的不一定透彻，甚至理解的不一定对，还望大家多多谅解，也欢迎大家能够多多交流。<br>
+<br></p>
+<div align="center">
+  <span style="font-size: 15px">👇欢迎扫码关注我的公众号👇</span>
+  <img src="https://img2020.cnblogs.com/blog/2042116/202006/2042116-20200622133425514-1420050576.png">
+</div>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2021-05-06 09:03</span>&nbsp;
+<a href="https://www.cnblogs.com/wucy/">yi念之间</a>&nbsp;
+阅读(<span id="post_view_count">3238</span>)&nbsp;
+评论(<span id="post_comment_count">49</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14699717" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14699717);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 605020, cb_blogApp = 'wucy', cb_blogUserGuid = 'cbf13d4d-9981-4cce-33f2-08d7f668ab52';
+    var cb_entryId = 14699717, cb_entryCreatedDate = '2021-05-06 09:03', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 yi念之间
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjsQHzEC7uhdUWO5-18P5rjYIYthT6oCyZ9Niq_bafGDtSPaOFgu04lTkuvk9e8Q7euLIEbuKxAbE1UYnGIhiltj0SGwAaWgjjNH4bg7pPrdpRccygBk3UZSySQrMNNWDxQ" />
+</body>
+</html>

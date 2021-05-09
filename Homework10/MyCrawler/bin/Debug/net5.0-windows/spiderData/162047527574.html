@@ -1,0 +1,397 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="一：背景 1. 讲故事 这几天看的 dump 有点多，有点伤神伤脑，晚上做梦都是dump，今天早上头晕晕的到公司就听到背后同事抱怨他负责的WPF程序挂死了，然后测试的小姑娘也跟着抱怨。。。嗨，也不知道" />
+    <meta property="og:description" content="一：背景 1. 讲故事 这几天看的 dump 有点多，有点伤神伤脑，晚上做梦都是dump，今天早上头晕晕的到公司就听到背后同事抱怨他负责的WPF程序挂死了，然后测试的小姑娘也跟着抱怨。。。嗨，也不知道" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>记一次 .NET WPF布草管理系统 挂死分析  - 一线码农 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/imetro_hd/bundle-imetro_hd.min.css?v=FftQhR2MvKTGGXxV0VXlcGGt4XBM0_1XGJmu6kYD9bg" />
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/huangxincheng/custom.css?v=SdYXO/puoNgM6b4X1hctiyD8/bs=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/imetro_hd/bundle-imetro_hd-mobile.min.css?v=t8lZrYXGRE8kAD_d-besbRXwkXSQmMprnkoJVYlZl-g" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/huangxincheng/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/huangxincheng/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/huangxincheng/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 85195;
+        var currentBlogApp = 'huangxincheng';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'iMetro_HD';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-04-27 09:47';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="no-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/huangxincheng/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/huangxincheng/"></a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/huangxincheng/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E4%B8%80%E7%BA%BF%E7%A0%81%E5%86%9C">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/huangxincheng/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/huangxincheng/p/14707620.html">
+    <span>记一次 .NET WPF布草管理系统 挂死分析 </span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+<h2 id="一：背景">一：背景</h2>
+<h3 id="1-讲故事">1. 讲故事</h3>
+<p>这几天看的 dump 有点多，有点伤神伤脑，晚上做梦都是dump，今天早上头晕晕的到公司就听到背后同事抱怨他负责的WPF程序挂死了，然后测试的小姑娘也跟着抱怨。。。嗨，也不知道是哪一个迭代改出来的问题，反正客户不起义问题都不大。😅😅😅</p>
+<p>不过我听到程序无响应，内心深处真的是一拘灵。。。本能反应吧，给他发了一个 procdump 过去生成两个 dump 发过来。</p>
+<p>话说回来，WPF这种带UI界面的挂死问题其实很好分析的，无非就是 <code>UI线程</code> 失去响应了，至于为啥失去响应了，肯定是做了什么见不得光的事情，比如耍小聪明用 <code>Task.Result</code>，还有一点要特别注意的是 UI 独有的 <code>SynchronizationContext</code>，如 Winform 的 ： <code>WindowsFormsSynchronizationContext</code> ,WPF 的 <code>DispatcherSynchronizationContext</code>，后面我准备开一篇文章用 Windbg 深入剖析一下这个死锁形成的原因，好，说了这么多，dump 也到了，上 Windbg 分析吧。</p>
+<h2 id="二：-windbg-分析">二： windbg 分析</h2>
+<h3 id="1-审查ui线程">1. 审查UI线程</h3>
+<p>做法很简单，先通过 <code>~0s</code> 切到0号，也就是UI线程，再通过 <code>!dumpstack</code> 调出UI线程的托管和非托管栈，为了保护隐私，我就稍微精简下。</p>
+<pre><code class="language-C#">
+0:000&gt; ~0s
+eax=00000000 ebx=01855bf8 ecx=00000000 edx=00000000 esi=00000000 edi=00000000
+eip=776a171c esp=014fe3b8 ebp=014fe410 iopl=0         nv up ei pl nz na pe nc
+cs=0023  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00000206
+ntdll!NtWaitForSingleObject+0xc:
+776a171c c20c00          ret     0Ch
+0:000&gt; !dumpstack
+OS Thread Id: 0x4ee0 (0)
+Current frame: ntdll!NtWaitForSingleObject+0xc
+ChildEBP RetAddr  Caller, Callee
+014fe3b4 7468a9c5 mswsock!SockWaitForSingleObject+0x125, calling ntdll!NtWaitForSingleObject
+014fe410 7469932c mswsock!SockDoConnectReal+0x36b, calling mswsock!SockWaitForSingleObject
+014fe4b4 74698df7 mswsock!SockDoConnect+0x482, calling mswsock!SockDoConnectReal
+014fe544 74699861 mswsock!WSPConnect+0x61, calling mswsock!SockDoConnect
+014fe564 77316cf7 ws2_32!WSAConnect+0x77
+014fe5a0 6422aeea (MethodDesc 64088970 +0x5a DomainBoundILStubClass.IL_STUB_PInvoke(IntPtr, Byte[], Int32, IntPtr, IntPtr, IntPtr, IntPtr))
+014fe5d4 6422aeea (MethodDesc 64088970 +0x5a DomainBoundILStubClass.IL_STUB_PInvoke(IntPtr, Byte[], Int32, IntPtr, IntPtr, IntPtr, IntPtr))
+014fe5f4 641c72eb (MethodDesc 63ff4310 +0x4b System.Net.Sockets.Socket.DoConnect(System.Net.EndPoint, System.Net.SocketAddress)), calling 1d4d538c
+014fe628 642160c5 (MethodDesc 640847c4 +0x7d System.Net.Sockets.Socket.Connect(System.Net.EndPoint)), calling (MethodDesc 63ff4310 +0 System.Net.Sockets.Socket.DoConnect(System.Net.EndPoint, System.Net.SocketAddress))
+014fe644 1d4d5bd3 (MethodDesc 1c93d404 +0x33 xxx.SocketHelper.xxxSocket.Connect(System.Net.IPEndPoint)), calling (MethodDesc 640847c4 +0 System.Net.Sockets.Socket.Connect(System.Net.EndPoint))
+014fe660 1d4d5834 (MethodDesc 1c01df50 +0x114 xxx.MainWindow.Connect()), calling (MethodDesc 1c93d404 +0 xxx.Utilities.SocketHelper.xxxSocket.Connect(System.Net.IPEndPoint))
+014fe714 1d4d8d84 (MethodDesc 1c01e094 +0x9c xxx.MainWindow.&lt;IniTimer&gt;b__18_0(System.Object, System.EventArgs)), calling (MethodDesc 1c01df50 +0 xxx.MainWindow.Connect())
+
+</code></pre>
+<p>从上面的调用堆栈可以看出，MainWindow 中做了一个 <code>Socket.Connect</code> 连接，最后卡死在非托管的 <code>mswsock!SockDoConnectReal</code>方法上，应该是 Socket 连不上造成的，既然是 Socket ，把它的 ip 和 port 拿出来 telnet 一下不就好啦，对吧，可以用 <code>!dso</code> 把当前线程栈中所有的托管对象找出来。</p>
+<pre><code class="language-C#">
+0:000&gt; !dso
+OS Thread Id: 0x4ee0 (0)
+ESP/REG  Object   Name
+014FE4D8 03a47588 System.Net.SafeCloseSocket+InnerSafeCloseSocket
+014FE598 03a476bc System.Net.EndpointPermission
+014FE5E4 03a4762c System.Byte[]
+014FF068 03681374 System.AppDomain
+014FF4D8 03681238 System.SharedStatics
+014FE6B4 036a4dfc System.String    9901
+014FE6C4 036a4ba0 System.String    192.168.1.79
+
+</code></pre>
+<p>哈哈，从最后两行可以看出，socket 地址就是：<code>192.168.1.79:9901</code>, telnet 一下果然不通，问了下，原来是测试机最近重启了, Socket 服务端并没有随机器启动，貌似问题就这样找到了。。。</p>
+<p>是不是觉得有哪里不对劲呢？ 对， 就是为啥要在主线程做 <code>Connect</code> 呢？ 万一 Socket 连不上，这不就是把自己陷入不仁不义的地步嘛，问了下实施，说WPF和SocketServer都是一同部署的，据说在现场也偶尔遇到，可能坑踩多了他们自己也摸索出来了，把 SockerServer 重启一下就搞定了，不过这次可能研发自己都看不下去了吧 😂😂😂， 真是自曝家丑。。。</p>
+<h3 id="2-查看问题代码">2. 查看问题代码</h3>
+<p>问题还是要解决的，先把问题代码导出来，用 <code>!name2ee + !savemodule</code> 即可。</p>
+<pre><code class="language-C#">
+0:000&gt; !name2ee *!xxx.MainWindow.Connect
+Module:      01754044
+Assembly:    xxx.exe
+Token:       06000af5
+MethodDesc:  1c01df50
+Name:        xxx.MainWindow.Connect()
+JITTED Code Address: 1d4d5720
+0:000&gt; !savemodule 01754044  E:\dumps\3.dll
+3 sections in file
+section 0 - VA=2000, VASize=3835b4, FileAddr=200, FileSize=383600
+section 1 - VA=386000, VASize=3520, FileAddr=383800, FileSize=3600
+section 2 - VA=38a000, VASize=c, FileAddr=386e00, FileSize=200
+
+</code></pre>
+<p>然后用 ILSpy 打开 <code>3.dll</code> ，查看精简后的代码如下：</p>
+<pre><code class="language-C#">
+	private void Window_Loaded(object sender, RoutedEventArgs e)
+	{
+		Connect();
+	}
+
+        private bool Connect()
+	{
+		string ipString = ConfigurationManager.AppSettings["ServerSocketIp"];
+		IPAddress address = IPAddress.Parse(ipString);
+		IPEndPoint iPEndPoint = new IPEndPoint(address, Convert.ToInt32(ConfigurationManager.AppSettings["ServerPort"]));
+		sockClient = (xxxSocket)(object)new xxxSocket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+		try
+		{
+			sockClient.Connect(iPEndPoint);
+			((Socket)(object)sockClient).IOControl(IOControlCode.KeepAliveValues, KeepAlive(1, 1000, 1000), (byte[])null);
+			sockClient.add_RecievedMessage((EventHandler&lt;SocketMessage&gt;)sockClient_RecievedMessage);
+		}
+		catch (SocketException ex)
+		{
+		
+			return false;
+		}
+		return true;
+	}
+
+</code></pre>
+<p>很清楚的看到在主线程做了 <code>Connect</code> 操作，这是大忌哈。。。 可能这段 Socket 代码也是网上找的，应该也没注意太多吧。。。</p>
+<h2 id="三：总结">三：总结</h2>
+<p>知道前因后果之后，优化办法就比较简单了。</p>
+<ul>
+<li>把 Connect 丢到 Task.Run 中，释放主线程，简单粗暴，</li>
+</ul>
+<pre><code class="language-C#">
+        private async void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            Task.Run(()=&gt; { Connect() });
+        }
+
+</code></pre>
+<ul>
+<li>使用 async, await</li>
+</ul>
+<p>在这个 <code>1+1</code> 都要使用异步写法的时代，不用它真的感觉落伍了。。。这里我就不费脑子怎么用 <code>XXXAsync</code> 家族了哈。</p>
+<pre><code class="language-C#">
+        private async void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            string address = "192.168.1.79";
+            int port = 9901;
+
+            var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            socket.SendTimeout = 1000 * 10;
+            socket.ReceiveTimeout = 1000 * 10;
+
+            await socket.ConnectAsync(address, port);
+
+           //....
+        }
+
+</code></pre>
+<p>这个真实案例很简单，难度等级0， 不知道您学会了吗？ 其实有时也感叹一下，像这种案例会 Windbg 3分钟解决，不会要摸头一上午。</p>
+<p><strong>更多高质量干货：参见我的 GitHub: <a href="https://github.com/ctripxchuang/dotnetfly" target="_blank">dotnetfly</a></strong></p>
+<img src="https://img2020.cnblogs.com/blog/214741/202005/214741-20200522143723695-575216767.png" width="600" height="200" alt="图片名称" align="center">
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2021-04-27 09:47</span>&nbsp;
+<a href="https://www.cnblogs.com/huangxincheng/">一线码农</a>&nbsp;
+阅读(<span id="post_view_count">1626</span>)&nbsp;
+评论(<span id="post_comment_count">14</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14707620" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14707620);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 85195, cb_blogApp = 'huangxincheng', cb_blogUserGuid = '40a06552-abf8-df11-ac81-842b2b196315';
+    var cb_entryId = 14707620, cb_entryCreatedDate = '2021-04-27 09:47', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 一线码农
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjuMTNSa6Y-V3I_QheigW7ACEoUJjniVwMLnFnGYhVzMMoSOo2lkSLGN73GFMdB_yIfG5urxRrM5kxFqQqHQP8SKqgDZ_YD8b-vgeKHoujCvt7sB8-WFx3Yxpvp3tWGP-PA" />
+</body>
+</html>

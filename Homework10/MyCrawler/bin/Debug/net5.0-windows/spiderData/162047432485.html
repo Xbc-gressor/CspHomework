@@ -1,0 +1,335 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="一、运行流程 webpack&amp;#160;的运行流程是一个串行的过程，它的工作流程就是将各个插件串联起来 在运行过程中会广播事件，插件只需要监听它所关心的事件，就能加入到这条webpack机制中，去改变" />
+    <meta property="og:description" content="一、运行流程 webpack&amp;#160;的运行流程是一个串行的过程，它的工作流程就是将各个插件串联起来 在运行过程中会广播事件，插件只需要监听它所关心的事件，就能加入到这条webpack机制中，去改变" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>webpack的构建流程 - 喆星高照 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/uandme/bundle-uandme.min.css?v=jUCkW0CHDR_nxV_TGKIwGovZiujkXcrNpbqHir57_ew" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/uandme/bundle-uandme-mobile.min.css?v=iPf_XHQsJ-ofZZ2RiaeMCHG0JEaMNLa9yhkUGK3xTSQ" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/houxianzhou/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/houxianzhou/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/houxianzhou/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 615178;
+        var currentBlogApp = 'houxianzhou';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'UandMe';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-04-27 09:35';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <div id="banner">
+<!--done-->
+<div class="header">
+	<div class="headerText">
+		<a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/houxianzhou/">喆星高照</a>
+<br>
+		<div class="headerDis"></div>
+	</div>
+</div>
+
+</div>
+<div id="main">
+	<div id="right">
+		<div id="right_content">
+			<DIV id="mystats">
+				
+					<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+				
+			</DIV>
+			<div id="mylinks">
+				
+
+<a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+&nbsp;&nbsp;
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/houxianzhou/">
+首页</a>
+&nbsp;&nbsp;
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+&nbsp;&nbsp;
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E5%96%86%E6%98%9F%E9%AB%98%E7%85%A7">
+联系</a>&nbsp;&nbsp;
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+&nbsp;&nbsp;
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/houxianzhou/rss/">
+订阅</a>&nbsp;
+<a id="blog_nav_rss_image" href="https://www.cnblogs.com/houxianzhou/rss/">
+    <img src="/skins/uandme/images/xml.gif" alt="订阅" />
+</a>
+
+
+			</div>
+			<div id="topics">
+				<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class = "postTitle">
+			
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/houxianzhou/p/14707566.html">
+    <span>webpack的构建流程</span>
+    
+
+
+
+</a>
+
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<p><img src="https://img2020.cnblogs.com/blog/1161361/202104/1161361-20210427093307458-20550278.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2 data-tool="mdnice编辑器">一、运行流程</h2>
+<p data-tool="mdnice编辑器"><code>webpack</code>&nbsp;的运行流程是一个串行的过程，它的工作流程就是将各个插件串联起来</p>
+<p data-tool="mdnice编辑器">在运行过程中会广播事件，插件只需要监听它所关心的事件，就能加入到这条<code>webpack</code>机制中，去改变<code>webpack</code>的运作，使得整个系统扩展性良好</p>
+<p data-tool="mdnice编辑器">从启动到结束会依次执行以下三大步骤：</p>
+<ul class="list-paddingleft-2" data-tool="mdnice编辑器">
+<li>初始化流程：从配置文件和&nbsp;<code>Shell</code>&nbsp;语句中读取与合并参数，并初始化需要使用的插件和配置插件等执行环境所需要的参数</li>
+<li>编译构建流程：从 Entry 发出，针对每个 Module 串行调用对应的 Loader 去翻译文件内容，再找到该 Module 依赖的 Module，递归地进行编译处理</li>
+<li>输出流程：对编译后的 Module 组合成 Chunk，把 Chunk 转换成文件，输出到文件系统</li>
+</ul>
+<p><img src="https://img2020.cnblogs.com/blog/1161361/202104/1161361-20210427093408657-2062670361.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h3 data-tool="mdnice编辑器">初始化流程</h3>
+<p data-tool="mdnice编辑器">从配置文件和&nbsp;<code>Shell</code>&nbsp;语句中读取与合并参数，得出最终的参数</p>
+<p data-tool="mdnice编辑器">配置文件默认下为<code>webpack.config.js</code>，也或者通过命令的形式指定配置文件，主要作用是用于激活<code>webpack</code>的加载项和插件</p>
+<p data-tool="mdnice编辑器">关于文件配置内容分析，如下注释：</p>
+<pre data-tool="mdnice编辑器"><code>var&nbsp;path&nbsp;=&nbsp;require('path');<br>var&nbsp;node_modules&nbsp;=&nbsp;path.resolve(__dirname,&nbsp;'node_modules');<br>var&nbsp;pathToReact&nbsp;=&nbsp;path.resolve(node_modules,&nbsp;'react/dist/react.min.js');<br><br>module.exports&nbsp;=&nbsp;{<br>&nbsp;&nbsp;//&nbsp;入口文件，是模块构建的起点，同时每一个入口文件对应最后生成的一个 chunk。<br>&nbsp;&nbsp;entry:&nbsp;'./path/to/my/entry/file.js'，<br>&nbsp;&nbsp;//&nbsp;文件路径指向(可加快打包过程)。<br>&nbsp;&nbsp;resolve:&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;alias:&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'react':&nbsp;pathToReact<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;},<br>&nbsp;&nbsp;//&nbsp;生成文件，是模块构建的终点，包括输出文件与输出路径。<br>&nbsp;&nbsp;output:&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;path:&nbsp;path.resolve(__dirname,&nbsp;'build'),<br>&nbsp;&nbsp;&nbsp;&nbsp;filename:&nbsp;'[name].js'<br>&nbsp;&nbsp;},<br>&nbsp;&nbsp;//&nbsp;这里配置了处理各模块的 loader ，包括 css 预处理 loader ，es6 编译 loader，图片处理 loader。<br>&nbsp;&nbsp;module:&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;loaders:&nbsp;[<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;test:&nbsp;/\.js$/,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;loader:&nbsp;'babel',<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;query:&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;presets:&nbsp;['es2015',&nbsp;'react']<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;],<br>&nbsp;&nbsp;&nbsp;&nbsp;noParse:&nbsp;[pathToReact]<br>&nbsp;&nbsp;},<br>&nbsp;&nbsp;// webpack 各插件对象，在 webpack 的事件流中执行对应的方法。<br>&nbsp;&nbsp;plugins:&nbsp;[<br>&nbsp;&nbsp;&nbsp;&nbsp;new&nbsp;webpack.HotModuleReplacementPlugin()<br>&nbsp;&nbsp;]<br>};<br></code></pre>
+<p data-tool="mdnice编辑器"><code>webpack</code>&nbsp;将&nbsp;<code>webpack.config.js</code>&nbsp;中的各个配置项拷贝到&nbsp;<code>options</code>&nbsp;对象中，并加载用户配置的&nbsp;<code>plugins</code></p>
+<p data-tool="mdnice编辑器">完成上述步骤之后，则开始初始化<code>Compiler</code>编译对象，该对象掌控者<code>webpack</code>声明周期，不执行具体的任务，只是进行一些调度工作</p>
+<pre data-tool="mdnice编辑器"><code>class&nbsp;Compiler&nbsp;extends&nbsp;Tapable&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;constructor(context)&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;super();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.hooks&nbsp;=&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;beforeCompile:&nbsp;new&nbsp;AsyncSeriesHook(["params"]),<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;compile:&nbsp;new&nbsp;SyncHook(["params"]),<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;afterCompile:&nbsp;new&nbsp;AsyncSeriesHook(["compilation"]),<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;make:&nbsp;new&nbsp;AsyncParallelHook(["compilation"]),<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;entryOption:&nbsp;new&nbsp;SyncBailHook(["context",&nbsp;"entry"])<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;定义了很多不同类型的钩子<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;...<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>}<br><br>function&nbsp;webpack(options)&nbsp;{<br>&nbsp;&nbsp;var&nbsp;compiler&nbsp;=&nbsp;new&nbsp;Compiler();<br>&nbsp;&nbsp;...//&nbsp;检查options,若watch字段为true,则开启watch线程<br>&nbsp;&nbsp;return&nbsp;compiler;<br>}<br>...<br></code></pre>
+<p data-tool="mdnice编辑器"><code>Compiler</code>&nbsp;对象继承自&nbsp;<code>Tapable</code>，初始化时定义了很多钩子函数</p>
+<h3 data-tool="mdnice编辑器">编译构建流程</h3>
+<p data-tool="mdnice编辑器">根据配置中的&nbsp;<code>entry</code>&nbsp;找出所有的入口文件</p>
+<pre data-tool="mdnice编辑器"><code>module.exports&nbsp;=&nbsp;{<br>&nbsp;&nbsp;entry:&nbsp;'./src/file.js'<br>}<br></code></pre>
+<p data-tool="mdnice编辑器">初始化完成后会调用<code>Compiler</code>的<code>run</code>来真正启动<code>webpack</code>编译构建流程，主要流程如下：</p>
+<ul class="list-paddingleft-2" data-tool="mdnice编辑器">
+<li><code>compile</code>&nbsp;开始编译</li>
+<li><code>make</code>&nbsp;从入口点分析模块及其依赖的模块，创建这些模块对象</li>
+<li><code>build-module</code>&nbsp;构建模块</li>
+<li><code>seal</code>&nbsp;封装构建结果</li>
+<li><code>emit</code>&nbsp;把各个chunk输出到结果文件</li>
+</ul>
+<h3 data-tool="mdnice编辑器"><strong>compile 编译</strong></h3>
+<p data-tool="mdnice编辑器">执行了<code>run</code>方法后，首先会触发<code>compile</code>，主要是构建一个<code>Compilation</code>对象</p>
+<p data-tool="mdnice编辑器">该对象是编译阶段的主要执行者，主要会依次下述流程：执行模块创建、依赖收集、分块、打包等主要任务的对象</p>
+<h4 data-tool="mdnice编辑器">make 编译模块</h4>
+<p data-tool="mdnice编辑器">当完成了上述的<code>compilation</code>对象后，就开始从<code>Entry</code>入口文件开始读取，主要执行<code>_addModuleChain()</code>函数，如下：</p>
+<pre data-tool="mdnice编辑器"><code>_addModuleChain(context,&nbsp;dependency,&nbsp;onModule,&nbsp;callback)&nbsp;{<br>&nbsp;&nbsp;&nbsp;...<br>&nbsp;&nbsp;&nbsp;//&nbsp;根据依赖查找对应的工厂函数<br>&nbsp;&nbsp;&nbsp;const&nbsp;Dep&nbsp;=&nbsp;/**&nbsp;@type&nbsp;{DepConstructor}&nbsp;*/&nbsp;(dependency.constructor);<br>&nbsp;&nbsp;&nbsp;const&nbsp;moduleFactory&nbsp;=&nbsp;this.dependencyFactories.get(Dep);<br>&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;//&nbsp;调用工厂函数NormalModuleFactory的create来生成一个空的NormalModule对象<br>&nbsp;&nbsp;&nbsp;moduleFactory.create({<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dependencies:&nbsp;[dependency]<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...<br>&nbsp;&nbsp;&nbsp;},&nbsp;(err,&nbsp;module)&nbsp;=&gt;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const&nbsp;afterBuild&nbsp;=&nbsp;()&nbsp;=&gt;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.processModuleDependencies(module,&nbsp;err&nbsp;=&gt;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(err)&nbsp;return&nbsp;callback(err);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;callback(null,&nbsp;module);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});<br>&nbsp;&nbsp;&nbsp;&nbsp;};<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.buildModule(module,&nbsp;false,&nbsp;null,&nbsp;null,&nbsp;err&nbsp;=&gt;&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;afterBuild();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;})<br>&nbsp;&nbsp;&nbsp;})<br>}<br></code></pre>
+<p data-tool="mdnice编辑器">过程如下：</p>
+<p data-tool="mdnice编辑器"><code>_addModuleChain</code>中接收参数<code>dependency</code>传入的入口依赖，使用对应的工厂函数<code>NormalModuleFactory.create</code>方法生成一个空的<code>module</code>对象</p>
+<p data-tool="mdnice编辑器">回调中会把此<code>module</code>存入<code>compilation.modules</code>对象和<code>dependencies.module</code>对象中，由于是入口文件，也会存入<code>compilation.entries</code>中</p>
+<p data-tool="mdnice编辑器">随后执行<code>buildModule</code>进入真正的构建模块<code>module</code>内容的过程</p>
+<h4 data-tool="mdnice编辑器">build module 完成模块编译</h4>
+<p data-tool="mdnice编辑器">这里主要调用配置的<code>loaders</code>，将我们的模块转成标准的<code>JS</code>模块</p>
+<p data-tool="mdnice编辑器">在用<code>Loader</code>&nbsp;对一个模块转换完后，使用&nbsp;<code>acorn</code>&nbsp;解析转换后的内容，输出对应的抽象语法树（<code>AST</code>），以方便&nbsp;<code>Webpack</code>后面对代码的分析</p>
+<p data-tool="mdnice编辑器">从配置的入口模块开始，分析其&nbsp;<code>AST</code>，当遇到<code>require</code>等导入其它模块语句时，便将其加入到依赖的模块列表，同时对新找出的依赖模块递归分析，最终搞清所有模块的依赖关系</p>
+<h3 data-tool="mdnice编辑器">输出流程</h3>
+<h4 data-tool="mdnice编辑器">seal 输出资源</h4>
+<p data-tool="mdnice编辑器"><code>seal</code>方法主要是要生成<code>chunks</code>，对<code>chunks</code>进行一系列的优化操作，并生成要输出的代码</p>
+<p data-tool="mdnice编辑器"><code>webpack</code>&nbsp;中的&nbsp;<code>chunk</code>&nbsp;，可以理解为配置在&nbsp;<code>entry</code>&nbsp;中的模块，或者是动态引入的模块</p>
+<p data-tool="mdnice编辑器">根据入口和模块之间的依赖关系，组装成一个个包含多个模块的&nbsp;<code>Chunk</code>，再把每个&nbsp;<code>Chunk</code>&nbsp;转换成一个单独的文件加入到输出列表</p>
+<h4 data-tool="mdnice编辑器">emit 输出完成</h4>
+<p data-tool="mdnice编辑器">在确定好输出内容后，根据配置确定输出的路径和文件名</p>
+<pre data-tool="mdnice编辑器"><code>output:&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;path:&nbsp;path.resolve(__dirname,&nbsp;'build'),<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;filename:&nbsp;'[name].js'<br>}<br></code></pre>
+<p data-tool="mdnice编辑器">在&nbsp;<code>Compiler</code>&nbsp;开始生成文件前，钩子&nbsp;<code>emit</code>&nbsp;会被执行，这是我们修改最终文件的最后一个机会</p>
+<p data-tool="mdnice编辑器">从而<code>webpack</code>整个打包过程则结束了</p>
+<h3 data-tool="mdnice编辑器">小结</h3>
+<p><img src="https://img2020.cnblogs.com/blog/1161361/202104/1161361-20210427093340874-1132275659.png" alt="" loading="lazy"></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2 data-tool="mdnice编辑器"><br>参考文献</h2>
+<ul class="list-paddingleft-2" data-tool="mdnice编辑器">
+<ul class="list-paddingleft-2" data-tool="mdnice编辑器">
+<li>https://mp.weixin.qq.com/s/PlqhRNZNIfBJHSVoVD3fHw</li>
+
+</ul>
+</ul>
+<p>&nbsp;</p>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+		</div>
+		<div class="postDesc">posted @ 
+<span id="post-date">2021-04-27 09:35</span>&nbsp;
+<a href="https://www.cnblogs.com/houxianzhou/">喆星高照</a>&nbsp;
+阅读(<span id="post_view_count">156</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14707566" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14707566);return false;">收藏</a></div>
+	</div>
+	
+	
+</div><!--end: topics 文章、评论容器-->
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 615178, cb_blogApp = 'houxianzhou', cb_blogUserGuid = 'c6bd7652-0533-e711-9fc1-ac853d9f53cc';
+    var cb_entryId = 14707566, cb_entryCreatedDate = '2021-04-27 09:35', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+</div>
+
+
+			</div>
+			<div id="footer">
+				<!--done-->
+Copyright &copy; 2021 喆星高照
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+			</div>
+		</div>
+	</div>
+	<div id="left">
+		<div id="left_content">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="calendar"><div id="calendar"><div id="blog-calendar" style="display:none"></div></div>                
+                    <script>loadBlogDefaultCalendar();</script></div>
+			
+				<DIV id="leftcontentcontainer">
+					<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+				</DIV>
+			
+		</div>
+	</div>
+	<div class="clear"></div>
+</div>
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjv2KZgPu-6e3o1NQsnYM6DIfOVSiZOzCKK3C1scckYyzKI975EJz1AypCv4Alj55iZWL5oxClcj1OI3xEy20TDt2Ta90JasGYFH0Tez5vEVAFB4gYWvmNIZG859QAhku38" />
+</body>
+</html>

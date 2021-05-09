@@ -1,0 +1,351 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="一、分支介绍 在版本控制过程当中，有时候需要同时推进多个任务，这样的话，就可以给每个任务创建单独的分支。 有了分支之后，对应的开发人员就可以把自己的工作从主线上分离出来，在做自己分支开发的时候，不会影" />
+    <meta property="og:description" content="一、分支介绍 在版本控制过程当中，有时候需要同时推进多个任务，这样的话，就可以给每个任务创建单独的分支。 有了分支之后，对应的开发人员就可以把自己的工作从主线上分离出来，在做自己分支开发的时候，不会影" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>【Git】3. Git重要特性-分支操作，合并冲突详解 - 把苹果v咬哭 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/simplememory/bundle-simplememory.min.css?v=uknaX_hejnSu-njQgx4Hj1R0JiPLwUhFPUlwWNmWyB4" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/SimpleMemory/bundle-SimpleMemory-mobile.min.css" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/pingguo-softwaretesting/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/pingguo-softwaretesting/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/pingguo-softwaretesting/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 391435;
+        var currentBlogApp = 'pingguo-softwaretesting';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'SimpleMemory';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-05-08 07:05';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/pingguo-softwaretesting/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/pingguo-softwaretesting/">把苹果咬哭</a>
+</h1>
+<h2>知道的越多，不知道的越多</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/pingguo-softwaretesting/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+</li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/pingguo-softwaretesting/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/pingguo-softwaretesting/p/14743294.html">
+    <span>【Git】3. Git重要特性-分支操作，合并冲突详解</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+<h3 id="一、分支介绍">一、分支介绍</h3>
+<p>在版本控制过程当中，有时候需要同时推进多个任务，这样的话，就可以给每个任务创建单独的分支。<br>
+有了分支之后，对应的开发人员就可以把自己的工作从主线上分离出来，在做自己分支开发的时候，不会影响到主线分支的运行。<br>
+<img src="https://img2020.cnblogs.com/blog/1268169/202105/1268169-20210507231000811-120874177.png" alt="" loading="lazy"><br>
+如图所示：</p>
+<ol>
+<li>要开发个新功能，加个蓝色背景。那么从master上建一个分支feature-blue，开发完后，合回到master。</li>
+<li>同时另外一个新功能也要做，给系统加个小游戏。同样上建一个分支feature-game进行开发。</li>
+<li>发现feature-blue上有个bug，那么再从master上建一个热修复分支hot-fix进行bug修改，完事后合到master。</li>
+</ol>
+<p>所以，在众多分支并行开发的时候，master上的代码是正常在服务器上运行的，不会被影响。<br>
+故使用分支有如下优点：</p>
+<ul>
+<li>同时并行推进多个功能开发，提高开发效率。</li>
+<li>各个分支在开发过程中，如果某一个分支开发失败，不会对其他分支造成影响。失败的分支可以删除掉重新开始即可。</li>
+</ul>
+<h3 id="二、分支操作">二、分支操作</h3>
+<h4 id="1-查看分支">1. 查看分支</h4>
+<pre><code>git branch -v
+</code></pre>
+<p>可以查看当前本地库有多少分支，其中<code>*</code>表示当前所在的分支。<br>
+<img src="https://img2020.cnblogs.com/blog/1268169/202105/1268169-20210507232400431-510429677.png" alt="" loading="lazy"></p>
+<h4 id="2-创建分支">2. 创建分支</h4>
+<pre><code>git branch 分支名
+</code></pre>
+<p>创建完成后，再次查看分支，就可以看到新建的分支<code>hot-fix</code>。<br>
+<img src="https://img2020.cnblogs.com/blog/1268169/202105/1268169-20210507232637355-1414621157.png" alt="" loading="lazy"></p>
+<h4 id="3-切换分支">3. 切换分支</h4>
+<p>当前所在还是master分支，我不想动master分支的内容，希望在<code>hot-fix</code>分支上进行修改，那么现在切换到目标分支。</p>
+<pre><code>git checkout 分支名
+</code></pre>
+<p><img src="https://img2020.cnblogs.com/blog/1268169/202105/1268169-20210507233133754-621681920.png" alt="" loading="lazy"><br>
+已经切换成功。</p>
+<p>现在我可以在hot-fix分支下进行文件内容的修改了，我改动hello.txt的第一行内容。<br>
+然后<code>git add hello.txt</code>和<code>git commit -m "hot-fix first commit" hello.txt </code>。</p>
+<p><img src="https://img2020.cnblogs.com/blog/1268169/202105/1268169-20210507233624800-379792638.png" alt="" loading="lazy"><br>
+用<code>cat hello.txt</code>可以查看文本内容，在git里 linux命令通用。</p>
+<h4 id="4-合并分支">4. 合并分支</h4>
+<p><strong>正常合并</strong><br>
+在<code>hot-fix</code>修改完内容提交之后，现在切换回master分支，并且查看文件内容，发现还是原来的样子，没有受到影响。<br>
+<img src="https://img2020.cnblogs.com/blog/1268169/202105/1268169-20210507234143221-1202032255.png" alt="" loading="lazy"></p>
+<p>现在我要把<code>hot-fix</code>上的内容合并到<code>master</code>上：</p>
+<pre><code>git merge 分支名
+</code></pre>
+<p>注意，这里是把命令行后输入的分支 合并到 当前所在分支，所以我先要切回到<code>master</code>上，才可以把<code>hot-fix</code>合过来。<br>
+<img src="https://img2020.cnblogs.com/blog/1268169/202105/1268169-20210507234524324-704479991.png" alt="" loading="lazy"></p>
+<p>合并完成，查看master分支上的文件内容，发现hot-fix上新增的内容已经合并了过来。<br>
+<img src="https://img2020.cnblogs.com/blog/1268169/202105/1268169-20210507234629243-1603524777.png" alt="" loading="lazy"></p>
+<p><strong>冲突合并</strong><br>
+合并分支时，两个分支在同一个文件的同一个位置有两套完全不同的修改，这就产生了冲突，这也是团队协助中最常见的场景之一了。<br>
+此时，git无法决定使用哪一个，所以必须人为的决定新代码的内容。</p>
+<p>现在来造成一个冲突的场景：</p>
+<ol>
+<li>在<code>master</code>分支，在hello.txt的最后一行末尾，增加新内容-"master test"。</li>
+<li>切换到<code>hot-fix</code>分支，在hello.txt的最后一行末尾，增加新内容-"hot-fix test"。</li>
+<li>切换到<code>master</code>分支，合并<code>hot-fix</code>分支。</li>
+</ol>
+<p><img src="https://img2020.cnblogs.com/blog/1268169/202105/1268169-20210507235653899-1978382653.png" alt="" loading="lazy"></p>
+<p>提示自动合并失败，因为在<code>hello.txt</code>里面产生了冲突，此时查看<code>git status</code>，也可以看到提示。</p>
+<p><img src="https://img2020.cnblogs.com/blog/1268169/202105/1268169-20210507235927525-564627495.png" alt="" loading="lazy"></p>
+<p>OK，git处理不了，只能我们亲自出马了。此时可以打开文件<code>vim hello.txt</code>，会发现在文件里有冲突的提示。</p>
+<p><img src="https://img2020.cnblogs.com/blog/1268169/202105/1268169-20210508000217234-271453895.png" alt="" loading="lazy"></p>
+<p>有3个提示：</p>
+<ul>
+<li><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</code>，表示当前分支。</li>
+<li><code>=======</code>，相当于分界线，等号与上面的HEAD之间，是当前分支的代码。等号与下面的 hot-fix，是要合并过来的代码。</li>
+<li><code>&gt;&gt;&gt;&gt;&gt;&gt;&gt; hot-fix</code>，要合并过来的分支。</li>
+</ul>
+<p>现在我手动处理，希望2个分支的代码都保留，那么我留下这2行代码，把其余的提示信息去掉即可。</p>
+<p><img src="https://img2020.cnblogs.com/blog/1268169/202105/1268169-20210508000805842-155204114.png" alt="" loading="lazy"></p>
+<p>完成后进行<code>git add hello.txt</code>。<br>
+注意，在接下来的git commit操作中，就不要带文件名了，否则会报错，如下：</p>
+<p><img src="https://img2020.cnblogs.com/blog/1268169/202105/1268169-20210508001121304-1014806169.png" alt="" loading="lazy"></p>
+<p>git此时还是不知道用哪个分支的hello.txt，所以提交的时候不要带文件名了。</p>
+<p><img src="https://img2020.cnblogs.com/blog/1268169/202105/1268169-20210508001235842-2073688158.png" alt="" loading="lazy"></p>
+<p>可以看到合并成功，接着查看下文件内容，<code>cat hello.txt</code>，结果如愿以偿。</p>
+<p><img src="https://img2020.cnblogs.com/blog/1268169/202105/1268169-20210508001408410-313337350.png" alt="" loading="lazy"></p>
+<p>注意，这里合并时候的修改，也只是改了<code>master</code>分支的文件内容，<code>hot-fix</code>分支是不受影响的，可以切到<code>hot-fix</code>查看文件内容便知。</p>
+<p><img src="https://img2020.cnblogs.com/blog/1268169/202105/1268169-20210508001625265-2017610761.png" alt="" loading="lazy"></p>
+<p><strong>分支原理</strong><br>
+跟版本切换一样，分支切换的底层同样是指针。</p>
+<p>上面的2个分支<code>master</code>和<code>hot-fix</code>，其实都是指向具体版本记录的指针。而当前所在的分支，其实是有HEAD决定的，HEAD指向哪个分支，现在就在那个分支上。<br>
+所以，创建分支的本质就是多创建一个指针，故切换分支的本质就是移动HEAD指针。</p>
+<p>接下来是git的团队协助相关内容。</p>
+
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2021-05-08 07:05</span>&nbsp;
+<a href="https://www.cnblogs.com/pingguo-softwaretesting/">把苹果v咬哭</a>&nbsp;
+阅读(<span id="post_view_count">85</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14743294" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14743294);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 391435, cb_blogApp = 'pingguo-softwaretesting', cb_blogUserGuid = 'd479f906-533d-4ab3-4d03-08d4ef52ecb6';
+    var cb_entryId = 14743294, cb_entryCreatedDate = '2021-05-08 07:05', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 把苹果v咬哭
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjtZtvRNLnlPyhX2jY6_fmr5M95coG94OekUNwcXwmGFeXUrLiv1YmuUI66uPzfNf1SZ_FDm6_5vCN28YQL-mqrLA4MWTdQiwYB1Dim1fSgNZuOzlCJRlDSNT1MES_wVJtA" />
+</body>
+</html>

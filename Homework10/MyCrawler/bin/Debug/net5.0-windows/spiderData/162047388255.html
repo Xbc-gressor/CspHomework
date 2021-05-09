@@ -1,0 +1,1026 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="never" />
+    <meta name="description" content="一、线程池的 使用以及优势 线程池做的工作主要是控制运行的线程的数量，处理过程中将任务放入队列，然后在线程创建后启动这些任务 如果线程数量超过了最大数量超出数量的线程排队等候，等其它线程执行完毕，再从" />
+    <meta property="og:description" content="一、线程池的 使用以及优势 线程池做的工作主要是控制运行的线程的数量，处理过程中将任务放入队列，然后在线程创建后启动这些任务 如果线程数量超过了最大数量超出数量的线程排队等候，等其它线程执行完毕，再从" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>线程池 - Java小白的搬砖路 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/darkgreentrip/bundle-darkgreentrip.min.css?v=eoZATbPKwJCL5eWVDTQIYC6CIxJPcFz191dkzN2tSyQ" />
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/zhangzhixi/custom.css?v=QuM3ek2kNl5nv8ZbM9kLpQ/d24A=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/darkgreentrip/bundle-darkgreentrip-mobile.min.css?v=lU86o8mZVn3FOSdFt7nHKYTD8gzeKaiQIIZ6lSjEFyo" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/zhangzhixi/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/zhangzhixi/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/zhangzhixi/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 623991;
+        var currentBlogApp = 'zhangzhixi';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'darkgreentrip';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-05-02 12:33';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="no-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="page_begin_html">
+        <!DOCTYPE html>
+<html lang="en">
+
+
+<title>IT发烧友，一个真正的技术交流群</title>
+<link rel="shortcut icon" href="/Content/Images/icon.png">
+<script src="~/Scripts/jquery-1.8.2.min.js" defer></script>
+
+<!--================================鼠标离开网页title提示======================================-->
+<script>
+    window.onload = function () {
+        var OriginTitile = document.title;
+        var titleTime;
+        document.addEventListener('visibilitychange', function () {
+            if (document.hidden) {
+                $('[rel="shortcut icon"]').attr('href', "/Content/Images/fail.ico");
+                document.title = '(●—●)喔哟，崩溃啦！';
+                clearTimeout(titleTime);
+            } else {
+                $('[rel="shortcut icon"]').attr('href', "/Content/Images/icon.png");
+                document.title = '(/≧▽≦/)咦！又好了！' + OriginTitile;
+                titleTime = setTimeout(function () {
+                    document.title = OriginTitile;
+                }, 2000);
+            }
+        });
+    }
+</script>
+<!--================================鼠标离开网页title提示======================================-->
+
+<!--
+雪花背景-：使用的话就直接取消注释，下面两个js都可以用选择一个使用就好
+<div class="Snow">
+        <canvas id="Snow"></canvas>
+    </div>
+    <script src="https://files.cnblogs.com/files/zhangzhixi/show.js" defer></script>
+    <script src="https://files.cnblogs.com/files/zhangzhixi/xue.js" defer></script>
+-->
+
+
+<!--八角形雪花特效-->
+<script src="https://files.cnblogs.com/files/zhangzhixi/八角形雪花.js" defer></script>
+<canvas width="1777" height="841"
+        style="position: fixed; left: 0px; top: 0px; z-index: 2147483647; pointer-events: none;"></canvas>
+<script type="text/javascript">
+    window.onload = function () {
+        var minSize = 10; //最小字体
+        var maxSize = 30;//最大字体
+        var newOne = 400; //生成雪花间隔
+        var flakColor = "#52bafd"; //雪花颜色
+        var flak = $("<div></div>").css({position: "absolute", "top": "0px"}).html("❉");//定义一个雪花
+        var dhight = $(window).height(); //定义视图高度
+        var dw = $(window).width() - 80; //定义视图宽度
+        setInterval(function () {
+            var sizeflak = minSize + Math.random() * maxSize; //产生大小不等的雪花
+            var startLeft = Math.random() * dw; //雪花生成是随机的left值
+            var startOpacity = 0.7 + Math.random() * 0.3; //随机透明度
+            var endTop = dhight - 100; //雪花停止top的位置
+            var endLeft = Math.random() * dw; //雪花停止的left位置
+            var durationfull = 5000 + Math.random() * 3000; //雪花飘落速度不同
+            flak.clone().appendTo($("body")).css({
+                "left": startLeft,
+                "opacity": startOpacity,
+                "font-size": sizeflak,
+                "color": flakColor
+            }).animate({
+                "top": endTop,
+                "left": endLeft,
+                "apacity": 0.1
+            }, durationfull, function () {
+                $(this).remove()
+            });
+        }, newOne);
+    }
+</script>
+
+
+<!--================================点击爱心======================================-->
+<script>
+    !function (e, t, a) {
+        function n() {
+            c(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"), o(), r()
+        }
+
+        function r() {
+            for (var e = 0; e < d.length; e++) d[e].alpha <= 0 ? (t.body.removeChild(d[e].el), d.splice(e, 1)) : (d[e].y--, d[e].scale += .004, d[e].alpha -= .013, d[e].el.style.cssText = "left:" + d[e].x + "px;top:" + d[e].y + "px;opacity:" + d[e].alpha + ";transform:scale(" + d[e].scale + "," + d[e].scale + ") rotate(45deg);background:" + d[e].color + ";z-index:99999");
+            requestAnimationFrame(r)
+        }
+
+        function o() {
+            var t = "function" == typeof e.onclick && e.onclick;
+            e.onclick = function (e) {
+                t && t(), i(e)
+            }
+        }
+
+        function i(e) {
+            var a = t.createElement("div");
+            a.className = "heart", d.push({
+                el: a,
+                x: e.clientX - 5,
+                y: e.clientY - 5,
+                scale: 1,
+                alpha: 1,
+                color: s()
+            }), t.body.appendChild(a)
+        }
+
+        function c(e) {
+            var a = t.createElement("style");
+            a.type = "text/css";
+            try {
+                a.appendChild(t.createTextNode(e))
+            } catch (t) {
+                a.styleSheet.cssText = e
+            }
+            t.getElementsByTagName("head")[0].appendChild(a)
+        }
+
+        function s() {
+            return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+        }
+
+        var d = [];
+        e.requestAnimationFrame = function () {
+            return e.requestAnimationFrame || e.webkitRequestAnimationFrame || e.mozRequestAnimationFrame || e.oRequestAnimationFrame || e.msRequestAnimationFrame || function (e) {
+                setTimeout(e, 1e3 / 60)
+            }
+        }(), n()
+    }(window, document);
+</script>
+<!--================================点击爱心======================================-->
+
+
+<!--设置蜘蛛网-->
+<canvas id="c_n9" width="1920" height="990"
+        style="position: fixed; top: 0px; left: 0px; z-index: -1; opacity: 2;">
+</canvas>
+<script src="https://blog-static.cnblogs.com/files/zhangzhixi/zzw.js" defer></script>
+
+<!--设置看板娘（左）-->
+<script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
+<script src="https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget/autoload.js" defer></script>
+
+<!--================================照片旋转特效======================================-->
+<link href="css/style.css" rel="stylesheet" type="text/css"/>
+<style text="text/css">
+    /*实现立体效果*/
+    .img {
+        width: 50px;
+        height: 50px;
+        margin: 0 auto;
+        transform-style: preserve-3d;
+        /*设置动画播放样式:动画对象 播放速度 时间 播放次数*/
+        animation: rotate linear 20s infinite;
+    }
+
+    /*实现动画效果*/
+    @-webkit-keyframes rotate { /*sofari chrome*/
+        from {
+            transform: rotateX(0deg) rotateY(0deg);
+        }
+        to {
+            transform: rotateX(360deg) rotateY(360deg);
+        }
+    }
+
+    /*图片样式*/
+    .pic {
+        width: 200px;
+        height: 200px;
+        transform: rotateY(0deg) translateZ(100px);
+    }
+</style>
+<style type="text/css">
+    /*最外层容器样式*/
+    .wrap {
+        width: 100px;
+        height: 100px;
+        margin: 150px;
+        position: relative;
+    }
+
+    /*得到立方体效果*/
+    .cube {
+        width: 50px;
+        height: 50px;
+        margin: 0 auto;
+        transform-style: preserve-3d;
+        /*设置动画播放样式:动画对象 播放速度 时间 播放次数*/
+        animation: rotate linear 20s infinite;
+    }
+
+    /*动画旋转的方式*/
+    /*得到动画效果*/
+    @-moz-keyframes rotate { /*firefox*/
+        from {
+            transform: rotateX(0deg) rotateY(0deg);
+        }
+        to {
+            transform: rotateX(360deg) rotateY(360deg);
+        }
+    }
+
+    @-webkit-keyframes rotate { /*sofari chrome*/
+        from {
+            transform: rotateX(0deg) rotateY(0deg);
+        }
+        to {
+            transform: rotateX(360deg) rotateY(360deg);
+        }
+    }
+
+    @-o-keyframes rotate { /*opera*/
+        from {
+            transform: rotateX(0deg) rotateY(0deg);
+        }
+        to {
+            transform: rotateX(360deg) rotateY(360deg);
+        }
+    }
+
+    /*每张图片的样式*/
+    .cube div {
+        position: absolute;
+        width: 200px;
+        height: 200px;
+        opacity: 0.8;
+        /*过渡效果*/
+        transition: all .4s;
+    }
+
+    /*定义所有图片样式*/
+    .pic {
+        width: 200px;
+        height: 200px;
+    }
+
+    .cube .out_front {
+        transform: rotateY(0deg) translateZ(100px);
+    }
+
+    .cube .out_back {
+        transform: translateZ(-100px) rotateY(180deg);
+    }
+
+    .cube .out_left {
+        transform: rotateY(-90deg) translateZ(100px);
+    }
+
+    .cube .out_right {
+        transform: rotateY(90deg) translateZ(100px);
+    }
+
+    .cube .out_top {
+        transform: rotateX(90deg) translateZ(100px);
+    }
+
+    .cube .out_bottom {
+        transform: rotateX(-90deg) translateZ(100px);
+    }
+
+    /*定义小正方体样式*/
+    .cube span {
+        display: block;
+        width: 100px;
+        height: 100px;
+        position: absolute;
+        top: 50px;
+        left: 50px;
+    }
+
+    .cube .in_pic {
+        width: 100px;
+        height: 100px;
+    }
+
+    .cube .in_front {
+        transform: rotateY(0deg) translateZ(50px);
+    }
+
+    .cube .in_back {
+        transform: translateZ(-50px) rotateY(180deg);
+    }
+
+    .cube .in_left {
+        transform: rotateY(-90deg) translateZ(50px);
+    }
+
+    .cube .in_right {
+        transform: rotateY(90deg) translateZ(50px);
+    }
+
+    .cube .in_top {
+        transform: rotateX(90deg) translateZ(50px);
+    }
+
+    .cube .in_bottom {
+        transform: rotateX(-90deg) translateZ(50px);
+    }
+
+    /*鼠标移入后样式*/
+    .cube:hover .out_front {
+        transform: rotateY(0deg) translateZ(200px);
+    }
+
+    .cube:hover .out_back {
+        transform: translateZ(-200px) rotateY(180deg);
+    }
+
+    .cube:hover .out_left {
+        transform: rotateY(-90deg) translateZ(200px);
+    }
+
+    .cube:hover .out_right {
+        transform: rotateY(90deg) translateZ(200px);
+    }
+
+    .cube:hover .out_top {
+        transform: rotateX(90deg) translateZ(200px);
+    }
+
+    .cube:hover .out_bottom {
+        transform: rotateX(-90deg) translateZ(200px);
+    }
+</style>
+
+<script type="text/javascript" src="js/jquery-3.4.1.min.js" defer></script>
+<div class="wrap">
+    <!--部署内外层图片-->
+    <div class="cube">
+        <!--前面图片 -->
+        <div class="out_front">
+            <img src="https://pic.liesio.com/2020/09/09/1101cbc41d268.jpg" class="pic">
+        </div>
+        <!--后面图片 -->
+        <div class="out_back">
+            <img src="https://pic.liesio.com/2020/09/09/0701f22e1ea59.png" class="pic">
+        </div>
+        <!--左面图片 -->
+        <div class="out_left">
+            <img src="https://pic.liesio.com/2020/09/09/f4a656984ad8b.jpeg" class="pic">
+        </div>
+        <!--右面图片 -->
+        <div class="out_right">
+            <img src="https://pic.liesio.com/2020/09/09/8fb062b82a765.jpg" class="pic">
+        </div>
+        <!--上面图片 -->
+        <div class="out_top">
+            <img src="https://pic.liesio.com/2020/09/09/0370dbef0898b.jpg" class="pic">
+        </div>
+        <!--下面图片 -->
+        <div class="out_bottom">
+            <img src="https://pic.liesio.com/2020/09/09/ef267d1474273.jpg" class="pic">
+        </div>
+        <!--小正方体 -->
+        <span class="in_front">
+                    <img src="https://pic.liesio.com/2020/09/09/9784dfa0fcac0.jpg" class="in_pic">
+                </span>
+
+        <span class="in_back">
+                    <img src="https://pic.liesio.com/2020/09/09/e248a0313034b.jpg" class="in_pic">
+                </span>
+
+        <span class="in_left">
+                    <img src="https://pic.liesio.com/2020/09/09/433c02d872975.jpg" class="in_pic">
+                </span>
+
+        <span class="in_right">
+                    <img src="https://pic.liesio.com/2020/09/09/64e32ea15d516.jpg" class="in_pic">
+                </span>
+
+        <span class="in_top">
+                    <img src="https://pic.liesio.com/2020/09/09/4d121dc236f28.jpg" class="in_pic">
+                </span>
+        <span class="in_bottom">
+                    <img src="https://pic.liesio.com/2020/09/09/d7fc273f13b53.jpg" class="in_pic">
+                </span>
+
+    </div>
+</div>
+<!--================================照片旋转特效======================================-->
+
+
+<!--================================回到首页小飞机======================================-->
+<style>
+#back-top {
+     position: fixed;
+     bottom: 10px;
+     right: 5px;
+     z-index: 99;
+}
+#back-top span {
+     width: 50px;
+     height: 64px;
+     display: block;
+     background:url(http://images.cnblogs.com/cnblogs_com/seanshao/855033/o_rocket.png) no-repeat center center;
+}
+#back-top a{outline:none}
+</style>
+<script type="text/javascript">
+$(function() {
+	// hide #back-top first
+	$("#back-top").hide();
+	// fade in #back-top
+	$(window).scroll(function() {
+		if ($(this).scrollTop() > 500) {
+			$('#back-top').fadeIn();
+		} else {
+			$('#back-top').fadeOut();
+		}
+	});
+	// scroll body to 0px on click
+	$('#back-top a').click(function() {
+		$('body,html').animate({
+			scrollTop: 0
+		}, 800);
+		return false;
+	});
+});
+</script>
+<p id="back-top" style="display:none"><a href="#top"><span></span></a></p>
+<!--================================回到首页小飞机======================================-->
+<!--=======================github==============================-->
+<a href="https://github.com/zhangzhixi0305" title="我的github地址" target="_Blank" class="github-corner" aria-label="View source on Github"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#FD6C6C; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+<a href="https://gitee.com/zhang-zhixi" title="我的码云地址" target="_Blank" class="github-corner" aria-label="View source on Github"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#64CEAA; color:#fff; position: absolute; top: 0; border: 0; left: 0; transform: scale(-1, 1);" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<!--=======================github==============================-->
+</html>
+    </div>
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/zhangzhixi/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/zhangzhixi/">Java小白的搬砖路</a>
+</h1>
+<h2>人生没有白走的路,每走一步都算数!    </h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/zhangzhixi/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/Java%E5%B0%8F%E7%99%BD%E7%9A%84%E6%90%AC%E7%A0%96%E8%B7%AF">
+联系</a></li>
+<li>
+
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/zhangzhixi/p/14725156.html">
+    <span>线程池</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<h2>一、线程池的 使用以及优势</h2>
+<p>　　线程池做的工作主要是控制运行的线程的数量，处理过程中将任务放入队列，然后在线程创建后启动这些任务</p>
+<p>如果线程数量超过了最大数量超出数量的线程排队等候，等其它线程执行完毕，再从队列中取出任务来执行。</p>
+<p>它的主要特点为：</p>
+<p>　　<strong>线程复用，控制最大并发数，管理线程。</strong></p>
+<p>优点：</p>
+<ol>
+<li>降低资源消耗。通过重复利用己创建的线程降低线程创建和销毁造成的消耗。</li>
+<li>提高响应速度。当任务到达时，任务可以不需要的等到线程创建就能立即执行。</li>
+<li>提高线程的可管理性。线程是稀缺资源，如果无限制的创建，不仅会消耗系统资源，还会降低系统的稳定性，使用线程池可以进行统一的分配，调优和监控。</li>
+</ol>
+<h2>二、线程池3个常用方式</h2>
+<p>　　Java中的线程池是通过Executor框架实现的，该框架中用到了Executor，Executors，ExecutorService，ThreadPoolExecutor这几个类。</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/947b9a063ddd04eaa276b03b38c45ec6.png" alt=""></p>
+<p><strong>了解：</strong></p>
+<ul>
+<li>Executors.newScheduledThreadPool()</li>
+<li>Executors.newWorkStealingPool(int) - Java8新增，使用目前机器上可用的处理器作为它的并行级别</li>
+</ul>
+<p><strong>掌握：</strong></p>
+<h3>1.Executors.newSingleThreadExecutor()</h3>
+<div class="cnblogs_Highlighter">
+<pre class="brush:csharp;gutter:true;">public static ExecutorService newSingleThreadExecutor() {
+    return new FinalizableDelegatedExecutorService
+        (new ThreadPoolExecutor(1, 1,
+                                0L, TimeUnit.MILLISECONDS,
+                                new LinkedBlockingQueue&lt;Runnable&gt;()));
+}
+</pre>
+</div>
+<p><strong>主要特点如下：</strong></p>
+<ol>
+<li>创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，保证所有任务按照指定顺序执行。</li>
+<li>newSingleThreadExecutor将corePoolSize和maximumPoolSize都设置为1，它使用的LinkedBlockingQueue。</li>
+</ol>
+<h3>2.Executors.newFixedThreadPool(int)</h3>
+<div class="cnblogs_Highlighter">
+<pre class="brush:csharp;gutter:true;">public static ExecutorService newFixedThreadPool(int nThreads) {
+    return new ThreadPoolExecutor(nThreads, nThreads,
+                                  0L, TimeUnit.MILLISECONDS,
+                                  new LinkedBlockingQueue&lt;Runnable&gt;());
+}
+</pre>
+</div>
+<p>主要特点如下：</p>
+<ol>
+<li>创建一个定长线程池，可控制线程最大并发数，超出的线程会在队列中等待。</li>
+<li>newFixedThreadPool创建的线程池corePoolSize和maximumPoolSize值是相等的，它使用的LinkedBlockingQueue。</li>
+</ol>
+<h3>3.Executors.newCachedThreadPool()</h3>
+<div class="cnblogs_Highlighter">
+<pre class="brush:csharp;gutter:true;">public static ExecutorService newCachedThreadPool() {
+    return new ThreadPoolExecutor(0, Integer.MAX_VALUE,
+                                  60L, TimeUnit.SECONDS,
+                                  new SynchronousQueue&lt;Runnable&gt;());
+}
+</pre>
+</div>
+<p><strong>主要特点如下：</strong></p>
+<ol>
+<li>创建一个可缓存线程池，如果线程池长度超过处理需要，可灵活回收空闲线程，若无可回收，则新建线程。</li>
+<li>newCachedThreadPool将corePoolSize设置为0，将maximumPoolSize设置为Integer.MAX_VALUE，使用的SynchronousQueue，也就是说来了任务就创建线程运行，当线程空闲超过60秒，就销毁线程。</li>
+</ol>
+<h3>测试：</h3>
+<div class="cnblogs_Highlighter">
+<pre class="brush:csharp;gutter:true;">import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+/**
+ * @author zhangzhixi
+ * @date 2021-5-2 0:26
+ */
+public class Test_09_创建线程池的3种方式 {
+    public static void main(String[] args) {
+
+        // 一池5个处理线程（用池化技术，一定要记得关闭）
+        // ExecutorService threadPool = Executors.newFixedThreadPool(5);
+
+        // 创建一个只有一个线程的线程池
+        // ExecutorService threadPool = Executors.newSingleThreadExecutor();
+
+        /**创建一个拥有N个线程的线程池，根据调度创建合适的线程*/
+        ExecutorService threadPool = Executors.newCachedThreadPool();
+
+        // 模拟10个用户来办理业务，每个用户就是一个来自外部请求线程
+        try {
+
+            // 循环十次，模拟业务办理，让5个线程处理这10个请求
+            for (int i = 1; i &lt;= 10; i++) {
+                final int tempInt = i;
+                threadPool.execute(() -&gt; {
+                    System.out.println(Thread.currentThread().getName() + "\t 给用户:" + tempInt + " 办理业务");
+                });
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            threadPool.shutdown();
+        }
+    }
+}
+</pre>
+</div>
+<p>输出结果：</p>
+<p><img src="https://img2020.cnblogs.com/blog/2126720/202105/2126720-20210502003320983-1637192913.png" alt="" loading="lazy"></p>
+<h2>&nbsp;三、线程池7大参数介绍</h2>
+<div class="cnblogs_Highlighter">
+<pre class="brush:csharp;gutter:true;"> /**
+     * @param corePoolSize    线程池中的常驻核心线程数
+     * @param maximumPoolSize 线程池能够容纳同时执行的最大线程数，此值必须大于等于1
+     * @param keepAliveTime   多余的空闲线程的存活时间。
+     * @param workQueue       任务队列，被提交但尚未被执行的任务。
+     * @param threadFactory   表示生成线程池中工作线程的线程工厂，用于创建线程一般用默认的即可。
+     * @param handler         拒绝策略，表示当队列满了并且工作线程大于等于线程池的最大线程数（ maximumPoolSize)。
+     * @throws IllegalArgumentException if one of the following holds:&lt;br&gt;
+     *                                  {@code corePoolSize &lt; 0}&lt;br&gt;
+     *                                  {@code keepAliveTime &lt; 0}&lt;br&gt;
+     *                                  {@code maximumPoolSize &lt;= 0}&lt;br&gt;
+     *                                  {@code maximumPoolSize &lt; corePoolSize}
+     * @throws NullPointerException     if {@code workQueue}
+     *                                  or {@code threadFactory} or {@code handler} is null
+     */
+    public ThreadPoolExecutor(int corePoolSize,
+                              int maximumPoolSize,
+                              long keepAliveTime,
+                              TimeUnit unit,
+                              BlockingQueue&lt;Runnable&gt; workQueue,
+                              ThreadFactory threadFactory,
+                              RejectedExecutionHandler handler) {
+        if (corePoolSize &lt; 0 ||
+                maximumPoolSize &lt;= 0 ||
+                maximumPoolSize &lt; corePoolSize ||
+                keepAliveTime &lt; 0)
+            throw new IllegalArgumentException();
+        if (workQueue == null || threadFactory == null || handler == null)
+            throw new NullPointerException();
+        this.acc = System.getSecurityManager() == null ?
+                null :
+                AccessController.getContext();
+        this.corePoolSize = corePoolSize;
+        this.maximumPoolSize = maximumPoolSize;
+        this.workQueue = workQueue;
+        this.keepAliveTime = unit.toNanos(keepAliveTime);
+        this.threadFactory = threadFactory;
+        this.handler = handler;
+    }
+</pre>
+</div>
+<h3>线程池底层工作原理：</h3>
+<p><img src="https://img2020.cnblogs.com/blog/2126720/202105/2126720-20210502155035489-1414666682.png" alt="" loading="lazy"></p>
+<p><img src="https://img2020.cnblogs.com/blog/2126720/202105/2126720-20210502155103731-787167966.png" alt="" loading="lazy"></p>
+<h3>线程池的四种拒绝策略：　　</h3>
+<p>等待队列也已经排满了，再也塞不下新任务了同时，线程池中的max线程也达到了，无法继续为新任务服务。</p>
+<p>这时候我们就需要拒绝策略机制合理的处理这个问题。</p>
+<p>JDK拒绝策略：</p>
+<ol>
+<li>AbortPolicy（默认）：直接抛出 RejectedExecutionException异常阻止系统正常运知。</li>
+<li>CallerRunsPolicy："调用者运行"一种调节机制，该策略既不会抛弃任务，也不会抛出异常，<strong>而是将某些任务回退到调用者</strong>，从而降低新任务的流量。</li>
+<li>DiscardOldestPolicy：<strong>抛弃队列中等待最久的任务</strong>，然后把当前任务加入队列中尝试再次提交当前任务。</li>
+<li>DiscardPolicy：直接丢弃任务，不予任何处理也不抛出异常。如果允许任务丢失，这是最好的一种方案。</li>
+</ol>
+<h2>四、死锁现象以及解决方案</h2>
+<blockquote>
+<p>什么是死锁？</p>
+</blockquote>
+<p>　　死锁是指两个或两个以上的进程在执行过程中，因争夺资源而造成的一种互相等待的现象,若无外力干涉那它们都将无法推进下去</p>
+<p>如果系统资源充足，进程的资源请求都能够碍到满足，死锁出现的可能性就很低，否则就会因争夺有限的资源而陷入死锁。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2126720/202105/2126720-20210502210033956-241033301.png" alt="" loading="lazy"></p>
+<blockquote>
+<p>产生死锁主要原因</p>
+</blockquote>
+<ol>
+<li>系统资源不足</li>
+<li>进程运行推进的顺序不合适</li>
+<li>资源分配不当</li>
+</ol>
+<blockquote>
+<p>发生死锁的四个条件：</p>
+</blockquote>
+<ol>
+<li>互斥条件，线程使用的资源至少有一个不能共享的。</li>
+<li>至少有一个线程必须持有一个资源且正在等待获取一个当前被别的线程持有的资源。</li>
+<li>资源不能被抢占。</li>
+<li>循环等待。</li>
+</ol>
+<blockquote>
+<p>如何解决死锁问题</p>
+</blockquote>
+<ul>
+<li>破坏发生死锁的四个条件其中之一即可。</li>
+</ul>
+<blockquote>
+<p>死锁代码：</p>
+</blockquote>
+<div class="cnblogs_code"><img src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" id="code_img_closed_f8bd3f32-1f04-43c3-942a-51078f982f88" class="code_img_closed"><img src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" id="code_img_opened_f8bd3f32-1f04-43c3-942a-51078f982f88" class="code_img_opened" style="display: none">
+<div id="cnblogs_code_open_f8bd3f32-1f04-43c3-942a-51078f982f88" class="cnblogs_code_hide">
+<pre><span style="color: rgba(0, 128, 128, 1)"> 1</span> <span style="color: rgba(0, 128, 0, 1)">/**</span>
+<span style="color: rgba(0, 128, 128, 1)"> 2</span> <span style="color: rgba(0, 128, 0, 1)"> * </span><span style="color: rgba(128, 128, 128, 1)">@author</span><span style="color: rgba(0, 128, 0, 1)"> zhangzhixi
+</span><span style="color: rgba(0, 128, 128, 1)"> 3</span> <span style="color: rgba(0, 128, 0, 1)"> * @date 2021-5-2 20:51
+</span><span style="color: rgba(0, 128, 128, 1)"> 4</span>  <span style="color: rgba(0, 128, 0, 1)">*/</span>
+<span style="color: rgba(0, 128, 128, 1)"> 5</span> <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">class</span><span style="color: rgba(0, 0, 0, 1)"> Test_11_死锁现象 {
+</span><span style="color: rgba(0, 128, 128, 1)"> 6</span>     <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">static</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> main(String[] args) {
+</span><span style="color: rgba(0, 128, 128, 1)"> 7</span>         Object o1 = "AAA"<span style="color: rgba(0, 0, 0, 1)">;
+</span><span style="color: rgba(0, 128, 128, 1)"> 8</span>         Object o2 = "BBB"<span style="color: rgba(0, 0, 0, 1)">;
+</span><span style="color: rgba(0, 128, 128, 1)"> 9</span> 
+<span style="color: rgba(0, 128, 128, 1)">10</span>         <span style="color: rgba(0, 0, 255, 1)">new</span> Thread(<span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> DeadLock(o1, o2), o1.toString()).start();
+</span><span style="color: rgba(0, 128, 128, 1)">11</span>         <span style="color: rgba(0, 0, 255, 1)">new</span> Thread(<span style="color: rgba(0, 0, 255, 1)">new</span><span style="color: rgba(0, 0, 0, 1)"> DeadLock(o2, o1), o2.toString()).start();
+</span><span style="color: rgba(0, 128, 128, 1)">12</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)">13</span> <span style="color: rgba(0, 0, 0, 1)">}
+</span><span style="color: rgba(0, 128, 128, 1)">14</span> 
+<span style="color: rgba(0, 128, 128, 1)">15</span> <span style="color: rgba(0, 0, 255, 1)">class</span> DeadLock <span style="color: rgba(0, 0, 255, 1)">implements</span><span style="color: rgba(0, 0, 0, 1)"> Runnable {
+</span><span style="color: rgba(0, 128, 128, 1)">16</span> 
+<span style="color: rgba(0, 128, 128, 1)">17</span> <span style="color: rgba(0, 0, 0, 1)">    Object o1;
+</span><span style="color: rgba(0, 128, 128, 1)">18</span> <span style="color: rgba(0, 0, 0, 1)">    Object o2;
+</span><span style="color: rgba(0, 128, 128, 1)">19</span> 
+<span style="color: rgba(0, 128, 128, 1)">20</span>     <span style="color: rgba(0, 0, 255, 1)">public</span><span style="color: rgba(0, 0, 0, 1)"> DeadLock(Object o1, Object o2) {
+</span><span style="color: rgba(0, 128, 128, 1)">21</span>         <span style="color: rgba(0, 0, 255, 1)">this</span>.o1 =<span style="color: rgba(0, 0, 0, 1)"> o1;
+</span><span style="color: rgba(0, 128, 128, 1)">22</span>         <span style="color: rgba(0, 0, 255, 1)">this</span>.o2 =<span style="color: rgba(0, 0, 0, 1)"> o2;
+</span><span style="color: rgba(0, 128, 128, 1)">23</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)">24</span> 
+<span style="color: rgba(0, 128, 128, 1)">25</span> <span style="color: rgba(0, 0, 0, 1)">    @Override
+</span><span style="color: rgba(0, 128, 128, 1)">26</span>     <span style="color: rgba(0, 0, 255, 1)">public</span> <span style="color: rgba(0, 0, 255, 1)">void</span><span style="color: rgba(0, 0, 0, 1)"> run() {
+</span><span style="color: rgba(0, 128, 128, 1)">27</span>         <span style="color: rgba(0, 0, 255, 1)">synchronized</span><span style="color: rgba(0, 0, 0, 1)"> (o1) {
+</span><span style="color: rgba(0, 128, 128, 1)">28</span>             System.out.println(Thread.currentThread().getName() + "持有锁：" + o1 + ",\t想要获得锁：" +<span style="color: rgba(0, 0, 0, 1)"> o2);
+</span><span style="color: rgba(0, 128, 128, 1)">29</span>             <span style="color: rgba(0, 0, 255, 1)">synchronized</span><span style="color: rgba(0, 0, 0, 1)"> (o2) {
+</span><span style="color: rgba(0, 128, 128, 1)">30</span>                 System.out.println(Thread.currentThread().getName() + "持有锁：" + o2 + ",\t想要获得锁：" +<span style="color: rgba(0, 0, 0, 1)"> o1);
+</span><span style="color: rgba(0, 128, 128, 1)">31</span> <span style="color: rgba(0, 0, 0, 1)">            }
+</span><span style="color: rgba(0, 128, 128, 1)">32</span> <span style="color: rgba(0, 0, 0, 1)">        }
+</span><span style="color: rgba(0, 128, 128, 1)">33</span> <span style="color: rgba(0, 0, 0, 1)">    }
+</span><span style="color: rgba(0, 128, 128, 1)">34</span> }</pre>
+</div>
+<span class="cnblogs_code_collapse">View Code</span></div>
+<blockquote>
+<p>查看是否死锁工具：</p>
+</blockquote>
+<ol>
+<li>
+<p>jps命令定位进程号</p>
+</li>
+<li>
+<p>jstack找到死锁查看</p>
+</li>
+</ol>
+<h3>&nbsp;<img src="https://img2020.cnblogs.com/blog/2126720/202105/2126720-20210502210736198-785151611.png" alt="" loading="lazy"></h3>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>　</p>
+<p>&nbsp;</p>
+<p>　</p>
+<p>　　</p>
+<p>&nbsp;</p>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2021-05-02 00:33</span>&nbsp;
+<a href="https://www.cnblogs.com/zhangzhixi/">Java小白的搬砖路</a>&nbsp;
+阅读(<span id="post_view_count">3</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14725156" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14725156);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 623991, cb_blogApp = 'zhangzhixi', cb_blogUserGuid = '82f53751-e11c-4971-fa59-08d83ba20c85';
+    var cb_entryId = 14725156, cb_entryCreatedDate = '2021-05-02 00:33', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 Java小白的搬砖路
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    <div id="page_end_html">
+        <script language="javascript" type="text/javascript">
+// 生成目录索引列表
+ 
+function GenerateContentList()
+{
+    var mainContent = $('#cnblogs_post_body');
+    var h2_list = $('#cnblogs_post_body h2');//如果你的章节标题不是h2,只需要将这里的h2换掉即可
+ 
+    if(mainContent.length < 1)
+        return;
+ 
+    if(h2_list.length>0)
+    {
+        var content = '<a name="_labelTop"></a>';
+        content += '<div id="navCategory" style="color:#152e97;">';
+        content += '<p style="font-size:18px;"><b>阅读目录</b></p>';
+        content += '<ul>';
+        for(var i=0; i<h2_list.length; i++)
+        {
+            var go_to_top = '<div style="text-align: right;"><a href="#_labelTop" style="color:#f68a33">回到顶部</a><a name="_label' + i + '"></a></div>';
+            $(h2_list[i]).before(go_to_top);
+            
+            var h3_list = $(h2_list[i]).nextAll("h3");
+            var li3_content = '';
+            for(var j=0; j<h3_list.length; j++)
+            {
+                var tmp = $(h3_list[j]).prevAll('h2').first();
+                if(!tmp.is(h2_list[i]))
+                    break;
+                var li3_anchor = '<a name="_label' + i + '_' + j + '"></a>';
+                $(h3_list[j]).before(li3_anchor);
+                li3_content += '<li><a href="#_label' + i + '_' + j + '">' + $(h3_list[j]).text() + '</a></li>';
+            }
+            
+            var li2_content = '';
+            if(li3_content.length > 0)
+                li2_content = '<li><a href="#_label' + i + '">' + $(h2_list[i]).text() + '</a><ul>' + li3_content + '</ul></li>';
+            else
+                li2_content = '<li><a href="#_label' + i + '">' + $(h2_list[i]).text() + '</a></li>';
+            content += li2_content;
+        }
+        content += '</ul>';
+        content += '</div><p>&nbsp;</p>';
+        content += '<hr style="height:1px;border:none;border-top:1px dashed #0066CC;"/>';
+        if($('#cnblogs_post_body').length != 0 )
+        {
+            $($('#cnblogs_post_body')[0]).prepend(content);
+        }
+    }   
+}
+GenerateContentList();
+</script>
+
+
+
+<!-- ==================================支付赞赏/打赏======================================= -->
+<script type="text/javascript" src="//files.cnblogs.com/files/enjoy233/tctip-1.0.3.min.js"></script> <!-- js文件引入 -->
+<script>
+    new tctip({
+        top: '20%',
+        button: {
+            id: 1,
+            type: 'zanzhu',
+        },
+        list: [
+            {
+                type: 'alipay',
+                qrImg: 'https://images.cnblogs.com/cnblogs_com/zhangzhixi/1910073/t_210102035045%E6%94%AF%E4%BB%98%E5%AE%9D.png' //替换成自己的支付宝付款码
+            }, {
+                type: 'wechat',
+                qrImg: 'https://images.cnblogs.com/cnblogs_com/zhangzhixi/1910073/t_210102035140%E5%BE%AE%E4%BF%A1.png' //替换成自己的微信付款码
+            }
+        ]
+    }).init()
+</script>
+<!-- ==================================支付赞赏/打赏======================================= -->
+
+    </div>
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjvhqD6y-H8bToWwS1Xr0BitKqwqL1zCBn4JgtIY2gX21JNnLonpBuPP_bGqRuXnrM_f3Cu2vBLstHJV1xqIRGQo1qGhnC7dupJfQckft-_H3BnF8x5zxTFkmhbQGR68eGs" />
+</body>
+</html>

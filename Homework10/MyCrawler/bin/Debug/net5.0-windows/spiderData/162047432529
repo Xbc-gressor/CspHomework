@@ -1,0 +1,655 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    
+    
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>随笔列表第2页 - 四猿外 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/bluesky/bundle-bluesky.min.css?v=crS-BJKdvIW2vVfJGJMix4EoW6XR-Z12_psc8V6YTNc" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/bluesky/bundle-bluesky-mobile.min.css?v=R6fv62IpzGSvTM7pHsnRgkrk1El3gMSYm75Iwe80srs" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/siyuanwai/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/siyuanwai/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/siyuanwai/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 579882;
+        var currentBlogApp = 'siyuanwai';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'BlueSky';
+        var visitorUserId = '';
+    </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/siyuanwai/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/siyuanwai/">四猿外</a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/siyuanwai/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E5%9B%9B%E7%8C%BF%E5%A4%96">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/siyuanwai/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+
+
+
+<div id="homepage_top_pager" class="topicListFooter">
+    
+
+<div class="pager">
+    <a href="https://www.cnblogs.com/siyuanwai/default.html?page=1">上一页</a>
+    
+    
+        <a href="https://www.cnblogs.com/siyuanwai/default.html?page=1">1</a>
+    2
+        <a href="https://www.cnblogs.com/siyuanwai/default.html?page=3">3</a>
+        <a href="https://www.cnblogs.com/siyuanwai/default.html?page=4">4</a>
+    
+    
+    <a href="https://www.cnblogs.com/siyuanwai/default.html?page=3">下一页</a>
+</div>
+</div>
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/siyuanwai/archive/2021/02/02.html">2021年2月2日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/siyuanwai/p/14360559.html">
+    <span>
+        用RabbitMQ了好几年之后，我总结出来5点RabbitMQ的使用心得
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：大概从 2013 年开始，我就开始了自己和 RabbitMQ 的接触，到现在已经有七年多了。 在这七年中，既有一些对 RabbitMQ 的深度体验，更有无数的血泪史。 而根据我这么多年的使用经验，我将 RabbitMQ 的心得形成一些提醒或者规范分享给大家，这样，大家以后使用 RabbitMQ 的时        <a href="https://www.cnblogs.com/siyuanwai/p/14360559.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-02-02 10:21
+四猿外
+<span data-post-id="14360559" class="post-view-count">阅读(1743)</span> 
+<span data-post-id="14360559" class="post-comment-count">评论(6)</span> 
+<span data-post-id="14360559" class="post-digg-count">推荐(6)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14360559" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/siyuanwai/archive/2021/01/20.html">2021年1月20日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/siyuanwai/p/14302444.html">
+    <span>
+        图解分布式之：最终一致性，一致只会迟到，但绝不缺席
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：这篇文章我们继续聊分布式相关的内容。 提到分布式系统，就一定绕不开“一致性”，这次我们说说：最终一致性。 最终一致性是现在大部分高可用的分布式系统的核心思路。 估计有人对最终一致性不太熟，先来个简单介绍： 最终一致性指的是系统中的所有分散在不同节点的数据，经过一定时间后，最终能够达到符合业务定义的一        <a href="https://www.cnblogs.com/siyuanwai/p/14302444.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-01-20 13:43
+四猿外
+<span data-post-id="14302444" class="post-view-count">阅读(532)</span> 
+<span data-post-id="14302444" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14302444" class="post-digg-count">推荐(4)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14302444" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/siyuanwai/archive/2021/01/04.html">2021年1月4日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/siyuanwai/p/14229342.html">
+    <span>
+        当年，我的架构师之路差点完蛋，幸亏了它
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：这次和大家讲讲分布式事务的 BASE 理论，保证通俗易懂。为了阅读顺畅，开始之前先请大家记住几个名词： BASE——Basically Available（基本可用），Soft state（软状态），Eventually consistent（最终一致性） 2PC——两阶段提交 不用懂，先记住就好了        <a href="https://www.cnblogs.com/siyuanwai/p/14229342.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2021-01-04 13:48
+四猿外
+<span data-post-id="14229342" class="post-view-count">阅读(1632)</span> 
+<span data-post-id="14229342" class="post-comment-count">评论(4)</span> 
+<span data-post-id="14229342" class="post-digg-count">推荐(16)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14229342" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/siyuanwai/archive/2020/12/30.html">2020年12月30日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/siyuanwai/p/14211166.html">
+    <span>
+        看完这篇，保证让你真正明白：分布式系统的CAP理论、CAP如何三选二
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：引言 CAP 理论，相信很多人都听过，它是指： 一个分布式系统最多只能同时满足一致性（Consistency）、可用性（Availability）和分区容错性（Partition tolerance）这三项中的两项。 为什么要理解 CAP 理论？我能说出很多理由来。如果是在职场上，也许最合适的理由是        <a href="https://www.cnblogs.com/siyuanwai/p/14211166.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2020-12-30 14:04
+四猿外
+<span data-post-id="14211166" class="post-view-count">阅读(626)</span> 
+<span data-post-id="14211166" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14211166" class="post-digg-count">推荐(4)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14211166" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/siyuanwai/archive/2020/12/16.html">2020年12月16日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/siyuanwai/p/14143554.html">
+    <span>
+        每一个程序员，都希望能成为分布式系统架构师
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：有很多读者经常问我，程序员的学习、成长之路应该怎么规划，才能早日成为一名架构师。 作为一个曾经的架构师，在我走上技术管理这条路之后，管理的团队越来越大，现在我管理的技术团队有一百多人，最大的体会就是操心的事情太多、会议太多，写代码的时间越来越少了。 趁我现在还有技术的底子，代码还没完全忘光，我觉得应        <a href="https://www.cnblogs.com/siyuanwai/p/14143554.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2020-12-16 14:06
+四猿外
+<span data-post-id="14143554" class="post-view-count">阅读(1625)</span> 
+<span data-post-id="14143554" class="post-comment-count">评论(2)</span> 
+<span data-post-id="14143554" class="post-digg-count">推荐(14)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14143554" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/siyuanwai/archive/2020/11/20.html">2020年11月20日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/siyuanwai/p/14009796.html">
+    <span>
+        面试官常问的“一致性哈希”，都在这 18 张图里
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：大家好，好久不见啦。最近快年底了，公司、部门事情太多：冲刺 KPI、做部门预算……所以忙东忙西的，写文章就被耽搁了。再加上这篇文章比较硬，我想给大家讲得通俗易懂，着实花了很多时间琢磨怎么写。 话不多说，小故事开始。 前言 当架构师大刘看到实习生小李提交的记账流水乱序的问题的时候，他知道没错了：这一次        <a href="https://www.cnblogs.com/siyuanwai/p/14009796.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2020-11-20 10:54
+四猿外
+<span data-post-id="14009796" class="post-view-count">阅读(958)</span> 
+<span data-post-id="14009796" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14009796" class="post-digg-count">推荐(5)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14009796" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/siyuanwai/archive/2020/11/11.html">2020年11月11日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/siyuanwai/p/13958260.html">
+    <span>
+        一个技术总监的忠告：精通那么多技术，你为何还是受不到重用？
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：这篇文章我们继续说架构师大刘的故事： 老田升职了，年薪涨到了百万级别！ 这是大刘在加班搞技术攻坚的时候，听别的同事聊了那么一嘴。 大刘心里不是滋味儿。老田和大刘其实在这家公司之前就是同事了，老田能到这家公司，说起来还是大刘推荐的。 但是，在公司的这几年，老田越来越受领导赏识，到如今，晋升成功，赫然成        <a href="https://www.cnblogs.com/siyuanwai/p/13958260.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2020-11-11 13:42
+四猿外
+<span data-post-id="13958260" class="post-view-count">阅读(2924)</span> 
+<span data-post-id="13958260" class="post-comment-count">评论(10)</span> 
+<span data-post-id="13958260" class="post-digg-count">推荐(12)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=13958260" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/siyuanwai/archive/2020/11/04.html">2020年11月4日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/siyuanwai/p/13924632.html">
+    <span>
+        百万年薪技术大佬的读书之旅
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：作为一个IT从业人员，持之以恒的学习是这个行业永远无法避免的行业特性，也是 IT 技术人员为了能避过 35 岁大限不得不一直奋进的必做之事。 在当今这个时代里，学习有多种方式，视频、播客、技术文章等等等等。但是，无论如何，一本好书，绝对是学习中无论如何不可避开的最大助力。 我读过许多许多的技术好书，        <a href="https://www.cnblogs.com/siyuanwai/p/13924632.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2020-11-04 10:36
+四猿外
+<span data-post-id="13924632" class="post-view-count">阅读(376)</span> 
+<span data-post-id="13924632" class="post-comment-count">评论(0)</span> 
+<span data-post-id="13924632" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=13924632" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/siyuanwai/archive/2020/10/16.html">2020年10月16日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/siyuanwai/p/13825299.html">
+    <span>
+        中年架构师，悲催的一天，全靠忍！
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：今天这篇文章，纯属虚构，虚构中还有一点点真实。 主人公：大刘/某伪大厂架构师/35+，东北大汉，身高180，体重180，没有其他180了。 正文开始。 六点，大刘被系统报警的短信惊醒，睡眼朦胧的看了下手机，一下子身子就坐了起来： 核心的交易系统出现了问题 这下子麻烦大了! 大刘小心翼翼的去到厕所，匆        <a href="https://www.cnblogs.com/siyuanwai/p/13825299.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2020-10-16 10:56
+四猿外
+<span data-post-id="13825299" class="post-view-count">阅读(496)</span> 
+<span data-post-id="13825299" class="post-comment-count">评论(3)</span> 
+<span data-post-id="13825299" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=13825299" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+		
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/siyuanwai/archive/2020/09/30.html">2020年9月30日</a>
+    </div>
+
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/siyuanwai/p/13753426.html">
+    <span>
+        烦人的Null，你可以走开点了
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+
+    <div class="c_b_p_desc">
+摘要：1. Null 的问题 假设现在有一个需要三个参数的方法。其中第一个参数是必须的，后两个参数是可有可无的。 第一种情况，在我们调用这个方法的时候，我们只能传入两个参数，对第三个参数，我们在上下文里是没有的，那么我们调用方法的时候，就需要用一个特殊值去告知这个方法： 第三个参数我们拿不到，参数是不存在        <a href="https://www.cnblogs.com/siyuanwai/p/13753426.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+</div>
+        <div class="clear"></div>
+        <div class="postDesc">posted @ 2020-09-30 10:48
+四猿外
+<span data-post-id="13753426" class="post-view-count">阅读(1064)</span> 
+<span data-post-id="13753426" class="post-comment-count">评论(1)</span> 
+<span data-post-id="13753426" class="post-digg-count">推荐(1)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=13753426" rel="nofollow">
+    编辑
+</a>
+</div>
+        <div class="clear"></div>
+</div>
+
+
+
+<div class="topicListFooter">
+    <div id="nav_next_page">
+        
+
+    </div>    
+</div>
+
+
+<div id="homepage_bottom_pager" class="topicListFooter">
+    
+
+<div class="pager">
+    <a href="https://www.cnblogs.com/siyuanwai/default.html?page=1">上一页</a>
+    
+    
+        <a href="https://www.cnblogs.com/siyuanwai/default.html?page=1">1</a>
+    2
+        <a href="https://www.cnblogs.com/siyuanwai/default.html?page=3">3</a>
+        <a href="https://www.cnblogs.com/siyuanwai/default.html?page=4">4</a>
+    
+    
+    <a href="https://www.cnblogs.com/siyuanwai/default.html?page=3">下一页</a>
+</div>
+</div>
+
+
+
+<script>
+    updatePostStats(
+        $(".post-view-count").map(function () { return this.dataset.postId }).get(),
+        function(id, count) { $(".post-view-count[data-post-id=" + id + "]").text("阅读(" + count + ")") },
+        function(id, count) { $(".post-comment-count[data-post-id=" + id + "]").text("评论(" + count + ")") },
+        function(id, count) { $(".post-digg-count[data-post-id=" + id + "]").text("推荐(" + count + ")") });
+</script>
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 四猿外
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjuBjyiBkYuxezLyQRFiVZMBBV6ys6cVB6jpynd6ts36ixbYG99XumBoTBY65WcMm0Becn1tf2SV--8h_YYCkqwFsJyglYROBdD7Kgks8He8gTvHjXh5ICNCaUHbh3HnbhU" />
+</body>
+</html>

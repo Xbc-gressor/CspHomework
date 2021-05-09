@@ -1,0 +1,1131 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="referrer" content="always" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>博客园 - 开发者的网上家园</title>
+        <meta name="keywords" content="开发者,程序员,博客园,程序猿,程序媛,极客,码农,编程,代码,软件开发,开源,IT网站,技术社区,Developer,Programmer,Coder,Geek,Coding,Code" />
+        <meta name="description" content="博客园是一个面向开发者的知识分享社区。自创建以来，博客园一直致力并专注于为开发者打造一个纯净的技术交流社区，推动并帮助开发者通过互联网分享知识，从而让更多开发者从中受益。博客园的使命是帮助开发者用代码改变世界。" />
+    <link rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    <link rel="Stylesheet" type="text/css" href="/css/aggsite-new.min.css?v=fgrNTulsHgkG0zRModH-3rZ_SretLK8ShGJso-YWICk" />
+    <link rel="Stylesheet" type="text/css" href="/css/aggsite-mobile-new.min.css?v=YHmWdkxWQChwU7p98MSLWk9JBmcd9ddT7q7Xf3711GM" media="only screen and (max-width: 767px)" />
+        <link id="RSSLink" title="RSS" type="application/rss+xml" rel="alternate" href="http://feed.cnblogs.com/blog/sitehome/rss" />
+        <link rel="prefetch" href="//common.cnblogs.com/images/banner/bannerbar-aws-bg.jpg" />
+        <link rel="prefetch" href="//common.cnblogs.com/images/banner/bannerbar-aws-logo.png" />
+        <link rel="prefetch" href="//common.cnblogs.com/images/banner/bannerbar-aws-ssh.png?v=2" />
+        <link rel="prefetch" href="//img2020.cnblogs.com/blog/35695/202101/35695-20210101110709031-1748833382.jpg" />
+    <script src="//common.cnblogs.com/script/jquery.js" type="text/javascript"></script>
+    <script src="/js/aggsite-new.min.js?v=fPojGt-SDdAhFz3Vfh9MCK05Em2TFzF6YOZclgt3Rek"></script>
+    <script async='async' src='https://www.googletagservices.com/tag/js/gpt.js'></script>
+    <script>
+        var googletag = googletag || {};
+        googletag.cmd = googletag.cmd || [];
+    </script>
+    <script>
+        googletag.cmd.push(function () {
+            googletag.defineSlot('/1090369/A1', [300, 60], 'div-gpt-ad-1547816814884-0').addService(googletag.pubads());
+            googletag.defineSlot('/1090369/B1', [300, 250], 'div-gpt-ad-1546331539224-0').addService(googletag.pubads());
+            googletag.defineSlot('/1090369/B2', [300, 250], 'div-gpt-ad-1539007469525-0').addService(googletag.pubads());
+            googletag.defineSlot('/1090369/B3', [300, 250], 'div-gpt-ad-1546331252242-0').addService(googletag.pubads());
+            googletag.defineSlot('/1090369/B4', [300, 250], 'div-gpt-ad-1546331385104-0').addService(googletag.pubads());
+            googletag.pubads().enableSingleRequest();
+            googletag.enableServices();
+        });
+    </script>
+</head>
+<body>
+    <div id="wrapper" class="flow">
+        <div id="top_nav" class="navbar border-none">
+            <nav id="nav_main" class="navbar-main">
+                <ul id="nav_left" class="navbar-list navbar-left">
+                    <li class="navbar-branding">
+                        <a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a>
+                    </li>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="https://news.cnblogs.com/">新闻</a></li>
+                    <li><a href="https://q.cnblogs.com/">博问</a></li>
+                    <li><a id="nav_brandzone" href="https://brands.cnblogs.com/">专区</a></li>
+                    <li><a href="https://ing.cnblogs.com/">闪存</a></li>
+                    <li><a href="https://edu.cnblogs.com/">班级</a></li>
+                    <li><a id="nav_legacy" href="/legacy">怀旧</a></li>
+                    <li class="dropdown">
+                        <div class="dropdown-button">
+                            <a href="javascript:void(0)">发现</a>
+                            <img src="/images/aggsite/pulldown-light.svg" />
+                        </div>
+                        <div class="dropdown-menu">
+                            <a href="https://home.cnblogs.com/">园子</a>
+                            <a href="https://group.cnblogs.com/">小组</a>
+                            <a href="https://wz.cnblogs.com/">收藏</a>
+                            <a href="https://job.cnblogs.com/">招聘</a>
+                            <a href="https://zzk.cnblogs.com/">找找看</a>
+                        </div>
+                    </li>
+                </ul>
+                <ul id="nav_right" class="navbar-list navbar-right">
+                    <li>
+                        <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                            <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                            <button type="submit" id="zzk_search_button">
+                                <img src="/images/aggsite/search.svg" alt="搜索" />
+                            </button>
+                        </form>
+                    </li>
+                    <li id="navbar_login_status" class="navbar-list">
+                        <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                            <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                        </a>
+                        <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                            <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                        </a>
+                        <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                            <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                            <span id="msg_count" style="display: none"></span>
+                        </a>
+                        <div id="user_info" class="navbar-user-info dropdown">
+                            <a class="dropdown-button" href="https://home.cnblogs.com/">
+                                <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                            </a>
+                            <div class="dropdown-menu" id="navbar_menu">
+                                <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                                <a href="https://home.cnblogs.com/">我的园子</a>
+                                <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                                <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                                <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                            </div>
+                        </div>
+                        <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                        <a class="navbar-anonymous" href="https://account.cnblogs.com/signin/?returnUrl=https://www.cnblogs.com/">登录</a>
+                    </li>
+                </ul>
+            </nav>
+            <nav id="nav_mobile" class="navbar-mobile">
+                <ul class="navbar-list">
+                    <li class="navbar-branding">
+                        <a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a>
+                    </li>
+                    <li class="dropdown">
+                        <div class="dropdown-button" onclick="toggleDropdownMenu()">
+                            <a href="javascript:void(0)">发现</a>
+                            <img src="/images/aggsite/pulldown-bold.svg" height="5" />
+                        </div>
+                        <div id="nav_dropdown_menu" class="dropdown-menu">
+                            <a href="https://news.cnblogs.com/">新闻</a>
+                            <a href="https://q.cnblogs.com/">博问</a>
+                            <a href="https://brands.cnblogs.com/">专区</a>
+                            <a href="https://ing.cnblogs.com/">闪存</a>
+                            <a href="https://edu.cnblogs.com/">班级</a>
+                            <a href="/legacy">怀旧</a>
+                            <a href="https://home.cnblogs.com/">园子</a>
+                            <a href="https://wz.cnblogs.com/">收藏</a>
+                            <a href="https://job.cnblogs.com/">招聘</a>
+                            <a href="https://zzk.cnblogs.com/">找找看</a>
+                        </div>
+                    </li>
+                </ul>
+                <ul class="navbar-list">
+                    <li>
+                        <form id="zzk_search_mobile" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                            <input name="w" id="zzk_search_input_mobile" placeholder="搜索" type="text" tabindex="3" />
+                            <button type="submit" id="zzk_search_button_mobile">
+                                <img src="/images/aggsite/search.svg" alt="搜索" />
+                            </button>
+                        </form>
+                    </li>
+                    <li id="user_info_mobile" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon_mobile" class="navbar-icon avatar" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a href="https://account.cnblogs.com/settings/account">设置</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出</a>
+                        </div>
+                    </li>
+                    <li class="navbar-anonymous" id="login_area_mobile">
+                        <a href="https://account.cnblogs.com/signup/">注册</a>
+                    </li>
+                    <li class="navbar-anonymous">
+                        <a href="https://account.cnblogs.com/signin/?returnUrl=https://www.cnblogs.com/">登录</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+            <img src="https://common.cnblogs.com/images/banner/bannerbar-q-background.png" alt="" style="display:none" />
+            <a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'sitehome-bannerbar')">
+                <div class="bannerbar bannerbar-q forpc">
+                    <img id="banner-q-logo" src="https://common.cnblogs.com/images/banner/bannerbar-q-logo.png" alt="" />
+                    <img id="banner-q-slogan" src="https://common.cnblogs.com/images/banner/bannerbar-q-slogan.png" alt="" />
+                </div>
+            </a>
+        <div id="main_content" class="hero">
+            <div id="main" class="main">
+                <div id="side_nav" class="side-left tab-bar">
+                    
+<ul class="sidenav">
+            <li id="sidenav_pick" class="sidenav-item ">
+                <a href="/pick/" title="精华区博文">
+                    <img src="/images/aggsite/picked.svg" />
+                    <span>精华</span>
+                </a>
+            </li>
+            <li id="sidenav_candidate" class="sidenav-item ">
+                <a href="/candidate/" title="候选区博文">
+                    <img src="/images/aggsite/candidate.svg" />
+                    <span>候选</span>
+                </a>
+            </li>
+            <li class="sidenav-splitter"></li>
+            <li id="sidenav_subscription" class="sidenav-item ">
+                <a href="/subscription" title="我订阅的博客">
+                    <img src="/images/aggsite/subscription.svg" />
+                    <span>订阅</span>
+                </a>
+            </li>
+            <li id="sidenav_following" class="sidenav-item ">
+                <a href="/following" title="我关注的园友">
+                    <img src="/images/aggsite/following.svg" />
+                    <span>关注</span>
+                </a>
+            </li>
+            <li id="sidenav_commented" class="sidenav-item ">
+                <a href="/aggsite/mycommented" title="我评论过的博文">
+                    <img src="/images/aggsite/commented.svg" />
+                    <span>我评</span>
+                </a>
+            </li>
+            <li id="sidenav_digged" class="sidenav-item ">
+                <a href="/aggsite/mydigged" title="我推荐过的博文">
+                    <img src="/images/aggsite/digged.svg" />
+                    <span>我赞</span>
+                </a>
+            </li>
+    <li id="sidenav_more" class="dropdown sidenav-item ">
+        <div class="dropdown-button">
+            <a href="javascript:void(0)">
+                <img src="/images/aggsite/more.svg" />
+                <span>更多</span>
+            </a>
+        </div>
+        <div class="dropdown-menu">
+            <a href="/cate/all">所有随笔</a>
+            <a href="/comment/">最新评论</a>
+            <a href="/cmt/">官方博客</a>
+            <a href="/skins.aspx">博客皮肤</a>
+        </div>
+    </li>
+    <li class="sidenav-splitter"></li>
+    <li class="sidenav-item feedback">
+        <a href="https://group.cnblogs.com/forum/public/" class="feedback">
+            <img src="/images/aggsite/feedback.svg" />
+            <span>反馈</span>
+        </a>
+    </li>
+    <li id="dark_switch">
+        <a href="javascript:void(0)"><img src="/images/aggsite/dark.svg" /></a>
+    </li>
+</ul>
+                </div>
+
+                <div id="main_flow" class="main-flow">
+                    <div class="card">
+
+                        <div class="card headline">
+    <ul>
+        <li>
+            <a href="https://www.cnblogs.com/imyalost/p/14733408.html" id="editor_pick_lnk" target="_blank" data-postId="14733408">
+                <span class="headline-label">【编辑推荐】</span>技术之外的工程师另类成长指南(2/8/852)
+            </a>
+                <a href="/aggsite/headline" title="查看更多编辑推荐" class="right_more">»</a>
+        </li>
+        <li>
+                <a href="https://www.cnblogs.com/wucy/p/14699717.html" target="_blank" title="评论49, 推荐72, 阅读3242">
+                    <span class="headline-label">【最多推荐】</span>深入探究ASP.NET Core读取Request.Body的正确方式(49/72/3242)
+                </a>
+                <a href="/aggsite/topdigged24h" title="查看24小时推荐排行" class="right_more">»</a>
+        </li>
+        <li>
+                <a href="https://www.cnblogs.com/cmt/p/14741684.html" target="_blank" title="评论41, 推荐7, 阅读2284">
+                    <span class="headline-label">【最多评论】</span>【故障公告】14:30-15:30左右数据库连接数飙升引发全站故障（更新）(41/7/2284)
+                </a>
+                <a href="/aggsite/topcommented24h" title="查看24小时推荐排行" class="right_more">»</a>
+        </li>
+        <li>
+                <a href="https://news.cnblogs.com/n/693365/" target="_blank" title="评论0, 推荐7, 阅读1712">
+                    <span class="headline-label">【新闻头条】</span>世界首个2nm制程芯片公布！这次IBM跑在了台积电三星英特尔前面(0/7/1712)
+                </a>
+                <a href="https://news.cnblogs.com/" title="查看更多新闻" class="right_more">»</a>
+        </li>
+        <li>
+                <a href="https://www.cnblogs.com/cmt/p/14585828.html" target="_blank" title="评论1499, 推荐839, 阅读395422">
+                    <span class="headline-label">【特别头条】</span>致园友们的一封检讨书：都是我们的错(1499/839/395422)
+                </a>
+                <a href="https://www.cnblogs.com/cmt/p/14585828.html" title="查看内容" class="right_more">»</a>
+        </li>
+    </ul>
+</div>
+
+                        <div id="pager_top" style="display: none"></div>
+                        <div id="post_list_tips" class="hide"></div>
+                        
+                        <div id="post_list" class="post-list">
+                            
+<svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" style="display: none">
+    <defs>
+        <g id="icon_digg" stroke-linejoin="round" fill="none"><path d="M12.197 7.005H9C10.239 3.195 8.146 3 8.146 3c-.886 0-.703.584-.77.681C7.376 5.545 5 7.005 5 7.005v5.285c0 .522.853.71 1.188.71h4.804c.452 0 .82-.987.82-.987C13 8.647 13 7.645 13 7.645c0-.695-.803-.64-.803-.64z" /><path d="M4.48 7H2.43c-.423 0-.43.324-.43.324l.423 5.336c0 .34.437.34.437.34h1.774c.37 0 .366-.225.366-.225v-5.37C5 6.995 4.48 7 4.48 7z" /></g>
+        <g id="icon_comment"><path fill="none" d="M4.25 3.5C3.56 3.5 3 4.054 3 4.738v4.957c0 .684.56 1.238 1.25 1.238h2.454L8 12.5l1.293-1.567h2.457c.69 0 1.25-.554 1.25-1.238V4.738A1.242 1.242 0 0011.751 3.5H4.25z" /><path stroke="none" d="M10.5 7.5a.5.5 0 110-1 .5.5 0 010 1zM8 7.5a.5.5 0 11.001-1.001A.5.5 0 018 7.5zm-2.5 0a.5.5 0 110-1 .5.5 0 010 1z" /></g>
+        <path id="icon_views" stroke="none" d="M7.5 5.406c-1.23 0-2.231.94-2.231 2.094 0 1.156 1 2.097 2.23 2.097S9.73 8.657 9.73 7.5c0-1.155-1-2.094-2.23-2.094zm0 3.203c-.653 0-1.184-.497-1.184-1.11 0-.611.53-1.109 1.184-1.109.653 0 1.184.498 1.184 1.11 0 .612-.531 1.11-1.184 1.11zm6.482-1.265a1.069 1.069 0 00-.03-.148.27.27 0 00-.008-.018l-.003-.007a1.072 1.072 0 00-.024-.065C12.715 4.65 10.136 3 7.5 3 4.86 3 2.285 4.645 1.094 7.09a.518.518 0 00-.034.082l-.012.023a.355.355 0 00-.026.126c-.01.052-.018.127-.019.13a.374.374 0 000 .099l.013.094a.566.566 0 00.016.1c.007.027.015.058.032.091a.92.92 0 00.022.056C2.284 10.349 4.86 12 7.5 12c2.64 0 5.211-1.64 6.399-4.078a.562.562 0 00.042-.097l.005-.012.005-.011a.519.519 0 00.028-.122l.003-.017a.672.672 0 000-.32zM7.5 11.015c-2.211 0-4.399-1.404-5.447-3.497L2.05 7.51a.136.136 0 00-.003-.015V7.49a.064.064 0 00.002-.007c1.035-2.093 3.225-3.5 5.45-3.5 2.223 0 4.41 1.404 5.442 3.493l.002.004.002.007v.007l.001.002-.004.004v.02c-1.036 2.09-3.222 3.494-5.443 3.494z" fill-rule="nonzero"></path>
+    </defs>
+</svg>
+
+    <article class="post-item" data-post-id="14744384">
+        <section class="post-item-body">
+            <div class="post-item-text">
+                <a class="post-item-title" href="https://www.cnblogs.com/HarmonyOS/p/14744384.html" target="_blank">HarmonyOS三方件开发指南(19)-BGABadgeView徽章组件</a>
+                <p class="post-item-summary">
+                        <a href="https://www.cnblogs.com/HarmonyOS/">
+                            <img src="https://pic.cnblogs.com/face/2208260/20201109114415.png" class="avatar" alt="博主头像" />
+                        </a>
+                    目录： 1、引言 2、功能介绍 3、BGABadgeView 使用指南 4、BGABadgeView 开发指南 5、《HarmonyOS三方件开发指南》系列文章合集 引言 现在很多的APP会有新消息/未接来电/未读消息/新通知圆球红点提示，典型的以微信、QQ新消息提示为例，当微信朋友圈有新的朋友更新 ...
+                </p>
+            </div>
+            <footer class="post-item-foot">
+                <a href="https://www.cnblogs.com/HarmonyOS/" class="post-item-author"><span>HarmonyOS技术社区</span></a>
+                <span class="post-meta-item">
+                    <span>2021-05-08 11:55</span>
+                </span>
+                <a id="digg_control_14744384" class="post-meta-item btn " href="javascript:void(0)" onclick="DiggPost('HarmonyOS', 14744384, 645321, 1);return false;">
+                    <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_digg"></use>
+                    </svg>
+                    <span id="digg_count_14744384">0</span>
+                </a>
+                <a class="post-meta-item btn" href="https://www.cnblogs.com/HarmonyOS/p/14744384.html#commentform">
+                    <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_comment"></use>
+                    </svg>
+                    <span>0</span>
+                </a>
+                <a class="post-meta-item btn" href="https://www.cnblogs.com/HarmonyOS/p/14744384.html">
+                    <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_views"></use>
+                    </svg>
+                    <span>14</span>
+                </a>
+                <span id="digg_tip_14744384" class="digg-tip" style="color: red"></span>
+            </footer>
+        </section>
+        <figure>
+        </figure>
+    </article>
+    <article class="post-item" data-post-id="14744345">
+        <section class="post-item-body">
+            <div class="post-item-text">
+                <a class="post-item-title" href="https://www.cnblogs.com/huaweiyun/p/14744345.html" target="_blank">从5大挑战带你了解多模态机器学习</a>
+                <p class="post-item-summary">
+                        <a href="https://www.cnblogs.com/huaweiyun/">
+                            <img src="https://pic.cnblogs.com/face/2030258/20200509094357.png" class="avatar" alt="博主头像" />
+                        </a>
+                    摘要：多模态机器学习旨在从多种模态建立一种模型，能够处理和关联多种模态的信息。考虑到数据的异构性，MMML（Multimodal Machine Learning）领域带来了许多独特的挑战，总体而言五种：表示、转化、对齐、融合、协同学习。 本文分享自华为云社区《多模态学习综述》，原文作者：Finet ...
+                </p>
+            </div>
+            <footer class="post-item-foot">
+                <a href="https://www.cnblogs.com/huaweiyun/" class="post-item-author"><span>华为云开发者社区</span></a>
+                <span class="post-meta-item">
+                    <span>2021-05-08 11:49</span>
+                </span>
+                <a id="digg_control_14744345" class="post-meta-item btn " href="javascript:void(0)" onclick="DiggPost('huaweiyun', 14744345, 602073, 1);return false;">
+                    <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_digg"></use>
+                    </svg>
+                    <span id="digg_count_14744345">0</span>
+                </a>
+                <a class="post-meta-item btn" href="https://www.cnblogs.com/huaweiyun/p/14744345.html#commentform">
+                    <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_comment"></use>
+                    </svg>
+                    <span>0</span>
+                </a>
+                <a class="post-meta-item btn" href="https://www.cnblogs.com/huaweiyun/p/14744345.html">
+                    <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_views"></use>
+                    </svg>
+                    <span>1</span>
+                </a>
+                <span id="digg_tip_14744345" class="digg-tip" style="color: red"></span>
+            </footer>
+        </section>
+        <figure>
+        </figure>
+    </article>
+    <article class="post-item" data-post-id="14744210">
+        <section class="post-item-body">
+            <div class="post-item-text">
+                <a class="post-item-title" href="https://www.cnblogs.com/VideoCloudTech/p/14744210.html" target="_blank">详解 WebRTC 传输安全机制：一文读懂 DTLS 协议</a>
+                <p class="post-item-summary">
+                        <a href="https://www.cnblogs.com/VideoCloudTech/">
+                            <img src="https://pic.cnblogs.com/face/2200703/20210420162345.png" class="avatar" alt="博主头像" />
+                        </a>
+                    作者｜进学 审校｜泰一 DTLS (Datagram Transport Layer Security) 基于 UDP 场景下数据包可能丢失或重新排序的现实情况下，为 UDP 定制和改进的 TLS 协议。在 WebRTC 中使用 DTLS 的地方包括两部分：协商和管理 SRTP 密钥和为 DataC ...
+                </p>
+            </div>
+            <footer class="post-item-foot">
+                <a href="https://www.cnblogs.com/VideoCloudTech/" class="post-item-author"><span>阿里云视频云</span></a>
+                <span class="post-meta-item">
+                    <span>2021-05-08 11:22</span>
+                </span>
+                <a id="digg_control_14744210" class="post-meta-item btn " href="javascript:void(0)" onclick="DiggPost('VideoCloudTech', 14744210, 643827, 1);return false;">
+                    <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_digg"></use>
+                    </svg>
+                    <span id="digg_count_14744210">0</span>
+                </a>
+                <a class="post-meta-item btn" href="https://www.cnblogs.com/VideoCloudTech/p/14744210.html#commentform">
+                    <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_comment"></use>
+                    </svg>
+                    <span>0</span>
+                </a>
+                <a class="post-meta-item btn" href="https://www.cnblogs.com/VideoCloudTech/p/14744210.html">
+                    <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_views"></use>
+                    </svg>
+                    <span>26</span>
+                </a>
+                <span id="digg_tip_14744210" class="digg-tip" style="color: red"></span>
+            </footer>
+        </section>
+        <figure>
+        </figure>
+    </article>
+    <article class="post-item" data-post-id="14743854">
+        <section class="post-item-body">
+            <div class="post-item-text">
+                <a class="post-item-title" href="https://www.cnblogs.com/fengdejiyixx/p/14743854.html" target="_blank">云主机新增网卡配置多网卡策略路由</a>
+                <p class="post-item-summary">
+                        <a href="https://www.cnblogs.com/fengdejiyixx/">
+                            <img src="https://pic.cnblogs.com/face/1279547/20200711221239.png" class="avatar" alt="博主头像" />
+                        </a>
+                    1 配置多网卡策略路由： 1.1 场景描述： 因一些服务的需要，一块网卡不能满足于当前的需求，这时就需要为服务器新添加一块或多块网卡。当新增网卡后，新网卡默认是不能通信的，需要做一些配置 操作前须知： 1、默认绑定多网卡的情况下，虚机只连接主网卡 2、查看虚机内网卡与控制台内网IP的对应关系 1.2 ...
+                </p>
+            </div>
+            <footer class="post-item-foot">
+                <a href="https://www.cnblogs.com/fengdejiyixx/" class="post-item-author"><span>记忆流年</span></a>
+                <span class="post-meta-item">
+                    <span>2021-05-08 10:55</span>
+                </span>
+                <a id="digg_control_14743854" class="post-meta-item btn " href="javascript:void(0)" onclick="DiggPost('fengdejiyixx', 14743854, 395060, 1);return false;">
+                    <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_digg"></use>
+                    </svg>
+                    <span id="digg_count_14743854">0</span>
+                </a>
+                <a class="post-meta-item btn" href="https://www.cnblogs.com/fengdejiyixx/p/14743854.html#commentform">
+                    <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_comment"></use>
+                    </svg>
+                    <span>0</span>
+                </a>
+                <a class="post-meta-item btn" href="https://www.cnblogs.com/fengdejiyixx/p/14743854.html">
+                    <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_views"></use>
+                    </svg>
+                    <span>59</span>
+                </a>
+                <span id="digg_tip_14743854" class="digg-tip" style="color: red"></span>
+            </footer>
+        </section>
+        <figure>
+        </figure>
+    </article>
+    <article class="post-item" data-post-id="14744044">
+        <section class="post-item-body">
+            <div class="post-item-text">
+                <a class="post-item-title" href="https://www.cnblogs.com/liuyuelinfighting/p/14744044.html" target="_blank">『动善时』JMeter基础 — 7、jmeter.properties文件常用配置</a>
+                <p class="post-item-summary">
+                        <a href="https://www.cnblogs.com/liuyuelinfighting/">
+                            <img src="https://pic.cnblogs.com/face/909968/20210505182002.png" class="avatar" alt="博主头像" />
+                        </a>
+                    我都知道.Properties文件一般都为配置文件。我们可以通过在.Properties文件中定义的各类属性来实现一些特定的配置。例如：语言类型的问题、cookie的问题、输出日志类型的问题、定义日志级别的问题、编码问题等等。 在JMeter的bin目录中，存在多个配置文件（5.0版本）： jmet ...
+                </p>
+            </div>
+            <footer class="post-item-foot">
+                <a href="https://www.cnblogs.com/liuyuelinfighting/" class="post-item-author"><span>繁华似锦Fighting</span></a>
+                <span class="post-meta-item">
+                    <span>2021-05-08 10:53</span>
+                </span>
+                <a id="digg_control_14744044" class="post-meta-item btn " href="javascript:void(0)" onclick="DiggPost('liuyuelinfighting', 14744044, 271969, 1);return false;">
+                    <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_digg"></use>
+                    </svg>
+                    <span id="digg_count_14744044">1</span>
+                </a>
+                <a class="post-meta-item btn" href="https://www.cnblogs.com/liuyuelinfighting/p/14744044.html#commentform">
+                    <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_comment"></use>
+                    </svg>
+                    <span>1</span>
+                </a>
+                <a class="post-meta-item btn" href="https://www.cnblogs.com/liuyuelinfighting/p/14744044.html">
+                    <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_views"></use>
+                    </svg>
+                    <span>53</span>
+                </a>
+                <span id="digg_tip_14744044" class="digg-tip" style="color: red"></span>
+            </footer>
+        </section>
+        <figure>
+        </figure>
+    </article>
+    <article class="post-item" data-post-id="14736425">
+        <section class="post-item-body">
+            <div class="post-item-text">
+                <a class="post-item-title" href="https://www.cnblogs.com/miki-peng/p/14736425.html" target="_blank">【pytest系列】- fixture测试夹具详解</a>
+                <p class="post-item-summary">
+                        <a href="https://www.cnblogs.com/miki-peng/">
+                            <img src="https://pic.cnblogs.com/face/1804660/20200130141140.png" class="avatar" alt="博主头像" />
+                        </a>
+                    如果想从头学起pytest，可以去看看这个系列的文章！ https://www.cnblogs.com/miki-peng/category/1960108.html fixture的优势 ​ pytest框架的fixture测试夹具就相当于unittest框架的setup、teardown，但相对 ...
+                </p>
+            </div>
+            <footer class="post-item-foot">
+                <a href="https://www.cnblogs.com/miki-peng/" class="post-item-author"><span>miki_peng</span></a>
+                <span class="post-meta-item">
+                    <span>2021-05-08 10:24</span>
+                </span>
+                <a id="digg_control_14736425" class="post-meta-item btn " href="javascript:void(0)" onclick="DiggPost('miki-peng', 14736425, 574354, 1);return false;">
+                    <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_digg"></use>
+                    </svg>
+                    <span id="digg_count_14736425">0</span>
+                </a>
+                <a class="post-meta-item btn" href="https://www.cnblogs.com/miki-peng/p/14736425.html#commentform">
+                    <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_comment"></use>
+                    </svg>
+                    <span>0</span>
+                </a>
+                <a class="post-meta-item btn" href="https://www.cnblogs.com/miki-peng/p/14736425.html">
+                    <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_views"></use>
+                    </svg>
+                    <span>28</span>
+                </a>
+                <span id="digg_tip_14736425" class="digg-tip" style="color: red"></span>
+            </footer>
+        </section>
+        <figure>
+        </figure>
+    </article>
+    <article class="post-item" data-post-id="14743716">
+        <section class="post-item-body">
+            <div class="post-item-text">
+                <a class="post-item-title" href="https://www.cnblogs.com/azrng/p/14743716.html" target="_blank">.NET之默认依赖注入</a>
+                <p class="post-item-summary">
+                        <a href="https://www.cnblogs.com/azrng/">
+                            <img src="https://pic.cnblogs.com/face/1350373/20210504103139.png" class="avatar" alt="博主头像" />
+                        </a>
+                    介绍 不要依赖于具体的实现，应该依赖于抽象，高层模块不应该依赖于底层模块，二者应该依赖于抽象。简单的说就是为了更好的解耦。而控制反转(Ioc)就是这样的原则的其中一个实现思路, 这个思路的其中一种实现方式就是依赖注入(DI)。ASP.NET Core内置有对依赖注入(DI)的支持，开发者只需要定义好 ...
+                </p>
+            </div>
+            <footer class="post-item-foot">
+                <a href="https://www.cnblogs.com/azrng/" class="post-item-author"><span>AZRNG</span></a>
+                <span class="post-meta-item">
+                    <span>2021-05-08 09:54</span>
+                </span>
+                <a id="digg_control_14743716" class="post-meta-item btn " href="javascript:void(0)" onclick="DiggPost('azrng', 14743716, 418143, 1);return false;">
+                    <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_digg"></use>
+                    </svg>
+                    <span id="digg_count_14743716">2</span>
+                </a>
+                <a class="post-meta-item btn" href="https://www.cnblogs.com/azrng/p/14743716.html#commentform">
+                    <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_comment"></use>
+                    </svg>
+                    <span>0</span>
+                </a>
+                <a class="post-meta-item btn" href="https://www.cnblogs.com/azrng/p/14743716.html">
+                    <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_views"></use>
+                    </svg>
+                    <span>280</span>
+                </a>
+                <span id="digg_tip_14743716" class="digg-tip" style="color: red"></span>
+            </footer>
+        </section>
+        <figure>
+        </figure>
+    </article>
+    <article class="post-item" data-post-id="14743670">
+        <section class="post-item-body">
+            <div class="post-item-text">
+                <a class="post-item-title" href="https://www.cnblogs.com/flydean/p/14743670.html" target="_blank">NumPy之:使用genfromtxt导入数据</a>
+                <p class="post-item-summary">
+                        <a href="https://www.cnblogs.com/flydean/">
+                            <img src="https://pic.cnblogs.com/face/2003955/20200411085046.png" class="avatar" alt="博主头像" />
+                        </a>
+                    简介 在做科学计算的时候，我们需要从外部加载数据，今天给大家介绍一下NumPy中非常有用的一个方法genfromtxt。genfromtxt可以分解成两步，第一步是从文件读取数据，并转化成为字符串。第二步就是将字符串转化成为指定的数据类型。 genfromtxt介绍 先看下genfromtxt的定义 ...
+                </p>
+            </div>
+            <footer class="post-item-foot">
+                <a href="https://www.cnblogs.com/flydean/" class="post-item-author"><span>flydean</span></a>
+                <span class="post-meta-item">
+                    <span>2021-05-08 09:42</span>
+                </span>
+                <a id="digg_control_14743670" class="post-meta-item btn " href="javascript:void(0)" onclick="DiggPost('flydean', 14743670, 595304, 1);return false;">
+                    <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_digg"></use>
+                    </svg>
+                    <span id="digg_count_14743670">0</span>
+                </a>
+                <a class="post-meta-item btn" href="https://www.cnblogs.com/flydean/p/14743670.html#commentform">
+                    <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_comment"></use>
+                    </svg>
+                    <span>0</span>
+                </a>
+                <a class="post-meta-item btn" href="https://www.cnblogs.com/flydean/p/14743670.html">
+                    <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_views"></use>
+                    </svg>
+                    <span>65</span>
+                </a>
+                <span id="digg_tip_14743670" class="digg-tip" style="color: red"></span>
+            </footer>
+        </section>
+        <figure>
+        </figure>
+    </article>
+    <article class="post-item" data-post-id="14743654">
+        <section class="post-item-body">
+            <div class="post-item-text">
+                <a class="post-item-title" href="https://www.cnblogs.com/huangxincheng/p/14743654.html" target="_blank">记一次 .NET 医院CIS系统 内存溢出分析</a>
+                <p class="post-item-summary">
+                        <a href="https://www.cnblogs.com/huangxincheng/">
+                            <img src="https://pic.cnblogs.com/face/214741/20200614104537.png" class="avatar" alt="博主头像" />
+                        </a>
+                    一：背景 1. 讲故事 前几天有位朋友加wx求助说他的程序最近总是出现内存溢出，很崩溃，如下图： 和这位朋友聊下来，发现他也是搞医疗的，哈哈，.NET 在医疗方面还是很有市场的&#128513;&#128513;&#128513;，不过对于内存方面出的问题，我得先祈祷一下千万不要是非托管。。。 废话不多说，上 windbg，看能不能先救个急 ...
+                </p>
+            </div>
+            <footer class="post-item-foot">
+                <a href="https://www.cnblogs.com/huangxincheng/" class="post-item-author"><span>一线码农</span></a>
+                <span class="post-meta-item">
+                    <span>2021-05-08 09:40</span>
+                </span>
+                <a id="digg_control_14743654" class="post-meta-item btn " href="javascript:void(0)" onclick="DiggPost('huangxincheng', 14743654, 85195, 1);return false;">
+                    <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_digg"></use>
+                    </svg>
+                    <span id="digg_count_14743654">6</span>
+                </a>
+                <a class="post-meta-item btn" href="https://www.cnblogs.com/huangxincheng/p/14743654.html#commentform">
+                    <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_comment"></use>
+                    </svg>
+                    <span>10</span>
+                </a>
+                <a class="post-meta-item btn" href="https://www.cnblogs.com/huangxincheng/p/14743654.html">
+                    <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_views"></use>
+                    </svg>
+                    <span>389</span>
+                </a>
+                <span id="digg_tip_14743654" class="digg-tip" style="color: red"></span>
+            </footer>
+        </section>
+        <figure>
+        </figure>
+    </article>
+    <article class="post-item" data-post-id="14738098">
+        <section class="post-item-body">
+            <div class="post-item-text">
+                <a class="post-item-title" href="https://www.cnblogs.com/li-peng/p/14738098.html" target="_blank">分解uber依赖注入库dig-源码分析</a>
+                <p class="post-item-summary">
+                        <a href="https://www.cnblogs.com/li-peng/">
+                            <img src="https://pic.cnblogs.com/face/342595/20201118105346.png" class="avatar" alt="博主头像" />
+                        </a>
+                    上一篇帖子 分解uber依赖注入库dig-使用篇 把如何使用dig进行代码示例说明，这篇帖子分析dig的源码，看他是如何实现依赖注入的。 dig实现的中心思想：所有传入Provide的函数必须要有除error外的返回参数，返回参数供其他函数的形参使用。 比如上一篇的第一个例子里，一个函数func() ...
+                </p>
+            </div>
+            <footer class="post-item-foot">
+                <a href="https://www.cnblogs.com/li-peng/" class="post-item-author"><span>li-peng</span></a>
+                <span class="post-meta-item">
+                    <span>2021-05-08 09:36</span>
+                </span>
+                <a id="digg_control_14738098" class="post-meta-item btn " href="javascript:void(0)" onclick="DiggPost('li-peng', 14738098, 99654, 1);return false;">
+                    <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_digg"></use>
+                    </svg>
+                    <span id="digg_count_14738098">0</span>
+                </a>
+                <a class="post-meta-item btn" href="https://www.cnblogs.com/li-peng/p/14738098.html#commentform">
+                    <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_comment"></use>
+                    </svg>
+                    <span>0</span>
+                </a>
+                <a class="post-meta-item btn" href="https://www.cnblogs.com/li-peng/p/14738098.html">
+                    <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_views"></use>
+                    </svg>
+                    <span>59</span>
+                </a>
+                <span id="digg_tip_14738098" class="digg-tip" style="color: red"></span>
+            </footer>
+        </section>
+        <figure>
+        </figure>
+    </article>
+    <article class="post-item" data-post-id="14743614">
+        <section class="post-item-body">
+            <div class="post-item-text">
+                <a class="post-item-title" href="https://www.cnblogs.com/houxianzhou/p/14743614.html" target="_blank">Webpack的热更新是如何做到的？原理是什么？</a>
+                <p class="post-item-summary">
+                        <a href="https://www.cnblogs.com/houxianzhou/">
+                            <img src="https://pic.cnblogs.com/face/1161361/20200819164303.png" class="avatar" alt="博主头像" />
+                        </a>
+                    一、是什么 HMR全称&#160;Hot Module Replacement，可以理解为模块热替换，指在应用程序运行过程中，替换、添加、删除模块，而无需重新刷新整个应用 例如，我们在应用运行过程中修改了某个模块，通过自动刷新会导致整个应用的整体刷新，那页面中的状态信息都会丢失 如果使用的是&#160;HMR，就可以实 ...
+                </p>
+            </div>
+            <footer class="post-item-foot">
+                <a href="https://www.cnblogs.com/houxianzhou/" class="post-item-author"><span>喆星高照</span></a>
+                <span class="post-meta-item">
+                    <span>2021-05-08 09:30</span>
+                </span>
+                <a id="digg_control_14743614" class="post-meta-item btn " href="javascript:void(0)" onclick="DiggPost('houxianzhou', 14743614, 615178, 1);return false;">
+                    <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_digg"></use>
+                    </svg>
+                    <span id="digg_count_14743614">0</span>
+                </a>
+                <a class="post-meta-item btn" href="https://www.cnblogs.com/houxianzhou/p/14743614.html#commentform">
+                    <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_comment"></use>
+                    </svg>
+                    <span>0</span>
+                </a>
+                <a class="post-meta-item btn" href="https://www.cnblogs.com/houxianzhou/p/14743614.html">
+                    <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_views"></use>
+                    </svg>
+                    <span>65</span>
+                </a>
+                <span id="digg_tip_14743614" class="digg-tip" style="color: red"></span>
+            </footer>
+        </section>
+        <figure>
+        </figure>
+    </article>
+    <article class="post-item" data-post-id="14743586">
+        <section class="post-item-body">
+            <div class="post-item-text">
+                <a class="post-item-title" href="https://www.cnblogs.com/zhixie/p/14743586.html" target="_blank">手撸了一个starter，同事直夸我666~</a>
+                <p class="post-item-summary">
+                        <a href="https://www.cnblogs.com/zhixie/">
+                            <img src="https://pic.cnblogs.com/face/1719198/20200513085335.png" class="avatar" alt="博主头像" />
+                        </a>
+                    Spring Boot starter原理 Spring Boot 将常见的开发功能，分成了一个个的starter，这样我们开发功能的时候只需要引入对应的starter，而不需要去引入一堆依赖了！starter可以理解为一个依赖组，其主要功能就是完成引入依赖和初始化配置。Spring 官方提供的st ...
+                </p>
+            </div>
+            <footer class="post-item-foot">
+                <a href="https://www.cnblogs.com/zhixie/" class="post-item-author"><span>Java旅途</span></a>
+                <span class="post-meta-item">
+                    <span>2021-05-08 09:23</span>
+                </span>
+                <a id="digg_control_14743586" class="post-meta-item btn " href="javascript:void(0)" onclick="DiggPost('zhixie', 14743586, 522067, 1);return false;">
+                    <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_digg"></use>
+                    </svg>
+                    <span id="digg_count_14743586">0</span>
+                </a>
+                <a class="post-meta-item btn" href="https://www.cnblogs.com/zhixie/p/14743586.html#commentform">
+                    <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_comment"></use>
+                    </svg>
+                    <span>0</span>
+                </a>
+                <a class="post-meta-item btn" href="https://www.cnblogs.com/zhixie/p/14743586.html">
+                    <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_views"></use>
+                    </svg>
+                    <span>185</span>
+                </a>
+                <span id="digg_tip_14743586" class="digg-tip" style="color: red"></span>
+            </footer>
+        </section>
+        <figure>
+        </figure>
+    </article>
+    <article class="post-item" data-post-id="14738375">
+        <section class="post-item-body">
+            <div class="post-item-text">
+                <a class="post-item-title" href="https://www.cnblogs.com/zhangwencheng/p/14738375.html" target="_blank">HUAWEI防火墙通过IKE方式协商IPSec VPN隧道（采用预共享密钥认证）</a>
+                <p class="post-item-summary">
+                        <a href="https://www.cnblogs.com/zhangwencheng/">
+                            <img src="https://pic.cnblogs.com/face/1080590/20191014163606.png" class="avatar" alt="博主头像" />
+                        </a>
+                    组网图形 组网需求 如图1所示，网络A和网络B分别通过FW_A和FW_B连接到Internet。网络环境描述如下： 网络A属于10.1.1.0/24子网，通过接口GigabitEthernet 1/0/3与FW_A连接。 网络B属于10.1.2.0/24子网，通过接口GigabitEthernet  ...
+                </p>
+            </div>
+            <footer class="post-item-foot">
+                <a href="https://www.cnblogs.com/zhangwencheng/" class="post-item-author"><span>上古南城</span></a>
+                <span class="post-meta-item">
+                    <span>2021-05-08 09:17</span>
+                </span>
+                <a id="digg_control_14738375" class="post-meta-item btn " href="javascript:void(0)" onclick="DiggPost('zhangwencheng', 14738375, 638707, 1);return false;">
+                    <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_digg"></use>
+                    </svg>
+                    <span id="digg_count_14738375">0</span>
+                </a>
+                <a class="post-meta-item btn" href="https://www.cnblogs.com/zhangwencheng/p/14738375.html#commentform">
+                    <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_comment"></use>
+                    </svg>
+                    <span>0</span>
+                </a>
+                <a class="post-meta-item btn" href="https://www.cnblogs.com/zhangwencheng/p/14738375.html">
+                    <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_views"></use>
+                    </svg>
+                    <span>14</span>
+                </a>
+                <span id="digg_tip_14738375" class="digg-tip" style="color: red"></span>
+            </footer>
+        </section>
+        <figure>
+        </figure>
+    </article>
+    <article class="post-item" data-post-id="14743456">
+        <section class="post-item-body">
+            <div class="post-item-text">
+                <a class="post-item-title" href="https://www.cnblogs.com/myshowtime/p/14743456.html" target="_blank">动手实现一个适用于.NET Core 的诊断工具</a>
+                <p class="post-item-summary">
+                        <a href="https://www.cnblogs.com/myshowtime/">
+                            <img src="https://pic.cnblogs.com/face/801909/20210311103820.png" class="avatar" alt="博主头像" />
+                        </a>
+                    前言 大家可能对诊断工具并不陌生，从大名鼎鼎的 dotTrace，到 .NET CLI 推出的一系列的高效诊断组件（dotnet trace,dotnet sos,dotnet dump）等, 这些工具提升了对程序Debug的能力和效率，可以让开发人员从更高层次的维度来发现程序中的问题。 今天我们针 ...
+                </p>
+            </div>
+            <footer class="post-item-foot">
+                <a href="https://www.cnblogs.com/myshowtime/" class="post-item-author"><span>SpringLeee</span></a>
+                <span class="post-meta-item">
+                    <span>2021-05-08 08:25</span>
+                </span>
+                <a id="digg_control_14743456" class="post-meta-item btn " href="javascript:void(0)" onclick="DiggPost('myshowtime', 14743456, 241537, 1);return false;">
+                    <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_digg"></use>
+                    </svg>
+                    <span id="digg_count_14743456">13</span>
+                </a>
+                <a class="post-meta-item btn" href="https://www.cnblogs.com/myshowtime/p/14743456.html#commentform">
+                    <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_comment"></use>
+                    </svg>
+                    <span>6</span>
+                </a>
+                <a class="post-meta-item btn" href="https://www.cnblogs.com/myshowtime/p/14743456.html">
+                    <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_views"></use>
+                    </svg>
+                    <span>540</span>
+                </a>
+                <span id="digg_tip_14743456" class="digg-tip" style="color: red"></span>
+            </footer>
+        </section>
+        <figure>
+        </figure>
+    </article>
+    <article class="post-item" data-post-id="14742660">
+        <section class="post-item-body">
+            <div class="post-item-text">
+                <a class="post-item-title" href="https://www.cnblogs.com/kagol/p/14742660.html" target="_blank">如何解决异步接口请求快慢不均导致的数据错误问题？ - DevUI</a>
+                <p class="post-item-summary">
+                        <a href="https://www.cnblogs.com/kagol/">
+                            <img src="https://pic.cnblogs.com/face/296720/20210424131349.png" class="avatar" alt="博主头像" />
+                        </a>
+                    DevUI 是一款面向企业中后台产品的开源前端解决方案，它倡导沉浸、灵活、至简的设计价值观，提倡设计者为真实的需求服务，为多数人的设计，拒绝哗众取宠、取悦眼球的设计。如果你正在开发 ToB 的工具类产品，DevUI 将是一个很不错的选择！ 引言 搜索功能，我想很多业务都会涉及，这个功能的特点是： 用 ...
+                </p>
+            </div>
+            <footer class="post-item-foot">
+                <a href="https://www.cnblogs.com/kagol/" class="post-item-author"><span>DevUI团队</span></a>
+                <span class="post-meta-item">
+                    <span>2021-05-08 08:04</span>
+                </span>
+                <a id="digg_control_14742660" class="post-meta-item btn " href="javascript:void(0)" onclick="DiggPost('kagol', 14742660, 209565, 1);return false;">
+                    <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_digg"></use>
+                    </svg>
+                    <span id="digg_count_14742660">0</span>
+                </a>
+                <a class="post-meta-item btn" href="https://www.cnblogs.com/kagol/p/14742660.html#commentform">
+                    <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_comment"></use>
+                    </svg>
+                    <span>0</span>
+                </a>
+                <a class="post-meta-item btn" href="https://www.cnblogs.com/kagol/p/14742660.html">
+                    <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_views"></use>
+                    </svg>
+                    <span>296</span>
+                </a>
+                <span id="digg_tip_14742660" class="digg-tip" style="color: red"></span>
+            </footer>
+        </section>
+        <figure>
+        </figure>
+    </article>
+    <article class="post-item" data-post-id="14736379">
+        <section class="post-item-body">
+            <div class="post-item-text">
+                <a class="post-item-title" href="https://www.cnblogs.com/father-of-little-pig/p/14736379.html" target="_blank">【spring源码系列】之【BeanDefinition】</a>
+                <p class="post-item-summary">
+                        <a href="https://www.cnblogs.com/father-of-little-pig/">
+                            <img src="https://pic.cnblogs.com/face/1765702/20200101213016.png" class="avatar" alt="博主头像" />
+                        </a>
+                    1. BeanDefinition简介 前面讲的解析bean标签，本质就是将bean的信息封装成BeanDefinition对象的过程，最后放入容器beanDefinitionMap中。spring 要根据 BeanDefinition对象来实例化bean，只要把解析的标签，扫描的注解类封装成Bea ...
+                </p>
+            </div>
+            <footer class="post-item-foot">
+                <a href="https://www.cnblogs.com/father-of-little-pig/" class="post-item-author"><span>小猪爸爸</span></a>
+                <span class="post-meta-item">
+                    <span>2021-05-08 07:12</span>
+                </span>
+                <a id="digg_control_14736379" class="post-meta-item btn " href="javascript:void(0)" onclick="DiggPost('father-of-little-pig', 14736379, 533256, 1);return false;">
+                    <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_digg"></use>
+                    </svg>
+                    <span id="digg_count_14736379">1</span>
+                </a>
+                <a class="post-meta-item btn" href="https://www.cnblogs.com/father-of-little-pig/p/14736379.html#commentform">
+                    <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_comment"></use>
+                    </svg>
+                    <span>0</span>
+                </a>
+                <a class="post-meta-item btn" href="https://www.cnblogs.com/father-of-little-pig/p/14736379.html">
+                    <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_views"></use>
+                    </svg>
+                    <span>161</span>
+                </a>
+                <span id="digg_tip_14736379" class="digg-tip" style="color: red"></span>
+            </footer>
+        </section>
+        <figure>
+        </figure>
+    </article>
+    <article class="post-item" data-post-id="14743294">
+        <section class="post-item-body">
+            <div class="post-item-text">
+                <a class="post-item-title" href="https://www.cnblogs.com/pingguo-softwaretesting/p/14743294.html" target="_blank">【Git】3. Git重要特性-分支操作，合并冲突详解</a>
+                <p class="post-item-summary">
+                        <a href="https://www.cnblogs.com/pingguo-softwaretesting/">
+                            <img src="https://pic.cnblogs.com/face/1268169/20191009175922.png" class="avatar" alt="博主头像" />
+                        </a>
+                    一、分支介绍 在版本控制过程当中，有时候需要同时推进多个任务，这样的话，就可以给每个任务创建单独的分支。 有了分支之后，对应的开发人员就可以把自己的工作从主线上分离出来，在做自己分支开发的时候，不会影响到主线分支的运行。 如图所示： 要开发个新功能，加个蓝色背景。那么从master上建一个分支fea ...
+                </p>
+            </div>
+            <footer class="post-item-foot">
+                <a href="https://www.cnblogs.com/pingguo-softwaretesting/" class="post-item-author"><span>把苹果v咬哭</span></a>
+                <span class="post-meta-item">
+                    <span>2021-05-08 07:05</span>
+                </span>
+                <a id="digg_control_14743294" class="post-meta-item btn " href="javascript:void(0)" onclick="DiggPost('pingguo-softwaretesting', 14743294, 391435, 1);return false;">
+                    <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_digg"></use>
+                    </svg>
+                    <span id="digg_count_14743294">0</span>
+                </a>
+                <a class="post-meta-item btn" href="https://www.cnblogs.com/pingguo-softwaretesting/p/14743294.html#commentform">
+                    <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_comment"></use>
+                    </svg>
+                    <span>0</span>
+                </a>
+                <a class="post-meta-item btn" href="https://www.cnblogs.com/pingguo-softwaretesting/p/14743294.html">
+                    <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_views"></use>
+                    </svg>
+                    <span>220</span>
+                </a>
+                <span id="digg_tip_14743294" class="digg-tip" style="color: red"></span>
+            </footer>
+        </section>
+        <figure>
+        </figure>
+    </article>
+    <article class="post-item" data-post-id="14743340">
+        <section class="post-item-body">
+            <div class="post-item-text">
+                <a class="post-item-title" href="https://www.cnblogs.com/timefiles/p/WpfEventCommandAction.html" target="_blank">WPF之事件绑定命令</a>
+                <p class="post-item-summary">
+                        <a href="https://www.cnblogs.com/timefiles/">
+                            <img src="https://pic.cnblogs.com/face/1495663/20191129133443.png" class="avatar" alt="博主头像" />
+                        </a>
+                    一般事件的处理程序都放在界面后台，通过事件绑定可以把事件处理程序放在ViewModel中，实现界面和逻辑的解耦。
+要使用事件绑定需要借助System.Windows.interactivity（安装了Blend就有），如果电脑上找不到，可以通过NuGet安装System.Windows.Intera... ...
+                </p>
+            </div>
+            <footer class="post-item-foot">
+                <a href="https://www.cnblogs.com/timefiles/" class="post-item-author"><span>time-flies</span></a>
+                <span class="post-meta-item">
+                    <span>2021-05-08 01:18</span>
+                </span>
+                <a id="digg_control_14743340" class="post-meta-item btn " href="javascript:void(0)" onclick="DiggPost('timefiles', 14743340, 564602, 1);return false;">
+                    <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_digg"></use>
+                    </svg>
+                    <span id="digg_count_14743340">0</span>
+                </a>
+                <a class="post-meta-item btn" href="https://www.cnblogs.com/timefiles/p/WpfEventCommandAction.html#commentform">
+                    <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_comment"></use>
+                    </svg>
+                    <span>0</span>
+                </a>
+                <a class="post-meta-item btn" href="https://www.cnblogs.com/timefiles/p/WpfEventCommandAction.html">
+                    <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_views"></use>
+                    </svg>
+                    <span>55</span>
+                </a>
+                <span id="digg_tip_14743340" class="digg-tip" style="color: red"></span>
+            </footer>
+        </section>
+        <figure>
+        </figure>
+    </article>
+    <article class="post-item" data-post-id="14715884">
+        <section class="post-item-body">
+            <div class="post-item-text">
+                <a class="post-item-title" href="https://www.cnblogs.com/huangrenhui/p/14715884.html" target="_blank">Mybatis的初始化和结合Spring Framework后初始化的源码探究</a>
+                <p class="post-item-summary">
+                        <a href="https://www.cnblogs.com/huangrenhui/">
+                            <img src="https://pic.cnblogs.com/face/1363696/20200402170332.png" class="avatar" alt="博主头像" />
+                        </a>
+                    Mybatis的初始化和结合Spring Framework后初始化的源码探究 ...
+                </p>
+            </div>
+            <footer class="post-item-foot">
+                <a href="https://www.cnblogs.com/huangrenhui/" class="post-item-author"><span>码猿手</span></a>
+                <span class="post-meta-item">
+                    <span>2021-05-07 23:03</span>
+                </span>
+                <a id="digg_control_14715884" class="post-meta-item btn " href="javascript:void(0)" onclick="DiggPost('huangrenhui', 14715884, 427735, 1);return false;">
+                    <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_digg"></use>
+                    </svg>
+                    <span id="digg_count_14715884">0</span>
+                </a>
+                <a class="post-meta-item btn" href="https://www.cnblogs.com/huangrenhui/p/14715884.html#commentform">
+                    <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_comment"></use>
+                    </svg>
+                    <span>0</span>
+                </a>
+                <a class="post-meta-item btn" href="https://www.cnblogs.com/huangrenhui/p/14715884.html">
+                    <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_views"></use>
+                    </svg>
+                    <span>83</span>
+                </a>
+                <span id="digg_tip_14715884" class="digg-tip" style="color: red"></span>
+            </footer>
+        </section>
+        <figure>
+        </figure>
+    </article>
+    <article class="post-item" data-post-id="14743096">
+        <section class="post-item-body">
+            <div class="post-item-text">
+                <a class="post-item-title" href="https://www.cnblogs.com/cythia/p/14743096.html" target="_blank">前端不得不了解的TCP协议</a>
+                <p class="post-item-summary">
+                    背景 早期的网络是基于OSI（开放式系统互联网，一般叫OSI参考模型）模型，该模型是由ISO国际标准组织制定的，包含了七层（应用层、表示层、会话层、传输层、网络层、数据链路层、物理层），即复杂又不实用，以至于招到了许多批评，所以，当时就有一批技术人员为了方便开发，提高效率，自己开发了一套新的协议，T ...
+                </p>
+            </div>
+            <footer class="post-item-foot">
+                <a href="https://www.cnblogs.com/cythia/" class="post-item-author"><span>Cynthia-milk</span></a>
+                <span class="post-meta-item">
+                    <span>2021-05-07 23:02</span>
+                </span>
+                <a id="digg_control_14743096" class="post-meta-item btn " href="javascript:void(0)" onclick="DiggPost('cythia', 14743096, 310173, 1);return false;">
+                    <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_digg"></use>
+                    </svg>
+                    <span id="digg_count_14743096">0</span>
+                </a>
+                <a class="post-meta-item btn" href="https://www.cnblogs.com/cythia/p/14743096.html#commentform">
+                    <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_comment"></use>
+                    </svg>
+                    <span>0</span>
+                </a>
+                <a class="post-meta-item btn" href="https://www.cnblogs.com/cythia/p/14743096.html">
+                    <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                        <use xlink:href="#icon_views"></use>
+                    </svg>
+                    <span>244</span>
+                </a>
+                <span id="digg_tip_14743096" class="digg-tip" style="color: red"></span>
+            </footer>
+        </section>
+        <figure>
+        </figure>
+    </article>
+
+
+                        </div>
+                        <script type="text/javascript">
+                        var aggSiteModel = {"CategoryType":"SiteHome","ParentCategoryId":0,"CategoryId":808,"PageIndex":1,"TotalPostCount":4000,"ItemListActionName":"AggSitePostList"};
+                        </script>
+                        <div id="pager_bottom">
+<div id="paging_block"><div class="pager"><a href="/" class="p_1 current" onclick="aggSite.loadCategoryPostList(1,20);buildPaging(1);return false;">1</a><a href="/sitehome/p/2" class="p_2 middle" onclick="aggSite.loadCategoryPostList(2,20);buildPaging(2);return false;">2</a><a href="/sitehome/p/3" class="p_3 middle" onclick="aggSite.loadCategoryPostList(3,20);buildPaging(3);return false;">3</a><span class="ellipsis">···</span><a href="/sitehome/p/200" class="p_200 last" onclick="aggSite.loadCategoryPostList(200,20);buildPaging(200);return false;">200</a><a href="/sitehome/p/2" onclick="aggSite.loadCategoryPostList(2,20);buildPaging(2);return false;">&gt;</a></div></div><script type="text/javascript">var pagingBuider={"OnlyLinkText":false,"TotalCount":4000,"PageIndex":1,"PageSize":20,"ShowPageCount":1,"SkipCount":0,"UrlFormat":"/sitehome/p/{0}","OnClickJsFunc":"aggSite.loadCategoryPostList()","FirstPageLink":"/","AjaxUrl":"/AggSite/Pager","AjaxCallbak":null,"TopPagerId":"pager_top","IsRenderScript":true};function buildPaging(pageIndex){pagingBuider.PageIndex=pageIndex;$.ajax({url:pagingBuider.AjaxUrl,data:JSON.stringify(pagingBuider),type:'post',dataType:'text',contentType:'application/json; charset=utf-8',success:function (data) { $('#paging_block').html(data); var pagerTop=$('#pager_top');if(pageIndex>1){$(pagerTop).html(data).show();}else{$(pagerTop).hide();}}});}</script>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="side_right" class="side-right card-list sidebar">
+                    <div id="cnblogs_b1" class="sidebar-image"></div>
+                    <div id="sidebar_bh" class="sidebar-bh"></div>
+                </div>
+            </div>
+        </div>
+        <footer id="footer" class="footer">
+            <div id="friend_link" class="link-list friend-link">
+    友情链接：
+    <a href="//www.vpsor.cn" target="_blank">硅云</a>
+    <a href="//aws.amazon.com" target="_blank">AWS</a>
+    <a href="//www.aliyun.com" target="_blank">阿里云</a>
+    <a href="//www.zentao.net/?from=upcnblogs" target="_blank">禅道项目管理</a>
+    <a href="//cloud.tencent.com" target="_blank">腾讯云</a>
+    <a href="//www.huaweicloud.com" target="_blank">华为云</a>
+    <a href="//cloud.baidu.com" target="_blank">百度云</a>
+    <a href="//www.jdcloud.com" target="_blank">京东云</a>
+    <a href="//www.shanhaibi.com/" target="_blank">山海鲸可视化</a>
+    <a href="http://www.gcpowertools.com.cn" target="_blank">葡萄城控件</a><a href="//www.chinaz.com/" target="_blank">站长之家</a><a href="http://dev.yesky.com" target="_blank">天极网</a><a href="//wetest.qq.com/?from=links_cnblogs" target="_blank">腾讯WeTest</a><a href="http://www.ucancode.com/" target="_blank">工控组态源码</a>
+</div>
+
+            <div class="footer-splitter"></div>
+            <div id="footer_bottom">
+                <div class="poweredby">Powered by .NET 5.0 on Kubernetes</div>
+                <div class="about"><a href="//about.cnblogs.com/">关于博客园</a><a href="//about.cnblogs.com/contact">联系我们</a><a href="//about.cnblogs.com/ad">广告服务</a><a href="//about.cnblogs.com/brandzone">专区合作</a><span>&copy;2004-2021</span><a href="https://www.cnblogs.com/">博客园</a><span>保留所有权利</span><a href="https://beian.miit.gov.cn/" target="_blank">沪ICP备09004260号-1</a></div>
+                <div class="beian"><a href="https://ss.knet.cn/verifyseal.dll?sn=e131108110100433392itm000000&amp;ct=df&amp;a=1&amp;pa=0.25787803245785335" rel="nofollow" target="_blank"><img id="cnnic_img" src="//common.cnblogs.com/images/cnnic.png" alt="" width="64" height="23" /></a><a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=31011502001144" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="//common.cnblogs.com/images/ghs.png" alt="" /><span style="float:left;height:20px;line-height:20px;margin: 0 5px 0 5px;">沪公网安备 31011502001144号</span></a></div>
+                <div class="report-contact">举报电话：0571-88079867，举报邮箱：contact@cnblogs.com <a href="http://www.shjbzx.cn" target="_blank"><img src="/images/jblogo.png?v=20200730" alt="" /></a></div>
+                <div clas="weixin-mp">
+                    <img src="https://img2020.cnblogs.com/blog/35695/202011/35695-20201110200531630-9844.png" alt="" style="width:50px;" />
+                    <p>博客园公众号</p>
+                </div>
+            </div>
+        </footer>
+        
+    </div>
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjuzHjqjYvKdiGMj-yBbol7CE0CDZRlZDZXOhlR7LicXzJV1wdEx-PUyB2LzhF0XHTlAObxzfzWPLSCRTt-LnGPHFayg9_z-m9BZzVnxgw9ML3M7lDaEaNjtZdDz74R_edw" />
+</body>
+</html>

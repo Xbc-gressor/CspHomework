@@ -1,0 +1,542 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="never" />
+    <meta name="description" content="DevUI 是一款面向企业中后台产品的开源前端解决方案，它倡导沉浸、灵活、至简的设计价值观，提倡设计者为真实的需求服务，为多数人的设计，拒绝哗众取宠、取悦眼球的设计。如果你正在开发 ToB 的工具类产" />
+    <meta property="og:description" content="DevUI 是一款面向企业中后台产品的开源前端解决方案，它倡导沉浸、灵活、至简的设计价值观，提倡设计者为真实的需求服务，为多数人的设计，拒绝哗众取宠、取悦眼球的设计。如果你正在开发 ToB 的工具类产" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>如何解决异步接口请求快慢不均导致的数据错误问题？ - DevUI - DevUI团队 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/red_autumnal_leaves/bundle-red_autumnal_leaves.min.css?v=PbxkURuaOrmhHaO9IG5rjaIzIYW2OMqQsQSlFGE0Wgk" />
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/kagol/custom.css?v=saWbz0PEuVFT1JwwhHxJ6IZFp60=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/red_autumnal_leaves/bundle-red_autumnal_leaves-mobile.min.css?v=iPf_XHQsJ-ofZZ2RiaeMCHG0JEaMNLa9yhkUGK3xTSQ" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/kagol/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/kagol/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/kagol/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 209565;
+        var currentBlogApp = 'kagol';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'red_autumnal_leaves';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-05-08 08:04';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="no-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/kagol/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/kagol/">DevUI团队</a>
+</h1>
+<h2>DevUI：面向企业中后台的前端开源解决方案。官网：devui.design</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/kagol/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/DevUI%E5%9B%A2%E9%98%9F">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/kagol/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/kagol/p/14742660.html">
+    <span>如何解决异步接口请求快慢不均导致的数据错误问题？ - DevUI</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+<p><a href="https://devui.design/" target="_blank">DevUI</a> 是一款面向企业中后台产品的开源前端解决方案，它倡导<code>沉浸</code>、<code>灵活</code>、<code>至简</code>的设计价值观，提倡设计者为真实的需求服务，为多数人的设计，拒绝哗众取宠、取悦眼球的设计。如果你正在开发 <code>ToB</code> 的<code>工具类产品</code>，DevUI 将是一个很不错的选择！</p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f74049dabc1c4a07bf4f0ece127f9ef8~tplv-k3u1fbpfcp-watermark.image" alt="Kagol.png" loading="lazy"></p>
+<h1 id="引言">引言</h1>
+<p>搜索功能，我想很多业务都会涉及，这个功能的特点是：</p>
+<ul>
+<li>用户可以在输入框中输入一个关键字，然后在一个列表中显示该关键字对应的数据；</li>
+<li>输入框是可以随时修改/删除全部或部分关键字的；</li>
+<li>如果是实时搜索🔍（即输入完关键字马上出结果，不需要额外的操作或过多的等待），接口调用将会非常频繁。</li>
+</ul>
+<p>实时搜索都会面临一个通用的问题，就是：</p>
+<blockquote>
+<p>浏览器请求后台接口都是异步的，如果先发起请求的接口后返回数据，列表/表格中显示的数据就很可能会是错乱的。</p>
+</blockquote>
+<h1 id="问题重现">问题重现</h1>
+<p>最近测试提了一个搜索（PS：此处的搜索🔍就是用 DevUI 新推出的 <a href="https://juejin.cn/post/6956612556710477860" target="_blank">CategorySearch</a> 组件实现的）相关的缺陷单，就涉及到了上述问题。</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/91022a7278ce408ba882bdda2a70d62d~tplv-k3u1fbpfcp-watermark.image" alt="1-1.png" loading="lazy"></p>
+<p>这个bug单大致意思是：</p>
+<blockquote>
+<p>搜索的时候，连续快速输入或者删除关键字，搜索结果和搜索关键字不匹配。</p>
+</blockquote>
+<p>从缺陷单的截图来看，本意是要搜索关键字<code>8.4.7迭代】</code>，表格中的实际搜索结果是<code>8.4.7迭代】过</code>关键字的数据。</p>
+<p>缺陷单的截图还非常贴心地贴了两次请求的信息：</p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/bd4260a598914a3e924599aaa4688b86~tplv-k3u1fbpfcp-watermark.image" alt="2.png" loading="lazy"></p>
+<p>作为一名“有经验的”前端开发，一看就是一个通用的技术问题：</p>
+<ol>
+<li>浏览器从服务器发起的请求都是异步的；</li>
+<li>由于前一次请求服务器返回比较慢，还没等第一次请求返回结果，后一次请求就发起了，并且迅速返回了结果，这时表格肯定显示后一次的结果；</li>
+<li>过了2秒，第一次请求的结果才慢吞吞地返回了，这时表格错误地又显示了第一次请求的结果；</li>
+<li>最终导致了这个bug。</li>
+</ol>
+<p>怎么解决呢？</p>
+<p>在想解决方案之前，得想办法必现这个问题，靠后台接口是不现实的，大部分情况下后台接口都会很快返回结果。</p>
+<p>所以要必现这个问题，得先模拟慢接口。</p>
+<h1 id="模拟慢接口">模拟慢接口</h1>
+<p>为了快速搭建一个后台服务，并模拟慢接口，我们选择 <a href="https://koajs.com/" target="_blank">Koa</a> 这个轻量的 Node 框架。</p>
+<h2 id="快速开始">快速开始</h2>
+<p>Koa 使用起来非常方便，只需要：</p>
+<ol>
+<li>新建项目文件夹：<code>mkdir koa-server</code></li>
+<li>创建 package.json：<code>npm init -y</code></li>
+<li>安装 Koa：<code>npm i koa</code></li>
+<li>编写服务代码：<code>vi app.js</code></li>
+<li>启动：<code>node app.js</code></li>
+<li>访问：<code>http://localhost:3000/</code></li>
+</ol>
+<h3 id="编写服务代码">编写服务代码</h3>
+<p>使用以下命令创建 app.js 启动文件：</p>
+<pre><code>vi app.js
+</code></pre>
+<p>在文件中输入以下 3 行代码，即可启动一个 Koa 服务：</p>
+<pre><code>const Koa = require('koa'); // 引入 Koa
+const app = new Koa(); // 创建 Koa 实例
+app.listen(3000); // 监听 3000 端口
+</code></pre>
+<h3 id="访问">访问</h3>
+<p>如果没有在3000端口启动任务服务，在浏览器访问：</p>
+<p><a href="http://localhost:3000/" target="_blank">http://localhost:3000/</a></p>
+<p>会显示以下页面：</p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/95abe405d5fd47f199c70b2c8db3c4f3~tplv-k3u1fbpfcp-watermark.image" alt="3.png" loading="lazy"></p>
+<p>启动了我们的 Koa Server 之后，访问：</p>
+<p><a href="http://localhost:3000/" target="_blank">http://localhost:3000/</a></p>
+<p>会显示：</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5cd1ccceda0d43018528453bb15fd5fa~tplv-k3u1fbpfcp-watermark.image" alt="4.png" loading="lazy"></p>
+<h2 id="get-请求">get 请求</h2>
+<p>刚才搭建的只是一个空服务，什么路由都没有，所以显示了<code>Not Found</code>。</p>
+<p>我们可以通过中间件的方式，让我们的 Koa Server 显示点儿东西。</p>
+<p>由于要增加一个根路由，我们先安装路由依赖</p>
+<pre><code>npm i koa-router
+</code></pre>
+<p>然后引入 Koa Router</p>
+<pre><code>const router = require('koa-router')();
+</code></pre>
+<p>接着是编写get接口</p>
+<pre><code>app.get('/', async (ctx, next) =&gt; {
+  ctx.response.body = '&lt;p&gt;Hello Koa Server!&lt;/p&gt;';
+});
+</code></pre>
+<p>最后别忘了使用路由中间件</p>
+<pre><code>app.use(router.routes());
+</code></pre>
+<p>改完代码需要重启 Koa 服务，为了方便重启，我们使用 pm2 这个 Node 进程管理工具来启动/重启 Koa 服务，使用起来也非常简单：</p>
+<ul>
+<li>全局安装 pm2：npm i -g pm2</li>
+<li>启动 Koa Server：pm2 start app.js</li>
+<li>重启 Koa Server：pm2 restart app.js</li>
+</ul>
+<p>重启完 Koa Server，再次访问</p>
+<p><a href="http://localhost:3000/" target="_blank">http://localhost:3000/</a></p>
+<p>会显示以下内容：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d136ca6d5404485aa59d162aeda33aa5~tplv-k3u1fbpfcp-watermark.image" alt="4-1.png" loading="lazy"></p>
+<h2 id="post-请求">post 请求</h2>
+<p>有了以上基础，就可以写一个 post 接口，模拟慢接口啦！</p>
+<p>编写 post 接口和 get 接口很类似：</p>
+<pre><code>router.post('/getList', async (ctx, next) =&gt; {
+  ctx.response.body = {
+    status: 200,
+    msg: '这是post接口返回的测试数据',
+    data: [1, 2, 3]
+  };
+});
+</code></pre>
+<p>这时我们可以使用 Postman 调用下这个 post 接口，如期返回：</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/49e6fb19f5a040adafc016d544b5e3ef~tplv-k3u1fbpfcp-watermark.image" alt="5.png" loading="lazy"></p>
+<h2 id="允许跨域">允许跨域</h2>
+<p>我们尝试在 NG CLI 项目里调用这个 post 接口：</p>
+<pre><code>this.http.post('http://localhost:3000/getList', {
+  id: 1,
+}).subscribe(result =&gt; {
+  console.log('result:', result);
+});
+</code></pre>
+<p>但是在浏览器里直接调用，却得不到想要的结果：</p>
+<ul>
+<li>result 没有打印出来</li>
+<li>控制台报错</li>
+<li>Network请求也是红色的</li>
+</ul>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6616b351d65140b594f8baa476a89be0~tplv-k3u1fbpfcp-watermark.image" alt="6.png" loading="lazy"></p>
+<p>由于本地启动的项目端口号（4200）和 Koa Server 的（3000）不同，浏览器认为这个接口跨域，因此拦截了。</p>
+<p>NG CLI 项目本地链接：</p>
+<p><a href="http://localhost:4200/" target="_blank">http://localhost:4200/</a></p>
+<p>Koa Server 链接：</p>
+<p><a href="http://localhost:3000/" target="_blank">http://localhost:3000/</a></p>
+<p>Koa 有一个中间件可以允许跨域：<code>koa2-cors</code></p>
+<p>这个中间件的使用方式，和路由中间件很类似。</p>
+<p>先安装依赖：</p>
+<pre><code>npm i koa2-cors
+</code></pre>
+<p>然后引入：</p>
+<pre><code>const cors = require('koa2-cors');
+</code></pre>
+<p>再使用中间件：</p>
+<pre><code>app.use(cors());
+</code></pre>
+<p>这时我们再去访问：</p>
+<p><a href="http://localhost:4200/" target="_blank">http://localhost:4200/</a></p>
+<p>就能得到想要的结果啦！</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/41af8a8902554f608b234d21d081b348~tplv-k3u1fbpfcp-watermark.image" alt="7.png" loading="lazy"></p>
+<h2 id="慢接口">慢接口</h2>
+<p>post 接口已经有了，怎么模拟慢接口呢？</p>
+<p>其实就是希望服务器延迟返回结果。</p>
+<p>在 post 接口之前增加延迟的逻辑：</p>
+<pre><code>  async function delay(time) {
+    return new Promise(function(resolve, reject) { 
+      setTimeout(function() {
+        resolve();
+      }, time);
+    });
+  }
+
+  await delay(5000); // 延迟 5s 返回结果
+
+  ctx.response.body = { ... };
+</code></pre>
+<p>再次访问 getList 接口，发现前面接口会一直<code>pending</code>，5s 多才真正返回结果。</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ad9f89986c754b1a81aa9b2549698c3f~tplv-k3u1fbpfcp-watermark.image" alt="8.png" loading="lazy"></p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0023a013aa37415eab1a7874c66bc7cc~tplv-k3u1fbpfcp-watermark.image" alt="9.png" loading="lazy"></p>
+<h1 id="取消慢接口请求">取消慢接口请求</h1>
+<p>能模拟慢接口，就能轻易地必现测试提的问题啦！</p>
+<blockquote>
+<p>先必现这个问题，然后尝试修复这个问题，最后看下这个问题还出不出现，不出现说明我们的方案能解决这个bug，问题还有说明我们得想别的办法。</p>
+</blockquote>
+<p>这是修复bug正确的打开方式。</p>
+<p>最直观的方案就是再发起第二次请求之后，如果第一次请求未返回，那就直接取消这次请求，使用第二次请求的返回结果。</p>
+<p>怎么取消一次http请求呢？</p>
+<p>Angular 的异步事件机制是基于 RxJS 的，取消一个正在执行的 http 请求非常方便。</p>
+<p>前面已经看到 Angular 使用 HttpClient 服务来发起 http 请求，并调用subscribe 方法来订阅后台的返回结果：</p>
+<pre><code>this.http.post('http://localhost:3000/getList', {
+  id: 1,
+}).subscribe(result =&gt; {
+  console.log('result:', result);
+});
+</code></pre>
+<p>要取消 http 请求，我们需要先把这个订阅存到组件一个变量里：</p>
+<pre><code>private getListSubscription: Subscription;
+
+this.getListSubscription = this.http.post('http://localhost:3000/getList', {
+  id: 1,
+}).subscribe(result =&gt; {
+  console.log('result:', result);
+});
+</code></pre>
+<p>然后在重新发起 http 请求之前，取消上一次请求的订阅即可。</p>
+<pre><code>this.getListSubscription?.unsubscribe(); // 重新发起 http 请求之前，取消上一次请求的订阅
+
+this.getListSubscription = this.http.post(...);
+</code></pre>
+<h1 id="其他-http-库如何取消请求">其他 http 库如何取消请求</h1>
+<p>至此这个缺陷算是解决了，其实这是一个通用的问题，不管是在什么业务，使用什么框架，都会遇到异步接口慢导致的数据错乱问题。</p>
+<p>那么，如果使用 fetch 这种浏览器原生的 http 请求接口或者 <a href="https://axios-http.com/" target="_blank">axios</a> 这种业界广泛使用的 http 库，怎么取消正在进行的 http 请求呢？</p>
+<h2 id="fetch">fetch</h2>
+<p>先来看下 fetch，fetch 是浏览器原生提供的 AJAX 接口，使用起来也非常方便。</p>
+<p>使用 fetch 发起一个 post 请求：</p>
+<pre><code>fetch('http://localhost:3000/getList', {
+   method: 'POST',
+　　headers: {
+　　　　'Content-Type': 'application/json;charset=utf-8'
+　　},
+　　body: JSON.stringify({
+    id: 1
+　　})
+}).then(result =&gt; {
+  console.log('result', result);
+});
+</code></pre>
+<p>可以使用 <code>AbortController</code> 来实现请求取消：</p>
+<pre><code>this.controller?.abort(); // 重新发起 http 请求之前，取消上一次请求
+
+const controller = new AbortController(); //  创建 AbortController 实例
+const signal = controller.signal;
+this.controller = controller;
+
+fetch('http://localhost:3000/getList', {
+   method: 'POST',
+　　headers: {
+　　　　'Content-Type': 'application/json;charset=utf-8'
+　　},
+　　body: JSON.stringify({
+    id: 1
+　　}),
+  signal, // 信号参数，用来控制 http 请求的执行
+}).then(result =&gt; {
+  console.log('result', result);
+});
+</code></pre>
+<h2 id="axios">axios</h2>
+<p>再来看看 axios，先看下如何使用 axios 发起 post 请求。</p>
+<p>先安装：</p>
+<pre><code>npm i axios
+</code></pre>
+<p>再引入：</p>
+<pre><code>import axios from 'axios';
+</code></pre>
+<p>发起 post 请求：</p>
+<pre><code>axios.post('http://localhost:3000/getList', {
+  headers: {
+    'Content-Type': 'application/json;charset=utf-8'
+  },
+  data: {
+    id: 1,
+  },
+})
+.then(result =&gt; {
+  console.log('result:', result);
+});
+</code></pre>
+<p>axios 发起的请求可以通过 cancelToken 来取消。</p>
+<pre><code>this.source?.cancel('The request is canceled!');
+
+this.source = axios.CancelToken.source(); // 初始化 source 对象
+
+axios.post('http://localhost:3000/getList', {
+  headers: {
+    'Content-Type': 'application/json;charset=utf-8'
+  },
+  data: {
+    id: 1,
+  },
+}, { // 注意是第三个参数
+  cancelToken: this.source.token, // 这里声明的 cancelToken 其实相当于是一个标记或者信号
+})
+.then(result =&gt; {
+  console.log('result:', result);
+});
+</code></pre>
+<h1 id="小结">小结</h1>
+<p>本文通过实际项目中遇到的问题，总结缺陷分析和解决的通用方法，并对异步接口请求导致的数据错误问题进行了深入的解析。</p>
+<h1 id="加入我们">加入我们</h1>
+<p>我们是DevUI团队，欢迎来这里和我们一起打造优雅高效的人机设计/研发体系。招聘邮箱：muyang2@huawei.com。</p>
+<p>文/DevUI Kagol</p>
+<p>往期文章推荐</p>
+<p><a href="https://www.cnblogs.com/kagol/p/14716376.html" target="_blank">《号外号外！DevUI Admin V1.0 发布啦！》</a></p>
+<p><a href="https://www.cnblogs.com/kagol/p/14724545.html" target="_blank">《让我们一起建设 Vue DevUI 项目吧！🥳 》</a></p>
+<p><a href="https://www.cnblogs.com/kagol/p/14679236.html" target="_blank">《2021年最值得推荐的7个Angular前端组件库》</a></p>
+
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2021-05-08 08:04</span>&nbsp;
+<a href="https://www.cnblogs.com/kagol/">DevUI团队</a>&nbsp;
+阅读(<span id="post_view_count">0</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14742660" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14742660);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 209565, cb_blogApp = 'kagol', cb_blogUserGuid = 'bea36e60-9973-e011-a53f-842b2b196315';
+    var cb_entryId = 14742660, cb_entryCreatedDate = '2021-05-08 08:04', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 DevUI团队
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjsg29wmLuR8A_mcz0G4P4geSYPQCc7McMEf7oR9RMtUAtaG2ErAu3swBU5UNaQYIc_OwD8wVr-r-Byf6lXneXeHxc32s-Y_e6pp8s3k7C-k4-QJ8Z4EnBCCsCjudg-6XvI" />
+</body>
+</html>

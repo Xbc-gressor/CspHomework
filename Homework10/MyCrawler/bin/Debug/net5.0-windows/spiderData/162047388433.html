@@ -1,0 +1,487 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="如果想从头学起pytest，可以去看看这个系列的文章！ https://www.cnblogs.com/miki-peng/category/1960108.html fixture的优势 ​ pyt" />
+    <meta property="og:description" content="如果想从头学起pytest，可以去看看这个系列的文章！ https://www.cnblogs.com/miki-peng/category/1960108.html fixture的优势 ​ pyt" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>【pytest系列】- fixture测试夹具详解 - miki_peng - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/miki-peng/custom.css?v=XBunaf4wxqPzEBrB8JMrMcM9wGo=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/SimpleMemory/bundle-SimpleMemory-mobile.min.css" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/miki-peng/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/miki-peng/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/miki-peng/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 574354;
+        var currentBlogApp = 'miki-peng';
+        var cb_enable_mathjax = true;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'SimpleMemory';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-05-08 10:24';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+        tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processClass: 'math', processEscapes: true },
+        TeX: {
+        equationNumbers: { autoNumber: ['AMS'], useLabelIds: true },
+        extensions: ['extpfeil.js', 'mediawiki-texvc.js'],
+        Macros: {bm: "\\boldsymbol"}
+        },
+        'HTML-CSS': { linebreaks: { automatic: true } },
+        SVG: { linebreaks: { automatic: true } }
+        });
+    </script>
+    <script src="https://mathjax.cnblogs.com/2_7_5/MathJax.js?config=TeX-AMS-MML_HTMLorMML&amp;v=20200504"></script>
+    
+</head>
+<body class="no-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/miki-peng/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/miki-peng/">miki的测试笔记</a>
+</h1>
+<h2><p>不疯魔，不成活。</p></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/miki-peng/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/miki_peng">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/miki-peng/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/miki-peng/p/14736425.html">
+    <span>【pytest系列】- fixture测试夹具详解</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+<p><strong><font size="5" color="#DC143C">如果想从头学起pytest，可以去看看这个系列的文章！</font></strong></p>
+<p><font size="3"><a href="https://www.cnblogs.com/miki-peng/category/1960108.html" target="_blank">https://www.cnblogs.com/miki-peng/category/1960108.html</a></font><br>
+<br></p>
+<h1 id="fixture的优势">fixture的优势</h1>
+<p>​		pytest框架的fixture测试夹具就相当于unittest框架的setup、teardown，但相对之下它的功能更加强大和灵活。</p>
+<ul>
+<li>🍓 命名方式灵活，不限于unittest的setup、teardown</li>
+<li>🍑 可以实现数据共享，多个模块跨文件共享前置后置</li>
+<li>🍋 可以实现多个模块跨文件使用一个session来完成多个用例</li>
+<li>🍉 可以实现unittest不能实现的功能，比如unittest中的测试用例和测试用例之间是无法传递参数和数据的，但是fixture却可以解决这个问题</li>
+</ul>
+<h1 id="fixture定义及调用">fixture定义及调用</h1>
+<p>​		关键代码：<code>@pytest.fixture()</code>，用于声明函数是处理前置后置的测试夹具函数。用法如下：</p>
+<pre><code class="language-python">@pytest.fixture()
+def my_fixture():	# 记住这个夹具名
+    print("我的测试夹具")
+</code></pre>
+<p>​		测试夹具已经定义好了，那测试用例如何调用呢？有以下三种方式：</p>
+<ul>
+<li>🍋 <strong>方式一</strong>：将fixture名称作为参数传给测试用例，可以传多个fixture，按先后顺序执行</li>
+<li>🍋 <strong>方式二</strong>：装饰器：<code>@pytest.mark.usefixtures(fixture_name)</code>
+<ul>
+<li>使用在类上，代表这个类所有测试用例都会调用这个fixture</li>
+<li>使用在用例上，代表只有这个用例调用这个fixture</li>
+<li>同样可以使用多个fixture，按先后顺序执行</li>
+<li>如果fixture有返回值，用这个装饰器是无法获取到返回值的，也就无法给用例传递数据，只能用方法一</li>
+</ul>
+</li>
+<li>🍋 <strong>方式三</strong>：fixture设置<code>autouse=True</code>自动调用，同样fixture有返回值时，无法获取返回值</li>
+</ul>
+<pre><code class="language-python">import pytest
+
+
+@pytest.fixture()
+def my_fixture():	# 记住这个夹具名
+    print("我的测试夹具")
+
+# 方式一
+def test_fix1(my_fixture):
+    print("这是测试用例1111")
+    print("-------分割线------")
+
+
+# 方式二
+# 类中应用
+@pytest.mark.usefixtures("my_fixture")
+class TestLogin:
+
+    def test_fix2(self):
+        print("这是测试用例2222")
+        print("-------分割线------")
+
+    def test_fix3(self):
+        print("这是测试用例3333")
+        print("-------分割线------")
+
+# 测试用例应用
+@pytest.mark.usefixtures("my_fixture")
+def test_fix4():
+    print("这是测试用例4444")
+    print("-------分割线------")
+
+
+# 方式三
+def test_fix5():  # 未声明使用测试夹具
+    print("这是测试用例5555")
+
+
+if __name__ == "__main__":
+    pytest.main()
+</code></pre>
+<p>​		运行结果：</p>
+<pre><code class="language-shell">Testing started at 23:12 ...
+C:\software\python\python.exe ...
+
+test.py 我的测试夹具
+.这是测试用例1111
+-------分割线------
+我的测试夹具
+.这是测试用例2222
+-------分割线------
+我的测试夹具
+.这是测试用例3333
+-------分割线------
+我的测试夹具
+.这是测试用例4444
+-------分割线------
+.这是测试用例5555
+                                                              [100%]
+
+============================== 5 passed in 0.02s ==============================
+
+Process finished with exit code 0
+</code></pre>
+<p>​		为什么方式三没有用到测试夹具呢，因为还没有设置测试夹具自动调用。fixture里面有个参数<code>autouse</code>(自动使用的意思)，默认是False，当设置为True时，用例就会自动调用该fixture功能，这样的话写用例时就不用每次都去传参了。</p>
+<pre><code class="language-python">@pytest.fixture(autouse=True)	# 设置用例自动调用该fixture
+def my_fixture():
+    print("我的测试夹具")
+
+</code></pre>
+<h1 id="fixture作用域">fixture作用域</h1>
+<p>​		在unittest中还有一个setUpClass和tearDownClass，是作用于类上，在每个测试用例类执行前去执行前置，用例类执行完再执行后置，pytest的fixture同样有这样的作用域，且使用更广泛更灵活。</p>
+<p>​		关键代码：<code>@pytest.fixture(scope='作用范围')</code>，参数如下：</p>
+<ul>
+<li>🍉 <code>function</code>：默认作用域，每个测试用例都运行一次</li>
+<li>🍉<code> class</code>：每个测试类只执行一次</li>
+<li>🍉 <code>module</code>：每个模块只执行一次</li>
+<li>🍉 <code>package</code>：每个python包只执行一次</li>
+<li>🍉 <code>session</code>：整个会话只执行一次，即运行项目时整个过程只执行一次</li>
+</ul>
+<p>​		<strong>优先级</strong>：<font color="#dd0000">session &gt; package &gt; module &gt; class &gt; function</font>，优先级高的会在低的fixture之前先实例化。</p>
+<p>​		<strong>相同作用域</strong>的fixture遵循函数中声明的<font color="#dd0000">先后顺序</font>，并遵循fixture之间的<font color="#dd0000">依赖关系</font>，如在fixture_A里面依赖的fixture_B优先实例化，然后再到fixture_A实例化</p>
+<p>​		我们前面举例fixture的使用时都是使用的默认作用域，下面举例一下作用域为class的场景：</p>
+<pre><code class="language-python"># 因为用于演示，因此测试夹具直接写在py文件中
+import pytest
+from selenium import webdriver
+
+
+@pytest.fixture(scope='class')
+def my_fixture():
+    """前置条件"""
+    print("前置条件-启动浏览器")
+    driver = webdriver.Chrome()
+    yield driver
+    driver.quit()
+    print("后置条件-关闭浏览器")
+
+
+class TestCase:
+
+    def test_case01(self, my_fixture):    # 这里通过参数传入my_fixture函数，用例执行前会先去执行my_fixture
+        driver = my_fixture    # my_fixture不需要加括号
+        driver.get('http://www.baidu.com')
+        print('第一个用例')
+        assert 1 == 1
+
+    def test_case02(self, my_fixture):    # 这里通过参数传入my_fixture函数，用例执行前会先去执行my_fixture
+        driver = my_fixture    # my_fixture不需要加括号
+        driver.get('http://www.cnblogs.com/')
+        print('第二个用例')
+        assert 1 == 1
+
+
+if __name__ == '__main__':
+    pytest.main(['test.py', '-s'])
+</code></pre>
+<p>​		运行结果如下，从运行结果可以看出，整个类只打开了一次浏览器。</p>
+<pre><code class="language-shell">C:\software\python\python.exe D:/learn/test.py
+============================= test session starts =============================
+platform win32 -- Python 3.7.3, pytest-5.2.2, py-1.8.0, pluggy-0.13.0
+rootdir: D:\learn
+plugins: html-2.0.0, metadata-1.8.0
+collected 2 items
+
+test.py 前置条件-启动浏览器
+第一个用例
+.第二个用例
+.后置条件-关闭浏览器
+
+
+============================== 2 passed in 9.76s ==============================
+
+Process finished with exit code 0
+
+</code></pre>
+<p>​		前面也提到了fixture的另外一个参数autouse，当<code>autouse=True</code>时，用例会自动执行测试夹具，但无法获取fixture的返回值，如上示例返回的driver就无法传递给用例了。</p>
+<p>​		如果你想让用例自动执行测试夹具且希望driver等参数可以返回给用例时，可以试一下在测试夹具中使用<code>yield</code>关键字返回值时把值存储到临时变量中，再让用例去取临时变量中的值，这里不作举例，以下是<code>autouse=True</code>的一个简单示例：（<code>yield</code>关键字在后面的章节会讲解）</p>
+<pre><code class="language-python"># 因为用于演示，因此测试夹具直接写在py文件中
+import pytest
+from selenium import webdriver
+
+
+@pytest.fixture(scope='class', autouse=True)	# 所有类自动执行该测试夹具
+def my_fixture():
+    """前置条件"""
+    print("前置条件-启动浏览器")
+    driver = webdriver.Chrome()
+    yield driver
+    driver.quit()
+    print("后置条件-关闭浏览器")
+
+
+class TestCase:
+
+    def test_case01(self):	# 不需要传入测试夹具
+        print('第一个用例')
+        assert 1 == 1
+
+    def test_case02(self):
+        print('第二个用例')
+        assert 1 == 1
+
+
+if __name__ == '__main__':
+    pytest.main(['test.py', '-s'])
+</code></pre>
+<p>​</p>
+
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2021-05-08 10:24</span>&nbsp;
+<a href="https://www.cnblogs.com/miki-peng/">miki_peng</a>&nbsp;
+阅读(<span id="post_view_count">9</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14736425" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14736425);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 574354, cb_blogApp = 'miki-peng', cb_blogUserGuid = 'ab811192-e182-4f56-6fdc-08d73853e76a';
+    var cb_entryId = 14736425, cb_entryCreatedDate = '2021-05-08 10:24', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 miki_peng
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    <div id="page_end_html">
+        <!-- 底部小鱼-->
+  <div id="jsi-flying-fish-container" class="fish_container"></div> 
+  <script src="https://files.cnblogs.com/files/miki-peng/fish1.0.js"></script> 
+  <style>
+  @media only screen and (max-width: 767px){
+  #sidebar_search_box input[type=text]{width:calc(100% - 24px)}
+  }
+  </style>
+
+
+    </div>
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjuLc3cJ_e8KMShW12Y0k6YoR9qkZkHr7WaK5yc-weNor4DXlqstpqusgPBv2FmCRbqEIUOSGg99JqEcMKRvDDZI8t27V0z0rIQwsr2VoVWxJ7jLcRnpV53VYgdTvroiH-s" />
+</body>
+</html>

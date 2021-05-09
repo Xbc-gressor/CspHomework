@@ -1,0 +1,518 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="一般事件的处理程序都放在界面后台，通过事件绑定可以把事件处理程序放在ViewModel中，实现界面和逻辑的解耦。&#xA;要使用事件绑定需要借助System.Windows.interactivity（安装了" />
+    <meta property="og:description" content="一般事件的处理程序都放在界面后台，通过事件绑定可以把事件处理程序放在ViewModel中，实现界面和逻辑的解耦。&#xA;要使用事件绑定需要借助System.Windows.interactivity（安装了" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>WPF之事件绑定命令 - time-flies - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/timefiles/custom.css?v=6rPjVzQKQRAVz3izjo1zeU0LXtw=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/custom/bundle-custom-mobile.min.css?v=OayYBbtUbH4FYkn_bTL4VVf4DsEOiTHSWhbl11KyY6Y" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/timefiles/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/timefiles/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/timefiles/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 564602;
+        var currentBlogApp = 'timefiles';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'Custom';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-05-08 01:18';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="no-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="page_begin_html">
+        <script>loadPageBeginHtml();</script>
+    </div>
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/timefiles/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/timefiles/">time-flies的博客</a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li>
+</li>
+<li>
+
+</li>
+<li>
+
+
+</li>
+<li>
+</li>
+<li>
+
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/timefiles/p/WpfEventCommandAction.html">
+    <span>WPF之事件绑定命令</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                    <div id="cnblogs_post_description" style="display: none">
+        一般事件的处理程序都放在界面后台，通过事件绑定可以把事件处理程序放在ViewModel中，实现界面和逻辑的解耦。
+要使用事件绑定需要借助System.Windows.interactivity（安装了Blend就有），如果电脑上找不到，可以通过NuGet安装System.Windows.Interactivity.WPF。
+    </div>
+<div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+<p></p><div class="toc"><div class="toc-container-header">目录</div><ul><li><a href="#事件绑定意义">事件绑定意义</a></li><li><a href="#无参数的事件绑定">无参数的事件绑定</a></li><li><a href="#带eventargs参数的事件绑定">带EventArgs参数的事件绑定</a></li><li><a href="#使用事件绑定">使用事件绑定</a></li><li><a href="#扩展：基于invokecommandaction源码的实现推荐">扩展：基于InvokeCommandAction源码的实现(推荐)</a></li><li><a href="#参考资料">参考资料</a></li></ul></div><p></p>
+<h1 id="事件绑定意义">事件绑定意义</h1>
+<p>一般事件的处理程序都放在界面后台，<strong>通过事件绑定可以把事件处理程序放在ViewModel中，实现界面和逻辑的解耦</strong>。</p>
+<p>要使用事件绑定需要借助<strong>System.Windows.interactivity</strong>（安装了Blend就有），如果电脑上找不到，可以通过NuGet安装<strong>System.Windows.Interactivity.WPF</strong>。</p>
+<p>需要引用以下命名空间：</p>
+<pre><code class="language-xml">xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+</code></pre>
+<pre><code class="language-csharp">using System.Windows.Interactivity;
+</code></pre>
+<h1 id="无参数的事件绑定">无参数的事件绑定</h1>
+<p>在<strong>Interaction.Triggers</strong>里面添加一个或多个<strong>EventTrigger</strong>并指定关注的的事件名称，在EventTrigger中通过<strong>InvokeCommandAction</strong>来绑定事件对应的命令，在事件触发后会调用绑定的命令对象的Execute方法执行命令。</p>
+<p>命令的实现参考<a href="https://www.cnblogs.com/timefiles/p/WpfDelegateCommand.html" target="_blank">WPF之自定义委托命令</a>，事件触发后是否能够真正执行绑定的命令也受到绑定的命令的CanExecute方法的影响。事件绑定过程如下：</p>
+<pre><code class="language-xml">&lt;i:Interaction.Triggers&gt;
+    &lt;i:EventTrigger EventName="Loaded"&gt;
+        &lt;i:InvokeCommandAction Command="{Binding LoadedCommand}"/&gt;        
+    &lt;/i:EventTrigger&gt;
+&lt;/i:Interaction.Triggers&gt;
+</code></pre>
+<h1 id="带eventargs参数的事件绑定">带EventArgs参数的事件绑定</h1>
+<p>InvokeCommandAction在未对CommandParameter绑定的情况下给Execute方法传递的参数为null，对CommandParameter绑定的情况下给Execute方法传递的参数为绑定值（不是EventArgs参数），<strong>Execute方法是由Invoke(object parameter)调用的</strong>。</p>
+<p>其实，<strong>TiggerBase调用InvokeCommandAction的Invoke(object parameter)方法时有传入EventArgs参数，但Invoke调用Execute方法时一直使用的是CommandParameter参数</strong>。有一说一，这个程序逻辑有点反人类，这也是网上为什么有这么多重新实现InvokeCommandAction资料的原因。</p>
+<p>如果需要从事件的EventArgs中获取数据，正常来说派生InvokeCommandAction然后“重写”Invoke方法即可。但是，InvokeCommandAction是密封类，我们只能参照源码重新实现一个EventCommandAction类，代码如下：</p>
+<pre><code class="language-csharp">using System.Windows;
+using System.Windows.Input;
+using System.Windows.Interactivity;
+
+namespace WpfApp
+{
+    public class EventCommandAction : TriggerAction&lt;DependencyObject&gt;
+    {
+        /// &lt;summary&gt;
+        /// 事件要绑定的命令
+        /// &lt;/summary&gt;
+        public ICommand Command
+        {
+            get { return (ICommand)GetValue(CommandProperty); }
+            set { SetValue(CommandProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MsgName.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CommandProperty =
+            DependencyProperty.Register("Command", typeof(ICommand), typeof(EventCommandAction), new PropertyMetadata(null));
+
+        /// &lt;summary&gt;
+        /// 绑定命令的参数，保持为空就是事件的参数
+        /// &lt;/summary&gt;
+        public object CommandParameter
+        {
+            get { return (object)GetValue(CommandParateterProperty); }
+            set { SetValue(CommandParateterProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for CommandParateter.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CommandParateterProperty =
+            DependencyProperty.Register("CommandParameter", typeof(object), typeof(EventCommandAction), new PropertyMetadata(null));
+
+        //执行事件
+        protected override void Invoke(object parameter)
+        {
+            if (CommandParameter != null)
+                parameter = CommandParameter;
+            var cmd = Command;
+            if (cmd != null&amp;&amp;cmd.CanExecute(parameter))
+                cmd.Execute(parameter);
+        }
+    }
+}
+</code></pre>
+<h1 id="使用事件绑定">使用事件绑定</h1>
+<p>创建一个<strong>MainViewModel</strong>，这里要使用之前的数据绑定基类<strong>BindableBase</strong>（参考<a href="https://www.cnblogs.com/timefiles/p/WpfBindableBase.html" target="_blank">WPF之数据绑定基类</a>），代码如下：</p>
+<pre><code class="language-csharp">class MainViewModel:BindableBase
+{
+    public bool CanExecute { get; set; }
+
+    private string tipText;
+    public string TipText 
+    {
+        get { return tipText; }
+        set { SetProperty(ref tipText, value); }
+    }
+
+    public DelegateCommand LoadedCommand { get; }
+
+    public DelegateCommand&lt;MouseEventArgs&gt; MouseMoveCommand { get; }
+
+
+    public MainViewModel()
+    {
+        LoadedCommand = new DelegateCommand(() =&gt; { MessageBox.Show("程序加载成功");});
+
+        MouseMoveCommand = new DelegateCommand&lt;MouseEventArgs&gt;(e =&gt;
+        {
+            TipText = "鼠标当前位置：" + e.GetPosition(e.Device.Target).ToString();
+        },
+        e =&gt;CanExecute);
+    }
+}
+</code></pre>
+<p>界面的XAML代码如下：</p>
+<pre><code class="language-xml">&lt;i:Interaction.Triggers&gt;
+    &lt;i:EventTrigger EventName="Loaded"&gt;
+        &lt;i:InvokeCommandAction Command="{Binding LoadedCommand}"/&gt;
+    &lt;/i:EventTrigger&gt;
+    &lt;i:EventTrigger EventName="MouseMove"&gt;
+        &lt;local:EventCommandAction Command="{Binding MouseMoveCommand}"/&gt;
+    &lt;/i:EventTrigger&gt;
+&lt;/i:Interaction.Triggers&gt;
+&lt;StackPanel&gt;
+    &lt;CheckBox Content="命令开关" IsChecked="{Binding CanExecute}"/&gt;         
+    &lt;Label  Content="{Binding TipText}" Margin="5"/&gt;
+&lt;/StackPanel&gt;
+</code></pre>
+<p>在后台代码中添加DataContext：</p>
+<pre><code class="language-csharp">public partial class MainWindow : Window
+{
+    public MainWindow()
+    {
+        InitializeComponent();
+        DataContext = new MainViewModel();
+    }
+}
+</code></pre>
+<p>运行程序，效果如下：<br>
+<img src="https://img2020.cnblogs.com/blog/1495663/202105/1495663-20210508005337598-1706998577.png" alt="" loading="lazy"><br>
+<img src="https://img2020.cnblogs.com/blog/1495663/202105/1495663-20210508005346882-1871127061.png" alt="" loading="lazy"></p>
+<h1 id="扩展：基于invokecommandaction源码的实现推荐">扩展：基于InvokeCommandAction源码的实现(推荐)</h1>
+<p>可以在InvokeCommandAction源码基础改动一下Invoke方法，实现我们的需求，改动如下：</p>
+<pre><code class="language-csharp">protected override void Invoke(object parameter)
+{
+	if (base.AssociatedObject != null)
+	{
+		if (CommandParameter != null)
+			parameter = CommandParameter;
+		ICommand command = ResolveCommand();
+		if (command != null &amp;&amp; command.CanExecute(parameter))
+		{
+			command.Execute(parameter);
+		}
+	}
+}
+</code></pre>
+<p>重写的<strong>RewriteInvokeCommandAction</strong>类完全可以替代上面的EventCommandAction，完整版代码如下：</p>
+<pre><code class="language-csharp">public sealed class RewriteInvokeCommandAction : TriggerAction&lt;DependencyObject&gt;
+{
+	private string commandName;
+
+	public static readonly DependencyProperty CommandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(RewriteInvokeCommandAction), null);
+
+	public static readonly DependencyProperty CommandParameterProperty = DependencyProperty.Register("CommandParameter", typeof(object), typeof(RewriteInvokeCommandAction), null);
+
+	public string CommandName
+	{
+		get
+		{
+			ReadPreamble();
+			return commandName;
+		}
+		set
+		{
+			if (CommandName != value)
+			{
+				WritePreamble();
+				commandName = value;
+				WritePostscript();
+			}
+		}
+	}
+
+	public ICommand Command
+	{
+		get
+		{
+			return (ICommand)GetValue(CommandProperty);
+		}
+		set
+		{
+			SetValue(CommandProperty, value);
+		}
+	}
+
+	public object CommandParameter
+	{
+		get
+		{
+			return GetValue(CommandParameterProperty);
+		}
+		set
+		{
+			SetValue(CommandParameterProperty, value);
+		}
+	}
+
+	protected override void Invoke(object parameter)
+	{
+		if (base.AssociatedObject != null)
+		{
+			if (CommandParameter != null)
+				parameter = CommandParameter;
+			ICommand command = ResolveCommand();
+			if (command != null &amp;&amp; command.CanExecute(parameter))
+			{
+				command.Execute(parameter);
+			}
+		}
+	}
+
+	private ICommand ResolveCommand()
+	{
+		ICommand result = null;
+		if (Command != null)
+		{
+			result = Command;
+		}
+		else if (base.AssociatedObject != null)
+		{
+			Type type = base.AssociatedObject.GetType();
+			PropertyInfo[] properties = type.GetProperties(BindingFlags.Instance | BindingFlags.Public);
+			PropertyInfo[] array = properties;
+			foreach (PropertyInfo propertyInfo in array)
+			{
+				if (typeof(ICommand).IsAssignableFrom(propertyInfo.PropertyType) &amp;&amp; string.Equals(propertyInfo.Name, CommandName, StringComparison.Ordinal))
+				{
+					result = (ICommand)propertyInfo.GetValue(base.AssociatedObject, null);
+				}
+			}
+		}
+		return result;
+	}
+}
+</code></pre>
+<h1 id="参考资料">参考资料</h1>
+<p><a href="https://www.cnblogs.com/durow/p/4860836.html" target="_blank">MVVM设计模式和在WPF中的实现（四）事件绑定</a><br>
+<a href="https://blog.csdn.net/songsz123/article/details/7369913" target="_blank">EventTrigger原理浅谈</a><br>
+<a href="https://stackoverflow.com/questions/13581585/wpf-mvvm-command-vs-callmethodaction" target="_blank">WPF：MVVM：命令与CallMethodAction？</a></p>
+
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2021-05-08 01:18</span>&nbsp;
+<a href="https://www.cnblogs.com/timefiles/">time-flies</a>&nbsp;
+阅读(<span id="post_view_count">3</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14743340" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14743340);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 564602, cb_blogApp = 'timefiles', cb_blogUserGuid = '37aa4b1e-d0f1-4774-9834-08d61f4d33d3';
+    var cb_entryId = 14743340, cb_entryCreatedDate = '2021-05-08 01:18', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 time-flies
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    <div id="page_end_html">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://blog-static.cnblogs.com/files/timefiles/spig_wm.js"></script>
+<!--博客精灵 start*-->
+<div id="spig" class="spig">
+    <div id="message">……</div>
+    <div id="mumu" class="mumu"></div>
+</div>
+
+<script type="text/javascript">
+var isindex=true;
+var title="";
+var visitor="臭DD";
+</script>
+<!--精灵end*-->
+    </div>
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjsMvuGBT7CnNrdCpZmPLmwClqd0_i2AceWDdQq2JfbIkQT7mX68-tzXBhU1IDSEBOomp6Z-K78_ouH4txGJ8EM-CBkInjE_E2a7e40KImIEe3C4BnulGPGPXyvPsXBZDqo" />
+</body>
+</html>

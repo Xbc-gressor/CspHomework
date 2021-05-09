@@ -1,0 +1,634 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    
+    
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>阿长长 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/anothereon001/bundle-anothereon001.min.css?v=9x2ZP2K8SSBJowZA6xv0D5FvOmlvd5g21u0NBEAEwfQ" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/anothereon001/bundle-anothereon001-mobile.min.css?v=xFiYH0_zTHqf_pk9Nf2PvR4VdQ1qJnJcRVcot-VdM-8" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/achangchang/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/achangchang/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/achangchang/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 509147;
+        var currentBlogApp = 'achangchang';
+        var cb_enable_mathjax = true;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'AnotherEon001';
+        var visitorUserId = '';
+    </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+        tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processClass: 'math', processEscapes: true },
+        TeX: {
+        equationNumbers: { autoNumber: ['AMS'], useLabelIds: true },
+        extensions: ['extpfeil.js', 'mediawiki-texvc.js'],
+        Macros: {bm: "\\boldsymbol"}
+        },
+        'HTML-CSS': { linebreaks: { automatic: true } },
+        SVG: { linebreaks: { automatic: true } }
+        });
+    </script>
+    <script src="https://mathjax.cnblogs.com/2_7_5/MathJax.js?config=TeX-AMS-MML_HTMLorMML&amp;v=20200504"></script>
+    
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <div id="wrapper">
+<div id="header">
+
+<div id="top">
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/achangchang/">阿长长</a>
+</h1>
+<div id="subtitle"></div>
+</div>
+<div id="sub"><div id="blog_stats_place_holder"><script>loadBlogStats();</script></div></div>
+
+
+
+
+</div>
+<div id="main_container">
+<div id="main_content">
+<div id="content">
+	
+
+
+
+
+
+		
+<p class="date">
+	<span>		  
+	<a href="https://www.cnblogs.com/achangchang/archive/2021/05/08.html">2021年5月8日</a>
+	</span>
+</p>
+
+    <div class="post">
+        <h2>
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/achangchang/p/14744390.html">
+    <span>
+        LTE系统的EVM指标
+    </span>
+    
+
+
+
+</a>
+
+        </h2>
+        <div class="postbody">
+            
+
+    <div class="c_b_p_desc">
+摘要：        <a href="https://www.cnblogs.com/achangchang/p/14744390.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        </div>
+        <p class="postfoot">
+            posted @ 2021-05-08 11:56
+阿长长
+<span data-post-id="14744390" class="post-view-count">阅读(0)</span> 
+<span data-post-id="14744390" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14744390" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14744390" rel="nofollow">
+    编辑
+</a>
+
+        </p>
+    </div>
+    <div class="post">
+        <h2>
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/achangchang/p/14743994.html">
+    <span>
+        FIR滤波器资源占用率
+    </span>
+    
+
+
+
+</a>
+
+        </h2>
+        <div class="postbody">
+            
+
+    <div class="c_b_p_desc">
+摘要：由于一个测试用例中除了FIR以外，还包含其他测试资源，因此要得到某一资源占用率，需采用aX+b=N的形式求解方程组。其中a为FIR个数，X为FIR资源类型，b为测试部分所占该类资源个数，N为该资源类型占用总个数。 DSP资源：（045共900个） 1,DSP*1+b=22 2,DSP*10+b=12        <a href="https://www.cnblogs.com/achangchang/p/14743994.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        </div>
+        <p class="postfoot">
+            posted @ 2021-05-08 10:46
+阿长长
+<span data-post-id="14743994" class="post-view-count">阅读(4)</span> 
+<span data-post-id="14743994" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14743994" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14743994" rel="nofollow">
+    编辑
+</a>
+
+        </p>
+    </div>
+
+
+		
+<p class="date">
+	<span>		  
+	<a href="https://www.cnblogs.com/achangchang/archive/2021/05/05.html">2021年5月5日</a>
+	</span>
+</p>
+
+    <div class="post">
+        <h2>
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/achangchang/p/14731970.html">
+    <span>
+        WiFi6循环前缀长度的选择
+    </span>
+    
+
+
+
+</a>
+
+        </h2>
+        <div class="postbody">
+            
+
+    <div class="c_b_p_desc">
+摘要：室内环境下，按照无线电波最大往返距离200m来算，时延大小为(200m)/(3*10^8m/s)=0.667us。        <a href="https://www.cnblogs.com/achangchang/p/14731970.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        </div>
+        <p class="postfoot">
+            posted @ 2021-05-05 16:15
+阿长长
+<span data-post-id="14731970" class="post-view-count">阅读(4)</span> 
+<span data-post-id="14731970" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14731970" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14731970" rel="nofollow">
+    编辑
+</a>
+
+        </p>
+    </div>
+    <div class="post">
+        <h2>
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/achangchang/p/14731391.html">
+    <span>
+        WiFi6子载波间隔的选择
+    </span>
+    
+
+
+
+</a>
+
+        </h2>
+        <div class="postbody">
+            
+
+    <div class="c_b_p_desc">
+摘要：802.11ax协议，即WiFi6，将OFDM子载波间隔由312.5KHz改为78.125KHz，符号长度从3.2us变为12.8us，20M带宽下FFT点数从64变为256，其好处如下：        <a href="https://www.cnblogs.com/achangchang/p/14731391.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        </div>
+        <p class="postfoot">
+            posted @ 2021-05-05 12:04
+阿长长
+<span data-post-id="14731391" class="post-view-count">阅读(5)</span> 
+<span data-post-id="14731391" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14731391" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14731391" rel="nofollow">
+    编辑
+</a>
+
+        </p>
+    </div>
+    <div class="post">
+        <h2>
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/achangchang/p/14731154.html">
+    <span>
+        OFDM频谱效率与吞吐率计算公式
+    </span>
+    
+
+
+
+</a>
+
+        </h2>
+        <div class="postbody">
+            
+
+    <div class="c_b_p_desc">
+摘要：        <a href="https://www.cnblogs.com/achangchang/p/14731154.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        </div>
+        <p class="postfoot">
+            posted @ 2021-05-05 10:42
+阿长长
+<span data-post-id="14731154" class="post-view-count">阅读(6)</span> 
+<span data-post-id="14731154" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14731154" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14731154" rel="nofollow">
+    编辑
+</a>
+
+        </p>
+    </div>
+
+
+		
+<p class="date">
+	<span>		  
+	<a href="https://www.cnblogs.com/achangchang/archive/2021/05/04.html">2021年5月4日</a>
+	</span>
+</p>
+
+    <div class="post">
+        <h2>
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/achangchang/p/14730239.html">
+    <span>
+        时钟晶振精度
+    </span>
+    
+
+
+
+</a>
+
+        </h2>
+        <div class="postbody">
+            
+
+    <div class="c_b_p_desc">
+摘要：为什么无线通信需要同步？        <a href="https://www.cnblogs.com/achangchang/p/14730239.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        </div>
+        <p class="postfoot">
+            posted @ 2021-05-04 20:51
+阿长长
+<span data-post-id="14730239" class="post-view-count">阅读(3)</span> 
+<span data-post-id="14730239" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14730239" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14730239" rel="nofollow">
+    编辑
+</a>
+
+        </p>
+    </div>
+    <div class="post">
+        <h2>
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/achangchang/p/14729064.html">
+    <span>
+        IEEE 802.11 Documents
+    </span>
+    
+
+
+
+</a>
+
+        </h2>
+        <div class="postbody">
+            
+
+    <div class="c_b_p_desc">
+摘要：IEEE 802.11 Documents        <a href="https://www.cnblogs.com/achangchang/p/14729064.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        </div>
+        <p class="postfoot">
+            posted @ 2021-05-04 10:58
+阿长长
+<span data-post-id="14729064" class="post-view-count">阅读(3)</span> 
+<span data-post-id="14729064" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14729064" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14729064" rel="nofollow">
+    编辑
+</a>
+
+        </p>
+    </div>
+
+
+		
+<p class="date">
+	<span>		  
+	<a href="https://www.cnblogs.com/achangchang/archive/2021/04/23.html">2021年4月23日</a>
+	</span>
+</p>
+
+    <div class="post">
+        <h2>
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/achangchang/p/14693183.html">
+    <span>
+        dBx概念及区别
+    </span>
+    
+
+
+
+</a>
+
+        </h2>
+        <div class="postbody">
+            
+
+    <div class="c_b_p_desc">
+摘要：100分钟看懂dB、dBm、dBw的区别        <a href="https://www.cnblogs.com/achangchang/p/14693183.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        </div>
+        <p class="postfoot">
+            posted @ 2021-04-23 11:58
+阿长长
+<span data-post-id="14693183" class="post-view-count">阅读(6)</span> 
+<span data-post-id="14693183" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14693183" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14693183" rel="nofollow">
+    编辑
+</a>
+
+        </p>
+    </div>
+
+
+		
+<p class="date">
+	<span>		  
+	<a href="https://www.cnblogs.com/achangchang/archive/2021/02/09.html">2021年2月9日</a>
+	</span>
+</p>
+
+    <div class="post">
+        <h2>
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/achangchang/p/14392536.html">
+    <span>
+        双选环境下信道响应矩阵
+    </span>
+    
+
+
+
+</a>
+
+        </h2>
+        <div class="postbody">
+            
+
+    <div class="c_b_p_desc">
+摘要：        <a href="https://www.cnblogs.com/achangchang/p/14392536.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        </div>
+        <p class="postfoot">
+            posted @ 2021-02-09 12:26
+阿长长
+<span data-post-id="14392536" class="post-view-count">阅读(28)</span> 
+<span data-post-id="14392536" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14392536" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14392536" rel="nofollow">
+    编辑
+</a>
+
+        </p>
+    </div>
+
+
+		
+<p class="date">
+	<span>		  
+	<a href="https://www.cnblogs.com/achangchang/archive/2021/02/07.html">2021年2月7日</a>
+	</span>
+</p>
+
+    <div class="post">
+        <h2>
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/achangchang/p/14384452.html">
+    <span>
+        循环矩阵傅里叶对角化
+    </span>
+    
+
+
+
+</a>
+
+        </h2>
+        <div class="postbody">
+            
+
+    <div class="c_b_p_desc">
+摘要：循环矩阵傅里叶对角化        <a href="https://www.cnblogs.com/achangchang/p/14384452.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        </div>
+        <p class="postfoot">
+            posted @ 2021-02-07 11:39
+阿长长
+<span data-post-id="14384452" class="post-view-count">阅读(27)</span> 
+<span data-post-id="14384452" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14384452" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14384452" rel="nofollow">
+    编辑
+</a>
+
+        </p>
+    </div>
+
+
+
+<div class="topicListFooter">
+    <div id="nav_next_page">
+        
+    <a href="https://www.cnblogs.com/achangchang/default.html?page=2">
+        下一页
+    </a>
+
+    </div>    
+</div>
+
+
+
+
+
+
+<script>
+    updatePostStats(
+        $(".post-view-count").map(function () { return this.dataset.postId }).get(),
+        function(id, count) { $(".post-view-count[data-post-id=" + id + "]").text("阅读(" + count + ")") },
+        function(id, count) { $(".post-comment-count[data-post-id=" + id + "]").text("评论(" + count + ")") },
+        function(id, count) { $(".post-digg-count[data-post-id=" + id + "]").text("推荐(" + count + ")") });
+</script>
+</div>
+</div>
+<div id="leftmenu">
+
+
+<h3>导航</h3>
+<ul>
+    <li>
+        <a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+
+    </li>
+    <li>
+        
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/achangchang/">
+首页</a>
+
+    </li>
+    <li>
+        
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+
+    </li>
+    <li>
+        
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E9%98%BF%E9%95%BF%E9%95%BF">
+联系</a>
+    </li>
+    <li>
+        
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/achangchang/rss/">
+订阅</a>
+        
+<a id="blog_nav_rss_image" href="https://www.cnblogs.com/achangchang/rss/">
+    <img src="/skins/anothereon001/images/xml.gif" alt="订阅" />
+</a>
+    </li>
+    <li>
+        
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+
+    </li>
+</ul>
+
+
+<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>
+<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+
+</div>
+</div>
+<div class="clear"></div>
+<div id="footer">
+<p id="footer">
+	Powered by: 
+	<br />
+	
+	<a href="https://www.cnblogs.com/" id="footer_site_link">博客园</a>
+	<br />
+	Copyright &copy; 2021 阿长长
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+</p>
+
+
+</div>
+</div>
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjuDReznzQdahANLGuQlUtQWLevG0PqSRU7PTYLwBcfhXg1AVGIcKgnq7dYlK35XWsFRxwPOrbafvHwjZ9w8gTikRmlGT0nOtXQpPu5ACla7M7TVC98hbz-rbSqzwPieSk0" />
+</body>
+</html>

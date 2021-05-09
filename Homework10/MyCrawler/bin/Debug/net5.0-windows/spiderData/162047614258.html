@@ -1,0 +1,385 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="前言 最近做完公司官网，因为不是做的响应式，而是分别PC和mobile各写了一套，所以有这样一个需求： 识别用户访问设备，如果用户通过电脑访问，则跳转至PC官网；反之通过手机访问，则跳转至mobile" />
+    <meta property="og:description" content="前言 最近做完公司官网，因为不是做的响应式，而是分别PC和mobile各写了一套，所以有这样一个需求： 识别用户访问设备，如果用户通过电脑访问，则跳转至PC官网；反之通过手机访问，则跳转至mobile" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>js判断用户访问设备为mobile还是pc的方法和思考 - 你不知道的巨蟹 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/redcross/bundle-redcross.min.css?v=RZkpZnk7uuJ3eCnHNSxfxOHviFPNELl-6rQW7mGZTjM" />
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/tu-0718/custom.css?v=hbZ7XQwQ&#x2B;9mavMo5T&#x2B;C2lkye9Zk=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/redcross/bundle-redcross-mobile.min.css?v=iPf_XHQsJ-ofZZ2RiaeMCHG0JEaMNLa9yhkUGK3xTSQ" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/tu-0718/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/tu-0718/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/tu-0718/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 308069;
+        var currentBlogApp = 'tu-0718';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'redcross';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-05-08 11:14';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="no-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="page_begin_html">
+        <div class="typing"><span>welcome to my blog</span></div>
+
+<a href="javascript:void(0);"  class="backTop" id="backTop">顶部</a>
+
+<div class="surprise" id="surprise">Call Me</div>
+    </div>
+    <table id="wrapper" cellspacing="0" cellpadding="0" border="0">
+    <tr>
+        <td colspan="2">            
+            <table id="header_wrapper" cellspacing="0" cellpadding="5" border="0" cellspacing="0">
+                <tr>
+                    <td id="header_wrapper_left" valign="top">
+                        <div align="right">
+                            <div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+                        </div>
+                        
+<div id="header" style="padding-top:44px">
+	<span>
+		<a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/tu-0718/"></a>
+<br/>
+		<div class="sub"></div>
+	</span>
+</div>
+
+
+                    </td>
+                </tr>
+                <tr>
+                    <td id="header_wrapper_right" align="right">
+                        <table id="my_links">
+    <tr>
+        <td align="center" >
+            <a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+ 
+            
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/tu-0718/">
+首页</a>
+ 
+            
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+<br/>
+            
+
+            
+
+ 
+            
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+
+            <script>
+                $(".menu").removeClass("menu").addClass("mainmenu");
+            </script>
+        </td>
+    </tr>
+</table>
+
+
+                    </td>
+                </tr>
+            </table>            
+        </td>
+    </tr>
+    <tr>
+        <td id="main_wrapper" valign="top">
+            <table id="main" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td><div id="post_detail">
+<div class="block">
+    <h1 class="block_title">
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/tu-0718/p/14744155.html">
+    <span>js判断用户访问设备为mobile还是pc的方法和思考</span>
+    
+
+
+
+</a>
+</h1>
+    <div class="post">
+        <div class="postcontent">
+            <div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<p><strong><span style="font-size: 16px">前言</span></strong></p>
+<p><span style="font-size: 15px">最近做完公司官网，因为不是做的响应式，而是分别PC和mobile各写了一套，所以有这样一个需求：</span></p>
+<p><span style="font-size: 15px">识别用户访问设备，如果用户通过电脑访问，则跳转至PC官网；反之通过手机访问，则跳转至mobile官网。</span></p>
+<p><span style="font-size: 15px">那应该怎么实现呢？</span></p>
+<p>&nbsp;</p>
+<p><strong><span style="font-size: 16px">解决方法</span></strong></p>
+<p><span style="font-size: 15px">查了很多方法，最终选择了下面这种</span></p>
+<div class="cnblogs_code">
+<pre>&lt;script type="text/javascript"&gt;
+        <span style="color: rgba(0, 0, 255, 1)">function</span><span style="color: rgba(0, 0, 0, 1)"> browserRedirect() {
+            </span><span style="color: rgba(0, 0, 255, 1)">var</span> sUserAgent =<span style="color: rgba(0, 0, 0, 1)"> navigator.userAgent.toLowerCase();
+            </span><span style="color: rgba(0, 0, 255, 1)">var</span> bIsIpad = sUserAgent.match(/ipad/i) == "ipad"<span style="color: rgba(0, 0, 0, 1)">;
+            </span><span style="color: rgba(0, 0, 255, 1)">var</span> bIsIphoneOs = sUserAgent.match(/iphone os/i) == "iphone os"<span style="color: rgba(0, 0, 0, 1)">;
+            </span><span style="color: rgba(0, 0, 255, 1)">var</span> bIsMidp = sUserAgent.match(/midp/i) == "midp"<span style="color: rgba(0, 0, 0, 1)">;
+            </span><span style="color: rgba(0, 0, 255, 1)">var</span> bIsUc7 = sUserAgent.match(/rv:1.2.3.4/i) == "rv:1.2.3.4"<span style="color: rgba(0, 0, 0, 1)">;
+            </span><span style="color: rgba(0, 0, 255, 1)">var</span> bIsUc = sUserAgent.match(/ucweb/i) == "ucweb"<span style="color: rgba(0, 0, 0, 1)">;
+            </span><span style="color: rgba(0, 0, 255, 1)">var</span> bIsAndroid = sUserAgent.match(/android/i) == "android"<span style="color: rgba(0, 0, 0, 1)">;
+            </span><span style="color: rgba(0, 0, 255, 1)">var</span> bIsCE = sUserAgent.match(/windows ce/i) == "windows ce"<span style="color: rgba(0, 0, 0, 1)">;
+            </span><span style="color: rgba(0, 0, 255, 1)">var</span> bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile"<span style="color: rgba(0, 0, 0, 1)">;
+            document.writeln(</span>"您的浏览设备为："<span style="color: rgba(0, 0, 0, 1)">);
+            </span><span style="color: rgba(0, 0, 255, 1)">if</span> (bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE ||<span style="color: rgba(0, 0, 0, 1)"> bIsWM) {
+                document.writeln(</span>"phone"<span style="color: rgba(0, 0, 0, 1)">);
+            } </span><span style="color: rgba(0, 0, 255, 1)">else</span><span style="color: rgba(0, 0, 0, 1)"> {
+                document.writeln(</span>"pc"<span style="color: rgba(0, 0, 0, 1)">);
+            }
+        }
+
+        browserRedirect();
+</span>&lt;/script&gt;</pre>
+</div>
+<p><span style="font-size: 15px">我自己稍微优化了一下代码</span></p>
+<div class="cnblogs_code">
+<pre> <span style="color: rgba(0, 128, 0, 1)">//</span><span style="color: rgba(0, 128, 0, 1)">检测移动端还是PC端登录，分别跳转到对应移动和PC官网</span>
+            (<span style="color: rgba(0, 0, 255, 1)">function</span><span style="color: rgba(0, 0, 0, 1)">() {
+                </span><span style="color: rgba(0, 0, 255, 1)">var</span> sUserAgent =<span style="color: rgba(0, 0, 0, 1)"> navigator.userAgent.toLowerCase(),
+                    bIsIpad </span>= sUserAgent.match(/ipad/i) == "ipad"<span style="color: rgba(0, 0, 0, 1)">,
+                    bIsIphoneOs </span>= sUserAgent.match(/iphone os/i) == "iphone os"<span style="color: rgba(0, 0, 0, 1)">,
+                    bIsMidp </span>= sUserAgent.match(/midp/i) == "midp"<span style="color: rgba(0, 0, 0, 1)">,
+                    bIsUc7 </span>= sUserAgent.match(/rv:1.2.3.4/i) == "rv:1.2.3.4"<span style="color: rgba(0, 0, 0, 1)">,
+                    bIsUc </span>= sUserAgent.match(/ucweb/i) == "ucweb"<span style="color: rgba(0, 0, 0, 1)">,
+                    bIsAndroid </span>= sUserAgent.match(/android/i) == "android"<span style="color: rgba(0, 0, 0, 1)">,
+                    bIsCE </span>= sUserAgent.match(/windows ce/i) == "windows ce"<span style="color: rgba(0, 0, 0, 1)">,
+                    bIsWM </span>= sUserAgent.match(/windows mobile/i) == "windows mobile"<span style="color: rgba(0, 0, 0, 1)">;
+                </span><span style="color: rgba(0, 0, 255, 1)">if</span> (bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE ||<span style="color: rgba(0, 0, 0, 1)"> bIsWM) {
+                    window.location.href </span>= './mobile/index.html'<span style="color: rgba(0, 0, 0, 1)">;
+
+                } </span><span style="color: rgba(0, 0, 255, 1)">else</span><span style="color: rgba(0, 0, 0, 1)"> {
+                    window.location.href </span>= './PC/index.html'<span style="color: rgba(0, 0, 0, 1)">;
+                }
+            })()</span></pre>
+</div>
+<p><span style="font-size: 15px">经测试，苹果安卓手机，电脑浏览器均能正常实现根据不同设备访问跳转官网，iPad暂时没测</span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 16px"><strong>一些思考</strong></span></p>
+<p><span style="font-size: 15px">1.&nbsp; 和后端同事确认一下PC和mobile官网是各自用1个域名，还是共用1个域名分2个目录，不同的访问路径</span></p>
+<p><span style="font-size: 15px">不同域名：比如 <a href="http://www.aa.com/">www.aa.com</a>&nbsp;/ <a href="http://www.bb.com/">www.bb.com</a></span></p>
+<p><span style="font-size: 15px">相同域名：比如&nbsp;<a href="http://www.aa.com/pc">www.aa.com/pc</a>&nbsp; / &nbsp;<a href="http://www.aa.com/mobile">www.aa.com/mobile</a></span></p>
+<p><span style="font-size: 15px">不同域名直接根据上面js代码跳转至对应域名即可，相同域名有一些注意事项。</span></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 15px"><strong>①：</strong>用户输入网站域名即可跳转至官网，而无需手动输入域名后的资源路径。所以域名肯定不能回带上路径。</span></p>
+<p><span style="font-size: 15px">所以需要做一些操作。下面是后端同事发布代码到服务器上的截图，而相同域名下不能直接这样，</span></p>
+<p><span style="font-size: 15px"><img src="https://img2020.cnblogs.com/blog/1033257/202105/1033257-20210508103623112-757810145.png" alt="" loading="lazy">&nbsp;</span></p>
+<p><span style="font-size: 15px">需要在同级目录下额外增加一个index.html文件，这个文件也要加入上面的js判断代码</span></p>
+<p></p>
+<div><strong><span style="font-size: 15px">根目录如下&nbsp;&nbsp;</span></strong></div>
+<div><strong><span style="font-size: 15px">pc</span></strong></div>
+<div><strong><span style="font-size: 15px">mobile</span></strong></div>
+<div><strong><span style="font-size: 15px">index.html (包含js判断代码)&nbsp;</span></strong></div>
+<div>&nbsp;</div>
+<div><span style="font-size: 15px">主要目的是根据用户不同访问设备跳转至对应PC或mobile官网，这样做的另一个好处就是用户只需要输入官网域名，</span></div>
+<div><span style="font-size: 15px">不需要带上路径，本来用户需要输入www.aa.com/pc或www.bb.com/mobile才能访问对应官网，</span></div>
+<div><span style="font-size: 15px">现在用户输入www.aa.com就能直接访问到对应官网，就是额外添加的同级目录下的index.html文件帮忙实现的。</span></div>
+<div>&nbsp;</div>
+<div><span style="font-size: 15px">你可能会有个疑问，既然index.html中已经添加了js代码判断用户访问设备，那PC和mobile中的index.html中是否可以不加判断？</span></div>
+<div><span style="font-size: 15px">答案是否定的。</span></div>
+<div>&nbsp;</div>
+<div><span style="font-size: 15px">如果用户直接用电脑访问mobile官网或用mobile设备访问PC官网，你要不要给用户跳转官网？肯定是要跳转的，</span></div>
+<div><span style="font-size: 15px">所以当出现此类情况，需要判断用户当前是否是用电脑或手机在访问PC或mobile官网，如果不是，则需要给用户跳转回对应官网。</span></div>
+<div><span style="font-size: 15px">比如用户用电脑访问mobile官网，需要给用户跳转回PC官网，mobile相同。</span></div>
+<div>&nbsp;</div>
+<div>&nbsp;</div>
+<div><span style="font-size: 15px"><strong>②：</strong>另外需要注意的是，PC和mobile中index.html文件也都需要添加上面的js判断代码，但只需要一个判断</span></div>
+<div>&nbsp;</div>
+<div><span style="font-size: 15px">同级目录下index.html中的js判断代码</span></div>
+<div><span style="font-size: 15px"><span style="font-size: 15px"><span style="font-size: 15px"><span style="font-size: 15px"><img src="https://img2020.cnblogs.com/blog/1033257/202105/1033257-20210508110947464-1313972205.png" alt="" loading="lazy"></span></span></span></span>
+<p><span style="font-size: 15px">&nbsp;PC中index.html中js判断代码</span></p>
+<p><img src="https://img2020.cnblogs.com/blog/1033257/202105/1033257-20210508111140643-1379748085.png" alt="" loading="lazy"></p>
+<p><span style="font-size: 15px">&nbsp;mobile中index.html中js判断代码</span></p>
+<span style="font-size: 15px"><span style="font-size: 15px"><span style="font-size: 15px"><span style="font-size: 15px"><span style="font-size: 15px"><img src="https://img2020.cnblogs.com/blog/1033257/202105/1033257-20210508111232963-1049815053.png" alt="" loading="lazy"></span></span></span></span></span>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<span style="font-size: 15px"><span style="font-size: 15px"><span style="font-size: 15px"><br></span></span></span>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+
+</div>
+<div>&nbsp;</div>
+<p>&nbsp;</p>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+        </div>
+        <div class="itemdesc">
+            发表于 
+<span id="post-date">2021-05-08 11:14</span>&nbsp;
+<a href="https://www.cnblogs.com/tu-0718/">你不知道的巨蟹</a>&nbsp;
+阅读(<span id="post_view_count">4</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14744155" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14744155);return false;">收藏</a>
+        </div>
+    </div>
+    <div class="seperator">&nbsp;</div>
+	
+	
+    <script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 308069, cb_blogApp = 'tu-0718', cb_blogUserGuid = 'd5f9f6a3-bb83-e611-845c-ac853d9f53ac';
+    var cb_entryId = 14744155, cb_entryCreatedDate = '2021-05-08 11:14', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+    <a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+</div>
+</div>
+
+</td>
+                </tr>
+            </table>
+        </td>
+        <td id="sidebar" valign="top">            
+            <table cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                    <td>
+                        <div id="calendar"><div id="blog-calendar" style="display:none"></div></div>                
+                        <script>loadBlogDefaultCalendar();</script>
+                    </td>
+                </tr>
+            </table>
+            <div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+            <div id="blog-sidecolumn"></div>
+            <script>loadBlogSideColumn();</script>            
+            <br>
+            <div id="footer">Powered By <a href="https://www.cnblogs.com">博客园</a></div>
+            <br>
+        </td>
+    </tr>
+</table>
+
+
+
+
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjuiyTqyiYebPA-uM5ACXPwPJqviHTXzBgiY84diZ9wwnLpUD2kOSJhSgllXlbgFezwT3LuDrstkAhxQ15DxvLaQ61lfnSeya_SEK0oRMC28i8CcfcpfZCxSkXawOlJr5Nk" />
+</body>
+</html>

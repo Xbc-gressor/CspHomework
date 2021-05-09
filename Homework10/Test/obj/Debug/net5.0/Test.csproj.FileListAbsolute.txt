@@ -1,0 +1,16 @@
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework09\Test\bin\Debug\net5.0\Test.exe
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework09\Test\bin\Debug\net5.0\Test.deps.json
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework09\Test\bin\Debug\net5.0\Test.runtimeconfig.json
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework09\Test\bin\Debug\net5.0\Test.runtimeconfig.dev.json
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework09\Test\bin\Debug\net5.0\Test.dll
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework09\Test\bin\Debug\net5.0\ref\Test.dll
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework09\Test\bin\Debug\net5.0\Test.pdb
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework09\Test\obj\Debug\net5.0\Test.csprojAssemblyReference.cache
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework09\Test\obj\Debug\net5.0\Test.GeneratedMSBuildEditorConfig.editorconfig
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework09\Test\obj\Debug\net5.0\Test.AssemblyInfoInputs.cache
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework09\Test\obj\Debug\net5.0\Test.AssemblyInfo.cs
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework09\Test\obj\Debug\net5.0\Test.csproj.CoreCompileInputs.cache
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework09\Test\obj\Debug\net5.0\Test.dll
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework09\Test\obj\Debug\net5.0\ref\Test.dll
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework09\Test\obj\Debug\net5.0\Test.pdb
+D:\Fighting\Lan\C#\Homework\CspHomework\Homework09\Test\obj\Debug\net5.0\Test.genruntimeconfig.cache

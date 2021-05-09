@@ -1,0 +1,449 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="never" />
+    <meta name="description" content="一：背景 1. 讲故事 前几天有位朋友加wx求助说他的程序最近总是出现内存溢出，很崩溃，如下图： 和这位朋友聊下来，发现他也是搞医疗的，哈哈，.NET 在医疗方面还是很有市场的&amp;amp;#128513" />
+    <meta property="og:description" content="一：背景 1. 讲故事 前几天有位朋友加wx求助说他的程序最近总是出现内存溢出，很崩溃，如下图： 和这位朋友聊下来，发现他也是搞医疗的，哈哈，.NET 在医疗方面还是很有市场的&amp;amp;#128513" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>记一次 .NET 医院CIS系统 内存溢出分析 - 一线码农 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/imetro_hd/bundle-imetro_hd.min.css?v=FftQhR2MvKTGGXxV0VXlcGGt4XBM0_1XGJmu6kYD9bg" />
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/huangxincheng/custom.css?v=SdYXO/puoNgM6b4X1hctiyD8/bs=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/imetro_hd/bundle-imetro_hd-mobile.min.css?v=t8lZrYXGRE8kAD_d-besbRXwkXSQmMprnkoJVYlZl-g" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/huangxincheng/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/huangxincheng/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/huangxincheng/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 85195;
+        var currentBlogApp = 'huangxincheng';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'iMetro_HD';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-05-08 09:40';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="no-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/huangxincheng/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/huangxincheng/"></a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/huangxincheng/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E4%B8%80%E7%BA%BF%E7%A0%81%E5%86%9C">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/huangxincheng/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/huangxincheng/p/14743654.html">
+    <span>记一次 .NET 医院CIS系统 内存溢出分析</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+<h2 id="一：背景">一：背景</h2>
+<h3 id="1-讲故事">1. 讲故事</h3>
+<p>前几天有位朋友加wx求助说他的程序最近总是出现内存溢出，很崩溃，如下图：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d654a62b933e40949a883a33f5fc6aef~tplv-k3u1fbpfcp-zoom-1.image" alt="" loading="lazy"></p>
+<p>和这位朋友聊下来，发现他也是搞医疗的，哈哈，.NET 在医疗方面还是很有市场的😁😁😁，不过对于内存方面出的问题，我得先祈祷一下千万不要是非托管。。。</p>
+<p>废话不多说，上 windbg，看能不能先救个急。</p>
+<h2 id="二：-windbg-分析">二： windbg 分析</h2>
+<h3 id="1-找出异常对象">1. 找出异常对象</h3>
+<p>如果内存溢出了，大家应该知道 C# 会抛一个 <code>OutOfMemoryException</code> 异常，而且还会附加到那个执行线程上，所以先用 <code>!t</code> 命令调出当前的所有托管线程。</p>
+<pre><code class="language-C#">
+0:000&gt; !t
+ThreadCount:      17
+UnstartedThread:  0
+BackgroundThread: 12
+PendingThread:    0
+DeadThread:       4
+Hosted Runtime:   no
+                                                                         Lock  
+       ID OSID ThreadOBJ    State GC Mode     GC Alloc Context  Domain   Count Apt Exception
+   0    1 16b0 007da908     26020 Preemptive  64EDD188:00000000 00823830 1     STA System.OutOfMemoryException 57b53d90
+   2    2  af8 007e9dc8     2b220 Preemptive  00000000:00000000 007d4838 0     MTA (Finalizer) 
+   3    3 1d94 0081af28     21220 Preemptive  00000000:00000000 007d4838 0     Ukn 
+   5    6 246c 0772b960   102a220 Preemptive  00000000:00000000 007d4838 0     MTA (Threadpool Worker) 
+   8   47 277c 2eebf038   8029220 Preemptive  00000000:00000000 007d4838 0     MTA (Threadpool Completion Port) 
+XXXX   41    0 2eebf580   1039820 Preemptive  00000000:00000000 007d4838 0     Ukn (Threadpool Worker)
+
+</code></pre>
+<p>可以清楚的看到，<code>0号</code> 线程果然带了一个 <code>System.OutOfMemoryException</code>，接下来用 <code>!pe</code> 查查这个异常的调用栈信息。</p>
+<pre><code class="language-C#">
+0:000&gt; !pe 57b53d90
+Exception object: 57b53d90
+Exception type:   System.OutOfMemoryException
+Message:          没有足够的内存继续执行程序。
+InnerException:   &lt;none&gt;
+StackTrace (generated):
+    SP       IP       Function
+    00482C80 6450BD46 mscorlib_ni!System.Runtime.InteropServices.Marshal.AllocHGlobal(IntPtr)+0xc2fdf6
+    00482CB0 198DCEF2 UNKNOWN!FastReport.Export.TTF.TrueTypeCollection..ctor(System.Drawing.Font)+0xe2
+    00482D00 198DCC0F UNKNOWN!FastReport.Export.TTF.ExportTTFFont.GetFontData()+0x47
+    00482D58 198DAD54 UNKNOWN!FastReport.Export.Pdf.PDFExport.WriteFont(FastReport.Export.TTF.ExportTTFFont)+0xa4
+    00483A7C 198D9CD5 UNKNOWN!FastReport.Export.Pdf.PDFExport.AddPDFFooter()+0x8d
+    00483C38 198D9B53 UNKNOWN!FastReport.Export.Pdf.PDFExport.Finish()+0x23
+    00483C80 19938119 UNKNOWN!FastReport.Export.ExportBase.Export(FastReport.Report, System.IO.Stream)+0x229
+    00483CD8 19937A9D UNKNOWN!FastReport.Export.ExportBase.Export(FastReport.Report, System.String)+0x4d
+    00483D08 19937A3D UNKNOWN!FastReport.Report.Export(FastReport.Export.ExportBase, System.String)+0xd
+    00483D10 15D9FA39 UNKNOWN!xxxx.xxx.FormPrint.PrintPdf(Boolean, System.String, xxxx.DAL.xxx.DataObject.IPatinfoBase, Boolean, System.String)+0x359
+    00483DF0 137B265A UNKNOWN!xxxx.UI.xxx.PrintOrdert2PDF.Handle(System.Object[])+0x3ca
+    00483EB4 1178B36C xxx_PrintOrder2Pdf!xxxx.xxx.PrintOrder2Pdf.Form1.timer1_Tick(System.Object, System.EventArgs)+0xca4
+    0048414C 117884DD UNKNOWN!System.Windows.Forms.Timer.OnTick(System.EventArgs)+0x15
+    00484154 117883A0 UNKNOWN!System.Windows.Forms.Timer+TimerNativeWindow.WndProc(System.Windows.Forms.Message ByRef)+0x38
+    00484160 07C939B7 UNKNOWN!System.Windows.Forms.NativeWindow.Callback(IntPtr, Int32, IntPtr, IntPtr)+0x5f
+
+</code></pre>
+<p>从上面的调用栈可以看出，貌似程序是在做一个 pdf 打印，最后在 <code>Marshal.AllocHGlobal</code> 上抛了异常，熟悉这个方法的朋友应该知道，它就是用来分配 <code>非托管内存</code> 的。。。 情况貌似有点不妙。😖😖😖</p>
+<p>接下来用 <code>ILSpy</code> 查一下 AllocHGlobal 方法的源码，看看有什么可挖掘的地方。</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/21d67dcbf04e468db7791918abc81b5e~tplv-k3u1fbpfcp-zoom-1.image" alt="" loading="lazy"></p>
+<p>从图中源码逻辑可以看出，一旦非托管内存分配失败，托管层上手工抛出 <code>OutOfMemoryException</code> 异常，我去，这难道是非托管内存溢出啦？？？</p>
+<h3 id="2-真的是非托管溢出了吗？">2. 真的是非托管溢出了吗？</h3>
+<p>要鉴别是否为非托管堆出的问题，还是用那个老办法，看看 <code>MEM_COMMIT Size ≈ GC Heap Size</code>  即可。</p>
+<ul>
+<li>用 <code>!address -summary</code> 查看进程的内存使用量</li>
+</ul>
+<pre><code class="language-C#">
+0:000&gt; !address -summary
+
+--- Usage Summary ---------------- RgnCount ----------- Total Size -------- %ofBusy %ofTotal
+&lt;unknown&gt;                             16334          460bb000 (   1.094 GB)  78.00%   54.72%
+Free                                  11177          26319000 ( 611.098 MB)           29.84%
+Image                                   831           e48e000 ( 228.555 MB)  15.91%   11.16%
+Heap                                    184           4547000 (  69.277 MB)   4.82%    3.38%
+Stack                                    61           11c0000 (  17.750 MB)   1.24%    0.87%
+Other                                    10             60000 ( 384.000 kB)   0.03%    0.02%
+TEB                                      20             24000 ( 144.000 kB)   0.01%    0.01%
+PEB                                       1              3000 (  12.000 kB)   0.00%    0.00%
+
+--- State Summary ---------------- RgnCount ----------- Total Size -------- %ofBusy %ofTotal
+MEM_COMMIT                            16213          521bd000 (   1.283 GB)  91.43%   64.15%
+MEM_FREE                              11177          26319000 ( 611.098 MB)           29.84%
+MEM_RESERVE                            1228           7b1a000 ( 123.102 MB)   8.57%    6.01%
+
+</code></pre>
+<p>从上面的 <code>MEM_COMMIT</code> 指标可以看出内存使用量为 <code>1.28 G</code>。</p>
+<ul>
+<li>用 <code>!gcheap -gc</code> 看看托管堆的大小</li>
+</ul>
+<pre><code class="language-C#">
+0:000&gt; !eeheap -gc
+Number of GC Heaps: 1
+generation 0 starts at 0x64c534f8
+generation 1 starts at 0x64bccb84
+generation 2 starts at 0x02531000
+ephemeral segment allocation context: none
+
+GC Heap Size:    Size: 0x195be7b0 (425453488) bytes.
+
+</code></pre>
+<p>从最后一行可以看出托管堆占用了 <code>425453488/1024/1024 = 405M</code>。</p>
+<p>也就是说大概 800M 不知道哪里去了，看似有点吓人，其实算算也还可以，这里我稍微补充一下，看下面的公式：</p>
+<blockquote>
+<p><code>MEM_COMMIT (1.28G) = Image (228M) + Heap (69M) + Stack (18M) + GCHeap(450M) + GCLoader (153M) + else = 918M</code></p>
+</blockquote>
+<p>从上面列出来的信息可以看出，最后累积出的 <code>918M</code> 和 内存使用量 <code>1.28G</code> 差不了多少，有些朋友可能要问, 这个 <code>GCLoader</code> 怎么算出来的，很简单，它是 CLR 的加载堆，使用 <code>!eeheap -loader</code> 即可。</p>
+<pre><code class="language-C#">
+0:000&gt; !eeheap -loader
+--------------------------------------
+Total LoaderHeap size:   Size: 0x995a000 (160800768) bytes total, 0x13e000 (1302528) bytes wasted.
+=======================================
+
+</code></pre>
+<p>到这里，我陷入了僵局🤣🤣🤣，才 <code>1.28G</code> 的内存占用，怎么就会把程序给弄溢出了？ 既然内存上看不出问题，那就从线程上入手吧，看看他们都在做什么？</p>
+<h3 id="3-查看每个线程都在做什么？">3. 查看每个线程都在做什么？</h3>
+<p>要想看线程，可以用 <code>~*e !clrstack</code> 调出所有线程的托管栈，突然我发现主线程有点奇怪，调用栈特别深，不信我截图跟你看。</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/cd0b948afaeb4bc4a8b88778d1c13f46~tplv-k3u1fbpfcp-zoom-1.image" alt="" loading="lazy"></p>
+<p>从图中可以看到，<code>xxx.xxx.PrintOrder2Pdf.Form1.timer1_Tick</code> 高达 133 个，这说明 Form 窗体上有一个 timer 没有控制好，出现重复执行的情况了，不管怎么说，这个地方肯定有问题，接下来要做的就是把这个 <code>timer1_Tick</code> 源码导出来看看怎么写的，还是用那个 <code>!name2ee + !savemodule</code> 老命令导出，代码简化如下。</p>
+<pre><code class="language-C#">
+private void timer1_Tick(object sender, EventArgs e)
+{
+	if (!IsContinue)
+	{
+		PrintMsg("等待上一扫描执行完毕");
+		IsContinue = true;
+		return;
+	}
+	IsContinue = false;
+	GetPatList();
+	if (PatList == null || PatList.Rows.Count == 0)
+	{
+		timer1.Interval = 600000;
+		PrintMsg("xxxx");
+		IsContinue = true;
+		return;
+	}
+	for (int i = 0; i &lt; PatList.Rows.Count; i++)
+        {
+          xxx
+        }
+    IsContinue=true;
+}
+
+</code></pre>
+<p>从代码中可以看出，这个方法用了很多的 <code>IsContinue</code> 来踢掉重复请求，但最终还是出了bug，导致无限量递归，跟朋友沟通后建议用 <code>Stop()</code> 和 <code>Start()</code> 来处理，参考如下代码：</p>
+<pre><code class="language-C#">
+        private void button1_Click(object sender, EventArgs e)
+        {
+            timer1.Interval = 2000;
+
+            timer1.Tick += Timer1_Tick;
+
+            timer1.Start();
+        }
+
+        private void Timer1_Tick(object sender, EventArgs e)
+        {
+            timer1.Stop();
+            MessageBox.Show("hello");
+            timer1.Start();
+        }
+
+</code></pre>
+<p>起码这种 <code>停止</code> 再 <code>启动</code> 的方式肯定能规避timer的重复执行，先把这个改了再说，给医院那边先部署上，再观后效。。。</p>
+<h2 id="三：总结">三：总结</h2>
+<p>朋友在五一节后，也就是前天给医院部署上了，昨天反馈没有再出现问题，截一张图证明一下😁😁😁。</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/10a92f3525174b26bee659a5fc3b3e4a~tplv-k3u1fbpfcp-zoom-1.image" alt="" loading="lazy"></p>
+<p>大家应该也看的出来，其实我心里是没底的。。。后续和朋友再沟通，发现了三点信息：</p>
+<ul>
+<li>
+<p>医生的电脑配置为 8G or 12G</p>
+</li>
+<li>
+<p>有时候为了一些便利，医生会开双进程</p>
+</li>
+<li>
+<p>还有更多其他模块的内存溢出案例</p>
+</li>
+</ul>
+<p>看了下程序是采用插件式编程，而且还用了 <code>DevExpress + FastReport</code> 这些重量级的组件，再搭配上医生开的双进程让电脑余下的贫瘠内存更加吃紧，可能这才是程序在  <code>1.2G</code> 就分配不到非托管内存的深层原因，现场情况应该更复杂，只能先到这里了。</p>
+<p>建议措施如下，很简单。</p>
+<ul>
+<li>增加电脑的配置，up 到 16G 最好了，毕竟甲方都不差钱 😂😂😂</li>
+</ul>
+<p><strong>更多高质量干货：参见我的 GitHub: <a href="https://github.com/ctripxchuang/dotnetfly" target="_blank">dotnetfly</a></strong></p>
+
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2021-05-08 09:40</span>&nbsp;
+<a href="https://www.cnblogs.com/huangxincheng/">一线码农</a>&nbsp;
+阅读(<span id="post_view_count">364</span>)&nbsp;
+评论(<span id="post_comment_count">10</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14743654" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14743654);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 85195, cb_blogApp = 'huangxincheng', cb_blogUserGuid = '40a06552-abf8-df11-ac81-842b2b196315';
+    var cb_entryId = 14743654, cb_entryCreatedDate = '2021-05-08 09:40', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 一线码农
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjtVdHGbaTsoI2HfOu8yEFUzULy3ADs8qPzhubSObzUZE5k2fBaVyj4tZzSI8qK-nKkbYdWrjqxgOJEAW0jA_NDwz5TmbdT53DCklqdXF07lxY839OS-gbEgnGBnDSFXv8Y" />
+</body>
+</html>

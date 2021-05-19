@@ -1,0 +1,548 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    
+    
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>nbear - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/leaves/bundle-leaves.min.css?v=YVZwAmEPliD4XRllX8dwFeNDu89P-FlpoDdxXkZEx2o" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/leaves/bundle-leaves-mobile.min.css?v=iPf_XHQsJ-ofZZ2RiaeMCHG0JEaMNLa9yhkUGK3xTSQ" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/huawei/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/huawei/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/huawei/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 24174;
+        var currentBlogApp = 'huawei';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'leaves';
+        var visitorUserId = '';
+    </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div align="center" id="centerbody">
+<div id="header">
+	
+<!--done-->
+<div class="header">
+	<div class="headerText">
+		<a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/huawei/">蚂蚁</a>
+
+		<div id="headersubtitle">
+		
+		</div>
+	</div>
+</div>
+
+
+</div>
+
+<div id="mytopmenu">   
+	
+	    <div id="mylinks">
+
+<a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+&nbsp;&nbsp;&nbsp;
+
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/huawei/">
+首页</a>
+&nbsp;&nbsp;&nbsp;
+
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+&nbsp;&nbsp;&nbsp;
+<a id="MyLinks1_NewArticleLink" class="menu" href="https://i.cnblogs.com/EditArticles.aspx?opt=1">新文章</a>
+&nbsp;&nbsp;&nbsp;
+
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/nbear">
+联系</a>&nbsp;&nbsp;&nbsp;
+
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/huawei/rss/">
+订阅</a>
+<a id="blog_nav_rss_image" href="https://www.cnblogs.com/huawei/rss/">
+    <img src="/skins/leaves/images/xml.gif" alt="订阅" />
+</a>&nbsp;&nbsp;&nbsp;
+
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+
+
+</div>
+		<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+	
+</div>
+
+<div id="main">
+<div id="centercontent">
+	
+
+
+
+
+
+		
+
+
+<div class="day">
+	<div class="dayTitle">
+		<a href="https://www.cnblogs.com/huawei/archive/2010/04/14.html">2010年4月14日</a>
+	</div>
+
+	
+			<div class="postTitle">
+				
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/huawei/archive/2010/04/14/1711908.html">
+    <span>
+        sql 艺术
+    </span>
+    
+
+
+
+</a>
+
+			</div>
+			
+
+    <div class="cnblogs-post-body" id="postlist_postbody_1711908">
+        正文内容加载中...
+    </div>
+    <script type="text/javascript">getBlogPostBody(1711908);</script>
+
+			<div class="postDesc">posted @ 2010-04-14 16:12
+nbear
+<span data-post-id="1711908" class="post-view-count">阅读(91)</span> 
+<span data-post-id="1711908" class="post-comment-count">评论(0)</span> 
+<span data-post-id="1711908" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=1711908" rel="nofollow">
+    编辑
+</a>
+</div>
+
+</div>
+
+
+		
+
+
+<div class="day">
+	<div class="dayTitle">
+		<a href="https://www.cnblogs.com/huawei/archive/2009/09/03.html">2009年9月3日</a>
+	</div>
+
+	
+			<div class="postTitle">
+				
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/huawei/archive/2009/09/03/1559250.html">
+    <span>
+        gc
+    </span>
+    
+
+
+
+</a>
+
+			</div>
+			
+
+    <div class="c_b_p_desc">
+摘要：NET内存管理、垃圾回收 1. Stack和Heap 每个线程对应一个stack，线程创建的时候CLR为其创建这个stack，stack主要作用是记录函数的执行情况。值类型变量（函数的参数、局部变量等非成员变量）都分配在stack中，引用类型的对象分配在heap中，在stack中保存heap对象的引用指针。GC只负责heap对象的释放，heap内存空间管理Heap内存分配  除去pinned ob...        <a href="https://www.cnblogs.com/huawei/archive/2009/09/03/1559250.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+			<div class="postDesc">posted @ 2009-09-03 08:58
+nbear
+<span data-post-id="1559250" class="post-view-count">阅读(482)</span> 
+<span data-post-id="1559250" class="post-comment-count">评论(0)</span> 
+<span data-post-id="1559250" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=1559250" rel="nofollow">
+    编辑
+</a>
+</div>
+
+</div>
+
+
+		
+
+
+<div class="day">
+	<div class="dayTitle">
+		<a href="https://www.cnblogs.com/huawei/archive/2009/06/29.html">2009年6月29日</a>
+	</div>
+
+	
+			<div class="postTitle">
+				
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/huawei/archive/2009/06/29/1513406.html">
+    <span>
+        wince
+    </span>
+    
+
+
+
+</a>
+
+			</div>
+			
+
+    <div class="c_b_p_desc">
+摘要：一、修改wince桌面的方法修改注册表项即可，如下：[HKEY_CURRENT_USER\ControlPanel\Desktop]"Wallpaper"="\windows\windowsce.bmp"把windowsce.bmp替换成你自己的图象就可以了，当然了，需要首先把你的图片考到bsp的FILES文件夹，后者在编译完以后考到RELEASEDIR里面二、开机后直接运行您的程序而不显示Win...        <a href="https://www.cnblogs.com/huawei/archive/2009/06/29/1513406.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+			<div class="postDesc">posted @ 2009-06-29 17:29
+nbear
+<span data-post-id="1513406" class="post-view-count">阅读(449)</span> 
+<span data-post-id="1513406" class="post-comment-count">评论(0)</span> 
+<span data-post-id="1513406" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=1513406" rel="nofollow">
+    编辑
+</a>
+</div>
+
+</div>
+
+
+		
+
+
+<div class="day">
+	<div class="dayTitle">
+		<a href="https://www.cnblogs.com/huawei/archive/2008/11/14.html">2008年11月14日</a>
+	</div>
+
+	
+			<div class="postTitle">
+				
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/huawei/archive/2008/11/14/1333607.html">
+    <span>
+        sql work
+    </span>
+    
+
+
+
+</a>
+
+			</div>
+			
+
+    <div class="c_b_p_desc">
+摘要：SET QUERY_GOVERNOR_COST_LIMIT 2000 设定最大查询时间 SET ROWCOUNT 3 设置返回的条数数据库有一个原则是代码离数据越近越好，所以优先选择Default,依次为Rules,Triggers, Constraint（约束如外健主健CheckUNIQUE&#8230;&#8230;,数据类型的最大长度等等都是约束）,Procedure.这样不仅维护工作小，编...        <a href="https://www.cnblogs.com/huawei/archive/2008/11/14/1333607.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+			<div class="postDesc">posted @ 2008-11-14 15:17
+nbear
+<span data-post-id="1333607" class="post-view-count">阅读(92)</span> 
+<span data-post-id="1333607" class="post-comment-count">评论(0)</span> 
+<span data-post-id="1333607" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=1333607" rel="nofollow">
+    编辑
+</a>
+</div>
+
+</div>
+
+
+		
+
+
+<div class="day">
+	<div class="dayTitle">
+		<a href="https://www.cnblogs.com/huawei/archive/2008/09/25.html">2008年9月25日</a>
+	</div>
+
+	
+			<div class="postTitle">
+				
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/huawei/archive/2008/09/25/1298897.html">
+    <span>
+        READ_COMMITTED_SNAPSHOT 
+    </span>
+    
+
+
+
+</a>
+
+			</div>
+			
+
+    <div class="c_b_p_desc">
+摘要：基于行版本控制的隔离级别是在数据库级别上启用的。访问已启用数据库的对象的任何应用程序可以使用以下隔离级别运行查询：已提交读隔离级别，通过将 READ_COMMITTED_SNAPSHOT 数据库选项设置为 ON 来使用行版本控制，如下面的代码示例所示：        <a href="https://www.cnblogs.com/huawei/archive/2008/09/25/1298897.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+			<div class="postDesc">posted @ 2008-09-25 16:15
+nbear
+<span data-post-id="1298897" class="post-view-count">阅读(638)</span> 
+<span data-post-id="1298897" class="post-comment-count">评论(0)</span> 
+<span data-post-id="1298897" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=1298897" rel="nofollow">
+    编辑
+</a>
+</div>
+
+</div>
+
+
+		
+
+
+<div class="day">
+	<div class="dayTitle">
+		<a href="https://www.cnblogs.com/huawei/archive/2008/02/24.html">2008年2月24日</a>
+	</div>
+
+	
+			<div class="postTitle">
+				
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/huawei/archive/2008/02/24/1079473.html">
+    <span>
+        类型和成员
+    </span>
+    
+
+
+
+</a>
+
+			</div>
+			
+
+    <div class="c_b_p_desc">
+摘要：静态类：直接从object派生，不能实现任何接口，只能定义静态成员。虚方法：调用虚方法的性能不如调用非虚方法的性能，这是因为clr为了确定所调用方法的类型必须在运行时查找对象的类型。常量：编绎器将常量的值保存到程序集的元数据中。常量只能是基元类型，只能在同一程序集中访问。构造器：值类构造函数必须有参数，静态类构造函数不能有参数。引用类型在创建对象，首先分配字段，然后是对象指针，同步块索引方法传参：...        <a href="https://www.cnblogs.com/huawei/archive/2008/02/24/1079473.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+			<div class="postDesc">posted @ 2008-02-24 15:26
+nbear
+<span data-post-id="1079473" class="post-view-count">阅读(145)</span> 
+<span data-post-id="1079473" class="post-comment-count">评论(0)</span> 
+<span data-post-id="1079473" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=1079473" rel="nofollow">
+    编辑
+</a>
+</div>
+
+</div>
+
+
+		
+
+
+<div class="day">
+	<div class="dayTitle">
+		<a href="https://www.cnblogs.com/huawei/archive/2008/02/17.html">2008年2月17日</a>
+	</div>
+
+	
+			<div class="postTitle">
+				
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/huawei/archive/2008/02/17/1071411.html">
+    <span>
+        基元类型 引用类型 值类型
+    </span>
+    
+
+
+
+</a>
+
+			</div>
+			
+
+    <div class="c_b_p_desc">
+摘要：基元类型:编译器直接支持的任何数据类型cheched 和unchecked C#编译器的溢出检查默认关闭,可以打开检查,但是这样代码执行会慢一些,类为clr为检查这些运算，如果有溢出就会抛出OverflowExeception异常值类型和引用类型：声明为值类型要满足以下条件之一类型的实例较小（小于16字节）类型实较大，但不作为方法参数传递，也不作为方法的返回值将一个值类型的变量赋给另一个值类型变量...        <a href="https://www.cnblogs.com/huawei/archive/2008/02/17/1071411.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+			<div class="postDesc">posted @ 2008-02-17 17:39
+nbear
+<span data-post-id="1071411" class="post-view-count">阅读(183)</span> 
+<span data-post-id="1071411" class="post-comment-count">评论(0)</span> 
+<span data-post-id="1071411" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=1071411" rel="nofollow">
+    编辑
+</a>
+</div>
+
+</div>
+
+
+		
+
+
+<div class="day">
+	<div class="dayTitle">
+		<a href="https://www.cnblogs.com/huawei/archive/2008/02/11.html">2008年2月11日</a>
+	</div>
+
+	
+			<div class="postTitle">
+				
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/huawei/archive/2008/02/11/1066875.html">
+    <span>
+        clr 基础
+    </span>
+    
+
+
+
+</a>
+
+			</div>
+			
+
+    <div class="c_b_p_desc">
+摘要：clr 公共语言运行库源代码文件经过编译器编译成托管模块（（PE32或PE32+头），CLR头，中间语言，元数据）代码编译：编译器开关设置  C# IL代码质量JIT本地代码质量/optimize-/debug(默认设置)未优化 优化/optimize-/debug(+/full/pubonly)未优化未优化/optimize+/debug(-/+/full/pubonly)优化优化元数据用途：一...        <a href="https://www.cnblogs.com/huawei/archive/2008/02/11/1066875.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+			<div class="postDesc">posted @ 2008-02-11 13:06
+nbear
+<span data-post-id="1066875" class="post-view-count">阅读(162)</span> 
+<span data-post-id="1066875" class="post-comment-count">评论(0)</span> 
+<span data-post-id="1066875" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=1066875" rel="nofollow">
+    编辑
+</a>
+</div>
+
+</div>
+
+
+
+<div class="topicListFooter">
+    <div id="nav_next_page">
+        
+    
+
+    </div>    
+</div>
+
+
+
+
+
+
+<script>
+    updatePostStats(
+        $(".post-view-count").map(function () { return this.dataset.postId }).get(),
+        function(id, count) { $(".post-view-count[data-post-id=" + id + "]").text("阅读(" + count + ")") },
+        function(id, count) { $(".post-comment-count[data-post-id=" + id + "]").text("评论(" + count + ")") },
+        function(id, count) { $(".post-digg-count[data-post-id=" + id + "]").text("推荐(" + count + ")") });
+</script>
+	<div id="footer">
+<!--done-->
+<div class="footer">
+    Copyright &copy; 2021 nbear
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+ Powered by: <a href="http://www.cnblogs.com">博客园</a><br>
+</div>
+
+
+</div>
+</div>
+
+<div id="leftcontent">
+	
+		<DIV id="leftcontentcontainer">
+			<div id="calendar"><div id="blog-calendar" style="display:none"></div></div>                
+                    <script>loadBlogDefaultCalendar();</script><br>
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script></DIV>
+	
+</div>
+</div>
+</div>
+
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjtPIs1MZXdqyAnilmIAKCe-MAU9qrY0FDqOTzem859rzNk7CzT3al0MQyOOycBHtblVCrLIfYOdZlrDsAdGLrH4dqlIPr-_VoQgELAcv72zOvlsz1IM1c5XAVnwirVBOJI" />
+</body>
+</html>

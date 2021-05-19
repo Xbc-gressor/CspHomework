@@ -1,0 +1,434 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="never" />
+    <meta name="description" content="这是why的第 103 篇原创 你好呀，我是why。 如图，重放攻击，这题我真的在面试的时候遇到过，两次。 印象比较深的是第一次遇到这个面试题的时候，也是第一次听到“重放攻击”这个词的时候，一脸蒙蔽，" />
+    <meta property="og:description" content="这是why的第 103 篇原创 你好呀，我是why。 如图，重放攻击，这题我真的在面试的时候遇到过，两次。 印象比较深的是第一次遇到这个面试题的时候，也是第一次听到“重放攻击”这个词的时候，一脸蒙蔽，" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>面试官：啥是请求重放呀？ - why技术 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/simpleblue/bundle-simpleblue.min.css?v=2hjghzSZyhYA1HxvSxKnXih3JbC120DBjeO9V9T_nSs" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/simpleblue/bundle-simpleblue-mobile.min.css?v=3tvwgOOqUo3RpS6gGzEdK0LbptOPv4Bx7M85_UAnFGs" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/thisiswhy/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/thisiswhy/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/thisiswhy/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 567091;
+        var currentBlogApp = 'thisiswhy';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'SimpleBlue';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-05-18 12:42';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <div id="home">
+    <div id="header">
+        <div id="blogTitle">
+            <div class="title"><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/thisiswhy/">why技术</a>
+</div>
+<div class="subtitle"></div>
+
+        </div>
+        <div id="navigator">
+            
+<ul id="navList">
+    <li id="nav_sitehome"><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+    <li id="nav_myhome">
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/thisiswhy/">
+首页</a>
+</li>
+    <li id="nav_newpost">
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+    <li id="nav_contact">
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/why%E6%8A%80%E6%9C%AF">
+联系</a></li>
+    <li id="nav_rss">
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/thisiswhy/rss/">
+订阅</a></li>
+    <li id="nav_admin">
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+            <div class="blogStats">
+                <div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+            </div>
+        </div>
+    </div>
+    <div id="main">
+        <div id="mainContent">
+            <div class="forFlow">
+                <div id="post_detail">
+    <div id="topics">
+        <div class="post">
+            <h1 class="postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/thisiswhy/p/14780445.html">
+    <span>面试官：啥是请求重放呀？</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+<section id="nice" data-tool="mdnice编辑器" data-website="https://www.mdnice.com" style="font-size: 16px; color: rgba(0, 0, 0, 1); padding: 0 10px; line-height: 1.6; word-spacing: 0; letter-spacing: 0; word-wrap: break-word; text-align: left; font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, &quot;PingFang SC&quot;, Cambria, Cochin, Georgia, Times, &quot;Times New Roman&quot;, serif"><p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">这是why的第 <strong style="font-weight: bold; color: rgba(0, 0, 0, 1)">103</strong> 篇原创</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">你好呀，我是why。</p>
+<figure data-tool="mdnice编辑器" style="margin: 10px 0; display: flex; flex-direction: column; justify-content: center; align-items: center"><img src="https://why-image-1300252878.cos.ap-chengdu.myqcloud.com/img/83/f047726607bcf543236916fa93df062.jpg" alt="" style="display: block; margin: 0 auto; max-width: 100%"></figure>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">如图，重放攻击，这题我真的在面试的时候遇到过，两次。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">印象比较深的是第一次遇到这个面试题的时候，也是第一次听到“重放攻击”这个词的时候，一脸蒙蔽，于是我就连蒙带猜的，朝着接口幂等性的方向去答了。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">结果就凉了。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">要回答怎么防止重放攻击，那么我们得知道啥是重放攻击。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">学术上的解释是这样的：</p>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border-top: none; border-right: none; border-bottom: none; border-left: 3px solid rgba(239, 112, 96, 1); display: block; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; color: rgba(106, 115, 125, 1); padding: 10px 10px 10px 20px; margin-bottom: 20px; margin-top: 20px; background: rgba(255, 249, 249, 1)">
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; color: rgba(0, 0, 0, 1); line-height: 26px">重放攻击（英语：replay attack，或称为回放攻击）是一种恶意或欺诈的重复或延迟有效数据的网络攻击形式。 这可以由发起者或由拦截数据并重新传输数据的对手来执行，这可能是通过IP数据包替换进行的欺骗攻击的一部分。 这是“中间人攻击”的一个较低级别版本。
+<br>这种攻击的另一种描述是： “从不同上下文将消息重播到安全协议的预期（或原始和预期）上下文，从而欺骗其他参与者，致使他们误以为已经成功完成了协议运行。”</p>
+</blockquote>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">举个简单的例子：</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">我们程序员日夜操劳的，在按摩店里面办个卡，偶尔去洗个脚放松一下不过分吧。</p>
+<figure data-tool="mdnice编辑器" style="margin: 10px 0; display: flex; flex-direction: column; justify-content: center; align-items: center"><img src="https://why-image-1300252878.cos.ap-chengdu.myqcloud.com/img/83/20210516135917.png" alt="" style="display: block; margin: 0 auto; max-width: 100%"></figure>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">有一天，我去洗脚的时候对着店员说：给我安排一个 168 价位的，要小伙子啊，按着比较带劲儿，我的卡号是 88888888。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">然后我在前台签上了自己的名字，店员就安排了一个精壮的小伙子给我按摩。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">没想到我们的对话被其他人听到了，于是他也给店员说：给我安排一个 168 价位的，要小伙子啊，按着比较带劲儿，我的卡号是 88888888。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">还模仿了我的签名，在前台签字。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">把之前的、正常的请求再次发送，这就是重放攻击。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">有的朋友就会说了：我的接口是加签的，应该没问题吧？</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">你加签咋了？</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">我没有动你的报文，所以你也可以正常验签呀。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">我不仅抄你报文里面的正常字段，报文里面的签名我也抄全乎了。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">所以，接收方接到报文之后能正常验签。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">没有任何毛病。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">有的朋友还会说了：我的接口是有加密的，应该没问题吧？</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">看来还是不懂重放攻击的基本原理。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">你加密咋了？</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">反正我截取到了你的报文，虽然你报文加密了，我看起来是一段乱码，但是我也不需要知道你报文的具体内容呀，直接重发就完事了。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">还是前面的例子。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">假设我去洗脚的时候对着店员说：天王盖地虎。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">被旁边的人听到了，他根本就不知道“天王盖地虎”是啥。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">但是他看到了我说了这句话之后，就被安排了一个 168 元的技术服务。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">于是他也对店员说：天王盖地虎。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">也能被安排。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">所以，别人根本就不需要知道你报文的具体含义。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">只要我再次发给你，你进行解密操作，发现能解密。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">能解密说明暗号对上了。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">所以，虽然报文是加密、加签传输的，对于防止请求重放，并没有什么卵用。</p>
+<h2 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0; font-weight: bold; color: rgba(0, 0, 0, 1); border-bottom: 2px solid rgba(239, 112, 96, 1); font-size: 1.3em"><span class="prefix" style="display: none"></span><span class="content" style="display: inline-block; font-weight: bold; background: rgba(239, 112, 96, 1); color: rgba(255, 255, 255, 1); padding: 3px 10px 1px; border-top-right-radius: 3px; border-top-left-radius: 3px; margin-right: 3px">加密加签</span><span class="suffix"></span><span style="display: inline-block; vertical-align: bottom; border-bottom: 36px solid rgba(239, 235, 233, 1); border-right: 20px solid rgba(0, 0, 0, 0)"> </span></h2>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">来，说解决方案之前，我们先明确两个概念：加密和加签。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">字面意思不解释了，大家都知道，说说目的。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">加密的目的：为了保证传输信息的隐私性，不被别人看到传输的具体内容，只能让接收方看到正确的信息。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">加签的目的：消息接收方验证信息是否是合法的发送方发送的，确认信息是否被其他人篡改过。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">不管是加密还是加签，都涉及到公私钥。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">记住了：公钥加密、私钥加签。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">简单的说一下原理。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">发送方有这样三样东西：自己的私钥、自己的公钥、接收方的公钥。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">接收方有这样三样东西：自己的私钥、自己的公钥、发送方的公钥。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">中间人有这样两样东西：接收方的公钥、发送方的公钥。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">为什么是公钥加密呢？</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">来个反证法嘛。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">假设消息发送方用自己的私钥加密。然后消息被中间人拦截到了，因为他有发送方的公钥，那么中间人就可以用公钥对消息进行解密，获取明文报文，这样达不到加密的目的。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">所以，正确的操作应该是用接收方的公钥加密，这样就算消息被中间人拦截到了，他也没有接收方的私钥呀，解不了密，看不到明文。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">为什么是私钥加签呢？</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">同样，反证法。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">假设消息发送方，用接收方的公钥加签。如果消息被中间人拦截到了，巧了，我也有接收方的公钥。咔一下，直接把消息一改，然后也拿着接收方的公钥加签，发过去了。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">这样的加签是没有意义的。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">因此，要用自己的私钥加签，就算被拦截，中间人没有私钥，修改报文之后，搞不了签名，也就没啥卵用。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">前面说了，对于重放攻击，截取到的内容是不是加密都无所谓。因为我根本不需要你们在说什么，我只需要把拦截下来的请求一遍遍的重发就行了。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">所以，重要的是加签和验签。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">如果你能修改报文，并且重新加签，那就不叫重放攻击了，那就叫做中间人攻击了。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">其实重放攻击也是“中间人攻击”的一个较低级别版本。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">啥是中间人攻击呢？</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">我去洗脚的时候对着店员说：给我安排一个 168 价位的，要小伙子啊，按着比较带劲儿，我的卡号是 88888888。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">对话被偷听到了，中间人对店员说：给我安排一个 1999 价位的，要小姑凉啊，按摩手法好一点的，我的卡号是 88888888。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">篡改报文，这是中间人攻击。</p>
+<figure data-tool="mdnice编辑器" style="margin: 10px 0; display: flex; flex-direction: column; justify-content: center; align-items: center"><img src="https://why-image-1300252878.cos.ap-chengdu.myqcloud.com/img/79/9c8d44cd09509f971b91c7df51f3a3e0.jpg" alt="" style="display: block; margin: 0 auto; max-width: 100%"></figure>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">本文主要聚焦于重放攻击的解决方案。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">经过前面的分析，我们知道要解决重放攻击，就是想着怎么在参与签名的字段里面搞事情。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">能想到这里，就比较好回答这个问题了。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">如果是从数据加密角度回答这个问题的同学，可以回去等通知了。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">另外，说到加密了，大家都会想到 HTTPS 数据加密。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">所以，当面试官问你：HTTPS数据加密是否可以防止重放攻击？</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">答：否，加密可以有效防止明文数据被监听，但是却防止不了重放攻击。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">接下来，我们看看解决方案。</p>
+<h2 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0; font-weight: bold; color: rgba(0, 0, 0, 1); border-bottom: 2px solid rgba(239, 112, 96, 1); font-size: 1.3em"><span class="prefix" style="display: none"></span><span class="content" style="display: inline-block; font-weight: bold; background: rgba(239, 112, 96, 1); color: rgba(255, 255, 255, 1); padding: 3px 10px 1px; border-top-right-radius: 3px; border-top-left-radius: 3px; margin-right: 3px">解决方案</span><span class="suffix"></span><span style="display: inline-block; vertical-align: bottom; border-bottom: 36px solid rgba(239, 235, 233, 1); border-right: 20px solid rgba(0, 0, 0, 0)"> </span></h2>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)"><strong style="font-weight: bold; color: rgba(0, 0, 0, 1)">加时间戳</strong></p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">首先，常见的解决方案就是在请求报文里面加上时间戳，并参与加签。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">当接收方收到报文，经过验签之后。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">首先第一个事儿就是拿着请求中的时间戳字段和本地时间做个对比。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">如果时间误差在指定时间，比如 60 秒内，那么认为这个请求是合理的，程序可以继续处理。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">为什么要有一个时间容错范围，能理解吧？</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">因为报文的传输、解密、验签是需要时间，不能假设我这一秒发出去，下一秒服务端就收到了。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">所以，得有时间容错范围。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">但是这个容错范围又带来了另外一个问题。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">不能完全避免重放攻击。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">至少时间容错范围内，比如 60 秒，重发过来的请求，服务端认为是有效的。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">那么怎么办呢？</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)"><strong style="font-weight: bold; color: rgba(0, 0, 0, 1)">加随机串</strong></p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">换个思路，我们在请求报文里面加个随机串，然后让它参与加签。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">接受方收到报文，验签之后，把随机串拿出来，来判断一下这个随机串是否已经处理过了。比如判断一下是否存在于 Redis 里面。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">当请求再次重放过来的时候，一看：嚯，好家伙，这个随机串已经被用过了呀，不处理了。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">在这个情况下，随机串就得保证唯一性了，还得历史全局唯一。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">因为你指不定哪天就收到一个几天前的被重放过来的请求。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">确实是解决了请求重放的问题，但是弊端也很明显：历史全局唯一。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">我还得存储下来，而且存储的数据量还会越来越大，是不是有点麻烦了？</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">确实麻烦了。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">这个思想就和用全局唯一流水号去保证接口幂等性很像了。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">所以，我第一次遇到这个面试题的时候，我朝着接口幂等的角度去回答了，也不能说回答的不对。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">只能说回答的不是面试官想要的标准答案。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">那么什么是面试官想要听到的回答呢？</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)"><strong style="font-weight: bold; color: rgba(0, 0, 0, 1)">时间戳+随机串</strong></p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">时间戳的问题是有一定的时间容错窗口，这个时间窗口内的重放攻击是防不住的。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">随机串的问题是要保证历史全局唯一，保存随机串成了一个麻烦的事情。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">那么当我们把这两个方案揉在一起的时候，神奇的事情就发生了：</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">我只需要保证时间窗口内的生成的随机串不重复就行。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">而且假设时间窗口为 60 秒，我们用 Redis 来记录出现过的随机串，那么这个串在后台的超时时间设置为 60 秒就行。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">一般来说这个时间窗口都不会太长了，我对接过这么多各种各样的渠道，见过最长的也就 5 分钟。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">保证 5 分钟内生成的两个随机串不重复，这个需求比保证实现一个历史全局唯一的流水号容易实现多了吧？</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">另外，最关键的一句话一定要说：<strong style="font-weight: bold; color: rgba(0, 0, 0, 1)">时间戳和随机串得参与到加签逻辑中去。</strong></p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">这个很好理解吧？</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">接受方看报文是否被篡改，看的就是签名是否能匹配上。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">而签名的结果是和参与签名的字段的值有直接关系的。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">要是你时间戳和随机串不参与加签，那么任意修改时间戳或者随机串，都不会引起签名的变化，那不白忙活一场吗？</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">中间人咔一下拦截到请求，发现有时间戳和随机串，正准备放弃的时候，想着死马当做活马医，把随机串一改，又扔给接收方了。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">结果收到正确的响应了。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">我要是这个中间人，我都会笑出来声来：写这个代码的程序员也太可爱了吧？</p>
+<h2 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0; font-weight: bold; color: rgba(0, 0, 0, 1); border-bottom: 2px solid rgba(239, 112, 96, 1); font-size: 1.3em"><span class="prefix" style="display: none"></span><span class="content" style="display: inline-block; font-weight: bold; background: rgba(239, 112, 96, 1); color: rgba(255, 255, 255, 1); padding: 3px 10px 1px; border-top-right-radius: 3px; border-top-left-radius: 3px; margin-right: 3px">微信支付</span><span class="suffix"></span><span style="display: inline-block; vertical-align: bottom; border-bottom: 36px solid rgba(239, 235, 233, 1); border-right: 20px solid rgba(0, 0, 0, 0)"> </span></h2>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">其实说到时间戳加随机串的时候，我就想起了微信支付。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">刚刚入行的时候，可是被这个微信支付搞的服服帖帖的。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">但是需要说明的是，虽然它的接口文档里面也有时间戳加随机串，但是目的不是为了防止重放攻击的。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">写出来呢只是为了让对于加签这个东西不太熟悉的朋友有一个具体的认知。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">来，我们看一下微信支付的接口文档：</p>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border-top: none; border-right: none; border-bottom: none; border-left: 3px solid rgba(239, 112, 96, 1); display: block; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; color: rgba(106, 115, 125, 1); padding: 10px 10px 10px 20px; margin-bottom: 20px; margin-top: 20px; background: rgba(255, 249, 249, 1)">
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; color: rgba(0, 0, 0, 1); line-height: 26px">https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=7_7&amp;index=6</p>
+</blockquote>
+<figure data-tool="mdnice编辑器" style="margin: 10px 0; display: flex; flex-direction: column; justify-content: center; align-items: center"><img src="https://why-image-1300252878.cos.ap-chengdu.myqcloud.com/img/83/20210515001503.png" alt="" style="display: block; margin: 0 auto; max-width: 100%"></figure>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">可以看到请求参数里面确实有时间戳（timeStamp）和随机字符串（nonceStr），且人家还专门加粗了：</p>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border-top: none; border-right: none; border-bottom: none; border-left: 3px solid rgba(239, 112, 96, 1); display: block; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; color: rgba(106, 115, 125, 1); padding: 10px 10px 10px 20px; margin-bottom: 20px; margin-top: 20px; background: rgba(255, 249, 249, 1)">
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; color: rgba(0, 0, 0, 1); line-height: 26px"><strong style="font-weight: bold; color: rgba(0, 0, 0, 1)">参与签名的参数为：appId、timeStamp、nonceStr、package、signType，参数区分大小写。</strong></p>
+</blockquote>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">那么是怎么签名的呢？</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">官方也是给了详尽的说明的：</p>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border-top: none; border-right: none; border-bottom: none; border-left: 3px solid rgba(239, 112, 96, 1); display: block; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; color: rgba(106, 115, 125, 1); padding: 10px 10px 10px 20px; margin-bottom: 20px; margin-top: 20px; background: rgba(255, 249, 249, 1)">
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; color: rgba(0, 0, 0, 1); line-height: 26px">https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=4_3</p>
+</blockquote>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">首先就是按照字典序，对所有需要参与签名的、非空的字段进行排序。并使用 URL 键值对的格式（即key1=value1&amp;key2=value2…）拼接成字符串 stringA。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">然后在 stringA 最后拼接上 key（商户密钥） 得到 stringSignTemp 字符串，并对 stringSignTemp 进行 MD5 运算，再将得到的字符串所有字符转换为大写，得到 sign 值 signValue。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">官方给了一个实际的案例，如下：</p>
+<figure data-tool="mdnice编辑器" style="margin: 10px 0; display: flex; flex-direction: column; justify-content: center; align-items: center"><img src="https://why-image-1300252878.cos.ap-chengdu.myqcloud.com/img/83/20210515002738.png" alt="" style="display: block; margin: 0 auto; max-width: 100%"></figure>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">再说一次：微信支付的接口里面虽然有时间戳加随机串，但是目的不是为了防止重放攻击的。写在这里只是让大家对于加签这个过程有一个具体的认知。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">别整茬了。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">那么它在接口里面加入随机串的目的是什么呢？</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">官方自己都说了：</p>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border-top: none; border-right: none; border-bottom: none; border-left: 3px solid rgba(239, 112, 96, 1); display: block; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; color: rgba(106, 115, 125, 1); padding: 10px 10px 10px 20px; margin-bottom: 20px; margin-top: 20px; background: rgba(255, 249, 249, 1)">
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; color: rgba(0, 0, 0, 1); line-height: 26px">微信支付API接口协议中包含字段nonce_str，主要保证签名不可预测。我们推荐生成随机数算法如下：调用随机数函数生成，将得到的值转换为字符串。</p>
+</blockquote>
+<h2 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0; font-weight: bold; color: rgba(0, 0, 0, 1); border-bottom: 2px solid rgba(239, 112, 96, 1); font-size: 1.3em"><span class="prefix" style="display: none"></span><span class="content" style="display: inline-block; font-weight: bold; background: rgba(239, 112, 96, 1); color: rgba(255, 255, 255, 1); padding: 3px 10px 1px; border-top-right-radius: 3px; border-top-left-radius: 3px; margin-right: 3px">阿里API网关</span><span class="suffix"></span><span style="display: inline-block; vertical-align: bottom; border-bottom: 36px solid rgba(239, 235, 233, 1); border-right: 20px solid rgba(0, 0, 0, 0)"> </span></h2>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">看完微信支付，再看看阿里的 API 网关是怎么防止重放攻击的。</p>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border-top: none; border-right: none; border-bottom: none; border-left: 3px solid rgba(239, 112, 96, 1); display: block; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; color: rgba(106, 115, 125, 1); padding: 10px 10px 10px 20px; margin-bottom: 20px; margin-top: 20px; background: rgba(255, 249, 249, 1)">
+<p style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; color: rgba(0, 0, 0, 1); line-height: 26px">https://help.aliyun.com/knowledge_detail/50041.html</p>
+</blockquote>
+<figure data-tool="mdnice编辑器" style="margin: 10px 0; display: flex; flex-direction: column; justify-content: center; align-items: center"><img src="https://why-image-1300252878.cos.ap-chengdu.myqcloud.com/img/83/20210516153422.png" alt="" style="display: block; margin: 0 auto; max-width: 100%"></figure>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">阿里的 API 网关，就是在 HEADER 里面加了两个参数：X-Ca-Timestamp、X-Ca-Nonce。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">这个解决方案就是我们前面说的时间戳加随机串。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">接着看看它的签名生成过程。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">首先是客户端生成签名，三步：</p>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border-top: none; border-right: none; border-bottom: none; border-left: 3px solid rgba(239, 112, 96, 1); display: block; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; color: rgba(106, 115, 125, 1); padding: 10px 10px 10px 20px; margin-bottom: 20px; margin-top: 20px; background: rgba(255, 249, 249, 1)">
+<ul style="margin-top: 8px; margin-bottom: 8px; padding-left: 25px; color: rgba(0, 0, 0, 1); list-style-type: disc">
+<li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgba(1, 1, 1, 1); font-weight: 500">1.从原始请求中提取关键数据，得到一个用来签名的字符串</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgba(1, 1, 1, 1); font-weight: 500">2.使用加密算法加APP Secret对关键数据签名串进行加密处理，得到签名</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgba(1, 1, 1, 1); font-weight: 500">3.将签名所相关的所有头加入到原始HTTP请求中，得到最终HTTP请求</section></li></ul>
+</blockquote>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">一图胜千言：</p>
+<figure data-tool="mdnice编辑器" style="margin: 10px 0; display: flex; flex-direction: column; justify-content: center; align-items: center"><img src="https://why-image-1300252878.cos.ap-chengdu.myqcloud.com/img/83/20210516154057.png" alt="" style="display: block; margin: 0 auto; max-width: 100%"></figure>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">然后是服务端验证签名，四步：</p>
+<blockquote class="multiquote-1" data-tool="mdnice编辑器" style="border-top: none; border-right: none; border-bottom: none; border-left: 3px solid rgba(239, 112, 96, 1); display: block; font-size: 0.9em; overflow: auto; overflow-scrolling: touch; color: rgba(106, 115, 125, 1); padding: 10px 10px 10px 20px; margin-bottom: 20px; margin-top: 20px; background: rgba(255, 249, 249, 1)">
+<ul style="margin-top: 8px; margin-bottom: 8px; padding-left: 25px; color: rgba(0, 0, 0, 1); list-style-type: disc">
+<li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgba(1, 1, 1, 1); font-weight: 500">1.从接收到的请求中提取关键数据，得到一个用来签名的字符串</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgba(1, 1, 1, 1); font-weight: 500">2.从接收到的请求中读取APP Key，通过APP Key查询到对应的APP Secret</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgba(1, 1, 1, 1); font-weight: 500">3.使用加密算法和APP Secret对关键数据签名串进行加密处理，得到签名</section></li><li><section style="margin-top: 5px; margin-bottom: 5px; line-height: 26px; text-align: left; color: rgba(1, 1, 1, 1); font-weight: 500">4.从接收到的请求中读取客户端签名，对比服务器端签名和客户端签名的一致性。</section></li></ul>
+</blockquote>
+<figure data-tool="mdnice编辑器" style="margin: 10px 0; display: flex; flex-direction: column; justify-content: center; align-items: center"><img src="https://why-image-1300252878.cos.ap-chengdu.myqcloud.com/img/83/20210516154408.png" alt="" style="display: block; margin: 0 auto; max-width: 100%"></figure>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">而具体的签名算法其实和微信支付，大同小异，主要也是对于参与签名的字段按照字典序排序。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">个中差异就不进行对比说明了，有兴趣的朋友可以自己看一下。</p>
+<h2 data-tool="mdnice编辑器" style="margin-top: 30px; margin-bottom: 15px; padding: 0; font-weight: bold; color: rgba(0, 0, 0, 1); border-bottom: 2px solid rgba(239, 112, 96, 1); font-size: 1.3em"><span class="prefix" style="display: none"></span><span class="content" style="display: inline-block; font-weight: bold; background: rgba(239, 112, 96, 1); color: rgba(255, 255, 255, 1); padding: 3px 10px 1px; border-top-right-radius: 3px; border-top-left-radius: 3px; margin-right: 3px">最后说一句</span><span class="suffix"></span><span style="display: inline-block; vertical-align: bottom; border-bottom: 36px solid rgba(239, 235, 233, 1); border-right: 20px solid rgba(0, 0, 0, 0)"> </span></h2>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">好了，看到了这里点个赞吧，周更很累的，需要一点正反馈。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">才疏学浅，难免会有纰漏，如果你发现了错误的地方，可以在留言区提出来，我对其加以修改。</p>
+<p data-tool="mdnice编辑器" style="font-size: 16px; padding-top: 8px; padding-bottom: 8px; margin: 0; line-height: 26px; color: rgba(0, 0, 0, 1)">感谢您的阅读，我坚持原创，十分欢迎并感谢您的关注。</p>
+<figure data-tool="mdnice编辑器" style="margin: 10px 0; display: flex; flex-direction: column; justify-content: center; align-items: center"><img src="https://why-image-1300252878.cos.ap-chengdu.myqcloud.com/img/79/bd1c88abeec68fe0e55fdc2dd21f997.jpg" alt="" style="display: block; margin: 0 auto; max-width: 100%"></figure>
+</section>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2021-05-18 12:42</span>&nbsp;
+<a href="https://www.cnblogs.com/thisiswhy/">why技术</a>&nbsp;
+阅读(<span id="post_view_count">221</span>)&nbsp;
+评论(<span id="post_comment_count">2</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14780445" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14780445);return false;">收藏</a></div>
+        </div>
+        <script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 567091, cb_blogApp = 'thisiswhy', cb_blogUserGuid = '29a08954-3cc6-46e2-b8e3-08d7431a305b';
+    var cb_entryId = 14780445, cb_entryCreatedDate = '2021-05-18 12:42', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+        <a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+    </div>
+</div>
+            </div>
+        </div>
+
+        <div id="sideBar">
+            <div id="sideBarMain">
+                <div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+                <div id="calendar"><div id="blog-calendar" style="display:none"></div></div>                
+                <script>loadBlogDefaultCalendar();</script>
+                <div id="leftcontentcontainer">
+                    <!-- begin:SingleColumn -->
+                    <div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+                    <!-- end:  SingleColumn -->
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+    <div id="footer">
+        <!--done-->
+Copyright &copy; 2021 why技术
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+    </div>
+</div>
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjuyd5k8vprl1-sqyYpkoO3oCMit5VqtL93B0RaQrqQe7Fd8opy_MibgZ6EqUhLHoDl38RYjZkSia2zg5iLUgNnuBt_haHEq8A2zbamjRHEac5Y4gK1tnXW9BhsPR_MQwEY" />
+</body>
+</html>

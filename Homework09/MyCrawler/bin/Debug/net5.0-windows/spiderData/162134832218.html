@@ -1,0 +1,347 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="never" />
+    <meta name="description" content="摘要：ES已经成为了全能型的数据产品，在很多领域越来越受欢迎，本文旨在从数据库领域分析ES的使用。 本文分享自华为云社区《Elasticsearch数据库加速实践》，原文作者：css_blog 。 一" />
+    <meta property="og:description" content="摘要：ES已经成为了全能型的数据产品，在很多领域越来越受欢迎，本文旨在从数据库领域分析ES的使用。 本文分享自华为云社区《Elasticsearch数据库加速实践》，原文作者：css_blog 。 一" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Elasticsearch数据库优化实战：让你的ES飞起来 - 华为云开发者社区 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/simpleblue/bundle-simpleblue.min.css?v=2hjghzSZyhYA1HxvSxKnXih3JbC120DBjeO9V9T_nSs" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/simpleblue/bundle-simpleblue-mobile.min.css?v=3tvwgOOqUo3RpS6gGzEdK0LbptOPv4Bx7M85_UAnFGs" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/huaweiyun/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/huaweiyun/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/huaweiyun/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 602073;
+        var currentBlogApp = 'huaweiyun';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'SimpleBlue';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-05-18 02:24';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <div id="home">
+    <div id="header">
+        <div id="blogTitle">
+            <div class="title"><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/huaweiyun/">华为云开发者社区</a>
+</div>
+<div class="subtitle"></div>
+
+        </div>
+        <div id="navigator">
+            
+<ul id="navList">
+    <li id="nav_sitehome"><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+    <li id="nav_myhome">
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/huaweiyun/">
+首页</a>
+</li>
+    <li id="nav_newpost">
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+    <li id="nav_contact">
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E5%8D%8E%E4%B8%BA%E4%BA%91%E5%BC%80%E5%8F%91%E8%80%85%E7%A4%BE%E5%8C%BA">
+联系</a></li>
+    <li id="nav_rss">
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/huaweiyun/rss/">
+订阅</a></li>
+    <li id="nav_admin">
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+            <div class="blogStats">
+                <div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+            </div>
+        </div>
+    </div>
+    <div id="main">
+        <div id="mainContent">
+            <div class="forFlow">
+                <div id="post_detail">
+    <div id="topics">
+        <div class="post">
+            <h1 class="postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/huaweiyun/p/14780771.html">
+    <span>Elasticsearch数据库优化实战：让你的ES飞起来</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<blockquote><strong>摘要：</strong>ES已经成为了全能型的数据产品，在很多领域越来越受欢迎，本文旨在从数据库领域分析ES的使用。</blockquote>
+<p>本文分享自华为云社区《<a class=" wrap external" href="https://bbs.huaweicloud.com/blogs/265550?utm_source=cnblog&amp;utm_medium=bbs-ex&amp;utm_campaign=ei&amp;utm_content=content" target="_blank" data-za-detail-view-id="1043">Elasticsearch数据库加速实践</a>》，原文作者：css_blog 。</p>
+<h2>一、方案说明</h2>
+<p>Elasticsearch主要功能是什么，不同的场景有不同的定位，在日志场景我们可以用ELK生态搭建日志分析系统，在搜索领域ES是当前最热门的搜索引擎。在大数据领域，ES可以对标Hbase提供海量日志的数据仓库；在数据库领域ES可以作为查询分析型的分析型数据库使用。ES已经成为了全能型的数据产品，在很多领域越来越受欢迎，本文旨在从数据库领域分析ES的使用。</p>
+<p>ES不是关系型数据库，数据更新采用乐观锁，通过版本号控制，不支持事务处理，这也是ES区别于传统数据库（Mysql）的地方；但是ES支持精确查询加速，多条件任意组合查询，多种聚合查询，查询速度很快，可以替代数据库复杂条件查询的场景需求，甚至可以代替数据库做二级索引。</p>
+<p>在数据库加速场景通常的做法是客户产生的商品订单数据会写入Mysql类关系型数据库，数据库写入保证事务性，但是随着商品订单的数据越来越多，同时客户查询的条件多变，无法所有字段都建立索引，数据库的查询能力远远不能满足查询诉求。我们考虑用ES全量同步数据库数据，在ES中做多条件聚合查询，查询的结果可以在Mysql中做关联搜索，在查询商品订单详情展示， Mysql数据和ES数据可以不要求实时一致，可以通canal消费Mysql binlog日志信息， 同步到ES，实现一次写入，保证数据一致性。以下数据库都以Mysql为例进行说明。</p>
+<h2>二、索引原理分析</h2>
+<p>ES为什么查询能力远远超过Mysql关系型数据库，主要是他们的实现原理和底层存储的数据结构差异决定的，以下比较两种产品的实现原理。</p>
+<p>Elasticsearch会对所有输入的文本进行处理，建立索引放入内存中，从而提高搜索效率。在这一点上ES要优于MySQL的B+树的结构，MySQL需要将索引放入磁盘，每次读取需要先从磁盘读取索引然后寻找对应的数据节点，但是ES能够直接在内存中就找到目标文档对应的大致位置，最大化提高效率。并且在进行组合查询的时候MySQL的劣势更加明显，它不支持复杂的组合查询比如聚合操作，即使要组合查询也要事先建好索引，但是ES就可以完成这种复杂的操作，默认每个字段都是有索引的，在查询的时候可以各种互相组合。</p>
+<h3>（1）数据库索引B+树</h3>
+<p>数据库中索引都是以树来组织的，常用的有B tree，B-tree，B+tree，以下介绍B+tree的组织结构。</p>
+<p>首先我们先想象下为什么需要建立索引，假设我们有一张表book，存储了我们保持的书籍信息，名称，作者，发布时间等，我们有10000条记录，如果我们需要找一本为《database》的书，那我们的SQL为：</p>
+<div class="highlight">
+<div class="cnblogs_code">
+<pre><span style="color: rgba(0, 0, 255, 1)">select</span> name，author form book <span style="color: rgba(0, 0, 255, 1)">where</span> name = ‘database’;</pre>
+</div>
+</div>
+<p>我们需要扫描整个表，全量比较才可以，如果我们对name建立索引，书名已经按照顺序排序，查询时只需要找到对应位置就可以快速获取结果。</p>
+<p>索引的本质是通过不断地缩小想要获取数据的范围来筛选出最终想要的结果，同时把随机的事件变成顺序的事件，也就是说，有了这种索引机制，我们可以总是用同一种查找方式来锁定数据。</p>
+<p>数据库采用B+tree建立索引:</p>
+<p><img src="https://pic4.zhimg.com/80/v2-a2e1d7d9635dce3438de91bbdc84442b_720w.jpg" width="669" class="origin_image zh-lightbox-thumb lazy" data-caption="" data-size="normal" data-rawwidth="669" data-rawheight="320" data-original="https://pic4.zhimg.com/v2-a2e1d7d9635dce3438de91bbdc84442b_r.jpg" data-actualsrc="https://pic4.zhimg.com/v2-a2e1d7d9635dce3438de91bbdc84442b_b.jpg" data-lazy-status="ok"></p>
+<p>B+tree 数据只存储在叶子节点中。这样在B树的基础上每个节点存储的关键字数更多，树的层级更少所以查询数据更快，所有指关键字指针都存在叶子节点，所以每次查找的次数都相同所以查询速度更稳定。</p>
+<h3>（2）Elasticsearch索引原理</h3>
+<p>ES建立索引采用倒排索引的方式存储。</p>
+<p>对输入的所有数据都建立索引，并且把所有和文档对应起来，在我们查找数据的时候我们直接查找词典（Term），在找到Term对应的文档ID，进而找到数据。这和Mysql使用B+tree树建立索引的方式类似，但是如果词典Term很大，对Term的搜索就会很慢，ES进一步建议了词典索引（FST），提升词典的搜索能力。</p>
+<p><img src="https://pic3.zhimg.com/80/v2-4e7e9e9898f27b5609b408973f4204d6_720w.jpg" width="605" class="origin_image zh-lightbox-thumb lazy" data-caption="" data-size="normal" data-rawwidth="605" data-rawheight="345" data-original="https://pic3.zhimg.com/v2-4e7e9e9898f27b5609b408973f4204d6_r.jpg" data-actualsrc="https://pic3.zhimg.com/v2-4e7e9e9898f27b5609b408973f4204d6_b.jpg" data-lazy-status="ok"></p>
+<p>Term Index 以树的形式保存在内存中，运用了FST+压缩公共前缀方法极大的节省了内存，通过Term Index查询到Term Dictionary所在的block再去磁盘上找term减少了IO次数。</p>
+<p>Term Dictionary 排序后通过二分法将检索的时间复杂度从原来N降低为logN。</p>
+<h2>三、查询对比分析</h2>
+<p>以下对于数据库搜索常用的场景对比ES和数据库：</p>
+<ul>
+<li><strong>全文检索</strong></li>
+</ul>
+<p>ES支持全文检索，可以对数据分词，每个词通过FSP建立词典索引，而Mysql关系数据库则不支持，想象下如果搜索的不是整个字段而是字段中的几个关键词，使用Mysql搜索必须全表扫描。</p>
+<ul>
+<li><strong>精确搜索</strong></li>
+</ul>
+<p>如果Mysql对该字段建立过索引，使用ES搜索和Mysql搜索性能差异不大，可能Mysql更快点，但是ES是分布式系统，可以支持PB级别的数据搜索，对大表搜索ES优势更明显。</p>
+<ul>
+<li><strong>多条件查询</strong></li>
+</ul>
+<p>我们知道Mysql需要对字段建立索引才能加速搜索过程，而ES默认是全索引的，对于多条件查询，触发Mysql建立联合索引，否则多个字段搜索，Mysql 先选择一个字段搜索，结果在使用第二个字段过滤得到最终结果。</p>
+<p>ES则采用多个字段结果集交并操作，使用bitmap或者skiplist加快搜索速度，相比Mysql优势明显。</p>
+<ul>
+<li><strong>聚合搜索</strong></li>
+</ul>
+<p>Mysql聚合搜索如果没有建立索引需要全表扫描排序，如果建立索引在B+tree上进行范围查询。</p>
+<p>ES为了加快聚合搜索速度，通过Doc value来解决聚合搜索问题。DocValue就是列式存储。</p>
+<p>存储结果如下：</p>
+<p><img src="https://pic4.zhimg.com/80/v2-0808e296e528782ea0cf6e4d00a16a77_720w.jpg" width="336" class="content_image lazy" data-caption="" data-size="normal" data-rawwidth="336" data-rawheight="150" data-actualsrc="https://pic4.zhimg.com/v2-0808e296e528782ea0cf6e4d00a16a77_b.jpg" data-lazy-status="ok"></p>
+<p>Docvalue数据按照文档ID排序，DocValue将随机读取变成了顺序读取，<br>在es中，因为分片的存在，数据被拆分成多份，放在不同机器上。但是给用户体验却好像只有一个库一样。对于聚合查询，其处理是分两阶段完成的：</p>
+<ul>
+<li>Shard 本地的 Lucene Index 并行计算出局部的聚合结果。</li>
+<li>收到所有的 Shard 的局部聚合结果，聚合出最终的聚合结果。</li>
+
+</ul>
+<p>这种两阶段聚合的架构使得每个 shard 不用把原数据返回，而只用返回数据量小得多的聚合结果。这样极大的减少了网络带宽的消耗。</p>
+<ul>
+<li><strong>多副本加速</strong></li>
+
+</ul>
+<p>我们知道ES有shard和replica的概念，副本一方面可以保证数据的可靠性，另一方面多副本可以加快搜索速度提高搜索并发能力。</p>
+<h2>四、数据库到Elasticsearch同步方案</h2>
+<p>结合用户实际的使用方式和数据量的大小，Mysql数据到ES可以有多种不同的方式选择。</p>
+<ol>
+<li>Canal=&gt;Elasticsearch</li>
+
+</ol>
+<p>使用Canal直接消费Mysql binlog日志写入ES，这种方式如果Mysql写入量大，会面临Canal写入阻塞问题。</p>
+<ol>
+<li>Canal =&gt;Kafka=&gt;Elasticsearch</li>
+
+</ol>
+<p>Canal数据写入到Kafka，使用另外的app消费Kafka数据同步到ES</p>
+<h2>五、问题汇总</h2>
+<h3>1.索引shard问题</h3>
+<p>在Mysql数据同步到ES中面临索引的建立的问题，在数据写入ES之前我们需要提前规划数据的shards和replicas的个数，replicas 可以动态修改，但是shards数创建完成后不能修改。</p>
+<p>随着Mysql数据量的增加，如果shard太少，就会导致每个shard的数据量太大的问题。</p>
+<p>如果一个索引600G，只有3 个shard，每个shard就200G，会极大的损耗查询能力，也不利于数据迁移。</p>
+<p>我们可以按照月来滚动创建索引，通过索引别名把所有索引关联起来使用。</p>
+<div class="highlight">
+<div class="cnblogs_code">
+<pre>test_data-<span style="color: rgba(128, 0, 128, 1)">202101</span><span style="color: rgba(0, 0, 0, 1)">
+test_data</span>-<span style="color: rgba(128, 0, 128, 1)">202102</span></pre>
+</div>
+</div>
+<h3>2.查询加速问题</h3>
+<p>在使用ES对数据库进行加速的场景，我们希望的是ES查询能力尽可能快。在ES查询不满足要求的时候我们需要对查询进行调优。</p>
+<p>常用的方法有:</p>
+<p><img src="https://pic4.zhimg.com/80/v2-2c2ee92f5496f02e71a0af4b803eaef7_720w.jpg" width="635" class="origin_image zh-lightbox-thumb lazy" data-caption="" data-size="normal" data-rawwidth="635" data-rawheight="174" data-original="https://pic4.zhimg.com/v2-2c2ee92f5496f02e71a0af4b803eaef7_r.jpg" data-actualsrc="https://pic4.zhimg.com/v2-2c2ee92f5496f02e71a0af4b803eaef7_b.jpg" data-lazy-status="ok"></p>
+<p class="ztext-empty-paragraph">&nbsp;</p>
+<p><strong><a class=" wrap external" href="https://bbs.huaweicloud.com/blogs?utm_source=cnblog&amp;utm_medium=bbs-ex&amp;utm_campaign=ei&amp;utm_content=content" target="_blank" data-za-detail-view-id="1043">点击关注，第一时间了解华为云新鲜技术~</a></strong></p>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2021-05-18 14:24</span>&nbsp;
+<a href="https://www.cnblogs.com/huaweiyun/">华为云开发者社区</a>&nbsp;
+阅读(<span id="post_view_count">1</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14780771" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14780771);return false;">收藏</a></div>
+        </div>
+        <script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 602073, cb_blogApp = 'huaweiyun', cb_blogUserGuid = 'cd60776e-b8cd-4919-fb14-08d7f1c7f588';
+    var cb_entryId = 14780771, cb_entryCreatedDate = '2021-05-18 14:24', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+        <a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+    </div>
+</div>
+            </div>
+        </div>
+
+        <div id="sideBar">
+            <div id="sideBarMain">
+                <div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+                <div id="calendar"><div id="blog-calendar" style="display:none"></div></div>                
+                <script>loadBlogDefaultCalendar();</script>
+                <div id="leftcontentcontainer">
+                    <!-- begin:SingleColumn -->
+                    <div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+                    <!-- end:  SingleColumn -->
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+    <div id="footer">
+        <!--done-->
+Copyright &copy; 2021 华为云开发者社区
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+    </div>
+</div>
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjsfrbwvcXnm0jde1K5xyxxrMJ2LxfJkhB5d1Vjtp3l7GrNQuxxfEh-m_U9DHild8sWsTTkLZJbHC8XJFeVdJoLf7-GNlJ74jLcXIgqd76OQv0TbBx1IJGu1Gu7MmqCyOh8" />
+</body>
+</html>

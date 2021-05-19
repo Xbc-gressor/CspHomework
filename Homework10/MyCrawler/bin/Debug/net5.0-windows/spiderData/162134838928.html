@@ -1,0 +1,566 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="概述 本文描述下Spring的实例化、初始化、销毁，整个SpringBean生命周期，聊一聊BeanPostProcessor的回调时机、Aware方法的回调时机、初始化方法的回调及其顺序、销毁方法的" />
+    <meta property="og:description" content="概述 本文描述下Spring的实例化、初始化、销毁，整个SpringBean生命周期，聊一聊BeanPostProcessor的回调时机、Aware方法的回调时机、初始化方法的回调及其顺序、销毁方法的" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>深入源码理解SpringBean生命周期 - DeepSleeping丶 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/deepSleeping/custom.css?v=4R8VHrlGXMaBY8w5fjaiKDJTroI=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/SimpleMemory/bundle-SimpleMemory-mobile.min.css" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/deepSleeping/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/deepSleeping/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/deepSleeping/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 364063;
+        var currentBlogApp = 'deepSleeping';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'SimpleMemory';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-05-18 11:53';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="no-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/deepSleeping/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/deepSleeping/">DeepSleeping丶</a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/deepSleeping/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/DeepSleeping%E4%B8%B6">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/deepSleeping/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/deepSleeping/p/14709552.html">
+    <span>深入源码理解SpringBean生命周期</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+<h1 id="概述">概述</h1>
+<p>本文描述下Spring的实例化、初始化、销毁，整个SpringBean生命周期，聊一聊BeanPostProcessor的回调时机、Aware方法的回调时机、初始化方法的回调及其顺序、销毁方法的回调及其顺序、重要的BeanPostProcessor的介绍。<br>
+开头是一张我画的调用流转图，然后就是我写的一个Demo通过日志打印了SpringBean的生命周期，最后通过源码慢慢跟进其生命周期。</p>
+<h2 id="生命周期流转图">生命周期流转图</h2>
+<p><img src="https://img2020.cnblogs.com/blog/1103719/202105/1103719-20210518112023382-1745266821.png" alt="SpringBean生命周期" loading="lazy"></p>
+<h2 id="生命周期demo">生命周期Demo</h2>
+<p>如下对某一个Bean进行getBean操作，最后销毁上下文，通过日志来查看SpringBean的生命周期</p>
+<h3 id="代码">代码</h3>
+<pre><code class="language-java">package com.deepz.spring;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor;
+import org.springframework.beans.factory.support.MergedBeanDefinitionPostProcessor;
+import org.springframework.beans.factory.support.RootBeanDefinition;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.EnvironmentAware;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+
+@Slf4j
+@Configuration
+public class BeanLifeCycleManager {
+
+    public static void main(String[] args) {
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(BeanLifeCycleManager.class);
+        context.getBean("beanLifeCycle");
+        context.close();
+    }
+
+    @Bean(initMethod = "init", destroyMethod = "destroyMethod")
+    public BeanLifeCycle beanLifeCycle() {
+        return new BeanLifeCycle();
+    }
+
+    interface MyAware extends ApplicationContextAware, EnvironmentAware, BeanFactoryAware {
+
+    }
+
+    @Component
+    static class MyMergedBeanDefinitionPostProcessor implements MergedBeanDefinitionPostProcessor {
+
+        @Override
+        public void postProcessMergedBeanDefinition(RootBeanDefinition beanDefinition, Class&lt;?&gt; beanType, String beanName) {
+            if ("beanLifeCycle".equals(beanName)) {
+                log.info("&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;元信息收集 ，MergedBeanDefinitionPostProcessor#postProcessMergedBeanDefinition(RootBeanDefinition beanDefinition, Class&lt;?&gt; beanType, String beanName) \nbeanDefinition = [{}]\n,beanType = [{}],beanName = [{}]\n", beanDefinition, beanType, beanName);
+            }
+        }
+    }
+
+    @Component
+    static class MyInstantiationAwareBeanPostProcessor implements InstantiationAwareBeanPostProcessor {
+        @Override
+        public Object postProcessBeforeInstantiation(Class&lt;?&gt; beanClass, String beanName) throws BeansException {
+            if ("beanLifeCycle".equals(beanName)) {
+                log.info("&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;实例化前，InstantiationAwareBeanPostProcessor#postProcessBeforeInstantiation(Class&lt;?&gt; beanClass,String beanName) \nbeanClass = [{}],beanName = [{}]\n", beanClass, beanName);
+            }
+            return null;
+        }
+
+        @Override
+        public boolean postProcessAfterInstantiation(Object bean, String beanName) throws BeansException {
+            if ("beanLifeCycle".equals(beanName)) {
+                log.info("&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;实例化后，InstantiationAwareBeanPostProcessor#postProcessAfterInstantiation(Object bean, String beanName)\nbean = [{}],beanName = [{}]\n", bean, beanName);
+            }
+            return false;
+        }
+
+        @Override
+        public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+            if ("beanLifeCycle".equals(beanName)) {
+                log.info("&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;初始化前，InstantiationAwareBeanPostProcessor#postProcessBeforeInitialization(Object bean, String beanName)\nbean= [{}],beanName = [{}]\n", bean, beanName);
+            }
+            return bean;
+        }
+
+        @Override
+        public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+            if ("beanLifeCycle".equals(beanName)) {
+                log.info("&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;初始化后，InstantiationAwareBeanPostProcessor#postProcessAfterInitialization(Object bean, String beanName)\nbean= [{}],beanName = [{}]\n", bean, beanName);
+            }
+            return bean;
+        }
+    }
+
+    public static class BeanLifeCycle implements InitializingBean, MyAware, DisposableBean {
+        public void init() {
+            log.info("&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;init-method\n");
+        }
+
+        @PostConstruct
+        public void postConstruct() {
+            log.info("&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;postConstruct\n");
+        }
+
+        @Override
+        public void afterPropertiesSet() throws Exception {
+            log.info("&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;afterPropertiesSet\n");
+        }
+
+        public void destroyMethod() {
+            log.info("&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;destroy-method\n");
+        }
+
+        @Override
+        public void destroy() {
+            log.info("&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;DisposableBean-destroy\n");
+        }
+
+        @PreDestroy
+        public void preDestroy(){
+            log.info("&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;preDestroy\n");
+        }
+
+
+        @Override
+        public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+            log.info("&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;BeanFactoryAware#setBeanFactory\n");
+        }
+
+        @Override
+        public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+            log.info("&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;ApplicationContextAware#setApplicationContext\n");
+        }
+
+        @Override
+        public void setEnvironment(Environment environment) {
+            log.info("&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;EnvironmentAware#setEnvironment\n");
+        }
+    }
+}
+</code></pre>
+<h3 id="执行结果">执行结果</h3>
+<p><img src="https://img2020.cnblogs.com/blog/1103719/202105/1103719-20210518103904583-1578987227.png" alt="" loading="lazy"></p>
+<h2 id="实例化前">实例化前</h2>
+<p>从createBean开始，见证Bean的实例化过程，首先是Bean实例化前的一个扩展点，它允许你自定义返回Bean实例。（AOP也是在这里生成代理对象的）</p>
+<h3 id="回调bean实例化前的方法">回调Bean实例化前的方法</h3>
+<p>AbstractAutowireCapableBeanFactory#createBean(String beanName, RootBeanDefinition mbd, @Nullable Object[] args)<br>
+<img src="https://img2020.cnblogs.com/blog/1103719/202104/1103719-20210427153310486-1191961569.png" alt="" loading="lazy"></p>
+<p>主要是为了回调所有InstantiationAwareBeanPostProcessor的postProcessBeforeInstantiation(Class&lt;?&gt; beanClass, String beanName)方法，该方法会返回Object对象，如果返回的Object不为空，则会回调所有BeanPostProcessor的postProcessAfterInitialization(Object bean, String beanName)方法，那么返回的Object则会作为Bean去处理，如果返回Null，那么后续就会交由Spring来实例化、初始化（doCreateBean）。<br>
+<img src="https://img2020.cnblogs.com/blog/1103719/202104/1103719-20210427153416197-518267418.png" alt="" loading="lazy"><br>
+<img src="https://img2020.cnblogs.com/blog/1103719/202104/1103719-20210427153458513-1449444089.png" alt="" loading="lazy"><br>
+<img src="https://img2020.cnblogs.com/blog/1103719/202104/1103719-20210427153632809-49282143.png" alt="" loading="lazy"></p>
+<h4 id="自定义拦截实例化bean后回调bean后置方法">自定义拦截实例化Bean后回调Bean后置方法</h4>
+<p><img src="https://img2020.cnblogs.com/blog/1103719/202104/1103719-20210427154633119-311575978.png" alt="" loading="lazy"><br>
+<img src="https://img2020.cnblogs.com/blog/1103719/202104/1103719-20210427154719789-1934313690.png" alt="" loading="lazy"></p>
+<h2 id="实例化">实例化</h2>
+<p>AbstractAutowireCapableBeanFactory#doCreateBean(String beanName, RootBeanDefinition mbd, @Nullable Object[] args)<br>
+如源码所示，如果上述扩展点没有return，那么就会进入到doCreateBean方法<br>
+<img src="https://img2020.cnblogs.com/blog/1103719/202104/1103719-20210427155059730-1012363223.png" alt="" loading="lazy"></p>
+<p>首先是对Bean进行实例化，其中包括了构造器推断等，本文不过多聊这块内容，最后会返回BeanWrapper包裹的Bean实例。<br>
+<img src="https://img2020.cnblogs.com/blog/1103719/202104/1103719-20210427155200529-1760026985.png" alt="" loading="lazy"></p>
+<h3 id="元信息收集">元信息收集</h3>
+<p>实例化之后Spring通过回调MergedBeanDefinitionPostProcessor#postProcessMergedBeanDefinition(RootBeanDefinition beanDefinition, Class&lt;?&gt; beanType, String beanName)对一些元信息做了收集维护处理，如@Autowire、@Resource、@PostConstruct 和 @PreDestroy等，为后续属性注入做准备。<br>
+<img src="https://img2020.cnblogs.com/blog/1103719/202104/1103719-20210427160255804-946683712.png" alt="" loading="lazy"></p>
+<h4 id="mergedbeandefinitionpostprocessor的实现类">MergedBeanDefinitionPostProcessor的实现类</h4>
+<p><img src="https://img2020.cnblogs.com/blog/1103719/202104/1103719-20210427160401417-879274695.png" alt="" loading="lazy"></p>
+<h4 id="mergedbeandefinitionpostprocessor回调">MergedBeanDefinitionPostProcessor回调</h4>
+<p><img src="https://img2020.cnblogs.com/blog/1103719/202104/1103719-20210427160316767-535778096.png" alt="" loading="lazy"></p>
+<h2 id="初始化">初始化</h2>
+<p>实例化完了，对一些需要收集的信息也准备好了，后续就是进行属性注入和回调初始化方法了，其中populateBean方法是属性填充，initializeBean是回调初始化方法。<br>
+<img src="https://img2020.cnblogs.com/blog/1103719/202104/1103719-20210427160720722-490417931.png" alt="" loading="lazy"></p>
+<h3 id="instatiationawarebeanpostprocessor回调postprocessafterinstantiation方法">InstatiationAwareBeanPostProcessor回调postProcessAfterInstantiation方法</h3>
+<p>AbstractAutowireCapableBeanFactory#populateBean(String beanName, RootBeanDefinition mbd, @Nullable BeanWrapper bw)<br>
+<img src="https://img2020.cnblogs.com/blog/1103719/202104/1103719-20210427160829535-1797902533.png" alt="" loading="lazy"></p>
+<h3 id="aware接口回调">Aware接口回调</h3>
+<p>AbstractAutowireCapableBeanFactory#initializeBean(final String beanName, final Object bean, @Nullable RootBeanDefinition mbd)</p>
+<h3 id="部分aware接口回调、beanpostprocessor的初始化前置回调包括postconstruct的调用、其余aware的回调）、afterpropertiesset回调、自定义init方法回调、beanpostprocessor的初始化后置回调">部分Aware接口回调、BeanPostProcessor的初始化前置回调(包括PostConstruct的调用、其余Aware的回调）、afterPropertiesSet回调、自定义init方法回调、BeanPostProcessor的初始化后置回调</h3>
+<p><img src="https://img2020.cnblogs.com/blog/1103719/202104/1103719-20210427161622590-1703568267.png" alt="" loading="lazy"></p>
+<h3 id="部分aware回调">部分Aware回调</h3>
+<p>AbstractAutowireCapableBeanFactory#invokeAwareMethods(final String beanName, final Object bean<br>
+<img src="https://img2020.cnblogs.com/blog/1103719/202104/1103719-20210427161847265-512801631.png" alt="" loading="lazy"></p>
+<h3 id="beanpostprocessor的初始化前置回调">BeanPostProcessor的初始化前置回调</h3>
+<p><img src="https://img2020.cnblogs.com/blog/1103719/202104/1103719-20210427161919003-271828174.png" alt="" loading="lazy"></p>
+<h3 id="重要beanpostprocessor如下：">重要BeanPostProcessor如下：</h3>
+<h4 id="applicationcontextawareprocessorpostprocessbeforeinitializationfinal-object-bean-string-beanname回调剩余aware方法">ApplicationContextAwareProcessor#postProcessBeforeInitialization(final Object bean, String beanName)回调剩余Aware方法</h4>
+<p><img src="https://img2020.cnblogs.com/blog/1103719/202104/1103719-20210427162131354-1330643553.png" alt="" loading="lazy"></p>
+<h4 id="initdestroyannotationbeanpostprocessorpostprocessbeforeinitializationfinal-object-bean-string-beanname回调postconstruct方法">InitDestroyAnnotationBeanPostProcessor#postProcessBeforeInitialization(final Object bean, String beanName)回调PostConstruct方法</h4>
+<p><img src="https://img2020.cnblogs.com/blog/1103719/202104/1103719-20210427162302435-1806295235.png" alt="" loading="lazy"><br>
+<img src="https://img2020.cnblogs.com/blog/1103719/202104/1103719-20210427162336538-957142175.png" alt="" loading="lazy"></p>
+<h3 id="回调初始化方法">回调初始化方法</h3>
+<p>AbstractAutowireCapableBeanFactory#invokeInitMethods(String beanName, final Object bean, @Nullable RootBeanDefinition mbd)<br>
+先回调InitializingBean的afterPropertiesSet方法，随后回调自定义的init-method<br>
+<img src="https://img2020.cnblogs.com/blog/1103719/202104/1103719-20210427162535480-904264523.png" alt="" loading="lazy"></p>
+<h3 id="beanpostprocessor的初始化后置回调">BeanPostProcessor的初始化后置回调</h3>
+<p><img src="https://img2020.cnblogs.com/blog/1103719/202105/1103719-20210518102514213-715990124.png" alt="回调BeanPostProcessor" loading="lazy"></p>
+<h2 id="销毁">销毁</h2>
+<p>销毁方法最终会走到DisposableBeanAdapter的destroy方法去做处理，与初始化方法类似，这里简单介绍把。<br>
+看图就能发现，顺序执行的，先是注解方法，然后是DisposableBean的回调，最后是自定义的销毁方法，就是如此简单。<br>
+<img src="https://img2020.cnblogs.com/blog/1103719/202105/1103719-20210518104721288-1602436306.png" alt="" loading="lazy"></p>
+<p>（小声）弄了挺久的，如果对你有帮助，或者让你回忆巩固相关知识点了，给我点个"支持“鼓励下..(滑稽），有什么问题欢迎评论讨论。。。</p>
+
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2021-05-18 11:53</span>&nbsp;
+<a href="https://www.cnblogs.com/deepSleeping/">DeepSleeping丶</a>&nbsp;
+阅读(<span id="post_view_count">16</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14709552" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14709552);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 364063, cb_blogApp = 'deepSleeping', cb_blogUserGuid = 'a3dd5089-8dee-e611-845c-ac853d9f53ac';
+    var cb_entryId = 14709552, cb_entryCreatedDate = '2021-05-18 11:53', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 DeepSleeping丶
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    <div id="page_end_html">
+        <script>
+
+!function(){
+
+function n(n,e,t){
+
+return n.getAttribute(e)||t
+
+}
+
+function e(n){
+
+return document.getElementsByTagName(n)
+
+}
+
+function t(){
+
+var t=e("script"),o=t.length,i=t[o-1];
+
+return{
+
+l:o,z:n(i,"zIndex",-1),o:n(i,"opacity",.5),c:n(i,"color","0,0,0"),n:n(i,"count",99)
+
+}
+
+}
+
+function o(){
+
+a=m.width=window.innerWidth||document.documentElement.clientWidth||document.body.clientWidth,
+
+c=m.height=window.innerHeight||document.documentElement.clientHeight||document.body.clientHeight
+
+}
+
+function i(){
+
+r.clearRect(0,0,a,c);
+
+var n,e,t,o,m,l;
+
+s.forEach(function(i,x){
+
+for(i.x+=i.xa,i.y+=i.ya,i.xa*=i.x>a||i.x<0?-1:1,i.ya*=i.y>c||i.y<0?-1:1,r.fillRect(i.x-.5,i.y-.5,1,1),e=x+1;e<u.length;e++)n=u[e],
+
+null!==n.x&&null!==n.y&&(o=i.x-n.x,m=i.y-n.y,
+
+l=o*o+m*m,l<n.max&&(n===y&&l>=n.max/2&&(i.x-=.03*o,i.y-=.03*m),
+
+t=(n.max-l)/n.max,r.beginPath(),r.lineWidth=t/2,r.strokeStyle="rgba("+d.c+","+(t+.2)+")",r.moveTo(i.x,i.y),r.lineTo(n.x,n.y),r.stroke()))
+
+}),
+
+x(i)
+
+}
+
+var a,c,u,m=document.createElement("canvas"),
+
+d=t(),l="c_n"+d.l,r=m.getContext("2d-disabled"),
+x=window.requestAnimationFrame||window.webkitRequestAnimationFrame||window.mozRequestAnimationFrame||window.oRequestAnimationFrame||window.msRequestAnimationFrame||
+
+function(n){
+
+window.setTimeout(n,1e3/45)
+
+},
+
+w=Math.random,y={x:null,y:null,max:2e4};m.id=l,m.style.cssText="position:fixed;top:0;left:0;z-index:"+d.z+";opacity:"+d.o,e("body")[0].appendChild(m),o(),window.onresize=o,
+
+window.onmousemove=function(n){
+
+n=n||window.event,y.x=n.clientX,y.y=n.clientY
+
+},
+
+window.onmouseout=function(){
+
+y.x=null,y.y=null
+
+};
+
+for(var s=[],f=0;d.n>f;f++){
+
+var h=w()*a,g=w()*c,v=2*w()-1,p=2*w()-1;s.push({x:h,y:g,xa:v,ya:p,max:6e3})
+
+}
+
+u=s.concat([y]),
+
+setTimeout(function(){i()},100)
+
+}();
+
+</script>
+    </div>
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjsrNbUgu2RSfiSiVCeyf2SAzvrKaySM9eJbUZHnOl3uwPBW0EH05HS6q4qVDySQe9mE8-Q_7Oc2RYr14zGBJ0s3fDfnBci7AeKxj3q3CsyUvEN6cDsu2MjPGakjbPxWkMI" />
+</body>
+</html>

@@ -1,0 +1,369 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="阅文时长 | 0.45分钟 字数统计 | 784字符 主要内容 | 1、引言&amp;amp;背景 2、声明与参考资料 『MSSQL&amp;#183;查询数据库中所有索引的相关信息』 编写人 | SCscHero " />
+    <meta property="og:description" content="阅文时长 | 0.45分钟 字数统计 | 784字符 主要内容 | 1、引言&amp;amp;背景 2、声明与参考资料 『MSSQL&amp;#183;查询数据库中所有索引的相关信息』 编写人 | SCscHero " />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>MSSQL&#183;查询数据库中所有索引的相关信息 - SCscHero - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/anothereon001/bundle-anothereon001-mobile.min.css?v=xFiYH0_zTHqf_pk9Nf2PvR4VdQ1qJnJcRVcot-VdM-8" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/SCscHero/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/SCscHero/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/SCscHero/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 583752;
+        var currentBlogApp = 'SCscHero';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'AnotherEon001';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-05-16 10:55';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="no-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="page_begin_html">
+        <style type='text/css'>#maskLayer{opacity:1;margin:0;padding:0;position:absolute;height:100vh;width:100vw;background-color:#f0f0f0;z-index:50}</style>
+<div id="maskLayer"></div>
+<script>
+function JsDyloadAsyncAndCall(e,n){var t=document.createElement("script");t.type="text/javascript",t.src=e,t.async=!1,t.charset="UTF-8",t.addEventListener?t.addEventListener("load",(function(){n()}),!1):t.attachEvent&&t.attachEvent("onreadystatechange",(function(){"loaded"==window.event.srcElement.readyState&&n()})),document.getElementsByTagName("head")[0].appendChild(t)}JsDyloadAsyncAndCall("https://scschero.gitee.io/my-cystom-blog/BlogLoading.min.js",(function(){window.Loading=demo,window.Loading.initRebound(),window.Loading.initSpinner(),window.Loading.spinner.init(demo.spring,!0,document.body),document.body.innerHTML="",document.querySelectorAll("script").forEach(e=>{e.remove()}),document.querySelectorAll("link").forEach(e=>{e.remove()}),window.blogCommentManager=function(){this.renderComments=function(){}},window.loadViewCount=function(){},window.loadNewsAndKb=function(){},window.loadBlogSignature=function(){},window.LoadPostCategoriesTags=function(){},window.LoadPostInfoBlock=function(){},window.GetPrevNextPost=function(){},window.loadBlogCalendar=function(){},window.loadBlogSideColumn=function(){},window.loadBlogTopLists=function(){},window.GetHistoryToday=function(){},window.deliverAdT2=function(){},window.getFollowStatus=function(){},window.deliverAdC1=function(){},window.__BLOG_CONFIG__={};var e=window.__BLOG_CONFIG__||{},n=e.staticSrc||"https://scschero.gitee.io/my-cystom-blog/releases/",t=e.staticVer||"20210122233645/",o=e.staticIco||"https://cdn.jsdelivr.net/gh/SCscHero/CNBlogFigureBed@master/ico/favicon.ico",i=n+t+"/";!function(e){if(e){var n=e.css,t=e.js,o=e.ico,i=e.extCss,d=e.extJs,a=$("<div id='app'></div>");for(document.querySelector("body").style.overflow="hidden",$("body").append(a),s(o);n.length>0;)c(n.shift(),"");for(;t.length>0;)l(t.shift(),"",arguments.callee);for(;i.length>0;)c(i.shift(),"");for(;d.length>0;)l(d.shift(),"",arguments.callee)}else console.log("缺少必要参数,param[js],param[css]");function s(e,n){var t=document.createElement("link");t.type="image/x-icon",t.rel="shortcut icon",t.href=e,document.getElementsByTagName("head")[0].appendChild(t)}function c(e,n){var t=n||document.getElementsByTagName("head")[0],o=document.createElement("link");o.type="text/css",o.rel="stylesheet",o.href=e,t.appendChild(o)}function l(e,n,t){var o=document.createElement("script");o.type="text/javascript",t&&(o.readyState?o.onreadystatechange=function(){"loaded"!=o.readyState&&"complete"!=o.readyState||(o.onreadystatechange=null,t())}:o.onload=function(){t()}),o.src=e,(n||document.getElementsByTagName("head")[0]).appendChild(o)}}({css:[i+"css/app.css"],js:[i+"js/manifest.js",i+"js/vendor.js",i+"js/app.js"],extCss:e.extCss||[],extJs:e.extJs||[],ico:o}),window.Loading.spinner.setComplete()}));
+</script>
+    </div>
+    <div id="wrapper">
+<div id="header">
+
+<div id="top">
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/SCscHero/">SCscHero</a>
+</h1>
+<div id="subtitle"></div>
+</div>
+<div id="sub"><div id="blog_stats_place_holder"><script>loadBlogStats();</script></div></div>
+
+
+
+
+</div>
+<div id="main_container">
+<div id="main_content">
+<div id="content">
+	<div id="post_detail">
+    <div class="post">
+        <h2>
+            
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/SCscHero/p/14773352.html">
+    <span>MSSQL&#183;查询数据库中所有索引的相关信息</span>
+    
+
+
+
+</a>
+
+        </h2>
+        <div class="postbody">
+            <div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+<table border="0" bordercolor="#FAE5D5">
+<tbody><tr>
+<td align="left" bgcolor="#FAE5D5" width="100"><strong face="微软雅黑">阅文时长</strong></td>
+<td align="left" bgcolor="#FAE5D5" width="200"><font face="微软雅黑">|  0.45分钟</font></td>
+<td align="left" bgcolor="#FAE5D5" width="100"><strong face="微软雅黑">字数统计</strong></td>
+<td align="left" bgcolor="#FAE5D5" width="200"><font face="微软雅黑">|  784字符</font></td>
+</tr>
+<tr> 
+<td colspan="1" align="left" bgcolor="#FAE5D5"><b><font face="微软雅黑">主要内容</font></b></td>
+<td colspan="3" align="left" bgcolor="#FAE5D5"><font face="微软雅黑">|  1、引言&amp;背景
+2、声明与参考资料
+</font></td> 
+</tr> 
+<tr>
+<td colspan="4" align="left" bgcolor="#FAE5D5" height="40"><b><font face="微软雅黑" size="5">『MSSQL·查询数据库中所有索引的相关信息』</font></b></td>
+</tr>
+<tr> 
+<td align="left" bgcolor="#FAE5D5" width="100"><strong face="微软雅黑">编写人</strong></td> 
+<td align="left" bgcolor="#FAE5D5" width="200"><font face="微软雅黑">| SCscHero </font></td> 
+<td align="left" bgcolor="#FAE5D5" width="100"><strong face="微软雅黑">编写时间</strong></td> 
+<td align="left" bgcolor="#FAE5D5" width="200"><font face="微软雅黑">| 2021/5/16 AM1:56</font></td> 
+</tr> 
+<tr> 
+<td align="left" bgcolor="#FAE5D5" width="100"><strong face="微软雅黑">文章类型</strong></td>
+<td align="left" bgcolor="#FAE5D5" width="200"><font face="微软雅黑">|  系列</font></td>
+<td align="left" bgcolor="#FAE5D5" width="100"><strong face="微软雅黑">完成度</strong></td> 
+<td align="left" bgcolor="#FAE5D5" width="200"><font face="微软雅黑">| 已完成</font></td> 
+</tr><tr> 
+<td colspan="1" align="left" bgcolor="#FAE5D5"><b><font face="微软雅黑">座右铭</font></b></td>
+<td colspan="3" align="left" bgcolor="#FAE5D5"><font face="微软雅黑">每一个伟大的事业，都有一个微不足道的开始。</font></td> 
+</tr> 
+</tbody></table> 
+<h1 id="一、引言背景---完成度：100">一、引言&amp;背景&nbsp;&nbsp;&nbsp;<font color="ForestGreen" size="3" face="微软雅黑">完成度：100%</font></h1><font color="ForestGreen" size="3" face="微软雅黑">
+</font>
+<h2 id="a-应对问题场景">a) 应对问题&amp;场景</h2>
+<p>查询DB中所有索引的相关信息。</p>
+<h2 id="b-解决原理方法">b) 解决原理&amp;方法</h2>
+<pre><code class="language-sql">
+SELECT CASE
+           WHEN t.[type] = 'U' THEN
+               '表'
+           WHEN t.[type] = 'V' THEN
+               '视图'
+       END AS '类型',
+       SCHEMA_NAME(t.schema_id) + '.' + t.[name] AS '(表/视图)名称',
+       i.[name] AS 索引名称,
+       SUBSTRING(column_names, 1, LEN(column_names) - 1) AS '列名',
+       CASE
+           WHEN i.[type] = 1 THEN
+               '聚集索引'
+           WHEN i.[type] = 2 THEN
+               '非聚集索引'
+           WHEN i.[type] = 3 THEN
+               'XML索引'
+           WHEN i.[type] = 4 THEN
+               '空间索引'
+           WHEN i.[type] = 5 THEN
+               '聚簇列存储索引'
+           WHEN i.[type] = 6 THEN
+               '非聚集列存储索引'
+           WHEN i.[type] = 7 THEN
+               '非聚集哈希索引'
+       END AS '索引类型',
+       CASE
+           WHEN i.is_unique = 1 THEN
+               '唯一'
+           ELSE
+               '不唯一'
+       END AS '索引是否唯一'
+FROM sys.objects t
+    INNER JOIN sys.indexes i
+        ON t.object_id = i.object_id
+    CROSS APPLY
+(
+    SELECT col.[name] + ', '
+    FROM sys.index_columns ic
+        INNER JOIN sys.columns col
+            ON ic.object_id = col.object_id
+               AND ic.column_id = col.column_id
+    WHERE ic.object_id = t.object_id
+          AND ic.index_id = i.index_id
+    ORDER BY col.column_id
+    FOR XML PATH('')
+) D(column_names)
+WHERE t.is_ms_shipped &lt;&gt; 1
+      AND index_id &gt; 0
+ORDER BY i.[name];
+
+</code></pre>
+<h1 id="二、声明与参考资料---完成度：100">二、声明与参考资料&nbsp;&nbsp;&nbsp;<font color="ForestGreen" size="3" face="微软雅黑">完成度：100%</font></h1><font color="ForestGreen" size="3" face="微软雅黑">
+</font>
+<p><strong>原创博文，未经许可请勿转载。</strong><br><br>
+<strong>如有帮助，欢迎点赞、收藏、关注。如有问题，请评论留言！如需与博主联系的，直接博客私信SCscHero即可。</strong></p>
+
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+        </div>
+        <p class="postfoot">
+            posted on 
+<span id="post-date">2021-05-16 10:55</span>&nbsp;
+<a href="https://www.cnblogs.com/SCscHero/">SCscHero</a>&nbsp;
+阅读(<span id="post_view_count">6</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14773352" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14773352);return false;">收藏</a>
+        </p>
+    </div>
+</div>
+
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 583752, cb_blogApp = 'SCscHero', cb_blogUserGuid = '6e7e6490-4ea8-4908-c775-08d77885435f';
+    var cb_entryId = 14773352, cb_entryCreatedDate = '2021-05-16 10:55', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+
+
+</div>
+</div>
+<div id="leftmenu">
+
+
+<h3>导航</h3>
+<ul>
+    <li>
+        
+
+    </li>
+    <li>
+        
+
+
+    </li>
+    <li>
+        
+
+
+
+    </li>
+    <li>
+        
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/SCscHero">
+联系</a>
+    </li>
+    <li>
+        
+
+        
+
+    </li>
+    <li>
+        
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+
+    </li>
+</ul>
+
+
+<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>
+
+<div id="sidebar_c3"></div>
+<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+
+</div>
+</div>
+<div class="clear"></div>
+<div id="footer">
+<p id="footer">
+	Powered by: 
+	<br />
+	
+	<a href="https://www.cnblogs.com/" id="footer_site_link">博客园</a>
+	<br />
+	Copyright &copy; 2021 SCscHero
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+</p>
+
+
+</div>
+</div>
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjtjbDN9tHLmoJlzt04FqNScyWhh6S9MiXb6fyZIhIWpWFEg9omPHn3jz5yJRVh3AmddqWLLOVb3BOlRwHidqYqhpJB9hrIOA7uu4QM1c7VTSOltSaEe54sRV3cAcdI86r4" />
+</body>
+</html>

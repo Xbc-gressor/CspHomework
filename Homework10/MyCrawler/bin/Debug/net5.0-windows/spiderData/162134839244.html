@@ -1,0 +1,575 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="never" />
+    <meta name="description" content="本文将介绍一些使用 SVG feTurbulence 滤镜实现的一些有趣、大胆的的动效。 系列另外两篇： 有意思！强大的 SVG 滤镜 有意思！不规则边框的生成方案 背景 今天在群里面聊天，看到有人发" />
+    <meta property="og:description" content="本文将介绍一些使用 SVG feTurbulence 滤镜实现的一些有趣、大胆的的动效。 系列另外两篇： 有意思！强大的 SVG 滤镜 有意思！不规则边框的生成方案 背景 今天在群里面聊天，看到有人发" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>巧用 SVG 滤镜还能制作表情包？ - ChokCoco - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/coco1s/custom.css?v=VHn8LeNN7I759yDzp6MQstdw9tw=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/thinkinside/bundle-thinkinside-mobile.min.css?v=1kb6JMrYnH_hQyNadevonyt40TkBWckdUtnStHWa0bs" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/coco1s/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/coco1s/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/coco1s/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 177636;
+        var currentBlogApp = 'coco1s';
+        var cb_enable_mathjax = true;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'ThinkInside';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-03-31 10:08';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+        tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processClass: 'math', processEscapes: true },
+        TeX: {
+        equationNumbers: { autoNumber: ['AMS'], useLabelIds: true },
+        extensions: ['extpfeil.js', 'mediawiki-texvc.js'],
+        Macros: {bm: "\\boldsymbol"}
+        },
+        'HTML-CSS': { linebreaks: { automatic: true } },
+        SVG: { linebreaks: { automatic: true } }
+        });
+    </script>
+    <script src="https://mathjax.cnblogs.com/2_7_5/MathJax.js?config=TeX-AMS-MML_HTMLorMML&amp;v=20200504"></script>
+    
+</head>
+<body class="no-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="page_begin_html">
+        <script>loadPageBeginHtml();</script>
+    </div>
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/coco1s/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/coco1s/">ChokCoco</a>
+</h1>
+<h2>经不住流年似水, 逃不过此间少年</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/coco1s/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/ChokCoco">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/coco1s/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/coco1s/p/14600186.html">
+    <span>巧用 SVG 滤镜还能制作表情包？</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+<p>本文将介绍一些使用 SVG <code>feTurbulence</code> 滤镜实现的一些有趣、大胆的的动效。</p>
+<p>系列另外两篇：</p>
+<ul>
+<li><a href="https://github.com/chokcoco/cnblogsArticle/issues/27" target="_blank">有意思！强大的 SVG 滤镜</a></li>
+<li><a href="https://github.com/chokcoco/iCSS/issues/106" target="_blank">有意思！不规则边框的生成方案</a></li>
+</ul>
+<h2 id="背景">背景</h2>
+<p>今天在群里面聊天，看到有人发这个表情包：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/45f2b3944fbe4679a3645fdc679fd439~tplv-k3u1fbpfcp-zoom-1.image" alt="" loading="lazy"></p>
+<p>刚好最近一直在学习 SVG，脑海中就把这个表情包的效果和 <code>feTurbulence</code> 滤镜关联了起来。</p>
+<p>如果我们有一张类似上图表情包的静态图，利用 <code>feTurbulence</code> 生成的噪声函数，运用在静态的表情包之上，再添加些许动画，是不是也能制作一张类似的动图效果呢？</p>
+<h2 id="什么是-svg-feturbulence-滤镜？">什么是 SVG <code>feTurbulence</code> 滤镜？</h2>
+<p>如果你对 SVG 滤镜还不算太了解，可以简单看看我的这篇文章入门：<a href="https://github.com/chokcoco/cnblogsArticle/issues/27" target="_blank">有意思！强大的 SVG 滤镜</a></p>
+<p>这里我们会用到 SVG 中的 <code>feTurbulence</code> 滤镜。再简单介绍下。</p>
+<h3 id="feturbulence-滤镜"><code>feTurbulence</code> 滤镜</h3>
+<p>turbulence 意为湍流，不稳定气流，而 SVG <code>&lt;feTurbulence&gt;</code> 滤镜能够实现半透明的烟熏或波状图像。通常用于实现一些特殊的纹理。滤镜利用 Perlin 噪声函数创建了一个图像。噪声在模拟云雾效果时非常有用，能产生非常复杂的质感，利用它可以实现了人造纹理比如说云纹、大理石纹的合成。</p>
+<p>简单看个 DEMO：</p>
+<pre><code class="language-HTML">&lt;div&gt;Coco&lt;/div&gt;
+&lt;div class="turbulence"&gt;Coco&lt;/div&gt;
+
+&lt;svg&gt;
+    &lt;filter id="fractal" filterUnits="objectBoundingBox" x="0%" y="0%" width="100%" height="100%"&gt;
+        &lt;feTurbulence id="turbulence" type="fractalNoise" baseFrequency="0.03" numOctaves="1" /&gt;
+        &lt;feDisplacementMap in="SourceGraphic" scale="50"&gt;&lt;/feDisplacementMap&gt;
+    &lt;/filter&gt;
+&lt;/svg&gt;
+</code></pre>
+<pre><code class="language-CSS">.turbulence {
+    filter: url(#fractal);
+}
+</code></pre>
+<p>左边是正常的效果，后边是应用了 <code>&lt;feTurbulence&gt;</code> 的效果，你可以试着点进 Demo，更改 <code>baseFrequency</code> 和 <code>numOctaves</code> 参数的大小，可以看到不同的效果：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6be030b70eae40f99188ed38dc605d95~tplv-k3u1fbpfcp-zoom-1.image" alt="" loading="lazy"></p>
+<p><a href="https://codepen.io/Chokcoco/pen/dyNbedP" target="_blank">CodePen Demo -- feTurbulence text demo</a></p>
+<h3 id="将-feturbulence-滤镜应用于图片">将 <code>feTurbulence</code> 滤镜应用于图片</h3>
+<p>我们尝试把上述 DEMO 中的文字转换成图片。我找到了一张静态的哭的表情包：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/71e8eea4416c46b4ad1ff566f6247368~tplv-k3u1fbpfcp-zoom-1.image" alt="" loading="lazy"></p>
+<p>简单改造下代码：</p>
+<pre><code class="language-HTML">&lt;div&gt;&lt;/div&gt;
+&lt;svg&gt;
+    &lt;filter id="fractal" filterUnits="objectBoundingBox" x="0%" y="0%" width="100%" height="100%"&gt;
+        &lt;feTurbulence id="turbulence" type="fractalNoise" baseFrequency="0.09" numOctaves="1" &gt;&lt;/feTurbulence&gt;
+        &lt;feDisplacementMap in="SourceGraphic" scale="15"&gt;&lt;/feDisplacementMap&gt;
+    &lt;/filter&gt;
+&lt;/svg&gt;
+</code></pre>
+<pre><code class="language-CSS">div {
+    background: url(image.jpg);
+    filter: url(#fractal);
+}
+</code></pre>
+<p>效果如下：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e514364c60914cdfb8b99a4139b39262~tplv-k3u1fbpfcp-zoom-1.image" alt="image" loading="lazy"></p>
+<p>有点那个意思了，我们通过 <code>feTurbulence</code> 滤镜得到了噪声图形，然后通过 <code>feDisplacementMap</code> 滤镜根据 <code>feTurbulence</code> 所产生的噪声图形进行形变，扭曲，液化，得到最终的效果。</p>
+<p>通过调整 <code>feTurbulence</code> 中的 <code>baseFrequency</code> 和 <code>numOctaves</code> 以及 <code>feDisplacementMap</code> 中的 <code>scale</code> 参数，我们可以调试得到不同的效果。</p>
+<p>接下来，我们再给上述滤镜添加一个动画，利用 SVG 的 <code>animate</code> 标签，动态的改变 <code>baseFrequency</code> 参数：</p>
+<pre><code class="language-HTML">&lt;svg&gt;
+    &lt;filter id="fractal" filterUnits="objectBoundingBox" x="0%" y="0%" width="100%" height="100%"&gt;
+        &lt;feTurbulence id="turbulence" type="fractalNoise" baseFrequency="0.1 0.1" numOctaves="1" &gt;
+            &lt;animate
+                    attributeName="baseFrequency"
+                    from="0.1 0.1"
+                    to="0.08 0.01"
+                    dur="3.5s"
+                    repeatCount="indefinite"/&gt;
+        &lt;/feTurbulence&gt;
+        &lt;feDisplacementMap in="SourceGraphic" scale="15"&gt;&lt;/feDisplacementMap&gt;
+    &lt;/filter&gt;
+&lt;/svg&gt;
+</code></pre>
+<p>添加了动画之后，同样作用于图片之上，我们就可以得到如下的效果：</p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d6cd23d965a442b78625e0521d4132d4~tplv-k3u1fbpfcp-watermark.image" alt="" loading="lazy"></p>
+<p>由于截图软件的帧率问题，看着有点慢，你可以戳进 DEMO 看看实际效果，还是挺有意思的，至此我们就简单的利用 CSS 配合 SVG 的方式，通过一张静态图得到了一个动态的表情包啦。😁</p>
+<p><a href="https://codepen.io/Chokcoco/pen/eYgJbmO" target="_blank">CodePen Demo -- 使用 SVG 滤镜 feTurbulence 让图片动起来</a></p>
+<h2 id="巧用-feturbulence-滤镜实现各种动效">巧用 <code>feTurbulence</code> 滤镜实现各种动效</h2>
+<p>嘿，<code>feTurbulence</code> 当然不是仅能实现这个而已，下面我们再探索一些有意思的场景。</p>
+<p>首先，再明确下我们主要使用到的两个滤镜 <code>feTurbulence</code> 和 <code>feDisplacementMap</code>，它们的核心代码：</p>
+<pre><code class="language-HTML">&lt;svg&gt;
+    &lt;filter id="feDisplacementMap" filterUnits="userSpaceOnUse" x="0" y="0" width="200" height="64"&gt;
+        &lt;feTurbulence type="fractalNoise" baseFrequency="0.0995" numOctaves="1" result="img" /&gt;
+        &lt;feDisplacementMap id="feDis" in="SourceGraphic" in2="img" scale="600" /&gt;
+    &lt;/filter&gt;
+&lt;/svg&gt;
+</code></pre>
+<p>其中滤镜中的几个参数 -- <code>baseFrequency</code>、<code>numOctaves</code>、<code>scale</code> 的改变其实都会得到不一样的效果。我们动态的变化其中的一个或多个也都可以得到不同的动画效果。</p>
+<h3 id="动态改变-fedisplacementmap-的-scale-的参数">动态改变 <code>feDisplacementMap</code> 的 <code>scale</code> 的参数</h3>
+<p><code>feDisplacementMap</code> 滤镜是用于改变元素和图形的像素位置的。该滤镜通过遍历原图形的所有像素点，通过 <code>feTurbulence</code> 滤镜产生的噪声函数将原图像的每个像素点重新映射到一个新的位置，形成一个新的图形。</p>
+<p>而 <code>scale</code> 表示新得到的图像的扭曲程度，这个值越大，图像越加扭曲不可识别。</p>
+<p>通过设置一个非常大初始值，我们可以完全将输入的任何源图像粒子化，看看这个 Demo：</p>
+<pre><code class="language-HTML">&lt;div&gt;&lt;/div&gt;
+&lt;div class="fractal"&gt;&lt;/div&gt;
+
+&lt;svg viewBox="0 0 200 200" width="200px" height="200px"&gt;
+    &lt;defs&gt;
+        &lt;filter id="fractal" filterUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"&gt;
+            &lt;feTurbulence type="fractalNoise" baseFrequency="0.995" numOctaves="10" seed="1" stitchTiles="noStitch" result="img" /&gt;
+            &lt;feDisplacementMap in="SourceGraphic" in2="img" xChannelSelector="R" yChannelSelector="G" scale="600" /&gt;
+        &lt;/filter&gt;
+    &lt;/defs&gt;
+&lt;/svg&gt;
+</code></pre>
+<pre><code class="language-CSS">div {
+    width: 200px;
+    height: 200px;
+    background: url(image.jpeg)
+}
+
+.fractal {
+    filter: url(#fractal);
+}
+</code></pre>
+<p>左边为正常的图像，右边为作用了设置了 SVG 滤镜效果的图像，并且设置了 <code>scale="600"</code>，完全将图片粒子化了：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e5efcbcd05804d19bcc387eda38ce074~tplv-k3u1fbpfcp-zoom-1.image" alt="" loading="lazy"></p>
+<p>这个时候，让滤镜的 <code>scale="600"</code> 动态变化回 <code>scale="1"</code>（当此参数为 1 时，图像表示为正常状态），也就能实现一个图形从粒子化到正常化的转变：</p>
+<pre><code class="language-HTML">&lt;svg viewBox="0 0 200 200" width="200px" height="200px"&gt;
+    &lt;filter id="fractal" filterUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"&gt;
+        &lt;feTurbulence type="fractalNoise" baseFrequency="0.995" numOctaves="10" seed="1" result="img" /&gt;
+        &lt;feDisplacementMap in="SourceGraphic" in2="img" xChannelSelector="R" yChannelSelector="G" scale="600"&gt;
+            &lt;animate attributeName="scale" values="600;0;0" keyTimes="0;0.75;1" begin="0s" dur="2s" repeatCount="indefinite" /&gt;
+        &lt;/feDisplacementMap&gt;
+    &lt;/filter&gt;
+&lt;/svg&gt;
+</code></pre>
+<p>效果如下：</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/bad9a4b1e40c4f51a54dc2f28d84e2e5~tplv-k3u1fbpfcp-watermark.image" alt="" loading="lazy"></p>
+<p><a href="https://codepen.io/Chokcoco/pen/OJWXjWz" target="_blank">CodePen -- SVG Filter feTurbulence &amp; feDisplacementMap 实现图片粒子化复原动画</a></p>
+<h3 id="动态改变-fedisplacementmap-的-scale-的参数实现一些开奖动效">动态改变 <code>feDisplacementMap</code> 的 <code>scale</code> 的参数实现一些开奖动效</h3>
+<p>基于上述的效果，我们可以实现这样一类效果，譬如一些开奖结果，一开始它是模糊的，但是用户点击之后，模糊的结果逐渐从模糊到真实。</p>
+<p>但是点击事件，由于 SVG Animate 标签的一些限制，需要借助一些 Javascript 代码，这里借用 JQuery 简单做个示意。</p>
+<p>我们有一串开奖数组 <code>745846</code>，实现点击之后从模糊到真实：</p>
+<pre><code class="language-HTML">&lt;div id="fe1" class="fe1"&gt;745846&lt;/div&gt;
+&lt;svg&gt;
+    &lt;filter id="feDisplacementMap" filterUnits="userSpaceOnUse" x="0" y="0" width="200" height="64"&gt;
+        &lt;feTurbulence type="fractalNoise" baseFrequency="0.0995" numOctaves="1" result="img" /&gt;
+        &lt;feDisplacementMap id="feDis" in="SourceGraphic" in2="img" scale="200" /&gt;
+    &lt;/filter&gt;
+&lt;/svg&gt;
+</code></pre>
+<pre><code class="language-Javascript">$("#fe1").click((e) =&gt; {
+    const filter = $("#feDis");
+    const startTime = Date.now();
+    const duration = 1000;
+    const target = 200;
+    
+    requestAnimationFrame(function aniMove() {
+        const t = Math.min(1, (Date.now() - startTime) / duration);
+        const nextTarget = target - (t * target) + 1;
+        
+        filter.attr('scale', nextTarget);
+
+        if (t &lt; 1.0) {
+            requestAnimationFrame(aniMove);
+        }
+    });
+});
+</code></pre>
+<p>点击之前的状态如下：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b51684295b11479d999f5f70eb54f591~tplv-k3u1fbpfcp-zoom-1.image" alt="" loading="lazy"></p>
+<p>点击之后：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ae2163e50f4b4261b97fe288ee63b549~tplv-k3u1fbpfcp-zoom-1.image" alt="" loading="lazy"></p>
+<p>上述效果，你可以套用到任何地方，完整的 Demo 地址：</p>
+<p><a href="https://codepen.io/Chokcoco/pen/KKaMNZz" target="_blank">CodePen Demo -- SVG Filter Button Effects</a></p>
+<h3 id="动态改变-fedisplacementmap-的-scale-的参数实现一些-fadeout-动画">动态改变 <code>feDisplacementMap</code> 的 <code>scale</code> 的参数实现一些 fadeOut 动画</h3>
+<p>当然，上述的效果也是可以反着来的，就是一张图（或者任何元素），点击之后粒子化，然后渐变的消失，进阶版的 fadeOut 效果。</p>
+<p>通过动态的改变滤镜的参数和图片的透明度，当然，也需要借助一些 JavaScript 代码，完整的代码就不贴了（与上述 DEMO 非常类似），直接上效果图：</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1973481e732940c0800077d6c4855b2d~tplv-k3u1fbpfcp-watermark.image" alt="使用 SVG 滤镜实现任意元素粒子化 FadeOut 效果.gif" loading="lazy"></p>
+<p>是不是非常类似灭霸把人物消失的效果？之前看过这样一篇文章 - <a href="https://zhuanlan.zhihu.com/p/64895648" target="_blank">谷歌灭霸彩蛋的效果实现</a>，其中介绍了一种使用 Canvas 实现类似效果的方式，本文这里使用 SVG 滤镜达成了近似的效果。</p>
+<p>对源码感兴趣的可以猛戳下面的 Demo，效果也是可以方便的移植到其他元素之上：</p>
+<p><a href="https://codepen.io/Chokcoco/pen/yLgaNNB" target="_blank">CodePen Demo -- 使用 SVG 滤镜实现任意元素粒子化 FadeOut 效果</a></p>
+<blockquote>
+<p>不要吹灭你的灵感和你的想象力; 不要成为你的模型的奴隶。 ——文森特・梵高</p>
+</blockquote>
+<h2 id="最后">最后</h2>
+<p>好了，本文到此结束，希望对你有帮助 😃</p>
+<p>更多精彩 CSS 技术文章汇总在我的 <a href="https://github.com/chokcoco/iCSS" target="_blank">Github -- iCSS</a> ，持续更新，欢迎点个 star 订阅收藏。</p>
+<p>想 Get 到最有意思的 CSS 资讯，千万不要错过我的公众号 -- <strong>iCSS前端趣闻</strong> 😄</p>
+<p>如果还有什么疑问或者建议，可以多多交流，原创文章，文笔有限，才疏学浅，文中若有不正之处，万望告知。</p>
+
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2021-03-31 10:08</span>&nbsp;
+<a href="https://www.cnblogs.com/coco1s/">ChokCoco</a>&nbsp;
+阅读(<span id="post_view_count">479</span>)&nbsp;
+评论(<span id="post_comment_count">1</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14600186" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14600186);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 177636, cb_blogApp = 'coco1s', cb_blogUserGuid = '97b0660a-69a1-e311-8d02-90b11c0b17d6';
+    var cb_entryId = 14600186, cb_entryCreatedDate = '2021-03-31 10:08', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 ChokCoco
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    <div id="page_end_html">
+        <script>
+var href = location.href;
+
+if(/https/.test(href)) {
+     document.querySelectorAll('iframe').forEach(val => { 
+	val.src = 'https:' + val.src.split(':')[1];
+    });
+}
+
+var l = document.createElement('link');
+l.rel = "shortcut icon";
+l.href = "http://images.cnblogs.com/cnblogs_com/coco1s/965277/o_favicon.png";
+document.getElementsByTagName("head")[0].appendChild(l);
+
+</script>
+<div id="rocket"></div>
+<script>
+var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1259286380'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1259286380%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script>
+var i = 0,
+	deIframe = setInterval(function(){
+		i++;
+		$('#sideBar').find('iframe').parent().remove();
+		$('#sideBar>div').not('#sideBarMain').remove();
+		if(i == 10){
+			clearInterval(deIframe);
+		}
+	}, 200);
+</script>
+<script>
+var reward = (function(){
+	function dataInsert(){
+var data = '<div class="g-gongzhonghao">'
+    +    '<p><strong><span style="font-size: 14px; font-family: verdana, geneva;">想 Get 到最有意思的 CSS 资讯，千万不要错过我的 iCSS 公众号 😄 ：</span></strong></p>'
+    +    '<p><span style="font-size: 14px; font-family: verdana, geneva;"><a href="https://images.cnblogs.com/cnblogs_com/coco1s/965277/o_201030023049qrcode.png" target="_blank"><img src="https://images.cnblogs.com/cnblogs_com/coco1s/881614/o_20031002540054919342-6d0dfd00-4ef8-11e9-9ee8-fbae9241d89e.png" alt="image" width="180" height="144"></a></span></p>'
+    + '</div>'
+    + '<div class="m-reward">' 
+							+ '<div class="m-desc">如果觉得文章对您有用，请随意打赏。您的支持将鼓励我继续创作！</div>'
+							+ '<div class="reward-btn">打赏支持</div>'
+							+ '</div>'
+							+ '<div class="reward-wrap">'
+							+ '<div class="reward-btn-close">+</div>'
+							+ '<h2>(^_^)打个赏喝个咖啡(^_^)</h2>'
+							+ '<div class="wechat">'
+							+ '<img src="https://images.cnblogs.com/cnblogs_com/coco1s/881614/o_weixin.png" alt="微信支付" />'
+							+ '</div>'
+							+ '<div class="zhifubao">'
+							+ '<img src="https://images.cnblogs.com/cnblogs_com/coco1s/881614/o_zhifubao.png" alt="支付宝支付" />'
+							+ '</div>	'
+							+ '</div>';
+
+		if($('#cnblogs_post_body')){
+			$('#cnblogs_post_body').append(data);		
+			eventBind();
+		}					
+	}
+
+	function eventBind(){
+		$('.reward-btn').on('click', function(event) {
+			$('.reward-wrap').fadeIn(300);
+		});
+
+		$('.reward-btn-close').on('click', function(event) {
+			$('.reward-wrap').fadeOut(500);
+		});
+	}
+	
+	return{
+		init:function(){
+			dataInsert();
+		}
+	}
+})();
+reward.init();
+</script>
+<script>
+/** 侧边栏回到顶部 */
+var rocket = $('#rocket');
+
+$(window).on('scroll', debounce(slideTopSet, 300));
+
+function debounce(func, wait) {
+	var timeout;
+	return function() {
+		clearTimeout(timeout);
+		timeout = setTimeout(func, wait);
+	};
+};
+function slideTopSet() {
+	var top = $(document).scrollTop();
+
+	if (top > 200) {
+		rocket.addClass('show');
+	} else {
+		rocket.removeClass('show');
+	}
+}
+$(document).on('click', '#rocket', function(event) {
+	rocket.addClass('move');
+	$('body, html').animate({
+		scrollTop: 0
+	}, 800);
+});
+$(document).on('animationEnd', function() {
+	setTimeout(function() {
+		rocket.removeClass('move');
+	}, 400);
+
+});
+$(document).on('webkitAnimationEnd', function() {
+	setTimeout(function() {
+		rocket.removeClass('move');
+	}, 400);
+});
+</script>
+    </div>
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjsD8vpv6mNbN-D8odPgW01F8z6NXcULCsJKwgApvNITRxHn1qWSG_K37GHiny6SFssCo8E5dxn_Mwkgh9mJUUO_L0Q026jJrA8WmSTPlcVbnCXaSoL21DSuGibkUwdNtSw" />
+</body>
+</html>

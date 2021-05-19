@@ -1,0 +1,500 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="前言 查找是数据库操作中一个非常重要的技术。查询一般就是使用filter、exclude以及get三个方法来实现。我们可以在调用这些方法的时候传递不同的参数来实现查询需求。在ORM层面，这些查询条件都" />
+    <meta property="og:description" content="前言 查找是数据库操作中一个非常重要的技术。查询一般就是使用filter、exclude以及get三个方法来实现。我们可以在调用这些方法的时候传递不同的参数来实现查询需求。在ORM层面，这些查询条件都" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Django（17）orm查询操作 - Silent丿丶黑羽 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/jiakecong/custom.css?v=7MKwNk9BuDspFVQ5LKcRpIwcbog=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/SimpleMemory/bundle-SimpleMemory-mobile.min.css" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/jiakecong/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/jiakecong/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/jiakecong/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 658912;
+        var currentBlogApp = 'jiakecong';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'SimpleMemory';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-05-18 01:49';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="no-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/jiakecong/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/jiakecong/">修炼之路</a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/jiakecong/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/Silent%E4%B8%BF%E4%B8%B6%E9%BB%91%E7%BE%BD">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/jiakecong/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/jiakecong/p/14780601.html">
+    <span>Django（17）orm查询操作</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+<h1 id="前言">前言</h1>
+<p>查找是数据库操作中一个非常重要的技术。查询一般就是使用<code>filter</code>、<code>exclude</code>以及<code>get</code>三个方法来实现。我们可以在调用这些方法的时候传递不同的参数来实现查询需求。在ORM层面，这些查询条件都是使用<code>field+__+condition</code>的方式来使用的。以下将那些常用的查询条件来一一解释。<br>
+&nbsp;</p>
+<h1 id="查询条件">查询条件</h1>
+<p>&nbsp;</p>
+<h2 id="exact">exact</h2>
+<p>使用精确的=进行查找。如果提供的是一个None，那么在SQL层面就是被解释为NULL。示例代码如下：</p>
+<pre><code>article = Article.objects.get(id__exact=14)
+article = Article.objects.get(id__exact=None)
+</code></pre>
+<p>以上的两个查找在翻译为SQL语句为如下：</p>
+<pre><code>select ... from article where id=14;
+select ... from article where id IS NULL;
+</code></pre>
+<p>&nbsp;</p>
+<h2 id="iexact">iexact</h2>
+<p>在底层会被翻译成<code>LIKE</code>。示例代码如下：</p>
+<pre><code>article = Article.objects.filter(title__iexact='hello world')
+</code></pre>
+<p>那么以上的查询就等价于以下的SQL语句：</p>
+<pre><code>select ... from article where title like 'hello world';
+</code></pre>
+<ul>
+<li>LIKE和=：大部分情况下都是等价的，只有少数情况下是不等价的。</li>
+<li>exict和iexact：他们的区别其实就是LIKE和=的区别，因为exact会被翻译成=，而iexact会被翻译成LIKE。</li>
+<li>因为<code>field__exact=xxx</code>其实等价于<code>filed=xxx</code>，因此我们直接使用<code>filed=xxx</code>就可以了，并且因为大部分情况<code>exact</code>和<code>iexact</code>又是等价的，因此我们以后直接使用<code>field=xxx</code>就可以了。<br>
+&nbsp;</li>
+</ul>
+<h2 id="querysetquery">QuerySet.query</h2>
+<p>QuerySet.query：<code>query</code>可以用来查看这个<code>ORM</code>查询语句最终被翻译成的<code>SQL</code>语句。但是<code>query</code>只能被用在<code>QuerySet</code>对象上，不能用在普通的<code>ORM模型</code>上。因此如果你的查询语句是通过<code>get</code>来获取数据的，那么就不能使用<code>query</code>，因为<code>get</code>返回的是满足条件的<code>ORM</code>模型，而不是<code>QuerySet</code>。如果你是通过<code>filter</code>等其他返回<code>QuerySet</code>的方法查询的，那么就可以使用<code>query</code>。</p>
+<pre><code>article = Article.objects.filter(title__iexact='hello world')  # article是QuerySet对象，所以可以被翻译成sql语句
+print(article.query)  # 打印sql语句
+</code></pre>
+<p>打印结果</p>
+<pre><code>SELECT `article`.`id`, `article`.`title`, `article`.`content`, `article`.`category_id` FROM `article` WHERE `article`.`content` LIKE hello world
+</code></pre>
+<p>&nbsp;</p>
+<h2 id="contains">contains</h2>
+<p>大小写敏感，判断某个字段是否包含了某个数据。示例代码如下：</p>
+<pre><code>articles = Article.objects.filter(title__contains='hello')
+</code></pre>
+<p>在翻译成SQL语句为如下：</p>
+<pre><code>select ... where title like binary '%hello%';
+</code></pre>
+<p>要注意的是，在使用<code>contains</code>的时候，翻译成的sql语句左右两边是有百分号的，意味着使用的是模糊查询。而exact翻译成sql语句左右两边是没有百分号的，意味着使用的是精确的查询。<br>
+&nbsp;</p>
+<h2 id="icontains">icontains</h2>
+<p>大小写不敏感的匹配查询。示例代码如下：</p>
+<pre><code>articles = Article.objects.filter(title__icontains='hello')
+</code></pre>
+<p>翻译成SQL语句为如下：</p>
+<pre><code>select ... where title like '%hello%';
+</code></pre>
+<p>&nbsp;</p>
+<h2 id="in">in</h2>
+<p>提取那些给定的field的值是否在给定的容器中。容器可以为list、tuple或者任何一个可以迭代的对象，包括<code>QuerySet</code>对象。示例代码如下：</p>
+<pre><code>articles = Article.objects.filter(id__in=[1,2,3])
+</code></pre>
+<p>也可以通过其他的表的字段来判断是否在某个集合中。示例代码如下：</p>
+<pre><code>categories = Category.objects.filter(article__id__in=[1,2,3])
+</code></pre>
+<p>如果要判断相关联的表的字段，那么也是通过<code>__</code>来连接。并且在做关联查询的时候，不需要写<code>models_set</code>，直接使用<code>模型的名字的小写化</code>就可以了。比如通过分类去查找相应的文章，那么通过<code>article__id__in</code>就可以了，而不是写成<code>article_set__id__in</code>的形式。当然如果你不想使用默认的形式，可以在外键定义的时候传递<code>related_query_name</code>来指定反向查询的名字。示例代码如下：</p>
+<pre><code>class Category(models.Model):
+        name = models.CharField(max_length=100)
+
+        class Meta:
+            db_table = 'category'
+
+
+    class Article(models.Model):
+        title = models.CharField(max_length=200)
+        content = models.TextField()
+        cateogry = models.ForeignKey("Category",on_delete=models.CASCADE,null=True,related_query_name='articles')
+
+        class Meta:
+            db_table = 'article'
+</code></pre>
+<p>因为在<code>cateogry</code>的<code>ForeignKey</code>中指定了<code>related_query_name</code>为<code>articles</code>，因此你不能再使用<code>article</code>来进行反向查询了。这时候就需要通过<code>articles__id__in</code>来进行反向查询。</p>
+<p><strong>反向查询和反向引用的区别</strong></p>
+<ul>
+<li>反向查询：将模型名字小写化。比如<code>article__in</code>，就是将<code>Article</code>模型小写了。当然我们也可以通过<code>related_query_name</code>来指定自己的方式，而不使用默认的方式。</li>
+<li>反向引用：将模型名字小写化，然后再加上<code>_set</code>，比如<code>article_set</code>，可以通过<code>related_name</code>来指定自己的方式，而不是用默认的方式。</li>
+</ul>
+<p>并且，如果在做反向查询的时候，如果查询的字段就是模型的主键，那么可以省略掉这个字段，直接写成<code>article__in</code>就可以了，不需要这个<code>id</code>了。</p>
+<p><code>in</code>不仅仅可以指定列表/元组，还可以为<code>QuerySet</code>。比如要查询“文章标题中包含有hello的所有分类”，那么可以通过以下代码来实现：</p>
+<pre><code>articles = Article.objects.filter(title__icontains='hello')
+    categories = Category.objects.filter(articles__in=articles)
+    for cateogry in categories:
+        print(cateogry)
+</code></pre>
+<p>&nbsp;</p>
+<h2 id="gt">gt</h2>
+<p>某个field的值要大于给定的值。示例代码如下：</p>
+<pre><code>articles = Article.objects.filter(id__gt=3)
+</code></pre>
+<p>以上代码的意思是将所有id大于3的文章全部都找出来。将翻译成以下SQL语句：</p>
+<pre><code>select ... where id &gt; 4;
+</code></pre>
+<p>&nbsp;</p>
+<h2 id="gte">gte</h2>
+<p>类似于gt，是大于等于。<br>
+&nbsp;</p>
+<h2 id="lt">lt</h2>
+<p>类似于gt是小于。<br>
+&nbsp;</p>
+<h2 id="lte">lte</h2>
+<p>类似于lt，是小于等于。<br>
+&nbsp;</p>
+<h2 id="startswith">startswith</h2>
+<p>判断某个字段的值是否是以某个值开始的。大小写敏感。示例代码如下：</p>
+<pre><code>articles = Article.objects.filter(title__startswith='hello')
+</code></pre>
+<p>以上代码的意思是提取所有标题以hello字符串开头的文章。将翻译成以下SQL语句：</p>
+<pre><code>select ... where title like 'hello%'
+</code></pre>
+<p>&nbsp;</p>
+<h2 id="istartswith">istartswith</h2>
+<p>类似于startswith，但是大小写是不敏感的。<br>
+&nbsp;</p>
+<h2 id="endswith">endswith</h2>
+<p>判断某个字段的值是否以某个值结束。大小写敏感。示例代码如下：</p>
+<pre><code>articles = Article.objects.filter(title__endswith='world')
+</code></pre>
+<p>以上代码的意思是提取所有标题以world结尾的文章。将翻译成以下SQL语句：</p>
+<pre><code>select ... where title like '%world';
+</code></pre>
+<p>&nbsp;</p>
+<h2 id="iendswith">iendswith</h2>
+<p>类似于endswith，只不过大小写不敏感。<br>
+&nbsp;</p>
+<h2 id="range">range</h2>
+<p>判断某个field的值是否在给定的区间中。示例代码如下：</p>
+<pre><code>from django.utils.timezone import make_aware
+from datetime import datetime
+start_time = make_aware(datetime(year=2018, month=1, day=1))
+end_time = make_aware(datetime(year=2018, month=12, day=12))
+article = Article.objects.filter(create_time__range=(start_time, end_time))
+</code></pre>
+<p>以上代码的意思是提取所有发布时间在2018/1/1到2018/12/12之间的文章。将翻译成以下的SQL语句</p>
+<pre><code>select ... from article where pub_time between '2018-01-01' and '2018-12-12'。
+</code></pre>
+<p>注意点</p>
+<ul>
+<li>以上提取数据，不会包含最后一个值。也就是不会包含2018/12/12的文章。</li>
+<li>因为我们在<code>settings.py</code>中指定了<code>USE_TZ=True</code>，并且设置了<code>TIME_ZONE='Asia/Shanghai'</code>，因此我们在提取数据的时候要使用<code>django.utils.timezone.make_aware</code>先将<code>datetime.datetime</code>从navie时间转换为aware时间。<code>make_aware</code>会将指定的时间转换为<code>TIME_ZONE</code>中指定的时区的时间。<br>
+&nbsp;</li>
+</ul>
+<h2 id="date">date</h2>
+<p>针对某些<code>date</code>或者<code>datetime</code>类型的字段。可以指定date的范围。并且这个时间过滤，还可以使用链式调用。示例代码如下：</p>
+<pre><code>articles = Article.objects.filter(create_time__date=date(2018,3,29))
+</code></pre>
+<p>以上代码的意思是查找时间为2018/3/29这一天发表的所有文章。将翻译成以下的sql语句：</p>
+<pre><code>select ... WHERE DATE(CONVERT_TZ(`front_article`.`pub_date`, 'UTC', 'Asia/Shanghai')) = 2018-03-29
+</code></pre>
+<p>注意，因为默认情况下MySQL的表中是没有存储时区相关的信息的。因此我们需要下载一些时区表的文件，然后添加到Mysql的配置路径中。如果你用的是<code>windows</code>操作系统。那么在<code>http://dev.mysql.com/downloads/timezones.html</code>下载<code>timezone_2018d_posix.zip - POSIX standard</code>。然后将下载下来的所有文件拷贝到<code>C:\ProgramData\MySQL\MySQL Server 5.7\Data\mysql</code>中，如果提示文件名重复，那么选择覆盖即可。<br>
+如果用的是<code>linux</code>或者<code>mac</code>系统，那么在命令行中执行以下命令：<code>mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -D mysql -u root -p</code>，然后输入密码，从系统中加载时区文件更新到mysql中。<br>
+&nbsp;</p>
+<h2 id="year">year</h2>
+<p>根据年份进行查找。示例代码如下：</p>
+<pre><code>articles = Article.objects.filter(create_time__year=2021)
+articles = Article.objects.filter(create_time__year__gte=2021)
+</code></pre>
+<p>以上的代码在翻译成SQL语句为如下：</p>
+<pre><code>select ... where pub_date between '2021-01-01' and '2021-12-31';
+select ... where pub_date &gt;= '2021-01-01';
+</code></pre>
+<p>&nbsp;</p>
+<h2 id="month">month</h2>
+<p>同year，根据月份进行查找。<br>
+&nbsp;</p>
+<h2 id="day">day</h2>
+<p>同year，根据日期进行查找。<br>
+&nbsp;</p>
+<h2 id="week_day">week_day</h2>
+<p>同year，根据星期几进行查找。1表示星期天，7表示星期六，2-6代表的是星期一到星期五。示例代码如下：</p>
+<pre><code>article = Article.objects.filter(create_time__week_day=3)  # 寻找星期三创建的文章
+</code></pre>
+<p>&nbsp;</p>
+<h2 id="time">time</h2>
+<p>根据时间进行查找。示例代码如下：</p>
+<pre><code>articles = Article.objects.filter(create_time__time=datetime.time(12,12,12));
+</code></pre>
+<p>以上的代码是获取每一天中12点12分12秒发表的所有文章。<br>
+&nbsp;</p>
+<h2 id="isnull">isnull</h2>
+<p>根据值是否为空进行查找。示例代码如下：</p>
+<pre><code>articles = Article.objects.filter(create_time__isnull=False)
+</code></pre>
+<p>以上的代码的意思是获取所有发布日期不为空的文章。将来翻译成SQL语句如下：</p>
+<pre><code>select ... where pub_date is not null;
+</code></pre>
+<p>&nbsp;</p>
+<h2 id="regex和iregex">regex和iregex</h2>
+<p>大小写敏感和大小写不敏感的正则表达式。示例代码如下：</p>
+<pre><code>articles = Article.objects.filter(title__regex=r'^hello')
+</code></pre>
+<p>以上代码的意思是提取所有标题以hello字符串开头的文章。将翻译成以下的SQL语句：</p>
+<pre><code>select ... where title regexp binary '^hello';
+</code></pre>
+<p><code>iregex</code>是大小写不敏感的。<br>
+&nbsp;</p>
+<h2 id="根据关联的表进行查询">根据关联的表进行查询</h2>
+<p>假如现在有两个ORM模型，一个是<code>Article</code>，一个是<code>Category</code>。代码如下：</p>
+<pre><code>class Category(models.Model):
+    """文章分类表"""
+    name = models.CharField(max_length=100)
+
+class Article(models.Model):
+    """文章表"""
+    title = models.CharField(max_length=100,null=True)
+    category = models.ForeignKey("Category",on_delete=models.CASCADE)
+</code></pre>
+<p>比如想要获取文章标题中包含"hello"的所有的分类。那么可以通过以下代码来实现：</p>
+<pre><code>categories = Category.object.filter(article__title__contains("hello"))
+</code></pre>
+
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2021-05-18 13:49</span>&nbsp;
+<a href="https://www.cnblogs.com/jiakecong/">Silent丿丶黑羽</a>&nbsp;
+阅读(<span id="post_view_count">0</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14780601" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14780601);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 658912, cb_blogApp = 'jiakecong', cb_blogUserGuid = '8f0c0c17-b1e1-489d-9492-08d765b2412c';
+    var cb_entryId = 14780601, cb_entryCreatedDate = '2021-05-18 13:49', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 Silent丿丶黑羽
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    <div id="page_end_html">
+        <div id="cnzzProtocol"  style="display: none;">
+    <span class="id_cnzz_stat_icon" id='cnzz_stat_icon_1279624884'></span>
+    <script src='https://v1.cnzz.com/z_stat.php?id=1279624884&online=1&show=line' type='text/javascript'></script>
+    <script type="text/javascript">document.write(unescape("%3Cspan id='cnzz_stat_icon_1279624884'%3E%3C/span%3E%3Cscript src='https://s9.cnzz.com/z_stat.php%3Fid%3D1279624884%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+</div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
+<script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
+<!-- require MetingJS -->
+<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+<meting-js
+        auto="https://y.qq.com/n/yqq/song/001DEjRI0ihriN.html"
+        lrc-type="0"
+        fixed="true"
+        volumn="0.5"
+        list-olded="true">
+</meting-js>
+    </div>
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjt7ws9ASYU_D3KdIAFn-gsUl-YZrfTKjyo0F_FLKKHSya8YCerGJY3gmHREHP8tuj6fg_2HIVxjzRuur5c8aFDzRIhRLCFhA7B2hsXJYouJCdb6-8NcQRsM67K2sZ3sVdI" />
+</body>
+</html>

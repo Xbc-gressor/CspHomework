@@ -1,0 +1,498 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="目录 前言 1 基于自标签的协同聚类和表示学习(ICLR, 2020) 1.1 动机 1.2 贡献 1.3 实验分析 1.4 我的想法 2 无标签的图像分类学习 (ECCV, 2020) 2.1 动机" />
+    <meta property="og:description" content="目录 前言 1 基于自标签的协同聚类和表示学习(ICLR, 2020) 1.1 动机 1.2 贡献 1.3 实验分析 1.4 我的想法 2 无标签的图像分类学习 (ECCV, 2020) 2.1 动机" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>深度聚类算法叙谈 - 舞动的心 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/lessismoreright/bundle-lessismoreright.min.css?v=00nt3ajQUVX0gvFynxRY-4TOqQaW32yFChuBOrvOqLk" />
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/liuzhen1995/custom.css?v=8n8MrQ8wkwhuCM3OiuhtiIn9RLE=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/lessismoreright/bundle-lessismoreright-mobile.min.css?v=cSBXSFXCBG9KdnF2sdUs-Rwu75GHG2_Gs50OCy_ecGg" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/liuzhen1995/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/liuzhen1995/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/liuzhen1995/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 277480;
+        var currentBlogApp = 'liuzhen1995';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'LessIsMoreRight';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-05-18 11:14';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="no-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="page_begin_html">
+        <!-- 
+<script src="https://files.cnblogs.com/files/liuzhen1995/jquery.js" defer></script>
+<script src="https://files.cnblogs.com/files/liuzhen1995/jq.snow.js" defer></script>
+<script>
+        $(function() {
+            $.fn.snow({
+                minSize: 5, //雪花的最小尺寸
+                maxSize: 20, //雪花的最大尺寸
+                newOn: 500, //雪花出现的频率 这个数值越小雪花越多
+                flakeColor: "#1E97CC"
+            });
+        });
+    </script>
+
+-->
+    </div>
+    <div id="home">
+    <div id="header">
+        <div id="blogTitle">
+            <div class="title"><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/liuzhen1995/">舞动的心</a>
+</div>
+<div class="subtitle">幸福总会降临的，成功也同样：常常是无心插柳柳成荫。</div>
+
+        </div>
+        <div id="navigator">
+            
+<ul id="navList">
+    <li id="nav_sitehome"><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+    <li id="nav_myhome">
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/liuzhen1995/">
+首页</a>
+</li>
+    <li id="nav_newpost">
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+    <li id="nav_contact">
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E8%88%9E%E5%8A%A8%E7%9A%84%E5%BF%83">
+联系</a></li>
+    <li id="nav_rss">
+</li>
+    <li id="nav_admin">
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+            <div class="blogStats">
+                <div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+            </div>
+        </div>
+    </div>
+    <div id="main">
+        <div id="mainContent">
+            <div class="forFlow">
+                <div id="post_detail">
+    <div id="topics">
+        <div class="post">
+            <h1 class="postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/liuzhen1995/p/14780157.html">
+    <span>深度聚类算法叙谈</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<blockquote>
+<p><span style="font-size: 18pt"><strong><span style="font-family: &quot;Microsoft YaHei&quot;">目录</span></strong></span></p>
+<p><a href="#a0"><strong><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 14pt">前言</span></strong></a></p>
+<p><a href="#a1"><strong><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 14pt">1 基于自标签的协同聚类和表示学习(ICLR, 2020)</span></strong></a></p>
+<p><strong><a href="#a1.1"><span style="font-family: &quot;Microsoft YaHei&quot;">1.1 动机</span></a></strong></p>
+<p><strong><a href="#a1.2"><span style="font-family: &quot;Microsoft YaHei&quot;">1.2 贡献</span></a></strong></p>
+<p><strong><a href="#a1.3"><span style="font-family: &quot;Microsoft YaHei&quot;">1.3 实验分析</span></a></strong></p>
+<p><strong><a href="#a1.4"><span style="font-family: &quot;Microsoft YaHei&quot;">1.4 我的想法</span></a></strong></p>
+<p><a href="#a2"><strong><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 14pt">2 无标签的图像分类学习 (ECCV, 2020)</span></strong></a></p>
+<p><strong><a href="#a2.1"><span style="font-family: &quot;Microsoft YaHei&quot;">2.1 动机</span></a></strong></p>
+<p><strong><a href="#a2.2"><span style="font-family: &quot;Microsoft YaHei&quot;">2.2 贡献</span></a></strong></p>
+<p><strong><a href="#a2.3"><span style="font-family: &quot;Microsoft YaHei&quot;">2.3 实验分析</span></a></strong></p>
+<p><strong><a href="#a2.4"><span style="font-family: &quot;Microsoft YaHei&quot;">2.4 我的想法</span></a></strong></p>
+<p><a href="#a3"><strong><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 14pt">3 基于语义伪标签的图像聚类 (arXiv, 2021)</span></strong></a></p>
+<p><strong><a href="#a3.1"><span style="font-family: &quot;Microsoft YaHei&quot;">3.1 动机</span></a></strong></p>
+<p><strong><a href="#a3.2"><span style="font-family: &quot;Microsoft YaHei&quot;">3.2 贡献</span></a></strong></p>
+<p><strong><a href="#a3.3"><span style="font-family: &quot;Microsoft YaHei&quot;">3.3 实验分析</span></a></strong></p>
+<p><strong><a href="#a3.4"><span style="font-family: &quot;Microsoft YaHei&quot;">3.4 我的想法</span></a></strong></p>
+<p><a href="#a4"><strong><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 14pt">4 对比聚类 (AAAI, 2021)</span></strong></a></p>
+<p><strong><a href="#a4.1"><span style="font-family: &quot;Microsoft YaHei&quot;">4.1 动机</span></a></strong></p>
+<p><strong><a href="#a4.2"><span style="font-family: &quot;Microsoft YaHei&quot;">4.2 贡献</span></a></strong></p>
+<p><a href="#a5"><strong><span style="font-family: &quot;Microsoft YaHei&quot;; font-size: 14pt">5 通过分区最大化信度的深度语义聚类 (CVPR, 2020)</span></strong></a></p>
+<p><strong><a href="#a5.1"><span style="font-family: &quot;Microsoft YaHei&quot;">5.1 动机</span></a></strong></p>
+<p><strong><a href="#a5.2"><span style="font-family: &quot;Microsoft YaHei&quot;">5.2 贡献</span></a></strong></p>
+<p><a href="#a6"><strong><span style="font-family: &quot;Microsoft YaHei&quot;">参考文献</span></strong></a></p>
+</blockquote>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">&nbsp;</span></p>
+<hr>
+<h1><span style="font-family: &quot;Microsoft YaHei&quot;"><a name="a0"></a>前言</span></h1>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">传统的K-means聚类算法，对于维度高、数量级大的数据集不能很好地执行聚类，甚至无法得到有效的聚类效果，在实际场景中难以应用。针对上述问题，2016年Deep Embedding Clustering (DEC)[1]深度聚类算法被提出，从而引领了深度聚类算法研究的热潮。</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">DEC本质上可以看作是一个自动编码器预训练获取低维的特征表示+无监督学习微调的一个过程。其中，预训练模型的设计和选择对下游聚类任务的性能影响很大（PS：关于DEC的细节，以及前期的相关研究动态，建议参考：<strong><a href="https://www.cnblogs.com/liuzhen1995/p/14661075.html" target="_blank">深度聚类算法浅谈</a></strong>）。针对该问题，近两年的研究采用了自监督的学习策略，即采用聚类得到的伪标签来指导深度学习网络学习一个更加具有判别性的特征表示，从而摆脱模型对预训练模型的过度依赖。此外，楼主通过已有的论文阅读，发现在深度聚类算法的研究领域，其发展趋势由时间段可以简单地划分为以下三点：</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">1）&nbsp; 以DEC[1]为代表的预训练+微调的模型</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">2）&nbsp; 以聚类算法得到伪代码指导深度神经网络进行学习的自监督学习[2] (ECCV, 2018, Deep Cluster)的模型</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">3）&nbsp; 借助预训练表示聚类获取伪代码，采用设计的交叉熵损失执行自监督聚类选取确定性标签，最后依据确定性标签指导自监督分类器执行半自监督学习[3][4]的模型</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">此外，在图像领域的深度聚类算法，深度神经网络的模型选择，数据增强策略的选取，都会对下游的聚类任务性能产生较大的影响[5]。如果简单地将深度聚类算法迁移到一般化的数据集上执行聚类，需要结合具体问题做具体的策略优化，否则其聚类性能并不能胜任K-means。</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">本文主要记录自己最近阅读的五篇有关深度聚类文章，每篇文章都有提供源码，如有同学感兴趣, 可以自行去下载相关源码分析。</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">&nbsp;</span></p>
+<hr>
+<h1><span style="font-family: &quot;Microsoft YaHei&quot;"><a name="a1"></a>1 基于自标签的协同聚类和表示学习(ICLR, 2020)</span></h1>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;"><a href="https://openreview.net/pdf?id=Hyx-jyBFPr" target="_blank">原文链接</a><br></span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;"><a href="https://github.com/yukimasano/self-label" target="_blank">代码</a><br></span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">文章审稿打分：3分(Weak Reject)，8分(Accept)，8分(Accept)</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;"><a href="https://openreview.net/forum?id=Hyx-jyBFPr" target="_blank">文章审稿意见</a><br></span></p>
+<h2><span style="font-family: &quot;Microsoft YaHei&quot;"><a name="a1.1"></a>1.1 动机</span></h2>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">基于深度神经网络的聚类和表示学习是当前的主流方法。然而，简单地联合聚类和表示学习会导致最终产生退化的结果。</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">本文研究的基础主要是2018年发表在ECCV上的Deep Cluster模型[2]。该模型最小化分类交叉熵并结合K-means算法提供的伪标签进行联合表示和聚类，然而该过程由于K-means提供的伪标签存在较多错误标签的问题，会导致模型最终产生一个退化的解决方案，并且很多数据点容易被划分到同一个簇中。</span></p>
+<h2><span style="font-family: &quot;Microsoft YaHei&quot;"><a name="a1.2"></a>1.2 贡献</span></h2>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">为了解决简单地采用联合聚类和表示学习导致下游任务性能退化的问题，本文提出了最大化标签和输入数据指引之间信息的方法（下面给给出论文的理论证明和说明）。该方法的主要贡献：</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">1） 证明了将最大化标签和输入数据指引之间信息引入到标准交叉熵最小化问题中，可以被视为一个最优运输问题，并且能够在百万级图像数据中高效地运行；</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">2） 与ECCV2018文章中单独最小化交叉熵相比，本文通过最大化标签和输入数据指引之间信息，能够避免下游任务产生退化解；</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">3） 相比ECCV2018同时执行无监督分类和K-means聚类， 导致没有一个明确定义的优化目标，本文方法通过同时优化自标签和交叉熵损失为下游任务服务，能够保证模型收敛到（局部）最优解。</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">该方法本质是采用最优运输来实现伪标签的提取（PS：而ECCV2018则是采用K-means对学习的表示执行聚类获取伪标签），并结合标准的交叉熵损失函数指导深度神经网络实现对原始图像数据的表示学习。</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">关于最优运输理论的介绍建议参考：<strong><a href="https://www.cnblogs.com/liuzhen1995/p/14524932.html" target="_blank">最优运输（Optimal Transfort）：从理论到填补的应用</a></strong></span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">自监督学习的标签概率，以及其最小化的交叉熵损失函数定义如下：</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;"><img src="https://img2020.cnblogs.com/blog/927750/202105/927750-20210518104629423-1891768086.png" alt="" loading="lazy" style="display: block; margin-left: auto; margin-right: auto"></span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">然而，在完全无监督的情况下，采用公式(1)容易导致退化的解决方案，其容易将所有数据点分配给单个或者任意的标签进行最小化处理。为了解决该问题，本条提出对伪标签采用一个后验分布q设定，并且为了避免在优化q的过程中出现退化的解决方案，对伪标签进行了依据簇个数和样本总数进行平均初始化的约束处理，具体公式和定义如下：</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;"><img src="https://img2020.cnblogs.com/blog/927750/202105/927750-20210518104644555-1752928387.png" alt="" loading="lazy" style="display: block; margin-left: auto; margin-right: auto"></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">交叉熵损失结合伪标签的后验分布q执行优化时，很难进行算法的优化处理。然而，该问题可以被视为一个最优运输问题，并且能够被高效地解决。拟定的标签伪分布Q，和模型执行无监督分类得到的预测结果P，我们的目标是使之无限接近，那么在这样的情形下可以将其视为一个最优运输问题（PS：这里的思想，有点类似DEC微调中的P和Q的分布处理）。本文通过最优运输理论，对两个分布P和Q的定义与推导，将上述公式3可以转为以下公式5和6，从而变为一个纯粹的最优运输问题：</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;"><img src="https://img2020.cnblogs.com/blog/927750/202105/927750-20210518104711802-1879276497.png" alt="" loading="lazy" style="display: block; margin-left: auto; margin-right: auto"></span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">对于公式(5)的推导，细节可以看下图的转换：</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;"><img src="https://img2020.cnblogs.com/blog/927750/202105/927750-20210518104725679-415377806.png" alt="" loading="lazy" style="display: block; margin-left: auto; margin-right: auto"></span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">最优运输问题的解可以视为一个线性规划问题，也可以在多项式时间内被解决。然而，本文的实验对象达到了百万计的图像数据集。针对该问题，本文参考NIPS2013年提出的熵正则化思想，采用了一种快速的Sinkhorn-Knopp算法，从而来求取合理的后验伪标签分布Q。结合最优运输求取Q的问题定义如下：</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;"><img src="https://img2020.cnblogs.com/blog/927750/202105/927750-20210518104742132-1781169665.png" alt="" loading="lazy" style="display: block; margin-left: auto; margin-right: auto"></span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">通过以上的公式推导，本文通过把定义的后验分布Q和backbone学习的交叉熵中的预测分布P联合一起的策略，从而达到表示学习和自标签优化的同步过程。具体步骤如下：</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;"><img src="https://img2020.cnblogs.com/blog/927750/202105/927750-20210518104753778-1115788503.png" alt="" loading="lazy" style="display: block; margin-left: auto; margin-right: auto"></span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">对上述的公式进行进一步的推导，可以得出以下结论：最大化标签和输入数据指引之间信息。</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;"><img src="https://img2020.cnblogs.com/blog/927750/202105/927750-20210518104808858-512348909.png" alt="" loading="lazy" style="display: block; margin-left: auto; margin-right: auto"></span></p>
+<p><img src="https://img2020.cnblogs.com/blog/927750/202105/927750-20210518104824701-200874494.png" alt="" loading="lazy" style="display: block; margin-left: auto; margin-right: auto"></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">与单独最小化熵相比，最大化信息避免了退化解，因为后者在标签y和索引i之间没有互信息。</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">另外，本文的主要目标是使用聚类来学习良好的数据表示Φ，所以本文还考虑一个多任务设置，其中相同的表示在几个不同的聚类任务之间共享，这可能会捕获不同的和互补的聚类轴。</span></p>
+<h2><span style="font-family: &quot;Microsoft YaHei&quot;"><a name="a1.3"></a>1.3 实验分析</span></h2>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">本文模型的主要目的是采用聚类的手段学习一个更好的数据表示，但是其最终的下游任务并不一定是用于做聚类。由于本篇博客探讨和分析聚类问题，所以此处只放出文章中做聚类的无监督分类结果，具体实验结果如下：</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;"><img src="https://img2020.cnblogs.com/blog/927750/202105/927750-20210518104839008-1949666953.png" alt="" loading="lazy" style="display: block; margin-left: auto; margin-right: auto"></span></p>
+<p><img src="https://img2020.cnblogs.com/blog/927750/202105/927750-20210518104849538-69648036.png" alt="" loading="lazy" style="display: block; margin-left: auto; margin-right: auto"></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">由上述的实验结果，本文提出采用最优运输实现对定义的伪标签分布Q和交叉熵损失中P进行优化，其在聚类性能上药明显优于K-means。</span></p>
+<h2><span style="font-family: &quot;Microsoft YaHei&quot;"><a name="a1.4"></a>1.4 我的想法</span></h2>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">本文最大的亮点在于把拟定的伪标签分布Q和最小化无监督分类交叉熵结合了起来，并证明其为一个基本的最优运输问题，这为深度聚类方向提供一个新的思考方向。另外，通过本文的处理，能够有效解决简单地采用K-means算法提供的伪标签指导深度神经网络执行自监督分类容易导致下游任务出现退化解的问题。</span></p>
+<p>&nbsp;</p>
+<hr>
+<h1><span style="font-family: &quot;Microsoft YaHei&quot;"><a name="a2"></a>2 无标签的图像分类学习 (ECCV, 2020)</span></h1>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;"><a href="https://link.springer.com/content/pdf/10.1007%2F978-3-030-58607-2.pdf" target="_blank">原文链接</a><br></span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;"><a href="https://github.com/wvangansbeke/Unsupervised-Classification" target="_blank">代码</a><br></span></p>
+<h2><span style="font-family: &quot;Microsoft YaHei&quot;"><a name="a2.1"></a>2.1 动机</span></h2>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">在有监督分类任务中，通过真实标签能够指导CNN等backbone学习到更加具有判别性的表示。然而，在现实场景中存在大量无标记的数据。那么，我们能否在没有真实标签的情况下，依据图像的语义信息进行自动分组呢？</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">同时，当前已有的基于端到端的深度聚类算法，通常采用预训练+微调的思想。然而，这些方法难以避免在微调过程中受到低质量特征的影响，容易出现不平衡的簇，导致最终出现次优的聚类结果。</span></p>
+<h2><span style="font-family: &quot;Microsoft YaHei&quot;"><a name="a2.2"></a>2.2 贡献</span></h2>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">为了解决当前端到端深度聚类算法容易出现次优结果的问题，本文提出了一种两步法的无监督图像分类算法。该方法利用了表示方法和端到端学习方法的优点，同时也解决了它们的缺点:</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">1）&nbsp; 采用一个自监督的pretext任务来获取一个有意义的语义特征，并基于特征相似性挖掘每幅图像的最近邻，使得提取的语义特征更加适合语义聚类。<strong><span style="text-decoration: underline">相比之下，表征学习方法要求在学习特征表示后进行</span></strong><strong><span style="text-decoration: underline">K-means</span></strong><strong><span style="text-decoration: underline">聚类，这被认为会导致聚类退化</span></strong>。</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">2）&nbsp; 采用质量高的特征来指导聚类的学习，通过这样处理，<strong><span style="text-decoration: underline">能够使得聚类过程中避免基于低质量特征来只需聚类，而这样的问题是在</span></strong><strong><span style="text-decoration: underline">end-to-end</span></strong><strong><span style="text-decoration: underline">方法中常见的问题</span></strong>。</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">3）&nbsp; 另外，本文定义一种基于软标签分配的交叉熵损失函数，本文将其称为SCAN-loss，能够有效地对每幅图像及其邻居数据进行分类，从而使得网络能够产生一致或者具有辨别性的预测结果。</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">SCAN-loss的定义如下：</span></p>
+<p align="center"><span style="font-family: &quot;Microsoft YaHei&quot;"><img src="https://img2020.cnblogs.com/blog/927750/202105/927750-20210518104949883-616405273.png" alt="" loading="lazy"><span style="font-family: &quot;Microsoft YaHei&quot;">&nbsp;</span></span></p>
+<p align="left"><span style="font-family: &quot;Microsoft YaHei&quot;">其中X表示数据集中的样本，k表示该样本的最近邻集合中的样本。上述公式第二项的目的是为了避免Φη将所有样本分配给单个集群。如果概率分布在集群C中是提前知道的,该项就可以被KL-divergence所替代。关于最近邻的示例如下图所示：</span></p>
+<p align="center"><span style="font-family: &quot;Microsoft YaHei&quot;"><img src="https://img2020.cnblogs.com/blog/927750/202105/927750-20210518105005896-50584421.png" alt="" loading="lazy"><span style="font-family: &quot;Microsoft YaHei&quot;">&nbsp;</span></span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">本文的算法主要分为三个步骤：</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">1）&nbsp; 采用一个pretext任务，寻找对于数据的最近邻</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">2）&nbsp; 依据最近邻，结合SCAN-loss执行聚类</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">3）&nbsp; 采用聚类获取的伪标签，选取确定性或者可信度较高的标签执行自监督学习，从而进一步提高最终的聚类效果</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">具体算法的伪代码如下：</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;"><img src="https://img2020.cnblogs.com/blog/927750/202105/927750-20210518105020319-1754299786.png" alt="" loading="lazy" style="display: block; margin-left: auto; margin-right: auto"></span></p>
+<h2><span style="font-family: &quot;Microsoft YaHei&quot;"><a name="a2.3"></a>2.3 实验分析</span></h2>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">采用K-means对原始的预训练表示执行聚类，会出现簇中心不稳定的情况，表1的实验结果可以反映出该假设：聚类的ACC标准差最大，并且为5.7。</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">另外，可以发现，通过采用SimCLR数据增强手段并结合SCAN-Loss能够有效提高聚类效果。此外，虽然SCAN-Loss在某些方面和K-means有较大关联，比如都是采用预训练后得到的特征执行聚类。但是，本文提出的SCAN-Loss能够避免聚类退化，即聚类可能会很不稳定的问题，如果采用K-means的簇中心进行初始化就会导致该问题。另外，本文还探讨了在训练过程中，采用不同的增强策略执行聚类的效果，实验结果表明，采用RA执行样本增强，能够有效提高聚类的效果，最高可以达到87.6的ACC。另外，通过伪标签来对聚类结果进行微调，能够有效地进一步提高最终的聚类效果。此外，本文通过图6表明，伪标签指导的自训练过程对设定的阈值参数不敏感，图7可以最近邻K设定为5即可达到较稳定的准确率。</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">&nbsp;<img src="https://img2020.cnblogs.com/blog/927750/202105/927750-20210518105040660-1053580082.png" alt="" loading="lazy" style="display: block; margin-left: auto; margin-right: auto"></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;<img src="https://img2020.cnblogs.com/blog/927750/202105/927750-20210518105047566-234619377.png" alt="" loading="lazy" style="display: block; margin-left: auto; margin-right: auto"></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;<img src="https://img2020.cnblogs.com/blog/927750/202105/927750-20210518105052885-2051402049.png" alt="" loading="lazy" style="display: block; margin-left: auto; margin-right: auto"></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">此外，本文将簇的个数设定为20而不是10的时候，本文的聚类准确率仍然较高，体现出了本文聚类算法模型的稳定性。即证明了一点：本文的聚类算法模型并不需要以来原始聚类簇个数的真实信息。本文算法在CIFAR100-20采用过于聚类的簇个数，其性能提高的一个原因在于高的类内方差。（关于超类的聚类性能评价，是一个多对一的映射，其计算的细节，本文有单独考虑和处理）</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">本文采用两部法：预训练+聚类+伪标签执行自监督训练，的两阶段方法，与当前的SOTA的端到端方法不一样。</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;"><img src="https://img2020.cnblogs.com/blog/927750/202105/927750-20210518105142396-2089673500.png" alt="" loading="lazy" style="display: block; margin-left: auto; margin-right: auto"></span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">上表的结果表明，采用SCAN-loss执行聚类，其在图像上面的聚类效果要明显优于采用K-means执行聚类的结果。此外，通过Self-label的自监督学习能够进一步提高最终的聚类效果。</span></p>
+<h2><span style="font-family: &quot;Microsoft YaHei&quot;"><a name="a2.4"></a>2.4 我的想法</span></h2>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">本文最大的亮点在于没有一味地追求端到端的深度聚类模型，并指出了当前的端到端深度聚类模型存在无法摆脱低质量特征依赖导致最终容易出现次优结果的问题。针对上述问题，本文通过最近邻的思想提出了SCAN-loss执行聚类，能够有效避免直接采用K-means执行聚类导致最终出现退化解的问题。此外，通过添加Self-Labeling的自监督学习步骤，对聚类步骤中的自监督分类器执行进一步的学习优化，能够有效提高最终的聚类效果。</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">&nbsp;</span></p>
+<hr>
+<h1><span style="font-family: &quot;Microsoft YaHei&quot;"><a name="a3"></a>3 基于语义伪标签的图像聚类 (arXiv, 2021)</span></h1>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;"><a href="https://arxiv.org/pdf/2103.09382.pdf" target="_blank">原文链接</a><br></span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;"><a href="https://github.com/niuchuangnn/SPICE" target="_blank">代码</a><br></span></p>
+<h2><span style="font-family: &quot;Microsoft YaHei&quot;"><a name="a3.1"></a>3.1 动机</span></h2>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">上述SCAN聚类算法中采用样本的最近邻来计算SCAN-loss存在以下问题：在实际的样本空间中，并不是所有样本的最近邻都具有相同的语义，比如当样本位于不同簇的边界时，这样的问题会变得更加严重，从而导致最终的聚类结果产生误差累积。具体的局部样本空间的语义不一致可以参考下图：</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;"><img src="https://img2020.cnblogs.com/blog/927750/202105/927750-20210518105225817-801094101.png" alt="" loading="lazy" style="display: block; margin-left: auto; margin-right: auto"></span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">此外，SCAN算法的性能随着交替的运行，导致边界的最近邻样本在聚类的交替过程中产生误差累积的问题，并且其在大型数据的在线聚类过程中会受到性能的限制。</span></p>
+<h2><span style="font-family: &quot;Microsoft YaHei&quot;"><a name="a3.2"></a>3.2 贡献</span></h2>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">针对SCAN算法容易出现语义不一致的最近邻样本，导致聚类结果产生误差累积的问题，本文提出了一种基于图像语义伪标签的图像聚类框架（SPICE）。该框架的主要贡献如下：</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">1）&nbsp; 设计了一种级联softmax交叉熵损失函数，能够有效增强模型选取伪标签的可信度，从而提高模型的聚类性能；</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">2）&nbsp; 结合图像的弱增强和强增强处理，结合分类交叉熵损失函数来训练分类网络，并通过伪标签来协调样本语义在聚类过程中的差异以及实例样本之间的相似性；</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">3）&nbsp; 设计了一种伪标签获取方法，在网络模型的训练过程中能够利用语义相似度度量来减少样本在边界附近的语义不一致性；</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">4）&nbsp; 设计的局部一致性原则通过将原聚类问题转化为半监督学习范式，能够有效减少语义的不一致性，从而提高最终的聚类性能。</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;"><img src="https://img2020.cnblogs.com/blog/927750/202105/927750-20210518105241035-972720788.png" alt="" loading="lazy" style="display: block; margin-left: auto; margin-right: auto"></span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">拟议的SPICE框架包括三个培训阶段。</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">首先，训练了一个无监督的表征学习模型，该模型是在SCAN中使用的；</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">然后，冻结预训练模型的CNN主干，分别进行SPICE-Self和SPICE-Semi两个阶段提取嵌入特征，如上图所示。</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">SPICE-Self有三个分支:第一个分支以原始图像为输入输出嵌入特征，第二个分支以弱变换图像为输入输出语义标签，第三个分支以强变换图像为输入预测聚类标签。给定前两个分支的结果，基于语义相似度的伪标记算法生成伪标记来监督第三个分支。在实践中，SPICE-Self只需要训练第三分支的轻量级分类头。</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">SPICE-Semi首先判断一组可靠的基于本地语义一致性伪标签，比如SPICE-Self得到的聚类结果, 然后采用半监督学习重新训练分类模型cls Model。</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">最后，训练后的分类模型能够预测含标签图像和不含标签图像样本的聚类标签。</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">相比SCAN简单地选取每个样本的最近邻语义样本处理方法，本文提出在一个batchsize里面选取其中大于给定阈值的最自信的前i个样本作为伪标签。其处理原理如下：</span></p>
+<p style="text-align: center"><span style="font-family: &quot;Microsoft YaHei&quot;">&nbsp;<img src="https://img2020.cnblogs.com/blog/927750/202105/927750-20210518105254961-1138747932.png" alt="" loading="lazy"></span></p>
+<p><img src="https://img2020.cnblogs.com/blog/927750/202105/927750-20210518105300756-2143815801.png" alt="" loading="lazy" style="display: block; margin-left: auto; margin-right: auto"></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">注意，在不同的集群之间可能存在重叠的样本（PS：具体可以见上图的c中的toy example），所以有两种方法来处理这些标签:</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">1)&nbsp;&nbsp;&nbsp;&nbsp; 一个是重叠分配，一个样本可能有一个以上的类标签，如图中黄色和红色的圆圈所示。</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">2)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 另一种是非重叠分配，即所有样本只有一个簇标签，如盘子红色圆圈所示。</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">本文实验表明，如第4.5.2小节所分析，发现重叠赋值更好。</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">本文提出的级联softmax交叉熵损失函数其出发点是鼓励模型输出有信心的预测，从而有助于对未标记的数据学习，具体定义如下：</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;"><img src="https://img2020.cnblogs.com/blog/927750/202105/927750-20210518105318415-297810890.png" alt="" loading="lazy" style="display: block; margin-left: auto; margin-right: auto"></span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">这个级联softmax交叉熵损失函数的定义和第一篇ICLR中定义的后验分布P结合交叉熵损失函数的公式很像，具体区别待探究（PS：本文并没有应用和分析第一篇ICLR2020文章）。</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">此外，本文通过选取局部中部分可靠的伪标签样本的最近邻，来缓解局部样本语义不一致的问题。其中局部一致性的定义如下：</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;"><img src="https://img2020.cnblogs.com/blog/927750/202105/927750-20210518105339432-411998006.png" alt="" loading="lazy" style="display: block; margin-left: auto; margin-right: auto"></span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">在半自监督的学习模型中，采用SPICE-self步骤中获取的可信度高的伪标签，结合未提供伪标签的数据进行半监督学习，并结合数据增强和分类交叉熵损失函数，实现对clshead的学习。其中采用的半监督交叉熵损失函数定义如下：</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;"><img src="https://img2020.cnblogs.com/blog/927750/202105/927750-20210518105351168-745874776.png" alt="" loading="lazy" style="display: block; margin-left: auto; margin-right: auto"></span></p>
+<h2><span style="font-family: &quot;Microsoft YaHei&quot;"><a name="a3.3"></a>3.3 实验分析</span></h2>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;"><img src="https://img2020.cnblogs.com/blog/927750/202105/927750-20210518105407237-636657904.png" alt="" loading="lazy" style="display: block; margin-left: auto; margin-right: auto"></span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">&nbsp;通过上述的实验结果可以发现，本文结合确定性高的最近邻样本选取策略以及半自监督学习策略，可以有效提高模型的聚类效果，能够比SCAN聚类方法高大约20%，比最新的AAAI2021文章的CC模型高10%。</span></p>
+<h2><span style="font-family: &quot;Microsoft YaHei&quot;"><a name="a3.4"></a>3.4 我的想法</span></h2>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">本文是arXiv上发布的最新论文，目前应该还没有被相关会议或者期刊接收。本文主要是解决SCAN算法中最近邻样本容易出现不一致语义的问题，并且在实验效果上要比SCAN算法强很多。然而，本文的写作不是很清晰，特别是摘要的写作感觉有点长，关键的问题分析有点模糊不清，特别是创新点的表述不清晰。此外，本文的模型看上去好复杂，具体的可移植性待探究。</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">最后，本文的确定性标签的选择思路可以参考和借鉴，另外其级联softmax交叉熵损失函数可以借鉴和学习。</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">&nbsp;</span></p>
+<hr>
+<h1><span style="font-family: &quot;Microsoft YaHei&quot;"><a name="a4"></a>4 对比聚类 (AAAI, 2021)</span></h1>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;"><a href="https://arxiv.org/pdf/2009.09687.pdf" target="_blank">原文</a><br></span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;"><a href="https://github.com/Yunfan-Li/Contrastive-Clustering" target="_blank">代码</a><br></span></p>
+<h2><span style="font-family: &quot;Microsoft YaHei&quot;"><a name="a4.1"></a>4.1 动机</span></h2>
+<p align="left"><span style="font-family: &quot;Microsoft YaHei&quot;">Deep Cluster (ECCV, 2018)采用K-means对每次epoch结束后的表述执行聚类，然后利用聚类得到的伪标签来指导深度神经网络的参数更新。这种交替学习方法会在表示学习和聚类之间的交替过程中积累误差，导致聚类性能次优。此外，上述方法只能处理离线任务，即聚类是基于整个数据集的，这限制了它们在大规模在线学习场景中的应用。</span></p>
+<h2><span style="font-family: &quot;Microsoft YaHei&quot;"><a name="a4.2"></a>4.2 贡献</span></h2>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">&nbsp;针对Deep Cluster模型交替优化导致聚类性能次优的问题，本文提出了名为对比聚类(CC)的单阶段在线聚类方法，它明确地执行实例级和集群级的对比学习。具体地说，对于给定的数据集，通过数据扩充来构造正实例对和负实例对，然后投影到特征空间中。通过同时优化实例级和集群级的对比损失，该模型以端到端方式联合学习表示和集群分配。本文的具体贡献可以分为以下三点：</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">1） 我们为当前的深度聚类研究提供了一种新的见解，即实例表示和聚类类别预测分别对应于可学习特征矩阵的行和列。因此，深度聚类可以优雅地统一到表示学习的框架中;</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">2） 据我们所知，这可能是聚类特定对比学习的第一个工作。与现有的对比学习研究不同，本文提出的方法不仅在实例层次上进行对比学习，而且在聚类层次上进行对比学习。实验证明，这种双重对比学习框架可以产生聚类偏好表征;</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">3） 该模型采用单阶段、端到端方式，只需要批量优化，可应用于大规模在线场景。</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">本文的模型的对比思想如下图1所示：</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;"><img src="https://img2020.cnblogs.com/blog/927750/202105/927750-20210518105441581-1098404328.png" alt="" loading="lazy" style="display: block; margin-left: auto; margin-right: auto"></span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">本文模型的整体架构图如下：</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;"><img src="https://img2020.cnblogs.com/blog/927750/202105/927750-20210518105452703-1220735052.png" alt="" loading="lazy" style="display: block; margin-left: auto; margin-right: auto"></span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">实例级的对比损失计算原理如下：</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">&nbsp;<img src="https://img2020.cnblogs.com/blog/927750/202105/927750-20210518105502584-2022000988.png" alt="" loading="lazy" style="display: block; margin-left: auto; margin-right: auto"></span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">聚类层次的对比损失计算方式和实例级差不多，区别在于把行数据换成了列数据，并添加了熵偏项策略，具体细节可以参考原文。</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;"><strong>个人思考：</strong>本文最大参考价值在于说明了在深度聚类研究领域，图像的数据增强和获取表示的backbone对下游的聚类任务性能会有很大的影响。此外，对比学习首次应用到深度聚类领域，也说明了对比学习思想在积极交替优化聚类模型中能够有效缓解误差累积的问题。</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">&nbsp;</span></p>
+<hr>
+<h1><span style="font-family: &quot;Microsoft YaHei&quot;"><a name="a5"></a>5 通过分区最大化信度的深度语义聚类 (CVPR, 2020)</span></h1>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;"><a href="https://openaccess.thecvf.com/content_CVPR_2020/papers/Huang_Deep_Semantic_Clustering_by_Partition_Confidence_Maximisation_CVPR_2020_paper.pdf" target="_blank">原文</a><br></span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;"><a href="https://github.com/Raymond-sci/PICA" target="_blank">代码</a><br></span></p>
+<h2><span style="font-family: &quot;Microsoft YaHei&quot;"><a name="a5.1"></a>5.1 动机</span></h2>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">现有的深度聚类方法通常依赖于基于样本间关系或自估计伪标记的局部学习约束方法，</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">这不可避免地受到的分布在邻域的误差影响，并在训练过程中产生误差传播的累积问题。虽然使用可学习表示进行聚类分析可能有利于对无标记数据进行聚类，但<strong>如何提高这些聚类的语义合理性仍然是一个挑战（</strong><strong>PS</strong><strong>：此处的动机和第三篇</strong><strong>arXiv2021</strong><strong>的动机类似，但是本文是</strong><strong>2020</strong><strong>年发表，另外发现</strong><strong>arXiv2021</strong><strong>文章引用了该篇文章，并且在实验中重点对比了该文提出的模型）</strong>。具体的领域误差问题如下图：</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;"><img src="https://img2020.cnblogs.com/blog/927750/202105/927750-20210518105536466-631927314.png" alt="" loading="lazy" style="display: block; margin-left: auto; margin-right: auto"></span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">如上图所示，DEC这些方法面临着训练过程中由于邻域估计不一致而导致的更严重的误差传播累积问题。此外，由于训练监督和聚类目标之间的模糊联系，当缺乏全局解决方案级指导时，这类方法往往产生语义上不太可信的聚类解决方案。</span></p>
+<h2><span style="font-family: &quot;Microsoft YaHei&quot;"><a name="a5.2"></a>5.2 贡献</span></h2>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">为了避免领域不确定性导致聚类的误差累积问题，引入了一种新的深度聚类方法，称为分区置信度最大化(PICA)，通过从所有可能的簇分离方案中学习最可靠的聚类方案来解决这个问题。本文的贡献主要分为以下三点：</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">1） 提出了通过最大分割置信来学习语义上最合理的聚类解的思想，将经典的最大边际聚类思想扩展到深度学习范式。该方法对局部样本间关系和聚类簇结果作为标记没有很强的假设，这通常会导致误差传播和次优的聚类解。</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">2） 引入了一种新的深度聚类方法，称为分区置信度最大化(PICA)。PICA是建立在一个新引入的划分不确定性指标的基础上，该指标设计得很优雅，可以量化聚类解决方案的全局置信度。</span></p>
+<p align="left"><span style="font-family: &quot;Microsoft YaHei&quot;">3）引入分割不确定性指数的随机近似，将其与目标图像的整个集合解耦，从而可以方便地采用标准的小批量模型训练。</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">本文的模型如下图：</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;"><img src="https://img2020.cnblogs.com/blog/927750/202105/927750-20210518105551881-817897277.png" alt="" loading="lazy" style="display: block; margin-left: auto; margin-right: auto"></span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">理想情况下，集群的所有样本将共享相同的目标类标签。也就是说，本文模型的目标是直接从原始数据样本中发现潜在的语义类决策边界(PS:即簇中心)。</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">另外，在聚类中，通常出现将大部分样本分配到少数的聚类中。为了避免这种情况，本文引入了一个额外的约束，使簇大小分布的负熵最小化。该策略本人在好几篇文章中都有看到这样的处理机制，应该可以作为聚类优化挑战的一个策略。具体的负熵最小化的策略如下：</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;"><img src="https://img2020.cnblogs.com/blog/927750/202105/927750-20210518105602952-1147437972.png" alt="" loading="lazy" style="display: block; margin-left: auto; margin-right: auto"></span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;"><strong>个人思考：</strong>本文采用余弦相似度计算ASV和PUI的代码和思想，以及其在聚类过程中的应用可以借鉴和学习。另外，可以尝试采用本文的思想，结合采用余弦相似度来衡量和计算的思路，去思考如何选取确定性较大的标签。另外，本文的写作真的是有点费解，并且摘要写的太过专业具体化，很难让读者看懂。</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">&nbsp;</span></p>
+<hr>
+<h2><span style="font-family: &quot;Microsoft YaHei&quot;"><a name="a6"></a>参考文献</span></h2>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">[1]&nbsp;&nbsp; J. Xie, R. Girshick, and A. Farhadi, “Unsupervised Deep Embedding for Clustering Analysis,” <em>arXiv:1511.06335 [cs]</em>, May 2016, Accessed: May 18, 2021. [Online]. Available: http://arxiv.org/abs/1511.06335</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">[2]&nbsp;&nbsp; M. Caron, P. Bojanowski, A. Joulin, and M. Douze, “Deep Clustering for Unsupervised Learning of Visual Features,” <em>arXiv:1807.05520 [cs]</em>, Mar. 2019, Accessed: May 18, 2021. [Online]. Available: http://arxiv.org/abs/1807.05520</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">[3]&nbsp;&nbsp; W. Van Gansbeke, S. Vandenhende, S. Georgoulis, M. Proesmans, and L. Van Gool, “SCAN: Learning to Classify Images without Labels,” <em>arXiv:2005.12320 [cs]</em>, Jul. 2020, Accessed: May 16, 2021. [Online]. Available: http://arxiv.org/abs/2005.12320</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">[4]&nbsp;&nbsp; C. Niu and G. Wang, “SPICE: Semantic Pseudo-labeling for Image Clustering,” <em>arXiv:2103.09382 [cs]</em>, Mar. 2021, Accessed: May 16, 2021. [Online]. Available: http://arxiv.org/abs/2103.09382</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">[5]&nbsp;&nbsp; Y. Li, P. Hu, Z. Liu, D. Peng, J. T. Zhou, and X. Peng, “Contrastive Clustering,” <em>arXiv:2009.09687 [cs, stat]</em>, Sep. 2020, Accessed: May 16, 2021. [Online]. Available: http://arxiv.org/abs/2009.09687</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">&nbsp;</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">&nbsp;</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">&nbsp;</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">&nbsp;</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">&nbsp;</span></p>
+<p><span style="font-family: &quot;Microsoft YaHei&quot;">&nbsp;</span></p>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2021-05-18 11:14</span>&nbsp;
+<a href="https://www.cnblogs.com/liuzhen1995/">舞动的心</a>&nbsp;
+阅读(<span id="post_view_count">1</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14780157" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14780157);return false;">收藏</a></div>
+        </div>
+        <script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 277480, cb_blogApp = 'liuzhen1995', cb_blogUserGuid = 'db8f8277-e3f8-e511-9fc1-ac853d9f53cc';
+    var cb_entryId = 14780157, cb_entryCreatedDate = '2021-05-18 11:14', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+        <a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+    </div>
+</div>
+            </div>
+        </div>
+
+        <div id="sideBar">
+            <div id="sideBarMain">
+                <div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+                <div id="calendar"><div id="blog-calendar" style="display:none"></div></div>                
+                <script>loadBlogDefaultCalendar();</script>
+                <div id="leftcontentcontainer">
+                    <!-- begin:SingleColumn -->
+                    <div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+                    <!-- end:  SingleColumn -->
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+    <div id="footer">
+        <!--done-->
+Copyright &copy; 2021 舞动的心
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+    </div>
+</div>
+
+    <div id="page_end_html">
+        <a href="javascript:" id="toTop" title="返回顶部" onclick="window.scrollTo(0,0);return false;"></a>
+<script type = "text/javascript">
+    function toTopHide(){
+        $(document).scrollTop()>400?
+                $("#toTop").show()
+                    :$("#toTop").hide();
+    }
+    $(window).scroll(function(){toTopHide()});
+</script>
+    </div>
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjtf3iiKUxt4O5WNaEi3h9E8luldlXTxrWasRQtOjgATr9PcxikifTCREDDRvGZCRvbdCu0qwhdZ7QyHuNPDxwvGxKu--B6Vd1aOqtlFM8yxzbK1ZsNxzrcn5MJxcKomlyY" />
+</body>
+</html>

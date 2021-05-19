@@ -1,0 +1,628 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    
+    
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>雁翔鹏城 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/simpleblue/bundle-simpleblue.min.css?v=2hjghzSZyhYA1HxvSxKnXih3JbC120DBjeO9V9T_nSs" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/simpleblue/bundle-simpleblue-mobile.min.css?v=3tvwgOOqUo3RpS6gGzEdK0LbptOPv4Bx7M85_UAnFGs" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/ledsuperb/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/ledsuperb/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/ledsuperb/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 657855;
+        var currentBlogApp = 'ledsuperb';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'SimpleBlue';
+        var visitorUserId = '';
+    </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <div id="home">
+    <div id="header">
+        <div id="blogTitle">
+            <div class="title"><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/ledsuperb/">雁翔鹏城</a>
+</div>
+<div class="subtitle"></div>
+
+        </div>
+        <div id="navigator">
+            
+<ul id="navList">
+    <li id="nav_sitehome"><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+    <li id="nav_myhome">
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/ledsuperb/">
+首页</a>
+</li>
+    <li id="nav_newpost">
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+    <li id="nav_contact">
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E9%9B%81%E7%BF%94%E9%B9%8F%E5%9F%8E">
+联系</a></li>
+    <li id="nav_rss">
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/ledsuperb/rss/">
+订阅</a></li>
+    <li id="nav_admin">
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+            <div class="blogStats">
+                <div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+            </div>
+        </div>
+    </div>
+    <div id="main">
+        <div id="mainContent">
+            <div class="forFlow">
+                
+
+
+
+
+
+
+    
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/ledsuperb/archive/2021/05/18.html">2021年5月18日</a>
+    </div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/ledsuperb/p/14780804.html">
+    <span>
+        SP5718F高精度原边反馈开关电源芯片典型应用5V2.1A
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+            
+
+    <div class="c_b_p_desc">
+摘要：一、概述 SP5718F 是一颗高精度离线式开关电源电路，应用于低功耗AC/DC 充电器与适配器。SP5718F 使用原 边取样来进行精确的恒流、恒压控制，可以省去一般应用中的光耦与TL431。 在恒流模式下，输出功率可由 CS 脚外接的取样电阻Rs设定。在恒压模式下，芯片的多种工作模式可以保证较高        <a href="https://www.cnblogs.com/ledsuperb/p/14780804.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        </div>
+        <div class="clear"></div>
+        <div class="postDesc">
+            posted @ 2021-05-18 14:29
+雁翔鹏城
+<span data-post-id="14780804" class="post-view-count">阅读(0)</span> 
+<span data-post-id="14780804" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14780804" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14780804" rel="nofollow">
+    编辑
+</a>
+
+        </div>
+        <div class="clear"></div>
+</div>
+    
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/ledsuperb/archive/2021/05/17.html">2021年5月17日</a>
+    </div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/ledsuperb/p/14777408.html">
+    <span>
+        SW3518超级快充华为协议高电流5V5A，OPPO闪充VOOC协议快充车充方案IC
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+            
+
+    <div class="c_b_p_desc">
+摘要：SW3518 是一款高集成度的多快充协议双口充电芯片，支持 A+C 口任意口快充输出，支持双口独立限流。其集成了5A 高效率同步降压变换器，支持 PPS/PD/OC/AFC/FCP/SCP/PE/SFCP/VOOC等多种快充协议，CC/CV模式，以及双口管理逻辑。外围只需少量的器件，即可组成完整的高        <a href="https://www.cnblogs.com/ledsuperb/p/14777408.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        </div>
+        <div class="clear"></div>
+        <div class="postDesc">
+            posted @ 2021-05-17 16:17
+雁翔鹏城
+<span data-post-id="14777408" class="post-view-count">阅读(3)</span> 
+<span data-post-id="14777408" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14777408" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14777408" rel="nofollow">
+    编辑
+</a>
+
+        </div>
+        <div class="clear"></div>
+</div>
+    
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/ledsuperb/archive/2021/05/13.html">2021年5月13日</a>
+    </div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/ledsuperb/p/14764520.html">
+    <span>
+        SP6621HP高性能低功耗18W开关电源控制芯片做12V1.5A适配器
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+            
+
+    <div class="c_b_p_desc">
+摘要：SP6621HP 是一颗电流模式 PWM控制芯片，内置功率 MOSFET。 SP6621HP在 PWM 模式下工作于固定频率，这个频率是由内部精确设定的。在空载或者轻载时，工作频率由 IC 内部调整。芯片可以工作在绿色模式，以此来减小轻载时的损耗，提高整机的工作效率， SP6621HP 在启动和工作        <a href="https://www.cnblogs.com/ledsuperb/p/14764520.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        </div>
+        <div class="clear"></div>
+        <div class="postDesc">
+            posted @ 2021-05-13 14:46
+雁翔鹏城
+<span data-post-id="14764520" class="post-view-count">阅读(6)</span> 
+<span data-post-id="14764520" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14764520" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14764520" rel="nofollow">
+    编辑
+</a>
+
+        </div>
+        <div class="clear"></div>
+</div>
+    
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/ledsuperb/archive/2021/05/12.html">2021年5月12日</a>
+    </div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/ledsuperb/p/14759571.html">
+    <span>
+        CS5601兼容SGM40561低电池泄露电流750mA单节锂离子和锂聚合物电池充电器
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+            
+
+    <div class="c_b_p_desc">
+摘要：CS5601D/T/S是面向空间受限的便携应用的高度，集成锂离子和锂聚合物线性充电器器件。该器件由 USB 端口或交流适配器供电。带输入过压保护的高输入电压范围支持低成本、非稳压适配器。电池充电经历以下三个阶段∶ 调节 ，恒定电流和恒定电压。在所有充电阶段，内部控制环路都会监控IC 结温 ，当其超过        <a href="https://www.cnblogs.com/ledsuperb/p/14759571.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        </div>
+        <div class="clear"></div>
+        <div class="postDesc">
+            posted @ 2021-05-12 14:19
+雁翔鹏城
+<span data-post-id="14759571" class="post-view-count">阅读(10)</span> 
+<span data-post-id="14759571" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14759571" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14759571" rel="nofollow">
+    编辑
+</a>
+
+        </div>
+        <div class="clear"></div>
+</div>
+    
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/ledsuperb/archive/2021/05/11.html">2021年5月11日</a>
+    </div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/ledsuperb/p/14756378.html">
+    <span>
+        CS86556扩频功能，40倍增益，免滤波，2X16W功率D类音频放大器
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+            
+
+    <div class="c_b_p_desc">
+摘要：CS86556E 是一款带扩频功能，2x16W D类音频功率放大器。先进的EM抑制技术使得在输出端口采用廉价的磁珠滤波器就可以满足EMC 要求。CS86556E音频功率放大器是为需要输出高质量音频功率的系统设计的，它采用表面贴装技术，只需少量的外围器件，便使系统具备高质量的音频输出功率。 CS865        <a href="https://www.cnblogs.com/ledsuperb/p/14756378.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        </div>
+        <div class="clear"></div>
+        <div class="postDesc">
+            posted @ 2021-05-11 17:17
+雁翔鹏城
+<span data-post-id="14756378" class="post-view-count">阅读(3)</span> 
+<span data-post-id="14756378" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14756378" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14756378" rel="nofollow">
+    编辑
+</a>
+
+        </div>
+        <div class="clear"></div>
+</div>
+    
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/ledsuperb/archive/2021/05/08.html">2021年5月8日</a>
+    </div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/ledsuperb/p/14744744.html">
+    <span>
+        CS5513R低功耗频率1M@1A电流DC-DC降压稳压器
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+            
+
+    <div class="c_b_p_desc">
+摘要：CS5513R 是一款由基准电压源、振荡电路、比较器、 PWM/PFM 控制电路等构成的CMOS 降压DC/DC调整器。利用PWM/PFM自动切换控制电路达到可调占空比，具有全输入电压范围（2.5-8.5V）内的低纹波、高效率和大输出电流等特点。 CS5513R 内置功率MOSFET，使用过压、过流        <a href="https://www.cnblogs.com/ledsuperb/p/14744744.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        </div>
+        <div class="clear"></div>
+        <div class="postDesc">
+            posted @ 2021-05-08 14:21
+雁翔鹏城
+<span data-post-id="14744744" class="post-view-count">阅读(4)</span> 
+<span data-post-id="14744744" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14744744" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14744744" rel="nofollow">
+    编辑
+</a>
+
+        </div>
+        <div class="clear"></div>
+</div>
+    
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/ledsuperb/archive/2021/05/07.html">2021年5月7日</a>
+    </div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/ledsuperb/p/14741383.html">
+    <span>
+        LTK5129功率10W耐压7V的F类单声道音频放大器兼容ANT8109
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+            
+
+    <div class="c_b_p_desc">
+摘要：LTK5129 是一款 2Ω-10W、4Ω-6.3W、单声道 F类音频功率放大器。LTK5129 采用高耐压工艺，耐压可达 7V，同时对内部电路等方面进行优化，及大程度的提高输出功率。LTK5129 通过一个 MODE 管脚可以方便地切换为 AB 类模式，完全消除 EMI 干扰。在 D 类放大器模式        <a href="https://www.cnblogs.com/ledsuperb/p/14741383.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        </div>
+        <div class="clear"></div>
+        <div class="postDesc">
+            posted @ 2021-05-07 15:46
+雁翔鹏城
+<span data-post-id="14741383" class="post-view-count">阅读(6)</span> 
+<span data-post-id="14741383" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14741383" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14741383" rel="nofollow">
+    编辑
+</a>
+
+        </div>
+        <div class="clear"></div>
+</div>
+    
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/ledsuperb/archive/2021/04/29.html">2021年4月29日</a>
+    </div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/ledsuperb/p/14718157.html">
+    <span>
+        CS8633D免滤波4x15W四通道D类音频放大器
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+            
+
+    <div class="c_b_p_desc">
+摘要：CS8633D 是一款4X15W四通道高效D 类音频功率放大电路。先进的EMI抑制技术使得在输出端口采用廉价的铁氧体磁珠滤波器就可以满足EMC 要求。CS8633D四通道音频功率放大器是为需要输出高质量音频功率的系统设计的 ，它采用表面贴装技术 ，只需少量的外围器件，便使系统具备高质量的音频输出功率        <a href="https://www.cnblogs.com/ledsuperb/p/14718157.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        </div>
+        <div class="clear"></div>
+        <div class="postDesc">
+            posted @ 2021-04-29 15:28
+雁翔鹏城
+<span data-post-id="14718157" class="post-view-count">阅读(10)</span> 
+<span data-post-id="14718157" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14718157" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14718157" rel="nofollow">
+    编辑
+</a>
+
+        </div>
+        <div class="clear"></div>
+</div>
+    
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/ledsuperb/archive/2021/04/26.html">2021年4月26日</a>
+    </div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/ledsuperb/p/14705108.html">
+    <span>
+        CS8389(4种防破音可选，AB/D切换功能，4.8W立体声音频功放IC)
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+            
+
+    <div class="c_b_p_desc">
+摘要：CS8389E是一款内置BOOST升压模块带防破音功能R类音频功率放大器。CS8389E BOOST升压至6.2V可以为4Ω的负载提供2X4.8W的恒定功率.为音频子系统的功放设计以及终端产品的升级更换提供了可观的功率裕量以及最大的便利性。在单节锂电池的供电范围内，使得CS8389E成为便携式音箱设        <a href="https://www.cnblogs.com/ledsuperb/p/14705108.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        </div>
+        <div class="clear"></div>
+        <div class="postDesc">
+            posted @ 2021-04-26 16:03
+雁翔鹏城
+<span data-post-id="14705108" class="post-view-count">阅读(14)</span> 
+<span data-post-id="14705108" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14705108" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14705108" rel="nofollow">
+    编辑
+</a>
+
+        </div>
+        <div class="clear"></div>
+</div>
+    
+
+
+<div class="day">
+    <div class="dayTitle">
+        <a href="https://www.cnblogs.com/ledsuperb/archive/2021/04/20.html">2021年4月20日</a>
+    </div>
+        <div class="postTitle">
+            
+
+<a class="postTitle2 vertical-middle" href="https://www.cnblogs.com/ledsuperb/p/14681046.html">
+    <span>
+        ANT8916替换HT8691做7W超低底噪带防破音的单声道AB/D 类双模音频功放
+    </span>
+    
+
+
+
+</a>
+
+        </div>
+        <div class="postCon">
+            
+
+    <div class="c_b_p_desc">
+摘要：ANT8916S 是一款内置高效升压的高信噪比，低底噪，具有 ALC（防破音）功能的 AB/D类双模音频功放。在锂电池3.7V供电时，驱动单通道 3Ω负载可以输出 7W恒定功率。特有的防破音功能，能够确保输出的音频信号不会出现较大的失真。在各种应用场合都可以提供高效稳定的输出功率。 ALC功能能够自        <a href="https://www.cnblogs.com/ledsuperb/p/14681046.html" class="c_b_p_desc_readmore">阅读全文</a>
+    </div>
+
+        </div>
+        <div class="clear"></div>
+        <div class="postDesc">
+            posted @ 2021-04-20 14:54
+雁翔鹏城
+<span data-post-id="14681046" class="post-view-count">阅读(14)</span> 
+<span data-post-id="14681046" class="post-comment-count">评论(0)</span> 
+<span data-post-id="14681046" class="post-digg-count">推荐(0)</span> 
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14681046" rel="nofollow">
+    编辑
+</a>
+
+        </div>
+        <div class="clear"></div>
+</div>
+
+<div class="topicListFooter">
+    <div id="nav_next_page">
+        
+    <a href="https://www.cnblogs.com/ledsuperb/default.html?page=2">
+        下一页
+    </a>
+
+    </div>    
+</div>
+
+
+
+
+<script>
+    updatePostStats(
+        $(".post-view-count").map(function () { return this.dataset.postId }).get(),
+        function(id, count) { $(".post-view-count[data-post-id=" + id + "]").text("阅读(" + count + ")") },
+        function(id, count) { $(".post-comment-count[data-post-id=" + id + "]").text("评论(" + count + ")") },
+        function(id, count) { $(".post-digg-count[data-post-id=" + id + "]").text("推荐(" + count + ")") });
+</script>
+            </div>
+        </div>
+
+        <div id="sideBar">
+            <div id="sideBarMain">
+                <div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+                <div id="calendar"><div id="blog-calendar" style="display:none"></div></div>                
+                <script>loadBlogDefaultCalendar();</script>
+                <div id="leftcontentcontainer">
+                    <!-- begin:SingleColumn -->
+                    <div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+                    <!-- end:  SingleColumn -->
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+    <div id="footer">
+        <!--done-->
+Copyright &copy; 2021 雁翔鹏城
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+    </div>
+</div>
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjtvUGexRsHOMqDXIaq-npMBcaZk1g98UjZBc21LxUQhv_z9fGWD7Oj6zuoHOJgb-qQs1WiKah4cAS7AA3UF--vm7nql-cgiwagKj4lkWLlC0ntCcx93zUdM6c8O_C3HqlM" />
+</body>
+</html>

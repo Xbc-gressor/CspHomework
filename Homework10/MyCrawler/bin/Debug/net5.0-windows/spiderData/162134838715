@@ -1,0 +1,744 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="referrer" content="always" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>企业信息化 - 网站分类 - 博客园</title>
+    <link rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    <link rel="Stylesheet" type="text/css" href="/css/aggsite.min.css?v=qebcsK6ViDyOTXcddGf-U2uDQR_zUktoftFuzi_7T5w" />
+        <link id="RSSLink" title="RSS" type="application/rss+xml" rel="alternate" href="http://feed.cnblogs.com/blog/sitecateogry/108704/rss" />
+    <script src="//common.cnblogs.com/script/jquery.js" type="text/javascript"></script>
+    <script src="/js/aggsite.min.js?v=mSi2Msi5As37eL8a9nSM9XOay8XPv9guFxYeS68dT_Q"></script>
+    <script async='async' src='https://www.googletagservices.com/tag/js/gpt.js'></script>
+    <script>
+        var googletag = googletag || {};
+        googletag.cmd = googletag.cmd || [];
+    </script>
+    <script>
+        googletag.cmd.push(function () {
+            googletag.defineSlot('/1090369/A1', [468, 60], 'div-gpt-ad-1547816814884-0').addService(googletag.pubads());
+            googletag.defineSlot('/1090369/B1', [300, 250], 'div-gpt-ad-1546331539224-0').addService(googletag.pubads());
+            googletag.defineSlot('/1090369/B2', [300, 250], 'div-gpt-ad-1539007469525-0').addService(googletag.pubads());
+            googletag.defineSlot('/1090369/B3', [300, 250], 'div-gpt-ad-1546331252242-0').addService(googletag.pubads());
+            googletag.defineSlot('/1090369/B4', [300, 250], 'div-gpt-ad-1546331385104-0').addService(googletag.pubads());
+            googletag.pubads().enableSingleRequest();
+            googletag.enableServices();
+        });
+
+        /**/</script>
+</head>
+<body>
+<div id="wrapper">
+    <div id="hd_info">
+        <div id="cnts">
+            <div id="site_nav_top">代码改变世界</div>
+            <div id="login_area"><span id="span_userinfo"></span></div>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div id="header">
+        <p class="h_r_3"></p><p class="h_r_2"></p><p class="h_r_1"></p>
+        <div id="header_block">
+            <div id="logo">
+                <h1>
+                    <a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo_small.gif" alt="博客园Logo" width="142" height="55" /></a>
+                </h1>
+            </div>
+
+            <div class="clear"></div>
+        </div>
+        <p class="h_r_1"></p><p class="h_r_2"></p><p class="h_r_3"></p>
+    </div>
+    <div id="nav_menu"><a href="/">新版</a><a href="https://home.cnblogs.com/">园子</a><a href="https://news.cnblogs.com">新闻</a><a href="https://q.cnblogs.com/">博问</a><a href="https://ing.cnblogs.com/">闪存</a><a id="nav_legacy_brandzone" href="https://brands.cnblogs.com/">专区</a><a href="https://wz.cnblogs.com/">收藏</a><a href="https://job.cnblogs.com/">招聘</a><a href="https://edu.cnblogs.com/">班级</a><a href="https://zzk.cnblogs.com/">找找看</a></div>
+    <div id="main">
+        <div class="post_nav_block_wrapper">
+            <ul class="post_nav_block">
+                    <li><a href="/" id="tabnav_" class="" title="">首页</a></li>
+                    <li><a href="/cate/108704/" id="tabnav_cate108704" class="current_nav" title="">企业信息化</a></li>
+            </ul>
+            <div class="clear"></div>
+        </div>
+        <div class="rss_link" id="rss_block">
+<span id="posts_refresh_tips"></span><a id="posts_refresh" href="#" class="refresh" title="刷新博文列表" onclick="aggSite.loadCategoryPostList();return false">刷新</a><a href="http://feed.cnblogs.com/blog/sitecateogry/108704/rss"><img src="//common.cnblogs.com/images/icon_rss.gif" alt="点击订阅" style="position:relative;top:2px;" title="订阅博客园文章" /></a>        </div>
+            <div id="headline_block" class="headline"><ul class="headline"><li class="editor_pick"><a href="https://www.cnblogs.com/ittranslator/p/worker-service-gracefully-shutdown.html" id="editor_pick_lnk" target="_blank"><span class="headline-label">[编辑推荐]</span>.NET Worker Service 如何优雅退出<span id="editor_pick_count"></span></a> <a href="/aggsite/headline" title="查看更多编辑推荐" class="right_more">»</a></li><li id="top_digged_post"><a href="https://www.cnblogs.com/liujingjiu/p/14779139.html" target="_blank" title="阅读1091, 评论0, 推荐22"><span class="headline-label">[最多推荐]</span>有趣的css—简单的下雨效果2.0版(0/1091)</a> <a href="/aggsite/topdigged24h" title="查看24小时推荐排行" class="right_more">»</a></li><li id="top_commented_post"><a href="https://www.cnblogs.com/zoe-zyq/p/14779429.html" target="_blank" title="阅读724, 评论7, 推荐9"><span class="headline-label">[最多评论]</span>Nginx超详细常用功能演示，够用啦~~~(7/724)</a> <a href="/aggsite/topcommented24h" title="查看24小时评论排行" class="right_more">»</a></li><li id="news_headline"><a href="https://news.cnblogs.com/n/694046/" target="_blank" title="阅读522, 评论0, 推荐7"><span class="headline-label">[新闻头条]</span>我国科学家发现迄今为止能量最高的光子，到底是什么样的成果？(0/522)</a> <a href="https://news.cnblogs.com/" title="查看更多新闻" class="right_more">»</a></li><li id="picked_news"><a href="https://news.cnblogs.com/n/694019/" target="_blank" title="阅读1102, 评论0, 推荐11"><span class="headline-label">[推荐新闻]</span>什么样的程序员生涯指南，能在GitHub上获3.6万星(0/1102)</a> <a href="https://news.cnblogs.com/n/recommend" title="查看更多推荐新闻" class="right_more">»</a></li></ul></div>
+
+        <div id="pager_top" style="display:none"></div>
+        <div id="post_list_tips" class="hide"></div>
+        
+        <div id="post_list">
+                <div class="post_item">
+        <div class="digg">
+            <div class="diggit" onclick="DiggPost('pandana',14779233,650847,1)">
+                <span class="diggnum" id="digg_count_14779233">0</span>
+            </div>
+            <div class="clear"></div>
+            <div id="digg_tip_14779233" class="digg_tip">
+                
+            </div>
+        </div>
+        <div class="post_item_body">
+            <h3><a class="titlelnk" href="https://www.cnblogs.com/pandana/archive/2021/05/18/14779233.html" target="_blank">蓝凌OA前台任意文件读取漏洞利用</a></h3>
+            <p class="post_item_summary">
+<a href="https://www.cnblogs.com/pandana/" target="_blank"><img width="48" height="48" class="pfs" src="https://pic.cnblogs.com/face/2237743/20201204133711.png" alt="" /></a>                近期CNVD爆出漏洞编号：CNVD-2021-28277，首次公开日期为2021-04-15，蓝凌oa存在多个漏洞，攻击者可利用该漏洞获取服务器控制权。今天挑选一个蓝凌OA前台任意文件读取漏洞进行分析使用。链接：https://www.cnvd.org.cn/flaw/show/CNVD-2021- ...
+            </p>
+            <div class="post_item_foot">
+                <a href="https://www.cnblogs.com/pandana/" class="lightblue">Scriptkiddies</a>
+                发布于 2021-05-18 11:01
+                <span class="article_comment">
+                    <a href="https://www.cnblogs.com/pandana/archive/2021/05/18/14779233.html#commentform" class="gray">
+                        评论(0)
+                    </a>
+                </span><span class="article_view"><a href="https://www.cnblogs.com/pandana/archive/2021/05/18/14779233.html" class="gray">阅读(4)</a></span>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="post_item">
+        <div class="digg">
+            <div class="diggit" onclick="DiggPost('ahjzdz',14778077,613252,1)">
+                <span class="diggnum" id="digg_count_14778077">0</span>
+            </div>
+            <div class="clear"></div>
+            <div id="digg_tip_14778077" class="digg_tip">
+                
+            </div>
+        </div>
+        <div class="post_item_body">
+            <h3><a class="titlelnk" href="https://www.cnblogs.com/ahjzdz/archive/2021/05/17/23902kdim.html" target="_blank">NTP同步时钟（时钟同步服务器）助力智能抓拍系统</a></h3>
+            <p class="post_item_summary">
+<a href="https://www.cnblogs.com/ahjzdz/" target="_blank"><img width="48" height="48" class="pfs" src="https://pic.cnblogs.com/face/1986995/20200628110959.png" alt="" /></a>                NTP同步时钟（时钟同步服务器）助力智能抓拍系统 NTP同步时钟（时钟同步服务器）助力智能抓拍系统 京准电子科技官微——ahjzsz 方案背景： 城市道路违章停车现象一直是城市交通中的顽疾，对道路的畅通以及行人的安全存在严重影响。如何规范驾驶员的驾驶行为，对违法交通规则的行为及时准确地进行取证查处， ...
+            </p>
+            <div class="post_item_foot">
+                <a href="https://www.cnblogs.com/ahjzdz/" class="lightblue">NTP校时服务器</a>
+                发布于 2021-05-17 18:43
+                <span class="article_comment">
+                    <a href="https://www.cnblogs.com/ahjzdz/archive/2021/05/17/23902kdim.html#commentform" class="gray">
+                        评论(0)
+                    </a>
+                </span><span class="article_view"><a href="https://www.cnblogs.com/ahjzdz/archive/2021/05/17/23902kdim.html" class="gray">阅读(5)</a></span>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="post_item">
+        <div class="digg">
+            <div class="diggit" onclick="DiggPost('RobZH',14564236,301430,1)">
+                <span class="diggnum" id="digg_count_14564236">0</span>
+            </div>
+            <div class="clear"></div>
+            <div id="digg_tip_14564236" class="digg_tip">
+                
+            </div>
+        </div>
+        <div class="post_item_body">
+            <h3><a class="titlelnk" href="https://www.cnblogs.com/RobZH/archive/2021/05/14/14564236.html" target="_blank">XWiki 12.10.5 + MySql 8.0.23 + Tomcat 9 + Windows 10安装过程中的一些问题及其解决</a></h3>
+            <p class="post_item_summary">
+                几年前用Xwiki 10 + MySql 5.7 + Tomcat 9 + Windows Server 2008 R2配合安装过一次Xwiki，基本照着网上的教程操作就行，不记得碰到过什么麻烦，因此做完后印象不深。最近需要再搭建一套Xwiki，操作过程中居然碰到不少坑，现将其中过程记录如下以供后来 ...
+            </p>
+            <div class="post_item_foot">
+                <a href="https://www.cnblogs.com/RobZH/" class="lightblue">RobZH</a>
+                发布于 2021-05-14 23:57
+                <span class="article_comment">
+                    <a href="https://www.cnblogs.com/RobZH/archive/2021/05/14/14564236.html#commentform" class="gray">
+                        评论(0)
+                    </a>
+                </span><span class="article_view"><a href="https://www.cnblogs.com/RobZH/archive/2021/05/14/14564236.html" class="gray">阅读(3)</a></span>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="post_item">
+        <div class="digg">
+            <div class="diggit" onclick="DiggPost('ABAPDUMP',14769318,680006,1)">
+                <span class="diggnum" id="digg_count_14769318">0</span>
+            </div>
+            <div class="clear"></div>
+            <div id="digg_tip_14769318" class="digg_tip">
+                
+            </div>
+        </div>
+        <div class="post_item_body">
+            <h3><a class="titlelnk" href="https://www.cnblogs.com/ABAPDUMP/archive/2021/05/14/14769318.html" target="_blank">SAP ABAP ALV 颜色设置（两个ALV函数例子） 列 行 单元格</a></h3>
+            <p class="post_item_summary">
+<a href="https://www.cnblogs.com/ABAPDUMP/" target="_blank"><img width="48" height="48" class="pfs" src="https://pic.cnblogs.com/face/2368371/20210421171747.png" alt="" /></a>                @[TOC](设置ALV颜色)# 前言淦！ 要求花花绿绿的ALV ,那就淦他！ 需要的参数和对应颜色放在最后。稍微改改就能用。 介绍两个常用的ALV函数实现1.REUSE_ALV_GRID_DISPLAY2.REUSE_ALV_GRID_DISPLAY_LVC# 实例先以LVC 举个例子吧，那另外一 ...
+            </p>
+            <div class="post_item_foot">
+                <a href="https://www.cnblogs.com/ABAPDUMP/" class="lightblue">ABAP_dump</a>
+                发布于 2021-05-14 17:19
+                <span class="article_comment">
+                    <a href="https://www.cnblogs.com/ABAPDUMP/archive/2021/05/14/14769318.html#commentform" class="gray">
+                        评论(0)
+                    </a>
+                </span><span class="article_view"><a href="https://www.cnblogs.com/ABAPDUMP/archive/2021/05/14/14769318.html" class="gray">阅读(27)</a></span>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="post_item">
+        <div class="digg">
+            <div class="diggit" onclick="DiggPost('xushuotec',14763084,530259,1)">
+                <span class="diggnum" id="digg_count_14763084">1</span>
+            </div>
+            <div class="clear"></div>
+            <div id="digg_tip_14763084" class="digg_tip">
+                
+            </div>
+        </div>
+        <div class="post_item_body">
+            <h3><a class="titlelnk" href="https://www.cnblogs.com/xushuotec/archive/2021/05/13/14763084.html" target="_blank">【odoo】[经验分享]数据迁移注意事项</a></h3>
+            <p class="post_item_summary">
+<a href="https://www.cnblogs.com/xushuotec/" target="_blank"><img width="48" height="48" class="pfs" src="https://pic.cnblogs.com/face/1753935/20210513073951.png" alt="" /></a>                【odoo14】经典好书学习没有烂尾，主体已完成，可移步了解。https://www.cnblogs.com/xushuotec/p/14428210.html 背景 近期，有朋友打算上odoo系统。目前已有一套ERP系统了，由于是标准化产品，所以用起来各种不爽，终于在使用了两年后打算迁移。PS，我 ...
+            </p>
+            <div class="post_item_foot">
+                <a href="https://www.cnblogs.com/xushuotec/" class="lightblue">老韩头的码字生活</a>
+                发布于 2021-05-13 08:59
+                <span class="article_comment">
+                    <a href="https://www.cnblogs.com/xushuotec/archive/2021/05/13/14763084.html#commentform" class="gray">
+                        评论(0)
+                    </a>
+                </span><span class="article_view"><a href="https://www.cnblogs.com/xushuotec/archive/2021/05/13/14763084.html" class="gray">阅读(259)</a></span>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="post_item">
+        <div class="digg">
+            <div class="diggit" onclick="DiggPost('ahjzdz',14760142,613252,1)">
+                <span class="diggnum" id="digg_count_14760142">0</span>
+            </div>
+            <div class="clear"></div>
+            <div id="digg_tip_14760142" class="digg_tip">
+                
+            </div>
+        </div>
+        <div class="post_item_body">
+            <h3><a class="titlelnk" href="https://www.cnblogs.com/ahjzdz/archive/2021/05/12/2890kdiea.html" target="_blank">NTP网络时间服务器助力金融网络系统安全</a></h3>
+            <p class="post_item_summary">
+<a href="https://www.cnblogs.com/ahjzdz/" target="_blank"><img width="48" height="48" class="pfs" src="https://pic.cnblogs.com/face/1986995/20200628110959.png" alt="" /></a>                NTP网络时间服务器助力金融网络系统安全 NTP网络时间服务器助力金融网络系统安全 安徽京准电子科技官微——ahjzsz 当今金融行业对信息依赖的程度越来越高，使得信息数据的安全性和可靠性能够直接影响到金融的安全与稳定。同时随着科技技术的发展与进步，金融行业中的信息和数据的集中程度越来越高，关于金融 ...
+            </p>
+            <div class="post_item_foot">
+                <a href="https://www.cnblogs.com/ahjzdz/" class="lightblue">NTP校时服务器</a>
+                发布于 2021-05-12 15:49
+                <span class="article_comment">
+                    <a href="https://www.cnblogs.com/ahjzdz/archive/2021/05/12/2890kdiea.html#commentform" class="gray">
+                        评论(0)
+                    </a>
+                </span><span class="article_view"><a href="https://www.cnblogs.com/ahjzdz/archive/2021/05/12/2890kdiea.html" class="gray">阅读(11)</a></span>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="post_item">
+        <div class="digg">
+            <div class="diggit" onclick="DiggPost('charlee44',14726044,296808,1)">
+                <span class="diggnum" id="digg_count_14726044">1</span>
+            </div>
+            <div class="clear"></div>
+            <div id="digg_tip_14726044" class="digg_tip">
+                
+            </div>
+        </div>
+        <div class="post_item_body">
+            <h3><a class="titlelnk" href="https://www.cnblogs.com/charlee44/archive/2021/05/02/14726044.html" target="_blank">格网DEM生成不规则三角网TIN</a></h3>
+            <p class="post_item_summary">
+<a href="https://www.cnblogs.com/charlee44/" target="_blank"><img width="48" height="48" class="pfs" src="https://pic.cnblogs.com/face/1000410/20200711213849.png" alt="" /></a>                详细论述了GIS中地形的格网DEM转换成不规则三角网TIN的算法，并且给出了具体实现。 ...
+            </p>
+            <div class="post_item_foot">
+                <a href="https://www.cnblogs.com/charlee44/" class="lightblue">charlee44</a>
+                发布于 2021-05-02 17:42
+                <span class="article_comment">
+                    <a href="https://www.cnblogs.com/charlee44/archive/2021/05/02/14726044.html#commentform" class="gray">
+                        评论(0)
+                    </a>
+                </span><span class="article_view"><a href="https://www.cnblogs.com/charlee44/archive/2021/05/02/14726044.html" class="gray">阅读(60)</a></span>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="post_item">
+        <div class="digg">
+            <div class="diggit" onclick="DiggPost('bzpfly',14701198,453623,1)">
+                <span class="diggnum" id="digg_count_14701198">0</span>
+            </div>
+            <div class="clear"></div>
+            <div id="digg_tip_14701198" class="digg_tip">
+                
+            </div>
+        </div>
+        <div class="post_item_body">
+            <h3><a class="titlelnk" href="https://www.cnblogs.com/bzpfly/archive/2021/04/25/14701198.html" target="_blank">Dynamics CRM实体系列之键</a></h3>
+            <p class="post_item_summary">
+<a href="https://www.cnblogs.com/bzpfly/" target="_blank"><img width="48" height="48" class="pfs" src="https://pic.cnblogs.com/face/1471137/20201229172356.png" alt="" /></a>                这一节开始讲一下Dynamics CRM实体的键。键的作用个我们平时创建Primary Key的概念差不多。保证数据的唯一性。 键的设置在后台实体导航下面的键选项 点击新建创建一个键，会弹出一个窗口进行键的设置。 显示名称是设置键的显示名称，名称设置键的ID。下面的列出了可以设置键的字段。一般只有文 ...
+            </p>
+            <div class="post_item_foot">
+                <a href="https://www.cnblogs.com/bzpfly/" class="lightblue">夜月之光</a>
+                发布于 2021-04-25 17:29
+                <span class="article_comment">
+                    <a href="https://www.cnblogs.com/bzpfly/archive/2021/04/25/14701198.html#commentform" class="gray">
+                        评论(0)
+                    </a>
+                </span><span class="article_view"><a href="https://www.cnblogs.com/bzpfly/archive/2021/04/25/14701198.html" class="gray">阅读(41)</a></span>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="post_item">
+        <div class="digg">
+            <div class="diggit" onclick="DiggPost('bzpfly',14680697,453623,1)">
+                <span class="diggnum" id="digg_count_14680697">0</span>
+            </div>
+            <div class="clear"></div>
+            <div id="digg_tip_14680697" class="digg_tip">
+                
+            </div>
+        </div>
+        <div class="post_item_body">
+            <h3><a class="titlelnk" href="https://www.cnblogs.com/bzpfly/archive/2021/04/20/14680697.html" target="_blank">Dynamics CRM实体系列之图表</a></h3>
+            <p class="post_item_summary">
+<a href="https://www.cnblogs.com/bzpfly/" target="_blank"><img width="48" height="48" class="pfs" src="https://pic.cnblogs.com/face/1471137/20201229172356.png" alt="" /></a>                本节开始讲解Dynamics CRM的图表功能。任何产品基本上都会有数据分析的工具，Dynamics CRM当然也不例外，作为一个专门做销售管理的软件数据分析自然也是对于销售管理者的决策有很大的作用的。Dynamics CRM自带了8种图标格式。分别是柱形图、条形图、面积图、折线图、饼图、漏斗图、标 ...
+            </p>
+            <div class="post_item_foot">
+                <a href="https://www.cnblogs.com/bzpfly/" class="lightblue">夜月之光</a>
+                发布于 2021-04-20 17:54
+                <span class="article_comment">
+                    <a href="https://www.cnblogs.com/bzpfly/archive/2021/04/20/14680697.html#commentform" class="gray">
+                        评论(0)
+                    </a>
+                </span><span class="article_view"><a href="https://www.cnblogs.com/bzpfly/archive/2021/04/20/14680697.html" class="gray">阅读(201)</a></span>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="post_item">
+        <div class="digg">
+            <div class="diggit" onclick="DiggPost('ahjzdz',14681359,613252,1)">
+                <span class="diggnum" id="digg_count_14681359">0</span>
+            </div>
+            <div class="clear"></div>
+            <div id="digg_tip_14681359" class="digg_tip">
+                
+            </div>
+        </div>
+        <div class="post_item_body">
+            <h3><a class="titlelnk" href="https://www.cnblogs.com/ahjzdz/archive/2021/04/20/23230ojundn.html" target="_blank">基于PTP协议的时钟服务器（授时服务器）设计</a></h3>
+            <p class="post_item_summary">
+<a href="https://www.cnblogs.com/ahjzdz/" target="_blank"><img width="48" height="48" class="pfs" src="https://pic.cnblogs.com/face/1986995/20200628110959.png" alt="" /></a>                基于PTP协议的时钟服务器（授时服务器）设计 基于PTP协议的时钟服务器（授时服务器）设计 京准电子科技官微——ahjzsz 1、&#160;引言 以太网技术由于其开放性好、价格低廉和使用方便等特点，已经广泛应用于电信级别的网络中，以太网的数据传输速度也从早期的10M提高到100M，GE，10GE。40GE， ...
+            </p>
+            <div class="post_item_foot">
+                <a href="https://www.cnblogs.com/ahjzdz/" class="lightblue">NTP校时服务器</a>
+                发布于 2021-04-20 15:43
+                <span class="article_comment">
+                    <a href="https://www.cnblogs.com/ahjzdz/archive/2021/04/20/23230ojundn.html#commentform" class="gray">
+                        评论(0)
+                    </a>
+                </span><span class="article_view"><a href="https://www.cnblogs.com/ahjzdz/archive/2021/04/20/23230ojundn.html" class="gray">阅读(45)</a></span>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="post_item">
+        <div class="digg">
+            <div class="diggit" onclick="DiggPost('bzpfly',14676886,453623,1)">
+                <span class="diggnum" id="digg_count_14676886">4</span>
+            </div>
+            <div class="clear"></div>
+            <div id="digg_tip_14676886" class="digg_tip">
+                
+            </div>
+        </div>
+        <div class="post_item_body">
+            <h3><a class="titlelnk" href="https://www.cnblogs.com/bzpfly/archive/2021/04/19/14676886.html" target="_blank">Dynamics CRM实体系列之视图</a></h3>
+            <p class="post_item_summary">
+<a href="https://www.cnblogs.com/bzpfly/" target="_blank"><img width="48" height="48" class="pfs" src="https://pic.cnblogs.com/face/1471137/20201229172356.png" alt="" /></a>                这一节开始讲视图。视图在Dynamics CRM中代表着实体的数据展示列表，通过这个列表可以对数据进行一个初步预览，也可以进行一些数据的定向筛选和搜索进行精确的浏览一部分数据。同时视图也是查看详细实体数据的入口导航。 视图分为个人视图和系统视图。个人视图是用户依据自身习惯进行个人定制的视图，个人视图 ...
+            </p>
+            <div class="post_item_foot">
+                <a href="https://www.cnblogs.com/bzpfly/" class="lightblue">夜月之光</a>
+                发布于 2021-04-19 17:31
+                <span class="article_comment">
+                    <a href="https://www.cnblogs.com/bzpfly/archive/2021/04/19/14676886.html#commentform" class="gray">
+                        评论(2)
+                    </a>
+                </span><span class="article_view"><a href="https://www.cnblogs.com/bzpfly/archive/2021/04/19/14676886.html" class="gray">阅读(382)</a></span>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="post_item">
+        <div class="digg">
+            <div class="diggit" onclick="DiggPost('giserhome',14670464,132147,1)">
+                <span class="diggnum" id="digg_count_14670464">0</span>
+            </div>
+            <div class="clear"></div>
+            <div id="digg_tip_14670464" class="digg_tip">
+                
+            </div>
+        </div>
+        <div class="post_item_body">
+            <h3><a class="titlelnk" href="https://www.cnblogs.com/giserhome/archive/2021/04/17/14670464.html" target="_blank">leaflet快速渲染聚合矢量瓦片(附源码下载)</a></h3>
+            <p class="post_item_summary">
+<a href="https://www.cnblogs.com/giserhome/" target="_blank"><img width="48" height="48" class="pfs" src="https://pic.cnblogs.com/face/462357/20180718084833.png" alt="" /></a>                具体实现思路：leaflet结合Web Worker技术，借助supercluster插件，实现leaflet快速展示聚合效果。矢量瓦片请求数据源部分也放在Worker线程来处理，避免阻塞主线程UI交互部分响应。
+测试数据：聚合点23.8w，矢量瓦片数据源15w左右。 ...
+            </p>
+            <div class="post_item_foot">
+                <a href="https://www.cnblogs.com/giserhome/" class="lightblue">GIS之家</a>
+                发布于 2021-04-17 13:03
+                <span class="article_comment">
+                    <a href="https://www.cnblogs.com/giserhome/archive/2021/04/17/14670464.html#commentform" class="gray">
+                        评论(0)
+                    </a>
+                </span><span class="article_view"><a href="https://www.cnblogs.com/giserhome/archive/2021/04/17/14670464.html" class="gray">阅读(55)</a></span>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="post_item">
+        <div class="digg">
+            <div class="diggit" onclick="DiggPost('cloudstorageangel',14668250,641490,1)">
+                <span class="diggnum" id="digg_count_14668250">0</span>
+            </div>
+            <div class="clear"></div>
+            <div id="digg_tip_14668250" class="digg_tip">
+                
+            </div>
+        </div>
+        <div class="post_item_body">
+            <h3><a class="titlelnk" href="https://www.cnblogs.com/cloudstorageangel/archive/2021/04/16/14668250.html" target="_blank">对象存储 COS 推出一站式内容审核服务，助力打造绿色互联网</a></h3>
+            <p class="post_item_summary">
+<a href="https://www.cnblogs.com/cloudstorageangel/" target="_blank"><img width="48" height="48" class="pfs" src="https://pic.cnblogs.com/face/2190831/20201027151637.png" alt="" /></a>                今年，国家网信办深入推进“清朗&#183;春节网络环境”专项行动。截至3月24日，网信办共累计清理相关违法违规信息208万余条，处置账号7.2万余个，协调关闭、取消备案网站平台2300余家。 可以预见的是，国家网信办严打违法违规信息会成为常态，网络安全政策更是一年比一年严格，企业约谈、整顿、罚款、关停的案例已 ...
+            </p>
+            <div class="post_item_foot">
+                <a href="https://www.cnblogs.com/cloudstorageangel/" class="lightblue">云存储小天使</a>
+                发布于 2021-04-16 18:08
+                <span class="article_comment">
+                    <a href="https://www.cnblogs.com/cloudstorageangel/archive/2021/04/16/14668250.html#commentform" class="gray">
+                        评论(0)
+                    </a>
+                </span><span class="article_view"><a href="https://www.cnblogs.com/cloudstorageangel/archive/2021/04/16/14668250.html" class="gray">阅读(17)</a></span>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="post_item">
+        <div class="digg">
+            <div class="diggit" onclick="DiggPost('bzpfly',14653732,453623,1)">
+                <span class="diggnum" id="digg_count_14653732">0</span>
+            </div>
+            <div class="clear"></div>
+            <div id="digg_tip_14653732" class="digg_tip">
+                
+            </div>
+        </div>
+        <div class="post_item_body">
+            <h3><a class="titlelnk" href="https://www.cnblogs.com/bzpfly/archive/2021/04/14/14653732.html" target="_blank">Dynamics CRM实体系列之窗体</a></h3>
+            <p class="post_item_summary">
+<a href="https://www.cnblogs.com/bzpfly/" target="_blank"><img width="48" height="48" class="pfs" src="https://pic.cnblogs.com/face/1471137/20201229172356.png" alt="" /></a>                本节开始讲Dynamics CRM的窗体排版和设计，窗体也就是我们实际可以看到的表单界面。Dynamics CRM提供了一套独立的表单模板设计引擎，可以很方便的为开发者提供无代码开发，只需要简单的拖动和配置就可以完成一个表单的创作。 首先我们定位到实体对于的窗体功能下 上图就是窗体的操作页，首先是窗 ...
+            </p>
+            <div class="post_item_foot">
+                <a href="https://www.cnblogs.com/bzpfly/" class="lightblue">夜月之光</a>
+                发布于 2021-04-14 18:05
+                <span class="article_comment">
+                    <a href="https://www.cnblogs.com/bzpfly/archive/2021/04/14/14653732.html#commentform" class="gray">
+                        评论(2)
+                    </a>
+                </span><span class="article_view"><a href="https://www.cnblogs.com/bzpfly/archive/2021/04/14/14653732.html" class="gray">阅读(251)</a></span>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="post_item">
+        <div class="digg">
+            <div class="diggit" onclick="DiggPost('bzpfly',14652749,453623,1)">
+                <span class="diggnum" id="digg_count_14652749">0</span>
+            </div>
+            <div class="clear"></div>
+            <div id="digg_tip_14652749" class="digg_tip">
+                
+            </div>
+        </div>
+        <div class="post_item_body">
+            <h3><a class="titlelnk" href="https://www.cnblogs.com/bzpfly/archive/2021/04/13/14652749.html" target="_blank">Dynamics CRM实体系列之字段</a></h3>
+            <p class="post_item_summary">
+<a href="https://www.cnblogs.com/bzpfly/" target="_blank"><img width="48" height="48" class="pfs" src="https://pic.cnblogs.com/face/1471137/20201229172356.png" alt="" /></a>                本节开始讲实体中的基础数据存储对象，也就是字段。 Dynamics CRM目前总共有13种字段类型，分别为单行文本、选项集、多选选项集、两个选项、图像、整数、浮点数、十进制数、货币、多行文本、日期和时间、查找、客户。如下图： 不同字段有不同的应用场景，下面会对每种类型进行详细的讲解。 首先我们需要确 ...
+            </p>
+            <div class="post_item_foot">
+                <a href="https://www.cnblogs.com/bzpfly/" class="lightblue">夜月之光</a>
+                发布于 2021-04-13 14:19
+                <span class="article_comment">
+                    <a href="https://www.cnblogs.com/bzpfly/archive/2021/04/13/14652749.html#commentform" class="gray">
+                        评论(0)
+                    </a>
+                </span><span class="article_view"><a href="https://www.cnblogs.com/bzpfly/archive/2021/04/13/14652749.html" class="gray">阅读(62)</a></span>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="post_item">
+        <div class="digg">
+            <div class="diggit" onclick="DiggPost('alannxu',14651465,368646,1)">
+                <span class="diggnum" id="digg_count_14651465">1</span>
+            </div>
+            <div class="clear"></div>
+            <div id="digg_tip_14651465" class="digg_tip">
+                
+            </div>
+        </div>
+        <div class="post_item_body">
+            <h3><a class="titlelnk" href="https://www.cnblogs.com/alannxu/archive/2021/04/13/14651465.html" target="_blank">金蝶K3序时簿页面增加物料即时库存显示功能</a></h3>
+            <p class="post_item_summary">
+<a href="https://www.cnblogs.com/alannxu/" target="_blank"><img width="48" height="48" class="pfs" src="https://pic.cnblogs.com/face/1204148/20190507105510.png" alt="" /></a>                K3默认序时簿是不体现即时库存的，如果需要在序时簿将物料的即时库存数据带入，可以按照下方的步骤实现：本文以销售订单序时簿增加即时库存为例，其他单据以此方法参考即可。如果希望在订单新增环节体现物料即时库存，参见另外一篇文章https://blog.csdn.net/hzfw2008/article/d ...
+            </p>
+            <div class="post_item_foot">
+                <a href="https://www.cnblogs.com/alannxu/" class="lightblue">_一级菜鸟</a>
+                发布于 2021-04-13 08:31
+                <span class="article_comment">
+                    <a href="https://www.cnblogs.com/alannxu/archive/2021/04/13/14651465.html#commentform" class="gray">
+                        评论(0)
+                    </a>
+                </span><span class="article_view"><a href="https://www.cnblogs.com/alannxu/archive/2021/04/13/14651465.html" class="gray">阅读(86)</a></span>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="post_item">
+        <div class="digg">
+            <div class="diggit" onclick="DiggPost('qsxsc',14634554,496755,1)">
+                <span class="diggnum" id="digg_count_14634554">0</span>
+            </div>
+            <div class="clear"></div>
+            <div id="digg_tip_14634554" class="digg_tip">
+                
+            </div>
+        </div>
+        <div class="post_item_body">
+            <h3><a class="titlelnk" href="https://www.cnblogs.com/qsxsc/archive/2021/04/08/14634554.html" target="_blank">sql注入</a></h3>
+            <p class="post_item_summary">
+<a href="https://www.cnblogs.com/qsxsc/" target="_blank"><img width="48" height="48" class="pfs" src="https://pic.cnblogs.com/face/1612901/20210408201812.png" alt="" /></a>                #&#160;SQL注入小记 ##&#160;分类 联合查询 布尔盲注 报错注入 延时注入 堆叠查询 get post cookie http头部 ##&#160;mysql元数据库数据库&#160;information_schema information_schema tables table_name table_schema c ...
+            </p>
+            <div class="post_item_foot">
+                <a href="https://www.cnblogs.com/qsxsc/" class="lightblue">且任荣枯</a>
+                发布于 2021-04-08 20:14
+                <span class="article_comment">
+                    <a href="https://www.cnblogs.com/qsxsc/archive/2021/04/08/14634554.html#commentform" class="gray">
+                        评论(0)
+                    </a>
+                </span><span class="article_view"><a href="https://www.cnblogs.com/qsxsc/archive/2021/04/08/14634554.html" class="gray">阅读(14)</a></span>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="post_item">
+        <div class="digg">
+            <div class="diggit" onclick="DiggPost('ahjzdz',14630989,613252,1)">
+                <span class="diggnum" id="digg_count_14630989">0</span>
+            </div>
+            <div class="clear"></div>
+            <div id="digg_tip_14630989" class="digg_tip">
+                
+            </div>
+        </div>
+        <div class="post_item_body">
+            <h3><a class="titlelnk" href="https://www.cnblogs.com/ahjzdz/archive/2021/04/08/239skkeiksk.html" target="_blank">GPS时钟同步设备（PTP时钟系统）助力广东省天然气管网公司</a></h3>
+            <p class="post_item_summary">
+<a href="https://www.cnblogs.com/ahjzdz/" target="_blank"><img width="48" height="48" class="pfs" src="https://pic.cnblogs.com/face/1986995/20200628110959.png" alt="" /></a>                GPS时钟同步设备（PTP时钟系统）助力广东省天然气管网公司 ...
+            </p>
+            <div class="post_item_foot">
+                <a href="https://www.cnblogs.com/ahjzdz/" class="lightblue">NTP校时服务器</a>
+                发布于 2021-04-08 10:16
+                <span class="article_comment">
+                    <a href="https://www.cnblogs.com/ahjzdz/archive/2021/04/08/239skkeiksk.html#commentform" class="gray">
+                        评论(0)
+                    </a>
+                </span><span class="article_view"><a href="https://www.cnblogs.com/ahjzdz/archive/2021/04/08/239skkeiksk.html" class="gray">阅读(32)</a></span>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="post_item">
+        <div class="digg">
+            <div class="diggit" onclick="DiggPost('bzpfly',14565332,453623,1)">
+                <span class="diggnum" id="digg_count_14565332">0</span>
+            </div>
+            <div class="clear"></div>
+            <div id="digg_tip_14565332" class="digg_tip">
+                
+            </div>
+        </div>
+        <div class="post_item_body">
+            <h3><a class="titlelnk" href="https://www.cnblogs.com/bzpfly/archive/2021/03/22/14565332.html" target="_blank">Dynamics CRM调用选择用户弹窗</a></h3>
+            <p class="post_item_summary">
+<a href="https://www.cnblogs.com/bzpfly/" target="_blank"><img width="48" height="48" class="pfs" src="https://pic.cnblogs.com/face/1471137/20201229172356.png" alt="" /></a>                在开发Dynamics CRM的部分场景时我们会遇到一些需要去锁定用户的操作，所以就需要使用Javascript把用户的弹窗弹出来。具体做法如下 我们需要拼接一个弹出选择记录框的url Url格式：CRM访问地址/_controls/lookup/lookupsingle.aspx?class=nu ...
+            </p>
+            <div class="post_item_foot">
+                <a href="https://www.cnblogs.com/bzpfly/" class="lightblue">夜月之光</a>
+                发布于 2021-03-22 11:28
+                <span class="article_comment">
+                    <a href="https://www.cnblogs.com/bzpfly/archive/2021/03/22/14565332.html#commentform" class="gray">
+                        评论(0)
+                    </a>
+                </span><span class="article_view"><a href="https://www.cnblogs.com/bzpfly/archive/2021/03/22/14565332.html" class="gray">阅读(22)</a></span>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="post_item">
+        <div class="digg">
+            <div class="diggit" onclick="DiggPost('du-hui',14535599,670480,1)">
+                <span class="diggnum" id="digg_count_14535599">0</span>
+            </div>
+            <div class="clear"></div>
+            <div id="digg_tip_14535599" class="digg_tip">
+                
+            </div>
+        </div>
+        <div class="post_item_body">
+            <h3><a class="titlelnk" href="https://www.cnblogs.com/du-hui/archive/2021/03/15/14535599.html" target="_blank">等保常见问题</a></h3>
+            <p class="post_item_summary">
+                在做咨询的过程中，经常遇到客户问的问题，在这里整理一下（后期继续补充）： 1、等保3.0？ 答：等级保护只有等保1.0和等保2.0，且等保1.0已经成为历史，自2019年12月1日起正式施行等保2.0。一般默认即等保2.0。 等保2.0中，信息系统等级分5个级别，第一级、第二级、第三级、第四级、第五 ...
+            </p>
+            <div class="post_item_foot">
+                <a href="https://www.cnblogs.com/du-hui/" class="lightblue">尛①麵</a>
+                发布于 2021-03-15 09:23
+                <span class="article_comment">
+                    <a href="https://www.cnblogs.com/du-hui/archive/2021/03/15/14535599.html#commentform" class="gray">
+                        评论(0)
+                    </a>
+                </span><span class="article_view"><a href="https://www.cnblogs.com/du-hui/archive/2021/03/15/14535599.html" class="gray">阅读(56)</a></span>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+
+
+        </div>
+        <script>editorPickStat(); aggSite.user.getUserInfo();</script>
+        <script type="text/javascript">
+                var aggSiteModel = {"CategoryType":"TopSiteCategory","ParentCategoryId":0,"CategoryId":108704,"PageIndex":1,"TotalPostCount":4000,"ItemListActionName":"AggSitePostList"};
+            </script>
+        <div id="pager_bottom"><div id="paging_block"><div class="pager"><a href="/cate/108704/" class="p_1 current" onclick="aggSite.loadCategoryPostList(1,20);buildPaging(1);return false;">1</a><a href="/cate/108704/2" class="p_2 middle" onclick="aggSite.loadCategoryPostList(2,20);buildPaging(2);return false;">2</a><a href="/cate/108704/3" class="p_3 middle" onclick="aggSite.loadCategoryPostList(3,20);buildPaging(3);return false;">3</a><a href="/cate/108704/4" class="p_4 middle" onclick="aggSite.loadCategoryPostList(4,20);buildPaging(4);return false;">4</a><a href="/cate/108704/5" class="p_5 middle" onclick="aggSite.loadCategoryPostList(5,20);buildPaging(5);return false;">5</a><a href="/cate/108704/6" class="p_6 middle" onclick="aggSite.loadCategoryPostList(6,20);buildPaging(6);return false;">6</a><a href="/cate/108704/7" class="p_7 middle" onclick="aggSite.loadCategoryPostList(7,20);buildPaging(7);return false;">7</a><a href="/cate/108704/8" class="p_8 middle" onclick="aggSite.loadCategoryPostList(8,20);buildPaging(8);return false;">8</a><a href="/cate/108704/9" class="p_9 middle" onclick="aggSite.loadCategoryPostList(9,20);buildPaging(9);return false;">9</a><a href="/cate/108704/10" class="p_10 middle" onclick="aggSite.loadCategoryPostList(10,20);buildPaging(10);return false;">10</a><a href="/cate/108704/11" class="p_11 middle" onclick="aggSite.loadCategoryPostList(11,20);buildPaging(11);return false;">11</a><span class="ellipsis">···</span><a href="/cate/108704/200" class="p_200 last" onclick="aggSite.loadCategoryPostList(200,20);buildPaging(200);return false;">200</a><a href="/cate/108704/2" onclick="aggSite.loadCategoryPostList(2,20);buildPaging(2);return false;">Next &gt;</a></div></div><script type="text/javascript">var pagingBuider={"OnlyLinkText":false,"TotalCount":4000,"PageIndex":1,"PageSize":20,"ShowPageCount":5,"SkipCount":0,"UrlFormat":"/cate/108704/{0}","OnClickJsFunc":"aggSite.loadCategoryPostList()","FirstPageLink":"/cate/108704/","AjaxUrl":"/AggSite/Pager","AjaxCallbak":null,"TopPagerId":"pager_top","IsRenderScript":true};function buildPaging(pageIndex){pagingBuider.PageIndex=pageIndex;$.ajax({url:pagingBuider.AjaxUrl,data:JSON.stringify(pagingBuider),type:'post',dataType:'text',contentType:'application/json; charset=utf-8',success:function (data) { $('#paging_block').html(data); var pagerTop=$('#pager_top');if(pageIndex>1){$(pagerTop).html(data).show();}else{$(pagerTop).hide();}}});}</script>
+</div>
+        <div id="side_nav">
+            
+    <div id="cate_title_block">
+    <div id="cate_title_title"><div class="cate_title">网站分类</div></div>
+    <ul id="cate_item">
+            <li id="cate_item_108698" onmouseover="cateShow(108698)" onmouseout="cateHidden(108698)">
+                <a href="/legacy/cate/108698/">.NET技术(1)</a>
+            </li>
+            <li id="cate_item_2" onmouseover="cateShow(2)" onmouseout="cateHidden(2)">
+                <a href="/legacy/cate/2/">后端开发(5)</a>
+            </li>
+            <li id="cate_item_108701" onmouseover="cateShow(108701)" onmouseout="cateHidden(108701)">
+                <a href="/legacy/cate/108701/">软件设计(1)</a>
+            </li>
+            <li id="cate_item_108703" onmouseover="cateShow(108703)" onmouseout="cateHidden(108703)">
+                <a href="/legacy/cate/108703/">前端开发(2)</a>
+            </li>
+            <li id="cate_item_108704" onmouseover="cateShow(108704)" onmouseout="cateHidden(108704)">
+                <a href="/legacy/cate/108704/">企业信息化(1)</a>
+            </li>
+            <li id="cate_item_108705" onmouseover="cateShow(108705)" onmouseout="cateHidden(108705)">
+                <a href="/legacy/cate/108705/">移动端开发(0)</a>
+            </li>
+            <li id="cate_item_108709" onmouseover="cateShow(108709)" onmouseout="cateHidden(108709)">
+                <a href="/legacy/cate/108709/">软件工程(0)</a>
+            </li>
+            <li id="cate_item_108712" onmouseover="cateShow(108712)" onmouseout="cateHidden(108712)">
+                <a href="/legacy/cate/108712/">数据库(1)</a>
+            </li>
+            <li id="cate_item_108724" onmouseover="cateShow(108724)" onmouseout="cateHidden(108724)">
+                <a href="/legacy/cate/108724/">操作系统(0)</a>
+            </li>
+            <li id="cate_item_4" onmouseover="cateShow(4)" onmouseout="cateHidden(4)">
+                <a href="/legacy/cate/4/">其他分类(3)</a>
+            </li>
+            <li id="cate_item_0" onmouseover="cateShow(0)" onmouseout="cateHidden(0)">
+                <a href="/legacy/cate/all/">所有随笔(1079)</a>
+            </li>
+            <li id="cate_item_-1" onmouseover="cateShow(-1)" onmouseout="cateHidden(-1)">
+                <a href="/legacy/comment/">所有评论(238)</a>
+            </li>
+    </ul>
+    <div class="cate_bottom"></div>
+    <div id="cate_sub_block"></div>
+    <script type="text/javascript">var cateIdList = '108698,2,108701,108703,108704,108705,108709,108712,108724,4';aggSite.loadSubCategories();</script>
+</div>
+        <div class="l_s"></div>
+<p class="r_l_3" /><p class="r_l_2" /><p class="r_l_1" />
+<div class="w_l">
+<h4>相关分类</h4>
+<ul>
+<li><a href="/cate/108698/">.NET技术</a></li>
+<li><a href="/cate/2/">后端开发</a></li>
+<li><a href="/cate/108701/">软件设计</a></li>
+<li><a href="/cate/108703/">前端开发</a></li>
+<li><a href="/cate/108705/">移动端开发</a></li>
+<li><a href="/cate/108709/">软件工程</a></li>
+<li><a href="/cate/108712/">数据库</a></li>
+<li><a href="/cate/108724/">操作系统</a></li>
+<li><a href="/cate/4/">其他分类</a></li>
+</ul>
+</div>
+<p class="r_l_1" /><p class="r_l_2" /><p class="r_l_3" />
+<div class="l_s"></div>
+<p class="r_l_3"></p><p class="r_l_2"></p><p class="r_l_1"></p>
+<div class="w_l">
+<h4>链接</h4>        
+<ul>
+    <li><a href="https://group.cnblogs.com/forum/public/" target="_blank">反馈或建议</a></li> 
+    <li><a href="//www.cnblogs.com/cmt/" target="_blank">官方博客</a></li>
+    <li><a href="/skins.aspx" target="_blank">博客模板</a></li>
+    <li><a href="http://www.blogjava.net/">Java博客</a></li>
+    <li><a href="http://www.cppblog.com/">C++博客</a></li>
+    <li><a href="//www.cnblogs.com/cmt/archive/2009/09/26/1574616.html">手机版</a></li>
+</ul>
+</div>
+<p class="r_l_1"></p><p class="r_l_2"></p><p class="r_l_3"></p>
+<div class="l_s"></div>
+<div id="user_stats"></div>
+<div class="l_s"></div>        
+<p class="r_l_3"></p><p class="r_l_2"></p><p class="r_l_1"></p>
+<div class="w_l">                
+<h4>统计信息</h4>
+<div id="site_stats"></div>      
+</div>
+<p class="r_l_1"></p><p class="r_l_2"></p><p class="r_l_3"></p>
+        </div>
+        <div id="side_right">
+                <div id="search_block">
+                    <div class="side_search">
+                        <input type="text" id="zzk_q" class="search_input" onkeydown="return zzk_go_enter(event);" tabindex="3" /><input onclick="zzk_go()" type="button" class="search_btn" value="找找看" />
+                    </div>
+                    <div id="google_search" class="side_search">
+                        <input type="text" id="google_search_q" class="search_input" onkeydown="return google_search_enter(event);" /><input type="button" value="Google" class="search_btn" onclick="return google_search();" />
+                    </div>
+                </div>
+            <div id="cnblogs_a1">
+                <div id='div-gpt-ad-1547816814884-0' style='height:60px; width:468px;'>
+                    <script>
+                            googletag.cmd.push(function () { googletag.display('div-gpt-ad-1547816814884-0'); });
+                        </script>
+                </div>
+            </div>
+            <div id="cnblogs_b1" class="sidebar-image">
+                <div id='div-gpt-ad-1546331539224-0' style='height:250px; width:300px;'>
+                    <script>
+                            googletag.cmd.push(function () { googletag.display('div-gpt-ad-1546331539224-0'); });
+                        </script>
+                </div>
+            </div>
+            <div id="ad_right_text" class="ad_right_text"></div>
+            <div id="side_right_block"></div>
+        </div>
+    </div>
+    <div id="footer_bottom">
+        <div>Powered by .NET 5.0 on Kubernetes</div>
+        <div><a href="https://about.cnblogs.com/">关于博客园</a><a href="https://about.cnblogs.com/contact">联系我们</a><a href="https://about.cnblogs.com/ad">广告服务</a><span>&copy;2004-2021</span><a href="https://www.cnblogs.com/">博客园</a><span>保留所有权利</span><a href="https://beian.miit.gov.cn/" target="_blank">沪ICP备09004260号-1</a></div>
+        <div><a href="https://ss.knet.cn/verifyseal.dll?sn=e131108110100433392itm000000&amp;ct=df&amp;a=1&amp;pa=0.25787803245785335" rel="nofollow" target="_blank"><img id="cnnic_img" src="//common.cnblogs.com/images/cnnic.png" alt="" width="64" height="23" /></a><a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=31011502001144" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="//common.cnblogs.com/images/ghs.png" alt="" /><span style="float:left;height:20px;line-height:20px;margin: 0 5px 0 5px; color:#939393;">沪公网安备 31011502001144号</span></a></div>
+        <div class="report-contact">举报电话：0571-88079867，举报邮箱：contact@cnblogs.com <a href="http://www.shjbzx.cn" target="_blank"><img src="/images/jblogo.png" alt="" /></a></div>
+    </div>
+</div>
+<input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjvb416rocmdQMkhK37T7oBVjfJfwf689eAGRG0h6KGBlnJMOPOdMRfql7wsGINRXeo7INF2xoMJH0kQPrBzMAICJmS7XgyR7BmUS7ruOA-pw30RFtsU_KVRu4pGN0WadnM" />
+</body>
+</html>

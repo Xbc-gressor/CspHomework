@@ -1,0 +1,459 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="never" />
+    <meta name="description" content="本文将介绍一种利用 CSS 获取图片主题色的小技巧。一起看看~ 背景 起因是微信技术群里有个同学发问，有什么方法能够获取图片的主色呢？有一张图片，获取他的主色调： 利用获取到的这个颜色值，来实现类似这" />
+    <meta property="og:description" content="本文将介绍一种利用 CSS 获取图片主题色的小技巧。一起看看~ 背景 起因是微信技术群里有个同学发问，有什么方法能够获取图片的主色呢？有一张图片，获取他的主色调： 利用获取到的这个颜色值，来实现类似这" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>小技巧！CSS 提取图片主题色功能探索 - ChokCoco - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    
+    <link type="text/css" rel="stylesheet" href="https://www.cnblogs.com/coco1s/custom.css?v=VHn8LeNN7I759yDzp6MQstdw9tw=" />
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/thinkinside/bundle-thinkinside-mobile.min.css?v=1kb6JMrYnH_hQyNadevonyt40TkBWckdUtnStHWa0bs" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/coco1s/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/coco1s/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/coco1s/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 177636;
+        var currentBlogApp = 'coco1s';
+        var cb_enable_mathjax = true;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'ThinkInside';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-05-11 10:18';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+        tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processClass: 'math', processEscapes: true },
+        TeX: {
+        equationNumbers: { autoNumber: ['AMS'], useLabelIds: true },
+        extensions: ['extpfeil.js', 'mediawiki-texvc.js'],
+        Macros: {bm: "\\boldsymbol"}
+        },
+        'HTML-CSS': { linebreaks: { automatic: true } },
+        SVG: { linebreaks: { automatic: true } }
+        });
+    </script>
+    <script src="https://mathjax.cnblogs.com/2_7_5/MathJax.js?config=TeX-AMS-MML_HTMLorMML&amp;v=20200504"></script>
+    
+</head>
+<body class="no-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="page_begin_html">
+        <script>loadPageBeginHtml();</script>
+    </div>
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/coco1s/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/coco1s/">ChokCoco</a>
+</h1>
+<h2>经不住流年似水, 逃不过此间少年</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/coco1s/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/ChokCoco">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/coco1s/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/coco1s/p/14754188.html">
+    <span>小技巧！CSS 提取图片主题色功能探索</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+<p>本文将介绍一种利用 CSS 获取图片主题色的小技巧。一起看看~</p>
+<h2 id="背景">背景</h2>
+<p>起因是微信技术群里有个同学发问，有什么方法能够获取图片的主色呢？有一张图片，获取他的主色调：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/393c270acbe0459aa1699f093cd4fb5a~tplv-k3u1fbpfcp-zoom-1.image" alt="" loading="lazy"></p>
+<p>利用获取到的这个颜色值，来实现类似这样的功能 -- 容器中有一张图片，希望背景色可以适配图片的主色，像是这样：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/12d03dd19d9e4ee7bd99ffc0931c2c58~tplv-k3u1fbpfcp-zoom-1.image" alt="" loading="lazy"></p>
+<p>大家出谋划策，有说利用 Canvas 进行计算的，有推荐专门的开源库的，都挺好。</p>
+<p>那么，利用 CSS，能不能实现这个功能呢？</p>
+<p>听起来好像有点痴人说梦，CSS 还能实现这个效果？emm，利用 CSS 确实可以通过一种讨巧的方式，近似的获取到图片的主色调，在对主色的要求不是特别精确的情况下，不失为一种办法，下面一起来一探究竟。</p>
+<h2 id="利用-filter-blur-及-transform-sacle--获取图片主题色">利用 filter: blur() 及 transform: sacle()  获取图片主题色</h2>
+<p>这里，我们利用模糊滤镜以及放大效果，可以近似的拿到图片的主题色。</p>
+<p>假定我们有这样一张图片：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/dcb6fe7fbb3344359973486679350b86~tplv-k3u1fbpfcp-zoom-1.image" alt="" loading="lazy"></p>
+<pre><code class="language-HTML">&lt;div&gt;&lt;/div&gt;
+</code></pre>
+<p>利用模糊滤镜作用给图片：</p>
+<pre><code class="language-CSS">div {
+    background: url("https://i0.wp.com/airlinkalaska.com/wp-content/uploads//aurora-2.jpg?resize=1024%2C683&amp;ssl=1");
+    background-size: cover;
+    filter: blur(50px);
+}
+</code></pre>
+<p>看看效果，我们通过比较大的一个模糊滤镜，将图片 <code>blur(50px)</code>，模糊之后的图片有点那感觉了，不过存在一些模糊边缘，尝试利用 <code>overflow</code> 进行裁剪。</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/87ef72364e224158bbd332b2f6990cf9~tplv-k3u1fbpfcp-zoom-1.image" alt="" loading="lazy"></p>
+<p>接下来，我们需要去掉模糊的边边，以及通过 <code>transform: scale()</code> 放大效果，将颜色再聚焦下，稍微改造下代码：</p>
+<pre><code class="language-CSS">div {
+    position: relative;
+    width: 320px;
+    height: 200px;
+    overflow: hidden;
+}
+
+div::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("https://i0.wp.com/airlinkalaska.com/wp-content/uploads//aurora-2.jpg?resize=1024%2C683&amp;ssl=1");
+    background-size: cover;
+    // 核心代码：
+    filter: blur(50px);
+    transform: scale(3);
+}
+</code></pre>
+<p>结果如下：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c835d0ef739142a09a6ca3b40f8e315a~tplv-k3u1fbpfcp-zoom-1.image" alt="" loading="lazy"></p>
+<p>这样，我们就利用 CSS，拿到了图片的主色调，并且效果还是不错的！</p>
+<p>完整的代码你可以戳这里：<a href="https://codepen.io/Chokcoco/pen/poRBQGg" target="_blank">CodePen Demo -- Get  the main color of the image by filter and scale</a></p>
+<h2 id="不足之处">不足之处</h2>
+<p>当然，该方案也是存在一定的小问题的：</p>
+<ol>
+<li>只能是大致拿到图片的主色调，无法非常精确，并且 <code>filter: blur(50px)</code> 这个 <code>50px</code> 需要进行一定的调试</li>
+<li>模糊滤镜本身是比较消耗性能的，如果一个页面存在多个这种方法获取到的背景，可能对性能会造成一定的影响，实际使用的时候需要进行一定的取舍</li>
+</ol>
+<h2 id="最后">最后</h2>
+<p>好了，本文到此结束，介绍了一种利用 CSS 获取图片主题色的小技巧，希望对你有帮助 😃</p>
+<p>感谢提出介绍这种方法的阅文的同学 -- <a href="https://juejin.cn/user/3579665587900030" target="_blank">XboxYan</a>，iCSS 微信群非常活跃，聚集了一帮 CSS 大佬，想进群一起讨论技术的同学可以加我微信 <strong>coco1s</strong>（因为群超过了 200 人，不能扫码进群，只能邀请了）</p>
+<p>更多精彩 CSS 技术文章汇总在我的 <a href="https://github.com/chokcoco/iCSS" target="_blank">Github -- iCSS</a> ，持续更新，欢迎点个 star 订阅收藏。</p>
+<p>如果还有什么疑问或者建议，可以多多交流，原创文章，文笔有限，才疏学浅，文中若有不正之处，万望告知。</p>
+
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2021-05-11 10:18</span>&nbsp;
+<a href="https://www.cnblogs.com/coco1s/">ChokCoco</a>&nbsp;
+阅读(<span id="post_view_count">284</span>)&nbsp;
+评论(<span id="post_comment_count">2</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14754188" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14754188);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 177636, cb_blogApp = 'coco1s', cb_blogUserGuid = '97b0660a-69a1-e311-8d02-90b11c0b17d6';
+    var cb_entryId = 14754188, cb_entryCreatedDate = '2021-05-11 10:18', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 ChokCoco
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    <div id="page_end_html">
+        <script>
+var href = location.href;
+
+if(/https/.test(href)) {
+     document.querySelectorAll('iframe').forEach(val => { 
+	val.src = 'https:' + val.src.split(':')[1];
+    });
+}
+
+var l = document.createElement('link');
+l.rel = "shortcut icon";
+l.href = "http://images.cnblogs.com/cnblogs_com/coco1s/965277/o_favicon.png";
+document.getElementsByTagName("head")[0].appendChild(l);
+
+</script>
+<div id="rocket"></div>
+<script>
+var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1259286380'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1259286380%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script>
+var i = 0,
+	deIframe = setInterval(function(){
+		i++;
+		$('#sideBar').find('iframe').parent().remove();
+		$('#sideBar>div').not('#sideBarMain').remove();
+		if(i == 10){
+			clearInterval(deIframe);
+		}
+	}, 200);
+</script>
+<script>
+var reward = (function(){
+	function dataInsert(){
+var data = '<div class="g-gongzhonghao">'
+    +    '<p><strong><span style="font-size: 14px; font-family: verdana, geneva;">想 Get 到最有意思的 CSS 资讯，千万不要错过我的 iCSS 公众号 😄 ：</span></strong></p>'
+    +    '<p><span style="font-size: 14px; font-family: verdana, geneva;"><a href="https://images.cnblogs.com/cnblogs_com/coco1s/965277/o_201030023049qrcode.png" target="_blank"><img src="https://images.cnblogs.com/cnblogs_com/coco1s/881614/o_20031002540054919342-6d0dfd00-4ef8-11e9-9ee8-fbae9241d89e.png" alt="image" width="180" height="144"></a></span></p>'
+    + '</div>'
+    + '<div class="m-reward">' 
+							+ '<div class="m-desc">如果觉得文章对您有用，请随意打赏。您的支持将鼓励我继续创作！</div>'
+							+ '<div class="reward-btn">打赏支持</div>'
+							+ '</div>'
+							+ '<div class="reward-wrap">'
+							+ '<div class="reward-btn-close">+</div>'
+							+ '<h2>(^_^)打个赏喝个咖啡(^_^)</h2>'
+							+ '<div class="wechat">'
+							+ '<img src="https://images.cnblogs.com/cnblogs_com/coco1s/881614/o_weixin.png" alt="微信支付" />'
+							+ '</div>'
+							+ '<div class="zhifubao">'
+							+ '<img src="https://images.cnblogs.com/cnblogs_com/coco1s/881614/o_zhifubao.png" alt="支付宝支付" />'
+							+ '</div>	'
+							+ '</div>';
+
+		if($('#cnblogs_post_body')){
+			$('#cnblogs_post_body').append(data);		
+			eventBind();
+		}					
+	}
+
+	function eventBind(){
+		$('.reward-btn').on('click', function(event) {
+			$('.reward-wrap').fadeIn(300);
+		});
+
+		$('.reward-btn-close').on('click', function(event) {
+			$('.reward-wrap').fadeOut(500);
+		});
+	}
+	
+	return{
+		init:function(){
+			dataInsert();
+		}
+	}
+})();
+reward.init();
+</script>
+<script>
+/** 侧边栏回到顶部 */
+var rocket = $('#rocket');
+
+$(window).on('scroll', debounce(slideTopSet, 300));
+
+function debounce(func, wait) {
+	var timeout;
+	return function() {
+		clearTimeout(timeout);
+		timeout = setTimeout(func, wait);
+	};
+};
+function slideTopSet() {
+	var top = $(document).scrollTop();
+
+	if (top > 200) {
+		rocket.addClass('show');
+	} else {
+		rocket.removeClass('show');
+	}
+}
+$(document).on('click', '#rocket', function(event) {
+	rocket.addClass('move');
+	$('body, html').animate({
+		scrollTop: 0
+	}, 800);
+});
+$(document).on('animationEnd', function() {
+	setTimeout(function() {
+		rocket.removeClass('move');
+	}, 400);
+
+});
+$(document).on('webkitAnimationEnd', function() {
+	setTimeout(function() {
+		rocket.removeClass('move');
+	}, 400);
+});
+</script>
+    </div>
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjtoR2mMYBrIEieHAy9_pgyDouR5kb2-UQ4L0H3qM-Y7YcwJTkjhu6p0iOcot01Ef2SgHv0GgyFrmWM3P8CzXegIMVoT3FclHJGMwrMX6eaQk1upJ6tFCA_fiw1MT4Kx9Jo" />
+</body>
+</html>

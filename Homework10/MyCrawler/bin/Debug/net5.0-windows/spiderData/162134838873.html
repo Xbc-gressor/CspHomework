@@ -1,0 +1,635 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="origin-when-crossorigin" />
+    <meta name="description" content="最近项目中某个模块稳定复现MySQL死锁问题，本文记录死锁的发生原因以及解决办法。 1. 预备知识 1.1 表锁和行锁 表锁 表锁是MySQL中最基本的锁策略，并且是开销最小的策略。表锁会锁定整张数据" />
+    <meta property="og:description" content="最近项目中某个模块稳定复现MySQL死锁问题，本文记录死锁的发生原因以及解决办法。 1. 预备知识 1.1 表锁和行锁 表锁 表锁是MySQL中最基本的锁策略，并且是开销最小的策略。表锁会锁定整张数据" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>MySQL死锁案例分析 - 从此寂静无声 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="//common.cnblogs.com/favicon.svg" type="image/svg+xml" />
+    
+    <link rel="stylesheet" href="/css/blog-common.min.css?v=zS6-e1bxywlu3kpHvpr1J6MySwya3ztFtEnS7RYQ0Fk" />
+    <link id="MainCss" rel="stylesheet" href="/skins/simplememory/bundle-simplememory.min.css?v=uknaX_hejnSu-njQgx4Hj1R0JiPLwUhFPUlwWNmWyB4" />
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/SimpleMemory/bundle-SimpleMemory-mobile.min.css" />
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/jason1990/rss" />
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/jason1990/rsd.xml" />
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/jason1990/wlwmanifest.xml" />
+    <script>
+        var currentBlogId = 235032;
+        var currentBlogApp = 'jason1990';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'SimpleMemory';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-05-14 09:47';
+        </script>
+    <script src="https://common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script src="/js/blog-common.min.js?v=2Mic1VLeHXarpdzASbXqFMIMVLEBiWXNO5yiTHUcmhw"></script>
+    
+    
+    
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="/images/logo.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM" alt="博客园Logo" /></a></li>
+                <li><a href="/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-sitehome')">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-news')">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-q')">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-brands')">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-ing')">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga('send', 'event', 'Link', 'click', 'skin-navbar-edu')">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3" />
+                        <button type="submit" id="zzk_search_button">
+                            <img src="/images/aggsite/search.svg" alt="搜索" />
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔">
+                        <img id="new_post_icon" class="navbar-icon" src="/images/aggsite/newpost.svg" alt="写随笔" />
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客">
+                        <img id="myblog_icon" class="navbar-icon" src="/images/aggsite/myblog.svg" alt="我的博客" />
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息">
+                        <img id="msg_icon" class="navbar-icon" src="/images/aggsite/message.svg?v=J0WS2P2iPgaIVgXxcAhliw4AFZIpaTWxtdoNAv9eiCA" alt="短消息" />
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="/images/aggsite/avatar-default.svg" alt="用户头像" />
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="/images/lite-mode-check.svg" class="hide" /><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/jason1990/"><img id="blogLogo" src="/skins/custom/images/logo.gif" alt="返回主页" /></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/jason1990/">从此寂静无声</a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/jason1990/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E4%BB%8E%E6%AD%A4%E5%AF%82%E9%9D%99%E6%97%A0%E5%A3%B0">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/jason1990/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<div id="blog_stats_place_holder"><script>loadBlogStats();</script></div>
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class = "postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/jason1990/p/14767280.html">
+    <span>MySQL死锁案例分析</span>
+    
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+<p>最近项目中某个模块稳定复现MySQL死锁问题，本文记录死锁的发生原因以及解决办法。</p>
+<h2 id="1-预备知识">1. 预备知识</h2>
+<h3 id="11-表锁和行锁">1.1 表锁和行锁</h3>
+<ul>
+<li>表锁</li>
+</ul>
+<p>表锁是MySQL中最基本的锁策略，并且是开销最小的策略。表锁会锁定整张数据表，用户的写操作（插入/删除/更新）前，都需要获取写锁（写锁会相互阻塞）；没有写锁时，读取用户才能获取读锁（读锁不会相互阻塞）。</p>
+<ul>
+<li>行锁（仅限定于InnoDB）</li>
+</ul>
+<p>行级锁可以最大程度的支持并发处理（同时也带来了最大的锁开销）。行级锁只在存储引擎实现，而MySQL服务器层没有实现。服务器层完全不了解存储引擎中的具体实现。</p>
+<h3 id="12-行锁简介">1.2 行锁简介</h3>
+<p>行锁的模式有：读/写意向锁（IS/IX锁）,读锁（S锁），写锁（X锁）以及自增锁（AI）。</p>
+<p>行锁根据场景的不同又可以进一步细分，依次为Next-Key Lock，Gap Lock间隙锁，Record Lock记录锁和插入意向GAP锁。不同的锁锁定的位置是不同的，比如说记录锁只锁住对应的记录，而间隙锁锁住记录和记录之间的间隔，Next-Key Lock锁住记录和记录之前的间隙。不同类型锁的锁定范围大致如下图所示。</p>
+<p><img src="https://img2020.cnblogs.com/blog/764719/202105/764719-20210513150406928-1569499696.jpg" alt="avatar" loading="lazy"></p>
+<p>此外，锁对应的死锁日志信息标记如下所示：</p>
+<ul>
+<li>记录锁（LOCK_REC_NOT_GAP）: lock_mode X locks rec but not gap</li>
+<li>间隙锁（LOCK_GAP）: lock_mode X locks gap before rec</li>
+<li>Next-key锁（LOCK_ORNIDARY）: lock_mode X</li>
+<li>插入意向锁（LOCK_INSERT_INTENTION）: lock_mode X locks gap before rec insert intention</li>
+</ul>
+<h3 id="13-行锁加锁示例">1.3 行锁加锁示例</h3>
+<p>InnoDB是聚簇索引，也就是B+树的叶子节点存储了主键索引以及数据行；InnoDB的二级索引的叶子节点存储的则是主键值，所以通过二级索引查询数据时，需要根据查询到的主键去聚簇索引中再次进行查询。</p>
+<pre><code class="language-sql">update user set age = 10 where id = 49;
+update user set age = 10 where name = 'Tom';
+</code></pre>
+<p>（1）第一条SQL使用主键进行查询，则只需要在<code>id=49</code>主键上加上写锁（X锁）；<br>
+（2）第二条SQL使用二级索引查询，首先在<code>name='Tom'</code>上加写锁，然后根据获取的主键索引查询，在<code>id=49</code>主键上添加写锁。</p>
+<p>具体如下图所示：<br>
+<img src="https://img2020.cnblogs.com/blog/764719/202105/764719-20210513144152285-2104976696.jpg" alt="avatar" loading="lazy"></p>
+<p>以上是基于单条数据讨论，针对多条数据：</p>
+<pre><code class="language-sql">update user set age = 10 where id &gt; 49;
+</code></pre>
+<p>执行步骤：</p>
+<p>（1）MySQL Server根据where条件读取满足条件的第一条记录，InnoDB引擎返回行记录并加锁；<br>
+（2）MySQL Server发起更新行记录的update请求，更新此记录；<br>
+（3）反复循环（1）（2）步骤，直到所有满足条件的记录均被修改。</p>
+<p>具体如下图所示：<br>
+<img src="https://img2020.cnblogs.com/blog/764719/202105/764719-20210513144155339-2082309064.jpg" alt="avatar" loading="lazy"></p>
+<h2 id="2准备工作">2.准备工作</h2>
+<h3 id="21-创建数据表并初始化">2.1 创建数据表并初始化</h3>
+<pre><code class="language-sql">create table dead_lock_test
+(
+    id int auto_increment
+        primary key,
+    v1 int not null,
+    v2 int not null
+);
+
+insert into  dead_lock_test (v1,v2) value (1,1);
+insert into  dead_lock_test (v1,v2) value (2,2);
+insert into  dead_lock_test (v1,v2) value (3,3);
+</code></pre>
+<p>需要注意，数据表中仅存在主键索引。此外，默认数据库引擎为InnoDB，事务隔离级别为RR（可重复读，相对于RC解决了幻读）。</p>
+<h2 id="22-开启锁监控">2.2 开启锁监控</h2>
+<p>使用如下语句，开启MySQL锁监控：</p>
+<pre><code class="language-sql"># 开启
+set GLOBAL innodb_status_output=ON;
+set GLOBAL innodb_status_output_locks=ON;
+
+# 关闭
+set GLOBAL innodb_status_output_locks=OFF;
+</code></pre>
+<h2 id="3场景复现">3.场景复现</h2>
+<p>开启两个数据库连接，分别执行如下SQL语句：</p>
+<pre><code class="language-sql"># session1
+start transaction ;
+insert into  dead_lock_test (v1,v2) value (4,4);
+delete from dead_lock_test where v1 = 4 and v2 = 4;
+commit;
+
+# session2
+start transaction;
+insert into  dead_lock_test (v1,v2) value (5,5);
+delete from dead_lock_test where v1 = 5 and v2 = 5;
+commit;
+</code></pre>
+<blockquote>
+<p>不要问事务里就两条SQL，插入后删除走回滚就可以了之类的问题（我也不知道为什么这么写的）。</p>
+</blockquote>
+<p>事务执行步骤如下表所示：</p>
+<table>
+<thead>
+<tr>
+<th>session1</th>
+<th>session2</th>
+<th>stage</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>start transaction;</code></td>
+<td><code>start transaction;</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>insert into  dead_lock_test (v1,v2) value (4,4);</code></td>
+<td>do nothing</td>
+<td></td>
+<td>执行成功</td>
+</tr>
+<tr>
+<td>do nothing</td>
+<td><code>insert into  dead_lock_test (v1,v2) value (5,5);</code></td>
+<td>stage1</td>
+<td>执行成功</td>
+</tr>
+<tr>
+<td><code>delete from dead_lock_test where v1 = 4 and v2 = 4;</code></td>
+<td>do nothing</td>
+<td>stage2</td>
+<td>session1执行结果阻塞</td>
+</tr>
+<tr>
+<td>do nothing</td>
+<td><code>delete from dead_lock_test where v1 = 5 and v2 = 5;</code></td>
+<td>stage3</td>
+<td>session2执行结果报deadlock</td>
+</tr>
+</tbody>
+</table>
+<h3 id="31-stage1">3.1 stage1</h3>
+<p>执行<code>show engine innodb status;</code>节选事务信息如下所示：</p>
+<pre><code class="language-text">------------
+TRANSACTIONS
+------------
+Trx id counter 91328
+Purge done for trx's n:o &lt; 91327 undo n:o &lt; 0 state: running but idle
+History list length 19
+LIST OF TRANSACTIONS FOR EACH SESSION:
+---TRANSACTION 91327, ACTIVE 37 sec
+1 lock struct(s), heap size 1136, 0 row lock(s), undo log entries 1
+MySQL thread id 24, OS thread handle 15668, query id 3147 localhost 127.0.0.1 root
+TABLE LOCK table `igw_proxy_rule_management`.`dead_lock_test` trx id 91327 lock mode IX
+---TRANSACTION 91322, ACTIVE 44 sec
+1 lock struct(s), heap size 1136, 0 row lock(s), undo log entries 1
+MySQL thread id 23, OS thread handle 22788, query id 3103 localhost 127.0.0.1 root
+TABLE LOCK table `igw_proxy_rule_management`.`dead_lock_test` trx id 91322 lock mode IX
+</code></pre>
+<p>输出内容中节选当前事务信息，当前存在两个运行中事务，trx id分别为91322以及91327。</p>
+<ul>
+<li><code>TABLE LOCK table </code>igw_proxy_rule_management<code>.</code>dead_lock_test<code> trx id 91322 lock mode IX</code>: <code>dead_lock_test</code>表上添加IX锁。</li>
+</ul>
+<blockquote>
+<p>91322事务对应session1，91327事务对应session2.</p>
+</blockquote>
+<h3 id="32-stage2">3.2 stage2</h3>
+<p>执行<code>delete from dead_lock_test where v1 = 4 and v2 = 4;</code>后可发现，当前事务被阻塞。<br>
+执行<code>show engine innodb status;</code>节选事务信息如下所示：</p>
+<blockquote>
+<p>因为输出内容较多，直接在输出内容中添加注释进行解析。</p>
+</blockquote>
+<pre><code class="language-text">------------
+TRANSACTIONS
+------------
+Trx id counter 91332
+Purge done for trx's n:o &lt; 91332 undo n:o &lt; 0 state: running but idle
+History list length 21
+LIST OF TRANSACTIONS FOR EACH SESSION:
+---TRANSACTION 91327, ACTIVE 58 sec
+* 2 lock strcut(s): 事务91327中锁链表长度为2（每个链表节点表示该事务持有的一个锁结构，包括表锁/记录锁等），当前事务包含表锁（IX）以及一个行锁（记录锁）；
+* 1 row lock(s)：当前事务持有的行锁个数；
+* undo log entries 1：当前事务的undo log个数
+2 lock struct(s), heap size 1136, 1 row lock(s), undo log entries 1
+MySQL thread id 24, OS thread handle 15668, query id 3147 localhost 127.0.0.1 root
+* TABLE LOCK：当前事务持有的表锁（IX）
+TABLE LOCK table `igw_proxy_rule_management`.`dead_lock_test` trx id 91327 lock mode IX
+* RECORD LOCKS：当前事务持有的行锁（lock_mode X locks rec but not gap）
+* space id 92: dead_lock_test所在空间编号
+* page no 4: 当前记录所在页码
+RECORD LOCKS space id 92 page no 4 n bits 72 index PRIMARY of table `igw_proxy_rule_management`.`dead_lock_test` trx id 91327 lock_mode X locks rec but not gap
+* 行锁信息： heap no=6
+Record lock, heap no 6 PHYSICAL RECORD: n_fields 5; compact format; info bits 0
+
+ 0: len 4; hex 80000005; asc     ;; * hex 80000005：当前加锁的记录id=5
+ 1: len 6; hex 0000000164bf; asc     d ;;   * hex 0000000164bf： 事务ID；
+ 2: len 7; hex 81000000b20110; asc        ;;    * hex 81000000b20110： 回滚指针；
+ 3: len 4; hex 80000005; asc     ;; * hex 80000005: v1字段对应数值；
+ 4: len 4; hex 80000005; asc     ;; * hex 80000005：v2字段对应数值；
+
+---TRANSACTION 91322, ACTIVE 65 sec fetching rows
+* tables in use 1: 有1个表正在被使用；
+* locked 1： 有一个表锁
+mysql tables in use 1, locked 1
+* LOCK WAIT：事务91322处于锁等待状态；其他字段解释详见上问
+LOCK WAIT 5 lock struct(s), heap size 1136, 6 row lock(s), undo log entries 2
+MySQL thread id 23, OS thread handle 22788, query id 3199 localhost 127.0.0.1 root updating
+* 事务91322当前执行SQL语句
+/* ApplicationName=DataGrip 2021.1.1 */ delete from dead_lock_test where v1 = 4 and v2 = 4
+* 事务91322等待的锁信息
+------- TRX HAS BEEN WAITING 8 SEC FOR THIS LOCK TO BE GRANTED:
+RECORD LOCKS space id 92 page no 4 n bits 72 index PRIMARY of table `igw_proxy_rule_management`.`dead_lock_test` trx id 91322 lock_mode X waiting
+* 事务91322等待的记录锁（锁对应记录主键为5，被事务91327持有）
+Record lock, heap no 6 PHYSICAL RECORD: n_fields 5; compact format; info bits 0
+ 0: len 4; hex 80000005; asc     ;;
+ 1: len 6; hex 0000000164bf; asc     d ;;
+ 2: len 7; hex 81000000b20110; asc        ;;
+ 3: len 4; hex 80000005; asc     ;;
+ 4: len 4; hex 80000005; asc     ;;
+
+------------------
+* 以下展示事务91322所持有的锁以及尝试获取的锁，首先是表意向锁（IX锁）
+TABLE LOCK table `igw_proxy_rule_management`.`dead_lock_test` trx id 91322 lock mode IX
+RECORD LOCKS space id 92 page no 4 n bits 72 index PRIMARY of table `igw_proxy_rule_management`.`dead_lock_test` trx id 91322 lock_mode X
+* 记录锁（锁对应记录主键为1）
+Record lock, heap no 2 PHYSICAL RECORD: n_fields 5; compact format; info bits 0
+ 0: len 4; hex 80000001; asc     ;;
+ 1: len 6; hex 0000000164b3; asc     d ;;
+ 2: len 7; hex 81000000ad0110; asc        ;;
+ 3: len 4; hex 80000001; asc     ;;
+ 4: len 4; hex 80000001; asc     ;;
+
+* 记录锁（锁对应记录主键为2）
+Record lock, heap no 3 PHYSICAL RECORD: n_fields 5; compact format; info bits 0
+ 0: len 4; hex 80000002; asc     ;;
+ 1: len 6; hex 0000000164b4; asc     d ;;
+ 2: len 7; hex 82000000ad0110; asc        ;;
+ 3: len 4; hex 80000002; asc     ;;
+ 4: len 4; hex 80000002; asc     ;;
+
+* 记录锁（锁对应记录主键为3）
+Record lock, heap no 4 PHYSICAL RECORD: n_fields 5; compact format; info bits 0
+ 0: len 4; hex 80000003; asc     ;;
+ 1: len 6; hex 0000000164b9; asc     d ;;
+ 2: len 7; hex 81000000b00110; asc        ;;
+ 3: len 4; hex 80000003; asc     ;;
+ 4: len 4; hex 80000003; asc     ;;
+
+* 记录锁：锁定记录（添加记录时创建的锁）
+RECORD LOCKS space id 92 page no 4 n bits 72 index PRIMARY of table `igw_proxy_rule_management`.`dead_lock_test` trx id 91322 lock_mode X locks rec but not gap
+Record lock, heap no 5 PHYSICAL RECORD: n_fields 5; compact format; info bits 32
+ 0: len 4; hex 80000004; asc     ;;
+ 1: len 6; hex 0000000164ba; asc     d ;;
+ 2: len 7; hex 020000011a03cb; asc        ;;
+ 3: len 4; hex 80000004; asc     ;;
+ 4: len 4; hex 80000004; asc     ;;
+
+* 间隙锁：锁定记录（删除记录时创建的锁，在RR模式下生效，主要解决幻读）
+* 需要注意，InnoDB的删除记录不是物理删除，而是标记删除（等待后续记录覆盖），因此可理解删除类似于更新操作
+RECORD LOCKS space id 92 page no 4 n bits 72 index PRIMARY of table `igw_proxy_rule_management`.`dead_lock_test` trx id 91322 lock_mode X locks gap before rec
+Record lock, heap no 5 PHYSICAL RECORD: n_fields 5; compact format; info bits 32
+ 0: len 4; hex 80000004; asc     ;;
+ 1: len 6; hex 0000000164ba; asc     d ;;
+ 2: len 7; hex 020000011a03cb; asc        ;;
+ 3: len 4; hex 80000004; asc     ;;
+ 4: len 4; hex 80000004; asc     ;;
+
+* 事务91322尝试获取的锁（被事务91327持有）
+RECORD LOCKS space id 92 page no 4 n bits 72 index PRIMARY of table `igw_proxy_rule_management`.`dead_lock_test` trx id 91322 lock_mode X waiting
+Record lock, heap no 6 PHYSICAL RECORD: n_fields 5; compact format; info bits 0
+ 0: len 4; hex 80000005; asc     ;;
+ 1: len 6; hex 0000000164bf; asc     d ;;
+ 2: len 7; hex 81000000b20110; asc        ;;
+ 3: len 4; hex 80000005; asc     ;;
+ 4: len 4; hex 80000005; asc     ;;
+</code></pre>
+<p>（1）由以上注释可知，事务91322在尝试删除时，会对表中所有记录添加记录锁。<br>
+这是因为当前删除记录条件为<code>v1 = 4 and v2 = 4</code>，在v1与v2字段上，并未建立相应的索引。<br>
+因为无法通过索引确定主键，导致MySQL Server会先尝试锁定当前<code>dead_lock_test</code>表中所有记录添加记录锁（可以设置参数进行优化，根据where条件逐渐解除不满足条件记录上的记录锁）。</p>
+<p>（2）事务91322尝试对dead_lock_test表中所有记录添加锁，发现记录（id=5）已经被事务91327添加记录锁，导致事务91322只能等待事务91327放弃记录锁。</p>
+<h3 id="33-stage3">3.3 stage3</h3>
+<p>执行<code>delete from dead_lock_test where v1 = 5 and v2 = 5;</code>后即可发现终端输出：</p>
+<pre><code class="language-text">[2021-05-13 15:33:29] [40001][1213] Deadlock found when trying to get lock; try restarting transaction
+</code></pre>
+<p>执行<code>show engine innodb status;</code>节选死锁信息如下所示：</p>
+<blockquote>
+<p>因为内容较多，不再列出解释，详见输出信息中文注释部分</p>
+</blockquote>
+<pre><code class="language-text">------------------------
+LATEST DETECTED DEADLOCK
+------------------------
+2021-05-13 17:27:09 0xca4
+*** (1) TRANSACTION:
+* 事务91322持有锁情况，在stage2已经详细解释，此处不再赘述
+TRANSACTION 91322, ACTIVE 78 sec fetching rows
+mysql tables in use 1, locked 1
+LOCK WAIT 5 lock struct(s), heap size 1136, 6 row lock(s), undo log entries 2
+MySQL thread id 23, OS thread handle 22788, query id 3199 localhost 127.0.0.1 root updating
+/* ApplicationName=DataGrip 2021.1.1 */ delete from dead_lock_test where v1 = 4 and v2 = 4
+
+*** (1) HOLDS THE LOCK(S):
+RECORD LOCKS space id 92 page no 4 n bits 72 index PRIMARY of table `igw_proxy_rule_management`.`dead_lock_test` trx id 91322 lock_mode X
+Record lock, heap no 2 PHYSICAL RECORD: n_fields 5; compact format; info bits 0
+ 0: len 4; hex 80000001; asc     ;;
+ 1: len 6; hex 0000000164b3; asc     d ;;
+ 2: len 7; hex 81000000ad0110; asc        ;;
+ 3: len 4; hex 80000001; asc     ;;
+ 4: len 4; hex 80000001; asc     ;;
+
+Record lock, heap no 3 PHYSICAL RECORD: n_fields 5; compact format; info bits 0
+ 0: len 4; hex 80000002; asc     ;;
+ 1: len 6; hex 0000000164b4; asc     d ;;
+ 2: len 7; hex 82000000ad0110; asc        ;;
+ 3: len 4; hex 80000002; asc     ;;
+ 4: len 4; hex 80000002; asc     ;;
+
+Record lock, heap no 4 PHYSICAL RECORD: n_fields 5; compact format; info bits 0
+ 0: len 4; hex 80000003; asc     ;;
+ 1: len 6; hex 0000000164b9; asc     d ;;
+ 2: len 7; hex 81000000b00110; asc        ;;
+ 3: len 4; hex 80000003; asc     ;;
+ 4: len 4; hex 80000003; asc     ;;
+
+
+*** (1) WAITING FOR THIS LOCK TO BE GRANTED:
+RECORD LOCKS space id 92 page no 4 n bits 72 index PRIMARY of table `igw_proxy_rule_management`.`dead_lock_test` trx id 91322 lock_mode X waiting
+Record lock, heap no 6 PHYSICAL RECORD: n_fields 5; compact format; info bits 0
+ 0: len 4; hex 80000005; asc     ;;
+ 1: len 6; hex 0000000164bf; asc     d ;;
+ 2: len 7; hex 81000000b20110; asc        ;;
+ 3: len 4; hex 80000005; asc     ;;
+ 4: len 4; hex 80000005; asc     ;;
+
+
+*** (2) TRANSACTION:
+TRANSACTION 91327, ACTIVE 71 sec starting index read
+mysql tables in use 1, locked 1
+LOCK WAIT 3 lock struct(s), heap size 1136, 2 row lock(s), undo log entries 1
+MySQL thread id 24, OS thread handle 15668, query id 3237 localhost 127.0.0.1 root updating
+/* ApplicationName=DataGrip 2021.1.1 */ delete from dead_lock_test where v1 = 5 and v2 = 5
+
+*** (2) HOLDS THE LOCK(S):
+* 事务91327持有记录（id=5）的记录锁，此锁正在被事务91322等待持有
+RECORD LOCKS space id 92 page no 4 n bits 72 index PRIMARY of table `igw_proxy_rule_management`.`dead_lock_test` trx id 91327 lock_mode X locks rec but not gap
+Record lock, heap no 6 PHYSICAL RECORD: n_fields 5; compact format; info bits 0
+ 0: len 4; hex 80000005; asc     ;;
+ 1: len 6; hex 0000000164bf; asc     d ;;
+ 2: len 7; hex 81000000b20110; asc        ;;
+ 3: len 4; hex 80000005; asc     ;;
+ 4: len 4; hex 80000005; asc     ;;
+
+
+*** (2) WAITING FOR THIS LOCK TO BE GRANTED:
+* 事务91327等待持有记录锁，锁信息见后续解释
+RECORD LOCKS space id 92 page no 4 n bits 72 index PRIMARY of table `igw_proxy_rule_management`.`dead_lock_test` trx id 91327 lock_mode X waiting
+* 事务91327等待持有记录（id=1）的记录锁（delete无法走索引查询，因此会尝试对所有表记录进行加锁，但是事务91322持有id=1/2/3/4的记录锁，死锁条件构成）
+Record lock, heap no 2 PHYSICAL RECORD: n_fields 5; compact format; info bits 0
+ 0: len 4; hex 80000001; asc     ;;
+ 1: len 6; hex 0000000164b3; asc     d ;;
+ 2: len 7; hex 81000000ad0110; asc        ;;
+ 3: len 4; hex 80000001; asc     ;;
+ 4: len 4; hex 80000001; asc     ;;
+
+*** WE ROLL BACK TRANSACTION (2)
+</code></pre>
+<p>由上可知：<br>
+（1）事务91322执行删除操作时，尝试获取表中所有记录的记录锁，其中记录（id=5）的锁被事务91327持有；<br>
+（2）事务91327执行删除操作时，尝试获取表中所有记录的记录锁，发现记录（id=1/2/3/4）的锁被事务91322持有；<br>
+（3）至此，事务91322与事务91327构成互相等待，死锁形成。</p>
+<h2 id="解决方案">解决方案</h2>
+<h3 id="41-添加索引">4.1 添加索引</h3>
+<p>由上述的分析可知，删除时因为where条件无法利用索引，导致MySQL会尝试对表中所有记录加记录锁，产生死锁。<br>
+我们仅需在v1以及v2字段上建立联合索引，缩小记录冲突范围。</p>
+<pre><code class="language-sql">create index dead_lock_test_v2_v1_index on dead_lock_test (v1, v2);
+</code></pre>
+<blockquote>
+<p>此处没有设置唯一索引，如果多个事务根据索引查询，锁定的记录存在重叠，也容易复现死锁现象。<br>
+不过当前业务侧的数据插入，可保证在短暂时间范围内，不存在重叠记录，且表中存在一些重复数据，因此不使用唯一索引。</p>
+</blockquote>
+<h3 id="42-最终">4.2 最终</h3>
+<p>表中添加索引。事务中添加后再删除，通过回滚实现。</p>
+<h2 id="参考文章">参考文章</h2>
+<p><a href="https://zhuanlan.zhihu.com/p/149228460" target="_blank">把MySQL中的各种锁及其原理都画出来</a><br>
+<a href="https://keithlan.github.io/2017/06/05/innodb_locks_show_engine/" target="_blank">MySQL锁系列（二）之 锁解读</a></p>
+
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2021-05-14 09:47</span>&nbsp;
+<a href="https://www.cnblogs.com/jason1990/">从此寂静无声</a>&nbsp;
+阅读(<span id="post_view_count">19</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=14767280" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14767280);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="https://common.cnblogs.com/highlight/10.3.1/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 235032, cb_blogApp = 'jason1990', cb_blogUserGuid = '12e2e9ed-de08-e511-b908-9dcfd8948a71';
+    var cb_entryId = 14767280, cb_entryCreatedDate = '2021-05-14 09:47', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id='div-gpt-ad-1592365906576-0' style='width: 300px; height: 250px;'></div>
+    </div>
+    <div id="under_post_card1"></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id='div-gpt-ad-1592366332455-0' style='width: 468px; height: 60px;'></div>
+    </div>
+    <div id="under_post_card2"></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright &copy; 2021 从此寂静无声
+<br /><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8L-rpLgFVEJMgssCVvNUAjvt-OQptaFZvUBOin0EEmOwAwe9PAsZqFm4sjXYf4kCowpSG-cF-c6F17Au8KX5a-xQx4l-PlomBzXXnEJyBBo4jHcriCIXJqWVLGdnVa7QuShRFs-ocU3ZULt1-2GwBNo" />
+</body>
+</html>

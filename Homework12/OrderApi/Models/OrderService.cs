@@ -121,24 +121,13 @@ namespace OrderApi.Models
         }
         public List<Order> SearchByGood(string goodName)
         {
-            List<Order> ansList = new List<Order>();
-            foreach (Order order in ctx.Orders)
-            {
-                bool flag = false;
-                foreach (OrderDetail od in order.Details)
-                {
-                    if (od.GoodName == goodName)
-                    {
-                        flag = true;
-                        break;
-                    }
-
-                }
-                if (flag)
-                    ansList.Add(order);
-            }
-            ansList.Sort((x, y) => x.TotalPrice.CompareTo(y.TotalPrice));
-            return ansList;
+            return ctx.Orders
+                .Include(o => o.Details)
+                .ThenInclude(d => d.GoodItem)
+                .Include("Client")
+                .Include("Seller")
+                .Where(order => order.Details.Any(item => item.GoodItem.Name == goodName))
+                .ToList();
         }
         /////////////////////// 删除,返回删除的订单信息
         public Order Delete(string Id)

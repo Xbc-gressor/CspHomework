@@ -30,7 +30,7 @@ namespace OrderApi.Controllers
 
         // GET: api/Order/5
         [HttpGet("{id}")]
-        public ActionResult<Order> GetOrder(string id)
+        public ActionResult<Order> GetOrderById(string id)
         {
             var order = new OrderService(ctx).SearchById(id);
 
@@ -41,12 +41,20 @@ namespace OrderApi.Controllers
 
             return order;
         }
+
+        [HttpGet("byGoods/{goodname}")]
+        public ActionResult<IEnumerable<Order>> GetOrderByGood(string goodName)
+        {
+            return new OrderService(ctx).SearchByGood(goodName);
+        }
+
         // GET: api/Order/5
         [HttpGet("goods")]
         public ActionResult<IEnumerable<Good>> GetGoods()
         {
             return ctx.Goods;
         }
+
 
         [HttpGet("clients")]
         public ActionResult<IEnumerable<Client>> GetClients()

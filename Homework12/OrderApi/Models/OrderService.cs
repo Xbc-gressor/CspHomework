@@ -65,7 +65,12 @@ namespace OrderApi.Models
 
         public List<Order> Search()
         {
-            return ctx.Orders.OrderBy(ord => ord.OrderId).ToList();
+            return ctx.Orders
+                .Include("Client")
+                .Include("Seller")
+                .Include(o => o.Details)
+                .ThenInclude(d => d.GoodItem)
+                .OrderBy(ord => ord.OrderId).ToList();
 
         }
 
@@ -73,42 +78,45 @@ namespace OrderApi.Models
         public Order SearchById(string Id) // 查询不到会返回null
         {
             // 
-            //return ctx.Orders.Include(o => o.Details.Select(d => d.GoodItem)).Include("Client")
-            //      .SingleOrDefault(o => o.OrderId == Id);
-            return ctx.Orders.Include(o => o.Details).Include("Client").Include("Seller")
+            return ctx.Orders
+                .Include("Client")
+                .Include("Seller")
+                .Include(o => o.Details)
+                .ThenInclude(d => d.GoodItem)
                 .SingleOrDefault(o => o.OrderId == Id);
+
         }
         public List<Order> SearchByAddress(string address)
         {
             var orders = from odr in ctx.Orders
-                            where odr.Address == address
-                            orderby odr.TotalPrice
-                            select odr;
+                         where odr.Address == address
+                         orderby odr.TotalPrice
+                         select odr;
             return orders.ToList();
         }
         // 精确到天的使劲按查询
         public List<Order> SearchByDate(DateTime date)
         {
             var orders = from odr in ctx.Orders
-                            where odr.CreateTime.ToString("yyyy-MM-dd") == date.ToString("yyyy-MM-dd")
-                            orderby odr.TotalPrice
-                            select odr;
+                         where odr.CreateTime.ToString("yyyy-MM-dd") == date.ToString("yyyy-MM-dd")
+                         orderby odr.TotalPrice
+                         select odr;
             return orders.ToList();
         }
         public List<Order> SearchByClient(string client)
         {
             var orders = from odr in ctx.Orders
-                            where odr.ClientName == client
-                            orderby odr.TotalPrice
-                            select odr;
+                         where odr.ClientName == client
+                         orderby odr.TotalPrice
+                         select odr;
             return orders.ToList();
         }
         public List<Order> SearchBySeller(string seller)
         {
             var orders = from odr in ctx.Orders
-                            where odr.SellerName == seller
-                            orderby odr.TotalPrice
-                            select odr;
+                         where odr.SellerName == seller
+                         orderby odr.TotalPrice
+                         select odr;
             return orders.ToList();
         }
         public List<Order> SearchByGood(string goodName)
@@ -141,7 +149,7 @@ namespace OrderApi.Models
 
             //Console.WriteLine($"成功删除{Id.ToString().PadLeft(3, '0')}号订单");
             var order = ctx.Orders.Include("Details").SingleOrDefault(o => o.OrderId == Id);
-            if (order == null) 
+            if (order == null)
                 return null;
             ctx.OrderDetails.RemoveRange(order.Details);
             ctx.Orders.Remove(order);
@@ -198,6 +206,6 @@ namespace OrderApi.Models
         //    }
 
         //}
-        
+
     }
 }

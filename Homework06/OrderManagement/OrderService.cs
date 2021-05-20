@@ -113,7 +113,7 @@ namespace OrderManagement
         public Order Delete(int orderNumber)
         {
             Order searchResult = this.SearchByNumber(orderNumber);
-            if (searchResult == null)
+            if (searchResult == null)   
                 throw new ArgumentException("要删除的订单不存在！");
 
             Console.WriteLine($"成功删除{orderNumber.ToString().PadLeft(3, '0')}号订单");
